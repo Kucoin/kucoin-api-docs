@@ -1,0 +1,1446 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="0284f5fd-345c-4aff-a19d-076fa6d58691" name="Default" comment="" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="index.html.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/index.html.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="FIRST">
+              <first_editor relative-caret-position="357">
+                <caret line="289" column="0" lean-forward="false" selection-start-line="289" selection-start-column="0" selection-end-line="289" selection-end-column="0" />
+                <folding>
+                  <marker date="1537961825710" expanded="true" signature="8839:9273" ph="[...]" />
+                  <marker date="1537961825710" expanded="true" signature="8845:9054" ph="{&quot;id&quot;: &quot;71452118-efc7-4cc4-8780-a5e22d4baa53&quot;...}" />
+                  <marker date="1537961825710" expanded="true" signature="9060:9271" ph="{&quot;id&quot;: &quot;e316cb9a-0808-4fd7-8914-97829c1925de&quot;...}" />
+                  <marker date="1537961825710" expanded="true" signature="10076:10194" ph="{&quot;id&quot;: &quot;a1b2c3d4&quot;...}" />
+                  <marker date="1537961825710" expanded="true" signature="10938:11228" ph="[...]" />
+                  <marker date="1537961825710" expanded="true" signature="10938:11264" ph="[...]" />
+                  <marker date="1537961825710" expanded="true" signature="10944:11228" ph="{&quot;id&quot;: &quot;100&quot;...}" />
+                  <marker date="1537961825710" expanded="true" signature="11119:11228" ph="{&quot;order_id&quot;: &quot;d50ec984-77a8-460a-b958-66f114b0de9b&quot;...}" />
+                  <marker date="1537961825710" expanded="true" signature="12211:12557" ph="[...]" />
+                  <marker date="1537961825710" expanded="true" signature="12217:12555" ph="{&quot;id&quot;: &quot;82dcd140-c3c7-4507-8de4-2c529cd1a28f&quot;...}" />
+                  <marker date="1537961825710" expanded="true" signature="26134:26485" ph="[...]" />
+                  <marker date="1537961825710" expanded="true" signature="26140:26308" ph="{&quot;symbol&quot;: &quot;BTC-USD&quot;...}" />
+                  <marker date="1537961825710" expanded="true" signature="26331:26483" ph="{&quot;product_id&quot;: &quot;LTC-USD&quot;...}" />
+                  <marker date="1537961825710" expanded="true" signature="26331:26485" ph="[...]" />
+                  <marker date="1537961825710" expanded="true" signature="26887:27153" ph="[...]" />
+                  <marker date="1537961825710" expanded="true" signature="26893:27151" ph="{&quot;id&quot;: &quot;BTC-USD&quot;...}" />
+                  <marker date="1537961825710" expanded="true" signature="27850:28150" ph="{&quot;sequence&quot;: &quot;3262786978&quot;...}" />
+                  <marker date="1537961825710" expanded="true" signature="28416:28632" ph="{&quot;symbol&quot;: &quot;BTC-USDT&quot;...}" />
+                  <marker date="1537961825710" expanded="true" signature="29009:29444" ph="{&quot;symbol&quot;: &quot;BTC-USDT&quot;...}" />
+                  <marker date="1537961825710" expanded="true" signature="29088:29252" ph="[...]" />
+                  <marker date="1537961825710" expanded="true" signature="29276:29432" ph="[...]" />
+                  <marker date="1537961825710" expanded="true" signature="29276:29441" ph="[...]" />
+                  <marker date="1537961825710" expanded="true" signature="32698:32807" ph="{&quot;open&quot;: &quot;34.19000000&quot;...}" />
+                  <marker date="1537961825710" expanded="true" signature="32941:33102" ph="[...]" />
+                  <marker date="1537961825710" expanded="true" signature="32942:33014" ph="{&quot;id&quot;: &quot;BTC&quot;...}" />
+                  <marker date="1537961825710" expanded="true" signature="33016:33101" ph="{&quot;id&quot;: &quot;USD&quot;...}" />
+                  <marker date="1537961825710" expanded="true" signature="33528:33710" ph="{&quot;id&quot;: &quot;BTC&quot;...}" />
+                  <marker date="1537961825710" expanded="true" signature="34689:35179" ph="{...}" />
+                  <marker date="1537961825710" expanded="true" signature="34691:35178" ph="{&quot;token&quot;: &quot;0MAJzC9mWvDXD8MpeSa_n8BDxoDMmeu7Qrt3BvrUjLQtYlMuxDXAoQ==.5tcxgyFR1NVPNQG_lxGeKA==&quot;...}" />
+                  <marker date="1537961825710" expanded="true" signature="34691:35179" ph="{&quot;bulletToken&quot;: &quot;0MAJzC9mWvDXD8MpeSa_n8BDxoDMmeu7Qrt3BvrUjLQtYlMuxDXAoQ==.5tcxgyFR1NVPNQG_lxGeKA==&quot;...}" />
+                  <marker date="1537961825710" expanded="true" signature="34812:35025" ph="[...]" />
+                  <marker date="1537961825710" expanded="true" signature="34822:35019" ph="{&quot;endpoint&quot;: &quot;https://push0.kucoin.net&quot;...}" />
+                  <marker date="1537961825710" expanded="true" signature="35049:35177" ph="[...]" />
+                  <marker date="1537961825710" expanded="true" signature="35059:35171" ph="{&quot;endpoint&quot;: &quot;https://bullet.kucoin.com:8090/bullet/history&quot;...}" />
+                  <marker date="1537961825710" expanded="true" signature="35712:35782" ph="{&quot;type&quot;: &quot;error&quot;...}" />
+                  <marker date="1537961825710" expanded="true" signature="35771:35780" ph="/*...*/" />
+                  <marker date="1537961825710" expanded="true" signature="36346:36452" ph="{&quot;id&quot;: 123...}" />
+                  <marker date="1537961825710" expanded="true" signature="36466:36477" ph="//..." />
+                  <marker date="1537961825710" expanded="true" signature="36478:36508" ph="{&quot;type&quot;: &quot;subscriptions&quot;...}" />
+                  <marker date="1537961825710" expanded="true" signature="37117:37182" ph="{&quot;type&quot;: &quot;unsubscribe&quot;...}" />
+                  <marker date="1537961825710" expanded="true" signature="37522:37565" ph="//..." />
+                  <marker date="1537961825710" expanded="true" signature="37565:37710" ph="{&quot;type&quot;: &quot;open&quot;...}" />
+                  <marker date="1537961825710" expanded="true" signature="37699:37708" ph="/*...*/" />
+                  <marker date="1537961825710" expanded="true" signature="37793:37825" ph="{&quot;type&quot;: &quot;subscribe&quot;...}" />
+                  <marker date="1537961825710" expanded="true" signature="37793:37979" ph="{&quot;type&quot;: &quot;subscribe&quot;...}" />
+                  <marker date="1537961825710" expanded="true" signature="37835:37860" ph="[...]" />
+                  <marker date="1537961825710" expanded="true" signature="39632:39923" ph="{&quot;type&quot;: &quot;ticker&quot;...}" />
+                  <marker date="1537961825710" expanded="true" signature="40261:40420" ph="{&quot;type&quot;: &quot;l2full&quot;...}" />
+                  <marker date="1537961825710" expanded="true" signature="40629:40894" ph="{&quot;type&quot;: &quot;l2update&quot;...}" />
+                  <marker date="1537961825710" expanded="true" signature="40724:40892" ph="[...]" />
+                  <marker date="1537961825710" expanded="true" signature="42990:43248" ph="{&quot;type&quot;: &quot;received&quot;...}" />
+                  <marker date="1537961825710" expanded="true" signature="43262:43504" ph="{&quot;type&quot;: &quot;received&quot;...}" />
+                  <marker date="1537961825710" expanded="true" signature="44529:44767" ph="{&quot;type&quot;: &quot;open&quot;...}" />
+                  <marker date="1537961825710" expanded="true" signature="45192:45468" ph="{&quot;type&quot;: &quot;done&quot;...}" />
+                  <marker date="1537961825710" expanded="true" signature="46250:46571" ph="{&quot;type&quot;: &quot;match&quot;...}" />
+                  <marker date="1537961825710" expanded="true" signature="47249:47516" ph="{&quot;type&quot;: &quot;change&quot;...}" />
+                  <marker date="1537961825710" expanded="true" signature="47530:47799" ph="{&quot;type&quot;: &quot;change&quot;...}" />
+                  <marker date="1537961825710" expanded="true" signature="47684:47799" ph="{&quot;type&quot;: &quot;change&quot;...}" />
+                </folding>
+              </first_editor>
+              <second_editor />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="screen.css.scss" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/stylesheets/screen.css.scss">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2460">
+              <caret line="164" column="20" lean-forward="false" selection-start-line="164" selection-start-column="20" selection-end-line="164" selection-end-column="20" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="_search.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/javascripts/app/_search.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="_variables.scss" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/stylesheets/_variables.scss">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="690">
+              <caret line="46" column="15" lean-forward="false" selection-start-line="46" selection-start-column="15" selection-end-line="46" selection-end-column="15" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="_rtl.scss" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/stylesheets/_rtl.scss">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="_errors.md" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/includes/_errors.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="60">
+                <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+                <folding />
+              </first_editor>
+              <second_editor />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="_normalize.scss" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/stylesheets/_normalize.scss">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="6405">
+              <caret line="427" column="0" lean-forward="false" selection-start-line="427" selection-start-column="0" selection-end-line="427" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="_icon-font.scss" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/stylesheets/_icon-font.scss">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>toc</find>
+      <find>main</find>
+      <find>main-bg</find>
+      <find>search-box-border-color</find>
+      <find>active</find>
+      <find>oc-link</find>
+      <find>padding</find>
+      <find>nav-padding</find>
+      <find>bg</find>
+      <find>nav-</find>
+      <find>search</find>
+      <find>.active</find>
+      <find>toc-wra</find>
+      <find>.acti</find>
+      <find>nav-active-text</find>
+      <find>css</find>
+      <find>websocket</find>
+      <find>Authenticate</find>
+      <find>Overview</find>
+      <find>#Channel</find>
+      <find># Channel</find>
+      <find>The user</find>
+      <find>ticker:</find>
+      <find>heartbeat</find>
+      <find>product_id</find>
+      <find>Account</find>
+      <find>/symbols</find>
+      <find>Get Order Boo</find>
+      <find>kkkjjjjjj</find>
+      <find>Get Account History</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>KuCoin</replace>
+      <replace>KC-API</replace>
+      <replace>&quot;</replace>
+      <replace>**&quot;view&quot;** or **&quot;trade&quot;**</replace>
+      <replace>KC-</replace>
+      <replace>symbol</replace>
+    </replaceStrings>
+  </component>
+  <component name="GradleLocalSettings">
+    <option name="externalProjectsViewState">
+      <projects_view />
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/includes/_errors.md" />
+        <option value="$PROJECT_DIR$/stylesheets/_normalize.scss" />
+        <option value="$PROJECT_DIR$/layouts/layout.erb" />
+        <option value="$PROJECT_DIR$/stylesheets/screen.css.scss" />
+        <option value="$PROJECT_DIR$/stylesheets/_variables.scss" />
+        <option value="$PROJECT_DIR$/index.html.md" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
+  <component name="ProjectFrameBounds">
+    <option name="y" value="23" />
+    <option name="width" value="1680" />
+    <option name="height" value="928" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="PackagesPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="source" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="source" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="source" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="source" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="includes" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scratches" />
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///Users/michael/IdeaProjects/slate/source/layouts/layout.erb" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/images" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
+      <module name="" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+      <option name="PROGRAM_PARAMETERS" />
+      <predefined_log_file id="idea.log" enabled="true" />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <module />
+      <method />
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="true" type="ArquillianTestNG" factoryName="">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="ANNOTATION_TYPE" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <option name="USE_DEFAULT_REPORTERS" value="false" />
+      <option name="PROPERTIES_FILE" />
+      <envs />
+      <properties />
+      <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="Cold Fusion runner description" factoryName="Cold Fusion" custom_browser="" web_path="">
+      <method />
+    </configuration>
+    <configuration default="true" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="myFilePath" />
+      <option name="GLUE" />
+      <option name="myNameFilter" />
+      <option name="myGeneratedName" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="FlashRunConfigurationType" factoryName="Flash App">
+      <option name="BCName" value="" />
+      <option name="IOSSimulatorSdkPath" value="" />
+      <option name="adlOptions" value="" />
+      <option name="airProgramParameters" value="" />
+      <option name="appDescriptorForEmulator" value="Android" />
+      <option name="debugTransport" value="USB" />
+      <option name="debuggerSdkRaw" value="BC SDK" />
+      <option name="emulator" value="NexusOne" />
+      <option name="emulatorAdlOptions" value="" />
+      <option name="fastPackaging" value="true" />
+      <option name="fullScreenHeight" value="0" />
+      <option name="fullScreenWidth" value="0" />
+      <option name="launchUrl" value="false" />
+      <option name="launcherParameters">
+        <LauncherParameters>
+          <option name="browser" value="a7bb68e0-33c0-4d6f-a81a-aac1fdb870c8" />
+          <option name="launcherType" value="OSDefault" />
+          <option name="newPlayerInstance" value="false" />
+          <option name="playerPath" value="/Applications/Flash Player Debugger.app" />
+        </LauncherParameters>
+      </option>
+      <option name="mobileRunTarget" value="Emulator" />
+      <option name="moduleName" value="" />
+      <option name="overriddenMainClass" value="" />
+      <option name="overriddenOutputFileName" value="" />
+      <option name="overrideMainClass" value="false" />
+      <option name="runTrusted" value="true" />
+      <option name="screenDpi" value="0" />
+      <option name="screenHeight" value="0" />
+      <option name="screenWidth" value="0" />
+      <option name="url" value="http://" />
+      <option name="usbDebugPort" value="7936" />
+      <method />
+    </configuration>
+    <configuration default="true" type="FlexUnitRunConfigurationType" factoryName="FlexUnit" appDescriptorForEmulator="Android" class_name="" emulatorAdlOptions="" method_name="" package_name="" scope="Class">
+      <option name="BCName" value="" />
+      <option name="launcherParameters">
+        <LauncherParameters>
+          <option name="browser" value="a7bb68e0-33c0-4d6f-a81a-aac1fdb870c8" />
+          <option name="launcherType" value="OSDefault" />
+          <option name="newPlayerInstance" value="false" />
+          <option name="playerPath" value="/Applications/Flash Player Debugger.app" />
+        </LauncherParameters>
+      </option>
+      <option name="moduleName" value="" />
+      <option name="trusted" value="true" />
+      <method />
+    </configuration>
+    <configuration default="true" type="GradleRunConfiguration" factoryName="Gradle">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list />
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <method />
+    </configuration>
+    <configuration default="true" type="GrailsRunConfigurationType" factoryName="Grails">
+      <setting name="vmparams" value="" />
+      <setting name="cmdLine" value="run-app" />
+      <setting name="passParentEnv" value="true" />
+      <setting name="launchBrowser" value="true" />
+      <setting name="launchBrowserUrl" value="" />
+      <setting name="depsClasspath" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="true" type="JarApplication" factoryName="JAR Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="Java Scratch" factoryName="Java Scratch">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="SCRATCH_FILE_ID" value="0" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerJest" factoryName="Jest">
+      <node-interpreter value="project" />
+      <working-dir value="" />
+      <envs />
+      <scope-kind value="ALL" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerProtractor" factoryName="Protractor">
+      <config-file value="" />
+      <node-interpreter value="project" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
+      <method />
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType" factoryName="Kotlin">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="source" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType" factoryName="Kotlin script">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="filePath" />
+      <option name="vmParameters" />
+      <option name="alternativeJrePath" />
+      <option name="programParameters" />
+      <option name="passParentEnvs" value="true" />
+      <option name="workingDirectory" />
+      <option name="isAlternativeJrePathEnabled" value="false" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+      <method />
+    </configuration>
+    <configuration default="true" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="TestNG" factoryName="TestNG">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="ANNOTATION_TYPE" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <option name="USE_DEFAULT_REPORTERS" value="false" />
+      <option name="PROPERTIES_FILE" />
+      <envs />
+      <properties />
+      <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.npm" factoryName="npm">
+      <command value="run" />
+      <scripts />
+      <node-interpreter value="project" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="osgi.bnd.run" factoryName="Run Launcher">
+      <method />
+    </configuration>
+    <configuration default="true" type="osgi.bnd.run" factoryName="Test Launcher (JUnit)">
+      <method />
+    </configuration>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0284f5fd-345c-4aff-a19d-076fa6d58691" name="Default" comment="" />
+      <created>1534916059831</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1534916059831</updated>
+      <workItem from="1534916061992" duration="44973000" />
+      <workItem from="1535965297516" duration="33000" />
+      <workItem from="1535965466198" duration="998000" />
+      <workItem from="1536336543787" duration="1176000" />
+      <workItem from="1536756774070" duration="1457000" />
+      <workItem from="1537550508109" duration="552000" />
+      <workItem from="1537948572158" duration="4363000" />
+      <workItem from="1539750632979" duration="1079000" />
+      <workItem from="1540543708746" duration="599000" />
+      <workItem from="1541128288875" duration="21000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="55251000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="23" width="1680" height="928" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32962963" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16605617" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="processedProjectFiles" value="true" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/stylesheets/screen.css.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2460">
+          <caret line="164" column="20" lean-forward="false" selection-start-line="164" selection-start-column="20" selection-end-line="164" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascripts/app/_search.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stylesheets/_variables.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="690">
+          <caret line="46" column="15" lean-forward="false" selection-start-line="46" selection-start-column="15" selection-end-line="46" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stylesheets/_rtl.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/includes/_errors.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="60">
+            <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stylesheets/_normalize.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6405">
+          <caret line="427" column="0" lean-forward="false" selection-start-line="427" selection-start-column="0" selection-end-line="427" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stylesheets/_icon-font.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="0">
+            <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <folding>
+              <marker date="1537961825710" expanded="true" signature="8839:9273" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="8845:9054" ph="{&quot;id&quot;: &quot;71452118-efc7-4cc4-8780-a5e22d4baa53&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="9060:9271" ph="{&quot;id&quot;: &quot;e316cb9a-0808-4fd7-8914-97829c1925de&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="10076:10194" ph="{&quot;id&quot;: &quot;a1b2c3d4&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="10938:11228" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="10938:11264" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="10944:11228" ph="{&quot;id&quot;: &quot;100&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="11119:11228" ph="{&quot;order_id&quot;: &quot;d50ec984-77a8-460a-b958-66f114b0de9b&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="12211:12557" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="12217:12555" ph="{&quot;id&quot;: &quot;82dcd140-c3c7-4507-8de4-2c529cd1a28f&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="26134:26485" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="26140:26308" ph="{&quot;symbol&quot;: &quot;BTC-USD&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="26331:26483" ph="{&quot;product_id&quot;: &quot;LTC-USD&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="26331:26485" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="26887:27153" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="26893:27151" ph="{&quot;id&quot;: &quot;BTC-USD&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="27850:28150" ph="{&quot;sequence&quot;: &quot;3262786978&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="28416:28632" ph="{&quot;symbol&quot;: &quot;BTC-USDT&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="29009:29444" ph="{&quot;symbol&quot;: &quot;BTC-USDT&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="29088:29252" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="29276:29432" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="29276:29441" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="32698:32807" ph="{&quot;open&quot;: &quot;34.19000000&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="32941:33102" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="32942:33014" ph="{&quot;id&quot;: &quot;BTC&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="33016:33101" ph="{&quot;id&quot;: &quot;USD&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="33528:33710" ph="{&quot;id&quot;: &quot;BTC&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="34689:35179" ph="{...}" />
+              <marker date="1537961825710" expanded="true" signature="34691:35178" ph="{&quot;token&quot;: &quot;0MAJzC9mWvDXD8MpeSa_n8BDxoDMmeu7Qrt3BvrUjLQtYlMuxDXAoQ==.5tcxgyFR1NVPNQG_lxGeKA==&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="34691:35179" ph="{&quot;bulletToken&quot;: &quot;0MAJzC9mWvDXD8MpeSa_n8BDxoDMmeu7Qrt3BvrUjLQtYlMuxDXAoQ==.5tcxgyFR1NVPNQG_lxGeKA==&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="34812:35025" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="34822:35019" ph="{&quot;endpoint&quot;: &quot;https://push0.kucoin.net&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="35049:35177" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="35059:35171" ph="{&quot;endpoint&quot;: &quot;https://bullet.kucoin.com:8090/bullet/history&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="35712:35782" ph="{&quot;type&quot;: &quot;error&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="35771:35780" ph="/*...*/" />
+              <marker date="1537961825710" expanded="true" signature="36346:36452" ph="{&quot;id&quot;: 123...}" />
+              <marker date="1537961825710" expanded="true" signature="36466:36477" ph="//..." />
+              <marker date="1537961825710" expanded="true" signature="36478:36508" ph="{&quot;type&quot;: &quot;subscriptions&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="37117:37182" ph="{&quot;type&quot;: &quot;unsubscribe&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="37522:37565" ph="//..." />
+              <marker date="1537961825710" expanded="true" signature="37565:37710" ph="{&quot;type&quot;: &quot;open&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="37699:37708" ph="/*...*/" />
+              <marker date="1537961825710" expanded="true" signature="37793:37825" ph="{&quot;type&quot;: &quot;subscribe&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="37793:37979" ph="{&quot;type&quot;: &quot;subscribe&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="37835:37860" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="39632:39923" ph="{&quot;type&quot;: &quot;ticker&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="40261:40420" ph="{&quot;type&quot;: &quot;l2full&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="40629:40894" ph="{&quot;type&quot;: &quot;l2update&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="40724:40892" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="42990:43248" ph="{&quot;type&quot;: &quot;received&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="43262:43504" ph="{&quot;type&quot;: &quot;received&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="44529:44767" ph="{&quot;type&quot;: &quot;open&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="45192:45468" ph="{&quot;type&quot;: &quot;done&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="46250:46571" ph="{&quot;type&quot;: &quot;match&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="47249:47516" ph="{&quot;type&quot;: &quot;change&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="47530:47799" ph="{&quot;type&quot;: &quot;change&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="47684:47799" ph="{&quot;type&quot;: &quot;change&quot;...}" />
+            </folding>
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stylesheets/screen.css.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2460">
+          <caret line="164" column="20" lean-forward="false" selection-start-line="164" selection-start-column="20" selection-end-line="164" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascripts/app/_search.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stylesheets/_variables.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="690">
+          <caret line="46" column="15" lean-forward="false" selection-start-line="46" selection-start-column="15" selection-end-line="46" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stylesheets/_rtl.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/includes/_errors.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="60">
+            <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stylesheets/_normalize.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6405">
+          <caret line="427" column="0" lean-forward="false" selection-start-line="427" selection-start-column="0" selection-end-line="427" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stylesheets/_icon-font.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="0">
+            <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <folding>
+              <marker date="1537961825710" expanded="true" signature="8839:9273" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="8845:9054" ph="{&quot;id&quot;: &quot;71452118-efc7-4cc4-8780-a5e22d4baa53&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="9060:9271" ph="{&quot;id&quot;: &quot;e316cb9a-0808-4fd7-8914-97829c1925de&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="10076:10194" ph="{&quot;id&quot;: &quot;a1b2c3d4&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="10938:11228" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="10938:11264" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="10944:11228" ph="{&quot;id&quot;: &quot;100&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="11119:11228" ph="{&quot;order_id&quot;: &quot;d50ec984-77a8-460a-b958-66f114b0de9b&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="12211:12557" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="12217:12555" ph="{&quot;id&quot;: &quot;82dcd140-c3c7-4507-8de4-2c529cd1a28f&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="26134:26485" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="26140:26308" ph="{&quot;symbol&quot;: &quot;BTC-USD&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="26331:26483" ph="{&quot;product_id&quot;: &quot;LTC-USD&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="26331:26485" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="26887:27153" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="26893:27151" ph="{&quot;id&quot;: &quot;BTC-USD&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="27850:28150" ph="{&quot;sequence&quot;: &quot;3262786978&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="28416:28632" ph="{&quot;symbol&quot;: &quot;BTC-USDT&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="29009:29444" ph="{&quot;symbol&quot;: &quot;BTC-USDT&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="29088:29252" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="29276:29432" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="29276:29441" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="32698:32807" ph="{&quot;open&quot;: &quot;34.19000000&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="32941:33102" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="32942:33014" ph="{&quot;id&quot;: &quot;BTC&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="33016:33101" ph="{&quot;id&quot;: &quot;USD&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="33528:33710" ph="{&quot;id&quot;: &quot;BTC&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="34689:35179" ph="{...}" />
+              <marker date="1537961825710" expanded="true" signature="34691:35178" ph="{&quot;token&quot;: &quot;0MAJzC9mWvDXD8MpeSa_n8BDxoDMmeu7Qrt3BvrUjLQtYlMuxDXAoQ==.5tcxgyFR1NVPNQG_lxGeKA==&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="34691:35179" ph="{&quot;bulletToken&quot;: &quot;0MAJzC9mWvDXD8MpeSa_n8BDxoDMmeu7Qrt3BvrUjLQtYlMuxDXAoQ==.5tcxgyFR1NVPNQG_lxGeKA==&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="34812:35025" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="34822:35019" ph="{&quot;endpoint&quot;: &quot;https://push0.kucoin.net&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="35049:35177" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="35059:35171" ph="{&quot;endpoint&quot;: &quot;https://bullet.kucoin.com:8090/bullet/history&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="35712:35782" ph="{&quot;type&quot;: &quot;error&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="35771:35780" ph="/*...*/" />
+              <marker date="1537961825710" expanded="true" signature="36346:36452" ph="{&quot;id&quot;: 123...}" />
+              <marker date="1537961825710" expanded="true" signature="36466:36477" ph="//..." />
+              <marker date="1537961825710" expanded="true" signature="36478:36508" ph="{&quot;type&quot;: &quot;subscriptions&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="37117:37182" ph="{&quot;type&quot;: &quot;unsubscribe&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="37522:37565" ph="//..." />
+              <marker date="1537961825710" expanded="true" signature="37565:37710" ph="{&quot;type&quot;: &quot;open&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="37699:37708" ph="/*...*/" />
+              <marker date="1537961825710" expanded="true" signature="37793:37825" ph="{&quot;type&quot;: &quot;subscribe&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="37793:37979" ph="{&quot;type&quot;: &quot;subscribe&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="37835:37860" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="39632:39923" ph="{&quot;type&quot;: &quot;ticker&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="40261:40420" ph="{&quot;type&quot;: &quot;l2full&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="40629:40894" ph="{&quot;type&quot;: &quot;l2update&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="40724:40892" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="42990:43248" ph="{&quot;type&quot;: &quot;received&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="43262:43504" ph="{&quot;type&quot;: &quot;received&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="44529:44767" ph="{&quot;type&quot;: &quot;open&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="45192:45468" ph="{&quot;type&quot;: &quot;done&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="46250:46571" ph="{&quot;type&quot;: &quot;match&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="47249:47516" ph="{&quot;type&quot;: &quot;change&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="47530:47799" ph="{&quot;type&quot;: &quot;change&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="47684:47799" ph="{&quot;type&quot;: &quot;change&quot;...}" />
+            </folding>
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stylesheets/screen.css.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2460">
+          <caret line="164" column="20" lean-forward="false" selection-start-line="164" selection-start-column="20" selection-end-line="164" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascripts/app/_search.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stylesheets/_variables.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="690">
+          <caret line="46" column="15" lean-forward="false" selection-start-line="46" selection-start-column="15" selection-end-line="46" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stylesheets/_rtl.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/includes/_errors.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="60">
+            <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stylesheets/_normalize.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6405">
+          <caret line="427" column="0" lean-forward="false" selection-start-line="427" selection-start-column="0" selection-end-line="427" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="0">
+            <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <folding>
+              <marker date="1537961825710" expanded="true" signature="8839:9273" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="8845:9054" ph="{&quot;id&quot;: &quot;71452118-efc7-4cc4-8780-a5e22d4baa53&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="9060:9271" ph="{&quot;id&quot;: &quot;e316cb9a-0808-4fd7-8914-97829c1925de&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="10076:10194" ph="{&quot;id&quot;: &quot;a1b2c3d4&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="10938:11228" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="10938:11264" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="10944:11228" ph="{&quot;id&quot;: &quot;100&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="11119:11228" ph="{&quot;order_id&quot;: &quot;d50ec984-77a8-460a-b958-66f114b0de9b&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="12211:12557" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="12217:12555" ph="{&quot;id&quot;: &quot;82dcd140-c3c7-4507-8de4-2c529cd1a28f&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="26134:26485" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="26140:26308" ph="{&quot;symbol&quot;: &quot;BTC-USD&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="26331:26483" ph="{&quot;product_id&quot;: &quot;LTC-USD&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="26331:26485" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="26887:27153" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="26893:27151" ph="{&quot;id&quot;: &quot;BTC-USD&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="27850:28150" ph="{&quot;sequence&quot;: &quot;3262786978&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="28416:28632" ph="{&quot;symbol&quot;: &quot;BTC-USDT&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="29009:29444" ph="{&quot;symbol&quot;: &quot;BTC-USDT&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="29088:29252" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="29276:29432" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="29276:29441" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="32698:32807" ph="{&quot;open&quot;: &quot;34.19000000&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="32941:33102" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="32942:33014" ph="{&quot;id&quot;: &quot;BTC&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="33016:33101" ph="{&quot;id&quot;: &quot;USD&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="33528:33710" ph="{&quot;id&quot;: &quot;BTC&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="34689:35179" ph="{...}" />
+              <marker date="1537961825710" expanded="true" signature="34691:35178" ph="{&quot;token&quot;: &quot;0MAJzC9mWvDXD8MpeSa_n8BDxoDMmeu7Qrt3BvrUjLQtYlMuxDXAoQ==.5tcxgyFR1NVPNQG_lxGeKA==&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="34691:35179" ph="{&quot;bulletToken&quot;: &quot;0MAJzC9mWvDXD8MpeSa_n8BDxoDMmeu7Qrt3BvrUjLQtYlMuxDXAoQ==.5tcxgyFR1NVPNQG_lxGeKA==&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="34812:35025" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="34822:35019" ph="{&quot;endpoint&quot;: &quot;https://push0.kucoin.net&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="35049:35177" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="35059:35171" ph="{&quot;endpoint&quot;: &quot;https://bullet.kucoin.com:8090/bullet/history&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="35712:35782" ph="{&quot;type&quot;: &quot;error&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="35771:35780" ph="/*...*/" />
+              <marker date="1537961825710" expanded="true" signature="36346:36452" ph="{&quot;id&quot;: 123...}" />
+              <marker date="1537961825710" expanded="true" signature="36466:36477" ph="//..." />
+              <marker date="1537961825710" expanded="true" signature="36478:36508" ph="{&quot;type&quot;: &quot;subscriptions&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="37117:37182" ph="{&quot;type&quot;: &quot;unsubscribe&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="37522:37565" ph="//..." />
+              <marker date="1537961825710" expanded="true" signature="37565:37710" ph="{&quot;type&quot;: &quot;open&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="37699:37708" ph="/*...*/" />
+              <marker date="1537961825710" expanded="true" signature="37793:37825" ph="{&quot;type&quot;: &quot;subscribe&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="37793:37979" ph="{&quot;type&quot;: &quot;subscribe&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="37835:37860" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="39632:39923" ph="{&quot;type&quot;: &quot;ticker&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="40261:40420" ph="{&quot;type&quot;: &quot;l2full&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="40629:40894" ph="{&quot;type&quot;: &quot;l2update&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="40724:40892" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="42990:43248" ph="{&quot;type&quot;: &quot;received&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="43262:43504" ph="{&quot;type&quot;: &quot;received&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="44529:44767" ph="{&quot;type&quot;: &quot;open&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="45192:45468" ph="{&quot;type&quot;: &quot;done&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="46250:46571" ph="{&quot;type&quot;: &quot;match&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="47249:47516" ph="{&quot;type&quot;: &quot;change&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="47530:47799" ph="{&quot;type&quot;: &quot;change&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="47684:47799" ph="{&quot;type&quot;: &quot;change&quot;...}" />
+            </folding>
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stylesheets/screen.css.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2460">
+          <caret line="164" column="20" lean-forward="false" selection-start-line="164" selection-start-column="20" selection-end-line="164" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascripts/app/_search.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stylesheets/_variables.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="690">
+          <caret line="46" column="15" lean-forward="false" selection-start-line="46" selection-start-column="15" selection-end-line="46" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stylesheets/_rtl.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/includes/_errors.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="60">
+            <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stylesheets/_normalize.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6405">
+          <caret line="427" column="0" lean-forward="false" selection-start-line="427" selection-start-column="0" selection-end-line="427" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stylesheets/_icon-font.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="0">
+            <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <folding>
+              <marker date="1537961825710" expanded="true" signature="8839:9273" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="8845:9054" ph="{&quot;id&quot;: &quot;71452118-efc7-4cc4-8780-a5e22d4baa53&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="9060:9271" ph="{&quot;id&quot;: &quot;e316cb9a-0808-4fd7-8914-97829c1925de&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="10076:10194" ph="{&quot;id&quot;: &quot;a1b2c3d4&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="10938:11228" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="10938:11264" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="10944:11228" ph="{&quot;id&quot;: &quot;100&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="11119:11228" ph="{&quot;order_id&quot;: &quot;d50ec984-77a8-460a-b958-66f114b0de9b&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="12211:12557" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="12217:12555" ph="{&quot;id&quot;: &quot;82dcd140-c3c7-4507-8de4-2c529cd1a28f&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="26134:26485" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="26140:26308" ph="{&quot;symbol&quot;: &quot;BTC-USD&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="26331:26483" ph="{&quot;product_id&quot;: &quot;LTC-USD&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="26331:26485" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="26887:27153" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="26893:27151" ph="{&quot;id&quot;: &quot;BTC-USD&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="27850:28150" ph="{&quot;sequence&quot;: &quot;3262786978&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="28416:28632" ph="{&quot;symbol&quot;: &quot;BTC-USDT&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="29009:29444" ph="{&quot;symbol&quot;: &quot;BTC-USDT&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="29088:29252" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="29276:29432" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="29276:29441" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="32698:32807" ph="{&quot;open&quot;: &quot;34.19000000&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="32941:33102" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="32942:33014" ph="{&quot;id&quot;: &quot;BTC&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="33016:33101" ph="{&quot;id&quot;: &quot;USD&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="33528:33710" ph="{&quot;id&quot;: &quot;BTC&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="34689:35179" ph="{...}" />
+              <marker date="1537961825710" expanded="true" signature="34691:35178" ph="{&quot;token&quot;: &quot;0MAJzC9mWvDXD8MpeSa_n8BDxoDMmeu7Qrt3BvrUjLQtYlMuxDXAoQ==.5tcxgyFR1NVPNQG_lxGeKA==&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="34691:35179" ph="{&quot;bulletToken&quot;: &quot;0MAJzC9mWvDXD8MpeSa_n8BDxoDMmeu7Qrt3BvrUjLQtYlMuxDXAoQ==.5tcxgyFR1NVPNQG_lxGeKA==&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="34812:35025" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="34822:35019" ph="{&quot;endpoint&quot;: &quot;https://push0.kucoin.net&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="35049:35177" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="35059:35171" ph="{&quot;endpoint&quot;: &quot;https://bullet.kucoin.com:8090/bullet/history&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="35712:35782" ph="{&quot;type&quot;: &quot;error&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="35771:35780" ph="/*...*/" />
+              <marker date="1537961825710" expanded="true" signature="36346:36452" ph="{&quot;id&quot;: 123...}" />
+              <marker date="1537961825710" expanded="true" signature="36466:36477" ph="//..." />
+              <marker date="1537961825710" expanded="true" signature="36478:36508" ph="{&quot;type&quot;: &quot;subscriptions&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="37117:37182" ph="{&quot;type&quot;: &quot;unsubscribe&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="37522:37565" ph="//..." />
+              <marker date="1537961825710" expanded="true" signature="37565:37710" ph="{&quot;type&quot;: &quot;open&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="37699:37708" ph="/*...*/" />
+              <marker date="1537961825710" expanded="true" signature="37793:37825" ph="{&quot;type&quot;: &quot;subscribe&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="37793:37979" ph="{&quot;type&quot;: &quot;subscribe&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="37835:37860" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="39632:39923" ph="{&quot;type&quot;: &quot;ticker&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="40261:40420" ph="{&quot;type&quot;: &quot;l2full&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="40629:40894" ph="{&quot;type&quot;: &quot;l2update&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="40724:40892" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="42990:43248" ph="{&quot;type&quot;: &quot;received&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="43262:43504" ph="{&quot;type&quot;: &quot;received&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="44529:44767" ph="{&quot;type&quot;: &quot;open&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="45192:45468" ph="{&quot;type&quot;: &quot;done&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="46250:46571" ph="{&quot;type&quot;: &quot;match&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="47249:47516" ph="{&quot;type&quot;: &quot;change&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="47530:47799" ph="{&quot;type&quot;: &quot;change&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="47684:47799" ph="{&quot;type&quot;: &quot;change&quot;...}" />
+            </folding>
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stylesheets/screen.css.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2460">
+          <caret line="164" column="20" lean-forward="false" selection-start-line="164" selection-start-column="20" selection-end-line="164" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascripts/app/_search.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stylesheets/_variables.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="690">
+          <caret line="46" column="15" lean-forward="false" selection-start-line="46" selection-start-column="15" selection-end-line="46" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stylesheets/_rtl.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/includes/_errors.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="60">
+            <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stylesheets/_normalize.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6405">
+          <caret line="427" column="0" lean-forward="false" selection-start-line="427" selection-start-column="0" selection-end-line="427" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stylesheets/_icon-font.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/images/logo.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/images/navbar.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html.md.backup">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2435">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascripts/app/_toc.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-998">
+          <caret line="9" column="23" lean-forward="false" selection-start-line="9" selection-start-column="23" selection-end-line="9" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/layouts/layout.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="394">
+          <caret line="38" column="4" lean-forward="false" selection-start-line="38" selection-start-column="4" selection-end-line="38" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="FIRST">
+          <first_editor relative-caret-position="357">
+            <caret line="289" column="0" lean-forward="false" selection-start-line="289" selection-start-column="0" selection-end-line="289" selection-end-column="0" />
+            <folding>
+              <marker date="1537961825710" expanded="true" signature="8839:9273" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="8845:9054" ph="{&quot;id&quot;: &quot;71452118-efc7-4cc4-8780-a5e22d4baa53&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="9060:9271" ph="{&quot;id&quot;: &quot;e316cb9a-0808-4fd7-8914-97829c1925de&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="10076:10194" ph="{&quot;id&quot;: &quot;a1b2c3d4&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="10938:11228" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="10938:11264" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="10944:11228" ph="{&quot;id&quot;: &quot;100&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="11119:11228" ph="{&quot;order_id&quot;: &quot;d50ec984-77a8-460a-b958-66f114b0de9b&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="12211:12557" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="12217:12555" ph="{&quot;id&quot;: &quot;82dcd140-c3c7-4507-8de4-2c529cd1a28f&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="26134:26485" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="26140:26308" ph="{&quot;symbol&quot;: &quot;BTC-USD&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="26331:26483" ph="{&quot;product_id&quot;: &quot;LTC-USD&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="26331:26485" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="26887:27153" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="26893:27151" ph="{&quot;id&quot;: &quot;BTC-USD&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="27850:28150" ph="{&quot;sequence&quot;: &quot;3262786978&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="28416:28632" ph="{&quot;symbol&quot;: &quot;BTC-USDT&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="29009:29444" ph="{&quot;symbol&quot;: &quot;BTC-USDT&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="29088:29252" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="29276:29432" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="29276:29441" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="32698:32807" ph="{&quot;open&quot;: &quot;34.19000000&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="32941:33102" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="32942:33014" ph="{&quot;id&quot;: &quot;BTC&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="33016:33101" ph="{&quot;id&quot;: &quot;USD&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="33528:33710" ph="{&quot;id&quot;: &quot;BTC&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="34689:35179" ph="{...}" />
+              <marker date="1537961825710" expanded="true" signature="34691:35178" ph="{&quot;token&quot;: &quot;0MAJzC9mWvDXD8MpeSa_n8BDxoDMmeu7Qrt3BvrUjLQtYlMuxDXAoQ==.5tcxgyFR1NVPNQG_lxGeKA==&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="34691:35179" ph="{&quot;bulletToken&quot;: &quot;0MAJzC9mWvDXD8MpeSa_n8BDxoDMmeu7Qrt3BvrUjLQtYlMuxDXAoQ==.5tcxgyFR1NVPNQG_lxGeKA==&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="34812:35025" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="34822:35019" ph="{&quot;endpoint&quot;: &quot;https://push0.kucoin.net&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="35049:35177" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="35059:35171" ph="{&quot;endpoint&quot;: &quot;https://bullet.kucoin.com:8090/bullet/history&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="35712:35782" ph="{&quot;type&quot;: &quot;error&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="35771:35780" ph="/*...*/" />
+              <marker date="1537961825710" expanded="true" signature="36346:36452" ph="{&quot;id&quot;: 123...}" />
+              <marker date="1537961825710" expanded="true" signature="36466:36477" ph="//..." />
+              <marker date="1537961825710" expanded="true" signature="36478:36508" ph="{&quot;type&quot;: &quot;subscriptions&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="37117:37182" ph="{&quot;type&quot;: &quot;unsubscribe&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="37522:37565" ph="//..." />
+              <marker date="1537961825710" expanded="true" signature="37565:37710" ph="{&quot;type&quot;: &quot;open&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="37699:37708" ph="/*...*/" />
+              <marker date="1537961825710" expanded="true" signature="37793:37825" ph="{&quot;type&quot;: &quot;subscribe&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="37793:37979" ph="{&quot;type&quot;: &quot;subscribe&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="37835:37860" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="39632:39923" ph="{&quot;type&quot;: &quot;ticker&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="40261:40420" ph="{&quot;type&quot;: &quot;l2full&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="40629:40894" ph="{&quot;type&quot;: &quot;l2update&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="40724:40892" ph="[...]" />
+              <marker date="1537961825710" expanded="true" signature="42990:43248" ph="{&quot;type&quot;: &quot;received&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="43262:43504" ph="{&quot;type&quot;: &quot;received&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="44529:44767" ph="{&quot;type&quot;: &quot;open&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="45192:45468" ph="{&quot;type&quot;: &quot;done&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="46250:46571" ph="{&quot;type&quot;: &quot;match&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="47249:47516" ph="{&quot;type&quot;: &quot;change&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="47530:47799" ph="{&quot;type&quot;: &quot;change&quot;...}" />
+              <marker date="1537961825710" expanded="true" signature="47684:47799" ph="{&quot;type&quot;: &quot;change&quot;...}" />
+            </folding>
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stylesheets/screen.css.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2460">
+          <caret line="164" column="20" lean-forward="false" selection-start-line="164" selection-start-column="20" selection-end-line="164" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascripts/app/_search.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stylesheets/_variables.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="690">
+          <caret line="46" column="15" lean-forward="false" selection-start-line="46" selection-start-column="15" selection-end-line="46" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stylesheets/_rtl.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/includes/_errors.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="60">
+            <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stylesheets/_normalize.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6405">
+          <caret line="427" column="0" lean-forward="false" selection-start-line="427" selection-start-column="0" selection-end-line="427" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stylesheets/_icon-font.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
