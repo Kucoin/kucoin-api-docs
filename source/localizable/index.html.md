@@ -136,6 +136,10 @@ Thanks to the great community contributors, these are the open source SDKs contr
 
 If you are a developer, [submit](https://github.com/Kucoin) your sdk to us and get KCS rewards.
 
+**Examples**
+
+- PHP Single File Example (GET & POST & DELETE)  [Github Link](https://github.com/Kucoin/kucoin-api-docs/tree/master/examples/php)
+
 - - -
 
 # Sandbox
