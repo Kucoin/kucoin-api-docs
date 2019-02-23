@@ -17,7 +17,7 @@ includes:
 
 欢迎来到KuCoin交易员和开发者文档。 这些文档概述了交易功能，市场行情和其他应用开发接口。
 
-API分为两部分：** REST API和Websocket 实时数据流**
+API分为两部分：**REST API和Websocket 实时数据流**
 
  -  REST API包含四个类别：**用户（私有），交易（私有），市场数据（公共），其他（公共）**
  -  Websocket包含两类：**公共频道和私人频道**
