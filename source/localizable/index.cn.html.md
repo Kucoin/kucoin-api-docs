@@ -187,7 +187,7 @@ We throttle private endpoints by user ID: 200 requests per ten seconds.
 
 # REST API
 
-## Base URL
+## API服务器地址
 
 The REST API has endpoints for account and order management as well as public market data.
 
@@ -195,7 +195,7 @@ Base url is **https://api.kucoin.com**.
 
 Request URL needs to be determined by BASE and specific endpoint combination. 
 
-## Endpoint
+## 接口连接点
 
 Each interface has its own endpoint, described by field **HTTP REQUEST** in the docs. 
 
@@ -247,7 +247,7 @@ Code | Meaning
 
 
 
-###System error codes###
+### 系统错误码
 
 Code | Meaning
 ---------- | -------
@@ -269,7 +269,7 @@ While http status code is 200, the error occurs when business failed, you can fi
 
 ## 成功返回
 
-A successful response is indicated by HTTP status code 200 and system code 200000. the success payload is as follows:
+HTTP状态代码为200和 系统代码为 200000 标示一次成功的响应。成功请求的有效返回如下：
 
 ```
 {
@@ -278,7 +278,7 @@ A successful response is indicated by HTTP status code 200 and system code 20000
 }
 ```
 
-The response may contain an optional data. If the response has a data it will be documented under each resource below.
+响应可能包含可选数据。 如果响应有数据，则会在下面的每个资源下记录。
 
 ## 分页器
 
@@ -2908,7 +2908,32 @@ When an order is changed due to STP, the system would send a change message to u
 
 # 私有频道
 
-##止损单创建事件###
+## 止损单放置事件
+
+```json
+{
+  "type":"message",
+  "topic":"/market/level3:BTC-USDT",
+  "subject":"trade.l3received",
+  "data": {
+    "sequence":"1545738118241",
+    "symbol":"BTC-USDT",
+    "side":"buy",
+    "orderId":"5c21e80303aa677bd09d7dff",
+    "stopType":"entry",
+    "funds":"1.00000000000000000000",
+    "time":"1545743136994328401",
+    "type":"stop"
+  }
+}
+```
+
+当系统收到止盈止损订单时，您将收到一条'stop'消息，表示此订单已进入队列并等待触发。
+
+<aside class="spacer4"></aside>
+<aside class="spacer"></aside>
+
+## 止损单触发事件
 
 ```json
 {
@@ -2928,7 +2953,7 @@ When an order is changed due to STP, the system would send a change message to u
 }
 ```
 
-When a stop-limit order is triggered, you would receive an activate message which means that this order started the matching life cycle.
+触发止盈止损单后，您将收到一条'activate'消息，表示此订单开始进入撮合引擎匹配的生命周期。
 
 <aside class="spacer4"></aside>
 <aside class="spacer"></aside>

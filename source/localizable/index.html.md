@@ -223,7 +223,7 @@ All interfaces may add fields in the future, existing fields will not change, pl
 
 Errors to bad requests will respond with HTTP error code or system error code. The body will also contain a message parameter indicating the cause.
 
-###HTTP error status codes###
+### HTTP error status codes
 
 ```
 {
@@ -2911,7 +2911,32 @@ When an order is changed due to STP, the system would send a change message to u
 
 # Private Channels
 
-##Order activate event###
+## Stop order received event
+
+```json
+{
+  "type":"message",
+  "topic":"/market/level3:BTC-USDT",
+  "subject":"trade.l3received",
+  "data": {
+    "sequence":"1545738118241",
+    "symbol":"BTC-USDT",
+    "side":"buy",
+    "orderId":"5c21e80303aa677bd09d7dff",
+    "stopType":"entry",
+    "funds":"1.00000000000000000000",
+    "time":"1545743136994328401",
+    "type":"stop"
+  }
+}
+```
+
+When a stop-limit order is received by system, you would receive an stop message which means that this order entered stop queue and waited to be triggered.
+
+<aside class="spacer4"></aside>
+<aside class="spacer"></aside>
+
+##Stop order activate event
 
 ```json
 {
