@@ -318,7 +318,7 @@ Before being able to sign any requests, you must create an API key via the KuCoi
 * Secret
 * Passphrase
 
-The Key and Secret will be randomly generated and provided by KuCoin; the Passphrase will be provided by you to further secure your API access. KuCoin stores the salted hash of your passphrase for verification, but cannot recover the passphrase if you forget it.
+The Key and Secret will be randomly generated and provided by KuCoin. The passphrase is filled in when you create the API, you can't recover it after forgot. You can only apply for the new API again. KuCoin stores the salted hash of your passphrase for verification.
 
 ## Permissions
 
@@ -1070,19 +1070,13 @@ This endpoint requires the **"Trade"** permission.
 | ----------- | ------- | ------------------------------------------------------------ |
 | price       | string  | price per base currency                                      |
 | size        | string  | amount of base currency to buy or sell                       |
-| timeInForce | string  | *[optional]* **GTC**, **GTT**, **IOC**, or **FOK** (default is **GTC**) |
-| cancelAfter | long    | *[optional]*  cancel after **n** seconds                    |
-| postOnly    | boolean | *[optional]*  Post only flag                               |
+| timeInForce | string  | *[optional]* **GTC**, **GTT**, **IOC**, or **FOK** (default is **GTC**), read [Time In Force](#time-in-force).   |
+| cancelAfter | long    | *[optional]*  cancel after **n** seconds, requires **timeInForce** to be **GTT**                   |
+| postOnly    | boolean | *[optional]*  Post only flag, invalid when **timeInForce** is **IOC** or **FOK**                               |
 | hidden      | boolean | *[optional]*  Orders not displayed in order book             |
 | iceberg    | boolean | *[optional]*  Only visible portion of the order is displayed in the order book |
 | visibleSize | string  | *[optional]*  The maximum visible size of an iceberg order   |
 
-
-\* Requires **timeInForce** to be **GTT**
-
-** Invalid when **timeInForce** is **GTC**, **IOC** or **FOK**
-
-Read [Time In Force](#time-in-force) to learn about **GTC**、**GTT**、**IOC**、**FOK**.  
 
 #### MARKET ORDER PARAMETERS
 
@@ -1180,7 +1174,8 @@ For market buy orders where funds is specified, the funds amount will be put on 
 ###SELF-TRADE PREVENTION###
 
 The **Self-Trade Prevention** is **an option (set as not-selected by default)** in advanced settings. When you specify **STP** when placing orders, your order will not fill your other orders. On the contrary, if you did not choose **STP** in Advanced, your order might be filled by your own orders.
-**Market order is currently not supported for DC**.
+
+**Market order is currently not supported for DC**. When *timeInForce* is **FOK**, the stp flag will be forced to be specified as **CN**.
 
 | Flag | Name                          |
 | ---- | ----------------------------- |
@@ -1250,6 +1245,9 @@ With best effort, cancel all open orders. The response is a list of ids of the c
 ###HTTP REQUEST###
 **DELETE /api/v1/orders**
 
+###EXAMPLE###
+**DELETE /api/v1/orders?symbol=ETH-BTC**
+
 ###API KEY PERMISSIONS###
 This endpoint requires the **"Trade"** permission.
 
@@ -1310,7 +1308,7 @@ List your current orders.
 ### HTTP REQUEST
 **GET /api/v1/orders**
 
-### Example
+### EXAMPLE
 GET **/api/v1/orders?status=active** for retrieving all active orders
 
 ###API KEY PERMISSIONS###
