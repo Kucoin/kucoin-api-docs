@@ -318,7 +318,7 @@ Before being able to sign any requests, you must create an API key via the KuCoi
 * Secret
 * Passphrase
 
-The Key and Secret will be randomly generated and provided by KuCoin; the Passphrase will be provided by you to further secure your API access. KuCoin stores the salted hash of your passphrase for verification, but cannot recover the passphrase if you forget it.
+Key和Secret将由KuCoin随机生成并提供。Passphrase将在您创建API时填写，如果忘记后无法恢复，需要重新申请API KEY。
 
 ## 权限
 
@@ -1068,19 +1068,12 @@ This endpoint requires the **"Trade"** permission.
 | ----------- | ------- | ------------------------------------------------------------ |
 | price       | string  | price per base currency                                      |
 | size        | string  | amount of base currency to buy or sell                       |
-| timeInForce | string  | *[optional]* **GTC**, **GTT**, **IOC**, or **FOK** (default is **GTC**) |
-| cancelAfter | long    | *[optional]*  cancel after **n** seconds                    |
-| postOnly    | boolean | *[optional]*  Post only flag                               |
+| timeInForce | string  | *[optional]* **GTC**, **GTT**, **IOC**, or **FOK** (default is **GTC**), read [Time In Force](#time-in-force).   |
+| cancelAfter | long    | *[optional]*  cancel after **n** seconds, requires **timeInForce** to be **GTT**                   |
+| postOnly    | boolean | *[optional]*  Post only flag, invalid when **timeInForce** is **IOC** or **FOK**                               |
 | hidden      | boolean | *[optional]*  Orders not displayed in order book             |
 | iceberg    | boolean | *[optional]*  Only visible portion of the order is displayed in the order book |
 | visibleSize | string  | *[optional]*  The maximum visible size of an iceberg order   |
-
-
-\* Requires **timeInForce** to be **GTT**
-
-** Invalid when **timeInForce** is **GTC**, **IOC** or **FOK**
-
-Read [Time In Force](#time-in-force) to learn about **GTC**、**GTT**、**IOC**、**FOK**.  
 
 #### MARKET ORDER PARAMETERS
 
