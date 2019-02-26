@@ -539,7 +539,7 @@ This endpoint requires the **"General"** permission.
 
 
 
-##Create an Account##
+## 创建存款账户
 ```json
 {
     "id": "5bd6e9286d99522a52e458de"
@@ -568,7 +568,7 @@ In order to use the API more quickly and conveniently, it is recommended that yo
 
 
 
-## Get Account Ledgers ##
+## 获取账户流水记录
 
 List account activity. Account activity either increases or decreases your account balance. Items are paginated and sorted latest first. See the [Pagination](#pagination) section for retrieving additional entries after the first page.
 
@@ -643,7 +643,7 @@ This endpoint requires the **"General"** permission.
 
 <aside class="notice">This request is paginated.</aside>
 
-## Get Holds ##
+## 获取资金冻结记录
 
 ```json
 {
@@ -704,7 +704,7 @@ This endpoint requires the **"General"** permission.
 
 <aside class="notice">This request is paginated.</aside>
 
-## Inner Tranfer
+## 内部资金划转
 
 ```json
 {
@@ -1329,12 +1329,12 @@ endAt | long | *[optional]* End time.  Unix timestamp calculated in milliseconds
 
 <aside class="notice">This request is paginated.</aside>
 
-###ORDER STATUS AND SETTLEMENT###
+### 订单状态和结算
 Orders which are resting on the order book, will be marked with the **active** status. Orders which are no longer resting on the order book, will be marked with the **done** status. There is a small window between an order being done and settled. An order is settled when all of the fills have settled and the remaining holds (if any) have been removed.
 
 For order checking, after inputting the correct parameters, you could check the orders in all **status**. But if the **status** parameter is not input into the **orders** interface, the system would return the orders of **done** status to you by default.
 
-When you query orders, there is no time limit for the **active** status of order. The order of the done status can only query data within time range of 24 hours (the start and end time range cannot exceed 24 hours). If it exceeds 24 hours, the system will prompt you exceed the time limit.If you pass the start time when querying orders and do not pass the end time, the system will automatically construct the end time as the start time + 24 hours, and vice versa.
+When you query orders, there is no time limit for the **active** status of order. The order of the done status can only query data within time range of one week (the start and end time range cannot exceed 24*7 hours). If it exceeds one week, the system will prompt you exceed the time limit.If you pass the start time when querying orders and do not pass the end time, the system will automatically construct the end time as the start time + 24*7 hours, and vice versa.
 
 ###POLLING###
 For high-volume trading it is strongly recommended that you maintain your own list of open orders and use one of the streaming market data feeds to keep it updated. You should poll the open orders endpoint once when you start trading to obtain the current state of any open orders.
@@ -1499,7 +1499,7 @@ endAt | long |*[optional]* End time. Unix timestamp calculated in milliseconds, 
 
 **数据时间范围**
 
-您可以在24小时的时间范围内检索数据（默认为最近24小时，开始和结束时间范围不能超过24小时，86400000毫秒）。 如果超过24小时，系统将提示您超过时间限制。如果通过查询填充的开始时间并且没有超过结束时间，系统将自动构建结束时间作为开始时间+ 24小时，并且 反之亦然。
+您可以在一周时间范围内检索数据（默认为最近一周，开始和结束时间范围不能超过24小时，604800000毫秒）。 如果超过一周，系统将提示您超过时间限制。如果通过查询填充的开始时间并且没有超过结束时间，系统将自动构建结束时间作为开始时间+ 24*7小时，并且反之亦然。
 
 **Settlement**
 
