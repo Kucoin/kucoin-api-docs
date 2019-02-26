@@ -292,7 +292,7 @@ Parameter | Default | Description
 currentPage | 1 | Current request page.
 pageSize | 50 | Number of results per request.
 
-###EXAMPLE###
+### EXAMPLE
 **GET /api/v1/orders?currentPage=1&pageSize=50**
 
 
@@ -1307,8 +1307,11 @@ symbol | string | *[optional]* Only cancel orders open for a specific symbol
 
 List your current orders.
 
-###HTTP REQUEST###
+### HTTP REQUEST
 **GET /api/v1/orders**
+
+### Example
+GET **/api/v1/orders?status=active** for retrieving all active orders
 
 ###API KEY PERMISSIONS###
 This endpoint requires the **"General"** permission.
@@ -1494,6 +1497,10 @@ side | string |*[optional]* **buy** or **sell**
 type | string |*[optional]* **limit**, **market**, **limit_stop** or **market_stop** 
 startAt | long |*[optional]* Start time. Unix timestamp calculated in milliseconds, the creation time queried shall posterior to the start time. 
 endAt | long |*[optional]* End time. Unix timestamp calculated in milliseconds, the creation time queried shall prior to the end time. 
+
+**Data time range**
+
+You can retrieve data within time range of 24 hours (default is latest 24hr, the start and end time range cannot exceed 24 hours, 86400000 milliseconds). If it exceeds 24 hours, the system will prompt you exceed the time limit.If you pass the start time when querying fills and do not pass the end time, the system will automatically construct the end time as the start time + 24 hours, and vice versa.
 
 **Settlement**
 
