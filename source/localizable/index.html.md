@@ -174,6 +174,9 @@ We throttle public endpoints by IP: 100 requests per ten seconds.
 We throttle private endpoints by user ID: 200 requests per ten seconds.
 
 ###WEBSOCKET###
+
+The number of connections established at the same time cannot exceed **10**.
+
 #### connect
 * 30 times per minutes
 
