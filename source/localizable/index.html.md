@@ -1174,7 +1174,7 @@ For market buy orders where funds is specified, the funds amount will be put on 
 ###SELF-TRADE PREVENTION###
 
 The **Self-Trade Prevention** is **an option (set as not-selected by default)** in advanced settings. When you specify **STP** when placing orders, your order will not fill your other orders. On the contrary, if you did not choose **STP** in Advanced, your order might be filled by your own orders.
-**Market order is currently not supported for DC**.
+**Market order is currently not supported for DC**. When *timeInForce* is **FOK**, the stp flag will be forced to be specified as **CN**.
 
 | Flag | Name                          |
 | ---- | ----------------------------- |
