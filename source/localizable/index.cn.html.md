@@ -292,7 +292,7 @@ Parameter | Default | Description
 currentPage | 1 | Current request page.
 pageSize | 50 | Number of results per request.
 
-###EXAMPLE###
+### EXAMPLE
 **GET /api/v1/orders?currentPage=1&pageSize=50**
 
 
@@ -1308,6 +1308,10 @@ List your current orders.
 ### HTTP请求
 **GET /api/v1/orders**
 
+
+### 示例
+请求 **/api/v1/orders?status=active** 以获取所有活动订单
+
 ###API权限###
 This endpoint requires the **"General"** permission.
 
@@ -1492,6 +1496,10 @@ side | string |*[optional]* **buy** or **sell**
 type | string |*[optional]* **limit**, **market**, **limit_stop** or **market_stop** 
 startAt | long |*[optional]* Start time. Unix timestamp calculated in milliseconds, the creation time queried shall posterior to the start time. 
 endAt | long |*[optional]* End time. Unix timestamp calculated in milliseconds, the creation time queried shall prior to the end time. 
+
+**数据时间范围**
+
+您可以在24小时的时间范围内检索数据（默认为最近24小时，开始和结束时间范围不能超过24小时，86400000毫秒）。 如果超过24小时，系统将提示您超过时间限制。如果通过查询填充的开始时间并且没有超过结束时间，系统将自动构建结束时间作为开始时间+ 24小时，并且 反之亦然。
 
 **Settlement**
 
