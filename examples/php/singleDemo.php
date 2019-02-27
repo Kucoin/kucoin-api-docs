@@ -1,6 +1,8 @@
 <?php
 
-$host = 'https://api.kucoin.com';
+$host = 'https://api.kucoin.com'; //production
+
+//$host = 'https://openapi-sandbox.kucoin.com'; //sandbox
 
 // Put your key here.
 $key = '';
@@ -9,6 +11,9 @@ $passphrase = '';
 
 function http_request($method = 'GET', $url, $headers = [], $data = null)
 {
+
+    echo "send {$method} request to {$url}:\n";
+
     $curl = curl_init();
 
     curl_setopt($curl, CURLOPT_URL, $url);
@@ -16,16 +21,16 @@ function http_request($method = 'GET', $url, $headers = [], $data = null)
     curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, TRUE);
 
     if ($method == 'POST') {
-        curl_setopt($curl, CURLOPT_POST, 1);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($curl, CURLOPT_POST, 1);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
     }
 
     if ($method == 'DELETE') {
-        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'DELETE');
+    curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'DELETE');
     }
 
     if(!empty($headers)) {
-        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
     }
 
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
@@ -71,6 +76,31 @@ function testGetAccounts(){
 
 }
 
+function testGetDepositAddress(){
+
+    global $host;
+    global $key;
+    global $passphrase;
+
+    $endpoint = '/api/v1/deposit-addresses?currency=BTC';
+    $body = '';
+    $timestamp = intval(microtime(true) * 1000);
+
+    $headers = [];
+    $headers[] = "Content-Type:application/json";
+    $headers[] = "KC-API-KEY:".$key;
+    $headers[] = "KC-API-TIMESTAMP:".$timestamp;
+    $headers[] = "KC-API-PASSPHRASE:".$passphrase;
+    $headers[] = "KC-API-SIGN:".signature($endpoint, $body, $timestamp, 'GET');
+
+    $requestPath = $host . $endpoint;
+
+    $response = http_request('GET', $requestPath, $headers, $body);
+
+    var_dump($response);
+
+}
+
 function testPostOrder(){
 
     global $host;
@@ -78,7 +108,7 @@ function testPostOrder(){
     global $passphrase;
 
     $endpoint = '/api/v1/orders';
-    $body ='{"side":"buy","symbol":"BTC-USDT","type":"limit","size":0.001,"price":1,"clientOid":"'.microtime(true).'"}';
+    $body ='{"side":"buy","symbol":"ETH-BTC","type":"limit","price":"0.03504700","size":"0.3577891","clientOid":"'.microtime(true).'"}';
 
     $timestamp = intval(microtime(true) * 1000);
 
@@ -91,7 +121,7 @@ function testPostOrder(){
 
     $requestPath = $host . $endpoint;
 
-    $response = http_request('GET', $requestPath, $headers, $body);
+    $response = http_request('POST', $requestPath, $headers, $body);
 
     var_dump($response);
 
@@ -125,10 +155,40 @@ function testDeleteOrder(){
 
 }
 
-testGetAccounts();
+
+function testListFills(){
+
+    global $host;
+    global $key;
+    global $passphrase;
+
+    $endpoint = '/api/v1/orders?status=active&symbol=BTC-USDT';
+    $body ='';
+
+    $timestamp = intval(microtime(true) * 1000);
+
+    $headers = [];
+    $headers[] = "Content-Type:application/json";
+    $headers[] = "KC-API-KEY:".$key;
+    $headers[] = "KC-API-TIMESTAMP:".$timestamp;
+    $headers[] = "KC-API-PASSPHRASE:".$passphrase;
+    $headers[] = "KC-API-SIGN:".signature($endpoint, $body, $timestamp, 'GET');
+
+    $requestPath = $host . $endpoint;
+
+    $response = http_request('GET', $requestPath, $headers, $body);
+
+    var_dump($response);
+
+}
+
+testListFills();
+
+//testGetAccounts();
+
+//testGetDepositAddress();
 
 //testPostOrder();
 
 //testDeleteOrder();
-
 

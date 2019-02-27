@@ -174,6 +174,9 @@ We throttle public endpoints by IP: 100 requests per ten seconds.
 We throttle private endpoints by user ID: 200 requests per ten seconds.
 
 ###WEBSOCKET###
+
+The number of connections established at the same time cannot exceed **10**.
+
 #### connect
 * 30 times per minutes
 
@@ -1333,7 +1336,7 @@ Orders which are resting on the order book, will be marked with the **active** s
 
 For order checking, after inputting the correct parameters, you could check the orders in all **status**. But if the **status** parameter is not input into the **orders** interface, the system would return the orders of **done** status to you by default.
 
-When you query orders, there is no time limit for the **active** status of order. The order of the done status can only query data within time range of 24 hours (the start and end time range cannot exceed 24 hours). If it exceeds 24 hours, the system will prompt you exceed the time limit.If you pass the start time when querying orders and do not pass the end time, the system will automatically construct the end time as the start time + 24 hours, and vice versa.
+When you query orders, there is no time limit for the **active** status of order. The order of the done status can only query data within time range of one week (the start and end time range cannot exceed 24*7 hours). If it exceeds one week, the system will prompt you exceed the time limit.If you pass the start time when querying orders and do not pass the end time, the system will automatically construct the end time as the start time + 24*7 hours, and vice versa.
 
 ###POLLING###
 For high-volume trading it is strongly recommended that you maintain your own list of open orders and use one of the streaming market data feeds to keep it updated. You should poll the open orders endpoint once when you start trading to obtain the current state of any open orders.
@@ -1498,7 +1501,7 @@ endAt | long |*[optional]* End time. Unix timestamp calculated in milliseconds, 
 
 **Data time range**
 
-You can retrieve data within time range of 24 hours (default is latest 24hr, the start and end time range cannot exceed 24 hours, 86400000 milliseconds). If it exceeds 24 hours, the system will prompt you exceed the time limit.If you pass the start time when querying fills and do not pass the end time, the system will automatically construct the end time as the start time + 24 hours, and vice versa.
+You can retrieve data within time range of one week (default is latest week, the start and end time range cannot exceed 24*7 hours, 604800000 milliseconds). If it exceeds one week, the system will prompt you exceed the time limit.If you pass the start time when querying fills and do not pass the end time, the system will automatically construct the end time as the start time + 24*7 hours, and vice versa.
 
 **Settlement**
 
