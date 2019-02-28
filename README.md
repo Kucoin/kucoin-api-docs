@@ -4,7 +4,7 @@ KuCoin Developer Documentation Improvement Program
 
 You can visit the live [KuCoin developer documentation](https://docs.kucoin.com).
 
-**As a people's exchange, KuCoin will strive to support as many document languages as possible for everyone's convenience. In the process, We hope to get everyone's help.
+**As a people's exchange, KuCoin will strive to support as many document languages as possible for everyone's convenience. In the process, We hope to get everyone's help.**
 
 **You can help KuCoin to improve and translate developer documentation together.**
 
