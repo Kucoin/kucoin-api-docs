@@ -44,6 +44,18 @@ Websocket APIs provide market data , most of them are public.
 
 In order to receive the latest API change notifications, please add 'Watch' to [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
+**2/28/19** : 
+
+- Modify [Get Symbols List](#get-symbols-list) response description
+- Add [Get V1 Historical Deposits List](#get-v1-historical-deposits-list)
+- Add [Get V1 Historical Withdrawals List](#get-v1-historical-withdrawals-list)
+- Add [Get V1 Historical Orders List](#get-v1-historical-orders-list)
+- Add partial API json field description
+- Delete "sn" field to [Match Execution Data](#match-execution-data) 
+- Modify [Get Fiat Price](#get-fiat-price) parameter description
+- Add "acceptUsermessage" option when connecting to the websocket
+- Modify the get historic rate api name to [Get Klines](#get-klines)  
+
 **2/22/19** : 
 
 - Add fields to [Get 24hr Stats](#get-24hr-stats)
@@ -109,7 +121,7 @@ Cancel the older (resting) order in full. The new order continues to execute.
 ### CANCEL NEWEST(CN)
 
 Cancel the newer (taking) order in full. The old resting order remains on the order book.
-****
+
 ### CANCEL BOTH(CB)
 
 Immediately cancel both orders.
@@ -293,7 +305,8 @@ KuCoin uses pagination for all REST requests which return arrays. Pagination all
 Parameter | Default | Description
 ---------- | ------- | ------
 currentPage | 1 | Current request page.
-pageSize | 50 | Number of results per request.
+pageSize | 50 | Number of results per request.The minimum pageSize is **10** and maximum is **500**.
+
 
 ### EXAMPLE
 **GET /api/v1/orders?currentPage=1&pageSize=50**
@@ -576,19 +589,32 @@ List account activity. Account activity either increases or decreases your accou
 {
 	"currentPage": 1,
 	"pageSize": 10,
-	"totalNum": 2,
+	"totalNum": 3,
 	"totalPage": 1,
 	"items": [{
 			"currency": "KCS",
 			"amount": "0.0998",
 			"fee": "0",
 			"balance": "1994.040596",
-			"bizType": "withdraw",
+			"bizType": "Withdraw",  //business type
+			"direction": "in",     //side
+			"createdAt": 1540296039000,
+			"context": {          //Business core parameters
+				"orderId": "5bc7f080b39c5c03286eef8a",
+				"txId": "bf848bfb6736780b930e12c68721ea57f8b0484a4af3f30db75c93ecf16905c9"
+			}
+		},
+		{
+			"currency": "KCS",
+			"amount": "0.0998",
+			"fee": "0",
+			"balance": "1994.140396",
+			"bizType": "Deposit",
 			"direction": "in",
 			"createdAt": 1540296039000,
 			"context": {
 				"orderId": "5bc7f080b39c5c03286eef8a",
-				"currency": "BTC"
+				"txId": "bf848bfb6736780b930e12c68721ea57f8b0484a4af3f30db75c93ecf16905c9"
 			}
 		},
 		{
@@ -624,7 +650,7 @@ endAt | long | *[optional]*  End time.  Unix timestamp calculated in seconds, th
 Entry type indicates the reason for the account change.
 
 ### Responses
-Type | Description
+Field | Description
 --------- | ------- 
 currency | The currency of the account 
 amount | Total amount of assets (fees included) involved in assets changes such as transaction, withdrawal and bonus distribution.
@@ -655,7 +681,7 @@ This endpoint requires the **"General"** permission.
         {
             "currency": "ETH",
             "holdAmount": "5083",
-            "bizType": "Withdraw",
+            "bizType": "Withdraw",     //business type
             "orderId": "5bc7f080b39c5c03286eef8e",
             "createdAt": 1545898567000,
             "updatedAt": 1545898567000
@@ -687,7 +713,7 @@ accountId | string | Id of the account
 Entry type indicates the reason for the account hold.
 
 ### Responses
-Type | Description
+Field | Description
 --------- | -------
 currency | the currency of the account
 holdAmount | Remaining funds freezed (remaining funds freezed = Initial funds freezed – Funds unfreezed)
@@ -727,7 +753,7 @@ recAccountId | string | Account id of receiver
 amount | string | Transfer amount, a quantity that exceeds the precison of the currency. 
 
 ### Responses
-Type | Description
+Field | Description
 --------- | ------- 
 orderId | Id of funds transfer order
 
@@ -742,7 +768,7 @@ This endpoint requires the **"Trade"** permission.
 ```json
 {
 	"address": "0x78d3ad1c0aa1bf068e19c94a2d7b16c9c0fcd8b1",
-	"memo": "5c247c8a03aa677cea2a251d"
+	"memo": "5c247c8a03aa677cea2a251d"   //tag
 }
 ```
 
@@ -762,7 +788,7 @@ Param | Type | Description
 currency | string | Currency
 
 ### Responses
-Type | Description
+Field | Description
 --------- | ------- | -----------
 address | Deposit address
 memo | Address remark. If there’s no remark, it is empty.
@@ -773,7 +799,7 @@ memo | Address remark. If there’s no remark, it is empty.
 ```json
 {
 	"address": "0x78d3ad1c0aa1bf068e19c94a2d7b16c9c0fcd8b1",
-	"memo": "5c247c8a03aa677cea2a251d"
+	"memo": "5c247c8a03aa677cea2a251d"        //tag
 }
 ```
 
@@ -792,7 +818,7 @@ Param | Type | Description
 currency | string | Currency 
 
 ### Responses
-Type | Description
+Field | Description
 --------- | ------- | -----------
 address | Deposit address
 memo | Address remark. If there’s no remark, it is empty.
@@ -807,7 +833,7 @@ memo | Address remark. If there’s no remark, it is empty.
   "totalPage": 1,
 	"items": [{
 		"address": "0x5f047b29041bcfdbf0e4478cdfa753a336ba6989",
-		"memo": "5c247c8a03aa677cea2a251d",
+		"memo": "5c247c8a03aa677cea2a251d",   
 		"amount": 1,
 		"fee": 0.0001,
 		"currency": "KCS",
@@ -849,7 +875,7 @@ endAt | long | *[optional]*  End time.  Unix timestamp calculated in millisecond
 status | string | *[optional]*  Status. Available value: PROCESSING, SUCCESS, and FAILURE
 
 ### Responses
-Type | Description
+Field | Description
 --------- | ------- | -----------
 address | Deposit address
 memo | Remark to the deposit address
@@ -863,6 +889,59 @@ createdAt | Creation time of the database record
 updatedAt | Update time of the database record
 
 <aside class="notice">This request is paginated.</aside>
+
+## Get V1 Historical Deposits List
+
+```json
+{
+"currentPage": 1,
+"pageSize": 1,
+"totalNum": 9,
+"totalPage": 9,
+"items": [{
+"currency": "BTC",
+"createAt": 1528536998,
+"amount": "0.03266638",
+"walletTxId": "55c643bc2c68d6f17266383ac1be9e454038864b929ae7cee0bc408cc5c869e8@12ffGWmMMD1zA1WbFm7Ho3JZ1w6NYXjpFk@234",
+"isInner": false,
+"status": "SUCCESS",
+"remark": null
+}]
+}
+```
+
+List of KuCoin V1 historical deposits.
+
+###HTTP REQUEST###
+**GET /api/v1/hist-deposits**
+
+### API KEY PERMISSIONS
+This endpoint requires the **"General"** permission.
+
+### Parameters
+
+Param | Type | Description
+--------- | ------- | -----------
+currentPage | int | *[optional]*  The current page.
+pageSize | int | *[optional]*  Number of pages per page.  
+currency | string | *[optional]*  Currency code.
+startAt | long | *[optional]*  Start time. Unix timestamp calculated in milliseconds, the creation time queried shall posterior to the start time. 
+endAt | long | *[optional]*  End time.  Unix timestamp calculated in milliseconds, the creation time queried shall prior to the end time. 
+status | string | *[optional]*  Status. Available value: PROCESSING, SUCCESS, and FAILURE
+
+### Responses
+Field | Description
+--------- | ------- | -----------
+amount | Deposit amount
+currency | Currency code
+isInner | Internal deposit or not
+walletTxId | Wallet Txid
+remark | remark
+createAt | Creation time of the database record
+status | Status
+
+<aside class="notice">This request is paginated.</aside>
+
 
 # Withdrawals
 
@@ -907,7 +986,7 @@ startAt | long | *[optional]*  Start time. Unix timestamp calculated in millisec
 endAt | long | *[optional]*  End time.  Unix timestamp calculated in milliseconds, the creation time queried shall prior to the end time. 
 
 ### Responses
-Type | Description
+Field | Description
 --------- | ------- 
 id | Unique identity 
 address | Withdrawal address
@@ -923,6 +1002,59 @@ updatedAt | Update time
 
 <aside class="notice">This request is paginated.</aside>
 
+
+## Get V1 Historical Withdrawals List
+
+```json
+{
+"currentPage": 1,
+"pageSize": 1,
+"totalNum": 2,
+"totalPage": 2,
+"items": [{
+"currency": "BTC",
+"createAt": 1526723468,
+"amount": "0.534",
+"address": "33xW37ZSW4tQvg443Pc7NLCAs167Yc2XUV",
+"walletTxId": "aeacea864c020acf58e51606169240e96774838dcd4f7ce48acf38e3651323f4",
+"isInner": false,
+"status": "SUCCESS"
+}]
+}
+```
+List of KuCoin V1 historical withdrawals.
+
+###HTTP REQUEST###
+**GET /api/v1/hist-withdrawals**
+
+### API KEY PERMISSIONS
+This endpoint requires the **"General"** permission.
+
+### Parameters
+
+Param | Type | Description
+--------- | ------- | -----------
+currentPage | int | *[optional]*  The current page.
+pageSize | int | *[optional]*  Number of pages per page.  
+currency | string | *[optional]*  Currency code.
+startAt | long | *[optional]*  Start time. Unix timestamp calculated in milliseconds, the creation time queried shall posterior to the start time. 
+endAt | long | *[optional]*  End time.  Unix timestamp calculated in milliseconds, the creation time queried shall prior to the end time. 
+status | string | *[optional]*  Status. Available value: PROCESSING, SUCCESS, and FAILURE
+
+### Responses
+Field | Description
+--------- | ------- | -----------
+amount | Deposit amount
+currency | Currency code
+isInner | Internal deposit or not
+walletTxId | Wallet Txid
+remark | remark
+createAt | Creation time of the database record
+status | Status
+
+<aside class="notice">This request is paginated.</aside>
+
+
 ##  Get Withdrawal Quotas
 
 ```json
@@ -937,7 +1069,7 @@ updatedAt | Update time
 	"innerWithdrawMinFee": "0.00000000",
 	"withdrawMinSize": "1.4",
 	"isWithdrawEnabled": true,
-	"precision": 8
+	"precision": 8   //withdrawal precision
 }
 ```
 
@@ -954,7 +1086,7 @@ Param | Type | Description
 currency | string | currency. e.g. BTC
 
 ### Responses
-Type | Description
+Field | Description
 --------- | ------- | -----------
 currency | Currency
 availableAmount | Current available withdrawal amount
@@ -993,7 +1125,7 @@ isInner | boolean | *[optional]*  Internal withdrawal or not. Default setup: fal
 remark | string | *[optional]*  Remark
 
 ### Responses
-Type | Description
+Field | Description
 --------- | ------- 
 withdrawalId | Withdrawal id
 
@@ -1272,35 +1404,35 @@ symbol | string | *[optional]* Only cancel orders open for a specific symbol
     "totalPage": 153408,
     "items": [
       {
-        "id": "5c35c02703aa673ceec2a168",
-        "symbol": "BTC-USDT",
-        "opType": "DEAL",
-        "type": "limit",
-        "side": "buy",
-        "price": "10",
-        "size": "2",
-        "funds": "0",
-        "dealFunds": "0.166",
-        "dealSize": "2",
-        "fee": "0",
-        "feeCurrency": "USDT",
-        "stp": "",
-        "stop": "",
-        "stopTriggered": false,
-        "stopPrice": "0",
-        "timeInForce": "GTC",
-        "postOnly": false,
-        "hidden": false,
-        "iceberg": false,
-        "visibleSize": "0",
-        "cancelAfter": 0,
-        "channel": "IOS",
-        "clientOid": "",
-        "remark": "",
-        "tags": "",
-        "isActive": false,
-        "cancelExist": false,
-        "createdAt": 1547026471000
+        "id": "5c35c02703aa673ceec2a168",   //orderid
+        "symbol": "BTC-USDT",   //symbol
+        "opType": "DEAL",      // operation type,deal is pending order,cancel is cancel order
+        "type": "limit",       // order type,e.g. limit,markrt,stop_limit.
+        "side": "buy",         // transaction direction,include buy and sell
+        "price": "10",         // order price
+        "size": "2",           // order quantity
+        "funds": "0",          // order funds
+        "dealFunds": "0.166",  // deal funds
+        "dealSize": "2",       // deal quantity
+        "fee": "0",            // fee
+        "feeCurrency": "USDT", // charge fee currency
+        "stp": "",             // self trade prevention,include CN,CO,DC,CB
+        "stop": "",            // stop type
+        "stopTriggered": false,  // stop order is triggered
+        "stopPrice": "0",      // stop price
+        "timeInForce": "GTC",  // time InForce,include GTC,GTT,IOC,FOK
+        "postOnly": false,     // postOnly
+        "hidden": false,       // hidden order
+        "iceberg": false,      // iceberg order
+        "visibleSize": "0",    // display quantity for iceberg order
+        "cancelAfter": 0,      // cancel orders time，requires timeInForce to be GTT
+        "channel": "IOS",      // order source
+        "clientOid": "",       // user-entered order unique mark
+        "remark": "",          // remark
+        "tags": "",            // tag order source        
+        "isActive": false,     // status before unfilled or uncancelled 
+        "cancelExist": false,   // order cancellation transaction record
+        "createdAt": 1547026471000  // time
       }
     ]
  }
@@ -1342,6 +1474,50 @@ When you query orders, there is no time limit for the **active** status of order
 For high-volume trading it is strongly recommended that you maintain your own list of open orders and use one of the streaming market data feeds to keep it updated. You should poll the open orders endpoint once when you start trading to obtain the current state of any open orders.
 
 <aside class="notice">Open orders may change state between the request and the response depending on market conditions.</aside>
+
+
+## Get V1 Historical Orders List
+
+```json
+{
+"currentPage": 1,
+"pageSize": 50,
+"totalNum": 1,
+"totalPage": 1,
+"items": [{
+"symbol": "SNOV-ETH",
+"dealPrice": "0.0000246",
+"dealValue": "0.018942",
+"amount": "770",
+"fee": "0.00001137",
+"side": "sell",
+"createdAt": 1540080199
+}]
+}
+```
+
+List of KuCoin V1 historical orders.
+
+###HTTP REQUEST###
+**GET /api/v1/hist-orders**
+
+###API KEY PERMISSIONS###
+This endpoint requires the **"General"** permission.
+
+###PARAMETERS###
+You can request for specific orders using query parameters.
+
+Param | Type | Description
+--------- | ------- | -----------
+currentPage | int | *[optional]*  The current page.
+pageSize | int | *[optional]*  Number of pages per page.  
+symbol | string | *[optional]* a valid trading symbol code. e.g. ETH-BTC.
+startAt | long | *[optional]*  Start time. Unix timestamp calculated in milliseconds, the creation time queried shall posterior to the start time. 
+endAt | long | *[optional]*  End time.  Unix timestamp calculated in milliseconds, the creation time queried shall prior to the end time. 
+side | string | *[optional]*  **buy** or **sell**
+
+<aside class="notice">This request is paginated.</aside>
+
 
 ## Recent Orders
 
@@ -1458,22 +1634,22 @@ This endpoint requires the **"General"** permission.
     "totalPage":251915,
     "items":[
         {
-            "symbol":"BTC-USDT",
-            "tradeId":"5c35c02709e4f67d5266954e",
-            "orderId":"5c35c02703aa673ceec2a168",
-            "counterOrderId":"5c1ab46003aa676e487fa8e3",
-            "side":"buy",
-            "liquidity":"taker",
-            "forceTaker":true,
-            "price":"0.083",
-            "size":"0.8424304",
-            "funds":"0.0699217232",
-            "fee":"0",
-            "feeRate":"0",
-            "feeCurrency":"USDT",
-            "stop":"",
-            "type":"limit",
-            "createdAt":1547026472000
+            "symbol":"BTC-USDT",    //symbol
+            "tradeId":"5c35c02709e4f67d5266954e",   //trade id
+            "orderId":"5c35c02703aa673ceec2a168",   //order id
+            "counterOrderId":"5c1ab46003aa676e487fa8e3",  //counter order id
+            "side":"buy",   //transaction direction,include buy and sell
+            "liquidity":"taker",  //include taker and maker
+            "forceTaker":true,  //forced to become taker
+            "price":"0.083",   //order price
+            "size":"0.8424304",  //order quantity
+            "funds":"0.0699217232",  //order funds
+            "fee":"0",  //fee
+            "feeRate":"0",  //fee rate
+            "feeCurrency":"USDT",  // charge fee currency
+            "stop":"",        // stop type
+            "type":"limit",  // order type,e.g. limit,markrt,stop_limit.
+            "createdAt":1547026472000  //time
         }
     ]
 }
@@ -1641,16 +1817,16 @@ Field | Type | Description
 --------- | ------- | -----------
 symbol | string | unique code of symbol, it would not change after  renaming 
 name | string | Name of trading pair, it would change after renaming 
-baseCurrency | string | Base currency
-quoteCurrency | string | Quote currency
-baseMinSize | string | Minimum order quantity
-quoteMinSize | string | Minimum order amount
-baseMaxSize | string | Maximum order quantity
-quoteMaxSize | string | Maximum order amount
-baseIncrement | string | Market order: quantity increment
-quoteIncrement | string | Market order: amount increment
-priceIncrement | string | Limit order: price increment
-enableTrading | boolean | Available for transaction or not
+baseCurrency | string | Base currency,e.g. BTC.
+quoteCurrency | string | Quote currency,e.g. USDT.
+baseMinSize | string | Use when placing a quantity order,minimum order quantity must satisfy baseMinSize.
+quoteMinSize | string | Use when placing a funds order,minimum order funds must satisfy quoteMinSize.
+baseMaxSize | string | Use when placing a quantity order,maximum order quantity must satisfy baseMaxSize.
+quoteMaxSize | string | Use when placing a funds order,maximum order funds must satisfy quoteMaxSize.
+baseIncrement | string | The value is used for placing a quantity order and size must satisfy an integer multiple of baseIncrement when placing an quantity order.
+quoteIncrement | string | The value is used for placing a funds order and funds/quote must satisfy an integer multiple of quoteIncrement when placing an funds order.
+priceIncrement | string | The value is used when entering the price and price must satisfy an integer multiple of priceIncrement.
+enableTrading | boolean | Available for transaction or not.
 
 The **baseMinSize** and **baseMaxSize** fields define the min and max order size. The **priceIncrement** field specifies the min order price as well as the price increment.This also applies to **quote** currency. 
 
@@ -1730,16 +1906,16 @@ Require market ticker for all trading pairs in the market (including 24h volume)
 ```json
 //Get 24hr Stats
 {
-    "symbol": "ETH-BTC",
-    "high": "0.03736329",
-    "vol": "2127.286930263025",
-    "last": "0.03713983",
-    "low": "0.03651252",
-    "buy": "0.03712118",
-    "sell": "0.03713983",
-    "changePrice": "0.00037224",
-    "time": 1550847784668,
-    "changeRate": "0.0101"
+    "symbol": "ETH-BTC",    // symbol
+    "high": "0.03736329",   // 24h highest price
+    "vol": "2127.286930263025",  // 24h volume
+    "last": "0.03713983",   // last price
+    "low": "0.03651252",    // 24h lowest price
+    "buy": "0.03712118",    // bestAsk
+    "sell": "0.03713983",   // bestBid
+    "changePrice": "0.00037224",  // change price
+    "time": 1550847784668,  //time
+    "changeRate": "0.0101" // change rate
 }
 ```  
 
@@ -1932,7 +2108,7 @@ The trade **side** indicates the taker order side. The taker order is the order 
 
 <aside class="spacer2"></aside>
 
-## Get Historic Rates
+## Get Klines
 
 ```json
 [
@@ -1956,11 +2132,11 @@ The trade **side** indicates the taker order side. The taker order is the order 
   ]
 ]
 ```
-Historic rates for a symbol. Rates are returned in grouped buckets based on requested **type**.
+Klines for a symbol. Data are returned in grouped buckets based on requested **type**.
 
-<aside class="notice"> Historical rate data may be incomplete. No data is published for intervals where there are no ticks.</aside>
+<aside class="notice"> Klines data may be incomplete. No data is published for intervals where there are no ticks.</aside>
 
-<aside class="warning"> Historical rates should not be polled frequently. If you need real-time information, use the trade and book endpoints along with the websocket feed.</aside>
+<aside class="warning"> Klines should not be polled frequently. If you need real-time information, use the trade and book endpoints along with the websocket feed.</aside>
 
 ###HTTP REQUEST###
 **GET /api/v1/market/candles?symbol=\<symbol\>**
@@ -1972,7 +2148,7 @@ endAt | End time. Unix timestamp calculated in **seconds not millisecond**
 type | Type of candlestick patterns: **1min, 3min, 5min, 15min, 30min, 1hour, 2hour, 4hour, 6hour, 8hour, 12hour, 1day, 1week**
 
 ###DETAILS###
-For each query, the system would return at most 1500 pieces of data. To obtain more data, please page the data by time.
+For each query, the system would return at most **1500** pieces of data. To obtain more data, please page the data by time.
 
 ###RESPONSE ITEMS###
 Each bucket is an array of the following information:
@@ -2115,9 +2291,8 @@ Get fiat price for currency
 
 |field | description|
 -----|-----
-|base| *[optional]* Fiat,eg.USD,EUR, default is USD |
-| currencies | *[optional]* Cryptocurrencies.For multiple cyrptocurrencies, please separate them with comma one by one. default is all |
-
+|base| *[optional]* Enter the three-letter fiat of your preferred base currency,eg.USD,EUR. Default is USD |
+| currencies | *[optional]* Enter a list of comma-separated cryptocurrencies to limit output currencies,eg.BTC,ETH. Default is all |
 
 # Others
 Here are some comprehensive interfaces.
@@ -2232,6 +2407,8 @@ When the connection is successfully established, the system will send a welcome 
 ```
 
 The connectId is connection id, a unique value taken from the client side. Both the id of the welcome message sent by system after the connection succeed as well as the id of the error message are connectId.
+
+To subscribe the data of one topic (eg.: data under L3), please add the parameter below when creating the websocket connetcion:**acceptUserMessage=true**. After this step, you will receive all the user event (including their order changes, balance changes and login events).
 
 <aside class="spacer2"></aside>
 
@@ -2698,7 +2875,6 @@ For each order traded, the system would send you the match messages in the forma
   "type":"message",
   "topic":"/market/match:BTC-USDT",
   "subject":"trade.l3match",
-  "sn":1545896669145,
   "data":{
     "sequence":"1545896669145",
     "symbol":"BTC-USDT",
