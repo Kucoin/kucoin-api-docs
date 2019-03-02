@@ -2471,7 +2471,7 @@ The topic you want to subscribe to.
 For some specific topics (e.g. /market/level3), **privateChannel** is available. The default value of **privateChannel** is **false**. If the **privateChannel** is set to **true**, the user will only receive messages related himself on the topic. The format of the **topic** field in the returned data is **{topic}:privateChannel:{userId}**.
 
 #### response
-If the response is set as ture, the system would return the ack messages after the unsubscription succeed.
+If the response is set as true, the system would return the ack messages after the unsubscription succeed.
 
 ## UnSubscribe
 Unsubscribe from topics you have subscribed to.
