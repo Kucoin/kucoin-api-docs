@@ -2480,7 +2480,7 @@ The topic you want to subscribe to.
 For some specific topics (e.g. /market/level3), **privateChannel** is available. The default value of **privateChannel** is **false**. If the **privateChannel** is set to **true**, the user will only receive messages related himself on the topic. The format of the **topic** field in the returned data is **{topic}:privateChannel:{userId}**.
 
 #### response
-If the response is set as true, the system would return the ack messages after the unsubscription succeed.
+If the response is set as true, the system would return the ack messages after the subscriptions succeed.
 
 ## UnSubscribe
 Unsubscribe from topics you have subscribed to.
@@ -3104,6 +3104,8 @@ When an order is changed due to STP, the system would send a change message to u
 
 # Private Channels
 
+Subscribe to private channels requires privateChannel=“true”.
+
 ## Stop order received event
 
 ```json
@@ -3123,6 +3125,7 @@ When an order is changed due to STP, the system would send a change message to u
   }
 }
 ```
+Topic: **/market/level3:{symbol},{symbol}...**
 
 When a stop-limit order is received by system, you would receive an stop message which means that this order entered stop queue and waited to be triggered.
 
@@ -3148,6 +3151,7 @@ When a stop-limit order is received by system, you would receive an stop message
   }
 }
 ```
+Topic: **/market/level3:{symbol},{symbol}...**
 
 When a stop-limit order is triggered, you would receive an activate message which means that this order started the matching life cycle.
 
@@ -3174,4 +3178,6 @@ When a stop-limit order is triggered, you would receive an activate message whic
 }
 
 ```
+Topic: **/account/balance**
+
 You will receive this message when an account balance changes. The message contains the details of the change.
