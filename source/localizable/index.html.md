@@ -3104,7 +3104,7 @@ When an order is changed due to STP, the system would send a change message to u
 
 # Private Channels
 
-Subscribe to private channels requires privateChannel=“true”.
+Subscribe to private channels require privateChannel=“true”.
 
 ## Stop order received event
 
