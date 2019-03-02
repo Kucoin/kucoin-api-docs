@@ -39,6 +39,14 @@ Websocket API提供市场数据，其中大部分都是公开的。
 9. Read [Level-2 Market Data](#level-2-market-data) to know how to build a local realtime Order Book with websocket. 
 10. Read [Account balance notice](#account-balance-notice) to know get private websocket feed and get realtime notice of balance changes.
 
+## 做市商招募计划 
+
+具有良好做市策略和大交易量的用户欢迎参与长期做市商计划。 如果您的帐户资产大于10BTC,请提供以下信息以发送电子邮件至：
+**vip@kucoin.com**（现货）进行做市商申请;
+-提供平台帐户（需要电子邮件，无需推荐关系）;
+-提供其他交易平台制造商交易量的截图（例如30天内的交易量，或VIP级别等）;
+-请简要说明做市的方法，不需要详细说明。
+
 # 最近更新
 
 In order to receive the latest API change notifications, please add 'Watch' to [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
