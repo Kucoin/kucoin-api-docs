@@ -40,6 +40,15 @@ Websocket APIs provide market data , most of them are public.
 9. Read [Level-2 Market Data](#level-2-market-data) to know how to build a local realtime Order Book with websocket. 
 10. Read [Account balance notice](#account-balance-notice) to know get private websocket feed and get realtime notice of balance changes.
 
+## Market Maker Program
+
+Users with good maker strategies and large transaction volume are welcome to participate in long-term market maker program. If your account has the assets greater than 10BTC (please provide the following information to send an email to:
+**vip@kucoin.com**  with "spot market maker application";
+
+- Provide platform account (requires Email without referral bonus relationship);
+- Provide screenshots of other trading platform maker trading volume (such as volume within 30 days, or VIP level, etc.);
+- Please briefly explain the method of market making, no need for details.
+
 # Upcoming Changes
 
 In order to receive the latest API change notifications, please add 'Watch' to [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
