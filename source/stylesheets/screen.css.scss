@@ -978,6 +978,17 @@ body {
   padding-top: 80px;
 }
 
+@keyframes title-bg
+{
+from {background: #fff52e;}
+to {background: transparent}
+}
+
+:target{
+  padding-top: 80px!important;
+  animation: title-bg 2s ease-out;
+}
+
 .rx-header {
   position: fixed;
   top: 0;
