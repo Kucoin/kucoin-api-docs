@@ -43,11 +43,11 @@ Websocket APIs provide market data , most of them are public.
 ## Market Maker Program
 
 Users with good maker strategies and large transaction volume are welcome to participate in long-term market maker program. If your account has the assets greater than 10BTC (please provide the following information to send an email to:
-**vip@kucoin.com**  (spot) market maker application;
+**vip@kucoin.com**  with "spot market maker application";
 
--Provide platform account (requires Email without referral bouns relationship);
--Provide screenshots of other trading platform maker trading volume (such as volume within 30 days, or VIP level, etc.);
--Please briefly explain the method of market making, no need for details.
+- Provide platform account (requires Email without referral bonus relationship);
+- Provide screenshots of other trading platform maker trading volume (such as volume within 30 days, or VIP level, etc.);
+- Please briefly explain the method of market making, no need for details.
 
 # Upcoming Changes
 
