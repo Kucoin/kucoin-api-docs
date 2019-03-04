@@ -731,7 +731,7 @@ This endpoint requires the **"General"** permission.
 
 <aside class="notice">This request is paginated.</aside>
 
-## Inner Tranfer
+## Inner Transfer
 
 ```json
 {
