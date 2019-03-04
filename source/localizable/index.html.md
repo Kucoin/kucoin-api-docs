@@ -2408,7 +2408,9 @@ When the connection is successfully established, the system will send a welcome 
 
 The connectId is connection id, a unique value taken from the client side. Both the id of the welcome message sent by system after the connection succeed as well as the id of the error message are connectId.
 
-To subscribe the data of one topic (eg.: data under L3), please add the parameter below when creating the websocket connetcion:**acceptUserMessage=true**. After this step, you will receive all the user event (including their order changes, balance changes and login events).
+If you add the parameter below when creating the websocket connetcion:
+**acceptUserMessage=true**.
+You will receive all private events (including their order changes, balance changes and login events).
 
 <aside class="spacer2"></aside>
 
