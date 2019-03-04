@@ -33,12 +33,13 @@ Websocket APIs provide market data , most of them are public.
 2. Read [REST API](#rest-api) to know how to build a request.
 3. Read [Time](#time) to try call a public request and see the response.
 4. Read [Authentication](#authentication) to know how to make a authorized request.
-5. Read [List Accounts](#list-accounts) to test your authorized request.
-6. Read [Place a new order](/#place-a-new-order) to place an order.
-7. Read [Order Book](#get-part-order-book-aggregated) to get a snapshot of Order Book.
-8. Read [Websocket Feed](#websocket-feed) to know how to establish a websocket connection.
-9. Read [Level-2 Market Data](#level-2-market-data) to know how to build a local realtime Order Book with websocket. 
-10. Read [Account balance notice](#account-balance-notice) to know get private websocket feed and get realtime notice of balance changes.
+5. Read [Inner Transfer](#inner-transfer) to know how to transfer assets.
+6. Read [List Accounts](#list-accounts) to test your authorized request.
+7. Read [Place a new order](/#place-a-new-order) to place an order.
+8. Read [Order Book](#get-part-order-book-aggregated) to get a snapshot of Order Book.
+9. Read [Websocket Feed](#websocket-feed) to know how to establish a websocket connection.
+10. Read [Level-2 Market Data](#level-2-market-data) to know how to build a local realtime Order Book with websocket. 
+11. Read [Account balance notice](#account-balance-notice) to know get private websocket feed and get realtime notice of balance changes.
 
 # Upcoming Changes
 
