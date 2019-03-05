@@ -461,7 +461,7 @@ KC-API-SIGN = 7QP/oM0ykidMdrfNEUmng8eZjg/ZvPafjIqmxiVfYu4=
 
 ## Selecting a Timestamp
 
-The **KC-API-TIMESTAMP** header MUST be number of milliseconds since Unix Epoch in UTC. Decimal values are allowed. e.g. 1547015186532
+The **KC-API-TIMESTAMP** header MUST be number of **milliseconds** since Unix Epoch in UTC. Decimal values are allowed, e.g. 1547015186532. But you need to be aware that the time between match and order is **nanosecond**.
 
 Your timestamp must be within **5 seconds** of the api service time or your request will be considered expired and rejected. We recommend using the time endpoint to query for the API [server time](/#time) if you believe there many be time skew between your server and the API servers.
 
@@ -586,6 +586,8 @@ id | Return the id of the new account
 
 ###API KEY PERMISSIONS###
 This endpoint requires the **"General"** permission.
+
+If asset is deposited, the system automatically creates an account. But if you can't get an account for the asset through the API, you need to create an account.
 
 In order to use the API more quickly and conveniently, it is recommended that you create an account on the **website** first.
 
