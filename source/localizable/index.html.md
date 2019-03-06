@@ -56,7 +56,7 @@ In order to receive the latest API change notifications, please add 'Watch' to [
 
 **3/6/19** : 
 
-- Add the description of order system and matching engine using **nanoseconds**
+- Add the description of order system and matching engine time using **nanoseconds**
 
 **2/28/19** : 
 
