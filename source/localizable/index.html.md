@@ -45,6 +45,10 @@ Websocket APIs provide market data , most of them are public.
 
 In order to receive the latest API change notifications, please add 'Watch' to [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
+**3/6/19** : 
+
+- Add the description of order system and matching engine using **nanoseconds**
+
 **2/28/19** : 
 
 - Modify [Get Symbols List](#get-symbols-list) response description
