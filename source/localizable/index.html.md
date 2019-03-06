@@ -332,7 +332,7 @@ pageSize | 50 | Number of results per request.The minimum pageSize is **10** and
 
 Unless otherwise specified, all timestamps from API are returned in **milliseconds**(e.g. **1546658861000**). Most modern languages and libraries will handle this without issues. 
 
-But you need to be aware that the timestamps between **match** and **order** system is nanosecond.
+But you need to be aware that the timestamps between **matching engine** and **order** system is nanosecond.
 
 ## Numbers 
 Decimal numbers are returned as strings to preserve full precision across platforms. When making a request, it is recommended that you also convert your numbers to strings to avoid truncation and precision errors.
