@@ -749,6 +749,7 @@ body {
 
 .markdown-body>*:first-child {
   margin-top: 0 !important;
+  padding-top: 80px !important;
 }
 
 .markdown-body>*:last-child {
@@ -973,9 +974,19 @@ body {
 ///////////////////////////////////////ranxu github-markdown-css end//////////////////////////////////
 
 ////////////ranxu css/////////////////
-.toc-wrapper,
-.page-wrapper {
+.toc-wrapper {
   padding-top: 80px;
+}
+
+@keyframes title-bg
+{
+from {background: #fff52e;}
+to {background: transparent}
+}
+
+:target{
+  padding-top: 80px!important;
+  animation: title-bg 2s ease-out;
 }
 
 .rx-header {
