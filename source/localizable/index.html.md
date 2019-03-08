@@ -930,6 +930,8 @@ updatedAt | Update time of the database record
 
 List of KuCoin V1 historical deposits.
 
+<aside class="notice">Default query for one month of data.</aside>
+
 ###HTTP REQUEST###
 **GET /api/v1/hist-deposits**
 
@@ -1041,6 +1043,8 @@ updatedAt | Update time
 }
 ```
 List of KuCoin V1 historical withdrawals.
+
+<aside class="notice">Default query for one month of data.</aside>
 
 ###HTTP REQUEST###
 **GET /api/v1/hist-withdrawals**
@@ -1517,6 +1521,8 @@ For high-volume trading it is strongly recommended that you maintain your own li
 ```
 
 List of KuCoin V1 historical orders.
+
+<aside class="notice">Default query for one month of data.</aside>
 
 ###HTTP REQUEST###
 **GET /api/v1/hist-orders**
