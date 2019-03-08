@@ -2701,7 +2701,7 @@ The snapshot data is pushed every **2 seconds** interval.
 			"buy": 0.00011,
 			"sell": 0.00012,
 			"sort": 100,
-			"volValue": 3.13851792584,
+			"volValue": 3.13851792584,   //total
 			"baseCurrency": "KCS",
 			"market": "BTC",
 			"quoteCurrency": "BTC",
