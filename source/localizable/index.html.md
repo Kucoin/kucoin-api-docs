@@ -45,6 +45,10 @@ Websocket APIs provide market data , most of them are public.
 
 In order to receive the latest API change notifications, please add 'Watch' to [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
+**3/13/19** : 
+
+- Modify the maximum matching orders for a single trading pair in one account is 100 (stop orders included).
+
 **3/6/19** : 
 
 - Add the description of order system and matching engine time using **nanoseconds**
