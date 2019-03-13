@@ -54,6 +54,10 @@ Users with good maker strategies and large transaction volume are welcome to par
 
 In order to receive the latest API change notifications, please add 'Watch' to [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
+**3/13/19** : 
+
+- Modify the maximum matching orders for a single trading pair in one account is 100 (stop orders included).
+
 **3/6/19** : 
 
 - Add the description of order system and matching engine time using **nanoseconds**
@@ -1198,7 +1202,7 @@ Before placing an order, please read the [Get Symbol List](#get-symbols-list) to
 
 ###Place Order Limitations:###
 
-The maximum matching orders for a single trading pair in one account is **50** (stop orders included). 
+The maximum matching orders for a single trading pair in one account is **100** (stop orders included). 
 
 
 ### HTTP Request
