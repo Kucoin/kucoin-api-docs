@@ -72,7 +72,7 @@ In order to receive the latest API change notifications, please add 'Watch' to [
 
 **3/13/19** : 
 
-- Modify the maximum matching orders for a single trading pair in one account is 100 (stop orders included).
+- Modify the maximum matching orders for a single trading pair in one account is 200 (stop orders included).
 
 **3/6/19** : 
 
@@ -1218,7 +1218,7 @@ Before placing an order, please read the [Get Symbol List](#get-symbols-list) to
 
 ###Place Order Limitations:###
 
-The maximum matching orders for a single trading pair in one account is **100** (stop orders included). 
+The maximum matching orders for a single trading pair in one account is **200** (stop orders included). 
 
 
 ### HTTP Request
