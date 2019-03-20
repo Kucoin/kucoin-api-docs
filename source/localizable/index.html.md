@@ -41,6 +41,30 @@ Websocket APIs provide market data , most of them are public.
 10. Read [Level-2 Market Data](#level-2-market-data) to know how to build a local realtime Order Book with websocket. 
 11. Read [Account balance notice](#account-balance-notice) to know get private websocket feed and get realtime notice of balance changes.
 
+# Market Making Incentive Scheme
+
+KuCoin offers Market Making Incentive Scheme for professional liquidity providers. Key benefits of this program include:
+1.Market Maker rebate
+2.Quarterly rewards as many as 100,000 KCS for the market maker of the best performance
+3.Direct Market Access and Co-location service
+
+Users with good maker strategies and huge trading volume are welcome to participate in this long-term program. If your account has trading volume of more than 5000 BTC in last 30 days on any exchange, please send the following information via email to mm@kucoin.com, with subject "Spot Market Maker Application":
+
+1. One KuCoin account ID (a non-referred account is required)
+2. Proof of volume traded on any exchange within the past 30 days. Proof of VIP level is also acceptable.
+3. A brief explanation of  the market making method (NO detail is needed), as well as estimation of maker orders’ percentage.
+
+# VIP Fast Track
+
+KuCoin now provides a VIP fast track to users with large trading volume in crypto. If your accounts on different platforms have a total trading volume of more than 1000 BTC, please send the following information via email to vip@kucoin.com, with subject "VIP Fast Track Application":
+
+1. KuCoin account ID
+2. Proof of trading volume on other platforms within the past 30 days.  Proof of VIP level is also acceptable.
+
+We will offer you a jumpstart (e.g. a VIP level matches your volume on other exchanges though you are not trading that much on KuCoin) for 30 days. After 30 days, your VIP level will be calculated based on your actual trading volume on KuCoin.
+
+For more information on VIP fee, please click: [Tiered Trading Fee Discount Program](https://www.kucoin.com/news/en-fee).
+
 # Upcoming Changes
 
 In order to receive the latest API change notifications, please add 'Watch' to [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
@@ -1929,7 +1953,7 @@ Require market ticker for all trading pairs in the market (including 24h volume)
 {
     "symbol": "ETH-BTC",    // symbol
     "high": "0.03736329",   // 24h highest price
-    "vol": "2127.286930263025",  // 24h volume
+    "vol": "2127.2869302",  // 24h volume
     "last": "0.03713983",   // last price
     "low": "0.03651252",    // 24h lowest price
     "buy": "0.03712118",    // bestAsk
