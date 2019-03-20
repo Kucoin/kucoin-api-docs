@@ -41,14 +41,30 @@ Websocket APIs provide market data , most of them are public.
 10. Read [Level-2 Market Data](#level-2-market-data) to know how to build a local realtime Order Book with websocket. 
 11. Read [Account balance notice](#account-balance-notice) to know get private websocket feed and get realtime notice of balance changes.
 
-## Market Maker Program
+## Market Making Incentive Scheme
 
-Users with good maker strategies and large transaction volume are welcome to participate in long-term market maker program. If your account has the assets greater than 10BTC (please provide the following information to send an email to:
-**vip@kucoin.com**  with "spot market maker application";
+KuCoin offers Market Making Incentive Scheme for professional liquidity providers. Key benefits of this program include:
 
-- Provide platform account (requires Email without referral bonus relationship);
-- Provide screenshots of other trading platform maker trading volume (such as volume within 30 days, or VIP level, etc.);
-- Please briefly explain the method of market making, no need for details.
+-  Market Maker rebate.
+- Quarterly rewards as many as 100,000 KCS for the market maker of the best performance.
+- Direct Market Access and Co-location service.
+
+Users with good maker strategies and huge trading volume are welcome to participate in this long-term program. If your account has trading volume of more than 5000 BTC in last 30 days on any exchange, please send the following information via email to mm@kucoin.com, with subject "Spot Market Maker Application":
+
+- One KuCoin account ID (a non-referred account is required).
+- Proof of volume traded on any exchange within the past 30 days. Proof of VIP level is also acceptable.
+- A brief explanation of  the market making method (NO detail is needed), as well as estimation of maker orders’ percentage.
+
+## VIP Fast Track
+
+KuCoin now provides a VIP fast track to users with large trading volume in crypto. If your accounts on different platforms have a total trading volume of more than 1000 BTC in last 30 days, please send the following information via email to vip@kucoin.com, with subject "VIP Fast Track Application":
+
+- KuCoin account ID.
+- Proof of trading volume on other platforms within the past 30 days.  Proof of VIP level is also acceptable.
+
+We will offer you a jumpstart (e.g. a VIP level matches your volume on other exchanges though you are not trading that much on KuCoin) for 30 days. After 30 days, your VIP level will be calculated based on your actual trading volume on KuCoin.
+
+For more information on VIP fee, please click: [Tiered Trading Fee Discount Program](https://www.kucoin.com/news/en-fee).
 
 # Upcoming Changes
 
