@@ -70,6 +70,12 @@ For more information on VIP fee, please click: [Tiered Trading Fee Discount Prog
 
 In order to receive the latest API change notifications, please add 'Watch' to [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
+**3/25/19** : 
+
+- Add **volValue** field to [Get All Tickers](#get-all-tickers).
+- Add **clientOid** field to [Full MatchEngine Data(Level 3)](#full-matchengine-data(level-3)) when subscribe "received " messege through private channels. 
+- Add **accountId** field to [Account balance notice](#account-balance-notice) when subscribe "Account balance notice" through private channels.
+
 **3/13/19** : 
 
 - Modify the maximum matching orders for a single trading pair in one account is 200 (stop orders included).
@@ -92,7 +98,7 @@ In order to receive the latest API change notifications, please add 'Watch' to [
 
 **2/22/19** : 
 
-- Add fields to [Get 24hr Stats](#get-24hr-stats)
+- Add **volValue** fields to [Get 24hr Stats](#get-24hr-stats)
 
 **2/21/19** : 
 
@@ -103,11 +109,11 @@ In order to receive the latest API change notifications, please add 'Watch' to [
 
 **2/20/19** : 
 
-- Add **time** field to [All Tickers](#all-ticker) and [Ticker](#ticker) 
+- Add **time** field to [Get All Tickers](#get-all-tickers) and [Get Ticker](#get-ticker) 
 
 **2/19/19** : 
 
-- Add [All Tickers](#all-tickers)
+- Add [Get All Tickers](#get-all-tickers)
 
 **2/18/19** : 
 
@@ -1923,6 +1929,7 @@ Ticker include only the inside (i.e. best) buy and sell(buy and sell represent b
         "high": "0.0000123",
         "low": "0.00001109",
         "vol": "45161.5073",
+        "volValue": "2127.28693026”, 
         "last": "0.00001204"
       },
       {
@@ -1934,6 +1941,7 @@ Ticker include only the inside (i.e. best) buy and sell(buy and sell represent b
         "high": "0.00021489",
         "low": "0.00018351",
         "vol": "72.99679763",
+        "volValue": "2127.28693026”, 
         "last": "0.00018664"
       }
     ]
@@ -1955,6 +1963,7 @@ Require market ticker for all trading pairs in the market (including 24h volume)
     "symbol": "ETH-BTC",    // symbol
     "high": "0.03736329",   // 24h highest price
     "vol": "2127.286930263025",  // 24h volume
+    "volValue": "43.58567564",  // 24h total
     "last": "0.03713983",   // last price
     "low": "0.03651252",    // 24h lowest price
     "buy": "0.03712118",    // bestAsk
@@ -2980,39 +2989,41 @@ The following messages(**RECEIVED, OPEN, DONE, MATCH, CHANGE**) are sent over th
 
 ```json
 {
-  "type":"message",
-  "topic":"/market/level3:BTC-USDT",
-  "subject":"trade.l3received",
-  "data":{
-    "sequence":"1545896669147",
-    "symbol":"BTC-USDT",
-    "side":"sell",
-    "size":"1",
-    "orderId":"5c24c72503aa6772d55b378d",
-    "price":"4.00000000000000000000",
-    "time":"1545914149935808589",
-    "type":"received",
-    "orderType":"limit"
-  }
+	"type": "message",
+	"topic": "/market/level3:BTC-USDT",
+	"subject": "trade.l3received",
+	"data": {
+		"sequence": "1545896669147",
+		"symbol": "BTC-USDT",
+		"side": "sell",
+		"size": "1",
+		"orderId": "5c24c72503aa6772d55b378d",
+		"price": "4.00000000000000000000",
+		"time": "1545914149935808589",
+		"clientOid": "",
+		"type": "received",
+		"orderType": "limit"
+	}
 }
 ```
 
 ```json
 {
-  "type":"message",
-  "topic":"/market/level3:BTC-USDT",
-  "subject":"trade.l3received",
-  "data":{
-    "sequence":"1545896669100",
-    "symbol":"BTC-USDT",
-    "side":"sell",
-    "size":"1",
-    "orderId":"5c24c72503aa6772d55b178d",
-    "time":"1545914149835808589",
-    "type":"received",
-    "orderType":"market",
-    "funds":"100"
-  }
+	"type": "message",
+	"topic": "/market/level3:BTC-USDT",
+	"subject": "trade.l3received",
+	"data": {
+		"sequence": "1545896669100",
+		"symbol": "BTC-USDT",
+		"side": "sell",
+		"size": "1",
+		"orderId": "5c24c72503aa6772d55b178d",
+		"time": "1545914149835808589",
+		"clientOid": "",
+		"type": "received",
+		"orderType": "market",
+		"funds": "100"
+	}
 }
 ```
 
@@ -3199,20 +3210,21 @@ When a stop-limit order is triggered, you would receive an activate message whic
 ## Account balance notice
 ```json
 {
-  "type":"message",
-  "topic":"/account/balance",
-  "subject":"account.balance",
-  "data":{
-    "total": "88",
-    "available": "88",
-    "availableChange": "88",
-    "currency": "KCS",
-    "hold": "0",
-    "holdChange": "0",
-    "relationEvent": "main.deposit",
-    "relationEventId": "5c21e80303aa677bd09d7dff",
-    "time": "1545743136994"
-  }
+	"type": "message",
+	"topic": "/account/balance",
+	"subject": "account.balance",
+	"data": {
+		"total": "88",
+		"available": "88",
+		"availableChange": "88",
+		"currency": "KCS",
+		"hold": "0",
+		"holdChange": "0",
+		"relationEvent": "main.deposit",
+		"relationEventId": "5c21e80303aa677bd09d7dff",
+		"time": "1545743136994",
+		"accountId": "5bd6e9286d99522a52e458de"
+	}
 }
 
 ```
