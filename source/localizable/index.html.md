@@ -1849,7 +1849,7 @@ Market data is public and can be used without a signed request.
 ]
 ```
 
-Get a list of available currency pairs for trading. This API is used to query related configuration information. If you want to get the market information of the trading symbol, please use [AllTicker](#get-all-tickers).
+Get a list of available currency pairs for trading. This API is used to query related configuration information. If you want to get the market information of the trading symbol, please use [Get All Tickers](#get-all-tickers).
 
 This API
 
