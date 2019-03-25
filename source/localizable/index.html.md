@@ -3032,6 +3032,7 @@ When matching engine receives an order command, the system would send a received
 <aside class="spacer8"></aside>
 <aside class="spacer4"></aside>
 
+
 ###OPEN###
 
 ```json
@@ -3059,6 +3060,7 @@ When the remaining part in a limit order enters the order book, the system would
 <aside class="spacer"></aside>
 
 ###DONE###
+
 When the matching life cycle of an order ended, the order would no longer be displayed on the order book and the system will send a done message to user.
 
 ```json
