@@ -1383,7 +1383,7 @@ A successful order will be assigned an order id. A successful order is defined a
 ```json
 {
      "cancelledOrderIds": [
-      "5bd6e9286d99522a52e458de"
+      "5bd6e9286d99522a52e458de"   //orderId
     ]
 }
 ```
@@ -1409,7 +1409,7 @@ If the order could not be canceled (already filled or previously canceled, etc),
 ```json
 {
    "cancelledOrderIds": [
-      "5c52e11203aa677f33e493fb",
+      "5c52e11203aa677f33e493fb",  //orderId
       "5c52e12103aa677f33e493fe",
       "5c52e12a03aa677f33e49401",
       "5c52e1be03aa677f33e49404",
@@ -1851,8 +1851,6 @@ Market data is public and can be used without a signed request.
 
 Get a list of available currency pairs for trading. This API is used to query related configuration information. If you want to get the market information of the trading symbol, please use [Get All Tickers](#get-all-tickers).
 
-This API
-
 ###HTTP REQUEST###
 **GET /api/v1/symbols**
 
@@ -2236,7 +2234,7 @@ These interfaces are public and do not require authentication.
     "precision": 8,
     "withdrawalMinSize": "0.002",
     "withdrawalMinFee": "0.0005",
-    "isWithdrawEnabled": true,
+    "isWithdrawEnabled": true,   
     "isDepositEnabled": true
 },
 {
@@ -3029,6 +3027,8 @@ The following messages(**RECEIVED, OPEN, DONE, MATCH, CHANGE**) are sent over th
 
 When matching engine receives an order command, the system would send a received message to user.
 
+<aside class="notice">You can filter your orders through clientOid.</aside>
+
 <aside class="spacer8"></aside>
 <aside class="spacer4"></aside>
 
@@ -3231,3 +3231,5 @@ When a stop-limit order is triggered, you would receive an activate message whic
 Topic: **/account/balance**
 
 You will receive this message when an account balance changes. The message contains the details of the change.
+
+<aside class="notice">You can monitor their capital changes through accountId.</aside>
