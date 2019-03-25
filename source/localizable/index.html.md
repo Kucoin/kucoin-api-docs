@@ -3234,4 +3234,4 @@ Topic: **/account/balance**
 
 You will receive this message when an account balance changes. The message contains the details of the change.
 
-<aside class="notice">You can monitor their capital changes through accountId.</aside>
+<aside class="notice">You can monitor assets change through accountId.</aside>
