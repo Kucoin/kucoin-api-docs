@@ -3144,6 +3144,8 @@ When two orders become matched, the system would send a match message to user. T
 
 A trade occurred between two orders. The aggressor or taker order is the one executing immediately after being received and the maker order is a resting order on the book. The side field indicates the maker order side. If the side is sell this indicates the maker was a sell order and the match is considered an up-tick. A buy side match is a down-tick.
 
+<aside class="notice">Before entering the orderbook, the iceberg or hidden order is the same as the ordinary order when it is matched as taker(it has a takerOrderId).</aside>
+
 <aside class="spacer4"></aside>
 <aside class="spacer2"></aside>
 
