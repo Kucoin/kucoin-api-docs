@@ -2448,7 +2448,7 @@ For request some additional private channels and messages (e.g. Account balance 
 ## Create connection
 
 ```javascript
-var socket = new WebSocket("wss://push1.kucoin.com/endpoint?token=xxx&[connectId=xxxxx]");
+var socket = new WebSocket("wss://push1-v2.kucoin.com/endpoint?token=xxx&[connectId=xxxxx]");
 ```
 
 When the connection is successfully established, the system will send a welcome message.
