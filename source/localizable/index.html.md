@@ -3177,13 +3177,13 @@ An order has changed. This is the result of self-trade prevention adjusting the 
 
 ### How to manage a local L3 orderbook correctly###
 
-1. Use the websocket channel: **/market/level3:{symbol}** to subscribe the level3 incremental data and cache all incremental data received.
+1.Use the websocket channel: **/market/level3:{symbol}** to subscribe the level3 incremental data and cache all incremental data received.
 
-2. Get the snapshot data of level3 through the rest interface **https://api.kucoin.com/api/v1/market/orderbook/level3?symbol={symbol}**.
+2.Get the snapshot data of level3 through the rest interface **https://api.kucoin.com/api/v1/market/orderbook/level3?symbol={symbol}**.
 
-3. Data verification: The sequence of the snapshot is not less than the minimum sequence of all increments of the cache. If this condition is not met, start from the first step.
+3.Data verification: The sequence of the snapshot is not less than the minimum sequence of all increments of the cache. If this condition is not met, start from the first step.
 
-4. Playback all cached incremental data:
+4.Playback all cached incremental data:
 
 4.1 If the sequence of the incremental data <= the sequence of the current snapshot, discard the incremental data and end the update; otherwise proceed to 4.2.
 
@@ -3203,7 +3203,7 @@ An order has changed. This is the result of self-trade prevention adjusting the 
 
 4.3 In this case, the sequence is not continuous. Perform step 2 and re-pull the snapshot data to ensure that the sequence is not missing.
 
-5. Receive the new incremental data push and go to step 4.
+5.Receive the new incremental data push and go to step 4.
 
 <aside class="spacer4"></aside>
 <aside class="spacer2"></aside>
