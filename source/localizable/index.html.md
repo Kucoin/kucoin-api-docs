@@ -2387,7 +2387,7 @@ REST API has a strict call frequency limit, Websocket is the most recommended an
         "instanceServers": [
             {
                 "pingInterval": 50000,
-                "endpoint": "wss://push1-v2.kucoin.net/endpoint",
+                "endpoint": "wss://push1-v2.kucoin.com/endpoint",
                 "protocol": "websocket",
                 "encrypt": true,
                 "pingTimeout": 10000
