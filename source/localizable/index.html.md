@@ -70,6 +70,10 @@ For more information on VIP fee, please click: [Tiered Trading Fee Discount Prog
 
 In order to receive the latest API change notifications, please add 'Watch' to [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
+**3/27/19** : 
+
+- Add **feeCurrency** field to [Get Symbols List](#get-symbols-list).
+
 **3/25/19** : 
 
 - Add **volValue** field to [Get All Tickers](#get-all-tickers).
@@ -1846,6 +1850,7 @@ Market data is public and can be used without a signed request.
     "baseIncrement": "0.00000001",
     "quoteIncrement": "0.01",
     "priceIncrement": "0.00000001",
+    "feeCurrency": "USDT",
     "enableTrading": true
   }
 ]
@@ -1878,6 +1883,7 @@ quoteMaxSize | string | Use when placing a funds order,maximum order funds must 
 baseIncrement | string | The value is used for placing a quantity order and size must satisfy an integer multiple of baseIncrement when placing an quantity order.
 quoteIncrement | string | The value is used for placing a funds order and funds/quote must satisfy an integer multiple of quoteIncrement when placing an funds order.
 priceIncrement | string | The value is used when entering the price and price must satisfy an integer multiple of priceIncrement.
+feeCurrency | string | Transaction to charge fee currency.
 enableTrading | boolean | Available for transaction or not.
 
 The **baseMinSize** and **baseMaxSize** fields define the min and max order size. The **priceIncrement** field specifies the min order price as well as the price increment.This also applies to **quote** currency. 
@@ -2995,14 +3001,14 @@ The following messages(**RECEIVED, OPEN, DONE, MATCH, CHANGE**) are sent over th
 	"data": {
 		"sequence": "1545896669147",
 		"symbol": "BTC-USDT",
-		"side": "sell",
-		"size": "1",
-		"orderId": "5c24c72503aa6772d55b378d",
-		"price": "4.00000000000000000000",
-		"time": "1545914149935808589",
-		"clientOid": "",
-		"type": "received",
-		"orderType": "limit"
+		"side": "sell",  //side, include buy and sell
+		"size": "1", //order quantity
+		"orderId": "5c24c72503aa6772d55b378d",  //order id
+		"price": "4.00000000000000000000", 
+		"time": "1545914149935808589",  //timestamp, timestamps is nanosecond
+		"clientOid": "",   //unique order id is selected by you to identify your order, e.g. UUID
+		"type": "received",  //L3 messege type. If it is a received message, the update is ended.		
+		"orderType": "limit" // order type,e.g. limit,markrt,stop_limit
 	}
 }
 ```
@@ -3029,6 +3035,10 @@ The following messages(**RECEIVED, OPEN, DONE, MATCH, CHANGE**) are sent over th
 
 When matching engine receives an order command, the system would send a received message to user.
 
+A valid order has been received and is now active status. This message is emitted for every single valid order as soon as the matching engine receives it whether it fills immediately or not.
+
+The received message does not indicate a resting order on the orderbook. It simply indicates a new incoming order which as been accepted by the matching engine for processing. Received orders may cause match message to follow if they are able to begin being filled (taker behavior). Self-trade prevention may also trigger change messages to follow if the order size needs to be adjusted. Orders which are not fully filled or canceled due to self-trade prevention result in an open message and become resting orders on the orderbook.
+
 <aside class="notice">You can filter your orders through clientOid, but it will be posted to L3 message (it may cause your orders strategy to be known for others), it is recommended that you can use UUID as clientOid.</aside>
 
 <aside class="spacer8"></aside>
@@ -3045,18 +3055,20 @@ When matching engine receives an order command, the system would send a received
   "data":{
     "sequence":"1545896669148",
     "symbol":"BTC-USDT",
-    "side":"sell",
-    "size":"1",
-    "orderId":"5c24c72503aa6772d55b378d",
+    "side":"sell",  //side, include buy and sell
+    "size":"1", //order quantity
+    "orderId":"5c24c72503aa6772d55b378d",  //order id
     "price":"6.00000000000000000000",
-    "time":"1545914149935808632",
-    "type":"open",
-    "remainSize":"1"
+    "time":"1545914149935808632", //timestamp, timestamps is nanosecond
+    "type":"open",  //L3 messege type. If it is an open message, add the corresponding buy or sell order built by orderid, price and size
+    "remainSize":"1"  //The remaining undisclosed quantity
   }
 }
 ```
 
 When the remaining part in a limit order enters the order book, the system would send an open message to user.
+
+The order is now open on the order book. This message will only be sent for orders which are not fully filled immediately. remaining_size will indicate how much of the order is unfilled and going on the book.
 
 <aside class="spacer4"></aside>
 <aside class="spacer"></aside>
@@ -3090,15 +3102,19 @@ When the matching life cycle of an order ended, the order would no longer be dis
   "data":{
     "sequence":"1545896669227",
     "symbol":"BTC-USDT",
-    "reason":"canceled",
-    "side":"buy",
-    "orderId":"5c24c96103aa6772d55b381b",
-    "time":"1545914730696797106",
-    "type":"done",
-    "size": "1.12340000000000000000"
+    "reason":"canceled",  //Order completion status, include canceled and filled
+    "side":"buy",  //side, include buy and sell
+    "orderId":"5c24c96103aa6772d55b381b",  //order id
+    "time":"1545914730696797106",  //timestamp, timestamps is nanosecond
+    "type":"done", //L3 messege type. If it is a done message, remove the buy or sell order corresponding to the orderid
+    "size": "1.12340000000000000000"  //order quantity
   }
 }
 ```
+
+The order is no longer on the order book. Sent for all orders for which there was a received message. This message can result from an order being canceled or filled. There will be no more messages for this order_id after a done message. remaining_size indicates how much of the order went unfilled; this will be 0 for filled orders.
+
+market orders will not have a remaining_size or price field as they are never on the open order book at a given price.
 
 <aside class="spacer8"></aside>
 <aside class="spacer3"></aside>
@@ -3113,18 +3129,20 @@ When the matching life cycle of an order ended, the order would no longer be dis
   "data":{
     "sequence":"1545896669291",
     "symbol":"BTC-USDT",
-    "side":"buy",
-    "size":"0.07600000000000000000",
-    "price":"0.08300000000000000000",
-    "takerOrderId":"5c24ca2e03aa6772d55b38bf",
-    "time":"1545914933083576866",
-    "type":"match",
-    "makerOrderId":"5c20492a03aa677bd099ce9d",
-    "tradeId":"5c24ca3503aa673885cd67ef"
+    "side":"buy",  //side, include buy and sell
+    "size":"0.07600000000000000000",  //order quantity
+    "price":"0.08300000000000000000",  
+    "takerOrderId":"5c24ca2e03aa6772d55b38bf",  //Extract liquidity user order id
+    "time":"1545914933083576866",  //timestamp, timestamps is nanosecond
+    "type":"match",  //L3 messege type. If it is a match message, reduce the number of order corresponding to the markerOrderId
+    "makerOrderId":"5c20492a03aa677bd099ce9d",  //Provide liquidity user order id
+    "tradeId":"5c24ca3503aa673885cd67ef"  //match_id，a match to generate two orderids when orders were matched
   }
 }
 ```
 When two orders become matched, the system would send a match message to user. The Side always indicates the taker, namely the direction of the match triggered.
+
+A trade occurred between two orders. The aggressor or taker order is the one executing immediately after being received and the maker order is a resting order on the book. The side field indicates the maker order side. If the side is sell this indicates the maker was a sell order and the match is considered an up-tick. A buy side match is a down-tick.
 
 <aside class="spacer4"></aside>
 <aside class="spacer2"></aside>
@@ -3139,18 +3157,53 @@ When two orders become matched, the system would send a match message to user. T
   "data":{
     "sequence":"1545896669656",
     "symbol":"BTC-USDT",
-    "side":"buy",
-    "orderId":"5c24caff03aa671aef3ca170",
+    "side":"buy",  //side, include buy and sell
+    "orderId":"5c24caff03aa671aef3ca170",  //order id
     "price":"1.00000000000000000000",
-    "newSize":"0.15722222000000000000",
-    "time":"1545915145402532254",
-    "type":"change",
-    "oldSize":"0.18622222000000000000"
+    "newSize":"0.15722222000000000000",  //Updated order quantity
+    "time":"1545915145402532254",  //timestamp, timestamps is nanosecond
+    "type":"change",  //L3 messege type. If it is a change message, modify the number of buy or sell order corresponding to the orderid
+    "oldSize":"0.18622222000000000000"  //order quantity before update
   }
 }
 ```
 
 When an order is changed due to STP, the system would send a change message to user.
+
+An order has changed. This is the result of self-trade prevention adjusting the order size or available funds. Orders can only decrease in size or funds. change messages are sent anytime an order changes in size; this includes resting orders (open) as well as received but not yet open. change messages are also sent when a new market order goes through self trade prevention and the funds for the market order have changed.
+
+<aside class="spacer8"></aside>
+<aside class="spacer4"></aside>
+
+### How to manage a local L3 orderbook correctly###
+
+1. Use the websocket channel: **/market/level3:{symbol}** to subscribe the level3 incremental data and cache all incremental data received.
+
+2. Get the snapshot data of level3 through the rest interface **https://api.kucoin.com/api/v1/market/orderbook/level3?symbol={symbol}**.
+
+3. Data verification: The sequence of the snapshot is not less than the minimum sequence of all increments of the cache. If this condition is not met, start from the first step.
+
+4. Playback all cached incremental data:
+
+4.1 If the sequence of the incremental data <= the sequence of the current snapshot, discard the incremental data and end the update; otherwise proceed to 4.2.
+
+4.2 If the sequence of incremental data = sequence+1 of the current snapshot, proceed to 4.2.1 logical update, otherwise proceed to step 4.3.
+
+4.2.1 Update the sequence of the current snapshot to the sequence of the incremental data.
+
+4.2.2 If it is a received message, end the update logic. (because now the received message does not affect the level3 data).
+
+4.2.3 If it is an open message, add the corresponding buy or sell order built by orderid, price and size.
+
+4.2.4 If it is a done message, remove the buy or sell order corresponding to the orderid.
+
+4.2.5 If it is a change message, modify the number of buy or sell order corresponding to the orderid.
+
+4.2.6 If it is a match message, reduce the number of order corresponding to the markerOrderId.
+
+4.3 In this case, the sequence is not continuous. Perform step 2 and re-pull the snapshot data to ensure that the sequence is not missing.
+
+5. Receive the new incremental data push and go to step 4.
 
 <aside class="spacer4"></aside>
 <aside class="spacer2"></aside>
