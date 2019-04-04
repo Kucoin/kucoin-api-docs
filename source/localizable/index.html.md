@@ -1353,7 +1353,7 @@ Different from the hidden order, the **iceberg order**, as an special form of th
 
 The visible portion of an iceberg order would be executed after being matched. After the execution, new portions of the iceberg order would come out until the order is fully filled.
 
-Iceberg orders and hidden orders do not mean that they default to taker orders. When an iceberg order or a hidden order enters the life cycle and is immediately matched by the martch engine, then the order is a taker order.But if the order is not matched by the martch engine, the order will be treated as a maker which is waiting to be merged. In the meantime, the order will be a maker order after being martched, but we only charge the taker fee.
+Iceberg and hidden orders do not mean that they default to taker orders. When an iceberg order or a hidden order enters the life cycle and is immediately matched by the matching engine, then the order is a taker order.But if the order is not matched by the matching engine, the order will be treated as a maker which is waiting to be merged. In the meantime, the order will be a maker order after being matched, but we only charge the taker fee.
 
 **Note**: 1)The system would charge **taker fees** for **hidden** and **iceberg orders**.2)If both "iceberg" and "hidden" are selected, your order will be filled as an **iceberg order** by default.
 
