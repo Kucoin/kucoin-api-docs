@@ -1349,17 +1349,11 @@ If you ticked “**Hidden**” when placing orders, your orders would be filled 
 
 Different from the hidden order, the **iceberg order**, as an special form of the hidden order, is divided into visible portion and invisible portion. When placing an iceberg order, you need to set the **visible size**. The maximum visible size for an iceberg order is 20 while the minimum visible size for it is 1/20 of the total order amount. 
 
-Iceberg orders and hidden orders do not mean that they default to taker orders. 
-
-When an iceberg order or a hidden order enters the life cycle and is immediately matched by the martch engine, then the order is a taker order.
-
-But if the order is not matched by the martch engine, the order will be treated as a maker which is waiting to be merged. 
-
-In the meantime, the order will be a maker order after being martched, but we only charge the taker fee.
-
 **Note**: The minimum visible size shall be greater than the minimum order size.   
 
 The visible portion of an iceberg order would be executed after being matched. After the execution, new portions of the iceberg order would come out until the order is fully filled.
+
+Iceberg orders and hidden orders do not mean that they default to taker orders. When an iceberg order or a hidden order enters the life cycle and is immediately matched by the martch engine, then the order is a taker order.But if the order is not matched by the martch engine, the order will be treated as a maker which is waiting to be merged. In the meantime, the order will be a maker order after being martched, but we only charge the taker fee.
 
 **Note**: 1)The system would charge **taker fees** for **hidden** and **iceberg orders**.2)If both "iceberg" and "hidden" are selected, your order will be filled as an **iceberg order** by default.
 
