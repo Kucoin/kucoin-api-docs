@@ -236,9 +236,10 @@ Private endpoints are throttled by the user ID: 200 requests per ten seconds.
 
 ####Hard-Limits####
 
-[List Fills](#list-fills):50 requests per 10 seconds
+[List Fills](#list-fills): 50 requests per 10 seconds(block 10 seconds)
 
-[List orders](#list-orders):150 requests per 10 seconds
+[List orders](#list-orders): 150 requests per 10 seconds(block 10 seconds)
+
 
 ###WEBSOCKET###
 
