@@ -2337,6 +2337,8 @@ Get single currency detail
 ## Get Fiat Price
 Get fiat price for currency
 
+<aside class="notice">Get only tradable currency prices.</aside>
+
 ```json
 {
     "code": "200000",
