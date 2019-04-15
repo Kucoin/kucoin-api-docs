@@ -225,14 +225,20 @@ When the rate limit is exceeded multiple times, your IP or account may be suspen
 
 If you are a professional trader or market maker and need a higher limit, please contact us at [api@kucoin.com](mailto:api@kucoin.com). In your message, please provide us with your KuCoin account username, describe your usage of the API and tell us your approximate trading volume.
 
-###REST API###
-####PUBLIC ENDPOINTS####
+##REST API##
+###PUBLIC ENDPOINTS###
 
 Public endpoints are throttled by IP: 100 requests per ten seconds.
 
-####PRIVATE ENDPOINTS####
+###PRIVATE ENDPOINTS###
 
 Private endpoints are throttled by the user ID: 200 requests per ten seconds.
+
+####Hard-Limits####
+
+[List Fills](#list-fills):50 requests per 10 seconds
+
+[List orders](#list-orders):150 requests per 10 seconds
 
 ###WEBSOCKET###
 
