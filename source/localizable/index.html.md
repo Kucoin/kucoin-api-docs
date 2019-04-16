@@ -32,7 +32,7 @@ WebSocket APIs provide market data, most of them are public.
 
 1. Read [Sandbox](#sandbox) to learn how to debug the API in the test environment.
 2. Read [REST API](#rest-api) to learn how to build a request.
-3. Read [Time](#time)if you want to make a test request (and receive a sample response) without having to authorize.
+3. Read [Time](#time) if you want to make a test request (and receive a sample response) without having to authorize.
 4. Read [Authentication](#authentication) to learn how to make an authorized request.
 5. Read [Inner Transfer](#inner-transfer) to see how to transfer assets.
 6. Read [List Accounts](#list-accounts) to test your authorized request.
@@ -50,7 +50,7 @@ KuCoin offers a Market Making Incentive Scheme for professional liquidity provid
 - Quarterly rewards as many as 100,000 KCS for the market maker with the best performance.
 - Direct Market Access and Co-location service.
 
-Users with good maker strategies and huge trading volume are welcome to participate in this long-term program. If your account has a trading volume of more than 5000 BTC in the last 30 days on any exchange, please send the following information via email to mm@kucoin.com, with subject "Spot Market Maker Application":
+Users with good maker strategies and huge trading volume are welcome to participate in this long-term program. If your account has a trading volume of more than 5000 BTC in the last 30 days on any exchange, please send the following information via email to **mm@kucoin.com**, with subject "Spot Market Maker Application":
 
 - One KuCoin account ID (a non-referred account is required).
 - Proof of volume traded on any exchange within the past 30 days. Proof of a VIP level is also acceptable.
@@ -58,7 +58,7 @@ Users with good maker strategies and huge trading volume are welcome to particip
 
 ## VIP Fast Track
 
-KuCoin now provides a VIP fast track to users with a large trading volume in crypto. If your accounts on different platforms have a total trading volume of more than 1000 BTC in the last 30 days, please send the following information via email to vip@kucoin.com, with subject "VIP Fast Track Application":
+KuCoin now provides a VIP fast track to users with a large trading volume in crypto. If your accounts on different platforms have a total trading volume of more than 1000 BTC in the last 30 days, please send the following information via email to **vip@kucoin.com**, with subject "VIP Fast Track Application":
 
 KuCoin account ID.
 Proof of trading volume on other platforms within the past 30 days. Proof of a VIP level is also acceptable.
