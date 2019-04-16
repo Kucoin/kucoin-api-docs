@@ -846,7 +846,7 @@ currency | string | Currency
 Field | Description
 --------- | ------- | -----------
 address | Deposit address
-memo | Address remark. If there’s no remark, it is empty.
+memo | Address remark. If there’s no remark, it is empty.  When you withdraw from other platforms to the KuCoin, you need to fill in memo(tag). If you do not fill memo (tag), your deposit may not be available, please be cautious.
 
 
 ## Get Deposit Address
@@ -876,7 +876,7 @@ currency | string | Currency
 Field | Description
 --------- | ------- | -----------
 address | Deposit address
-memo | Address remark. If there’s no remark, it is empty.
+memo | Address remark. If there’s no remark, it is empty. When you withdraw from other platforms to the KuCoin, you need to fill in memo(tag). If you do not fill memo (tag), your deposit may not be available, please be cautious.
 
 ## Get Deposit List
 
@@ -933,7 +933,7 @@ status | string | *[optional]*  Status. Available value: PROCESSING, SUCCESS, an
 Field | Description
 --------- | ------- | -----------
 address | Deposit address
-memo | The note which was left on the deposit address
+memo | The note which was left on the deposit address. When you withdraw from other platforms to the KuCoin, you need to fill in memo(tag). If you do not fill memo (tag), your deposit may not be available, please be cautious.
 amount | Deposit amount
 fee | Deposit fee
 currency | Currency code
@@ -1047,7 +1047,7 @@ Field | Description
 --------- | ------- 
 id | Unique identity 
 address | Withdrawal address
-memo | The note that is left on  the withdrawal address
+memo | The note that is left on  the withdrawal address. When you withdraw from KuCoin to other platforms, you need to fill in memo(tag). If you don't fill in memo(tag), your withdrawal may not be available.
 currency | Currency 
 amount | Withdrawal amount
 fee | Withdrawal fee 
@@ -1179,7 +1179,7 @@ Param | Type | Description
 currency  | string | Currency
 address   | string | Withdrawal address
 amount | number | Withdrawal amount, a positive number which is a multiple of the amount precision (fees excluded) 
-memo   | string | *[optional]*  The note that is left on the withdrawal address
+memo   | string | *[optional]*  The note that is left on the withdrawal address. When you withdraw from KuCoin to other platforms, you need to fill in memo(tag). If you don't fill in memo(tag), your withdrawal may not be available.
 isInner | boolean | *[optional]*  Internal withdrawal or not. Default setup: false
 remark | string | *[optional]*  Remark
 
