@@ -549,9 +549,7 @@ Your timestamp must be within **5 seconds** of the API service time or your requ
 
 You need to sign the request to use the private user API.
 
-# User
-
-##Get User Info of all Sub-Accounts##
+#Get User Info of all Sub-Accounts#
 
 ```json
 [{
