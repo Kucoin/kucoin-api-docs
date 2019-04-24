@@ -972,7 +972,9 @@ This endpoint requires the **"General"** permission.
 	"orderId": "5cbd870fd9575a18e4438b9a"
 }
 ```
-This endpoint is used for transferring the assets between the master user and the sub-user. Careful, this only supports the main account. 
+This endpoint is used for transferring the assets between the master user and the sub-user. 
+
+<aside class="notice">This only supports the main account.</aside>
 
 ###HTTP REQUEST###
 
