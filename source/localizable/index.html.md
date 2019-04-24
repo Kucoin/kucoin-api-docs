@@ -545,11 +545,10 @@ The **KC-API-TIMESTAMP** header MUST be number of **milliseconds** since Unix Ep
 
 Your timestamp must be within **5 seconds** of the API service time or your request will be considered expired and rejected. We recommend using the time endpoint to query for the API [server time](/#time) if you believe there many be a time difference between your server and the API servers.
 
-# USER
-
+# User
 You need to sign the request to use the private user API.
 
-#User
+# User
 
 ## Get User Info of all Sub-Accounts
 
