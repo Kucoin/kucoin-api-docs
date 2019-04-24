@@ -67,9 +67,45 @@ We will offer you a jumpstart (e.g. a VIP level which matches your volume on oth
 
 For more information on the VIP fee, you can read ourplease click: [Tiered Trading Fee Discount Program](https://www.kucoin.com/news/en-fee).
 
+## Sub-accounts（effective after April 26）
+
+Sub-accounts can be used to isolate asset and trading. Asset can be transferred between master-account and sub-accounts, then sub-accounts user can trade with asset in sub-accounts only. Asset cannot be withdraw from sub-accounts directly.
+
+Sub-accounts API can access all reference data and market data endpoints. In addition, sub-accounts API can also access below listed endpoints.
+
+Request Mehtod | Description
+---------- | -------
+[List Accounts](#place-a-new-order) | Get the status of an account.
+[Get an Account](#get-an-account) | Get the balance of an account.
+[Create an Account](#create-an-account) | Create an Account.
+[Get Account Ledgers](#get-account-ledgers) | Get the fund details of an account.
+[Get Holds](#get-holds) | Get the hold details of an account.
+[Inner Transfer](#inner-transfer) | Transferring assets between the accounts of main and trade.
+[Place a new order](#place-a-new-order) | Place an order.
+[Cancel an order](#cancel-an-order) | Request to cancel an order.
+[Cancel all orders](#cancel-all-orders) | Request to cancel all orders.
+[List Orders](#list-orders) | Search for a group of orders.
+[Recent Orders](#recent-orders) | Search for a group of orders(up to 1000).
+[Get an order](#get-an-order) | Get the details of an order.
+[List Fills](#list-fills) | Get detail match results of orders.
+[Recent Fills](#recent-fills) | Get detail match results of orders(up to 1000).
+
+Sub-accounts user can transfer with asset in sub-accounts only and the sub-accounts shares the same fee level with the master-accounts. (P.S. The fee level will be calculated based on the total transaction amount of the sub-accounts and the master account or the holding amount of KCS ).
+
+<aside class="notice">Sub-accounts do not support for deposit and withdrawal.</aside>
+
 # Upcoming Changes
 
 In order to receive the latest API change notifications, you can click ‘Watch’ on our [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
+
+**4/25/19** （effective after April 26）: 
+
+- Delete "size" and "funds" field to [Full MatchEngine Data(Level 3)](#full-matchengine-data(level-3)) which protects hidden orders when you subscribe to the "received" messages through private channels.
+- Delete "remainSize" field to [Full MatchEngine Data(Level 3)](#full-matchengine-data(level-3)) which protects hidden orders when you subscribe to the "open" messages through private channels. 
+- Add [Get User Info of all Sub-Accounts](#get-user-info-of-all-sub-accounts).
+- Add [Get Account Balance of a Sub-Account](#get-account-balance-of-a-sub-account).
+- Add [Get the Aggregated Balance of all Sub-Accounts of the Current User](#get-the-aggregated-balance-of-all-sub-accounts-of-the-current-user).
+- Add [Transfer between Master account and Sub-Account](#transfer-between-master-account-and-sub-account).
 
 **3/27/19** : 
 
@@ -513,9 +549,47 @@ Your timestamp must be within **5 seconds** of the API service time or your requ
 
 You need to sign the request to use the private user API.
 
+# User
+
+##Get User Info of all Sub-Accounts##
+
+```json
+[{
+		"userId": "5cbd31ab9c93e9280cd36a0a",  //subUserId
+		"subName": "kucoin1",
+		"remarks": "kucoin1"
+	},
+	{
+		"userId": "5cbd31b89c93e9280cd36a0d",
+		"subName": "kucoin2",
+		"remarks": "kucoin2"
+	}
+]
+```
+
+You can get the user info of all sub-users via this interface.
+
+###HTTP REQUEST###
+
+**Get /api/v1/sub/user**
+
+### Parameters
+No parameter is needed for this endpoint.
+
+### Responses
+
+Field | Description
+--------- | ------- 
+userId | The user ID of the sub-user
+subName | The username of the sub-user
+remarks | Remark
+
+###API KEY PERMISSIONS###
+This endpoint requires the **"General"** permission.
+
 # Accounts
 
-## List Accounts
+##List Accounts##
 
 ```json
 [{
@@ -785,6 +859,144 @@ This endpoint requires the **"General"** permission.
 
 <aside class="notice">This request is paginated.</aside>
 
+## Get Account Balance of a Sub-Account
+
+```json
+{
+	"subUserId": "5caefba7d9575a0688f83c45",
+	"subName": "sdfgsdfgsfd",
+	"mainAccounts": [{
+		"currency": "BTC",
+		"balance": "8",
+		"available": "8",
+		"holds": "0"
+	}],
+	"tradeAccounts": [{
+		"currency": "BTC",
+		"balance": "1000",
+		"available": "1000",
+		"holds": "0"
+	}]
+}
+```
+
+This endpoint returns the account info of a sub-user specified by the subUserId.
+
+###HTTP REQUEST###
+
+**GET /api/v1/sub-accounts/\<subUserId\>**
+
+### Parameters
+
+Param | Type | Description
+--------- | ------- | ------- 
+subUserId | string | The subUserId can be found via ‘/api/v1/sub/user’ endpoint.
+
+### Responses
+
+Field | Description
+--------- | ------- 
+subUserId | The user ID of the sub-user.
+subName | The username of the sub-user.
+currency | The currency of the account.
+balance | Total funds in the account.
+available | Funds available to withdraw or trade.
+holds | Funds on hold (not available for use).
+ 
+###API KEY PERMISSIONS###
+This endpoint requires the **"General"** permission.
+
+## Get the Aggregated Balance of all Sub-Accounts of the Current User
+
+
+```json
+[{
+		"subUserId": "5caefba7d9575a0688f83c45",
+		"subName": "kucoin1",
+		"mainAccounts": [{
+			"currency": "BTC",
+			"balance": "6",
+			"available": "6",
+			"holds": "0"
+		}],
+		"tradeAccounts": [{
+			"currency": "BTC",
+			"balance": "1000",
+			"available": "1000",
+			"holds": "0"
+		}]
+	},
+	{
+		"subUserId": "5caf0e2fd9575a0688f83ceb",
+		"subName": "kucoin2",
+		"mainAccounts": [{
+			"currency": "BTC",
+			"balance": "13",
+			"available": "13",
+			"holds": "0"
+		}],
+		"tradeAccounts": []
+	}
+]
+```
+
+This endpoint returns the account info of all sub-users.
+
+###HTTP REQUEST###
+
+**GET /api/v1/sub-accounts**
+
+### Parameters
+
+No parameter is needed for this endpoint.
+
+### Responses
+
+Field | Description
+--------- | ------- 
+subUserId | The user ID of the sub-user.
+subName | The username of the sub-user.
+currency | The currency of the account.
+balance | Total funds in the account.
+available | Funds available to withdraw or trade.
+holds | Funds on hold (not available for use).
+ 
+###API KEY PERMISSIONS###
+This endpoint requires the **"General"** permission.
+
+## Transfer between Master account and Sub-Account 
+
+
+```json
+{
+	"orderId": "5cbd870fd9575a18e4438b9a"
+}
+```
+This endpoint is used for transferring the assets between the master user and the sub-user. Careful, this only supports the main account. 
+
+###HTTP REQUEST###
+
+**POST /api/v1/accounts/sub-transfer**
+
+### Parameters
+
+Param | Type | Description
+--------- | ------- | ------- 
+clientOid | string | A unique ID generated by client.
+amount | string | Transfer amount, a quantity that exceeds the precision of the currency(You can get the precision of the currency via ‘/api/v1/currencies’ endpoint).
+direction | string | OUT — the master user to sub user;IN — the sub user to the master user.
+subUserId | string | The subUserId can be found by ‘/api/v1/sub/user’ endpoint.
+
+### Responses
+
+Field | Description
+--------- | ------- 
+orderId | The unique order ID of a sub-transfer.
+ 
+###API KEY PERMISSIONS###
+This endpoint requires the **"General"** permission.
+
+
 ## Inner Transfer
 
 ```json
@@ -805,7 +1017,7 @@ Param | Type | Description
 clientOid | string | Request ID
 payAccountId | string | Account ID of payer 
 recAccountId | string | Account ID of receiver 
-amount | string | Transfer amount, a quantity that exceeds the precison of the currency. 
+amount | string | Transfer amount, a quantity that exceeds the precision of the currency（ Obtained through the currencies interface ）. 
 
 ### Responses
 Field | Description
@@ -1977,15 +2189,15 @@ Request market tickers for all the trading pairs in the market (including 24h vo
 {
     "symbol": "ETH-BTC",    // symbol
     "high": "0.03736329",   // 24h highest price
-    "vol": "2127.286930263025",  // 24h volume
-    "volValue": "43.58567564",  // 24h total
+    "vol": "2127.286930263025",  // 24h volume，the aggregated trading volume in ETH
+    "volValue": "43.58567564",  // 24h total, the trading volume in base currency of last 24 hours
     "last": "0.03713983",   // last price
     "low": "0.03651252",    // 24h lowest price
     "buy": "0.03712118",    // bestAsk
     "sell": "0.03713983",   // bestBid
-    "changePrice": "0.00037224",  // change price
+    "changePrice": "0.00037224",  // 24h change price
     "time": 1550847784668,  //time
-    "changeRate": "0.0101" // change rate
+    "changeRate": "0.0101" // 24h change rate
 }
 ```  
 
@@ -3012,7 +3224,6 @@ The following messages(**RECEIVED, OPEN, DONE, MATCH, CHANGE**) are sent over th
 		"sequence": "1545896669147",
 		"symbol": "BTC-USDT",
 		"side": "sell",  //side, include buy and sell
-		"size": "1", //order quantity
 		"orderId": "5c24c72503aa6772d55b378d",  //order id
 		"price": "4.00000000000000000000", 
 		"time": "1545914149935808589",  //timestamp, timestamps is nanosecond
@@ -3032,13 +3243,11 @@ The following messages(**RECEIVED, OPEN, DONE, MATCH, CHANGE**) are sent over th
 		"sequence": "1545896669100",
 		"symbol": "BTC-USDT",
 		"side": "sell",
-		"size": "1",
 		"orderId": "5c24c72503aa6772d55b178d",
 		"time": "1545914149835808589",
 		"clientOid": "",
 		"type": "received",
-		"orderType": "market",
-		"funds": "100"
+		"orderType": "market"
 	}
 }
 ```
@@ -3071,8 +3280,7 @@ The received message does not indicate a resting order on the orderbook. It simp
     "orderId":"5c24c72503aa6772d55b378d",  //order id
     "price":"6.00000000000000000000",
     "time":"1545914149935808632", //timestamp, timestamps is nanosecond
-    "type":"open",  //L3 messege type. If it is an open message, add the corresponding buy or sell order built by orderid, price and size
-    "remainSize":"1"  //The remaining undisclosed quantity
+    "type":"open"  //L3 messege type. If it is an open message, add the corresponding buy or sell order built by orderid, price and size
   }
 }
 ```
@@ -3080,6 +3288,8 @@ The received message does not indicate a resting order on the orderbook. It simp
 When the remaining part in a limit order enters the order book, the system will send an open message to the user.
 
 This will mean that the order is now open on the order book. This message will only be sent for orders which are not fully filled immediately. remaining_size will indicate how much of the order is unfilled and going on the book.
+
+<aside class="notice">When price="" is received, size=0 is hidden.</aside>
 
 <aside class="spacer4"></aside>
 <aside class="spacer"></aside>
