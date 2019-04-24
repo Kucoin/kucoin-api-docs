@@ -92,13 +92,15 @@ Request Mehtod | Description
 
 Sub-accounts user can transfer with asset in sub-accounts only and the sub-accounts shares the same fee level with the master-accounts. (P.S. The fee level will be calculated based on the total transaction amount of the sub-accounts and the master account or the holding amount of KCS ).
 
+The sub-account needs to transfer funds from the main account to the trade account before trading.
+
 <aside class="notice">Sub-accounts do not support for deposit and withdrawal.</aside>
 
 # Upcoming Changes
 
 In order to receive the latest API change notifications, you can click ‘Watch’ on our [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
-**4/25/19** （effective after April 26）: 
+**4/24/19** （effective after April 26）: 
 
 - Delete "size" and "funds" field to [Full MatchEngine Data(Level 3)](#full-matchengine-data(level-3)) which protects hidden orders when you subscribe to the "received" messages through private channels.
 - Delete "remainSize" field to [Full MatchEngine Data(Level 3)](#full-matchengine-data(level-3)) which protects hidden orders when you subscribe to the "open" messages through private channels. 
@@ -1009,6 +1011,8 @@ This endpoint requires the **"Trade"** permission.
 ```
 
 The inner transfer interface is used for transferring assets between the accounts of a user and is free of charges. For example, a user could transfer assets from their main account to their trading account on the platform. 
+
+<aside class="notice">The sub-account needs to transfer funds from the main account to the trade account before trading.</aside>
 
 ###HTTP REQUEST###
 **POST /api/v1/accounts/inner-transfer**
