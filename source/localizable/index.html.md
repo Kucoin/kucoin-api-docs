@@ -73,7 +73,7 @@ Sub-accounts can be used to isolate asset and trading. Asset can be transferred 
 
 Sub-accounts API can access all reference data and market data endpoints. In addition, sub-accounts API can also access below listed endpoints.
 
-Request Mehtod | Description
+Request Method | Description
 ---------- | -------
 [List Accounts](#place-a-new-order) | Get the status of an account.
 [Get an Account](#get-an-account) | Get the balance of an account.
