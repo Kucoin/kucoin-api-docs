@@ -67,7 +67,7 @@ We will offer you a jumpstart (e.g. a VIP level which matches your volume on oth
 
 For more information on the VIP fee, you can read ourplease click: [Tiered Trading Fee Discount Program](https://www.kucoin.com/news/en-fee).
 
-## Sub-accounts（effective after April 26）
+## Sub-accounts
 
 Sub-accounts can be used to isolate asset and trading. Asset can be transferred between master-account and sub-accounts, then sub-accounts user can trade with asset in sub-accounts only. Asset cannot be withdraw from sub-accounts directly.
 
@@ -100,7 +100,7 @@ The sub-account needs to transfer funds from the main account to the trade accou
 
 In order to receive the latest API change notifications, you can click ‘Watch’ on our [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
-**4/24/19** （effective after April 26）: 
+**4/24/19**: 
 
 - Delete "size" and "funds" field to [Full MatchEngine Data(Level 3)](#full-matchengine-data(level-3)) which protects hidden orders when you subscribe to the "received" messages through private channels.
 - Delete "remainSize" field to [Full MatchEngine Data(Level 3)](#full-matchengine-data(level-3)) which protects hidden orders when you subscribe to the "open" messages through private channels. 
