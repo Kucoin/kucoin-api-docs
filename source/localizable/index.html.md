@@ -1179,8 +1179,7 @@ updatedAt | Update time of the database record
 "amount": "0.03266638",
 "walletTxId": "55c643bc2c68d6f17266383ac1be9e454038864b929ae7cee0bc408cc5c869e8@12ffGWmMMD1zA1WbFm7Ho3JZ1w6NYXjpFk@234",
 "isInner": false,
-"status": "SUCCESS",
-"remark": null
+"status": "SUCCESS"
 }]
 }
 ```
@@ -1213,7 +1212,6 @@ amount | Deposit amount
 currency | Currency code
 isInner | Internal deposit or not
 walletTxId | Wallet Txid
-remark | remark
 createAt | Creation time of the database record
 status | Status
 
