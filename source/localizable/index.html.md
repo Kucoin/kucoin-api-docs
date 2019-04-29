@@ -1327,7 +1327,6 @@ amount | Deposit amount
 currency | Currency code
 isInner | Internal deposit or not
 walletTxId | Wallet Txid
-remark | remark
 createAt | Creation time of the database record
 status | Status
 
