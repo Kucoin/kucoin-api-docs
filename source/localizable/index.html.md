@@ -645,11 +645,8 @@ The trading account isused for trading. When you place an order, the system will
 
 ###TRANSFER OF FUNDS###
 Asset accounts are not automatically generated (when funds are credited, the main account create auto),if you need to transfer assets between main account and trade account:
-
 1. Create a main or trade account of the same currency via the "create an account" interface;
-
 2. Get the accountId via the "List acconts" interface and the id from the response is the accountId;
-
 3. Transfer asserts between main accout and trade accout via the "inner-transfer" interface.
 
 ###FUNDS ON HOLD###
