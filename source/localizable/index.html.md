@@ -102,8 +102,8 @@ In order to receive the latest API change notifications, you can click ‘Watch�
 
 **4/24/19**: 
 
-- Delete "size" and "funds" field to [Full MatchEngine Data(Level 3)](#full-matchengine-data(level-3)) which protects hidden orders when you subscribe to the "received" messages through private channels.
-- Delete "remainSize" field to [Full MatchEngine Data(Level 3)](#full-matchengine-data(level-3)) which protects hidden orders when you subscribe to the "open" messages through private channels. 
+- Delete "size" and "funds" field to [Full MatchEngine Data(Level 3)](#full-matchengine-data(level-3)) which protects hidden orders when you subscribe to the "received" messages through public channels, it does not contain private channels.
+- Delete "remainSize" field to [Full MatchEngine Data(Level 3)](#full-matchengine-data(level-3)) which protects hidden orders when you subscribe to the "open" messages through public channels, it does not contain private channels. 
 - Add [Get User Info of all Sub-Accounts](#get-user-info-of-all-sub-accounts).
 - Add [Get Account Balance of a Sub-Account](#get-account-balance-of-a-sub-account).
 - Add [Get the Aggregated Balance of all Sub-Accounts of the Current User](#get-the-aggregated-balance-of-all-sub-accounts-of-the-current-user).
@@ -596,12 +596,12 @@ This endpoint requires the **"General"** permission.
 
 ```json
 [{
-    "id": "5bd6e9286d99522a52e458de",
-    "currency": "BTC",
-    "type": "main",
-    "balance": "237582.04299",
-    "available": "237582.032",
-    "holds": "0.01099"
+    "id": "5bd6e9286d99522a52e458de",  //accountId
+    "currency": "BTC",  //Currency
+    "type": "main",     //Account type, including main and trade
+    "balance": "237582.04299",  //Total assets of a currency
+    "available": "237582.032",  //Available assets of a currency
+    "holds": "0.01099". //Hold assets of a currency
 },
 {
     "id": "5bd6e9216d99522a52e458d6",
@@ -653,10 +653,10 @@ This endpoint requires the **"General"** permission.
 ##Get an Account##
 ```json
 {
-    "currency": "KCS",
-    "balance": "1000000060.6299",
-    "available": "1000000060.6299",
-    "holds": "0"
+    "currency": "KCS",  //Currency
+    "balance": "1000000060.6299",  //Total assets of a currency
+    "available": "1000000060.6299",  //Available assets of a currency
+    "holds": "0". //Hold assets of a currency
 }
 ```
 Information for a single account. Use this endpoint when you know the accountId.
@@ -686,7 +686,7 @@ This endpoint requires the **"General"** permission.
 ##Create an Account##
 ```json
 {
-    "id": "5bd6e9286d99522a52e458de"
+    "id": "5bd6e9286d99522a52e458de"  //accountId
 }
 ```
 
@@ -724,13 +724,13 @@ List account activity. Account activity either increases or decreases your accou
 	"totalNum": 3,
 	"totalPage": 1,
 	"items": [{
-			"currency": "KCS",
-			"amount": "0.0998",
-			"fee": "0",
-			"balance": "1994.040596",
+			"currency": "KCS",  //Currency
+			"amount": "0.0998", //Asset change value
+			"fee": "0",  //Deposit or withdrawal fee
+			"balance": "1994.040596",  //Total assets of a currency
 			"bizType": "Withdraw",  //business type
 			"direction": "in",     //side
-			"createdAt": 1540296039000,
+			"createdAt": 1540296039000,  //Creation time
 			"context": {          //Business core parameters
 				"orderId": "5bc7f080b39c5c03286eef8a",
 				"txId": "bf848bfb6736780b930e12c68721ea57f8b0484a4af3f30db75c93ecf16905c9"
@@ -811,12 +811,12 @@ This endpoint requires the **"General"** permission.
     "totalPage": 1,
     "items": [
         {
-            "currency": "ETH",
-            "holdAmount": "5083",
+            "currency": "ETH",  //Currency
+            "holdAmount": "5083",  //Hold amount of a currency
             "bizType": "Withdraw",     //business type
-            "orderId": "5bc7f080b39c5c03286eef8e",
-            "createdAt": 1545898567000,
-            "updatedAt": 1545898567000
+            "orderId": "5bc7f080b39c5c03286eef8e", //ID of funds freezed order
+            "createdAt": 1545898567000, //Creation time
+            "updatedAt": 1545898567000。//update time
         },
         {
             "currency": "ETH",
@@ -866,7 +866,7 @@ This endpoint requires the **"General"** permission.
 
 ```json
 {
-	"subUserId": "5caefba7d9575a0688f83c45",
+	"subUserId": "5caefba7d9575a0688f83c45", 
 	"subName": "sdfgsdfgsfd",
 	"mainAccounts": [{
 		"currency": "BTC",
@@ -1023,7 +1023,7 @@ The inner transfer interface is used for transferring assets between the account
 Param | Type | Description
 --------- | ------- | ------- 
 clientOid | string | Request ID
-payAccountId | string | Account ID of payer 
+payAccountId | string | Account ID of payer(obtained through the "list account" interface).
 recAccountId | string | Account ID of receiver 
 amount | string | Transfer amount, a quantity that exceeds the precision of the currency（ Obtained through the currencies interface ）. 
 
