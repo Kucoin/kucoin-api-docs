@@ -117,8 +117,7 @@ In order to receive the latest API change notifications, you can click ‘Watch�
 
 - Add **volValue** field to [Get All Tickers](#get-all-tickers).
 - Add **clientOid** field to [Full MatchEngine Data(Level 3)](#full-matchengine-data(level-3)) which allows you to filter your order info by clientOid when you subscribe to the "received " messages through private channels.
-Add accountId field to Account balance notice so that you can trace the change of your account information when you subscribe to “Account balance notice”.
-. 
+ 
 - Add **accountId** field to [Account balance notice](#account-balance-notice) when subscribe "Account balance notice" through private channels.
 
 **3/13/19** : 
