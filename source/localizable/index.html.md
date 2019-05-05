@@ -646,9 +646,9 @@ The trading account isused for trading. When you place an order, the system will
 ###TRANSFER OF FUNDS###
 Asset accounts are not automatically generated (when funds are credited, the main account create auto),if you need to transfer assets between main account and trade account:
 
-- Create a main or trade account of the same currency via the "create an account" interface;
-- Get the accountId via the "List acconts" interface and the id from the response is the accountId;
-- Transfer asserts between main accout and trade accout via the "inner-transfer" interface.
+- Create a main or trade account of the same currency via the "**Create an account**" interface;
+- Get the accountId via the "**List acconts**" interface and the id from the response is the accountId;
+- Transfer asserts between main accout and trade accout via the "**inner-transfer**" interface.
 
 ###FUNDS ON HOLD###
 When you place an order, the funds for the order are placed on hold. They cannot be used for other orders or withdrawn. Funds will remain on hold until the order is filled or canceled.
