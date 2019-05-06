@@ -100,6 +100,11 @@ The sub-account needs to transfer funds from the main account to the trade accou
 
 In order to receive the latest API change notifications, you can click ‘Watch’ on our [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
+**5/8/19** : 
+
+- Add **chain** field to [Create Deposit Address](#create-deposit-address), [Get Deposit Address](#get-deposit-address), [Get Currency Detail](#get-currency-detail), [Get Withdrawal Quotas](#get-withdrawal-quotas) and [Apply Withdraw](#apply-withdraw).
+-  Add the description of how to transfer assets in the [Inner Transfer](#inner-transfer) interface. 
+
 **4/24/19**: 
 
 - Delete "size" and "funds" field to [Full MatchEngine Data(Level 3)](#full-matchengine-data(level-3)) which protects hidden orders when you subscribe to the "received" messages through public channels, it does not contain private channels.
@@ -643,13 +648,6 @@ The main account isused for the storage, withdrawal, and deposit of funds. The a
 
 The trading account isused for trading. When you place an order, the system will use the balance of the trading account. The funds in the trading account cannot be used for withdrawal.
 
-###TRANSFER OF FUNDS###
-Asset accounts are not automatically generated (when funds are credited, the main account create auto),if you need to transfer assets between main account and trade account:
-
-- Create a main or trade account of the same currency via the "**Create an account**" interface;
-- Get the accountId via the "**List acconts**" interface and the id from the response is the accountId;
-- Transfer assets between main accout and trade accout via the "**inner-transfer**" interface.
-
 ###FUNDS ON HOLD###
 When you place an order, the funds for the order are placed on hold. They cannot be used for other orders or withdrawn. Funds will remain on hold until the order is filled or canceled.
 
@@ -1021,6 +1019,13 @@ The inner transfer interface is used for transferring assets between the account
 
 <aside class="notice">The sub-account needs to transfer funds from the main account to the trade account before trading.</aside>
 
+###ASSESTS TRANSFER###
+Asset accounts are not automatically generated (when funds are credited, the main account will be created auto),if you need to transfer assets between main account and trade account:
+
+- Create a main or trade account of the same currency via the "**Create an account**" interface;
+- Get the accountId via the "**List acconts**" interface and the id from the response is the accountId;
+- Transfer assets between main accout and trade accout via the "**inner-transfer**" interface.
+
 ###HTTP REQUEST###
 **POST /api/v1/accounts/inner-transfer**
 
@@ -1049,7 +1054,8 @@ This endpoint requires the **"Trade"** permission.
 ```json
 {
 	"address": "0x78d3ad1c0aa1bf068e19c94a2d7b16c9c0fcd8b1",
-	"memo": "5c247c8a03aa677cea2a251d"   //tag
+	"memo": "5c247c8a03aa677cea2a251d",   //tag
+	"chain": "OMNI"
 }
 ```
 
@@ -1067,12 +1073,14 @@ This endpoint requires the **"Transfer"** permission.
 Param | Type | Description
 --------- | ------- | -----------
 currency | string | Currency
+chain | string | *[optional]* The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is OMNI.
 
 ### Responses
 Field | Description
 --------- | ------- | -----------
 address | Deposit address
 memo | Address remark. If there’s no remark, it is empty.  When you withdraw from other platforms to the KuCoin, you need to fill in memo(tag). If you do not fill memo (tag), your deposit may not be available, please be cautious.
+chain | The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is OMNI.
 
 
 ## Get Deposit Address
@@ -1080,7 +1088,8 @@ memo | Address remark. If there’s no remark, it is empty.  When you withdraw f
 ```json
 {
 	"address": "0x78d3ad1c0aa1bf068e19c94a2d7b16c9c0fcd8b1",
-	"memo": "5c247c8a03aa677cea2a251d"        //tag
+	"memo": "5c247c8a03aa677cea2a251d",        //tag
+	"chain": "OMNI"
 }
 ```
 
@@ -1097,12 +1106,15 @@ This endpoint requires the **"General"** permission.
 Param | Type | Description
 --------- | ------- | -----------
 currency | string | Currency 
+chain | string | *[optional]* The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is OMNI.
 
 ### Responses
 Field | Description
 --------- | ------- | -----------
 address | Deposit address
 memo | Address remark. If there’s no remark, it is empty. When you withdraw from other platforms to the KuCoin, you need to fill in memo(tag). If you do not fill memo (tag), your deposit may not be available, please be cautious.
+chain | The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is OMNI.
+
 
 ## Get Deposit List
 
@@ -1351,7 +1363,8 @@ status | Status
 	"innerWithdrawMinFee": "0.00000000",
 	"withdrawMinSize": "1.4",
 	"isWithdrawEnabled": true,
-	"precision": 8   //withdrawal precision
+	"precision": 8,   //withdrawal precision
+	"chain": "OMNI"
 }
 ```
 
@@ -1366,6 +1379,7 @@ This endpoint requires the **"General"** permission.
 Param | Type | Description
 --------- | ------- | -----------
 currency | string | currency. e.g. BTC
+chain | string | *[optional]* The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is OMNI.
 
 ### Responses
 Field | Description
@@ -1380,6 +1394,7 @@ usedBTCAmount | The estimated BTC amount (based on the fiat daily limit) that ca
 isWithdrawEnabled | Is the withdraw function enabled or not
 withdrawMinFee | Minimum withdrawal amount
 precision | Floating point precision. 
+chain | The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is OMNI.
 
 ## Apply Withdraw
 
@@ -1405,6 +1420,7 @@ amount | number | Withdrawal amount, a positive number which is a multiple of th
 memo   | string | *[optional]*  The note that is left on the withdrawal address. When you withdraw from KuCoin to other platforms, you need to fill in memo(tag). If you don't fill in memo(tag), your withdrawal may not be available.
 isInner | boolean | *[optional]*  Internal withdrawal or not. Default setup: false
 remark | string | *[optional]*  Remark
+chain | string | *[optional]* The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is OMNI.
 
 ### Responses
 Field | Description
@@ -2550,6 +2566,11 @@ Get single currency detail
 **GET /api/v1/currencies/{currency}**
 
 <aside class="notice">Details of the currency.</aside>
+
+###PARAMETERS###
+Param | Type | Description
+--------- | ------- | -----------
+chain | string | *[optional]* Support for querying the chain of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20.
 
 **Response**
 
