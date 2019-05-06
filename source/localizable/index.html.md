@@ -648,7 +648,7 @@ Asset accounts are not automatically generated (when funds are credited, the mai
 
 - Create a main or trade account of the same currency via the "**Create an account**" interface;
 - Get the accountId via the "**List acconts**" interface and the id from the response is the accountId;
-- Transfer asserts between main accout and trade accout via the "**inner-transfer**" interface.
+- Transfer assets between main accout and trade accout via the "**inner-transfer**" interface.
 
 ###FUNDS ON HOLD###
 When you place an order, the funds for the order are placed on hold. They cannot be used for other orders or withdrawn. Funds will remain on hold until the order is filled or canceled.
