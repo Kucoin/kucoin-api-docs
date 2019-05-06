@@ -1080,8 +1080,7 @@ Field | Description
 --------- | ------- | -----------
 address | Deposit address
 memo | Address remark. If there’s no remark, it is empty.  When you withdraw from other platforms to the KuCoin, you need to fill in memo(tag). If you do not fill memo (tag), your deposit may not be available, please be cautious.
-chain | The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is OMNI.
-
+chain | The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is OMNI. For multi-chain currencies only, there is no need to pass in the chain field in the single-chain currency interface.
 
 ## Get Deposit Address
 
@@ -1106,7 +1105,7 @@ This endpoint requires the **"General"** permission.
 Param | Type | Description
 --------- | ------- | -----------
 currency | string | Currency 
-chain | string | *[optional]* The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is OMNI.
+chain | string | *[optional]* The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is OMNI. For multi-chain currencies only, there is no need to pass in the chain field in the single-chain currency interface.
 
 ### Responses
 Field | Description
@@ -1379,7 +1378,7 @@ This endpoint requires the **"General"** permission.
 Param | Type | Description
 --------- | ------- | -----------
 currency | string | currency. e.g. BTC
-chain | string | *[optional]* The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is OMNI.
+chain | string | *[optional]* The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is OMNI. For multi-chain currencies only, there is no need to pass in the chain field in the single-chain currency interface.
 
 ### Responses
 Field | Description
@@ -1420,7 +1419,7 @@ amount | number | Withdrawal amount, a positive number which is a multiple of th
 memo   | string | *[optional]*  The note that is left on the withdrawal address. When you withdraw from KuCoin to other platforms, you need to fill in memo(tag). If you don't fill in memo(tag), your withdrawal may not be available.
 isInner | boolean | *[optional]*  Internal withdrawal or not. Default setup: false
 remark | string | *[optional]*  Remark
-chain | string | *[optional]* The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is OMNI.
+chain | string | *[optional]* The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is OMNI. For multi-chain currencies only, there is no need to pass in the chain field in the single-chain currency interface.
 
 ### Responses
 Field | Description
@@ -2570,7 +2569,7 @@ Get single currency detail
 ###PARAMETERS###
 Param | Type | Description
 --------- | ------- | -----------
-chain | string | *[optional]* Support for querying the chain of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20.
+chain | string | *[optional]* Support for querying the chain of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20. For multi-chain currencies only, there is no need to pass in the chain field in the single-chain currency interface.
 
 **Response**
 
