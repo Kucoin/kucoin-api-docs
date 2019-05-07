@@ -153,7 +153,6 @@ In order to receive the latest API change notifications, you can click â€˜Watchâ
 
 - Add [Get Full Order Book(aggregated) v2](#get-full-order-book-aggregated) 
 - Add **time** field to Level-1,2,3 Data 
-- Add **detail** fields to [Get Currencies](#get-currencies)
 - Add [Get Fiat Price](#get-fiat-price)
 
 **2/20/19** : 
