@@ -100,15 +100,12 @@ The sub-account needs to transfer funds from the main account to the trade accou
 
 In order to receive the latest API change notifications, you can click ‘Watch’ on our [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
-**5/9/19** : 
-
-- Add **L3 demo** to [Full MatchEngine Data(Level 3)](#full-matchengine-data(level-3)).
-- modify the strategy [Rate Limit](#rate-limit).
-
-*5/8/19** : 
+**5/8/19** : 
 
 - Add **chain** field to [Create Deposit Address](#create-deposit-address), [Get Deposit Address](#get-deposit-address), [Get Currency Detail](#get-currency-detail), [Get Withdrawal Quotas](#get-withdrawal-quotas) and [Apply Withdraw](#apply-withdraw).
 -  Add the description of how to transfer assets in the [Inner Transfer](#inner-transfer) interface. 
+- Add **L3 demo** to [Full MatchEngine Data(Level 3)](#full-matchengine-data(level-3)).
+- modify the strategy [Rate Limit](#rate-limit).
 
 **4/24/19**: 
 
