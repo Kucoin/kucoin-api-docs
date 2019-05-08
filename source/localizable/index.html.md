@@ -262,24 +262,19 @@ REST API:
 
 When a rate limit is exceeded, a status of **429 Too Many Requests** will be returned.
 
-When the rate limit is exceeded multiple times, your IP or account may be suspended. The suspension time ranges from 2 minutes to 7 days.
+When the rate limit is exceeded multiple times, the system will suspend the trading of the corresponding API key for 5 minutes.
 
 If you are a professional trader or market maker and need a higher limit, please contact us at [api@kucoin.com](mailto:api@kucoin.com). In your message, please provide us with your KuCoin account username, describe your usage of the API and tell us your approximate trading volume.
 
 ##REST API##
-###PUBLIC ENDPOINTS###
 
-Public endpoints are throttled by IP: 100 requests per ten seconds.
-
-###PRIVATE ENDPOINTS###
-
-Private endpoints are throttled by the user ID: 200 requests per ten seconds.
+For average users, the request limit for each API key is 1800 requests/60s. The limit strategy will not distinguish between public endpoints and private endpoints, which means that request will be counted in the weighted consumption value each time.
 
 ####Hard-Limits####
 
-[List Fills](#list-fills): 50 requests per 10 seconds(block 10 seconds)
+[List Fills](#list-fills): 100 requests per 10 seconds(block 10 seconds)
 
-[List orders](#list-orders): 150 requests per 10 seconds(block 10 seconds)
+[List orders](#list-orders): 200 requests per 10 seconds(block 10 seconds)
 
 
 ###WEBSOCKET###
@@ -443,7 +438,7 @@ Please refer to the documentation below to see what API key permissions are requ
 
 ## Creating a Request
 
-All REST requests must contain the following headers:
+All private REST requests must contain the following headers:
 
 * **KC-API-KEY** The API key as a string.
 * **KC-API-SIGN** The base64-encoded signature (see Signing a Message).
@@ -3456,6 +3451,8 @@ This is the result of self-trade prevention adjusting the order size or availabl
 4.3 In this case, the sequence is not continuous. Perform step 2 and re-pull the snapshot data to ensure that the sequence is not missing.
 
 5.Receive the new incremental data push and go to step 4.
+
+When you maintain a local L3 orderbook data, if you can't fully understand the following examples, we provide a L3 orderbook maintenance case based on the Go language which you can refer to. This example mainly includes how to update the L3 data under different events, well-maintained orderbook, the data format of the websocket message and so on. The specific link is as follows: [L3 demo](https://github.com/Kucoin/kucoin-go-level3-demo)
 
 <aside class="spacer4"></aside>
 <aside class="spacer2"></aside>
