@@ -100,7 +100,12 @@ The sub-account needs to transfer funds from the main account to the trade accou
 
 In order to receive the latest API change notifications, you can click ‘Watch’ on our [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
-**5/8/19** : 
+**5/9/19** : 
+
+- Add **L3 demo** to [Full MatchEngine Data(Level 3)](#full-matchengine-data(level-3)).
+- modify the strategy [Rate Limit](#rate-limit).
+
+*5/8/19** : 
 
 - Add **chain** field to [Create Deposit Address](#create-deposit-address), [Get Deposit Address](#get-deposit-address), [Get Currency Detail](#get-currency-detail), [Get Withdrawal Quotas](#get-withdrawal-quotas) and [Apply Withdraw](#apply-withdraw).
 -  Add the description of how to transfer assets in the [Inner Transfer](#inner-transfer) interface. 
@@ -266,7 +271,7 @@ When the rate limit is exceeded multiple times, the system will suspend the trad
 
 If you are a professional trader or market maker and need a higher limit, please contact us at [api@kucoin.com](mailto:api@kucoin.com). In your message, please provide us with your KuCoin account username, describe your usage of the API and tell us your approximate trading volume.
 
-##REST API##
+###REST API###
 
 For average users, the request limit for each API key is 1800 requests/60s. The limit strategy will not distinguish between public endpoints and private endpoints, which means that request will be counted in the weighted consumption value each time.
 
