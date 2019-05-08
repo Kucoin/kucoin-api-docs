@@ -417,8 +417,6 @@ But you need to be aware that the timestamps between the **matching engine** and
 ## Numbers 
 Decimal numbers are returned as strings in order to preserve the full precision across platforms. When making a request, it is recommended that you also convert your numbers to strings to avoid truncation and precision errors.
 
-Integer numbers (like trade ID and sequence) are unquoted.
-
 # Authentication
 
 ## Generating an API Key
