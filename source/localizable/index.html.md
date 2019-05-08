@@ -273,7 +273,7 @@ If you are a professional trader or market maker and need a higher limit, please
 
 ###REST API###
 
-For average users, the request limit for each API key is 1800 requests/60s. The limit strategy will not distinguish between public endpoints and private endpoints, which means that request will be counted in the weighted consumption value each time.
+For average users, the request limit for each API key is 1800 requests/min. The limit strategy will not distinguish between public endpoints and private endpoints, which means that request will be counted in the weighted consumption value each time.
 
 ####Hard-Limits####
 
