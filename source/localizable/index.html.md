@@ -708,9 +708,6 @@ This endpoint requires the **"General"** permission.
 
 If an asset is deposited, the system will automatically create an account. But if you can't get an account for the asset through the API, you need to create an account.
 
-In order to use the API more quickly and conveniently, it is recommended that you create an account on the **website** first.
-
-
 ## Get Account Ledgers ##
 
 List account activity. Account activity either increases or decreases your account balance. Items are paginated and sorted to show the latest first. See the [Pagination](#pagination) section for retrieving additional entries after the first page.
@@ -775,9 +772,6 @@ Param | Type | Description
 accountId | string | ID of the account 
 startAt | long | *[optional]*  Start time. Start time. Unix timestamp calculated in seconds, will return only items which were created after the start time. 
 endAt | long | *[optional]*  End time. Unix timestamp calculated in seconds, will return only items which were created before the end time. 
-
-###ENTRY TYPES###
-Entry type indicates the reason for the account change.
 
 ### Responses
 Field | Description
@@ -1332,7 +1326,7 @@ status | string | *[optional]*  Status. Available value: PROCESSING, SUCCESS, an
 ### Responses
 Field | Description
 --------- | ------- | -----------
-amount | Deposit amount
+amount | Withdrawal amount
 currency | Currency code
 isInner | Internal deposit or not
 walletTxId | Wallet Txid
