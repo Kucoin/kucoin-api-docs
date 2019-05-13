@@ -1761,7 +1761,7 @@ The history for cancelled orders is only kept for **one month**. You will not be
 
 
 ###POLLING###
-For high-volume trading it is strongly recommended that you maintain your own list of open orders and use one of the streaming market data feeds to keep it updated. You should poll the open orders endpoint onceyou start trading to obtain the current state of any open orders.
+For high-volume trading, it is strongly recommended that you maintain your own list of open orders and use one of the streaming market data feeds to keep it updated. You should poll the open orders endpoint onceyou start trading to obtain the current state of any open orders.
 
 <aside class="notice">Open orders may change their state between the request and the response depending on the market conditions.</aside>
 
@@ -1770,19 +1770,19 @@ For high-volume trading it is strongly recommended that you maintain your own li
 
 ```json
 {
-"currentPage": 1,
-"pageSize": 50,
-"totalNum": 1,
-"totalPage": 1,
-"items": [{
-"symbol": "SNOV-ETH",
-"dealPrice": "0.0000246",
-"dealValue": "0.018942",
-"amount": "770",
-"fee": "0.00001137",
-"side": "sell",
-"createdAt": 1540080199
-}]
+	"currentPage": 1,
+	"pageSize": 50,
+	"totalNum": 1,
+	"totalPage": 1,
+	"items": [{
+		"symbol": "SNOV-ETH",
+		"dealPrice": "0.0000246",
+		"dealValue": "0.018942",
+		"amount": "770",
+		"fee": "0.00001137",
+		"side": "sell",
+		"createdAt": 1540080199
+	}]
 }
 ```
 
