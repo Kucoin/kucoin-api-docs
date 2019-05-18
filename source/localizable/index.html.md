@@ -2738,6 +2738,7 @@ If the server has not received the ping from the client for **60 seconds**, the 
 }
 ```
 <aside class="spacer3"></aside>
+
 ## Subscribe
 
 ```json
@@ -2752,7 +2753,7 @@ If the server has not received the ping from the client for **60 seconds**, the 
 
 To subscribe to channel messages from a certain server, the client side should send a subscription message to the server.
 
-If the subscription succeed, the system would send ack messages to you. When the response is set as true.
+If the subscription succeed, the system would send ack messages to you. 
 
 
 ```json
