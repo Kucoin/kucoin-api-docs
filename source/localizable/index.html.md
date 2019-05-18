@@ -1613,6 +1613,10 @@ Users listening to streaming market data are encouraged to use the order ID fiel
 
 
 ###RESPONSE###
+Field | Description
+--------- | ------- 
+orderId | Order ID, unique identifier of an order. 
+
 A successful order will be assigned an order ID. A successful order is defined as one that has been accepted by the matching engine.
 
 <aside class="notice">Open orders do not expire and will remain open until they are either filled or canceled.</aside>
@@ -1634,6 +1638,14 @@ You will receive the request return once the system has received the cancellatio
 
 ### HTTP REQUEST ###
 **DELETE /api/v1/orders/\<order-id\>**
+
+### Parameters
+No parameter is needed for this endpoint.
+
+###RESPONSE###
+Field | Description
+--------- | ------- 
+orderId | Order ID, unique identifier of an order. 
 
 ### API KEY PERMISSIONS ###
 This endpoint requires the **"Trade"** permission.
@@ -1666,6 +1678,15 @@ Attempt to cancel all open orders. The response is a list of ids of the canceled
 
 ###HTTP REQUEST###
 **DELETE /api/v1/orders**
+
+Param | Type | Description
+--------- | ------- | -----------
+withdrawalId | string | unique identity for a withdrawal order 
+
+###RESPONSE###
+Field | Description
+--------- | ------- 
+orderId | Order ID, unique identifier of an order. 
 
 ###EXAMPLE###
 **DELETE /api/v1/orders?symbol=ETH-BTC**
@@ -1719,7 +1740,7 @@ symbol | string | *[optional]* Only cancel orders open for a specific symbol
         "tags": "",            // tag order source        
         "isActive": false,     // status before unfilled or uncancelled 
         "cancelExist": false,   // order cancellation transaction record
-        "createdAt": 1547026471000  // time
+        "createdAt": 1547026471000  // create time
       }
     ]
  }
@@ -1746,7 +1767,40 @@ symbol |string|*[optional]* Only list orders for a specific symbol.
 side | string | *[optional]* **buy** or **sell** 
 type | string | *[optional]* **limit**, **market**, **limit_stop** or **market_stop** 
 startAt | long | *[optional]* Start time. Unix timestamp calculated in milliseconds will return only items which were created after the start time. 
-endAt | long | *[optional]* End time. Unix timestamp calculated in milliseconds will return only items which were created before the end time.  
+endAt | long | *[optional]* End time. Unix timestamp calculated in milliseconds will return only items which were created before the end time. 
+
+###RESPONSE###
+Field | Description
+--------- | ------- 
+orderId | Order ID, unique identifier of an order. 
+symbol | symbol
+opType |  operation type,deal is pending order,cancel is cancel order
+type | order type,e.g. limit,markrt,stop_limit.
+side | transaction direction,include buy and sell
+price |  order price
+size |  order quantity
+funds | order funds
+dealFunds |  deal funds
+dealSize | deal quantity
+fee | fee
+feeCurrency | charge fee currency
+stp |  self trade prevention,include CN,CO,DC,CB
+stop |  stop type, include entry and loss
+stopTriggered |  stop order is triggered
+stopPrice |  stop price
+timeInForce | time InForce,include GTC,GTT,IOC,FOK
+postOnly | postOnly
+hidden | hidden order
+iceberg | iceberg order
+visibleSize | display quantity for iceberg order
+cancelAfter | cancel orders time，requires timeInForce to be GTT
+channel | order source
+clientOid | user-entered order unique mark
+remark | remark
+tags | tag order source
+isActive | status before unfilled or uncancelled
+cancelExist | order cancellation transaction record
+createdAt | create time
 
 <aside class="notice">This request is paginated.</aside>
 
@@ -1808,6 +1862,18 @@ startAt | long | *[optional]*  Start time. Unix timestamp calculated in millisec
 endAt | long | *[optional]*  End time. Unix timestamp calculated in milliseconds will return only items which were created before the end time. 
 side | string | *[optional]*  **buy** or **sell**
 
+###RESPONSE###
+Field | Description
+--------- | -------
+symbol | symbol
+dealPrice |  Trading price.
+dealValue | Trading funds.
+side | transaction direction,include buy and sell.
+amount |  Trading quantity.
+size |  Order quantity.
+fee | Fee.
+createdAt | Create time.
+
 <aside class="notice">This request is paginated.</aside>
 
 
@@ -1860,6 +1926,42 @@ Get a list of 1000 orders in the last 24 hours.
 ###HTTP REQUEST###
 **GET /api/v1/limit/orders**
 
+###PARAMETERS###
+No parameter is needed for this endpoint.
+
+###RESPONSE###
+Field | Description
+--------- | ------- 
+orderId | Order ID, unique identifier of an order. 
+symbol | symbol
+opType |  operation type,deal is pending order,cancel is cancel order
+type | order type,e.g. limit,markrt,stop_limit.
+side | transaction direction,include buy and sell
+price |  order price
+size |  order quantity
+funds | order funds
+dealFunds |  deal funds
+dealSize | deal quantity
+fee | fee
+feeCurrency | charge fee currency
+stp |  self trade prevention,include CN,CO,DC,CB
+stop |  stop type, include entry and loss
+stopTriggered |  stop order is triggered
+stopPrice |  stop price
+timeInForce | time InForce,include GTC,GTT,IOC,FOK
+postOnly | postOnly
+hidden | hidden order
+iceberg | iceberg order
+visibleSize | display quantity for iceberg order
+cancelAfter | cancel orders time，requires timeInForce to be GTT
+channel | order source
+clientOid | user-entered order unique mark
+remark | remark
+tags | tag order source
+isActive | status before unfilled or uncancelled
+cancelExist | order cancellation transaction record
+createdAt | create time
+
 ###API KEY PERMISSIONS###
 This endpoint requires the **"General"** permission.
 
@@ -1906,6 +2008,43 @@ Get a single order by order ID.
 
 ###HTTP REQUEST###
 **GET /api/v1/orders/\<order-id\>**
+
+Param | Type | Description
+--------- | ------- | -----------
+orderId | string | Order ID, unique identifier of an order, obtained via the [List orders](#list-orders). 
+
+###RESPONSE###
+Field | Description
+--------- | ------- 
+orderId | Order ID, unique identifier of an order. 
+symbol | symbol
+opType |  operation type,deal is pending order,cancel is cancel order
+type | order type,e.g. limit,markrt,stop_limit.
+side | transaction direction,include buy and sell
+price |  order price
+size |  order quantity
+funds | order funds
+dealFunds |  deal funds
+dealSize | deal quantity
+fee | fee
+feeCurrency | charge fee currency
+stp |  self trade prevention,include CN,CO,DC,CB
+stop |  stop type, include entry and loss
+stopTriggered |  stop order is triggered
+stopPrice |  stop price
+timeInForce | time InForce,include GTC,GTT,IOC,FOK
+postOnly | postOnly
+hidden | hidden order
+iceberg | iceberg order
+visibleSize | display quantity for iceberg order
+cancelAfter | cancel orders time，requires timeInForce to be GTT
+channel | order source
+clientOid | user-entered order unique mark
+remark | remark
+tags | tag order source
+isActive | status before unfilled or uncancelled
+cancelExist | order cancellation transaction record
+createdAt | create time
 
 ###API KEY PERMISSIONS###
 This endpoint requires the **"General"** permission.
@@ -1966,6 +2105,25 @@ side | string |*[optional]* **buy** or **sell**
 type | string |*[optional]* **limit**, **market**, **limit_stop** or **market_stop** 
 startAt | long |*[optional]* Start time. Unix timestamp calculated in milliseconds will return only items which were created after the start time.
 endAt | long |*[optional]* End time. Unix timestamp calculated in milliseconds will return only items which were created before the end time. 
+
+###RESPONSE###
+Field | Description
+--------- | ------- 
+symbol | symbol.
+tradeId | trade id, it is generated by Matching engine.
+orderId | Order ID, unique identifier of an order. 
+counterOrderId | counter order id. 
+side | transaction direction,include buy and sell.
+price |  order price
+size |  order quantity
+funds | order funds
+type | order type,e.g. limit,markrt,stop_limit.
+fee | fee
+feeCurrency | charge fee currency
+stop |  stop type, include entry and loss
+liquidity |  include taker and maker
+forceTaker |  forced to become taker, include true and false
+createdAt | create time
 
 **Data time range**
 
@@ -2055,6 +2213,28 @@ Get a list of 1000 fills in the last 24 hours.
 
 ###HTTP REQUEST###
 **GET /api/v1/limit/fills**
+
+###PARAMETERS###
+No parameter is needed for this endpoint.
+
+###RESPONSE###
+Field | Description
+--------- | ------- 
+symbol | symbol
+tradeId | trade id, it is generated by Matching engine.
+orderId | Order ID, unique identifier of an order. 
+counterOrderId | counter order id. 
+side | transaction direction,include buy and sell.
+price |  order price
+size |  order quantity
+funds | order funds
+type | order type,e.g. limit,markrt,stop_limit.
+fee | fee
+feeCurrency | charge fee currency
+stop |  stop type, include entry and loss
+liquidity |  include taker and maker
+forceTaker |  forced to become taker, include true and false
+createdAt | create time
 
 ###API KEY PERMISSIONS###
 This endpoint requires the **"General"** permission.
