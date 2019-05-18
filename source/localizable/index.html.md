@@ -1458,7 +1458,7 @@ Before placing an order, please read the [Get Symbol List](#get-symbols-list) to
 
 **Do not include extra spaces in JSON strings**.
 
-###Place Order Limitations:###
+###Place Order Limitations###
 
 The maximum matching orders for a single trading pair in one account is **200** (stop orders included). 
 
@@ -1639,8 +1639,10 @@ You will receive the request return once the system has received the cancellatio
 ### HTTP REQUEST ###
 **DELETE /api/v1/orders/\<order-id\>**
 
-### Parameters
-No parameter is needed for this endpoint.
+### Parameters ###
+Param | Type | Description
+--------- | ------- | -----------
+orderId | string | Order ID, unique identifier of an order, obtained via the [List orders](#list-orders). 
 
 ###RESPONSE###
 Field | Description
@@ -1679,9 +1681,10 @@ Attempt to cancel all open orders. The response is a list of ids of the canceled
 ###HTTP REQUEST###
 **DELETE /api/v1/orders**
 
+### Parameters ###
 Param | Type | Description
 --------- | ------- | -----------
-withdrawalId | string | unique identity for a withdrawal order 
+symbol | string | *[optional]* symbol, cancel the orders for the specified trade pair. 
 
 ###RESPONSE###
 Field | Description
@@ -1699,7 +1702,7 @@ You can delete a specific symbol using query parameters.
 
 Param | Type | Description
 --------- | ------- | -----------
-symbol | string | *[optional]* Only cancel orders open for a specific symbol 
+symbol | string | *[optional]* Only cancel orders open for a specific symbol. 
 
 
 ## List Orders
