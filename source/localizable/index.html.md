@@ -47,7 +47,7 @@ WebSocket APIs provide market data, most of them are public.
 KuCoin offers a Market Making Incentive Scheme for professional liquidity providers. Key benefits of this program include:
 
 - Market Maker rebate.
-- Quarterly rewards as many as 100,000 KCS for the market maker with the best performance.
+- Monthly rewards as many as 30,000 KCS for the market maker with the best performance.
 - Direct Market Access and Co-location service.
 
 Users with good maker strategies and huge trading volume are welcome to participate in this long-term program. If your account has a trading volume of more than 5000 BTC in the last 30 days on any exchange, please send the following information via email to **mm@kucoin.com**, with subject "Spot Market Maker Application":
