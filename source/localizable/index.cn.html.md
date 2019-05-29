@@ -101,10 +101,10 @@ KuCoin为专业做市商提供做市激励计划。
 
 **28/5/19**: 
 
-- 修改 [交易市场列表](#b8f118fefc)SC改名为USDⓈ。
-- 添加 [内部资金划转](#c08ac949fb)新增接口，原来的接口于三个月后（28/8/19）过期。
-- 添加 [申请提现](#6eaf6b9ae0)**指定收藏地址提现**描述。
-- 添加 [24小时统计](#24)添加字段 **averagePrice** 昨日24小时平均成交价格。
+- 修改 [交易市场列表](#b8f118fefc) SC改名为USDⓈ。
+- 添加 [内部资金划转](#c08ac949fb) 新增接口，原来的接口于三个月后（28/8/19）过期。
+- 添加 [申请提现](#6eaf6b9ae0) **指定收藏地址提现** 描述。
+- 添加 [24小时统计](#24) 添加字段 **averagePrice** 昨日24小时平均成交价格。
 
 **8/5/19**: 
 
@@ -1022,7 +1022,8 @@ orderId | 子母账号转账的订单ID，作为唯一标识
 
 
 ### HTTP请求
-**POST /api/v1/accounts/inner-transfer**  此接口于2019年08月29日停止使用，请使用下方提供的划转接口。
+**POST /api/v1/accounts/inner-transfer**  
+<aside class="notice">此接口于2019年08月29日停止使用，请使用下方提供的划转接口。</aside>
 
 ###划转指南
 账户不能自动创建（只有当一笔资金充值入账时，储蓄账户会自动创建），储蓄账户和交易账户相互划转指南:
@@ -1041,7 +1042,8 @@ recAccountId | String | 是 |收款方的accountId [账户ID](#f0f7ae469d)
 amount | String | 是 |转账金额，精度为[币种精度](#ebcc9fbb02)正整数倍
 
 ### HTTP请求
-**POST /api/v2/accounts/inner-transfer**(推荐使用，于2019年06月05日生效)
+**POST /api/v2/accounts/inner-transfer**
+<aside class="notice">推荐使用，于2019年06月05日生效。</aside>
   
 ### 请求参数
 
@@ -1420,7 +1422,7 @@ chain | 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TR
 
 ### HTTP请求
 **POST /api/v1/withdrawals**
-在WEB端可以开启指定收藏地址提现，开启后会校验你的提现地址是否为收藏地址。
+<aside class="notice">在WEB端可以开启指定收藏地址提现，开启后会校验你的提现地址是否为收藏地址。</aside>
 
 ###API权限
 这个接口需要**转账权限**。
