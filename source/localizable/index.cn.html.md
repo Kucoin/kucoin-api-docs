@@ -99,6 +99,12 @@ KuCoin为专业做市商提供做市激励计划。
 
 为了您能获取到最新的API 变更的通知，请在 [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs)添加关注【Watch】
 
+**28/5/19**: 
+
+- 修改 [交易市场列表](#b8f118fefc)SC改名为USDⓈ。
+- 添加 [内部资金划转](#c08ac949fb)新增接口，原来的接口于三个月后（28/8/19）过期。
+- 添加 [申请提现](#6eaf6b9ae0)**指定收藏地址提现**描述。
+- 添加 [24小时统计](#24)添加字段 **averagePrice** 昨日24小时平均成交价格。
 
 **8/5/19**: 
 
@@ -148,7 +154,7 @@ KuCoin为专业做市商提供做市激励计划。
 
 **2/22/19** : 
 
-- 添加 [24小时统计接口](#24) 添加**volValue**字段。
+- 添加 [24小时统计](#24) 添加**volValue**字段。
 
 **2/21/19** : 
 
@@ -981,7 +987,7 @@ holds | 冻结资金
 
 ###HTTP请求
 
-**POST /api/v1/accounts/sub-transfer**
+**POST /api/v1/accounts/sub-transfer** 
 
 ### 请求参数
 
@@ -1013,16 +1019,18 @@ orderId | 子母账号转账的订单ID，作为唯一标识
 
 此接口用于平台内部账户资金划转，用户可以将资金在储蓄账户和交易账户之间免费划转。
 
-###资金划转指南
+
+
+### HTTP请求
+**POST /api/v1/accounts/inner-transfer**  此接口于2019年08月29日停止使用，请使用下方提供的划转接口。
+
+###划转指南
 账户不能自动创建（只有当一笔资金充值入账时，储蓄账户会自动创建），储蓄账户和交易账户相互划转指南:
 
 - 首先，按需求[创建](#9ec360d41d)一个储蓄账户或交易账户；
 - 其次，[获取accountId](#f0f7ae469d)，记录返回的Id（即accountId)；
 - 最后，调用[内部资金划转](#c08ac949fb)接口，发起转账请求；
-
-### HTTP请求
-**POST /api/v1/accounts/inner-transfer**
-
+  
 ### 请求参数
 
 请求参数 | 类型 | 是否必传 | 描述
@@ -1032,6 +1040,21 @@ payAccountId | String | 是 |付款方的accountId [账户ID](#f0f7ae469d)
 recAccountId | String | 是 |收款方的accountId [账户ID](#f0f7ae469d)
 amount | String | 是 |转账金额，精度为[币种精度](#ebcc9fbb02)正整数倍
 
+### HTTP请求
+**POST /api/v2/accounts/inner-transfer**(推荐使用，于2019年06月05日生效)
+  
+### 请求参数
+
+请求参数 | 类型 | 是否必传 | 描述
+--------- | ------- | ------- | ------- 
+clientOid | String | 是 |Client Order Id，客户端创建的唯一标识，建议使用UUID
+currency | String | 是 |[币种代码](#ebcc9fbb02)
+from | String | 是 | 付款账户类型**main** 或 **trade**
+to | String | 是 | 收款账户类型**main** 或 **trade**
+amount | String | 是 |转账金额，精度为[币种精度](#ebcc9fbb02)正整数倍
+
+
+
 ### 返回值
 字段名称 | 描述
 --------- | ------- 
@@ -1039,6 +1062,7 @@ orderId | 内部资金划转的订单ID，作为唯一标识
 
 ###API权限
 这个接口需要**交易权限**。
+
 
 
 # 充值
@@ -1396,6 +1420,7 @@ chain | 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TR
 
 ### HTTP请求
 **POST /api/v1/withdrawals**
+在WEB端可以开启指定收藏地址提现，开启后会校验你的提现地址是否为收藏地址。
 
 ###API权限
 这个接口需要**转账权限**。
@@ -2430,7 +2455,8 @@ last |  最新成交价
     "low": "0.03651252",    // 24h最低价
     "buy": "0.03712118",    // 最佳买一价
     "sell": "0.03713983",   // 最佳卖一价
-    "changePrice": "0.00037224",  /24h 涨跌价
+    "changePrice": "0.00037224",  //24h 涨跌价
+    "averagePrice": "8699.24180977",//昨日24小时平均成交价格
     "time": 1550847784668,  //时间戳
     "changeRate": "0.0101" // 24h涨跌幅
 }
@@ -2461,6 +2487,7 @@ low |  24h最低价
 buy |  最佳买一价
 sell | 最佳卖一价
 changeRate |  24h涨跌幅
+averagePrice | 昨日24小时平均成交价格
 changePrice | 24h涨跌价格
 time |  时间戳
 <aside class="spacer2"></aside>
@@ -2473,15 +2500,19 @@ time |  时间戳
 	"data":[
     "BTC",
     "ETH",
-    "USDT"
+    "KCS",
+    "SC",  //SC已更名为USDⓈ
+    "NEO"
   ]
 }
 ```  
 
 此接口，可以获取整个交易市场的交易币种
-
+<aside class="notice"> SC已更名为USDⓈ，但您依然可以使用SC作为查询参数。</aside>
 ### HTTP请求
 **GET /api/v1/markets**
+
+
 
 <aside class="spacer2"></aside>
 
