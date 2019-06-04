@@ -3649,7 +3649,7 @@ Topic: **/market/level3:{symbol},{symbol}...**
 privateChannel=true，还会返回remaining_size这个字段，指订单中有多少没有成交的数量
 
 
-<aside class="notice">当接收到 price="", size=0 的消息时，意味着这是隐藏单</aside>
+<aside class="notice">当接收到 price="", size="0" 的消息时，意味着这是隐藏单</aside>
 
 <aside class="spacer4"></aside>
 <aside class="spacer"></aside>
