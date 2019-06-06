@@ -103,7 +103,7 @@ In order to receive the latest API change notifications, you can click ‘Watch�
 
 **28/5/19**: 
 
-- Modify [Get Market List](#Get-Market-List) SC changed to USDⓈ.
+- Modify [Get Market List](#Get-Market-List) SC changed to USDS.
 - Add the new one endpoint for [Inner Transfer](#inner-transfer), the original interface expired after three months (28/8/19).
 - Add the description of favorite address to withdraw [Apply Withdraw](#apply-withdraw).
 - Add **averagePrice** field to [Get 24hr Stats](#get-24hr-stats).
@@ -2444,14 +2444,14 @@ Get 24 hr stats for the symbol. The volume is in base currency units. Open, high
     "BTC",
     "ETH",
     "KCS",
-    "SC",  //SC has changed to USDⓈ
+    "SC",  //SC has changed to USDS
     "NEO"
   ]
 }
 ```  
 
 Get the transaction currency for the entire trading market.
-<aside class="notice"> SC has changed to USDⓈ, but you can still use SC as a query parameter</aside>
+<aside class="notice"> SC has changed to USDS, but you can still use SC as a query parameter</aside>
 
 ###HTTP REQUEST###
 **GET /api/v1/markets**
