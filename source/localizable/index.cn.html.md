@@ -101,7 +101,7 @@ KuCoin为专业做市商提供做市激励计划。
 
 **28/5/19**: 
 
-- 修改 [交易市场列表](#b8f118fefc) SC改名为USDⓈ。
+- 修改 [交易市场列表](#b8f118fefc) SC改名为USDS。
 - 添加 [内部资金划转](#c08ac949fb) 新增接口，原来的接口于三个月后（28/8/19）过期。
 - 添加 [申请提现](#6eaf6b9ae0) **指定收藏地址提现** 描述。
 - 添加 [24小时统计](#24) 添加字段 **averagePrice** 昨日24小时平均成交价格。
@@ -2510,14 +2510,14 @@ time |  时间戳
     "BTC",
     "ETH",
     "KCS",
-    "SC",  //SC已更名为USDⓈ
+    "SC",  //SC已更名为USDS
     "NEO"
   ]
 }
 ```  
 
 此接口，可以获取整个交易市场的交易币种
-<aside class="notice"> SC已更名为USDⓈ，但您依然可以使用SC作为查询参数。</aside>
+<aside class="notice"> SC已更名为USDS，但您依然可以使用SC作为查询参数。</aside>
 ### HTTP请求
 **GET /api/v1/markets**
 
