@@ -594,6 +594,11 @@ amount需要符合该币种提现的precision，可以通过[获取提现额度]
 * 客户端每10秒最多上行100个消息；
 * 一个symbol 就是一个topic; e.g.Topic: /market/level3:{symbol},{symbol}... 
 
+## 返回 403 问题
+403 "The request could not be satisfied. Bad Request" from Amazon CloudFront<br/>
+* 检查请求是否为HTTPS
+* 移除GET请求中的RequestBody
+
 
 # 用户模块
 

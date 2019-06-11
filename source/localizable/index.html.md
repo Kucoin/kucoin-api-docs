@@ -587,7 +587,11 @@ fixed:<br/>
 * Up to 100 messages every 10 seconds from the client;
 * Subscribing one symbol means subscribing a topic; (e.g.Topic: /market/level3:{symbol},{symbol}...) 
 
-
+## 返回 403 问题
+403 "The request could not be satisfied. Bad Request" from Amazon CloudFront<br/>
+* Check whether the request is HTTPS
+* Remove the RequestBody from the GET request
+  
 # User
 You need to sign the request to use the private user API.
 
