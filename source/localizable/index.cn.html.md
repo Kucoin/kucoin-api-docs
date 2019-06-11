@@ -560,6 +560,41 @@ KC-API-SIGN = 7QP/oM0ykidMdrfNEUmng8eZjg/ZvPafjIqmxiVfYu4=
 
 您服务器请求的时间戳与API服务器时间相差必须在五秒以内，否则您的请求会过期，导致您的请求被拒绝。如果您认为您的服务器和API服务器之间有很多时间偏差，我们推荐您使用我们[服务器时间](#获取服务器时间)。
 
+# 常见问题
+
+## 签名错误
+
+* 检查API-KEY，API-SECRET，API-PASSPHRASE是否正确
+* 检查签名内容顺序 timestamp + method + requestEndpoint + body
+* 检查header中timestamp是否与生成signature一致
+* 检查签名生成是否为base64编码
+* get请求是否以表单方式提交
+* post请求的数据格式是否是json格式（application/json; charset=utf-8）
+  
+## 申请提现
+* memo字段<br/>
+对于不同的币种有些有memo字段，有些没有memo字段，其他平台可能会使用tag或paymentId<br/>
+对于没有 memo 的币种，在使用API提现的时候是不能传递memo值，否则，接口会返回 kucoin incorrect withdrawal address
+* amount字段<br/>
+amount需要符合该币种提现的precision，可以通过[获取提现额度](#5bd567d526)获取<br/>
+提现金额必须为提现精度的整数倍，如果为0表示只能为整数。
+
+## .net SDK
+* POST请求验签错误<br/> 
+"{\"code\":\"400005\",\"msg\":\"Invalid KC-API-SIGN\"}"<br/>
+代码有bug<br/>
+ var response = body == null ? await _restRepo.PostApi<ApiResponse<T>, SortedDictionary<string, object>>(url, body, headers) : await _restRepo.PostApi<ApiResponse<T>>(url, headers);<br/>
+修改为:<br/>
+ var response = body != null ? await _restRepo.PostApi<ApiResponse<T>, SortedDictionary<string, object>>(url, body, headers) : await _restRepo.PostApi<ApiResponse<T>>(url, headers);
+
+## WebSocket 限制
+* 一个连接最多订阅100个topic；
+* token有效期24小时；
+* 一个用户最多10个连接；
+* 客户端每10秒最多上行100个消息；
+* 一个symbol 就是一个topic; e.g.Topic: /market/level3:{symbol},{symbol}... 
+
+
 # 用户模块
 
 以下请求需要校验[签名](#8ba46c43fe)。

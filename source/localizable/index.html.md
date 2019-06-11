@@ -552,6 +552,41 @@ The **KC-API-TIMESTAMP** header MUST be number of **milliseconds** since Unix Ep
 
 Your timestamp must be within **5 seconds** of the API service time or your request will be considered expired and rejected. We recommend using the time endpoint to query for the API [server time](/#time) if you believe there many be a time difference between your server and the API servers.
 
+# FAQ
+
+## Invalid Sign
+
+* Check if your API-KEY, API-SECRET and API-PASSPHRASE are correct
+* Check the content String: timestamp + method + requestEndpoint + body
+* Check whether the timestamp in header is the same with the content above
+* Check whether you are using the correct encoding in your signature, e.g. base64
+* Check Whether the get request is submitted as a form
+* Check whether the content-type of POST request is application/json and charset=utf-8
+  
+##Apply Withdraw
+* memo<br/>
+Some of the currencies have the memo field，and the memo could be named as tag or paymentId in other platforms<br/>
+For currencies without memo, the memo should not be sent when you apply withdraw via API, otherwise, you will get the message: kucoin incorrect withdrawal address
+* amount<br/>
+amount needs to meet the withdrawal precision of the currency. Precision can be obtained by [Withdrawals Quotas] (#get-withdrawal-quotas)<br/>
+The amount must be an integer multiple of the withdrawal accuracy. If it is 0, it can only be an integer.
+
+
+## .net SDK 
+* POST Request Invalid Sign<br/>
+"{\"code\":\"400005\",\"msg\":\"Invalid KC-API-SIGN\"}"<br/>
+There is a bug in the code:<br/>
+ var response = body == null ? await _restRepo.PostApi<ApiResponse<T>, SortedDictionary<string, object>>(url, body, headers) : await _restRepo.PostApi<ApiResponse<T>>(url, headers);<br/>
+fixed:<br/>
+ var response = body != null ? await _restRepo.PostApi<ApiResponse<T>, SortedDictionary<string, object>>(url, body, headers) : await _restRepo.PostApi<ApiResponse<T>>(url, headers);
+
+## WebSocket
+* Max Subscription is 100 topics for one connection;
+* Token is valid for 24 hours;
+* Up to 10 connections per user;
+* Up to 100 messages every 10 seconds from the client;
+* Subscribing one symbol means subscribing a topic; (e.g.Topic: /market/level3:{symbol},{symbol}...) 
+
 
 # User
 You need to sign the request to use the private user API.
