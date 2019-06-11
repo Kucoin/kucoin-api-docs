@@ -598,7 +598,7 @@ You need to sign the request to use the private user API.
 
 # User Info
 
-##Get User Info of all Sub-Accounts##a
+##Get User Info of all Sub-Accounts##
 
 ```json
 [{
