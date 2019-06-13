@@ -100,12 +100,12 @@ The sub-account needs to transfer funds from the main account to the trade accou
 
 In order to receive the latest API change notifications, you can click ‘Watch’ on our [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
-**13/6/19**: 
+**6/13/19**: 
 
 - Add [FAQ](#faq) for Open API.
 - Add Strengths for [Level-3].
 
-**28/5/19**: 
+**5/28/19**: 
 
 - Modify [Get Market List](#Get-Market-List) SC changed to USDS.
 - Add the new one endpoint for [Inner Transfer](#inner-transfer), the original interface expired after three months (28/8/19).
