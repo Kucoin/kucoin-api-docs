@@ -100,6 +100,10 @@ The sub-account needs to transfer funds from the main account to the trade accou
 
 In order to receive the latest API change notifications, you can click ‘Watch’ on our [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
+**13/6/19**: 
+
+- Add [FAQ](#faq) for Open API.
+- Add Strengths for [Level-3].
 
 **28/5/19**: 
 
@@ -224,6 +228,25 @@ Cancel the newer (taking) order in full. The old resting order remains on the or
 
 Immediately cancel both orders.
 
+## MatchEngine Data
+
+### Level-3 Market Data（Recommend）
+
+The data pushed by the matching engine is the information of each order, which is the market data of Level-3.<br/>
+The Level-3 market data is more suitable for high frequency traders.<br/>
+
+You subscribe to [Level-3 Market Data] (#full-matchengine-data-level-3) via WebSocket:
+
+* Get real-time market information in the market faster (push speed: Level-3 >= Level-2)
+* Can be used to build and maintain order book
+* Can get the reason for the quantity change of a single order
+* Get real-time access to orders 
+* Can completely replace most of the pull API function of the Rest API (There is a strict rate limit on Rest request)
+  
+For the processing of different types of information, refer to [Level-3 demo] (#client-libraries) or refer to [Message Type] (#full-matchengine-data-level-3) of Level-3 below.
+
+
+
 # Client Libraries
 
 Client libraries can help you integrate with our API quickly.
@@ -233,6 +256,8 @@ Client libraries can help you integrate with our API quickly.
 - [Java SDK](https://github.com/Kucoin/KuCoin-Java-SDK)
 - [PHP SDK](https://github.com/Kucoin/KuCoin-PHP-SDK)
 - [Go SDK](https://github.com/Kucoin/KuCoin-Go-SDK)
+- [Level3-Demo](https://github.com/Kucoin/kucoin-go-level3-demo)
+
 
 CCXT is our official SDK provider and you may access the KuCoin API through CCXT. For more information, please visit: [https://ccxt.trade](https://ccxt.trade).
 
@@ -588,7 +613,9 @@ fixed:<br/>
 * Subscribing one symbol means subscribing a topic; (e.g.Topic: /market/level3:{symbol},{symbol}...) 
 
 ## 403  Error
+
 403 "The request could not be satisfied. Bad Request" from Amazon CloudFront<br/>
+
 * Check whether the request is HTTPS
 * Remove the RequestBody from the GET request
   

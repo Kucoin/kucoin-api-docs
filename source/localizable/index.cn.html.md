@@ -99,6 +99,11 @@ KuCoin为专业做市商提供做市激励计划。
 
 为了您能获取到最新的API 变更的通知，请在 [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs)添加关注【Watch】
 
+**13/6/19**: 
+
+- 添加 对接Open API[常见问题](#765f554c38)
+- 添加 [Level-3的优势](#34b637869b).
+
 **28/5/19**: 
 
 - 修改 [交易市场列表](#b8f118fefc) SC改名为USDS。
@@ -195,6 +200,7 @@ KuCoin为专业做市商提供做市激励计划。
 # 基本介绍
 Kucoin 系统 和 API 介绍.
 
+
 # 撮合引擎 
 
 ## 订单生命周期
@@ -220,6 +226,23 @@ Kucoin 系统 和 API 介绍.
 ### 双方都取消(CB)
 
 **Cancel Both** 买卖方都取消。
+
+## 撮合引擎数据
+
+### Level-3 市场数据（推荐使用）
+
+撮合引擎推送的数据，是每一个订单的信息，即Level-3的市场数据。<br/>
+Level-3市场数据更适合高频交易者<br/>
+您通过WebSocket订阅[Level-3市场数据](#level-nbsp-3):
+
+* 更快速获取到市场实时的行情信息，推送速度Level-3 >= Level-2
+* 可以用于构建维护买卖盘
+* 可以获取单笔订单的数量变动原因
+* 更实时的获取到订单的成交情况
+* 可以完全取代Rest API的大部分拉取信息功能(Rest请求有严格的请求频率限制)
+
+不同的类型信息的处理可以参考[Level-3 demo](#4623bd9386)或参考下方Level-3的[Message Type](#level-nbsp-3)
+
 
 # 客户端开发库
 
