@@ -232,7 +232,9 @@ Immediately cancel both orders.
 
 ### Level-3 Market Data（Recommend）
 
-The data pushed by the matching engine is the information of each order, which is the market data of Level-3, and the Level-3 market data is more suitable for high frequency traders.
+The data pushed by the matching engine is the information of each order, which is the market data of Level-3.<br/>
+The Level-3 market data is more suitable for high frequency traders.<br/>
+
 You subscribe to [Level-3 Market Data] (#full-matchengine-data-level-3) via WebSocket:
 
 * Get real-time market information in the market faster (push speed: Level-3 >= Level-2)
