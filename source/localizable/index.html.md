@@ -108,7 +108,7 @@ In order to receive the latest API change notifications, you can click â€˜Watchâ
 **6/13/19**: 
 
 - Add [FAQ](#faq) for Open API.
-- Add Strengths for [Level-3].
+- Add Strengths for [Level-3](#matchengine-data).
 
 **5/28/19**: 
 
