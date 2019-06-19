@@ -95,9 +95,14 @@ KuCoin为专业做市商提供做市激励计划。
 
 <aside class="notice">子账号不支持提现和充值</aside>
 
-# 最近更新
+# 更新内容
 
 为了您能获取到最新的API 变更的通知，请在 [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs)添加关注【Watch】
+
+
+**6/19/19**: 
+
+- 修改 [子母账号划转接口](#108b1a50d2)
 
 **6/13/19**: 
 
@@ -279,7 +284,7 @@ CCXT 是我们官方SDK提供方，您可以使用CCXT来对接Kucoin API。
  
 沙盒环境中的登录会话和API密钥与生产环境完全分离。您可以使用沙盒环境中的Web界面来创建API密钥。
 
-注意：在沙盒环境中注册后，您将收到系统在您的帐户中自动充值的一定数量的测试资金（BTC，ETH或KCS）。如果您想**交易**，请将资产从**主**账户转移到**交易**账户。这些资金仅用于测试目的，不能提现。
+注意：在沙盒环境中注册后，您将收到系统在您的帐户中自动充值的一定数量的测试资金（BTC，ETH或KCS）。如果您想**交易**，请将资产从**储蓄**账户转移到**交易**账户。这些资金仅用于测试目的，不能提现。
 
 用于API测试的沙盒URL：
 
@@ -292,11 +297,10 @@ REST&nbsp;API 连接地址:
 
 # 请求频率限制
 
-请求超过限制频率，您会收到 **429 Too Many Requests** 返回信息。
+当请求频率超过限制频率时，系统将返回 **429 Too Many Request** 提示。如果请求次数多次超过频率限制，你的IP或账户会被限制使用1分钟。请求返回中包含当前类型的剩余请求次数。
 
-当超过请求频率多次，您的API-KEY会暂停使用5分钟。
-
-如果您是一名专业的交易员或做市商，需要更高的请求频率。请将您的账户信息，用途，交易量发送邮箱到[api@kucoin.com](mailto:api@kucoin.com)。
+# 申请提高频率限制
+做市商或专业交易员，如需提高请求频率，请将您的账户信息、申请原因，及交易量发送至[api@kucoin.com](mailto:api@kucoin.com)。
 
 ###REST API
 
@@ -309,18 +313,19 @@ REST&nbsp;API 连接地址:
 
 ###WEBSOCKET
 
-同时建立的连接数不能超过**10**个
 
-#### 连接
-* 每分钟**30**次
+### 连接数量
+每个用户ID同时建立的连接数： ≤ 10个
 
-#### 订阅数据 
-* 每分钟**120**次
+### 连接次数
+连接请求次数限制：每分钟 30次 请求
 
-#### 退订数据 
-* 每分钟**120**次
+### 上行消息条数
+向服务器发送指令条数限制：每10秒 100条
 
-<aside class="notice">最高可订阅100个topic，但是订阅一个交易对就是一个topic</aside>
+### 订阅topic数量 
+每个连接最大可订阅topic数量限制：100个topics
+
 
 # REST&nbsp;API
 
@@ -330,7 +335,7 @@ REST API 对于账户、订单、和市场数据都有有自己的接口端点�
 
 基本URL: **https://api.kucoin.com**。 
 
-请求URL 由基本URL和接口连接点组成。 
+请求URL 由基本URL和接口端点组成。 
 
 ## 接口端点(Endpoint)
 
@@ -400,7 +405,7 @@ REST API 对于账户、订单、和市场数据都有有自己的接口端点�
 411100 | User are frozen -- 用户被冻结，请联系[帮助中心](https://kucoin.zendesk.com/hc/zh-cn/requests/new)
 500000 | Internal Server Error -- 服务器的内部程序错误，请稍后重试
 
-当http状态代码为200时，如果业务失败，则会发生错误。您可以通过返回体中的code，在[系统错误](#c1df14525d)找到特定的业务错误代码，来判断请求错误的原因。
+如果系统返回HTTP状态码为200，但业务失败，系统会报错。您可根据返回的参数消息排查错误。
 
 
 
@@ -414,8 +419,6 @@ HTTP状态代码为200和 系统代码为 200000 标示一次成功的响应。�
   "data": "1544657947759"
 }
 ```
-
-响应可能包含可选数据。 如果响应有数据，则会在下面的每个资源下记录。
 
 ## 分页
 
@@ -454,7 +457,7 @@ pageSize | int |50 | 每页记录数
 
 在请求私有端点（private endpoints）之前，您需要在Web端创建API-KEY。
 
-成功创建API后，您需要记住并保管好以下三条信息：
+成功创建API后，您需妥善保管好以下三条信息：
 
 * Key
 * Secret
@@ -464,8 +467,8 @@ Key和Secret将由KuCoin随机生成并提供。Passphrase（密码）将在您�
 
 ## API权限
 
-您可以在Web端 - API管理，限制API的权限。在创建密钥之前，您可以按需选择您需要的权限。
-API 有以下权限:
+您可以在Web端 - API管理，限制API的权限。
+API 权限有以下:
 
 * **通用权限** - 允许API访问大部分的GET请求。
 * **交易权限** - 允许API具有下单和获取交易数据权限。
@@ -549,13 +552,18 @@ API 有以下权限:
     print(response.status_code)
     print(response.json())
 ```
+请求头中的 **KC-API-SIGN**: 
 
-请求头中的 **KC-API-SIGN**，首先是使用 **API-Secret** 对 **timestamp**（时间戳） + **method**（请求方法名GET/POST/PUT/DELETE，大写）+ **endpoint** (接口端点) + **body**（请求体必须为JSON格式转换为String） 拼接的字符串进行**HMAC-sha256**加密。最后，再将加密内容使用 **base64** 加密。加密的 timestamp 需要和请求头中的KC-API-TIMESTAMP保持一致，body 需要和请求体的内容一致。
+* 使用 API-Secret 对
+{timestamp + method+ endpoint  + body} 拼接的字符串进行HMAC-sha256加密。
+* 再将加密内容使用 base64 加密。
 
+Notice：
+* 加密的 timestamp 需要和请求头中的KC-API-TIMESTAMP保持一致
+* 用于加密的body需要和请求中的Request Body的内容保持一致
+* 请求方法需要大写
+* 对于 GET, DELETE 请求，endpoint 需要包含请求的参数（/api/v1/deposit-addresses?currency=BTC）。如果没有请求体（通常用于GET请求），则请求体使用空字符串””。
 
-例如，对于 **GET, DELETE** 请求，**endpoint** 需要包含请求的参数（**/api/v1/deposit-addresses?currency=BTC**）。如果没有请求体（通常用于GET请求），则请求体是空字符串或省略。
-
-<aside class="notice">请记得在使用HMAC-sha256加密后，还需要使用 base64 加密一次，才可以放入请求头中</aside>
 
 
 ```python
@@ -664,7 +672,7 @@ subName | 子账号的用户名
 remarks | 备注信息
 
 ###API权限
-这个接口需要**通用权限**。
+此端点需要**通用权限**。
 ##
 # 账户
 
@@ -700,10 +708,10 @@ remarks | 备注信息
 
 ### 请求参数
 
-请求参数 | 类型 | 是否必传 | 描述
---------- | ------- | ------- | ------- 
-currency | String | 否 |[币种代码](#ebcc9fbb02)
-type | String |否| 账户类型 **main** 或 **trade**
+请求参数 | 类型 | 描述
+--------- | -------| ------- 
+currency | String | [可选] 币种代码](#ebcc9fbb02)
+type | String |[可选] 账户类型 **main** 或 **trade**
 
 ### 返回值
 字段名称 | 描述
@@ -730,7 +738,7 @@ holds | 账户冻结的资金
 
 
 ###API权限
-这个接口需要**通用权限**。
+此端点需要**通用权限**。
 
 ## 单个账户详情
 ```json
@@ -748,9 +756,9 @@ holds | 账户冻结的资金
 
 ### 请求参数
 
-请求参数 | 类型 | 是否必传 | 描述
---------- | ------- | ------- | ------- 
-accountId | String | 是 | 路径参数，[账户ID](#f0f7ae469d)
+请求参数 | 类型 | 描述
+--------- | ------- | ------- 
+accountId | String | 路径参数，[账户ID](#f0f7ae469d)
 
 ### 返回值
 字段名称 | 描述
@@ -761,7 +769,7 @@ holds | 冻结资金
 available | 可用资金
 
 ###API权限
-这个接口需要**通用权限**。
+此端点需要**通用权限**。
 
 
 
@@ -780,10 +788,10 @@ available | 可用资金
 
 ### 请求参数
 
-请求参数 | 类型 | 是否必传 | 描述
---------- | ------- | ------- | ------- 
-type | String | 是 |账户类型，**main** 或 **trade** 
-currency | String | 是 |[币种代码](#ebcc9fbb02)
+请求参数 | 类型 | 描述
+--------- | ------- | ------- 
+type | String | 账户类型，**main** 或 **trade** 
+currency | String |[币种代码](#ebcc9fbb02)
 
 ### 返回值
 字段名称 | 描述
@@ -791,7 +799,7 @@ currency | String | 是 |[币种代码](#ebcc9fbb02)
 id | 新创建的账户ID -- accountId
 
 ### API权限
-这个接口需要**通用权限**。
+此端点需要**通用权限**。
 
 
 
@@ -844,11 +852,11 @@ id | 新创建的账户ID -- accountId
 
 ### 请求参数
 
-请求参数 | 类型 | 是否必传 | 描述
---------- | ------- | ------- | ------- 
-accountId | String | 是 |路径参数，[账户ID](#f0f7ae469d)
-startAt | long | 否 |  开始时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以秒为单位，只会返回在开始时间之后创建的数据。
-endAt | long | 否 |  结束时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以秒为单位，只会返回在结束时间以前创建的数据。
+请求参数 | 类型 | 描述
+--------- | ------- | ------- 
+accountId | String | 路径参数，[账户ID](#f0f7ae469d)
+startAt | long |[可选] 开始时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以毫秒为单位，只会返回在开始时间之后创建的数据。
+endAt | long | [可选] 结束时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以毫秒为单位，只会返回在结束时间以前创建的数据。
 
 
 ### 返回值
@@ -867,7 +875,7 @@ context | 业务核心参数
 如果 **bizType** 是trade exchange，那么 **context** 字段会包含交易的额外信息（订单id，交易id，交易对）。
 
 ###API权限
-这个接口需要**通用权限**。
+此端点需要**通用权限**。
 
 <aside class="notice">这个接口需要使用分页</aside>
 
@@ -907,13 +915,14 @@ context | 业务核心参数
 
 ### 请求参数
 
-请求参数 | 类型 | 是否必传 | 描述
---------- | ------- | ------- | -------
-accountId | String | 是 |路径参数，[账户ID](#f0f7ae469d)
+请求参数 | 类型 | 描述
+--------- | ------- | -------
+accountId | String | 路径参数，[账户ID](#f0f7ae469d)
 
 
 
 ### 返回值
+
 字段名称 | 描述
 --------- | -------
 currency | 币种
@@ -927,7 +936,7 @@ updatedAt | 修改时间
 **orderId** 字段用于下单或提现生成的订单ID，用作唯一标识。
 
 ###API权限
-这个接口需要**通用权限**。
+此端点需要**通用权限**。
 
 <aside class="notice">这个接口需要使用分页</aside>
 
@@ -960,9 +969,9 @@ updatedAt | 修改时间
 
 ### 请求参数
 
-请求参数 | 类型 | 是否必传 | 描述
---------- | ------- | ------- | -------  
-subUserId | String | 是 |路径参数，[子账号的用户Id](#a0bc1cb873)
+请求参数 | 类型 | 描述
+--------- | ------- | -------  
+subUserId | String | 路径参数，[子账号的用户Id](#a0bc1cb873)
 
 ### 返回值
 
@@ -976,7 +985,7 @@ available | 可用资金
 holds | 冻结资金
  
 ###API权限
-这个接口需要**通用权限**。
+此端点需要**通用权限**。
 
 ## 获取所有子账户信息
 
@@ -1035,7 +1044,7 @@ available | 可用资金
 holds | 冻结资金
  
 ###API权限
-这个接口需要**通用权限**。
+此端点需要**通用权限**。
 
 ## 子母账号资金划转
 
@@ -1045,9 +1054,8 @@ holds | 冻结资金
 	"orderId": "5cbd870fd9575a18e4438b9a"
 }
 ```
-此接口，用于子母账号之间资金的划转。
+此接口，用于子母账号之间资金的划转，母账号的储蓄账户支持向子账号的储蓄账户或交易账户划转。
 
-<aside class="notice">仅支持储蓄账户之间的划转</aside>
 
 ###HTTP请求
 
@@ -1055,13 +1063,15 @@ holds | 冻结资金
 
 ### 请求参数
 
-请求参数 | 类型 | 是否必传 | 描述
---------- | ------- | ------- | ------- 
-clientOid | String | 是 |Client Order Id，客户端创建的唯一标识，建议使用UUID
-currency | String |是 |[币种代码](#ebcc9fbb02)
-amount | String | 是 |转账金额，精度为[币种精度](#ebcc9fbb02)正整数倍
-direction | String | 是 |OUT — 母账号转子账号;IN — 子账号转母账号
-subUserId | String | 是 |[子账号的用户Id](#a0bc1cb873)
+请求参数 | 类型 | 描述
+--------- | ------- | ------- 
+clientOid | String | Client Order Id，客户端创建的唯一标识，建议使用UUID
+currency | String | [币种代码](#ebcc9fbb02)
+amount | String | 转账金额，精度为[币种精度](#ebcc9fbb02)正整数倍
+direction | String | OUT — 母账号转子账号<br/>IN — 子账号转母账号
+accountType | String | [可选] 母账号账户类型**main**
+subAccountType | String | 子账号账户类型**main** 或 **trade**
+subUserId | String | [子账号的用户Id](#a0bc1cb873)
 
 ### 返回值
 
@@ -1070,7 +1080,7 @@ subUserId | String | 是 |[子账号的用户Id](#a0bc1cb873)
 orderId | 子母账号转账的订单ID，作为唯一标识
  
 ###API权限
-这个接口需要**交易权限**。
+此端点需要**交易权限**。
 
 
 ## 内部资金划转
@@ -1098,12 +1108,12 @@ orderId | 子母账号转账的订单ID，作为唯一标识
   
 ### 请求参数
 
-请求参数 | 类型 | 是否必传 | 描述
---------- | ------- | ------- | ------- 
-clientOid | String | 是 |Client Order Id，客户端创建的唯一标识，建议使用UUID
-payAccountId | String | 是 |付款方的accountId [账户ID](#f0f7ae469d)
-recAccountId | String | 是 |收款方的accountId [账户ID](#f0f7ae469d)
-amount | String | 是 |转账金额，精度为[币种精度](#ebcc9fbb02)正整数倍
+请求参数 | 类型 | 描述
+--------- | ------- |  ------- 
+clientOid | String | Client Order Id，客户端创建的唯一标识，建议使用UUID
+payAccountId | String | 付款方的accountId [账户ID](#f0f7ae469d)
+recAccountId | String | 收款方的accountId [账户ID](#f0f7ae469d)
+amount | String | 转账金额，精度为[币种精度](#ebcc9fbb02)正整数倍
 
 ### HTTP请求
 **POST /api/v2/accounts/inner-transfer**
@@ -1111,13 +1121,13 @@ amount | String | 是 |转账金额，精度为[币种精度](#ebcc9fbb02)正整
   
 ### 请求参数
 
-请求参数 | 类型 | 是否必传 | 描述
---------- | ------- | ------- | ------- 
-clientOid | String | 是 |Client Order Id，客户端创建的唯一标识，建议使用UUID
-currency | String | 是 |[币种代码](#ebcc9fbb02)
-from | String | 是 | 付款账户类型**main** 或 **trade**
-to | String | 是 | 收款账户类型**main** 或 **trade**
-amount | String | 是 |转账金额，精度为[币种精度](#ebcc9fbb02)正整数倍
+请求参数 | 类型 | 描述
+--------- | ------- |  ------- 
+clientOid | String | Client Order Id，客户端创建的唯一标识，建议使用UUID
+currency | String | [币种代码](#ebcc9fbb02)
+from | String |  付款账户类型**main** 或 **trade**
+to | String |  收款账户类型**main** 或 **trade**
+amount | String | 转账金额，精度为[币种精度](#ebcc9fbb02)正整数倍
 
 
 
@@ -1127,7 +1137,7 @@ amount | String | 是 |转账金额，精度为[币种精度](#ebcc9fbb02)正整
 orderId | 内部资金划转的订单ID，作为唯一标识
 
 ###API权限
-这个接口需要**交易权限**。
+此端点需要**交易权限**。
 
 
 
@@ -1149,13 +1159,13 @@ orderId | 内部资金划转的订单ID，作为唯一标识
 **POST /api/v1/deposit-addresses**
 
 ### API权限
-这个接口需要**转账权限**。
+此端点需要**转账权限**。
 
 ### 请求参数
 
-请求参数 | 类型 | 是否必传 | 描述
---------- | ------- | ------- | ------- 
-currency | String | 是 |[币种代码](#ebcc9fbb02)
+请求参数 | 类型 | 描述
+--------- | ------- |  ------- 
+currency | String | [币种代码](#ebcc9fbb02)
 
 ### 返回值
 字段名称 | 描述
@@ -1180,14 +1190,14 @@ memo | 地址标签，如果返回为空，则该币种没有memo。当您在其
 **GET /api/v1/deposit-addresses**
 
 ### API权限
-这个接口需要**通用权限**。
+此端点需要**通用权限**。
 
 ### 请求参数
 
-请求参数 | 类型 | 是否必传 | 描述
---------- | ------- | ------- | ------- 
-currency | String | 是 |[币种代码](#ebcc9fbb02)
-chain | String | 否 | 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为OMNI。这个参数用于区分多链的币种，单链币种不需要。
+请求参数 | 类型 | 描述
+--------- | -------  | ------- 
+currency | String |[币种代码](#ebcc9fbb02)
+chain | String | [可选] 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为OMNI。这个参数用于区分多链的币种，单链币种不需要。
 
 ### 返回值
 字段名称 | 描述
@@ -1230,23 +1240,23 @@ chain | 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TR
 }
 ```
 
-此端口，可获取充值分页列表。
+此端点，可获取充值分页列表。
 返回值是[分页](#88b6b4f79a)后的数据，根据时间降序排序，您可以获取到最新的数据。
 
 ### HTTP请求
 **GET /api/v1/deposits**
 
 ### API权限
-这个接口需要**通用权限**。
+此端点需要**通用权限**。
 
 ### 请求参数
 
-请求参数 | 类型 | 是否必传 | 描述
---------- | ------- | ------- | ------- 
-currency | String | 否 | [币种代码](#ebcc9fbb02)
-startAt | long | 否 |  开始时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以秒为单位，只会返回在开始时间之后创建的数据。
-endAt | long | 否 |  结束时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以秒为单位，只会返回在结束时间以前创建的数据。
-status | String | 否 | 状态。可选值: PROCESSING, SUCCESS, FAILURE
+请求参数 | 类型 | 描述
+--------- | ------- | ------- 
+currency | String |[可选] [币种代码](#ebcc9fbb02)
+startAt | long | [可选] 开始时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以毫秒为单位，只会返回在开始时间之后创建的数据。
+endAt | long |  [可选] 结束时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以毫秒为单位，只会返回在结束时间以前创建的数据。
+status | String | [可选] 状态。可选值: PROCESSING, SUCCESS, FAILURE
 
 ### 返回值
 字段名称 | 描述
@@ -1292,16 +1302,16 @@ updatedAt | 修改时间
 **GET /api/v1/hist-deposits**
 
 ### API权限
-这个接口需要**通用权限**。
+此端点需要**通用权限**。
 
 ### 请求参数
 
-请求参数 | 类型 | 是否必传 | 描述
---------- | ------- | ------- | -------  
-currency | String | 否 | [币种代码](#ebcc9fbb02)
-status | String | 否 | 状态。可选值: PROCESSING, SUCCESS, and FAILURE
-startAt | long | 否 |  开始时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以秒为单位，只会返回在开始时间之后创建的数据。
-endAt | long | 否 |  结束时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以秒为单位，只会返回在结束时间以前创建的数据。 
+请求参数 | 类型 | 描述
+--------- | ------- | -------  
+currency | String | [可选] [币种代码](#ebcc9fbb02)
+status | String | [可选] 状态。可选值: PROCESSING, SUCCESS, and FAILURE
+startAt | long | [可选]  开始时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以毫秒为单位，只会返回在开始时间之后创建的数据。
+endAt | long | [可选] 结束时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以毫秒为单位，只会返回在结束时间以前创建的数据。 
 
 
 ### 返回值
@@ -1346,16 +1356,16 @@ createAt | 创建时间
 **GET /api/v1/withdrawals**
 
 ### API权限
-这个接口需要**通用权限**。
+此端点需要**通用权限**。
 
 ### 请求参数
 
-请求参数 | 类型 | 是否必传 | 描述
---------- | ------- | ------- | -------
-currency | String | 否 | [币种代码](#ebcc9fbb02)
-status | String | 否 | 状态。可选值: PROCESSING, WALLET_PROCESSING, SUCCESS, FAILURE
-startAt | long | 否 |  开始时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以秒为单位，只会返回在开始时间之后创建的数据。
-endAt | long | 否 |  结束时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以秒为单位，只会返回在结束时间以前创建的数据。
+请求参数 | 类型 | 描述
+--------- | ------- | -------
+currency | String | [可选] [币种代码](#ebcc9fbb02)
+status | String | [可选]  状态。可选值: PROCESSING, WALLET_PROCESSING, SUCCESS, FAILURE
+startAt | long | [可选] 开始时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以毫秒为单位，只会返回在开始时间之后创建的数据。
+endAt | long | [可选] 结束时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以毫秒为单位，只会返回在结束时间以前创建的数据。
 
 ### 返回值
 字段名称 |  描述
@@ -1404,16 +1414,16 @@ updatedAt | 修改时间
 **GET /api/v1/hist-withdrawals**
 
 ### API权限
-这个接口需要**通用权限**。
+此端点需要**通用权限**。
 
 ### 请求参数
 
-请求参数 | 类型 | 是否必传 | 描述
---------- | ------- | ------- | -------  
-currency | String | 否 | [币种代码](#ebcc9fbb02)
-status | String | 否 | 状态。可选值: PROCESSING, SUCCESS, FAILURE
-startAt | long | 否 |  开始时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以秒为单位，只会返回在开始时间之后创建的数据。
-endAt | long | 否 |  结束时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以秒为单位，只会返回在结束时间以前创建的数据。
+请求参数 | 类型 | 描述
+--------- | ------- | -------  
+currency | String | [可选] [币种代码](#ebcc9fbb02)
+status | String | [可选] 状态。可选值: PROCESSING, SUCCESS, FAILURE
+startAt | long | [可选]  开始时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以毫秒为单位，只会返回在开始时间之后创建的数据。
+endAt | long | [可选] 结束时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以毫秒为单位，只会返回在结束时间以前创建的数据。
 
 
 
@@ -1452,14 +1462,14 @@ status | 状态
 **GET /api/v1/withdrawals/quotas**
 
 ### API权限
-这个接口需要**通用权限**。
+此端点需要**通用权限**。
 
 ### 请求参数
 
-请求参数 | 类型 | 是否必传 | 描述
---------- | ------- | ------- | ---------
-currency | String | 是 |[币种代码](#ebcc9fbb02)
-chain | String | 否 | 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为OMNI。这个参数用于区分多链的币种，单链币种不需要。
+请求参数 | 类型 | 描述
+--------- | ------- | ---------
+currency | String | [币种代码](#ebcc9fbb02)
+chain | String | [可选] 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为OMNI。这个参数用于区分多链的币种，单链币种不需要。
 
 ### 返回值
 字段名称 | 描述
@@ -1489,18 +1499,18 @@ chain | 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TR
 <aside class="notice">在WEB端可以开启指定收藏地址提现，开启后会校验你的提现地址是否为收藏地址。</aside>
 
 ###API权限
-这个接口需要**转账权限**。
+此端点需要**转账权限**。
 
 ### 请求参数
 
-请求参数 | 类型 | 是否必传 | 描述
---------- | ------- | ------- | -------
-currency  | String | 是 |币种
-address   | String | 是 |提现地址
-amount | number | 是 |提现总额，必须为提现精度的正整数倍
-memo   | String | 否 | 提现[地址标识](#b3114995fd)，没有memo(tag)的币种，不可传这个字段。
-isInner | boolean | 否 | 是否为平台内部提现。默认为false
-remark | String | 否| 备注信息
+请求参数 | 类型 | 描述
+--------- | -------  | -------
+currency  | String | 币种
+address   | String | 提现地址
+amount | number | 提现总额，必须为提现精度的正整数倍
+memo   | String | [可选]  提现[地址标识](#b3114995fd)，没有memo(tag)的币种，不可传这个字段。
+isInner | boolean | [可选] 是否为平台内部提现。默认为false
+remark | String | [可选] 备注信息
 
 ### 返回值
 字段名称 | 描述
@@ -1521,13 +1531,13 @@ KuCoin支持外扣手续费和内扣手续费。当您的储蓄账户的余额�
 **DELETE /api/v1/withdrawals/{withdrawalId}**
 
 ###API权限
-这个接口需要**转账权限**。
+此端点需要**转账权限**。
 
 ### 请求参数
 
-请求参数 | 类型 | 是否必传 | 描述
---------- | ------- | ------- | -------
-withdrawalId | String | 是 |路径参数，[提现Id](#c46f4b3b8e) 唯一标识
+请求参数 | 类型 | 描述
+--------- | ------- | -------
+withdrawalId | String | 路径参数，[提现Id](#c46f4b3b8e) 唯一标识
 
 # 交易模块
 
@@ -1566,39 +1576,39 @@ withdrawalId | String | 是 |路径参数，[提现Id](#c46f4b3b8e) 唯一标识
 **POST /api/v1/orders**
 
 ###API权限
-这个接口需要**交易权限**。
+此端点需要**交易权限**。
 
 ### 请求参数
 
 下单公有的请求参数
 
-请求参数 | 类型 | 是否必传 | 描述
---------- | ------- | ------- | ---------
-clientOid | String | 是| Client Order Id，客户端创建的唯一标识，建议使用UUID
-side      | String | 是 | **buy**（买） 或 **sell**（卖） 
-symbol    | String | 是 | [交易对](#a17b4e2866) 比如，ETH-BTC                    
-type      | String | 否 | 订单类型 **limit** 和  **market** (默认为 **limit**)
-remark    | String | 否 | 下单备注，长度不超过100个字符（UTF-8）
-stop      | String | 否 | 止盈止损单，触发条件， **loss**（小于等于） 或 **entry**（大于等于）需要设定触发价格。
-stopPrice | String | 否 | 触发价格，只有设定了止盈止损触发条件就必须要设定触发价格。
-stp       | String | 否 | [自成交保护](#80920cd667)（self trade prevention）**CN**, **CO**, **CB** , **DC**
+请求参数 | 类型 | 描述
+--------- | -------  | ---------
+clientOid | String |  Client Order Id，客户端创建的唯一标识，建议使用UUID
+side      | String |  **buy**（买） 或 **sell**（卖） 
+symbol    | String |  [交易对](#a17b4e2866) 比如，ETH-BTC                    
+type      | String | [可选] 订单类型 **limit** 和  **market** (默认为 **limit**)
+remark    | String | [可选] 下单备注，长度不超过100个字符（UTF-8）
+stop      | String | [可选] 止盈止损单，触发条件， **loss**（小于等于） 或 **entry**（大于等于）需要设定触发价格。
+stopPrice | String | [可选] 触发价格，只有设定了止盈止损触发条件就必须要设定触发价格。
+stp       | String | [可选] [自成交保护](#80920cd667)（self trade prevention）**CN**, **CO**, **CB** , **DC**
 
 #### **limit** 限价单额外所需请求参数
 
-请求参数 | 类型 | 是否必传 | 描述
---------- | ------- | ------- | ---------
-price       | String  | 是 |指定货币的价格                             
-size        | String  | 是 |指定货币的数量                      
-timeInForce | String  | 否 | 订单过期策略 **GTC**, **GTT**, **IOC**, **FOK** (默认为**GTC**)
-cancelAfter | long    | 否 | **n** 秒之后取消，订单过期策略为 **GTT**                   
-postOnly    | boolean | 否 | 只挂单的标识, 当订单过期策略为 **IOC** 或 **FOK** 时无效
-hidden      | boolean | 否 | 是否隐藏（买卖盘中不展示）             
-iceberg    | boolean | 否 | 冰山单中是否仅显示订单的可见部分
-visibleSize | String  | 否 | 冰山单最大的展示数量  
+请求参数 | 类型 | 描述
+--------- | -------  | ---------
+price       | String  | 指定货币的价格                             
+size        | String  | 指定货币的数量                      
+timeInForce | String  | [可选] 订单过期策略 **GTC**, **GTT**, **IOC**, **FOK** (默认为**GTC**)
+cancelAfter | long    | [可选] **n** 秒之后取消，订单过期策略为 **GTT**                   
+postOnly    | boolean | [可选] 只挂单的标识, 当订单过期策略为 **IOC** 或 **FOK** 时无效
+hidden      | boolean | [可选] 是否隐藏（买卖盘中不展示）             
+iceberg    | boolean | [可选] 冰山单中是否仅显示订单的可见部分
+visibleSize | String  | [可选] 冰山单最大的展示数量  
 
 #### **market** 市价单额外所需请求参数
 
-请求参数 | 类型 | 是否必传 | 描述
+请求参数 | 类型 | 描述
 --------- | ------- | ------- | ---------
 size | String | 否（size和funds 二选一） | 下单数量
 funds | String |  否（size和funds 二选一）| 下单资金
@@ -1725,7 +1735,7 @@ orderId | 订单Id 唯一标识
 }
 ```
 
-此端口，可以取消一个订单。
+此端点，可以取消一个订单。
 
 一旦系统收到取消请求，您将收到返回值。取消请求将由匹配引擎按顺序处理。要知道请求是否已处理（成功与否），您可以检查订单状态或推送更新的消息。
 
@@ -1735,9 +1745,9 @@ orderId | 订单Id 唯一标识
 
 ### 请求参数
 
-请求参数 | 类型 | 是否必传 | 描述
---------- | ------- | ------- | -------
-orderId | String | 是 |路径参数，[订单Id](#23e02e24af) 唯一标识
+请求参数 | 类型 | 描述
+--------- | -------  | -------
+orderId | String | 路径参数，[订单Id](#23e02e24af) 唯一标识
 
 ### 返回值
 
@@ -1746,7 +1756,7 @@ orderId | String | 是 |路径参数，[订单Id](#23e02e24af) 唯一标识
 cancelledOrderIds | 取消的订单id
 
 ### API权限
-这个接口需要**交易权限**。
+此端点需要**交易权限**。
 
 <aside class="notice">The <b>orderId</b> 是服务器生成的订单唯一标识，不是客户端生成的clientOId</aside>
 
@@ -1781,13 +1791,13 @@ cancelledOrderIds | 取消的订单id
 **DELETE /api/v1/orders?symbol=ETH-BTC**
 
 ###API权限
-这个接口需要**交易权限**。
+此端点需要**交易权限**。
 
 ###请求参数
 
-请求参数 | 类型 | 是否必传 | 描述
---------- | ------- | ------- | ---------
-symbol | String | 否 | 取消指定[交易对](#a17b4e2866)的open订单
+请求参数 | 类型 | 描述
+--------- | ------- | ---------
+symbol | String | [可选] 取消指定[交易对](#a17b4e2866)的open订单
 
 ### 返回值
 
@@ -1850,18 +1860,18 @@ cancelledOrderIds | 取消的订单id
 请求 **/api/v1/orders?status=active** 以获取所有活跃订单
 
 ###API权限
-这个接口需要**通用权限**。
+此端点需要**通用权限**。
 
 ###请求参数
 
-请求参数 | 类型 | 是否必传 | 描述
---------- | ------- | ------- | ---------
-status | String | 否 | **active（活跃）** 或 **done（完成）** 默认为done。只返回指定状态的订单信息
-symbol |String| 否 | 只返回指定[交易对](#a17b4e2866)的订单信息
-side | String | 否 | **buy（买）** 或 **sell（卖）** 
-type | String | 否 | 订单类型: **limit（限价单）**, **market(市价单)**, **limit_stop(限价止盈止损单)**, **market_stop（市价止盈止损单）** 
-startAt | long | 否 |  开始时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以秒为单位，只会返回在开始时间之后创建的数据。
-endAt | long | 否 |  结束时间，[Unix 时间](http://en.wikipedia.org/wikiUnix_time)以秒为单位，只会返回在结束时间以前创建的数据。
+请求参数 | 类型 | 描述
+--------- | -------  | ---------
+status | String | [可选] **active（活跃）** 或 **done（完成）** 默认为done。只返回指定状态的订单信息
+symbol |String| [可选] 只返回指定[交易对](#a17b4e2866)的订单信息
+side | String | [可选] **buy（买）** 或 **sell（卖）** 
+type | String | [可选] 订单类型: **limit（限价单）**, **market(市价单)**, **limit_stop(限价止盈止损单)**, **market_stop（市价止盈止损单）** 
+startAt | long | [可选]  开始时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以毫秒为单位，只会返回在开始时间之后创建的数据。
+endAt | long | [可选]  结束时间，[Unix 时间](http://en.wikipedia.org/wikiUnix_time)以毫秒为单位，只会返回在结束时间以前创建的数据。
 
 <aside class="notice">这个接口需要使用分页</aside>
 
@@ -1954,16 +1964,16 @@ createdAt | 创建时间
 **GET /api/v1/hist-orders**
 
 ###API权限
-这个接口需要**通用权限**。
+此端点需要**通用权限**。
 
 ###请求参数
 
-请求参数 | 类型 | 是否必传 | 描述
---------- | ------- | ------- | --------- 
-symbol |String| 否 | 只返回指定[交易对](#a17b4e2866)的订单信息
-side | String | 否 | **buy（买）** 或 **sell（卖）** 
-startAt | long | 否 |  开始时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以秒为单位，只会返回在开始时间之后创建的数据。
-endAt | long | 否 |  结束时间，[Unix 时间](http://en.wikipedia.org/wikiUnix_time)以秒为单位，只会返回在结束时间以前创建的数据。
+请求参数 | 类型 | 描述
+--------- | -------  | --------- 
+symbol |String| [可选] 只返回指定[交易对](#a17b4e2866)的订单信息
+side | String | [可选] **buy（买）** 或 **sell（卖）** 
+startAt | long | [可选]  开始时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以毫秒为单位，只会返回在开始时间之后创建的数据。
+endAt | long | [可选]  结束时间，[Unix 时间](http://en.wikipedia.org/wikiUnix_time)以毫秒为单位，只会返回在结束时间以前创建的数据。
 
 ### 返回值
 
@@ -2066,9 +2076,9 @@ createdAt | 创建时间
 
 
 ###API权限
-这个接口需要**通用权限**。
+此端点需要**通用权限**。
 
-<aside class="notice">这个接口需要使用分页</aside>
+<aside class="notice">此端点需要使用分页</aside>
 
 
 <aside class="spacer4"></aside>
@@ -2116,9 +2126,10 @@ createdAt | 创建时间
 **GET /api/v1/orders/{orderId}**
 
 ###请求参数
-请求参数 | 类型 | 是否必传 | 描述
---------- | ------- | ------- | -------
-orderId | String | 是 |路径参数，[订单Id](#23e02e24af) 唯一标识
+
+请求参数 | 类型 | 描述
+--------- | ------- | -------
+orderId | String | 路径参数，[订单Id](#23e02e24af) 唯一标识
 
 ### 返回值
 
@@ -2156,7 +2167,7 @@ createdAt | 创建时间
 
 
 ###API权限
-这个接口需要**通用权限**。
+此端点需要**通用权限**。
 
 
 <aside class="notice">根据市场条件，open的订单可能会在请求和响应之间，状态发生改变。</aside>
@@ -2203,17 +2214,18 @@ createdAt | 创建时间
 **GET /api/v1/fills**
 
 ###API权限
-这个接口需要**通用权限**。
+此端点需要**通用权限**。
 
 ###请求参数
-请求参数 | 类型 | 是否必传 | 描述
---------- | ------- | ------- | -------
-orderId | String |否 | 查询该[订单Id](#23e02e24af) 的成交明细（如果指定了orderId，请忽略其他查询条件）
-symbol | String |否| 查询指定[交易对](#a17b4e2866)的成交明细
-side | String | 否 | **buy（买）** 或 **sell（卖）** 
-type | String | 否 | 订单类型: **limit（限价单）**, **market(市价单)**, **limit_stop(限价止盈止损单)**, **market_stop（市价止盈止损单）** 
-startAt | long | 否 |  开始时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以秒为单位，只会返回在开始时间之后创建的数据。
-endAt | long | 否 |  结束时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以秒为单位，只会返回在结束时间以前创建的数据。
+
+请求参数 | 类型 | 描述
+--------- | ------- | -------
+orderId | String |[可选] 查询该[订单Id](#23e02e24af) 的成交明细（如果指定了orderId，请忽略其他查询条件）
+symbol | String |[可选] 查询指定[交易对](#a17b4e2866)的成交明细
+side | String | [可选] **buy（买）** 或 **sell（卖）** 
+type | String | [可选] 订单类型: **limit（限价单）**, **market(市价单)**, **limit_stop(限价止盈止损单)**, **market_stop（市价止盈止损单）** 
+startAt | long | [可选]  开始时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以毫秒为单位，只会返回在开始时间之后创建的数据。
+endAt | long | [可选]  结束时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以毫秒为单位，只会返回在结束时间以前创建的数据。
 
 **查询时间范围**
 您只能获取到一周以内的数据(即开始和结束时间范围不能超过24*7小时)。如果超过了一周的时间，系统会提示您超过查询时间限制范围。如果查询订单只指定了开始时间并未指定结束时间，系统默认返回一周的数据，反之亦然。
@@ -2325,7 +2337,7 @@ KuCoin交易引入市场领先的撮合引擎系统并将下单用户分为taker
 **GET /api/v1/limit/fills**
 
 ###API权限
-这个接口需要**通用权限**。
+此端点需要**通用权限**。
 
 ### 请求参数
 不需要传递参数，默认返回最近1000条。
@@ -2388,9 +2400,9 @@ createdAt |  创建时间
 
 ###请求参数
 
-请求参数 | 类型 | 是否必传 | 描述
---------- | ------- | ------- | -------
-market | String | 否 | [交易市场](#b8f118fefc): BTC, ETH, KCS, SC, NEO
+请求参数 | 类型 | 描述
+--------- | ------- | -------
+market | String | [可选] [交易市场](#b8f118fefc): BTC, ETH, KCS, SC, NEO
 
 ### 返回值
 
@@ -2444,9 +2456,9 @@ enableTrading |  是否可以用于交易
 
 ###请求参数
 
-请求参数 | 类型 | 是否必传 | 描述
---------- | ------- | ------- | -------
-symbol | String | 是 | [交易对](#a17b4e2866)
+请求参数 | 类型 | 描述
+--------- | ------- | -------
+symbol | String |  [交易对](#a17b4e2866)
 
 ### 返回值
 字段名称 | 描述
@@ -2543,9 +2555,9 @@ last |  最新成交价
 
 ###请求参数
 
-请求参数 | 类型 | 是否必传 | 描述
---------- | ------- | ------- | -------
-symbol | String | 是 | [交易对](#a17b4e2866)
+请求参数 | 类型 | 描述
+--------- | -------| -------
+symbol | String |  [交易对](#a17b4e2866)
 
 ### 返回值
 
@@ -2621,9 +2633,9 @@ Level-2 买卖盘是指根据价格合并的买单和卖单，返回一个价格
 
 ###请求参数
 
-请求参数 | 类型 | 是否必传 | 描述
---------- | ------- | ------- | -------
-symbol | String | 是 | [交易对](#a17b4e2866)
+请求参数 | 类型 | 描述
+--------- | -------  | -------
+symbol | String |  [交易对](#a17b4e2866)
 
 ### 返回值
 
@@ -2670,9 +2682,9 @@ Level-2 买卖盘是指根据价格合并的买单和卖单，返回一个价格
 
 ###请求参数
 
-请求参数 | 类型 | 是否必传 | 描述
---------- | ------- | ------- | -------
-symbol | String | 是 | [交易对](#a17b4e2866)
+请求参数 | 类型 | 描述
+--------- | ------- | -------
+symbol | String |  [交易对](#a17b4e2866)
 
 ### 返回值
 
@@ -2739,9 +2751,9 @@ asks | 卖盘
 
 ###请求参数
 
-请求参数 | 类型 | 是否必传 | 描述
---------- | ------- | ------- | -------
-symbol | String | 是 | [交易对](#a17b4e2866)
+请求参数 | 类型 | 描述
+--------- | ------- | -------
+symbol | String |  [交易对](#a17b4e2866)
 
 ### 返回值
 
@@ -2790,9 +2802,9 @@ asks | 卖盘
 
 ###请求参数
 
-请求参数 | 类型 | 是否必传 | 描述
---------- | ------- | ------- | -------
-symbol | String | 是 | [交易对](#a17b4e2866)
+请求参数 | 类型 | 描述
+--------- | -------  | -------
+symbol | String |  [交易对](#a17b4e2866)
 
 ### 返回值
 
@@ -2843,12 +2855,14 @@ side |卖方 或 买方
 ### HTTP请求
 **GET /api/v1/market/candles**
 
-请求参数 | 类型 | 是否必传 | 描述
---------- | ------- | ------- | -------
-symbol | String | 是 | [交易对](#a17b4e2866)
-startAt | long | 是 |  开始时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以秒为单位，只会返回在开始时间之后创建的数据。
-endAt | long | 是 |  结束时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以秒为单位，只会返回在结束时间以前创建的数据。 
-type | String | 是 |返回数据时间粒度，也就是每根蜡烛的时间区间:**1min, 3min, 5min, 15min, 30min, 1hour, 2hour, 4hour, 6hour, 8hour, 12hour, 1day, 1week**
+###请求参数
+
+请求参数 | 类型 | 描述
+------------- | ------- | -------
+symbol | String |  [交易对](#a17b4e2866)
+startAt | long | 开始时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以毫秒为单位，只会返回在开始时间之后创建的数据。
+endAt | long | 结束时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以毫秒为单位，只会返回在结束时间以前创建的数据。 
+type | String | 返回数据时间粒度，也就是每根蜡烛的时间区间:<br/>**1min, 3min, 5min, 15min, 30min, 1hour, 2hour, 4hour, 6hour, 8hour, 12hour, 1day, 1week**
 
 <aside class="notice"> 每次查询系统最多返回1500条数据。要获得更多数据，请按时间分页数据。</aside>
 
@@ -2955,10 +2969,10 @@ KCS | Kucoin Shares
 
 ###请求参数
 
-请求参数 | 类型 | 是否必传 | 描述
---------- | ------- | ------- | -------
-currency | String | 是 | 路径参数，[币种标识](#ebcc9fbb02)
-chain | String | 否 | 针对一币多链的币种，可通过chain获取币种详情。比如， USDT存在的链有 OMNI, ERC20, TRC20。
+请求参数 | 类型 | 描述
+--------- | ------- | -------
+currency | String |  路径参数，[币种标识](#ebcc9fbb02)
+chain | String | [可选] 针对一币多链的币种，可通过chain获取币种详情。比如， USDT存在的链有 OMNI, ERC20, TRC20。
 
 ### 返回值
 
@@ -2992,10 +3006,10 @@ chain | String | 否 | 针对一币多链的币种，可通过chain获取币种�
 
 ###请求参数
 
-请求参数 | 类型 | 是否必传 | 描述
---------- | ------- | ------- | -------
-| base | String | 否 | 输入法币货币代码。比如，USD，EUR 默认为USD |
-| currencies | String |否  | 使用,分割需要转换的货币。比如，BTC，ETH 默认为所有|
+请求参数 | 类型 | 描述
+--------- | ------- | -------
+ base | String | [可选] 输入法币货币代码。比如，USD，EUR 默认为USD |
+ currencies | String  |[可选] 使用,分割需要转换的货币。比如，BTC，ETH 默认为所有|
 
 
 # 其他接口
@@ -3174,12 +3188,12 @@ ping 消息发送到服务器后，系统会向客户端返回 pong 消息。
 
 参数以json 的格式发送
 
-请求参数 | 类型 | 是否必传 | 描述
---------- | ------- | ------- | -------
-id | String | 是 | 请求id，唯一标识
-type | String | 是 | subscribe: 订阅；unsubscribe: 取消订阅
-privateChannel | Boolean | 否 | 对于一些特殊的topic，比如，/market/level3，是否使用该频道的私有频道，默认为false。设置为true后，有userId字段的信息为私有
-response | Boolean | 否 | 设置为true，成功订阅后，服务端返回本次订阅 **ack** 消息，默认为false
+请求参数 | 类型 | 描述
+--------- | ------- | -------
+id | String |  请求id，唯一标识
+type | String | subscribe: 订阅；unsubscribe: 取消订阅
+privateChannel | Boolean | [可选] 对于一些特殊的topic，比如，/market/level3，是否使用该频道的私有频道，默认为false。设置为true后，有userId字段的信息为私有
+response | Boolean |  [可选] 设置为true，成功订阅后，服务端返回本次订阅 **ack** 消息，默认为false
 
 
 

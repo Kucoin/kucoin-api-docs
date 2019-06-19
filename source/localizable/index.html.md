@@ -40,7 +40,7 @@ WebSocket APIs provide market data, most of them are public.
 8. Read [Order Book](#get-part-order-book-aggregated) to get a snapshot of the order book.
 9. Read [Websocket Feed](#websocket-feed) to learn how to establish a websocket connection.
 10. Read [Level-2 Market Data](#level-2-market-data) to see how to build a local real-time order book with websocket. 
-11. Read [Account balance notice](#account-balance-notice) to see how to get a private websocket feed and get realtime notice of balance changes.
+11. Read [Account balance notice](#account-balance-notice) to see how to get a private websocket feed and get real time notice of balance changes.
 
 ## Market Making Incentive Scheme
 
@@ -99,6 +99,11 @@ The sub-account needs to transfer funds from the main account to the trade accou
 # Upcoming Changes
 
 In order to receive the latest API change notifications, you can click ‘Watch’ on our [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
+
+
+**6/19/19**: 
+
+- Modify [Transfer between Master user and Sub-user](#transfer-between-master-user-and-sub-user)
 
 **6/13/19**: 
 
@@ -292,39 +297,43 @@ REST API:
 **https://openapi-sandbox.kucoin.com**
 
 
-# Rate Limit
+# Request Rate Limit
 
 When a rate limit is exceeded, a status of **429 Too Many Requests** will be returned.
+If the rate limit is exceeded multiple times, the system will restrict your use of your IP and account for 1 minute. Your remaining request times will be returned in the results.
 
-When the rate limit is exceeded multiple times, the system will suspend the trading of the corresponding API key for 5 minutes.
+# Apply for Higher Request Rate Limit
+If you are a professional trader or market maker and need a higher limit, please send your KuMEX account, reason and approximate trading volume to [api@kucoin.com](mailto:api@kucoin.com).
 
-If you are a professional trader or market maker and need a higher limit, please contact us at [api@kucoin.com](mailto:api@kucoin.com). In your message, please provide us with your KuCoin account username, describe your usage of the API and tell us your approximate trading volume.
 
-###REST API###
+###REST API
 
 For average users, the request limit for each API key is **1800 requests/min**. The limit strategy will not distinguish between public endpoints and private endpoints, which means that request will be counted in the weighted consumption value each time.
 
-####Hard-Limits####
+####Hard-Limits
 
 [List Fills](#list-fills): 100 requests per 10 seconds(block 10 seconds)
 
 [List orders](#list-orders): 200 requests per 10 seconds(block 10 seconds)
 
 
-###WEBSOCKET###
+###WEBSOCKET
 
-The number of connections established at the same time cannot exceed **10**.
 
-#### connect
-* 30 times per minutes
+### Number of Connections
+Number of connections per user ID:   ≤ 10
 
-#### subscribe 
-* 120 times per minutes
+### Connection Times
+Connection Limit: 30 per minute
 
-#### unsubscribe 
-* 120 times per minutes
 
-<aside class="notice">Subscribe to a maximum of 100 topics.</aside>
+### Number of Uplink Messages 
+Message limit sent to server: 100 per 10 seconds
+
+ 
+### Topic Subscription Limit
+Subscription limit for each connection: 100 topics
+
 
 # REST API
 
@@ -376,18 +385,18 @@ Errors forto bad requests will respond with an HTTP error code or system error c
 
 Code | Meaning
 ---------- | -------
-400 | Bad Request -- Invalid request format
-401 | Unauthorized -- Invalid API Key
-403 | Forbidden -- The requested data can be accessed by for administrators only.
+400 | Bad Request -- Invalid request format.
+401 | Unauthorized -- Invalid API Key.
+403 | Forbidden -- The request is forbidden.
 404 | Not Found -- The specified resource could not be found.
 405 | Method Not Allowed -- You tried to access the resource with an invalid method.
 415 | Unsupported Media Type. You need to use: application/json.
-429 | Too Many Requests -- Exceeded the access frequency limit.
+429 | Too Many Requests -- Access limit breached.
 500 | Internal Server Error -- We had a problem with our server. Try again later.
 503 | Service Unavailable -- We're temporarily offline for maintenance. Please try again later.
 
 
-###System error codes###
+###System error codes
 
 Code | Meaning
 ---------- | -------
@@ -403,10 +412,12 @@ Code | Meaning
 411100 | User is frozen -- The user is frozen, please contact us via support center.
 500000 | Internal Server Error -- We had a problem with our server. Try again later.
 
+If the returned HTTP status code is 200, whereas the operation failed, an error will occur. You can check the above error code for details.
 
 ## Success
 
-A successful response is indicated by an HTTP status code 200 and system code 200000. The success payload is as follows:
+A successful response is indicated by an HTTP status code 200 and system code 200000. The success response is as follows: 
+
 
 ```
 {
@@ -415,9 +426,7 @@ A successful response is indicated by an HTTP status code 200 and system code 20
 }
 ```
 
-The response may contain optional data. If the response has data it will be documented under each resource below.
 
-Although the HTTP status code is 200, the business request content is incorrect. In this case, you need to check the corresponding business error code.
 
 ## Pagination
 
@@ -543,13 +552,16 @@ All private REST requests must contain the following headers:
     print(response.json())
 ```
 
-The **KC-API-SIGN** header is generated by creating a sha256 HMAC using the secret key on the prehash string **timestamp** + **method** + **requestEndpoint** + **body** (JSON string, needs to be the same as the parameters passed by the API) and **base64-encode** the output. The timestamp value is the same as the **KC-API-TIMESTAMP** header.
+For the header of KC-API-KEY, 
+* Use API-Secret to encrypt the prehash string {timestamp+method+endpoint+body } with sha256 HMAC. The request body is a JSON string and need to be the same with the parameters passed by the API.
+* After that, use base64-encode to encrypt the result in step 1 again.
 
-The method should be **UPPER CASE**.
+Notice: 
+* The encrypted timestamp shall be consistent with the KC-API-TIMESTAMP field in the request header. 
+* The body to be encrypted shall be consistent with the content of the Request Body.  
+* The Method should be UPPER CASE.
+* For GET, DELETE request, the endpoint needs to contain the query string. e.g. /api/v1/deposit-addresses?currency=XBT. The body is " " if there is no request body (typically for GET requests).
 
-For **GET, DELETE** request, the **requestEndpoint** needs to contain the query string. e.g. **/api/v1/deposit-addresses?currency=BTC**，the body is the request body string or omitted if there is no request body (typically for GET requests).
-
-<aside class="notice">Remember to base64-encode the digest output before sending in the header.</aside>
 
 
 ```python
@@ -643,7 +655,7 @@ You need to sign the request to use the private user API.
 
 You can get the user info of all sub-users via this interface.
 
-###HTTP REQUEST###
+###HTTP REQUEST
 
 **Get /api/v1/sub/user**
 
@@ -688,7 +700,7 @@ Get a list of accounts.
 
 See the Deposits section for documentation on how to deposit funds in order to begin trading.
 
-###HTTP REQUEST###
+###HTTP REQUEST
 **GET /api/v1/accounts**
 
 ### Parameters
@@ -732,7 +744,7 @@ This endpoint requires the **"General"** permission.
 ```
 Information for a single account. Use this endpoint when you know the accountId.
 
-###HTTP REQUEST###
+###HTTP REQUEST
 **GET /api/v1/accounts/\<accountId\>**
 
 ### Parameters
@@ -761,7 +773,7 @@ This endpoint requires the **"General"** permission.
 }
 ```
 
-###HTTP REQUEST###
+###HTTP REQUEST
 **POST /api/v1/accounts**
 
 ### Parameters
@@ -835,7 +847,7 @@ List account activity. Account activity either increases or decreases your accou
 }
 ```
 
-###HTTP REQUEST###
+###HTTP REQUEST
 **GET /api/v1/accounts/\<accountId\>/ledgers**
 
 ### Parameters
@@ -897,7 +909,7 @@ This endpoint requires the **"General"** permission.
 
 Holds are placed on an account for any active orders or pending withdraw requests. As an order is filled, the hold amount is updated. If an order is canceled, any remaining hold is removed. For a withdraw, once it is completed, the hold is removed.
 
-###HTTP REQUEST###
+###HTTP REQUEST
 **GET /api/v1/accounts/\<accountId\>/holds**
 
 ### Parameters
@@ -950,7 +962,7 @@ This endpoint requires the **"General"** permission.
 
 This endpoint returns the account info of a sub-user specified by the subUserId.
 
-###HTTP REQUEST###
+###HTTP REQUEST
 
 **GET /api/v1/sub-accounts/\<subUserId\>**
 
@@ -1010,7 +1022,7 @@ This endpoint requires the **"General"** permission.
 
 This endpoint returns the account info of all sub-users.
 
-###HTTP REQUEST###
+###HTTP REQUEST
 
 **GET /api/v1/sub-accounts**
 
@@ -1032,7 +1044,7 @@ holds | Funds on hold (not available for use).
 ###API KEY PERMISSIONS###
 This endpoint requires the **"General"** permission.
 
-## Transfer between Master account and Sub-Account 
+## Transfer between Master user and Sub-user
 
 
 ```json
@@ -1040,11 +1052,10 @@ This endpoint requires the **"General"** permission.
 	"orderId": "5cbd870fd9575a18e4438b9a"
 }
 ```
-This endpoint is used for transferring the assets between the master user and the sub-user. 
+This endpoint is used for transferring the assets between the master user and the sub-user.<br/> The main account of the master user supports the transfer to the main account or trade account of the sub-user. 
 
-<aside class="notice">This only supports the main account.</aside>
 
-###HTTP REQUEST###
+###HTTP REQUEST
 
 **POST /api/v1/accounts/sub-transfer**
 
@@ -1053,10 +1064,16 @@ This endpoint is used for transferring the assets between the master user and th
 Param | Type | Description
 --------- | ------- | ------- 
 clientOid | string | A unique ID generated by client.
-currency | string | currency.
-amount | string | Transfer amount, a quantity that exceeds the precision of the currency(You can get the precision of the currency via ‘/api/v1/currencies’ endpoint).
-direction | string | OUT — the master user to sub user;IN — the sub user to the master user.
+currency | String | [currency](#Get-Currencies)
+amount | string | Transfer amount, a quantity that exceeds the [precision of the currency](#get-currencies).
+direction | string | OUT — the master user to sub user<br/>IN — the sub user to the master user.
+accountType | String | *[optional]* The account type of the master user: **main**
+subAccountType | String | The account type of the sub user: **main** or **trade**
 subUserId | string | The subUserId can be found by ‘/api/v1/sub/user’ endpoint.
+
+
+
+
 
 
 
@@ -1092,7 +1109,7 @@ Asset accounts are not automatically generated (when funds are credited, the mai
 - Get the accountId via the "**List acconts**" interface and the id from the response is the accountId;
 - Transfer assets between main accout and trade accout via the "**inner-transfer**" interface.
 
-###HTTP REQUEST###
+###HTTP REQUEST
 **POST /api/v1/accounts/inner-transfer**
 <aside class="notice">This interface was discontinued on August 29, 2019. Please use the transfer interface provided below.</aside>
 
@@ -1144,7 +1161,7 @@ This endpoint requires the **"Trade"** permission.
 Create a deposit address for the currency you intend to deposit.
 You can create only one deposit address per currency. 
 
-###HTTP REQUEST###
+###HTTP REQUEST
 **POST /api/v1/deposit-addresses**
 
 ###API KEY PERMISSIONS
@@ -1176,7 +1193,7 @@ chain | The chain name of currency, e.g. The available value for USDT are OMNI, 
 
 Get a deposit address for the currency you intend to deposit. If the returned data is null, you may need to create a deposit address first.
 
-###HTTP REQUEST###
+###HTTP REQUEST
 **GET /api/v1/deposit-addresses?currency=\<currency\>**
 
 ### API KEY PERMISSIONS
@@ -1233,7 +1250,7 @@ chain | The chain name of currency, e.g. The available value for USDT are OMNI, 
 
 Get deposit page list.
 
-###HTTP REQUEST###
+###HTTP REQUEST
 **GET /api/v1/deposits**
 
 ### API KEY PERMISSIONS
@@ -1287,7 +1304,7 @@ List of KuCoin V1 historical deposits.
 
 <aside class="notice">Default query for one month of data.</aside>
 
-###HTTP REQUEST###
+###HTTP REQUEST
 **GET /api/v1/hist-deposits**
 
 ### API KEY PERMISSIONS
@@ -1344,7 +1361,7 @@ status | Status
 }
 ```
 
-###HTTP REQUEST###
+###HTTP REQUEST
 **GET /api/v1/withdrawals**
 
 ### API KEY PERMISSIONS
@@ -1400,7 +1417,7 @@ List of KuCoin V1 historical withdrawals.
 
 <aside class="notice">Default query for one month of data.</aside>
 
-###HTTP REQUEST###
+###HTTP REQUEST
 **GET /api/v1/hist-withdrawals**
 
 ### API KEY PERMISSIONS
@@ -1449,7 +1466,7 @@ status | Status
 }
 ```
 
-###HTTP REQUEST###
+###HTTP REQUEST
 **GET /api/v1/withdrawals/quotas**
 
 ### API KEY PERMISSIONS
@@ -1485,7 +1502,7 @@ chain | The chain name of currency, e.g. The available value for USDT are OMNI, 
 }
 ```
 
-###HTTP REQUEST###
+###HTTP REQUEST
 **POST /api/v1/withdrawals**
 <aside class="notice">On the WEB end, you can open the switch of specified favorite addresses for withdrawal, and when it is turned on, it will verify whether your withdrawal address is a favorite address.</aside>
 
@@ -1520,7 +1537,7 @@ Suppose you are going to withdraw 1 BTC from the KuCoin platform (transaction fe
 Only withdrawals which are still in a processing status can be canceled.
 
 
-###HTTP REQUEST###
+###HTTP REQUEST
 **DELETE /api/v1/withdrawals/\<withdrawalId\>**
 
 ###API KEY PERMISSIONS
@@ -1774,7 +1791,7 @@ If the order could not be canceled (was already filled or previously canceled, e
 
 Attempt to cancel all open orders. The response is a list of ids of the canceled orders.
 
-###HTTP REQUEST###
+###HTTP REQUEST
 **DELETE /api/v1/orders**
 
 ### Parameters ###
@@ -1943,7 +1960,7 @@ List of KuCoin V1 historical orders.
 
 <aside class="notice">Default query for one month of data.</aside>
 
-###HTTP REQUEST###
+###HTTP REQUEST
 **GET /api/v1/hist-orders**
 
 ###API KEY PERMISSIONS###
@@ -2022,7 +2039,7 @@ createdAt | Create time.
 
 Get a list of 1000 orders in the last 24 hours.
 
-###HTTP REQUEST###
+###HTTP REQUEST
 **GET /api/v1/limit/orders**
 
 ###PARAMETERS###
@@ -2105,7 +2122,7 @@ This endpoint requires the **"General"** permission.
 
 Get a single order by order ID.
 
-###HTTP REQUEST###
+###HTTP REQUEST
 **GET /api/v1/orders/\<order-id\>**
 
 Param | Type | Description
@@ -2187,7 +2204,7 @@ This endpoint requires the **"General"** permission.
 
 Get a list of recent fills.
 
-###HTTP REQUEST###
+###HTTP REQUEST
 **GET /api/v1/fills**
 
 ###API KEY PERMISSIONS###
@@ -2310,7 +2327,7 @@ Fills are returned sorted by descending fill time.
 
 Get a list of 1000 fills in the last 24 hours.
 
-###HTTP REQUEST###
+###HTTP REQUEST
 **GET /api/v1/limit/fills**
 
 ###PARAMETERS###
@@ -2371,7 +2388,7 @@ Market data is public and can be used without a signed request.
 
 Get a list of available currency pairs for trading. This API is used to query related configuration information. If you want to get the market information of the trading symbol, please use [Get All Tickers](#get-all-tickers).
 
-###HTTP REQUEST###
+###HTTP REQUEST
 **GET /api/v1/symbols**
 
 ###PARAMETERS###
@@ -2427,7 +2444,7 @@ The order price must be a multiple of this increment (i.e. if the increment is 0
 
 This query will include only the inside (i.e. best) buy and sell(buy and sell represent bestBid and bestAsk) data, last price and last trade size. 
 
-###HTTP REQUEST###
+###HTTP REQUEST
 **GET /api/v1/market/orderbook/level1?symbol=\<symbol\>**
 
 <aside class="spacer2"></aside>
@@ -2469,7 +2486,7 @@ This query will include only the inside (i.e. best) buy and sell(buy and sell re
 
 Request market tickers for all the trading pairs in the market (including 24h volume).
 
-###HTTP REQUEST###
+###HTTP REQUEST
 **GET /api/v1/market/allTickers**
 
 <aside class="spacer8"></aside>
@@ -2496,7 +2513,7 @@ Request market tickers for all the trading pairs in the market (including 24h vo
 
 Get 24 hr stats for the symbol. The volume is in base currency units. Open, high and low are in quote currency units.
 
-###HTTP REQUEST###
+###HTTP REQUEST
 **GET /api/v1/market/stats?symbol=\<symbol\>**
 
 <aside class="spacer2"></aside>
@@ -2519,7 +2536,7 @@ Get 24 hr stats for the symbol. The volume is in base currency units. Open, high
 Get the transaction currency for the entire trading market.
 <aside class="notice"> SC has changed to USDS, but you can still use SC as a query parameter</aside>
 
-###HTTP REQUEST###
+###HTTP REQUEST
 **GET /api/v1/markets**
 
 <aside class="spacer2"></aside>
@@ -2550,7 +2567,7 @@ In most cases it is recommended that you use the Order Book API as it is the fas
 To maintain up-to-date Order Book in real time, please use it with [Websocket Feed](#level-2-market-data).
 
 
-###HTTP REQUEST###
+###HTTP REQUEST
 
 **GET /api/v1/market/orderbook/level2_20?symbol=\<symbol\>**
 
@@ -2586,7 +2603,7 @@ It is generally used by professional traders because it uses more server resourc
 
 To maintain up-to-date Order Book in real time, please use it with [Websocket Feed](#level-2-market-data).
 
-###HTTP REQUEST###
+###HTTP REQUEST
 
 **GET /api/v1/market/orderbook/level2?symbol=\<symbol\>**  (Will be deprecated on December 31, 2019)
 
@@ -2643,7 +2660,7 @@ This API is generally used by professional traders because it uses more server r
 
 To Maintain up-to-date Order Book in real time, please use it with [Websocket Feed](#full-matchengine-data-level-3).
 
-###HTTP REQUEST###
+###HTTP REQUEST
 **GET /api/v1/market/orderbook/level3?symbol=\<symbol\>**
 
 ### Data Sort ###
@@ -2678,7 +2695,7 @@ To Maintain up-to-date Order Book in real time, please use it with [Websocket Fe
 ```
 List the latest trades for a symbol.
 
-###HTTP REQUEST###
+###HTTP REQUEST
 **GET /api/v1/market/histories?symbol=\<symbol\>**
 
 ###SIDE###
@@ -2716,7 +2733,7 @@ Klines for a symbol. Data are returned in grouped buckets based on requested **t
 
 <aside class="warning"> Klines should not be polled frequently. If you need real-time information, use the trade and book endpoints along with the websocket feed.</aside>
 
-###HTTP REQUEST###
+###HTTP REQUEST
 **GET /api/v1/market/candles?symbol=\<symbol\>**
 
 Param | Description
@@ -2740,7 +2757,7 @@ Each bucket is an array of the following information:
 * **turnover** Turnover of a period of time. The turnover is the sum of the transaction volumes of all orders (Turnover of each order=price*quantity).
 
 
-###HTTP REQUEST###
+###HTTP REQUEST
 **GET /api/v1/market/stats**
 
 
@@ -2779,7 +2796,7 @@ These interfaces are public and do not require authentication.
 
 List known currencies.
 
-###HTTP REQUEST###
+###HTTP REQUEST
 **GET /api/v1/currencies**
 
 <aside class="notice">Not all currencies may be currently in use for trading.</aside>
@@ -2830,7 +2847,7 @@ Get single currency detail
   }
 ```
 
-###HTTP REQUEST###
+###HTTP REQUEST
 **GET /api/v1/currencies/{currency}**
 
 <aside class="notice">Details of the currency.</aside>
@@ -2869,7 +2886,7 @@ Get fiat price for currency
     }
 }
 ```
-###HTTP REQUEST###
+###HTTP REQUEST
 **GET /api/v1/prices**
 
 **Request**
@@ -3164,7 +3181,7 @@ Topic: **/market/ticker:{symbol},{symbol}...**
   }
 }
 ```
-Subscribe to this topic to get the realtime push of BBO changes.
+Subscribe to this topic to get the real time push of BBO changes.
 
 The ticker channel provides real-time price updates every time a match happens. It batches updates in case of cascading matches, greatly reducing bandwidth requirements.
 
@@ -3203,7 +3220,7 @@ Topic: **/market/ticker:all**
   }
 }
 ```
-Subscribe to this topic to get the realtime push of all market symbols BBO change.
+Subscribe to this topic to get the real time push of all market symbols BBO change.
 
 The ticker channel provides real-time price updates every 1 second.
 
