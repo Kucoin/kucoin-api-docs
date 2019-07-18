@@ -1069,8 +1069,8 @@ clientOid | String | Client Order Id，客户端创建的唯一标识，建议�
 currency | String | [币种代码](#ebcc9fbb02)
 amount | String | 转账金额，精度为[币种精度](#ebcc9fbb02)正整数倍
 direction | String | OUT — 母账号转子账号<br/>IN — 子账号转母账号
-accountType | String | [可选] 母账号账户类型**main**
-subAccountType | String | 子账号账户类型**main** 或 **trade**
+accountType | String | [可选] 母账号账户类型**MAIN**
+subAccountType | String | 子账号账户类型**MAIN** 或 **TRADE**
 subUserId | String | [子账号的用户Id](#a0bc1cb873)
 
 ### 返回值
