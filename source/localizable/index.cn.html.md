@@ -68,7 +68,7 @@ KuCoin为专业做市商提供做市激励计划。
 
 ## 子账号
 子账号需要在Web端进行创建，并配置子账号的API。
-子账号可以用作隔离资金和交易。资金可以在母账号和子账号之间相互划转，但只支持储蓄账户之间的划转。
+子账号可以用作隔离资金和交易。资金可以在母账号和子账号之间相互划转。
 子账户的资金仅用于子账号交易，不可以提现。
 
 子账号的API可以访问所有公共接口。此外，通过API-KEY可以访问以下私有接口。
@@ -1069,8 +1069,8 @@ clientOid | String | Client Order Id，客户端创建的唯一标识，建议�
 currency | String | [币种代码](#ebcc9fbb02)
 amount | String | 转账金额，精度为[币种精度](#ebcc9fbb02)正整数倍
 direction | String | OUT — 母账号转子账号<br/>IN — 子账号转母账号
-accountType | String | [可选] 母账号账户类型**main**
-subAccountType | String | 子账号账户类型**main** 或 **trade**
+accountType | String | [可选] 母账号账户类型**MAIN**
+subAccountType | String | 子账号账户类型**MAIN** 或 **TRADE**
 subUserId | String | [子账号的用户Id](#a0bc1cb873)
 
 ### 返回值
@@ -1511,6 +1511,7 @@ amount | number | 提现总额，必须为提现精度的正整数倍
 memo   | String | [可选]  提现[地址标识](#b3114995fd)，没有memo(tag)的币种，不可传这个字段。
 isInner | boolean | [可选] 是否为平台内部提现。默认为false
 remark | String | [可选] 备注信息
+chain | String | [可选] 针对一币多链的币种，可通过chain获取币种详情。比如， USDT存在的链有 OMNI, ERC20, TRC20。
 
 ### 返回值
 字段名称 | 描述
@@ -1885,7 +1886,7 @@ opType |  操作类型: DEAL(挂买卖单), CANCEL(撤销)
 type | 订单类型
 side | 买或卖
 price |  成交价格
-size |  成交数量
+size |  下单数量
 funds | 下单金额
 dealFunds |  成交额
 dealSize | 成交数量
