@@ -1490,7 +1490,7 @@ limitBTCAmount | Total BTC amount available to withdraw the current day
 innerWithdrawMinFee | Fees for internal withdrawal
 usedBTCAmount | The estimated BTC amount (based on the fiat daily limit) that can be withdrawn within the current day
 isWithdrawEnabled | Is the withdraw function enabled or not
-withdrawMinFee | Minimum withdrawal amount
+withdrawMinFee | Minimum withdrawal fee
 precision | Floating point precision. 
 chain | The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is OMNI.
 
