@@ -43,7 +43,7 @@ function http_request($method = 'GET', $url, $headers = [], $data = null)
 function signature($request_path='', $body='', $timestamp = false, $method='GET') {
     global $secret;
 
-    $body = is_array($body) ? json_encode($body) : $body;
+    $body = is_array($body) ? json_encode($body, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) : $body;
     $timestamp = $timestamp ? $timestamp : time();
 
     $what = $timestamp.$method.$request_path.$body;
