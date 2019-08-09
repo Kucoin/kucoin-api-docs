@@ -9,93 +9,24 @@ toc_footers:
 
 includes:
 
+search: true
 ---
 
 # 快速开始
 
-## 基本介绍 
+## 简介 
 
-欢迎来到KuCoin交易员和开发者文档。 这些文档概述了交易功能，市场行情和其他应用开发接口。
+欢迎使KuCoin开发者文档。
+
+本文档概述了交易功能、市场行情和其他应用开发接口。
+
 
 API分为两部分：**REST API和Websocket 实时数据流**
 
  -  REST API包含四个类别：**[用户模块](#b6935b918b)（私有），[交易模块](#484936af01)（私有），[市场数据](#841ec28ecd)（公共），[其他接口](#cd67660573)（公共）**
  -  Websocket包含两类：**公共频道和私人频道**
 
-私有API需要身份验证，并提供下单和帐户相关信息的访问权限。
-
-Websocket API提供市场数据，其中大部分都是公开的。
-
-## 阅读顺序
-
-1.  [沙盒环境](#2d9a68bcb2) 帮助您在测试环境更好地了解和使用API。
-2.  [REST&nbsp;API](#rest-nbsp-api) 如何创建一个REST&nbsp;API。
-3.  [服务器时间](#89b4aa6364) 无需身份验证的情况下，发起一个请求并获取返回结果值（可用作连接测试）。
-4.  [接口认证](#e6a574d26d) 如何创建一个有身份验证的请求。
-5.  [内部资金划转](#c08ac949fb) 储蓄账户和交易账户之间资产的相互划转。
-6.  [账户列表](#f0f7ae469d) 获取个人的账户详情指南。
-7.  [下单](#fd6ce2a756) 获取下单操作指南。
-8.  [委托买卖盘](#ab5235c05c) 获取买卖盘的快照信息。
-9.  [Websocket](#42f0e0ea9d) 如何创建Websocket 连接
-10. [Level-2 市场行情](#level-2-3) 如何使用Websocket 构建一个实时的买卖盘。 
-11. [余额变更](#5a9519dabe) Websocket私人频道指南，实时获取账户余额变更信息
-
-## 做市激励计划
-
-KuCoin为专业做市商提供做市激励计划。
-参与该计划，可以获得以下激励：
-
-- 做市商返佣
-- 每个月奖励高达30,000 KCS，来回馈最优秀的做市商
-- 直接市场接入和主机托管服务
-
-具有良好做市策略和大交易量的用户欢迎参与此长期做市激励计划。如果您的账户在过去30天内的交易量超过5000 BTC，请提供以下信息以发送电子邮件至mm@kucoin.com，邮件主题为“Spot Market Maker Application”：
-
-- 提供平台帐户（需要电子邮件，无需推荐关系）
-- 过去30天内在任何交易所交易的交易量证明或VIP级别的证明
-- 请简要说明做市的方法（不需要详细说明）以及估算做市订单量的百分比。
-
-  
-## VIP快速通道 
-
-具有良好做市策略和大交易量的用户欢迎参与长期做市商计划。 如果您的帐户资产大于10BTC，请提供以下信息以发送电子邮件至：
-
-**vip@kucoin.com**（现货）进行做市商申请;
-
-- 提供平台帐户（需要电子邮件，无需推荐关系）;
-- 提供其他交易平台做市商交易量的截图（例如30天内的交易量，或VIP级别等）;
-- 请简要说明做市的方法，不需要详细说明。
-
-## 子账号
-子账号需要在Web端进行创建，并配置子账号的API。
-子账号可以用作隔离资金和交易。资金可以在母账号和子账号之间相互划转。
-子账户的资金仅用于子账号交易，不可以提现。
-
-子账号的API可以访问所有公共接口。此外，通过API-KEY可以访问以下私有接口。
-
-接口名称 | 描述
----------- | -------
-[账户列表](#f0f7ae469d) | 获取所有账户信息
-[单个账户详情](#7f8d035c7d) | 获取单个账户信息
-[创建账户](#9ec360d41d) | 创建账户
-[账户流水记录](#c8122540e1) | 获取账户流水记录
-[账户冻结记录](#8092434cb7) | 获取账户冻结记录
-[内部资金划转](#c08ac949fb) | 储蓄账户和交易账户资金相互划转
-[下单](#fd6ce2a756) | 下单
-[单个撤单](#fc69531f52) | 取消单个订单
-[全部撤单](#f175a031e7) | 取消所有订单
-[订单记录](#23e02e24af) | 获取订单记录
-[最近订单记录](#35acc0041f) | 获取最近24小时内的订单列表（最多获取1000条记录）
-[单个订单详情](#d86507e2dd) | 获取单个订单详情
-[成交记录](#6a30a471cf) | 获取成交记录
-[最近成交记录](#5abc068b38) | 获取最近24小时内的成交记录（最多1000条记录）
-
-子账号与母账号共享同一手续费等级（根据子账号与母账号交易额/KCS持有量累加求和计算划分）。
-子账号在交易之前需要将资金从储蓄账户转到交易账户。
-
-<aside class="notice">子账号不支持提现和充值</aside>
-
-# 更新内容
+## 最近更新
 
 为了您能获取到最新的API 变更的通知，请在 [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs)添加关注【Watch】
 
@@ -112,7 +43,7 @@ KuCoin为专业做市商提供做市激励计划。
 **5/28/19**: 
 
 - 修改 [交易市场列表](#b8f118fefc) SC改名为USDS。
-- 添加 [内部资金划转](#c08ac949fb) 新增接口，原来的接口于三个月后（28/8/19）过期。
+- 添加 [内部资金划转](#c08ac949fb) 新增接口，原来的接口于三个月后（8/28/19）过期。
 - 添加 [申请提现](#6eaf6b9ae0) **指定收藏地址提现** 描述。
 - 添加 [24小时统计](#24) 添加字段 **averagePrice** 昨日24小时平均成交价格。
 
@@ -145,7 +76,7 @@ KuCoin为专业做市商提供做市激励计划。
 
 **3/13/19** : 
 
-- 修改 一个账户中单个交易对的最大匹配订单为200（包括止损订单）。
+- 修改 一个用户，允许单个交易对，撮合中的订单最大数为200（包括止损订单）。
 
 **3/6/19** : 
 
@@ -202,39 +133,88 @@ KuCoin为专业做市商提供做市激励计划。
 - 添加 官方的 [Java & Go SDK](#level-nbsp-3)
 
 
-# 基本介绍
-Kucoin 系统 和 API 介绍.
+## 阅读指南
+
+1.  [沙盒环境](#2d9a68bcb2) 帮助您在测试环境更快地了解和使用API。
+2.  [REST&nbsp;API](#rest-api) 如何创建一个REST&nbsp;API。
+3.  [服务器时间](#89b4aa6364) 在无需验签的情况下，可以获取服务器时间。（可用作连接测试）。
+4.  [接口认证](#e6a574d26d) 如何进行接口认证。
+5.  [内部资金划转](#c08ac949fb) 储蓄账户和交易账户之间资产的相互划转。
+6.  [账户列表](#f0f7ae469d) 获取个人的账户资产指南。
+7.  [下单](#fd6ce2a756) 获取下单操作指南。
+8.  [委托买卖盘](#ab5235c05c) 获取买卖盘的快照信息。
+9.  [Websocket](#42f0e0ea9d) 如何创建Websocket 连接
+10. [Level-2 市场行情](#level-2-3) 如何使用Websocket 在本地构建一个实时的买卖盘。 
+11. [余额变更](#5a9519dabe) 通过Websocket实时获取账户余额变更信息
 
 
-# 撮合引擎 
 
-## 订单生命周期
+## 子账号
+子账号需要在Web端进行创建，并配置子账号的API。
+子账号可以用作隔离资金和交易。资金可以在母账号和子账号之间相互划转。
+子账户的资金仅用于子账号交易，不可以提现。
 
-当订单进入撮合引擎时，订单状态为 **received** 。如果一个订单与另外一个订单完全撮合，订单状态为 **done** 。一个订单可以部分被撮合也可以全部被撮合，没有被撮合的订单状态为 **open**。当订单被取消（ **canceled** ）或成交（ **filled** ），订单状态为 **done**, 否则订单会一直保持 **open** 状态
+子账号的API可以访问所有公共接口。此外，通过API-KEY可以访问以下私有接口。
 
-## 自成交保护（STP）
+接口名称 | 含义
+---------- | -------
+[账户列表](#f0f7ae469d) | 获取所有账户信息
+[单个账户详情](#7f8d035c7d) | 获取单个账户信息
+[创建账户](#9ec360d41d) | 创建账户
+[账户流水记录](#c8122540e1) | 获取账户流水记录
+[账户冻结记录](#8092434cb7) | 获取账户冻结记录
+[内部资金划转](#c08ac949fb) | 储蓄账户和交易账户资金相互划转
+[下单](#fd6ce2a756) | 下单
+[单个撤单](#fc69531f52) | 取消单个订单
+[全部撤单](#f175a031e7) | 取消所有订单
+[订单记录](#23e02e24af) | 获取订单记录
+[最近订单记录](#35acc0041f) | 获取最近24小时内的订单列表（最多获取1000条记录）
+[单个订单详情](#d86507e2dd) | 获取单个订单详情
+[成交记录](#6a30a471cf) | 获取成交记录
+[最近成交记录](#5abc068b38) | 获取最近24小时内的成交记录（最多1000条记录）
 
-**自成交保护**（**Self-Trade Prevention**） 默认为空。当您下单时指定了 **STP**，您的订单将不会发生自成交。如果您下单前没有指定 **STP**，您的订单可能会被自己的订单成交。
+子账号与母账号共享同一手续费等级（根据子账号与母账号交易额/KCS持有量累加求和计算划分）。
+子账号在交易之前需要将资金从储蓄账户转到交易账户。
 
-### 减量和取消(DC)
+<aside class="notice">子账号不支持提现和充值</aside>
+
+
+
+
+
+## 撮合引擎 
+
+### 订单生命周期
+
+当订单进入撮合引擎时，订单状态为 **received** 。如果一个订单与另外一个订单完全撮合，订单状态更新为 **done** 。一个订单可以部分成交或全部成交，未被撮合的订单状态为 **open**。当订单被取消（ **canceled** ）或成交（ **filled** ），订单状态更新为 **done**, 否则订单会一直保持 **open** 状态。
+
+
+
+### 自成交保护（STP）
+
+您可在高级设置中设置**自成交保护**策略。您的订单将不会发生自成交。如果您在再下单时没有指定**STP**，否则您的订单可能会与被自己的订单成交。
+
+
+
+#### 减量和取消(DC)
 
 目前，**市价单不支持减量和取消（DECREMENT AND CANCEL）**。针对同一个用户，同一个交易对，买卖订单同时存在，数量少的订单取消，数量多的订单减去少的一方的数量，继续执行撮合。如果数量相同，两个订单都会取消。
 
-### 取消旧的订单(CO)
+#### 取消旧的订单(CO)
 
 **Cancel Old** 全部取消旧的订单，新的订单继续执行撮合。
 
-### 取消新的订单(CN)
+#### 取消新的订单(CN)
 
 **Cancel New** 全部取消新的订单，旧的订单仍然在买卖盘中。
 
-### 双方都取消(CB)
+#### 双方都取消(CB)
 
 **Cancel Both** 买卖方都取消。
 
-## 撮合引擎数据
+### 撮合引擎数据
 
-### Level-3 市场数据（推荐使用）
+#### Level-3 市场数据（推荐使用）
 
 撮合引擎推送的数据，是每一个订单的信息，即Level-3的市场数据。<br/>
 Level-3市场数据更适合高频交易者<br/>
@@ -249,7 +229,7 @@ Level-3市场数据更适合高频交易者<br/>
 不同的类型信息的处理可以参考[Level-3 demo](#4623bd9386)或参考下方Level-3的[Message Type](#level-nbsp-3)
 
 
-# 客户端开发库
+## 客户端开发库
 
 客户端库可以帮助您快速集成我们的API。
 
@@ -270,19 +250,18 @@ CCXT 是我们官方SDK提供方，您可以使用CCXT来对接Kucoin API。
 - Python [sammchardy/python-kucoin](https://github.com/sammchardy/python-kucoin)
 - .NET [mscheetz/KuCoinApi.Net](https://github.com/mscheetz/KuCoinApi.Net/tree/v2.0)
 
-欢迎各位开发者 [提交](https://github.com/Kucoin) 您的SDK给我们，优秀者会获得KCS作为奖励。
+欢迎各位开发者 向KuCoin[提交](https://github.com/Kucoin) SDK，优秀者将获得KCS作为奖励。
+
 
 **代码样例**
 
-- PHP 单个文件样例 (GET & POST & DELETE)  [Github Link](https://github.com/Kucoin/kucoin-api-docs/tree/master/examples/php)
+- PHP 文件样例 (GET & POST & DELETE)  [Github Link](https://github.com/Kucoin/kucoin-api-docs/tree/master/examples/php)
 
 - - -
 
-# 沙盒测试环境
+## 沙盒测试环境
 
-**沙盒是测试环境**，用于测试API连接和Web交易，并提供交易的所有功能。在沙盒中，您可以使用虚假资金来测试交易功能。
- 
-沙盒环境中的登录会话和API密钥与生产环境完全分离。您可以使用沙盒环境中的Web界面来创建API密钥。
+**沙盒是测试环境**，用于测试API连接和Web交易，并提供交易的所有功能。在沙盒中，您可以使用虚拟资金来测试交易功能。 沙盒环境中的登录会话和API密钥与生产环境完全分离。您可以使用沙盒环境中的Web界面来创建API密钥。
 
 注意：在沙盒环境中注册后，您将收到系统在您的帐户中自动充值的一定数量的测试资金（BTC，ETH或KCS）。如果您想**交易**，请将资产从**储蓄**账户转移到**交易**账户。这些资金仅用于测试目的，不能提现。
 
@@ -295,16 +274,14 @@ REST&nbsp;API 连接地址:
 **https://openapi-sandbox.kucoin.com**
 
 
-# 请求频率限制
+## 请求频率限制
 
 当请求频率超过限制频率时，系统将返回 **429 Too Many Request** 提示。如果请求次数多次超过频率限制，你的IP或账户会被限制使用1分钟。请求返回中包含当前类型的剩余请求次数。
 
-# 申请提高频率限制
-做市商或专业交易员，如需提高请求频率，请将您的账户信息、申请原因，及交易量发送至[api@kucoin.com](mailto:api@kucoin.com)。
 
 ###REST API
 
-我们通过 **API-KEY** 限制 REST API： **每分钟1800次请求**，一个账号最多可以[创建](#api-key)10个API-KEY。
+我们通过 **API-KEY** 限制 REST API： **每分钟1800次请求**，一个账号最多可以[创建](#api-key)10个API-KEY。该策略对公共接口和私有接口皆适用。
 
 ####硬性限制
 [获取成交记录](#6a30a471cf): **每十秒100次请求**（超过会被禁用10秒）
@@ -326,46 +303,119 @@ REST&nbsp;API 连接地址:
 ### 订阅topic数量 
 每个连接最大可订阅topic数量限制：100个topics
 
+### 申请提高频率限制
 
-# REST&nbsp;API
+做市商或专业交易员，如需提高请求频率，请将您的账户信息、申请原因，及交易量发送至[api@kucoin.com](mailto:api@kucoin.com)。
+
+## 做市激励计划
+
+KuCoin为专业做市商提供做市激励计划。
+参与该计划，可以获得以下激励：
+
+- 做市商返佣
+- 每个月奖励高达30,000 KCS，来回馈最佳的做市商
+- 直接市场接入和主机托管服务
+
+具有良好做市策略和大交易量的用户欢迎参与此长期做市激励计划。如果您的账户在过去30天内的交易量超过5000 BTC，请提供以下信息以发送电子邮件至mm@kucoin.com，邮件主题为“Spot Market Maker Application”：
+
+- 提供平台帐户（需要电子邮件，无需推荐关系）
+- 过去30天内在任何交易所交易的交易量证明或VIP级别的证明
+- 请简要说明做市的方法（不需要详细说明）以及估算做市订单量的百分比。
+
+  
+## VIP快速通道 
+
+具有良好做市策略和大交易量的用户欢迎参与长期做市商计划。 如果您的帐户资产大于10BTC，请提供以下信息以发送电子邮件至：
+
+**vip@kucoin.com**（现货）进行做市商申请;
+
+- 提供平台帐户（需要电子邮件，无需推荐关系）;
+- 提供其他交易平台做市商交易量的截图（例如30天内的交易量，或VIP级别等）;
+- 请简要说明做市的方法，不需要详细说明。
+
+## 常见问题
+
+### 签名错误
+
+* 检查API-KEY，API-SECRET，API-PASSPHRASE是否正确
+* 检查签名内容顺序 timestamp + method + requestEndpoint + body
+* 检查header中timestamp是否与生成signature一致
+* 检查签名生成是否为base64编码
+* get请求是否以表单方式提交
+* post请求的数据格式是否是json格式（application/json; charset=utf-8）
+  
+### 申请提现
+* memo字段<br/>
+个别币种提现需要memo字段，该字段在其他平台可能会表示成tag或paymentId<br/>
+对于没有 memo 的币种，在使用API提现的时候是不能传递memo值，否则，接口会返回 **kucoin incorrect withdrawal address**
+* amount字段<br/>
+amount需要符合该币种提现的precision，可以通过[获取提现额度](#5bd567d526)获取<br/>
+提现金额必须为提现精度的整数倍，如果为0表示只能为整数。
+
+### .net SDK
+* POST请求验签错误<br/> 
+"{\"code\":\"400005\",\"msg\":\"Invalid KC-API-SIGN\"}"<br/>
+代码有bug<br/>
+ var response = body == null ? await _restRepo.PostApi<ApiResponse<T>, SortedDictionary<string, object>>(url, body, headers) : await _restRepo.PostApi<ApiResponse<T>>(url, headers);<br/>
+修改为:<br/>
+ var response = body != null ? await _restRepo.PostApi<ApiResponse<T>, SortedDictionary<string, object>>(url, body, headers) : await _restRepo.PostApi<ApiResponse<T>>(url, headers);
+
+### WebSocket 限制
+* 一个连接最多订阅100个topic；
+* token有效期24小时；
+* 一个用户最多10个连接；
+* 客户端每10秒最多上行100个消息；
+* 一个symbol 就是一个topic; e.g.Topic: /market/level3:{symbol},{symbol}... 
+
+### 返回 403 问题
+
+如返回以下错误消息：
+403 "The request could not be satisfied. Bad Request" from Amazon CloudFront<br/>
+
+* 检查请求是否为HTTPS
+* 移除GET请求中的RequestBody
+
+# REST API
 
 ## API服务器地址
 
-REST API 对于账户、订单、和市场数据都有有自己的接口端点。
+REST API 对于账户、订单、和市场数据均提供了接口。
 
 基本URL: **https://api.kucoin.com**。 
 
-请求URL 由基本URL和接口端点组成。 
+<aside class="notice">为了遵守当地法律要求，使用中国IP的用户不允许访问以上URL。</aside>
+
+请求URL由基本URL和接口端点组成。 
 
 ## 接口端点(Endpoint)
 
-每一个接口都有一个端点（Endpoint） 
+每个接口都提供了对应的端点（Endpoint），可在HTTP请求模块下获取。
 
 对于**GET** 请求, 端点需要要包含请求参数。
 
-比如，"[账户列表](#f0f7ae469d)"，默认的端点是 **/api/v1/accounts**。
-如果您传递“currency” 请求参数为BTC，那么端点为 **/api/v1/accounts?currency=BTC**，最终的请求URL为**https://openapi-v2.kucoin.com/api/v1/accounts?currency=BTC**。
+例如，对于"[账户列表](#f0f7ae469d)"接口，其默认端点为 **/api/v1/accounts**。
+如果您的请求参数currency=BTC，则该端点将变为 **/api/v1/accounts?currency=BTC**。因此，您最终请求的URL应为：**https://openapi-v2.kucoin.com/api/v1/accounts?currency=BTC**。
 
 
-# 请求
+## 请求
 所有的POST请求和返回内容类型都是 **application/json**.  
 
+除非另行说明，所有的时间戳参数均以Unix时间戳毫秒计算。如：**1544657947759**
 
-## 请求参数
 
-对于 **GET, DELETE** 请求, 请求URL需要包含所有的请求参数。(**例如， /api/v1/accounts?currency=BTC**)
+### 请求参数
 
-对于 **POST, PUT** 请求, 所有的请求参数以JSON的格式放在请求体中，JSON字符串中不要包含额外的空格。 (**例如， {"currency":"BTC"}**).
+对于 **GET和DELETE** 请求, 需将参数拼接在请求URL中。(**例如， /api/v1/accounts?currency=BTC**)
 
-## 数据字段
+对于 **POST和PUT** 请求, 需将参数以JSON格式拼接在请求主体中(**例如， {"currency":"BTC"}**)。
+注意：不要在JSON字符串中添加空格。 
 
-所有接口可能会在将来添加字段，现有字段不会改变，在对接API时，请注意兼容性。
 
-## 错误返回
+### 错误返回
 
-请求报错会返回错误信息，返回对象包含错误码code（HTTP错误码或系统错误码）,以及信息msg（可排查错误原因）。
+系统会返回HTTP错误代码或系统错误代码。您可根据返回的参数消息排查错误原因。
 
-### HTTP错误码
+#### HTTP错误码
 
 ```
 {
@@ -378,40 +428,41 @@ REST API 对于账户、订单、和市场数据都有有自己的接口端点�
 代码 | 意义
 ---------- | -------
 400 | Bad Request -- 无效的请求格式
-401 | Unauthorized -- 无效的API-KEY，请检查签名
+401 | Unauthorized -- 无效的API-KEY
 403 | Forbidden -- 请求被禁止
-404 | Not Found -- 找不到请求资源
-405 | Method Not Allowed -- 请求行中指定的请求方法不能被用于请求相应的资源
-415 | Content-Type: application/json -- [请求类型](#请求)必须为application/json
+404 | Not Found -- 找不到指定资源
+405 | Method Not Allowed -- 您请求资源的方法不正确
+415 | Content-Type: application/json -- [请求类型](#请求)必须为application/json类型
 429 | Too Many Requests -- 超过[请求频率限制](#26435b04cf)
-500 | Internal Server Error -- 服务器的内部程序错误，请稍后重试
-503 | Service Unavailable -- 服务器维护或者过载，服务器当前无法处理请求，请稍后重试
+500 | Internal Server Error -- 服务器出错，请稍后再试
+503 | Service Unavailable -- 服务器维护中，请稍后再试
 
 
 
-### 系统错误码
+#### 系统错误码
 
 代码 | 意义
 ---------- | -------
 400001 | Any of KC-API-KEY, KC-API-SIGN, KC-API-TIMESTAMP, KC-API-PASSPHRASE is missing in your request header -- 请求头中缺少[验签参数](#35e3a383b3)
-400002 | KC-API-TIMESTAMP Invalid -- 请求时间与服务器时间相差超过5秒
+400002 | KC-API-TIMESTAMP Invalid -- 请求时间与服务器时差超过5秒
 400003 | KC-API-KEY not exists -- API-KEY 不存在
 400004 | KC-API-PASSPHRASE error -- API-PASSPHRASE 不正确
-400005 | Signature error -- [签名](#消息签名)错误
-400006 | The requested ip address is not in the api whitelist -- 请求IP不在API白名单中，请在web端API管理配置IP白名单
-400007 | Access Denied -- 您的API没有足够的权限访问这个URI
+400005 | Signature error -- [签名](#消息签名)错误，请检查您的签名
+400006 | The requested ip address is not in the api whitelist -- 请求IP不在API白名单中
+400007 | Access Denied -- API权限不足，无法访问该URI目标地址。
 404000 | Url Not Found -- 找不到请求资源
-400100 | Parameter Error -- 您的请求参数不合法
+400100 | Parameter Error -- 请求参数不合法
 411100 | User are frozen -- 用户被冻结，请联系[帮助中心](https://kucoin.zendesk.com/hc/zh-cn/requests/new)
-500000 | Internal Server Error -- 服务器的内部程序错误，请稍后重试
+500000 | Internal Server Error -- 服务器出错，请稍后再试
+
 
 如果系统返回HTTP状态码为200，但业务失败，系统会报错。您可根据返回的参数消息排查错误。
 
 
 
-## 成功返回
+### 成功返回
 
-HTTP状态代码为200和 系统代码为 200000 标示一次成功的响应。成功请求的有效返回如下：
+当系统返回HTTP状态码200和系统代码200000时，表示响应成功，返回结果如下：
 
 ```
 {
@@ -420,74 +471,72 @@ HTTP状态代码为200和 系统代码为 200000 标示一次成功的响应。�
 }
 ```
 
-## 分页
+### 分页
 
-对于多数REST查询请求，返回对象为分页的数组形式，使用currentPage和pageSize来获取分页结果。比如,像接口，/api/v1/trades, /api/v1/fills, /api/v1/orders, 默认返回第一页，共50条数据。要获取更多数据信息，后续请求可按需设置分页获取数据。
+Pagination允许使用当前页数获取结果，非常适用于获取实时数据。如/api/v1/deposits、/api/v1/orders及/api/v1/fills端点均默认返回第一页结果，共50条数据。如需获取更多数据，请根据当前返回的数据指定其他分页，然后再进行请求。
 
 
-### 请求参数
+#### 请求参数
 
-参数名称| 类型 | 默认值 | 描述
----------- |  ------- |------- | ------
-currentPage| int | 1 | 当前页码
-pageSize | int |50 | 每页记录数
+参数名称|  默认值 | 含义
+---------- |  ------- |------- 
+currentPage|  1 | 当前页码
+pageSize | 50 | 每页记录数
 
-### 示例
+#### 示例
 **GET /api/v1/orders?currentPage=1&pageSize=50**
 
 
-# 类型说明 
+## 类型说明 
 
-## 时间戳 
+### 时间戳 
 
 所有时间戳参数都应以毫秒为单位，除非另有说明。例如， **1544657947759**。
 
 撮合引擎和订单系统的时间戳使用的是纳秒为单位。
 
-## 数字 
+### 数字 
 
 为了保证跨平台的数字的精确度，Decimal 需要转化为字符串返回。请在发出请求时，将数字转换为字符串来避免数字被截断或者精度错误。
 
 
 
 
-# 接口认证
+## 接口认证
 
-## 创建API-KEY
+### 创建API-KEY
+通过接口进行请求前，您需在Web端创建API-KEY。创建成功后，您需妥善保管好以下三条信息：
 
-在请求私有端点（private endpoints）之前，您需要在Web端创建API-KEY。
-
-成功创建API后，您需妥善保管好以下三条信息：
 
 * Key
 * Secret
 * Passphrase
 
-Key和Secret将由KuCoin随机生成并提供。Passphrase（密码）将在您创建API时填写，如果忘记后无法恢复，需要重新创建API。
+Key和Secret由KuCoin随机生成并提供，Passphrase是您在创建API时使用的密码。以上信息若遗失将无法恢复，需要重新申请API KEY。
 
-## API权限
+### API权限
 
-您可以在Web端 - API管理，限制API的权限。
-API 权限有以下:
+您可在KuCoin Web端管理API权限。API权限分为以下几类：
 
 * **通用权限** - 允许API访问大部分的GET请求。
 * **交易权限** - 允许API具有下单和获取交易数据权限。
 * **转账权限** - 允许API划转资金，包含充值和提现。子账号没有转账权限。
   授权转账权限时请注意，不需要邮箱验证和谷歌验证就可以使用API进行转账。
+
   
 
 请参考下方API文档，看接口具体需要哪些权限。
 
-## 创建请求
+### 创建请求
 
-私有的Rest请求头必须包含以下内容:
+Rest请求头必须包含以下内容:
 
 * **KC-API-KEY** API-KEY以字符串传递
 * **KC-API-SIGN** [签名](#8ba46c43fe)
 * **KC-API-TIMESTAMP** 请求的时间戳
-* **KC-API-PASSPHRASE** 创建API时填的API密码
+* **KC-API-PASSPHRASE** 创建API时填的API-KEY的密码
 
-## 签名
+### 签名
 
 ```php
     <?php
@@ -554,11 +603,11 @@ API 权限有以下:
 ```
 请求头中的 **KC-API-SIGN**: 
 
-* 使用 API-Secret 对
-{timestamp + method+ endpoint  + body} 拼接的字符串进行HMAC-sha256加密。
-* 再将加密内容使用 base64 加密。
+1. 使用 API-Secret 对
+{timestamp + method+ endpoint  + body} 拼接的字符串进行**HMAC-sha256**加密。
+2. 再将加密内容使用 **base64** 加密。
 
-Notice：
+注意：
 * 加密的 timestamp 需要和请求头中的KC-API-TIMESTAMP保持一致
 * 用于加密的body需要和请求中的Request Body的内容保持一致
 * 请求方法需要大写
@@ -585,58 +634,19 @@ KC-API-SIGN = 7QP/oM0ykidMdrfNEUmng8eZjg/ZvPafjIqmxiVfYu4=
 <aside class="spacer16"></aside>
 <aside class="spacer8"></aside>
 
-## 选择时间戳
+### 选择时间戳
 
 请求头中的 **KC-API-TIMESTAMP** 必须为[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)，精确到毫秒。例如，1547015186532
 
-您服务器请求的时间戳与API服务器时间相差必须在五秒以内，否则您的请求会过期，导致您的请求被拒绝。如果您认为您的服务器和API服务器之间有很多时间偏差，我们推荐您使用我们[服务器时间](#获取服务器时间)。
+请求头的KC-API-TIMESTAMP必须为Unix UTC时间，需精确到毫秒（如：1547015186532）。
+服务器请求的时间戳与API服务器时差必须控制在5秒以内，否则请求会因过期而被服务器拒绝。如果服务器与API服务器之间存在时间偏差，请使用平台提供的服务器时间接口，获取API[服务器的时间](#3f1907847c)。
 
-# 常见问题
-
-## 签名错误
-
-* 检查API-KEY，API-SECRET，API-PASSPHRASE是否正确
-* 检查签名内容顺序 timestamp + method + requestEndpoint + body
-* 检查header中timestamp是否与生成signature一致
-* 检查签名生成是否为base64编码
-* get请求是否以表单方式提交
-* post请求的数据格式是否是json格式（application/json; charset=utf-8）
-  
-## 申请提现
-* memo字段<br/>
-对于不同的币种有些有memo字段，有些没有memo字段，其他平台可能会使用tag或paymentId<br/>
-对于没有 memo 的币种，在使用API提现的时候是不能传递memo值，否则，接口会返回 kucoin incorrect withdrawal address
-* amount字段<br/>
-amount需要符合该币种提现的precision，可以通过[获取提现额度](#5bd567d526)获取<br/>
-提现金额必须为提现精度的整数倍，如果为0表示只能为整数。
-
-## .net SDK
-* POST请求验签错误<br/> 
-"{\"code\":\"400005\",\"msg\":\"Invalid KC-API-SIGN\"}"<br/>
-代码有bug<br/>
- var response = body == null ? await _restRepo.PostApi<ApiResponse<T>, SortedDictionary<string, object>>(url, body, headers) : await _restRepo.PostApi<ApiResponse<T>>(url, headers);<br/>
-修改为:<br/>
- var response = body != null ? await _restRepo.PostApi<ApiResponse<T>, SortedDictionary<string, object>>(url, body, headers) : await _restRepo.PostApi<ApiResponse<T>>(url, headers);
-
-## WebSocket 限制
-* 一个连接最多订阅100个topic；
-* token有效期24小时；
-* 一个用户最多10个连接；
-* 客户端每10秒最多上行100个消息；
-* 一个symbol 就是一个topic; e.g.Topic: /market/level3:{symbol},{symbol}... 
-
-## 返回 403 问题
-403 "The request could not be satisfied. Bad Request" from Amazon CloudFront<br/>
-
-* 检查请求是否为HTTPS
-* 移除GET请求中的RequestBody
 
 
 # 用户模块
 
-以下请求需要校验[签名](#8ba46c43fe)。
-
-# 账号
+此部分需进行[签名验证](#8ba46c43fe)。
+# 用户信息
 ## 获取所有子账号信息
 
 
@@ -654,34 +664,71 @@ amount需要符合该币种提现的precision，可以通过[获取提现额度]
 	}
 ]
 ```
-使用母账号的API访问这个接口获取母账号下所有的子账号信息。
+这个接口获取母账号下所有的子账号信息。
 
-###HTTP请求
+### HTTP请求
 
 **Get /api/v1/sub/user**
 
-### 请求参数
-无
+### 请求示例
+GET /api/v1/sub/user
+
+###API权限
+该接口需要**通用权限**。
 
 ### 返回值
 
-字段名称 | 描述
+字段 | 含义
 --------- | ------- 
 userId | 子账号的用户ID
 subName | 子账号的用户名
 remarks | 备注信息
 
-###API权限
-此端点需要**通用权限**。
+
 ##
 # 账户
+
+## 创建账户
+
+此接口可以用于创建账户
+
+```json
+{
+    "id": "5bd6e9286d99522a52e458de" //accountId
+}
+```
+
+### HTTP请求
+**POST /api/v1/accounts**
+
+### 请求示例
+POST /api/v1/accounts
+
+### API权限
+此接口需要**通用权限**。
+
+
+### 请求参数
+
+请求参数 | 类型 | 含义
+--------- | ------- | ------- 
+type | String | 账户类型，**main** 或 **trade** 
+currency | String |[币种](#ebcc9fbb02)
+
+### 返回值
+字段 | 含义
+--------- | ------- 
+id | 账户ID -- accountId
+
+
+
 
 ## 账户列表
 
 ```json
 [{
     "id": "5bd6e9286d99522a52e458de",  //accountId
-    "currency": "BTC",  //币种代码
+    "currency": "BTC",  //币种
     "type": "main",     //该币种下的账户类型，储蓄（main）账户和交易(trade)账户
     "balance": "237582.04299",  //资金总额
     "available": "237582.032",  //可用金额
@@ -697,24 +744,31 @@ remarks | 备注信息
 }]
 
 ```
-获取账号下所有的账户列表。
-<aside class="notice">一个币种对应两个账户，一个储蓄账户，一个交易账户。
-储蓄账户（main）会在第一次划转资产时创建，如果未划转过资产则不会有储蓄账户。如果账户不存在，需要[创建账户](#9ec360d41d)</aside>
+获取账号下账户详情列表。
 
-请在交易之前请先[充值](#fa03c46253)到储蓄账户，再使用[内部资金划转](#c08ac949fb)划转将资金从储蓄账户划转到交易账户。
+交易前请先[充值](#fa03c46253)到储蓄账户，再使用[内部资金划转](#c08ac949fb)将资金从储蓄账户划转到交易账户。
+
 
 ### HTTP请求
 **GET /api/v1/accounts**
 
+
+### 请求示例
+GET /api/v1/accounts
+
+###API权限
+此接口需要**通用权限**。
+
+
 ### 请求参数
 
-请求参数 | 类型 | 描述
+请求参数 | 类型 | 含义
 --------- | -------| ------- 
-currency | String | [可选] 币种代码](#ebcc9fbb02)
+currency | String | [可选] 币种](#ebcc9fbb02)
 type | String |[可选] 账户类型 **main** 或 **trade**
 
 ### 返回值
-字段名称 | 描述
+字段 | 含义
 --------- | ------- 
 id | accountId 账户ID 
 currency | 账户对应的币种
@@ -724,8 +778,7 @@ available | 账户可用的资金
 holds | 账户冻结的资金
 
 ###账户类型
-对于一个币种而言，一个账号可以拥有两个账户。一个为储蓄账户，一个为交易账户。
-储蓄账户和交易账户资金相互划转不需要手续费。
+单个币种拥有两个账户：1）储蓄账户 2）交易账户。储蓄账户和交易账户之间的资金划转不收取手续费。
 
 储蓄账户主要用于资金的提现和充值，储蓄账户里面的资金不可以直接用于交易。交易之前需要将资金从储蓄账户转到交易账户。
 
@@ -737,8 +790,6 @@ holds | 账户冻结的资金
 当下单时，您用于下单的资金会被冻结。冻结的资金不可以用作再次下单或者提现。当订单取消或成交后，资金才能解冻回退或解冻支付。
 
 
-###API权限
-此端点需要**通用权限**。
 
 ## 单个账户详情
 ```json
@@ -754,61 +805,32 @@ holds | 账户冻结的资金
 ### HTTP请求
 **GET /api/v1/accounts/{accountId}**
 
+### 请求示例
+GET /api/v1/accounts/5bd6e9286d99522a52e458de
+
+###API权限
+此接口需要**通用权限**。
+
 ### 请求参数
 
-请求参数 | 类型 | 描述
+请求参数 | 类型 | 含义
 --------- | ------- | ------- 
 accountId | String | 路径参数，[账户ID](#f0f7ae469d)
 
 ### 返回值
-字段名称 | 描述
+字段 | 含义
 --------- | ------- 
 currency | 币种
 balance | 账户资金总额
 holds | 冻结资金
 available | 可用资金
 
-###API权限
-此端点需要**通用权限**。
-
-
-
-## 创建账户
-
-此接口可以用于创建账户
-
-```json
-{
-    "id": "5bd6e9286d99522a52e458de" //accountId
-}
-```
-
-### HTTP请求
-**POST /api/v1/accounts**
-
-### 请求参数
-
-请求参数 | 类型 | 描述
---------- | ------- | ------- 
-type | String | 账户类型，**main** 或 **trade** 
-currency | String |[币种代码](#ebcc9fbb02)
-
-### 返回值
-字段名称 | 描述
---------- | ------- 
-id | 新创建的账户ID -- accountId
-
-### API权限
-此端点需要**通用权限**。
-
-
-
 
 
 ## 账户流水记录
 
 此接口返回账户的出入账流水记录。
-返回值是[分页](#88b6b4f79a)后的数据，根据时间降序排序，您可以获取到最新的数据。
+返回值是[分页](#88b6b4f79a)后的数据，根据时间降序排序。
 
 ```json
 {
@@ -822,7 +844,7 @@ id | 新创建的账户ID -- accountId
 			"fee": "0", //充值或提现费率
 			"balance": "1994.040596", //变动后的资金总额
 			"bizType": "withdraw", //业务类型
-			"direction": "in", // 出入账方向 in 入账 out 出账
+			"direction": "in", // 出入账方向入账或出账（in or out）
 			"createdAt": 1540296039000, // 创建时间
 			"context": { // 业务核心参数
 				"orderId": "5bc7f080b39c5c03286eef8a",
@@ -850,17 +872,26 @@ id | 新创建的账户ID -- accountId
 ### HTTP请求
 **GET /api/v1/accounts/{accountId}/ledgers**
 
+
+### 请求示例
+GET /api/v1/accounts/5bd6e9286d99522a52e458de/ledgers
+
+###API权限
+此接口需要**通用权限**。
+
+<aside class="notice">这个接口需要使用分页</aside>
+
 ### 请求参数
 
-请求参数 | 类型 | 描述
+请求参数 | 类型 | 含义
 --------- | ------- | ------- 
 accountId | String | 路径参数，[账户ID](#f0f7ae469d)
-startAt | long |[可选] 开始时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以毫秒为单位，只会返回在开始时间之后创建的数据。
-endAt | long | [可选] 结束时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以毫秒为单位，只会返回在结束时间以前创建的数据。
+startAt| long | [可选] 开始时间（毫秒）
+endAt| long | [可选]  截止时间（毫秒） 
 
 
 ### 返回值
-字段名称 | 描述
+字段 | 含义
 --------- | ------- 
 currency | 币种 
 amount | 资金变动值
@@ -874,10 +905,9 @@ context | 业务核心参数
 ###context
 如果 **bizType** 是trade exchange，那么 **context** 字段会包含交易的额外信息（订单id，交易id，交易对）。
 
-###API权限
-此端点需要**通用权限**。
 
-<aside class="notice">这个接口需要使用分页</aside>
+
+
 
 ## 账户冻结记录
 
@@ -908,14 +938,23 @@ context | 业务核心参数
 }
 ```
 
-此接口返回的是在途冻结记录。当下单或申请提现时，会冻结账户资金，生成冻结记录。当订单成交或取消资金会解冻支付或会解冻回退，冻结记录移除。当提现完成，冻结记录移除。
+此接口返回的是在途冻结记录。当下单或申请提现时，系统会冻结账户资金，生成冻结记录。当订单成交或取消资金/完成提现时，系统会解冻支付或解冻回退，冻结记录将被移除。
 
 ### HTTP请求
 **GET /api/v1/accounts/{accountId}/holds**
 
+### 请求示例
+GET /api/v1/accounts/5bd6e9286d99522a52e458de/holds
+
+
+###API权限
+此接口需要**通用权限**。
+
+<aside class="notice">这个接口需要使用分页</aside>
+
 ### 请求参数
 
-请求参数 | 类型 | 描述
+请求参数 | 类型 | 含义
 --------- | ------- | -------
 accountId | String | 路径参数，[账户ID](#f0f7ae469d)
 
@@ -923,7 +962,7 @@ accountId | String | 路径参数，[账户ID](#f0f7ae469d)
 
 ### 返回值
 
-字段名称 | 描述
+字段 | 含义
 --------- | -------
 currency | 币种
 holdAmount | 冻结资金
@@ -932,13 +971,14 @@ orderId | 资金冻结订单ID（只用作唯一标识）
 createdAt | 创建时间
 updatedAt | 修改时间
 
+###bizType
+**bizType** 指账户冻结的原因。
+
+
 ###orderId
 **orderId** 字段用于下单或提现生成的订单ID，用作唯一标识。
 
-###API权限
-此端点需要**通用权限**。
 
-<aside class="notice">这个接口需要使用分页</aside>
 
 ## 获取单个子账户信息
 
@@ -961,21 +1001,25 @@ updatedAt | 修改时间
 }
 ```
 
-此接口，使用母账号API-KEY，可获取单个子账号的账户信息。
+此接口可获取单个子账号的账户信息。
 
 ###HTTP请求
-
 **GET /api/v1/sub-accounts/{subUserId}**
+
+### 请求示例
+GET /api/v1/sub-accounts/5caefba7d9575a0688f83c45
+
+
 
 ### 请求参数
 
-请求参数 | 类型 | 描述
+请求参数 | 类型 | 含义
 --------- | ------- | -------  
 subUserId | String | 路径参数，[子账号的用户Id](#a0bc1cb873)
 
 ### 返回值
 
-字段名称 | 描述
+字段 | 含义
 --------- | ------- 
 subUserId | 子账号的用户Id
 subName | 子账号的用户名
@@ -985,7 +1029,7 @@ available | 可用资金
 holds | 冻结资金
  
 ###API权限
-此端点需要**通用权限**。
+此接口需要**通用权限**。
 
 ## 获取所有子账户信息
 
@@ -1021,20 +1065,20 @@ holds | 冻结资金
 ]
 ```
 
-此接口，使用母账号API-KEY，可获取所有子账号的账户信息。
+此接口可获取所有子账号的账户信息。
 
 
 ###HTTP请求
 
 **GET /api/v1/sub-accounts**
 
-### 请求参数
+### 请求示例
+GET /api/v1/sub-accounts
 
-无
 
 ### 返回值
 
-字段名称 | 描述
+字段 | 描述
 --------- | ------- 
 subUserId | 子账号的用户ID
 subName | 子账号的用户名
@@ -1044,7 +1088,7 @@ available | 可用资金
 holds | 冻结资金
  
 ###API权限
-此端点需要**通用权限**。
+此接口需要**通用权限**。
 
 ## 子母账号资金划转
 
@@ -1054,20 +1098,28 @@ holds | 冻结资金
 	"orderId": "5cbd870fd9575a18e4438b9a"
 }
 ```
-此接口，用于子母账号之间资金的划转，母账号的储蓄账户支持向子账号的储蓄账户或交易账户划转。
+此接口，用于子母账号之间资金的划转。
+母账号的储蓄账户支持向子账号的储蓄账户或交易账户划转。
 
 
 ###HTTP请求
 
 **POST /api/v1/accounts/sub-transfer** 
 
+
+### 请求示例
+POST /api/v1/accounts/sub-transfer
+
+###API权限
+此接口需要**交易权限**。
+
 ### 请求参数
 
-请求参数 | 类型 | 描述
+请求参数 | 类型 | 含义
 --------- | ------- | ------- 
 clientOid | String | Client Order Id，客户端创建的唯一标识，建议使用UUID
-currency | String | [币种代码](#ebcc9fbb02)
-amount | String | 转账金额，精度为[币种精度](#ebcc9fbb02)正整数倍
+currency | String | [币种](#ebcc9fbb02)
+amount | String | 转账金额，为[币种精度](#ebcc9fbb02)正整数倍
 direction | String | OUT — 母账号转子账号<br/>IN — 子账号转母账号
 accountType | String | [可选] 母账号账户类型**MAIN**
 subAccountType | String | 子账号账户类型**MAIN** 或 **TRADE**
@@ -1075,12 +1127,11 @@ subUserId | String | [子账号的用户Id](#a0bc1cb873)
 
 ### 返回值
 
-字段名称 | 描述
+字段 | 含义
 --------- | ------- 
-orderId | 子母账号转账的订单ID，作为唯一标识
+orderId | 子母账号转账的订单ID
  
-###API权限
-此端点需要**交易权限**。
+
 
 
 ## 内部资金划转
@@ -1094,21 +1145,32 @@ orderId | 子母账号转账的订单ID，作为唯一标识
 此接口用于平台内部账户资金划转，用户可以将资金在储蓄账户和交易账户之间免费划转。
 
 
+###划转指南
+
+账户是不会自动创建的（只有当一笔资金充值入账时，储蓄账户才会自动创建）。
+
+储蓄账户和交易账户相互划转指南:
+
+- 首先，按您自己的需求[创建](#9ec360d41d)一个储蓄账户或交易账户；
+- 其次，[获取accountId](#f0f7ae469d)，记录下返回的Id（即accountId)；
+- 最后，调用[内部资金划转](#c08ac949fb)接口，发起转账请求；
+
 
 ### HTTP请求
 **POST /api/v1/accounts/inner-transfer**  
+
 <aside class="notice">此接口于2019年08月29日停止使用，请使用下方提供的划转接口。</aside>
 
-###划转指南
-账户不能自动创建（只有当一笔资金充值入账时，储蓄账户会自动创建），储蓄账户和交易账户相互划转指南:
 
-- 首先，按需求[创建](#9ec360d41d)一个储蓄账户或交易账户；
-- 其次，[获取accountId](#f0f7ae469d)，记录返回的Id（即accountId)；
-- 最后，调用[内部资金划转](#c08ac949fb)接口，发起转账请求；
+### 请求示例
+POST /api/v1/accounts/inner-transfer
+
+###API权限
+此接口需要**交易权限**。
   
 ### 请求参数
 
-请求参数 | 类型 | 描述
+请求参数 | 类型 | 含义
 --------- | ------- |  ------- 
 clientOid | String | Client Order Id，客户端创建的唯一标识，建议使用UUID
 payAccountId | String | 付款方的accountId [账户ID](#f0f7ae469d)
@@ -1118,13 +1180,19 @@ amount | String | 转账金额，精度为[币种精度](#ebcc9fbb02)正整数�
 ### HTTP请求
 **POST /api/v2/accounts/inner-transfer**
 <aside class="notice">推荐使用，于2019年06月05日生效。</aside>
-  
+
+### 请求示例
+POST /api/v2/accounts/sub-transfer
+
+###API权限
+此接口需要**交易权限**。
+
 ### 请求参数
 
-请求参数 | 类型 | 描述
+请求参数 | 类型 | 含义
 --------- | ------- |  ------- 
 clientOid | String | Client Order Id，客户端创建的唯一标识，建议使用UUID
-currency | String | [币种代码](#ebcc9fbb02)
+currency | String | [币种](#ebcc9fbb02)
 from | String |  付款账户类型**main** 或 **trade**
 to | String |  收款账户类型**main** 或 **trade**
 amount | String | 转账金额，精度为[币种精度](#ebcc9fbb02)正整数倍
@@ -1132,12 +1200,10 @@ amount | String | 转账金额，精度为[币种精度](#ebcc9fbb02)正整数�
 
 
 ### 返回值
-字段名称 | 描述
+字段 | 含义
 --------- | ------- 
-orderId | 内部资金划转的订单ID，作为唯一标识
+orderId | 内部资金划转的订单ID
 
-###API权限
-此端点需要**交易权限**。
 
 
 
@@ -1158,21 +1224,25 @@ orderId | 内部资金划转的订单ID，作为唯一标识
 ### HTTP请求
 **POST /api/v1/deposit-addresses**
 
+### 请求示例
+POST /api/v1/deposit-addresses
+
 ### API权限
-此端点需要**转账权限**。
+此接口需要**转账权限**。
 
 ### 请求参数
 
-请求参数 | 类型 | 描述
+请求参数 | 类型 | 含义
 --------- | ------- |  ------- 
-currency | String | [币种代码](#ebcc9fbb02)
+currency | String | [币种](#ebcc9fbb02)
+chain | String | [可选] 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为OMNI。这个参数用于区分多链的币种，单链币种不需要。 
 
 ### 返回值
-字段名称 | 描述
+字段 | 含义
 --------- | ------- 
 address | 充值地址
-memo | 地址标签，如果返回为空，则该币种没有memo。当您在其他平台申请提现到Kucoin的时候，如果该币种有memo(tag)，需要填写memo，确保能准确入账到您到账户。
-
+memo | 地址标签memo(tag)，如果返回为空，则该币种没有memo。对于没有memo的币种，在[提现](#6eaf6b9ae0)的时候不可以传递memo
+chain | 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为OMNI。
 
 ## 获取充值地址
 
@@ -1189,18 +1259,22 @@ memo | 地址标签，如果返回为空，则该币种没有memo。当您在其
 ### HTTP请求
 **GET /api/v1/deposit-addresses**
 
+
+### 请求示例
+GET /api/v1/deposit-addresses
+
 ### API权限
-此端点需要**通用权限**。
+此接口需要**通用权限**。
 
 ### 请求参数
 
-请求参数 | 类型 | 描述
+请求参数 | 类型 | 含义
 --------- | -------  | ------- 
-currency | String |[币种代码](#ebcc9fbb02)
+currency | String |[币种](#ebcc9fbb02)
 chain | String | [可选] 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为OMNI。这个参数用于区分多链的币种，单链币种不需要。
 
 ### 返回值
-字段名称 | 描述
+字段 | 含义
 --------- | ------- 
 address | 充值地址
 memo | 地址标签memo(tag)，如果返回为空，则该币种没有memo。对于没有memo的币种，在[提现](#6eaf6b9ae0)的时候不可以传递memo
@@ -1241,38 +1315,42 @@ chain | 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TR
 ```
 
 此端点，可获取充值分页列表。
-返回值是[分页](#88b6b4f79a)后的数据，根据时间降序排序，您可以获取到最新的数据。
+返回值是[分页](#88b6b4f79a)后的数据，根据时间降序排序。
 
 ### HTTP请求
 **GET /api/v1/deposits**
 
+### 请求示例
+GET /api/v1/deposits
+
 ### API权限
-此端点需要**通用权限**。
+此接口需要**通用权限**。
+
+<aside class="notice">这个接口需要使用分页</aside>
 
 ### 请求参数
 
-请求参数 | 类型 | 描述
+请求参数 | 类型 | 含义
 --------- | ------- | ------- 
-currency | String |[可选] [币种代码](#ebcc9fbb02)
-startAt | long | [可选] 开始时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以毫秒为单位，只会返回在开始时间之后创建的数据。
-endAt | long |  [可选] 结束时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以毫秒为单位，只会返回在结束时间以前创建的数据。
+currency | String |[可选] [币种](#ebcc9fbb02)
+startAt| long | [可选] 开始时间（毫秒）
+endAt| long | [可选]  截止时间（毫秒） 
 status | String | [可选] 状态。可选值: PROCESSING, SUCCESS, FAILURE
 
 ### 返回值
-字段名称 | 描述
+字段 | 含义
 --------- | ------- 
 address | 充值地址
-memo | memo标记充值地址
+memo | 地址标签memo(tag)，如果返回为空，则该币种没有memo。对于没有memo的币种，在[提现](#6eaf6b9ae0)的时候不可以传递memo
 amount | 充值金额
 fee | 充值手续费
-currency | 币种代码
+currency | 币种
 isInner | 是否为平台内部充值
 walletTxId | 钱包交易Id
 status | 状态
 createdAt | 创建时间
 updatedAt | 修改时间
 
-<aside class="notice">这个接口需要使用分页</aside>
 
 ## 获取V1历史充值列表
 
@@ -1294,37 +1372,42 @@ updatedAt | 修改时间
 ```
 
 此接口，可获取KuCoin V1的充值记录。
-返回值是[分页](#88b6b4f79a)后的数据，根据时间降序排序，您可以获取到最新的数据。
+返回值是[分页](#88b6b4f79a)后的数据，根据时间降序排序。
 
 <aside class="notice">默认查询一个月的数据</aside>
 
 ###HTTP请求
 **GET /api/v1/hist-deposits**
 
+### 请求示例
+GET /api/v1/hist-deposits
+
+
 ### API权限
-此端点需要**通用权限**。
+此接口需要**通用权限**。
+
+<aside class="notice">这个接口需要使用分页</aside>
 
 ### 请求参数
 
-请求参数 | 类型 | 描述
+请求参数 | 类型 | 含义
 --------- | ------- | -------  
-currency | String | [可选] [币种代码](#ebcc9fbb02)
+currency | String | [可选] [币种](#ebcc9fbb02)
 status | String | [可选] 状态。可选值: PROCESSING, SUCCESS, and FAILURE
-startAt | long | [可选]  开始时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以毫秒为单位，只会返回在开始时间之后创建的数据。
-endAt | long | [可选] 结束时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以毫秒为单位，只会返回在结束时间以前创建的数据。 
+startAt| long | [可选] 开始时间（毫秒）
+endAt| long | [可选]  截止时间（毫秒）  
 
 
 ### 返回值
-字段名称 | 描述
+字段 | 含义
 --------- | ------- 
 amount | 充值金额
-currency | 币种代码
+currency | 币种
 isInner | 是否为平台内充值
 walletTxId | 钱包交易Id
 status | 状态
 createAt | 创建时间
 
-<aside class="notice">这个接口需要使用分页</aside>
 
 # 提现
 
@@ -1355,20 +1438,25 @@ createAt | 创建时间
 ### HTTP请求
 **GET /api/v1/withdrawals**
 
+### 请求示例
+GET /api/v1/withdrawals
+
 ### API权限
-此端点需要**通用权限**。
+此接口需要**通用权限**。
+
+<aside class="notice">这个接口需要使用分页</aside>
 
 ### 请求参数
 
-请求参数 | 类型 | 描述
+请求参数 | 类型 | 含义
 --------- | ------- | -------
-currency | String | [可选] [币种代码](#ebcc9fbb02)
+currency | String | [可选] [币种](#ebcc9fbb02)
 status | String | [可选]  状态。可选值: PROCESSING, WALLET_PROCESSING, SUCCESS, FAILURE
-startAt | long | [可选] 开始时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以毫秒为单位，只会返回在开始时间之后创建的数据。
-endAt | long | [可选] 结束时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以毫秒为单位，只会返回在结束时间以前创建的数据。
+startAt| long | [可选] 开始时间（毫秒）
+endAt| long | [可选]  截止时间（毫秒） 
 
 ### 返回值
-字段名称 |  描述
+字段 |  含义
 --------- | ------- 
 id | 唯一标识
 address | 提现地址
@@ -1382,7 +1470,6 @@ status | 状态
 createdAt | 创建时间
 updatedAt | 修改时间
 
-<aside class="notice">这个接口需要使用分页</aside>
 
 ## 获取V1历史提现列表
 
@@ -1406,29 +1493,34 @@ updatedAt | 修改时间
 ```
 
 此接口，可获取KuCoin V1的提现记录。
-返回值是[分页](#88b6b4f79a)后的数据，根据时间降序排序，您可以获取到最新的数据。
+返回值是[分页](#88b6b4f79a)后的数据，根据时间降序排序。
 
 <aside class="notice">默认查询一个月的数据</aside>
 
 ###HTTP请求
 **GET /api/v1/hist-withdrawals**
 
+### 请求示例
+GET /api/v1/hist-withdrawals
+
 ### API权限
-此端点需要**通用权限**。
+此接口需要**通用权限**。
+
+<aside class="notice">这个接口需要使用分页</aside>
 
 ### 请求参数
 
-请求参数 | 类型 | 描述
+请求参数 | 类型 | 含义
 --------- | ------- | -------  
-currency | String | [可选] [币种代码](#ebcc9fbb02)
+currency | String | [可选] [币种](#ebcc9fbb02)
 status | String | [可选] 状态。可选值: PROCESSING, SUCCESS, FAILURE
-startAt | long | [可选]  开始时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以毫秒为单位，只会返回在开始时间之后创建的数据。
-endAt | long | [可选] 结束时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以毫秒为单位，只会返回在结束时间以前创建的数据。
+startAt| long | [可选] 开始时间（毫秒）
+endAt| long | [可选]  截止时间（毫秒） 
 
 
 
 ### 返回值
-字段名称 | 描述
+字段 | 含义
 --------- | ------- 
 amount | 提现金额
 currency | 币种
@@ -1437,7 +1529,6 @@ walletTxId | 钱包交易Id
 createAt |  创建时间
 status | 状态
 
-<aside class="notice">这个接口需要使用分页</aside>
 
 ##  获取提现额度
 
@@ -1461,18 +1552,22 @@ status | 状态
 ### HTTP请求
 **GET /api/v1/withdrawals/quotas**
 
+### 请求示例
+GET /api/v1/withdrawals/quotas?currency=BTC
+
+
 ### API权限
-此端点需要**通用权限**。
+此接口需要**通用权限**。
 
 ### 请求参数
 
-请求参数 | 类型 | 描述
+请求参数 | 类型 | 含义
 --------- | ------- | ---------
-currency | String | [币种代码](#ebcc9fbb02)
+currency | String | [币种](#ebcc9fbb02)
 chain | String | [可选] 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为OMNI。这个参数用于区分多链的币种，单链币种不需要。
 
 ### 返回值
-字段名称 | 描述
+字段 | 含义
 --------- | ------- 
 currency | 币种
 availableAmount | 可提现的金额
@@ -1496,25 +1591,29 @@ chain | 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TR
 
 ### HTTP请求
 **POST /api/v1/withdrawals**
-<aside class="notice">在WEB端可以开启指定收藏地址提现，开启后会校验你的提现地址是否为收藏地址。</aside>
+
+<aside class="notice">在WEB端可以开启指定常用地址提现，开启后会校验你的提现地址是否为常用地址。</aside>
+
+### 请求示例
+GET /api/v1/withdrawals
 
 ###API权限
-此端点需要**转账权限**。
+此接口需要**转账权限**。
 
 ### 请求参数
 
-请求参数 | 类型 | 描述
+请求参数 | 类型 | 含义
 --------- | -------  | -------
 currency  | String | 币种
 address   | String | 提现地址
 amount | number | 提现总额，必须为提现精度的正整数倍
-memo   | String | [可选]  提现[地址标识](#b3114995fd)，没有memo(tag)的币种，不可传这个字段。
+memo | 地址标签memo(tag)，如果返回为空，则该币种没有memo。对于没有memo的币种，在[提现](#6eaf6b9ae0)的时候不可以传递memo
 isInner | boolean | [可选] 是否为平台内部提现。默认为false
 remark | String | [可选] 备注信息
 chain | String | [可选] 针对一币多链的币种，可通过chain获取币种详情。比如， USDT存在的链有 OMNI, ERC20, TRC20。
 
 ### 返回值
-字段名称 | 描述
+字段 | 含义
 --------- | ------- 
 withdrawalId | 提现Id 唯一标识
 
@@ -1531,12 +1630,15 @@ KuCoin支持外扣手续费和内扣手续费。当您的储蓄账户的余额�
 ### HTTP请求
 **DELETE /api/v1/withdrawals/{withdrawalId}**
 
+### 请求示例
+DELETE /api/v1/withdrawals/5bffb63303aa675e8bbe18f9
+
 ###API权限
-此端点需要**转账权限**。
+此接口需要**转账权限**。
 
 ### 请求参数
 
-请求参数 | 类型 | 描述
+请求参数 | 类型 | 含义
 --------- | ------- | -------
 withdrawalId | String | 路径参数，[提现Id](#c46f4b3b8e) 唯一标识
 
@@ -1570,52 +1672,55 @@ withdrawalId | String | 路径参数，[提现Id](#c46f4b3b8e) 唯一标识
 
 ###下单限制
 
-对于一个账号，每一个交易对最大撮合订单数量 **50** （包含止损单）。
+对于一个账号，每一个交易对最大撮合订单数量 **200** （包含止损单）。
 
 ### HTTP 请求
 
 **POST /api/v1/orders**
 
+### 请求示例
+POST /api/v1/orders
+
 ###API权限
-此端点需要**交易权限**。
+此接口需要**交易权限**。
 
 ### 请求参数
 
 下单公有的请求参数
 
-请求参数 | 类型 | 描述
+请求参数 | 类型 | 含义
 --------- | -------  | ---------
 clientOid | String |  Client Order Id，客户端创建的唯一标识，建议使用UUID
 side      | String |  **buy**（买） 或 **sell**（卖） 
 symbol    | String |  [交易对](#a17b4e2866) 比如，ETH-BTC                    
 type      | String | [可选] 订单类型 **limit** 和  **market** (默认为 **limit**)
 remark    | String | [可选] 下单备注，长度不超过100个字符（UTF-8）
-stop      | String | [可选] 止盈止损单，触发条件， **loss**（小于等于） 或 **entry**（大于等于）需要设定触发价格。
-stopPrice | String | [可选] 触发价格，只有设定了止盈止损触发条件就必须要设定触发价格。
-stp       | String | [可选] [自成交保护](#80920cd667)（self trade prevention）**CN**, **CO**, **CB** , **DC**
+stop      | String | [可选] 止盈止损单，触发条件， **loss**（小于等于） 或 **entry**（大于等于）。设置后，就必须设置stopPrice参数。
+stopPrice | String | [可选] 触发价格，只要设置stop参数，就必须设置此属性。
+stp       | String | [可选] [自成交保护](#80920cd667)（self trade prevention）分为**CN**, **CO**, **CB** , **DC**四种策略
 
 #### **limit** 限价单额外所需请求参数
 
-请求参数 | 类型 | 描述
+请求参数 | 类型 | 含义
 --------- | -------  | ---------
 price       | String  | 指定货币的价格                             
 size        | String  | 指定货币的数量                      
-timeInForce | String  | [可选] 订单过期策略 **GTC**, **GTT**, **IOC**, **FOK** (默认为**GTC**)
-cancelAfter | long    | [可选] **n** 秒之后取消，订单过期策略为 **GTT**                   
-postOnly    | boolean | [可选] 只挂单的标识, 当订单过期策略为 **IOC** 或 **FOK** 时无效
+timeInForce | String  | [可选] 订单时效策略 **GTC**, **GTT**, **IOC**, **FOK** (默认为**GTC**)
+cancelAfter | long    | [可选] **n** 秒之后取消，订单时效策略为 **GTT**                   
+postOnly    | boolean | [可选] 被动委托的标识, 当订单时效策略为 **IOC** 或 **FOK** 时无效
 hidden      | boolean | [可选] 是否隐藏（买卖盘中不展示）             
 iceberg    | boolean | [可选] 冰山单中是否仅显示订单的可见部分
 visibleSize | String  | [可选] 冰山单最大的展示数量  
 
 #### **market** 市价单额外所需请求参数
 
-请求参数 | 类型 | 描述
+请求参数 | 类型 | 含义
 --------- | ------- | ------- | ---------
 size | String | 否（size和funds 二选一） | 下单数量
 funds | String |  否（size和funds 二选一）| 下单资金
 
-* 下市价单，要么指定买卖数量或资金买卖指定的商品/货币。
-
+* 下市价单，需定买卖数量或资金
+  
 ###术语解释
 
 ###交易对(Symbol)
@@ -1624,34 +1729,34 @@ funds | String |  否（size和funds 二选一）| 下单资金
 
 ###Client Order Id(clientOid)
 
-clientOid字段必须是唯一的Id，由客户端创建(推荐使用UUID)。这个字段会在获取订单信息时返回，您可以用clientOid来标识您的订单。
+ClientOid字段是客户端创建的唯一的ID（推荐使用UUID），只能包含数字、字母、下划线（_） 和 分隔线（-）。这个字段会在获取订单信息时返回。您可使用clientOid来标识您的订单。ClientOid不同于服务端创建的订单ID。请不要使用同一个clientOid发起请求。clientOid最长不得超过40个字符。
 
-clientOid不同于服务端创建的orderId(下单后返回的orderId)。您同时需要记录服务端创建的orderId，以便获取订单的更新状态。
+请妥善记录服务端创建的orderId，以用于查询订单状态的更新。
 
-<aside class="notice">请不要使用同一个clientOid发起请求，clientOid最长不超过40个英文字符</aside>
 
 ###订单类型(type)
 
-当下单的时候，您需要定义订单类型。不同的订单类型需要不同的请求参数，同时也会影响到撮合引擎的执行。如果没有传递订单类型这个字段，默认为 **限价单**（limit)。
+您在下单时指定的订单类型，决定了您是否需要请求其他参数，同时还会影响到撮合引擎的执行。如果您在下单时未指定订单类型，系统将默认按照限价单执行。
 
-**限价单（limit order）** 是默认的订单类型。当您下限价单时，需要指定 **price** （价格）和 **size** （数量）。size是指您想要买卖货币的数量，price是指单位计价币种的价格。限价单会根据您下单的价格、数量和市场条件来进行撮合。当买方出价大于等于卖方或卖方出价小于等于买方价格，则会按照市价单撮合可成交部分，如果订单不能立马成交（吃单），那么订单会进入买卖盘中，直到订单被成交或被取消。
+下限价单时，您需指定限价单的价格（**price**）和数量（**size**）。系统将根据市场行情以指定或更优价格撮合该订单。如果订单未能被立即撮合，将继续留买卖盘中，直至被撮合或被用户取消。
 
+与限价单不同，市价单价格会随着市场价格波动而变化。下市价单时，您无需指定价格，只需指定数量。市价单会立即成交，不会进入买卖盘。所有市价单都是taker，需支付taker费用。
 
-
-**市价单(market order)**与限价单不同，市价单不确定成交价格，您可以指定具体的**funds**(资金)或**amount**(数量)它会立即与买卖盘的挂单成交。当您下一个市价单时，无需指定价格就可以买卖特定数量或资金的数字货币。当您下市价单时，在市价买单中如果您指定资金，我们会冻结您的下单资金+对应的taker手续费，如果您指定数量，我们将冻结全部数量，在市价卖单中，如果您指定资金，我们将冻结全部金额，如果您指定数量我们将冻结您的下单数量。请注意，市价单作为一个taker，会按照taker收取手续费。
 
 ###止盈止损单(STOP ORDER)
-当您下一个止盈止损单时，请设置一个触发价（stopPrice)，当发生交易并且交易价格达到触发价后，会生成一个订单（限价/市价），并立即进行撮合。触发顺序为价格优先，然后时间优先。
-**stop: 'loss'(止损):** 当最新交易价格小于等于**stopPrice**时成交。
 
-**stop: 'entry'(止盈):** 当最新交易价格大于等于**stopPrice**时成交。
+止盈止损单，是指当最新成交价格达到了设置的止损触发价格（stopPrice）后，会生成一个订单（限价/市价），订单的撮合顺序为价格优先，然后时间优先。
 
-最新交易价格是指最新成交价格，这个价格可以在最新[撮合执行数据](#c7f054198c)里面获取。注意，由于Websocket消息有丢失的可能，无法接收所有撮合执行数据。
+**stop: 'loss'(止损):** 当最新成交价格小于等于**stopPrice**时触发。
 
-当您下一个止损单时，系统会提前冻结您的交易账户资金。所以，**当您下一个止损市价单时，我们推荐您使用金额下单**。
+**stop: 'entry'(止盈):** 当最新成交价格大于等于**stopPrice**时触发。
+
+最新交易价格可以在最新[撮合执行数据](#c7f054198c)里面获取。注意，由于Websocket消息有丢失的可能，无法接收所有撮合执行数据。
+
+当您下一个止损单时，系统会提前冻结您的交易账户资金。所以，**下止损单时，推荐您使用金额（fund）下单**。
 
 ###价格(Price)
-下限价单时，price 必须以交易对的[价格增量 priceIncrement](#a17b4e2866)为基准，价格增量是交易对的价格的精度。比如，对BTC-USDT 这个交易对, 它的 priceIncrement 为0.00001000，那么你下单的 price 不可以小于0.00001000。您下单的价格必须为 priceIncrement 的正整数倍，否则下单时会报错，invalid prioceIncrement。
+下限价单时，price 必须以交易对的[价格增量 priceIncrement](#a17b4e2866)为基准，价格增量是交易对的价格的精度。比如，对BTC-USDT 这个交易对, 它的 priceIncrement 为0.00001000。那么你下单的 price 不可以小于0.00001000，且为 priceIncrement 的正整数倍，否则下单时会报错，invalid priceIncrement。
 
 ###数量(Size)
 下限价单时，size 是指交易对的交易对象(即写在靠前部分的资产名)的数量。size 必须以交易对中的[数量增量 baseIncrement](#a17b4e2866)为基准，数量增量是交易对的数量的精度。下单的 size 为 baseIncrement 的正整数倍并且必须在 baseMinSize 和 baseMaxSize 之间。
@@ -1659,8 +1764,8 @@ clientOid不同于服务端创建的orderId(下单后返回的orderId)。您同�
 ###资金(Funds)
 下市价单时，funds 字段是指交易对的定价资产(即写在靠后部分资产名)的资金。funds 必须以交易对中的[资金增量quoteIncrement](#a17b4e2866)为基准，资金增量是交易对的资金的精度。下单的 funds 为 quoteIncrement 的正整数倍且必须在 quoteMinSize 和 quoteMaxSize 之间。
 
-###订单过期策略(TimeInForce)
-订单过期策略可以控制订单的生命周期，订单过期策略有以下四种。
+###订单时效策略(TimeInForce)
+订单时效是一种交易时使用的特殊策略，用于设定订单在被撮合或取消前的生效时间。订单时效策略分为四种：
 
 | 缩写   | 全称        | 含义         |
 | ----  | ---------   | ----------  |
@@ -1672,25 +1777,31 @@ clientOid不同于服务端创建的orderId(下单后返回的orderId)。您同�
 
 * 注意，成交也包含自成交。
 
-###只挂单(PostOnly)
+###被动委托(PostOnly)
+
 postOnlys只是一个标识，如果下单有能立即成交的对手方，则取消。
+除冰山/隐藏订单外，如果该委托下单后会立刻与市场已有委托(除冰山/隐藏订单外)撮合，那么该委托将被取消。如果被动委托下单后与冰山/隐藏订单立即成交，被动委托订单将收取**maker**费用  
+
+**注意**：在一笔委托中，不能同时使用Post Only订单和冰山/隐藏单。
+
 
 ###隐藏单和冰山单(Hidden & Iceberg)
 
-当下限价单的时候，可指定 **hidden** 或 **iceberg** 这两个字段。（冰山单是一种特殊的隐藏单）。
+您可在高级设置中设置隐藏单和冰山单（冰山单是一种特殊形式的隐藏单）。进行限价单和限价止损单交易时，您可选择按照隐藏单或冰山单执行。
 
-当您下隐藏单时，需要指定**hidden**为true，您的订单不会展示在买卖盘中，但是其他用户在成交历史记录中可以看见。
+隐藏单不会展示在买卖盘上。
 
-冰山单与隐藏单不同之处是，冰山单分为可见和隐藏两个部分。下冰山单，需要指定**iceberg**为true，且设定**visibleSize**的大小。买卖盘中仅可见visibileSize数量，当visibleSize被撮合之后，从隐藏部分中填充，直到可见和隐藏都为0则结束。冰山单最大可拆分为**20**等份，根据您设置的visibleSize进行拆分。也就是说，您的冰山单最小可见数量是总订单量的1/20。
+与隐藏单不同，冰山单分为可见和隐藏两部分。进行冰山单交易时，需设置可见订单数量。冰山单最小可见数量是总订单量的1/20。
 
-冰山单和隐藏单不是默认为 taker 订单。当冰山单或隐藏单进入生命周期，并且立即被撮合成交，那么订单为taker。但是，如果订单没有被撮合，那么这个订单被看作 maker，等待被成交。成交后，这个订单就是 maker 订单了，但是我们只收取taker的手续费。
+进行撮合时，冰山单的可见部分会首先被撮合，当可见部分被全部撮合后，另一部分隐藏订单将浮出，直至订单全部成交。
+
+**注意**：
+
+- 系统将对隐藏和冰山单收取taker费用。
+- 如果您同时设定了冰山单和隐藏单，您的订单将默认作为冰山单处理。
 
 
 
-**注意**: 
-- 最小可见数量必须大于[最小下单数量](#a17b4e2866)。
-- 对于**隐藏单**和**冰山单**，系统收取taker费用。
-- 如果同时设定 **iceberg** 和 **hidden** 为true，会作为冰山单处理。 
 
 ###冻结策略(Hold)
 对于限价买单，我们会从您的资金里面冻结您买单的金额(price * size)。同样，对于限价卖单，我们也会冻结您卖单的资产。在成交那一刻评估实际的手续费。如果您取消了一个部分成交或未成交的订单，那么剩余金额会解冻会退到您的账户。
@@ -1699,30 +1810,31 @@ postOnlys只是一个标识，如果下单有能立即成交的对手方，则�
 
 ###自成交保护(SelfTradePrevention)
 
-**stp(SelfTradePrevention)**，自成交保护，默认为空。当您下单时指定了 **STP**，您的订单将不会发生自成交。如果您下单前没有指定 **STP**，您的订单可能会被自己的订单成交。
 
+您可在高级设置中设置自成交保护策略。您的订单将不会发生自成交。如果您在下单时没有指定STP，否则您的订单可能会被自己的订单成交。市价单现不支持DC策略。
 
 **市价单现不支持 DC**，当*timeInForce* 为**FOK**， 那么stp会指定为**CN**。
 
 | 缩写 | 全称              | 含义                        |
-| ---- | ---------------  | ----------------------------- |
-| DC   | Decrease and Cancel  | 数量少的一方取消，数量多的一方减去少的一方的数量，继续执行撮合
+| ---- | ---------------  | ------- |
+| DC   | Decrease and Cancel  | 取消数量少的一方的订单，并将数量多的一方数量改为新旧差值
 | CO   | Cancel old           |取消旧的订单
 | CN   | Cancel new           |取消新的订单
 | CB   | Cancel both          |双方都取消
 
 ###订单生命周期(ORDER LIFECYCLE)
 
-下单请求，要么被拒绝(余额不足(insufficient funds)，参数不合法(invalid parameters)等)，要么请求成功，进入撮合引擎。
-返回code为**200**意味着，下单成功，订单状态为**active**。订单会根据价格和市场条件来成交，要么全部成交，要么部分成交，没有成交的订单状态为**open**。直到订单被成交或被取消，订单状态为**done**
-用户可以订阅市场数据，通常使用 orderId 这个字段来获取自己的订单信息。
+当下单请求因请求成功（撮合引擎已收到订单）或（因余额不足、参数不合法等原因）被拒绝时，HTTP 请求会进行响应。下单成功，返回订单ID，订单将被撮合，可能会部分或全部成交。部分成交后，订单剩余为未成交部分会变成等待撮合（**Active**）状态（不包括使用立即成交或取消[IOC]的订单）。已完全成交的订单会变成“已完成”（**Done**）状态。
+
+订阅市场数据频道的用户可使用订单ID（**orderId**）和用户订单ID（**clientOid**）来识别消息。
+
 
 
 ### 返回值
-字段名称 | 描述
+字段 | 含义
 --------- | ------- 
-orderId | 订单Id 唯一标识
-下单成功后，会返回一个orderId字段，意味这订单顺利进入撮合引擎。
+orderId | 订单Id
+下单成功后，会返回一个orderId字段，意味这订单进入撮合引擎。
 
 <aside class="notice">订单状态为open，订单不会过期，直到订单被成交或被取消。</aside>
 
@@ -1736,28 +1848,32 @@ orderId | 订单Id 唯一标识
 }
 ```
 
-此端点，可以取消一个订单。
+此端点可以取消单笔订单。
 
-一旦系统收到取消请求，您将收到返回值。取消请求将由匹配引擎按顺序处理。要知道请求是否已处理（成功与否），您可以检查订单状态或推送更新的消息。
+
+一旦系统收到取消请求，您将收cancelledOrderIds字段。取消请求将由匹配引擎按顺序处理。要知道请求是否已处理，您可以查询订单状态或订阅websocket获取订单消息。
 
 
 ### HTTP请求
 **DELETE /api/v1/orders/{orderId}**
 
+### 请求示例
+DELETE /api/v1/orders/5bd6e9286d99522a52e458de
+
 ### 请求参数
 
-请求参数 | 类型 | 描述
+请求参数 | 类型 | 含义
 --------- | -------  | -------
 orderId | String | 路径参数，[订单Id](#23e02e24af) 唯一标识
 
 ### 返回值
 
-字段名称 | 描述
+字段 | 含义
 --------- | ------- 
 cancelledOrderIds | 取消的订单id
 
 ### API权限
-此端点需要**交易权限**。
+此接口需要**交易权限**。
 
 <aside class="notice">The <b>orderId</b> 是服务器生成的订单唯一标识，不是客户端生成的clientOId</aside>
 
@@ -1788,21 +1904,21 @@ cancelledOrderIds | 取消的订单id
 ### HTTP请求
 **DELETE /api/v1/orders**
 
-###示例
+### 请求示例
 **DELETE /api/v1/orders?symbol=ETH-BTC**
 
 ###API权限
-此端点需要**交易权限**。
+此接口需要**交易权限**。
 
 ###请求参数
 
-请求参数 | 类型 | 描述
+请求参数 | 类型 | 含义
 --------- | ------- | ---------
 symbol | String | [可选] 取消指定[交易对](#a17b4e2866)的open订单
 
 ### 返回值
 
-字段名称 | 描述
+字段 | 含义
 --------- | ------- 
 cancelledOrderIds | 取消的订单id
 
@@ -1851,41 +1967,42 @@ cancelledOrderIds | 取消的订单id
 ```
 
 此接口，可获取订单列表
-返回值是[分页](#88b6b4f79a)后的数据，根据时间降序排序，您可以获取到最新的数据。
+返回值是[分页](#88b6b4f79a)后的数据，根据时间降序排序。
 
 ### HTTP请求
 **GET /api/v1/orders**
 
 
-### 示例
-请求 **/api/v1/orders?status=active** 以获取所有活跃订单
+### 请求示例
+GET /api/v1/orders
 
 ###API权限
-此端点需要**通用权限**。
+此接口需要**通用权限**。
+
+<aside class="notice">这个接口需要使用分页</aside>
+
 
 ###请求参数
 
-请求参数 | 类型 | 描述
+请求参数 | 类型 | 含义
 --------- | -------  | ---------
 status | String | [可选] **active（活跃）** 或 **done（完成）** 默认为done。只返回指定状态的订单信息
 symbol |String| [可选] 只返回指定[交易对](#a17b4e2866)的订单信息
 side | String | [可选] **buy（买）** 或 **sell（卖）** 
 type | String | [可选] 订单类型: **limit（限价单）**, **market(市价单)**, **limit_stop(限价止盈止损单)**, **market_stop（市价止盈止损单）** 
-startAt | long | [可选]  开始时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以毫秒为单位，只会返回在开始时间之后创建的数据。
-endAt | long | [可选]  结束时间，[Unix 时间](http://en.wikipedia.org/wikiUnix_time)以毫秒为单位，只会返回在结束时间以前创建的数据。
-
-<aside class="notice">这个接口需要使用分页</aside>
+startAt| long | [可选] 开始时间（毫秒）
+endAt| long | [可选]  截止时间（毫秒） 
 
 ### 返回值
 
-字段名称 | 描述
+字段 | 含义
 --------- | ------- 
 id | 订单id，订单唯一标识
 symbol | 交易对
 opType |  操作类型: DEAL(挂买卖单), CANCEL(撤销)
 type | 订单类型
 side | 买或卖
-price |  成交价格
+price |  订单价格
 size |  下单数量
 funds | 下单金额
 dealFunds |  成交额
@@ -1896,8 +2013,8 @@ stp |  自成交保护
 stop |  止盈止损类型， entry:止盈; loss:止损
 stopTriggered |  是否触发止盈止损
 stopPrice |  止盈止损触发价格
-timeInForce | 订单过期策略
-postOnly | 是否为只挂单
+timeInForce | 订单时效策略
+postOnly | 是否为被动委托
 hidden | 是否为隐藏单
 iceberg | 是否为冰山单
 visibleSize | 冰山单在买卖盘可见数量
@@ -1906,21 +2023,21 @@ channel | 下单来源
 clientOid | 客户端生成的标识
 remark | 订单说明
 tags | 订单标签
-isActive | 订单状态是否为active
+isActive | 订单状态 true: 订单状态为 open;<br/> false: 订单已成交或取消
 cancelExist | 订单是否存在取消记录
 createdAt | 创建时间
 
 ### 订单状态和结算
-在买卖盘中的**open**的订单状态为**active**，从买卖盘中移除的订单标记为**done**。
-
-订单簿中的未结订单标记为活动状态。订单簿上不再有订单，将标记为已完成状态。订单完成和结算之间有一个空窗期。所有订单明细都已经成交并且还有冻结金额的话，会做冻结回退。
 
 
-当您查询订单时，您可以搜索任何一种状态的订单，如果您没有指定status，那么系统默认返回所有状态为**done**的订单。
+在买卖盘上，所有委托都处于活跃（**Active**）状态，从买卖盘上移除的订单则被标记为已完成（**Done**）状态。
+
+订单被成交后到入账，因系统清算可能会有毫秒级别的延迟。
+
+您可发送请求，查询任一状态的订单。如果您未指定状态参数，系统将默认返回“已完结”（Done）状态的订单。
 
 
-**查询时间范围**
-查询**active**订单，没有时间范围限制，但是查询**done**订单，您只能获取到一周以内的数据(即开始和结束时间范围不能超过24*7小时)。如果超过了一周的时间，系统会提示您超过查询时间限制范围。如果查询订单只指定了开始时间并未指定结束时间，系统默认返回一周的数据，反之亦然。
+查询“**active**”状态的订单，没有时间限制。但查询“已完成”状态的订单时，您只能获取 7 * 24 小时时间范围内的数据（即：查询时，开始时间到结束时间的时间范围不能超过24 * 7小时）。若超出时间范围，系统会报错。如果您只指定了结束时间，没有指定开始时间，系统将按照 24小时的范围自动计算开始时间（开始时间=结束时间-7*24小时）并返回相应数据，反之亦然。
 
 
 取消订单的历史记录仅保留**一个月**。您将无法查询一个月以前已取消的订单。
@@ -1929,10 +2046,9 @@ createdAt | 创建时间
 
 
 ###订单轮询(Polling)
-对于高频交易的客户，建议您在本地维护一份自己的**open**订单，并且使用市场数据流来更新自己的订单信息。您应该在您开始交易前，轮训查询下本地**open**订单的当前状态。
 
+对于高频交易的用户，建议您在本地缓存和维护一份自己的活动委托列表，并使用市场数据流实时更新自己的订单信息。
 
-<aside class="notice">根据市场条件，open的订单可能会在请求和响应之间，状态发生改变。</aside>
 
 ## 获取V1历史订单列表
 
@@ -1957,28 +2073,33 @@ createdAt | 创建时间
 ```
 
 此接口，可获取KuCoin V1历史订单列表
-返回值是[分页](#88b6b4f79a)后的数据，根据时间降序排序，您可以获取到最新的数据。
+返回值是[分页](#88b6b4f79a)后的数据，根据时间降序排序。
 
 <aside class="notice">默认查询一个月的订单数据</aside>
 
 ###HTTP请求
 **GET /api/v1/hist-orders**
 
+### 请求示例
+GET /api/v1/hist-orders
+
 ###API权限
-此端点需要**通用权限**。
+此接口需要**通用权限**。
+
+<aside class="notice">这个接口需要使用分页</aside>
 
 ###请求参数
 
-请求参数 | 类型 | 描述
+请求参数 | 类型 | 含义
 --------- | -------  | --------- 
 symbol |String| [可选] 只返回指定[交易对](#a17b4e2866)的订单信息
 side | String | [可选] **buy（买）** 或 **sell（卖）** 
-startAt | long | [可选]  开始时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以毫秒为单位，只会返回在开始时间之后创建的数据。
-endAt | long | [可选]  结束时间，[Unix 时间](http://en.wikipedia.org/wikiUnix_time)以毫秒为单位，只会返回在结束时间以前创建的数据。
+startAt| long | [可选] 开始时间（毫秒）
+endAt| long | [可选]  截止时间（毫秒） 
 
 ### 返回值
 
-字段名称 | 描述
+字段 | 含义
 --------- | ------- 
 symbol | 交易对
 dealPrice |  成交价格
@@ -1987,7 +2108,6 @@ amount | 成交量
 fee |  手续费费
 side |  买或卖
 createdAt | 创建时间
-<aside class="notice">这个接口需要使用分页</aside>
 
 ## 最近订单记录
 
@@ -2033,25 +2153,31 @@ createdAt | 创建时间
  }
 ```
 此接口，可获取最近24小时的1000条订单数据。
-返回值是[分页](#88b6b4f79a)后的数据，根据时间降序排序，您可以获取到最新的数据。
+返回值是[分页](#88b6b4f79a)后的数据，根据时间降序排序。
 
 ### HTTP请求
 **GET /api/v1/limit/orders**
 
-### 请求参数
-不需要传递参数，默认返回最近1000条。
+### 请求示例
+GET /api/v1/limit/orders
+
+###API权限
+此接口需要**通用权限**。
+
+<aside class="notice">此接口需要使用分页</aside>
+
 
 ### 返回值
 
-字段名称 | 描述
+字段 | 含义
 --------- | ------- 
 id | 订单id，订单唯一标识
 symbol | 交易对
 opType |  操作类型: DEAL(挂买卖单), CANCEL(撤销)
 type | 订单类型
 side | 买或卖
-price |  成交价格
-size |  成交数量
+price |  订单价格
+size |  订单数量
 funds | 下单金额
 dealFunds |  成交额
 dealSize | 成交数量
@@ -2061,8 +2187,8 @@ stp |  自成交保护
 stop |  止盈止损类型， entry:止盈; loss:止损
 stopTriggered |  是否触发止盈止损
 stopPrice |  止盈止损触发价格
-timeInForce | 订单过期策略
-postOnly | 是否为只挂单
+timeInForce | 订单时效策略
+postOnly | 是否为被动委托
 hidden | 是否为隐藏单
 iceberg | 是否为冰山单
 visibleSize | 冰山单在买卖盘可见数量
@@ -2071,15 +2197,10 @@ channel | 下单来源
 clientOid | 客户端生成的标识
 remark | 订单说明
 tags | 订单标签
-isActive | 订单状态是否为active
+isActive | 订单状态 true: 订单状态为 open;<br/> false: 订单已成交或取消
 cancelExist | 订单是否存在取消记录
 createdAt | 创建时间
 
-
-###API权限
-此端点需要**通用权限**。
-
-<aside class="notice">此端点需要使用分页</aside>
 
 
 <aside class="spacer4"></aside>
@@ -2126,23 +2247,29 @@ createdAt | 创建时间
 ### HTTP请求
 **GET /api/v1/orders/{orderId}**
 
+### 请求示例
+GET /api/v1/orders/5c35c02703aa673ceec2a168
+
+###API权限
+此接口需要**通用权限**。
+
 ###请求参数
 
-请求参数 | 类型 | 描述
+请求参数 | 类型 | 含义
 --------- | ------- | -------
 orderId | String | 路径参数，[订单Id](#23e02e24af) 唯一标识
 
 ### 返回值
 
-字段名称 | 描述
+字段 | 含义
 --------- | ------- 
 id | 订单id，订单唯一标识
 symbol | 交易对
 opType |  操作类型: DEAL(挂买卖单), CANCEL(撤销)
 type | 订单类型
 side | 买或卖
-price |  成交价格
-size |  成交数量
+price |  订单价格
+size |  订单数量
 funds | 下单金额
 dealFunds |  成交额
 dealSize | 成交数量
@@ -2152,26 +2279,25 @@ stp |  自成交保护
 stop |  止盈止损类型， entry:止盈; loss:止损
 stopTriggered |  是否触发止盈止损
 stopPrice |  止盈止损触发价格
-timeInForce | 订单过期策略
-postOnly | 是否为只挂单
+timeInForce | 订单时效策略
+postOnly | 是否为被动委托
 hidden | 是否为隐藏单
 iceberg | 是否为冰山单
 visibleSize | 冰山单在买卖盘可见数量
-cancelAfter | timeInForce 为 GTT n秒后过期
+cancelAfter | timeInForce 为 GTT n秒后触发
 channel | 下单来源
 clientOid | 客户端生成的标识
 remark | 订单说明
 tags | 订单标签
-isActive | 订单状态是否为active
+isActive | 订单状态 true: 订单状态为 open;<br/> false: 订单已成交或取消
 cancelExist | 订单是否存在取消记录
 createdAt | 创建时间
 
 
-###API权限
-此端点需要**通用权限**。
 
 
-<aside class="notice">根据市场条件，open的订单可能会在请求和响应之间，状态发生改变。</aside>
+
+
 <aside class="spacer4"></aside>
 <aside class="spacer2"></aside>
 
@@ -2209,31 +2335,34 @@ createdAt | 创建时间
 ```
 
 此接口，可获取最近的成交明细列表
-返回值是[分页](#88b6b4f79a)后的数据，根据时间降序排序，您可以获取到最新的数据。
+返回值是[分页](#88b6b4f79a)后的数据，根据时间降序排序。
 
 ### HTTP请求
 **GET /api/v1/fills**
 
+### 请求示例
+GET /api/v1/fills
+
 ###API权限
-此端点需要**通用权限**。
+此接口需要**通用权限**。
+
+<aside class="notice">这个接口需要使用分页</aside>
 
 ###请求参数
 
-请求参数 | 类型 | 描述
+请求参数 | 类型 | 含义
 --------- | ------- | -------
 orderId | String |[可选] 查询该[订单Id](#23e02e24af) 的成交明细（如果指定了orderId，请忽略其他查询条件）
 symbol | String |[可选] 查询指定[交易对](#a17b4e2866)的成交明细
 side | String | [可选] **buy（买）** 或 **sell（卖）** 
 type | String | [可选] 订单类型: **limit（限价单）**, **market(市价单)**, **limit_stop(限价止盈止损单)**, **market_stop（市价止盈止损单）** 
-startAt | long | [可选]  开始时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以毫秒为单位，只会返回在开始时间之后创建的数据。
-endAt | long | [可选]  结束时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以毫秒为单位，只会返回在结束时间以前创建的数据。
+startAt| long | [可选] 开始时间（毫秒）
+endAt| long | [可选]  截止时间（毫秒） 
 
-**查询时间范围**
-您只能获取到一周以内的数据(即开始和结束时间范围不能超过24*7小时)。如果超过了一周的时间，系统会提示您超过查询时间限制范围。如果查询订单只指定了开始时间并未指定结束时间，系统默认返回一周的数据，反之亦然。
 
 ### 返回值
 
-字段名称 | 描述
+字段 | 含义
 --------- | ------- 
 symbol | 交易对
 tradeId |  交易Id
@@ -2241,9 +2370,9 @@ orderId | 订单Id
 counterOrderId |  对手方订单Id
 side | 买或卖
 forceTaker | 是否强制作为taker处理
-liquidity | 流动性: taker 或 maker
-price |  成交价格
-size |  成交数量
+liquidity | 流动性类型: taker 或 maker
+price |  订单价格
+size |  订单数量
 funds | 成交额
 fee |  手续费
 feeRate | 手续费率
@@ -2252,15 +2381,18 @@ stop |  止盈止损类型，entry:止盈; loss:止损
 type |  订单类型limit 或 market
 createdAt |  创建时间
 
+**查询时间范围**
+您可检索一周时间范围内的数据您范围内检索数据（默认从最近一天开始算起）。 若检索时间范围超过一周，系统将提示您超过时间限制。如果查询只提供开始时间没有提供结束时间，系统将自动计算结束时间（结束时间=开始时间+ 7*24小时），反之亦然。
+
+
 **结算**
-结算分为两部分，一部分是成交结算，一部分是费用结算。当撮合完成后，这些数据将立即更新到我们的数据存储区。一旦数据被更新，系统将启动结算并从您的预冻结资金中进行扣除。
+结算分为两部分，一部分是成交结算，一部分是费用结算。当撮合完成后，这些数据将立即更新到我们的数据存储区，系统将启动结算并从您的预冻结资金中进行扣除。
 
 **手续费**
-KuCoin交易引入市场领先的撮合引擎系统并将下单用户分为taker和maker。taker作为市场深度的提取者我们会收取较高的手续费，而maker作为市场深度的提供者，我们会收取较低的手续费甚至负手续费（您会获得平台补贴）。
- 
-当您在KuCoin交易市场的某一个交易对下创建一个订单时，为保证您的订单能在市场上成交，我们会按照taker费用预冻结您的资金（这是因为我们无法预估您的订单将以哪种形式成交），请注意您进入买卖盘的订单资金会预扣除手续费。
 
-假设您的订单是市价单，我们将收取您taker费用。
+KuCoin平台上的订单分为两种类型：Taker 和 Maker。Taker单会与买卖盘上的已有订单立即成交，而Maker单则相反，会一直留在买卖盘中等待撮合。Taker单消耗了市场的流动性，因此会被收取taker费用，而Maker单增加了市场的流动性，会被收取较低的手续费甚至获得手续费补贴。请注意：市价单、冰山单和隐藏单都会被扣除taker手续费。
+
+下单时，系统会预冻结您账户中的taker费用。流动性（liquidity）字段中的参数说明了订单将会被收取taker还是maker费用。
 
 假设您的订单是限价单，当您下单后在撮合引擎中被立即撮合，我们将收取您taker费用，而如果您的订单没有被立即撮合或有部分剩余未被撮合都会进入买卖盘，进入买卖盘的订单在未被取消前成交都会收取您maker手续费。
 
@@ -2268,7 +2400,11 @@ KuCoin交易引入市场领先的撮合引擎系统并将下单用户分为taker
 
 如果您的订单作为maker被成交，我们会将剩余预冻结的taker费用返还给您。
 
-但需要注意的是，当您创建了一个隐藏委托/冰山委托订单时，即使它未被撮合引擎立即成交而被被动成交，仍然会收取taker费用。
+但需要注意的是:
+
+- 当您创建了一个隐藏委托/冰山委托订单时，即使它未被撮合引擎立即成交而被被动成交，仍然会收取taker费用
+
+- 被动委托收取maker费用。如果该委托下单后会立刻与市场已有委托(除冰山/隐藏订单外)撮合，那么该委托将被取消。如果被动委托下单后与冰山/隐藏订单立即成交，被动委托订单将收取**maker**费用  
 
 
 举例：
@@ -2292,11 +2428,9 @@ KuCoin交易引入市场领先的撮合引擎系统并将下单用户分为taker
 | 4015.60       | 0.56849308  | 0.00056849 |
 | 4200.00       | 0.18312409  | 0.00018312 |
 
-###流动性（Liquidity）
-从**liquidity** 这个字段，可以看出这笔成交是市场深度的提取者taker还是提供者maker。
 
 
-<aside class="notice">这个接口需要使用分页</aside>
+
 
 ## 最近成交记录
 
@@ -2330,22 +2464,23 @@ KuCoin交易引入市场领先的撮合引擎系统并将下单用户分为taker
 ```
 
 此接口，可以获取最近24小时1000条成交明细的列表
-返回值是[分页](#88b6b4f79a)后的数据，根据时间降序排序，您可以获取到最新的数据。
+返回值是[分页](#88b6b4f79a)后的数据，根据时间降序排序。
 
-<aside class="notice">这个接口需要使用分页</aside>
 
 ### HTTP请求
 **GET /api/v1/limit/fills**
 
-###API权限
-此端点需要**通用权限**。
+### 请求示例
+GET /api/v1/limit/fills
 
-### 请求参数
-不需要传递参数，默认返回最近1000条。
+###API权限
+此接口需要**通用权限**。
+
+<aside class="notice">这个接口需要使用分页</aside>
 
 ### 返回值
 
-字段名称 | 描述
+字段 | 含义
 --------- | ------- 
 symbol | 交易对
 tradeId |  交易Id
@@ -2353,9 +2488,9 @@ orderId | 订单Id
 counterOrderId |  对手方订单Id
 side | 买或卖
 forceTaker | 是否强制作为taker处理
-liquidity | 流动性: taker 或 maker
-price |  成交价格
-size |  成交数量
+liquidity | 流动性类型: taker 或 maker
+price |  订单价格
+size |  订单数量
 funds | 成交额
 fee |  手续费
 stop |  止盈止损类型， entry:止盈; loss:止损
@@ -2368,6 +2503,7 @@ createdAt |  创建时间
 # 市场数据
 
 市场数据是公共的，不需要验证签名。
+
 
 # 交易对 & 行情快照
 
@@ -2401,36 +2537,40 @@ createdAt |  创建时间
 
 ###请求参数
 
-请求参数 | 类型 | 描述
+请求参数 | 类型 | 含义
 --------- | ------- | -------
 market | String | [可选] [交易市场](#b8f118fefc): BTC, ETH, KCS, SC, NEO
 
+### 请求示例
+GET /api/v1/symbols
+
+
 ### 返回值
 
-字段名称 | 描述
+字段 | 含义
 --------- | ------- 
 symbol | 交易对唯一标识码，重命名后不会改变
 name |  交易对名称，重命名后会改变
 baseCurrency | 商品货币，指一个交易对的交易对象，即写在靠前部分的资产名
 quoteCurrency |  计价币种，指一个交易对的定价资产，即写在靠后部分资产名
-baseMinSize | 下单，size的最小值
+baseMinSize | 下单时size的最小值
 quoteMinSize |  下市价单，funds的最小值
 baseMaxSize |  下单，size的最大值
 quoteMaxSize |  下市价单，funds的最大值
-baseIncrement |  数量增量
-quoteIncrement | 市价单：资金增量，funds必须为资金增量的整数倍
-priceIncrement |  限价单：价格增量，price必须为价格增量的整数倍
+baseIncrement |  数量增量，下单的size必须为数量增量的正整数倍
+quoteIncrement | 市价单：资金增量，下单的funds必须为资金增量的正整数倍
+priceIncrement |  限价单：价格增量，下单的price必须为价格增量的正整数倍  
 feeCurrency | 交易计算手续费的币种
 enableTrading |  是否可以用于交易
 
 - **baseMinSize** 和 **baseMaxSize** 这两个字段规范了下单size的最小值和最大值。
 - **priceIncrement** 字段规范了下单的price的最小值和价格增量。
 
-下单的price必须为必须是价格增量的整数倍（如果增量为 0.01，下单价格是0.001或0.021的请求会被拒绝，返回invalid priceIncrement）
+下单的price必须为价格增量的正整数倍（如果增量为 0.01，下单价格是0.001或0.021的请求会被拒绝，返回invalid priceIncrement）
 
 **priceIncrement** 和 **quoteIncrement** 以后可能会调整，调整前我们会提前以邮件和全站通知的方式进行通知。
 
-<aside class="notice">返回值中的symbol一旦生成，永远不会改变。但是，base/quote 的 min/max sizes 和 base/quote/price increments 以后可能会变更</aside>
+
 
 ## 行情快照
 
@@ -2455,14 +2595,17 @@ enableTrading |  是否可以用于交易
 ### HTTP请求
 **GET /api/v1/market/orderbook/level1**
 
+### 请求示例
+GET /api/v1/market/orderbook/level1?symbol=BTC-USDT
+
 ###请求参数
 
-请求参数 | 类型 | 描述
+请求参数 | 类型 | 含义
 --------- | ------- | -------
 symbol | String |  [交易对](#a17b4e2866)
 
 ### 返回值
-字段名称 | 描述
+字段 | 含义
 --------- | ------- 
 sequence | 序列号
 bestAsk |  最佳卖一价
@@ -2484,7 +2627,7 @@ time |  时间戳
     "time": 1550653727731,
     "ticker": [
       {
-        "symbol": "LOOM-BTC",
+        "symbol": "BTC-USDT",
         "buy": "0.00001191",
         "sell": "0.00001206",
         "changeRate": "0.057",
@@ -2514,8 +2657,11 @@ time |  时间戳
 ### HTTP请求
 **GET /api/v1/market/allTickers**
 
+### 请求示例
+GET /api/v1/market/allTickers
+
 ### 返回值
-字段名称 | 描述
+字段 | 含义
 --------- | ------- 
 symbol | 交易对
 buy |  最佳买一价
@@ -2524,7 +2670,7 @@ changeRate |  涨跌幅
 changePrice | 涨跌价
 high |  最高价
 low |  最低价
-vol |  以基础币种计量的交易量
+vol |  以基础币种计量的成交量
 last |  最新成交价
 <aside class="spacer8"></aside>
 
@@ -2535,7 +2681,7 @@ last |  最新成交价
 {
     "symbol": "ETH-BTC",    // 交易对
     "high": "0.03736329",   // 24h最高价 
-    "vol": "2127.286930263025",  // 24h成交量
+    "vol": "2127.286930263025",  // 24h成交量，以基础币种计量的交易量 
     "volValue": "43.58567564",  // 24h成交金额
     "last": "0.03713983",   // 最新成交价
     "low": "0.03651252",    // 24h最低价
@@ -2554,15 +2700,18 @@ last |  最新成交价
 ### HTTP请求
 **GET /api/v1/market/stats**
 
+### 请求示例
+GET /api/v1/market/stats?symbol=BTC-USDT
+
 ###请求参数
 
-请求参数 | 类型 | 描述
+请求参数 | 类型 | 含义
 --------- | -------| -------
 symbol | String |  [交易对](#a17b4e2866)
 
 ### 返回值
 
-字段名称 | 描述
+字段 | 含义
 --------- | ------- 
 symbol | 交易对
 high | 24h最高价
@@ -2595,9 +2744,12 @@ time |  时间戳
 
 此接口，可以获取整个交易市场的交易币种
 <aside class="notice"> SC已更名为USDS，但您依然可以使用SC作为查询参数。</aside>
+
 ### HTTP请求
 **GET /api/v1/markets**
 
+### 请求示例
+GET /api/v1/markets
 
 
 <aside class="spacer2"></aside>
@@ -2618,11 +2770,11 @@ time |  时间戳
 ```
 此接口，可获取指定交易对的买卖盘数据。
 
-Level-2 买卖盘是指根据价格合并的买单和卖单，返回一个价格下的挂单量（根据价格聚合）。
+买卖盘上的买单和卖单均按照价格汇总，每个价格下仅返回一个根据价格汇总的挂单量。
 
-此接口，只会返回部分的买卖盘数据，level2_20 返回买卖方各20条数据，level_100 返回买卖方各100条数据。推荐您使用这个接口，因为响应速度更快，流量消耗小。
+此接口，只会返回部分的买卖盘数据，level2_20是指返回买卖方各20条数据，level_100 是指返回买卖方各100条数据。推荐您使用这个接口，因为响应速度更快，流量消耗小。
 
-维护一个本地的实时买卖盘，建议使用[Websocket](#level-2-3)。
+为保证本地买卖盘数据为最新数据，在获取Level 2快照后，请使用[Websocket](#level-2-3)推送的增量消息来更新Level 2买卖盘。
 
 
 
@@ -2632,15 +2784,19 @@ Level-2 买卖盘是指根据价格合并的买单和卖单，返回一个价格
 
 **GET /api/v1/market/orderbook/level2_100** 
 
+### 请求示例
+GET /api/v1/market/orderbook/level2_20?symbol=BTC-USDT
+GET /api/v1/market/orderbook/level2_100?symbol=BTC-USDT
+
 ###请求参数
 
-请求参数 | 类型 | 描述
+请求参数 | 类型 | 含义
 --------- | -------  | -------
 symbol | String |  [交易对](#a17b4e2866)
 
 ### 返回值
 
-字段名称 | 描述
+字段 | 含义
 --------- | ------- 
 sequence | 序列号
 time | 时间戳
@@ -2666,13 +2822,15 @@ asks | 卖盘
              ["6500.15", "0.57753524"]]  
 }
 ```
-此接口，可获取指定交易对的买卖盘数据。
+此接口获取指定交易对的所有活动委托的快照。
 
-Level-2 买卖盘是指根据价格合并的买单和卖单，返回一个价格下的挂单量（根据价格聚合）。
+Level 2 买卖盘上的买单和卖单均按照价格汇总，每个价格下仅返回一个根据价格汇总的挂单量。
 
-此接口，返回根据价格聚合的全部的买卖盘数据，这个接口适合专业的交易员调用，因为这个接口会消耗更多的服务器资源和数据流量。
+此接口将返回全部的买卖盘数据。
 
-维护一个本地的实时买卖盘，建议使用[Websocket](#level-2-3)。
+该功能适用于专业交易员，因为该过程将使用较多服务器资源及流量，访问频率受到了严格控制。
+
+为保证本地买卖盘数据为最新数据，在获取Level 2快照后，请使用[Websocket](#level-2-3)推送的增量消息来更新Level 2买卖盘。
 
 
 ### HTTP请求
@@ -2681,15 +2839,19 @@ Level-2 买卖盘是指根据价格合并的买单和卖单，返回一个价格
 
 **GET /api/v2/market/orderbook/level2**  (推荐使用)
 
+### 请求示例
+GET /api/v1/market/orderbook/level2?symbol=BTC-USDT
+GET /api/v2/market/orderbook/level2?symbol=BTC-USDT
+
 ###请求参数
 
-请求参数 | 类型 | 描述
+请求参数 | 类型 | 含义
 --------- | ------- | -------
 symbol | String |  [交易对](#a17b4e2866)
 
 ### 返回值
 
-字段名称 | 描述
+字段 | 含义
 --------- | ------- 
 sequence | 序列号
 time | 时间戳
@@ -2740,25 +2902,30 @@ asks | 卖盘
     }
 ```
 
-此接口，可获取指定交易对的Level-3数据。Level-3返回的是整个买卖盘所有的数据（没有根据价格聚合，返回的每一个item是单个订单）。
+此接口，可获取指定交易对的所有未结委托的快照。Level 3 返回了买卖盘上的所有数据（未按价格汇总，一个价格对应一个挂单）。
 
-此接口，返回没有根据价格聚合的全部的买卖盘数据，这个接口适合专业的交易员调用，因为这个接口会消耗更多的服务器资源和数据流量。
+该功能适用于专业交易员，因为该过程将使用较多服务器资源及流量，访问频率受到了严格控制。
 
-维护一个本地的实时买卖盘，建议使用[Websocket](#level-nbsp-3)。
+为保证本地买卖盘数据为最新数据，在获取Level 3快照后，请使用[Websocket](#level-nbsp-3)推送的增量消息来更新Level 3买卖盘。
+
+在买卖盘中，卖盘是以价格从低到高排序的，价格相同的订单以进入买卖盘的时间从低到高排序。买盘是以价格从高到低排序的，价格相同的订单以进入买卖盘的时间从低到高排序。撮合引擎将按照订单在买卖盘中排列顺序依次进行撮合。
 
 
 ### HTTP请求
 **GET /api/v1/market/orderbook/level3**
 
+### 请求示例
+GET GET /api/v1/market/orderbook/level3?symbol=BTC-USDT
+
 ###请求参数
 
-请求参数 | 类型 | 描述
+请求参数 | 类型 | 含义
 --------- | ------- | -------
 symbol | String |  [交易对](#a17b4e2866)
 
 ### 返回值
 
-字段名称 | 描述
+字段 | 含义
 --------- | ------- 
 sequence | 序列号
 time | 时间戳
@@ -2782,10 +2949,10 @@ asks | 卖盘
 [
   {
       "sequence": "1545896668571",
-      "price": "0.07",                      //Filled price
-      "size": "0.004",                      //Filled amount
-      "side": "buy",                        //Filled side. The filled side is set to the taker by default.
-      "time": 1545904567062140823           //Transaction time
+      "price": "0.07",                      //成交价格
+      "size": "0.004",                      //成交数量
+      "side": "buy",                        //成交方向
+      "time": 1545904567062140823           //交易时间
   },
   {
       "sequence": "1545896668578",
@@ -2801,25 +2968,28 @@ asks | 卖盘
 ### HTTP请求
 **GET /api/v1/market/histories**
 
+### 请求示例
+GET GET /api/v1/market/histories?symbol=BTC-USDT
+
 ###请求参数
 
-请求参数 | 类型 | 描述
+请求参数 | 类型 | 含义
 --------- | -------  | -------
 symbol | String |  [交易对](#a17b4e2866)
 
 ### 返回值
 
-字段名称 | 描述
+字段 | 含义
 --------- | ------- 
 sequence | 序列号
 time | 交易时间戳
-price | 成交价格
-size | 成交数量
+price | 订单价格
+size | 订单数量
 side |卖方 或 买方
 
 ###SIDE
-**side** 字段是指 taker 订单的交易方向。 对于 taker 订单，会与买卖盘中的订单进行撮合。
-如果taker订单是买单**buy**，意味着上涨，因为这个taker是买单而且进入撮合引擎，反之 **sell** 卖单意味着下跌。
+Taker订单的成交方向。Taker订单指立刻与买卖盘上的已有订单成交的订单类型。
+
 
 
 <aside class="spacer2"></aside>
@@ -2848,38 +3018,42 @@ side |卖方 或 买方
   ]
 ]
 ```
-此接口，返回指定交易对的kline(蜡烛图）。
+此接口，返回指定交易对的kline(蜡烛图），返回数据根据时间粒度划分。
 
-<aside class="notice"> 历史蜡烛图数据可能不完整，可以通过Websocket订阅实时数据</aside>
+<aside class="notice">  历史蜡烛图数据可能不完整，请勿轮询调用此接口，可以通过Websocket订阅实时数据</aside>
 
 
 ### HTTP请求
 **GET /api/v1/market/candles**
 
+### 请求示例
+GET /api/v1/market/candles?type=1min&symbol=BTC-USDT
+
+
 ###请求参数
 
-请求参数 | 类型 | 描述
+请求参数 | 类型 | 含义
 ------------- | ------- | -------
 symbol | String |  [交易对](#a17b4e2866)
-startAt | long | 开始时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以毫秒为单位，只会返回在开始时间之后创建的数据。
-endAt | long | 结束时间，[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)以毫秒为单位，只会返回在结束时间以前创建的数据。 
-type | String | 返回数据时间粒度，也就是每根蜡烛的时间区间:<br/>**1min, 3min, 5min, 15min, 30min, 1hour, 2hour, 4hour, 6hour, 8hour, 12hour, 1day, 1week**
+startAt| long | [可选] 开始时间（毫秒）
+endAt| long | [可选]  截止时间（毫秒） 
+type | String | 时间粒度，也就是每根蜡烛的时间区间:<br/>**1min, 3min, 5min, 15min, 30min, 1hour, 2hour, 4hour, 6hour, 8hour, 12hour, 1day, 1week**
 
 <aside class="notice"> 每次查询系统最多返回1500条数据。要获得更多数据，请按时间分页数据。</aside>
 
 ###返回值
 
-* **time** k线周期的开始时间
-* **open** 开盘价
-* **close** 收盘价
-* **high** 最高价
-* **low** 最低价
-* **volume** 成交量
-* **turnover** 成交额
+字段 | 含义
+--------- | ------- 
+time | k线周期的开始时间
+open | 开盘价
+close | 收盘价
+high | 最高价
+low | 最低价
+volume | 成交量
+turnover | 成交额
 
 
-### HTTP请求
-**GET /api/v1/market/stats**
 
 
 # 币种
@@ -2914,15 +3088,19 @@ type | String | 返回数据时间粒度，也就是每根蜡烛的时间区间:
 ```
 
 此接口，返回币种详情列表。
+<aside class="notice">并不是所有的币种可以用于交易</aside>
 
 ### HTTP请求
 **GET /api/v1/currencies**
 
-<aside class="notice">并不是所有的币种可以用于交易</aside>
+
+### 请求示例
+GET /api/v1/currencies
+
 
 ### 返回值
 
-字段名称 | 描述
+字段 | 含义
 --------- | ------- 
 |currency| 币种唯一标识，不会改变|
 |name| 币种名，可变更|
@@ -2935,22 +3113,20 @@ type | String | 返回数据时间粒度，也就是每根蜡烛的时间区间:
 
 ### 币种标识(currency code)
 
-币种标识（code）会尽可能符合 ISO 4217 的标准，在ISO 4217中无法标识的币种，会采取自定义标识
+币种标识（code）均符合 ISO 4217 的标准，不符合ISO 4217标准中无法标识的币种，将采取自定义标识。
 
-
-Code | 描述
+Code | 含义
 --------- | -------  
 BTC | Bitcoin
 ETH | Ethereum
 KCS | Kucoin Shares
 
-币种的**currency**是不会改变的，它一经确定将会变为该币种的唯一标识，而币种的name、fullname、precision等都可能会变动，当一个币种更换name时，您仍然需要使用currency去获取该币种。
+返回值中的**currency**是不会改变的，而name、fullname、precision等都可能会变动，当一个币种更换name时，您仍可以使用currency去获取该币种的信息。
 
 例如：XRB更名后变为Nano，但它的currency仍然是XRB，而它的name变更为Nano，此时您仍然需要通过XRB去查询该币种。
 
 ## 币种详情
 
-此接口，可获取通过单个币种标识的币种详情
 
 ```json
 {
@@ -2964,20 +3140,26 @@ KCS | Kucoin Shares
     "isDepositEnabled": true
   }
 ```
+此接口，返回可交易币种的法币换算后的价格
+
 
 ### HTTP请求
 **GET /api/v1/currencies/{currency}**
 
+### 请求示例
+GET /api/v1/currencies/BTC
+
+
 ###请求参数
 
-请求参数 | 类型 | 描述
+请求参数 | 类型 | 含义
 --------- | ------- | -------
 currency | String |  路径参数，[币种标识](#ebcc9fbb02)
 chain | String | [可选] 针对一币多链的币种，可通过chain获取币种详情。比如， USDT存在的链有 OMNI, ERC20, TRC20。
 
 ### 返回值
 
-字段名称 | 描述
+字段 | 含义
 --------- | ------- 
 |currency| 币种唯一标识，不会改变|
 |name| 币种名，可变更|
@@ -2989,7 +3171,7 @@ chain | String | [可选] 针对一币多链的币种，可通过chain获取币�
 |isDepositEnabled| 是否可充值|
 
 ## 法币换算价格
-此接口，返回法币换算后的价格Get fiat price for currency
+此接口，返回法币换算后的价格
 
 ```json
 {
@@ -3005,12 +3187,15 @@ chain | String | [可选] 针对一币多链的币种，可通过chain获取币�
 ###HTTP 请求
 **GET /api/v1/prices**
 
+###Example
+GET /api/v1/prices
+
 ###请求参数
 
-请求参数 | 类型 | 描述
+请求参数 | 类型 | 含义
 --------- | ------- | -------
- base | String | [可选] 输入法币货币代码。比如，USD，EUR 默认为USD |
- currencies | String  |[可选] 使用,分割需要转换的货币。比如，BTC，ETH 默认为所有|
+ base | String | [可选] 法币货币代码。比如，USD，EUR 默认为USD |
+ currencies | String  |[可选] 需转换的数字货币（多个币种，请使用“,“进行间隔）。比如，BTC,ETH 。默认为返回所有币种的法币价格|
 
 
 # 其他接口
@@ -3028,18 +3213,43 @@ chain | String | [可选] 针对一币多链的币种，可通过chain获取币�
 }
 ```
 
-此接口，可获取服务器时间。
+此接口，可获取API服务器时间。这是Unix时间戳。
 
 ### HTTP请求
 **GET /api/v1/timestamp**
 
+### 请求示例
+GET /api/v1/timestamp
 
+# Websocket
 
-# Websocket 实时数据
-
-Websocket相对于REST API数据更加实时，而且REST API有严格的频率限制。
+REST API的使用受到了访问频率的限制，因此推荐您使用Websocket获取实时数据。
 
 <aside class="notice">推荐您只创建一个Websocket连接，使用多路复用的方式去订阅数据</aside>
+
+
+## 申请连接令牌
+
+```json
+  {
+    "code": "200000",
+    "data": {
+        "instanceServers": [
+            {
+                "pingInterval": 50000,
+                "endpoint": "wss://push.kumex.net/endpoint",
+                "protocol": "websocket",
+                "encrypt": true,
+                "pingTimeout": 10000
+            }
+        ],
+        "token": "vYNlCtbz4XNJ1QncwWilJnBtmmfe4geLQDUA62kKJsDChc6I4bRDQc73JfIrlFaVYIAE0Gv2--MROnLAgjVsWkcDq_MuG7qV7EktfCEIphiqnlfpQn4Ybg==.IoORVxR2LmKV7_maOR9xOg=="
+    }
+  }
+```
+
+在创建Websocket连接前，您需申请一个令牌（Token）。
+
 
 ## 申请连接令牌
 
@@ -3065,12 +3275,11 @@ Websocket相对于REST API数据更加实时，而且REST API有严格的频率�
 
 ### 公共令牌 (不需要验证签名):
 
-如果您只订阅公共频道的数据，可使用下面的bullet-public请求，获取公共令牌。
+如果您只订阅公共频道的数据，请按照以下方式请求获取服务器列表和临时公共令牌。
 
 #### HTTP请求
 
 **POST /api/v1/bullet-public**
-
 
 
 
@@ -3091,9 +3300,10 @@ Websocket相对于REST API数据更加实时，而且REST API有严格的频率�
     }
 }
 ```
+
 ### 私有令牌 (需要验证签名):
 
-如果您想订阅私有频道的数据，可使用下面的bullet-private请求，获取私有令牌。
+如您需请求私有频道的数据（如：账户资金变化），请在签名验证后按照以下方式获取Websocket的服务实例和已验签的令牌。
 
 #### HTTP请求
 
@@ -3102,13 +3312,15 @@ Websocket相对于REST API数据更加实时，而且REST API有严格的频率�
 
 ### 返回值
 
-字段名称 | 描述
---------- | ------- 
-|pingInterval| 间隔 n 毫秒发送ping 消息
-|pingTimeout| n 毫秒后，没有收到pong消息，那么连接断开
-|endpoint| Websocket 建立连接的服务地址
-|protocol| 支持的协议
-|encrypt| 是否使用SSL加密
+|字段 | 含义|
+-----|-----
+|pingInterval| 发送消息的间隔时间（毫秒）|
+|pingTimeout| 如果在pingTimeout时间后，未收到pong消息，那么连接可能已断开了 |
+|endpoint| Websocket建立连接的服务器地址 |
+|protocol| 支持的协议 |
+|encrypt| 表示是否使用了SSL加密 |
+|token | 令牌 |
+
 
 ## 建立连接
 
@@ -3116,7 +3328,7 @@ Websocket相对于REST API数据更加实时，而且REST API有严格的频率�
 var socket = new WebSocket("wss://push1-v2.kucoin.com/endpoint?token=xxx&[connectId=xxxxx]");
 ```
 
-成功建立连接之后，系统会发送welcome的信息。
+成功建立连接后，您将会收到系统向您发出的欢迎（welcome）消息。
 
 
 ```json
@@ -3126,9 +3338,9 @@ var socket = new WebSocket("wss://push1-v2.kucoin.com/endpoint?token=xxx&[connec
 }
 ```
 
-connectId 是连接Id，由客户端生成的唯一标识。连接成功后，系统发送的welcome消息的id以及错误消息的id都是connectId。
+**connectId**：连接ID，是客户端生成的唯一标识。您在创建连接时收到的欢迎（welcome）消息的ID以及错误消息的ID都属于连接ID（connectId）。
 
-当连接参数 acceptUserMessage=true 时, 无需订阅任何topic则会接收与用户相关的推送数据(自动包含所有私有频道，订单的变化，账户余额变更，登录信息)。例如，wss://push1-v2.kucoin.com/endpoint?token=xxx&connectId=xxxxx&acceptUserMessage=true
+**acceptUserMessage**：当acceptUserMessage的值为 **true** 时，可以接收到用户的私人消息。
 
 
 <aside class="spacer2"></aside>
@@ -3140,11 +3352,12 @@ connectId 是连接Id，由客户端生成的唯一标识。连接成功后，�
   "type":"ping"
 }
 ```
-为了防止服务器断开TCP连接，客户端需要向服务器发送 ping 消息以保持连接的活跃。
+为防止服务器断开TCP连接，客户端需要向服务器发送ping消息以保持连接的活跃性。
 
-ping 消息发送到服务器后，系统会向客户端返回 pong 消息。
+在服务器收到ping消息后，系统会向客户端返回一条pong消息。
 
-如果服务器 **60** 秒后都没有收到 ping 消息，则服务器将断开连接。
+如果服务器在**60秒**内没有收到来自客户端的ping消息，连接将被断开。
+
 
 
 ```json
@@ -3155,57 +3368,91 @@ ping 消息发送到服务器后，系统会向客户端返回 pong 消息。
 ```
 <aside class="spacer3"></aside>
 
-## 订阅数据 & 取消订阅数据
+
+## 订阅
 
 ```json
-// 订阅
+  // 订阅
 {
-    "id": "123456789",         //要求唯一
-    "type": "subscribe",      //类型: subscribe / unsubscribe
-    "topic": "/market/ticker:BTC-USDT,ETH-USDT",
-    "privateChannel": true,   //是否使用该频道的私有频道，默认为false
-    "response": true          //是否需要服务端返回本次订阅的回执信息，默认为false
-}
-```
-
-```json
-// 取消订阅
-{
-    "id": "1545910840805",      //要求唯一
-    "type": "unsubscribe",     //类型: subscribe / unsubscribe
-    "topic": "/market/ticker:BTC-USDT,ETH-USDT",
-    "privateChannel": true,   //是否使用该频道的私有频道，默认为false
-    "response": true          //是否需要服务端返回本次订阅的回执信息，默认为false
+    "id": "123456789",         //要求唯一 be an unique value
+    "type": "subscribe",      //类型: subscribe 
+    "topic": "/market/ticker:BTC-USDT,ETH-USDT", //
+    "privateChannel": true,   //是否使用该频道的私有频道，默认为false   
+    "response": true          //是否需要服务端返回本次订阅的回执信息，默认为false 
 }
 
 ```
+
+使用服务器订阅消息时，客户端应向服务器发送订阅消息。
+
+订阅成功后，当**response**参数为**false**时，系统将向您发出“ack”消息。
+
+
+```json
+  {
+    "id":"1545910660739",
+    "type":"ack"
+  }
+```
+
+当订阅频道产生新消息时，系统将向客户端推送消息。了解消息格式，请查看频道介绍。
+
+## 退订
+
+用于取消您之前订阅的topic
+
+```json
+  // 取消订阅
+  {
+      "id": "1545910840805",      //要求唯一 
+      "type": "unsubscribe",     //类型: unsubscribe 
+      "topic": "/market/ticker:BTC-USDT,ETH-USDT",
+      "privateChannel": true,   //是否使用该频道的私有频道，默认为false 
+      "response": true          //是否需要服务端返回本次订阅的回执信息，默认为false   
+  }
+
+```
+
+```json
+  {
+    "id": "1545910840805",
+    "type": "ack"
+  }
+```
+
+### 参数
+
+#### ID
+用于标识请求的唯一字符串。
+
+#### Topic
+您订阅的topic内容。
+
+#### PrivateChannel
+您可通过privateChannel参数订阅以一些公共topic（如：/market/level3）。该参数默认设置为“false”。设置为“true”，您只能收到与您订阅相关的内容推送。Topic字段在返回数据中的格式为：{topic}:privateChannel:{userId}。
+
+
+#### Response
+退订成功后，当**response**参数为**true**时，系统将向您发出“ack”消息。
+
+### 参数
+#### ID
+ID用于标识请求和ack的唯一字符串。
+
+#### Topic
+您订阅的频道内容。
+
+#### PrivateChannel
+
+您可通过privateChannel参数订阅以一些特殊的topic（如： /market/level3）。该参数默认设置为“false”。设置为“true”时，则您只能收到与您订阅的topic相关的内容推送。Topic字段在返回数据中的格式为：{topic}:privateChannel:{userId}。
+
+
+#### Response
+若设置为True, 用户成功订阅后，系统将返回ack消息。
+
 客户端需要发送订阅消息到服务端，获取指定topic的消息。
 
 但系统会将相应topic的消息发送到客户端，详情返回值请参照指定的topic。
-
-
-
-### 请求参数
-
-参数以json 的格式发送
-
-请求参数 | 类型 | 描述
---------- | ------- | -------
-id | String |  请求id，唯一标识
-type | String | subscribe: 订阅；unsubscribe: 取消订阅
-privateChannel | Boolean | [可选] 对于一些特殊的topic，比如，/market/level3，是否使用该频道的私有频道，默认为false。设置为true后，有userId字段的信息为私有
-response | Boolean |  [可选] 设置为true，成功订阅后，服务端返回本次订阅 **ack** 消息，默认为false
-
-
-
-
-```json
-// 回执信息
-{
-  "id":"1545910660739",
-  "type":"ack"
-}
-```
 
 
 
@@ -3214,30 +3461,35 @@ response | Boolean |  [可选] 设置为true，成功订阅后，服务端返回
 ## 多路复用
 
 
-多路复用：在一条物理连接上，开启多个多路复用通道，可以分别订阅不同的topic，接收不同的数据。
+ 在一条物理连接上，您可开启多条多路复用通道，以订阅不同topic，获取多种数据推送。
 
 ### 开启
 
-开启一个多路复用通道，如{"id": "1Jpg30DEdU", "type": "openTunnel", "newTunnelId": "bt1", "response": true}开启一个名为bt1的多路复用通道;
 
- 在指令中增加tunnelId，即可使用多路复用通道，如：{"id": "1JpoPamgFM", "type": "subscribe", "topic": "/market/ticker:KCS-BTC"，"tunnelId": "bt1", "response": true}
+例如： 请输入以下指令定开启多条bt1通道 {"id": "1Jpg30DEdU", "type": "openTunnel", "newTunnelId": "bt1", "response": true}
+
+在指定中添加参数tunnelId： {"id": "1JpoPamgFM", "type": "subscribe", "topic": "/market/ticker:KCS-BTC"，"tunnelId": "bt1", "response": true}
+
+
 
 ### 返回值
-收到的消息里多了相应的tunnelIId，如：{"id": "1JpoPamgFM", "type": "message", "topic": "/market/ticker:KCS-BTC", "subject": "trade.ticker", "tunnelId": "bt1", "data": {...}}
+请求成功后，您将收到 tunnelIId 对应的消息推送：{"id": "1JpoPamgFM", "type": "message", "topic": "/market/ticker:KCS-BTC", "subject": "trade.ticker", "tunnelId": "bt1", "data": {...}}
 
 ### 关闭
-关闭一个多路复用通道：{"id": "1JpsAHsxKS", "type": "closeTunnel", "tunnelId": "bt1", "response": true}
+请输入以下指令：{"id": "1JpsAHsxKS", "type": "closeTunnel", "tunnelId": "bt1", "response": true}
 
 ### 限制
-- api用户使用；
-- 最多开启5个多路复用通道；
+- 多路复用仅限API用户使用。
+- 最多可开启的多路复用通道条数：5条。
+
 
 
 
 
 
 ## 定序编号
-买卖盘数据，成交历史数据，快照信息中会默认返回 **sequence** 字段。您可以从Level-2和Level-3市场行情数据中的sequence来判断数据是否丢失，连接是否稳定。
+买卖盘数据化、成交历史数据以及快照消息均会默认返回sequence字段。您可以从Level 2和Level 3市场行情数据中的sequence来判断数据是否丢失，连接是否稳定。如果连接不稳定，请按照校准流程进行校准。
+
 
 
 
@@ -3283,11 +3535,11 @@ Topic: **/market/ticker:{symbol},{symbol}...**
   }
 }
 ```
-订阅此topic可获取指定[交易对](#a17b4e2866)的BBO(最佳买一和卖一)数据的推送，每隔**一秒**推送一次。
-此topic对带宽要求低。
+订阅此topic可获取指定[交易对](#a17b4e2866)的BBO(最佳买一和卖一)数据的推送。
 
-以后会在这个渠道中推送更多的信息。
+每完成一笔撮合，该渠道就会实时推送一次价格。如果有多个订单在同一时间被撮合，仅推送最近一笔完成撮合的订单事件，极大的降低了对带宽对需求。
 
+平台后期可能会向该渠道推送更多的信息。
 
 <aside class="spacer2"></aside> 
 <aside class="spacer4"></aside> 
@@ -3322,7 +3574,7 @@ Topic: **/market/ticker:all**
   }
 }
 ```
-订阅此topic可获取所有的BBO(最佳买一和卖一)数据的推送，每隔**一秒**推送一次。
+订阅此topic可获取所有的BBO(最佳买一和卖一)数据的推送。
 
 
 <aside class="spacer2"></aside> 
@@ -3358,7 +3610,7 @@ Topic: **/market/ticker:all**
 		}]
 	},
 	"subject": "trade.snapshot",
-	"topic": "\/market\/snapshot:BTC",
+	"topic": "/market/snapshot:BTC",
 	"type": "message"
 }
 ```
@@ -3372,7 +3624,7 @@ Topic: **/market/snapshot:{symbol}**
 <aside class="spacer4"></aside> 
 <aside class="spacer"></aside> 
 
-## 按市场的交易对行情快照
+## 市场行情快照
 
 ```json
 {
@@ -3457,23 +3709,23 @@ Topic: **/market/level2:{symbol},{symbol}...**
 
 校准流程:
 
-1.成功订阅后，请将Websocket推送的l2update数据流缓存在本地。
 
-2.通过REST请求拉取[Level-2买卖盘](#Level-2部分买卖盘(价格聚合))的快照信息。
+1. 将Websocket推送的Level 2数据缓存在本地。
+2. 通过REST请求拉取[Level 2](#level-2-2)买卖盘的快照信息。
+3. 回放缓存的Level 2数据流。
+4. 将拉取的最新Level 2数据流回放到本地缓存中，以确保最新的Level 2买卖盘数据顺序号与之前的Level 2数据顺序号连续无间断。丢弃掉旧Level 2数据该顺序号之前的数据，更新Level 2数据流。
+5. 请根据订单数量对应的顺序号更新Level 2的全部买卖盘数据。如果数量为0，则需要将该数量对应的订单价格从Level 2数据流中移除。如遇其他情况，正常更新买卖盘数据即可。
 
-3.轮训缓存的l2update数据流，获取到快照信息中的sequence（查询范围，sequenceStart和sequenceEnd)，摒弃掉sequenceStart之前的数据，更新l2update数据流。
+[Level 2](#level-2-2) 的Change属性是一个“price, size, sequence”的字符串值。
 
-4.将更新的l2update数据流回放到缓存中，以确保新的Level-2买卖盘数据的sequenceStartt与前一个Level-2买卖盘数据sequenceEnd连续。
+请注意，size指的是price对应的最新size。当size为0时，需要将其对应的price从买卖盘中删除。
 
-5.根据size和sequence来更新l2update数据流。如果 price为0，请忽略这条消息并更新sequence; 如果收到size为0的数据，需要将指定price的记录移除买卖盘。对于其他情况，请更买卖。
-
- 返回值对应的是[price，size，sequence]的数组。 请注意，size是该price下的size，而不是指增量。 如果收到size为0的数据，需要将指定price的记录移除买卖盘。
 
 
 
    
 
-**案例**
+**示例**
 
 以BTC/USDT为例，假设level 2当前买卖盘数据如下:
 
@@ -3498,7 +3750,7 @@ Topic: **/market/level2:{symbol},{symbol}...**
 
 <aside class="notice">消息展示为[“价格”,“数量”,“sequence”]</aside>
 
-2. 通过REST请求拉取[Level-2买卖盘快照信息](#Level-2部分买卖盘(价格聚合))
+1. 通过REST请求拉取[Level-2买卖盘快照信息](#level-2-2)
 
 Sequence：**16**
 
@@ -3546,13 +3798,13 @@ Data：
 
 当前买卖盘快照信息的sequence 为 **16**，摒弃买卖盘数据流中sequence <= 16的数据，回放sequence为**17，18**的数据，更新买卖盘快照信息。现在，您本地的sequence为**18**。
 
-**变更：**
+**变更**:
 
-1.**更新价格为 3988.50 的size为 44 (Sequence 17)**
+1. ** 将价格3988.50对应的数量变更为44 （顺序号为17）**
 
-2.**移除价格为 3988.61 的数据 (Sequence 18)**
+2. ** 移除价格为3988.61的数据（顺序号为18）**
 
-下方的买卖盘为更新后的买卖盘:
+变更后，当前买卖盘数据为最新数据，具体数据如下:
 
 | Price   | Size | Side |
 | ------- | ---- | ---- |
@@ -3628,26 +3880,22 @@ Topic: **/market/level3:{symbol},{symbol}...**
 
 <aside class="notice">注意: 如果您想维护一个本地的Level-2买卖盘，请订阅Level-2市场行情</aside>
 
-下面是如何构建一个Level-3买卖盘的算法。 
+维护更新Level 3买卖盘的步骤如下： 
 
-1. 订阅 Topic: /market/level3:{symbol},{symbol}... 获取数据流
-2. 对接收到的数据流进行排序
-3. 发送一个REST请求拉取[Level-3买卖盘](#Level-3全部买卖盘(非聚合))的快照
-4. 舍弃sequence <= 快照信息的sequence，回放数据流
-5. 按需将回放消息应用于快照（参见下文）
-6. 回放完成后，再次循环以上步骤，更新买卖盘数据
-
-
-###MESSAGE TYPE
-
-返回信息的type有: **RECEIVED, OPEN, DONE, MATCH, CHANGE**
-<aside class="notice">
-所有的 open 和 match 消息会导致变卖盘变更，但并非所有的 done 或 change 消息会变更买卖盘。
-有些 received 消息会推送给您但是不会存在在买卖盘中，请勿因为此类消息更新买卖盘，否则会影响您的买卖盘的准确性。
-</aside>
+1. 订阅Topic: /contractMarket/level3:{symbol}，获取Level 3买卖盘数据流。
+2. 对接收到的Websocket信息流数据进行排序。
+3. 发送[REST](#level-3-2)请求，获取Level 3买卖盘的快照信息。
+4. 回放已排序的信息流，丢弃掉旧Level 3数据该顺序号之前的数据。
+5. 将回放消息应用于快照（见下文）。
+6. 回放完成后，重复上述步骤，实时更新买卖盘数据。
 
 
+**任意Open和Match消息都将导致买卖盘发生变更。**
 
+###消息类型
+
+
+订阅成功后，系统将以JSON格式，将**RECEIVED**、**OPEN**、**UPDATE**、**MATCH**及**DONE**消息推送到Websocket消息流中。
 
 
 ###RECEIVED
@@ -3845,13 +4093,13 @@ privateChannel=true，还会返回remainSize这个字段，指订单中有多少
 
 如何构建本地OrderBook level-3数据
 
-1.使用websocket订阅 /market/level3:{symbol} 频道订阅level3的增量数据，并缓存收到的所有增量数据。
+1 使用websocket订阅 /market/level3:{symbol} 频道订阅level3的增量数据，并缓存收到的所有增量数据。
 
-2.通过rest接口 https://openapi-v2.kucoin.com/api/v1/market/orderbook/level3?symbol={symbol} 获取level3的快照数据。
+2 通过[REST](#level-3-2)请求获取level3的快照数据。
 
-3.数据检验：获取快照的sequence不小于缓存的所有增量的最小sequence。如果不满足此条件，从第一步从头开始。
+3 数据检验：获取快照的sequence不小于缓存的所有增量的最小sequence。如果不满足此条件，从第一步从头开始。
 
-4.回放所有缓存的增量数据:
+4 回放所有缓存的增量数据:
 
     4.1. 如果增量数据的sequence <= 当前快照的sequence，则舍弃增量数据，并结束本次更新; 否则进行4.2。
 
