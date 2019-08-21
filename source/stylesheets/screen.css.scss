@@ -482,12 +482,20 @@ body {
 .toc-link[data-title="Trade"],
 .toc-link[data-title="Market Data"],
 .toc-link[data-title="Others"],
-.toc-link[data-title="Websocket Feed"] {
+.toc-link[data-title="Websocket Feed"],
+.toc-link[data-title="快速开始"],
+.toc-link[data-title="用户模块"],
+.toc-link[data-title="交易模块"],
+.toc-link[data-title="市场数据"],
+.toc-link[data-title="其他接口"],
+.toc-link[data-title="Websocket"]{
   font-weight: bold;
   margin-top: 10px;
   font-size: 14px;
   //background: #EEE;
 }
+
+
 
 .toc-link[data-title="General"]:before,
 .toc-link[data-title="REST API"]:before,
@@ -495,7 +503,13 @@ body {
 .toc-link[data-title="Trade"]:before,
 .toc-link[data-title="Market Data"]:before,
 .toc-link[data-title="Others"]:before,
-.toc-link[data-title="Websocket Feed"]:before {
+.toc-link[data-title="Websocket Feed"]:before
+.toc-link[data-title="快速开始"]:before,
+.toc-link[data-title="用户模块"]:before,
+.toc-link[data-title="交易模块"]:before,
+.toc-link[data-title="市场数据"]:before,
+.toc-link[data-title="其他接口"]:before,
+.toc-link[data-title="Websocket"]:before {
   content: "";
   display: none;
   margin: 7px 0px;
@@ -507,7 +521,9 @@ body {
 
 .toc-link[data-title="General"],
 .toc-link[data-title="REST API"],
-.toc-link[data-title="Websocket Feed"] {
+.toc-link[data-title="Websocket Feed"],
+.toc-link[data-title="快速开始"],
+.toc-link[data-title="Websocket"]{
   background: #EEE;
   font-size: 15px;
   color: $kucoin-blue;
@@ -515,7 +531,9 @@ body {
 
 .toc-link[data-title="General"].active, .toc-link[data-title="General"]:hover,
 .toc-link[data-title="REST API"].active, .toc-link[data-title="REST API"]:hover,
-.toc-link[data-title="Websocket Feed"].active, .toc-link[data-title="Websocket Feed"]:hover  {
+.toc-link[data-title="Websocket Feed"].active, .toc-link[data-title="Websocket Feed"]:hover 
+.toc-link[data-title="快速开始"].active, .toc-link[data-title="快速开始"]:hover 
+.toc-link[data-title="Websocket"].active, .toc-link[data-title="Websocket"]:hover {
 }
 
 
