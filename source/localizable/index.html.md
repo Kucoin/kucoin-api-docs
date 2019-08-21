@@ -1794,7 +1794,6 @@ The post-only flag ensures that the trader always pays the maker fee and provide
 
 If a post only order will get executed immediately against the existing orders (except iceberg and hidden orders) in the market, the order will be cancelled. If the post only order will execute against an iceberg/hidden order immediately, you will get the maker fees.
 
-<!-- **Notice**: The post only order cannot to be placed simultaneously with an iceberg order or hidden order. -->
 
 
 ### HIDDEN AND ICEBERG
@@ -2419,7 +2418,7 @@ Notice:
 
 - For a **hidden**/**iceberg** order, if it is not executed immediately and becomes a maker order, the system would still charge **taker fees** from you.
 
-<!-- - Post Only order will charge you maker fees. If a post only order would get executed immediately against the existing orders (except iceberg and hidden orders) in the market, the order will be cancelled. If the post only order will execute against an iceberg/hidden order immediately, you will get the maker fees. -->
+
 
 
 For example:
