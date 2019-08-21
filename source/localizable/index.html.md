@@ -1840,7 +1840,7 @@ The HTTP Request will respond when an order is either rejected (insufficient fun
 Users listening to streaming market data are encouraged to use the order ID field to identify their received messages in the feed.
 
 
-###RESPONSE
+###RESPONSES
 Field | Description
 --------- | ------- 
 orderId | The ID of the order
@@ -1879,7 +1879,7 @@ Param | Type | Description
 --------- | ------- | -----------
 orderId | String | [Order ID](#list-orders), unique ID of the order.
 
-###RESPONSE###
+###RESPONSES###
 Field | Description
 --------- | ------- 
 orderId | Unique ID of the cancelled order
@@ -1926,7 +1926,7 @@ Param | Type | Description
 --------- | ------- | -----------
 symbol | String | *[Optional]* symbol, cancel the orders for the specified trade pair. 
 
-###RESPONSE###
+###RESPONSES###
 Field | Description
 --------- | ------- 
 orderId | Order ID, unique identifier of an order. 
@@ -2103,7 +2103,7 @@ startAt| long | *[Optional]*  Start time (milisecond)
 endAt| long | *[Optional]* End time (milisecond)
 side | String | *[Optional]*  **buy** or **sell**
 
-###RESPONSE###
+###RESPONSES###
 Field | Description
 --------- | -------
 symbol | symbol
