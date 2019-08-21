@@ -69,7 +69,6 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 
 - Add **volValue** field to [Get All Tickers](#get-all-tickers).
 - Add **clientOid** field to [Full MatchEngine Data(Level 3)](#full-matchengine-data(level-3))which allows you to filter your order info by clientOid when you subscribe to the "received " messages through private channels.
- 
 - Add **accountId** field in the subscription for [Account balance notice](#account-balance-notice).
 
 **3/13/19** : 
@@ -278,7 +277,7 @@ When a rate limit is exceeded, a status of **429 Too Many Requests** will be ret
 If the rate limit is exceeded multiple times, the system will restrict your use of your IP and account for 1 minute. Your remaining request times will be returned in the results.
 
 ### Apply for Higher Request Rate Limit
-If you are a professional trader or market maker and need a higher limit, please send your KuMEX account, reason and approximate trading volume to [api@kucoin.com](mailto:api@kucoin.com).
+If you are a professional trader or market maker and need a higher limit, please send your KuCoin account, reason and approximate trading volume to [api@kucoin.com](mailto:api@kucoin.com).
 
 
 ## Market Making Incentive Scheme
@@ -609,10 +608,11 @@ For the header of KC-API-KEY,
 * After that, use base64-encode to encrypt the result in step 1 again.
 
 Notice: 
+
 * The encrypted timestamp shall be consistent with the KC-API-TIMESTAMP field in the request header. 
 * The body to be encrypted shall be consistent with the content of the Request Body.  
 * The Method should be UPPER CASE.
-* For GET, DELETE request, the endpoint needs to contain the query string. e.g. /api/v1/deposit-addresses?currency=XBT. The body is " " if there is no request body (typically for GET requests).
+* For GET, DELETE request, the endpoint needs to contain the query string. e.g. /api/v1/deposit-addresses?currency=XBT. The body is "" if there is no request body (typically for GET requests).
 
 
 
@@ -1794,7 +1794,7 @@ The post-only flag ensures that the trader always pays the maker fee and provide
 
 If a post only order will get executed immediately against the existing orders (except iceberg and hidden orders) in the market, the order will be cancelled. If the post only order will execute against an iceberg/hidden order immediately, you will get the maker fees.
 
-**Notice**: The post only order cannot to be placed simultaneously with an iceberg order or hidden order.
+<!-- **Notice**: The post only order cannot to be placed simultaneously with an iceberg order or hidden order. -->
 
 
 ### HIDDEN AND ICEBERG
@@ -1841,7 +1841,7 @@ The HTTP Request will respond when an order is either rejected (insufficient fun
 Users listening to streaming market data are encouraged to use the order ID field to identify their received messages in the feed.
 
 
-###RESPONSE###
+###RESPONSE
 Field | Description
 --------- | ------- 
 orderId | The ID of the order
@@ -2048,6 +2048,7 @@ When you query orders in active status, there is no time limit. However, when yo
 
 The history for cancelled orders is only kept for **one month**. You will not be able to query for cancelled orders that have happened more than a month ago.
 
+<aside class="notice">The total number of items retrieved cannot exceed 500,000. If it is exceeded, please shorten the query time range.</aside>
 
 ###POLLING
 For high-volume trading, it is highly recommended that you maintain your own list of open orders and use one of the streaming market data feeds to keep it updated. You should poll the open orders endpoint to obtain the current state of any open order.
@@ -2386,6 +2387,7 @@ createdAt | create time
 
 The system allows you to retrieve data up to one week (start from the last day by default). If the time period of the queried data exceeds one week (time range from the start time to end time exceeded 7*24 hours), the system will prompt to remind you that you have exceeded the time limit. If you only specified the start time, the system will automatically calculate the end time (end time = start time + 7 * 24 hours). On the contrary, if you only specified the end time, the system will calculate the start time (start time= end time - 7 * 24 hours) the same way.
 
+<aside class="notice">The total number of items retrieved cannot exceed 500,000. If it is exceeded, please shorten the query time range.</aside>
 
 **Settlement**
 
@@ -2417,7 +2419,7 @@ Notice:
 
 - For a **hidden**/**iceberg** order, if it is not executed immediately and becomes a maker order, the system would still charge **taker fees** from you.
 
-- Post Only order will charge you maker fees. If a post only order would get executed immediately against the existing orders (except iceberg and hidden orders) in the market, the order will be cancelled. If the post only order will execute against an iceberg/hidden order immediately, you will get the maker fees.
+<!-- - Post Only order will charge you maker fees. If a post only order would get executed immediately against the existing orders (except iceberg and hidden orders) in the market, the order will be cancelled. If the post only order will execute against an iceberg/hidden order immediately, you will get the maker fees. -->
 
 
 For example:
