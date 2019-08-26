@@ -1794,6 +1794,7 @@ The post-only flag ensures that the trader always pays the maker fee and provide
 
 If a post only order will get executed immediately against the existing orders (except iceberg and hidden orders) in the market, the order will be cancelled. If the post only order will execute against an iceberg/hidden order immediately, you will get the maker fees.
 
+ **Notice**: The post only order cannot to be placed simultaneously with an iceberg order or hidden order. 
 
 
 ### HIDDEN AND ICEBERG
@@ -2417,6 +2418,7 @@ If your order is a maker order, the system would return the left pre-frozen **ta
 Notice: 
 
 - For a **hidden**/**iceberg** order, if it is not executed immediately and becomes a maker order, the system would still charge **taker fees** from you.
+- Post Only order will charge you maker fees. If a post only order would get executed immediately against the existing orders (except iceberg and hidden orders) in the market, the order will be cancelled. If the post only order will execute against an iceberg/hidden order immediately, you will get the maker fees. 
 
 
 
@@ -3048,13 +3050,13 @@ Request via this endpoint to get the kline of the specified symbol. Data are ret
 **GET /api/v1/market/candles**
 
 ### Example
-GET /api/v1/market/candles?type=1min&symbol=BTC-USDT
+GET /api/v1/market/candles?type=1min&symbol=BTC-USDT&startAt=1566703297&endAt=1566789757
 
-Param | Description
---------- | -------
+Param | Type | Description
+--------- | ------- | -----------
 symbol | String | [symbol](#get-symbols-list)
 startAt| long | *[Optional]*  Start time (milisecond)
-endAt| long | *[Optional]* End time (milisecond)
+endAt| long | *[Optional]* End time (milisecond), default is 0
 type | Type of candlestick patterns: **1min, 3min, 5min, 15min, 30min, 1hour, 2hour, 4hour, 6hour, 8hour, 12hour, 1day, 1week**
 
 <aside class="notice">For each query, the system would return at most **1500** pieces of data. To obtain more data, please page the data by time.</aside>
