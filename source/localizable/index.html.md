@@ -276,6 +276,36 @@ REST API:
 When a rate limit is exceeded, a status of **429 Too Many Requests** will be returned.
 If the rate limit is exceeded multiple times, the system will restrict your use of your IP and account for 1 minute. Your remaining request times will be returned in the results.
 
+###REST API
+
+The access limit for REST API is applied per API key. For average users, the request limit for each API key is **1800 requests per minute**. The limit strategy is applicable for both public and private endpoints 
+
+####Hard-Limits
+
+[List Fills](#list-fills): 100 requests per 10 seconds(will be restricted for 10 seconds if the limit is exceeded)
+
+[List orders](#list-orders): 200 requests per 10 seconds(will be restricted for 10 seconds if the limit is exceeded)
+
+
+###WEBSOCKET
+
+
+### Number of Connections
+Number of connections per user ID:   ≤ 10
+
+### Connection Times
+Connection Limit: 30 per minute
+
+
+### Number of Uplink Messages 
+Message limit sent to the server: 100 per 10 seconds
+
+ 
+### Topic Subscription Limit
+Subscription limit for each connection: 100 topics
+
+
+
 ### Apply for Higher Request Rate Limit
 If you are a professional trader or market maker and need a higher limit, please send your KuCoin account, reason and approximate trading volume to [api@kucoin.com](mailto:api@kucoin.com).
 
@@ -352,35 +382,6 @@ If an error occurs as follows:
 
 * Check whether the request is HTTPS
 * Remove the RequestBody from the GET request
-
-###REST API
-
-The access limit for REST API is applied per API key. For average users, the request limit for each API key is **1800 requests per minute**. The limit strategy is applicable for both public and private endpoints 
-
-####Hard-Limits
-
-[List Fills](#list-fills): 100 requests per 10 seconds(will be restricted for 10 seconds if the limit is exceeded)
-
-[List orders](#list-orders): 200 requests per 10 seconds(will be restricted for 10 seconds if the limit is exceeded)
-
-
-###WEBSOCKET
-
-
-### Number of Connections
-Number of connections per user ID:   ≤ 10
-
-### Connection Times
-Connection Limit: 30 per minute
-
-
-### Number of Uplink Messages 
-Message limit sent to the server: 100 per 10 seconds
-
- 
-### Topic Subscription Limit
-Subscription limit for each connection: 100 topics
-
 
 
 
@@ -522,7 +523,7 @@ You can manage the API permission on KuCoin’s official website. The permission
 
 
 * **General** - General - Allows a key general permissions. This includes most of the GET endpoints.
-* **Trade** -  Allows a key to create orders and rerieve transaction data.
+* **Trade** -  Allows a key to create orders.
 * **Transfer** -  Allows a key to transfer funds (including deposit and withdrawal). Please note a sub-account is not authorized this permission. Enable with caution - API key transfers WILL BYPASS two-factor authentication.
 
 
@@ -3851,7 +3852,6 @@ The process to maintain an up-to-date Level 3 order book is described below.
 5. Apply playback messages to the snapshot as needed (see below).
 6. After playback is complete, apply real-time stream messages as they arrive.
 
-**任意Open和Match消息都将导致买卖盘发生变更。**
 
 ###MESSAGE TYPE
 
