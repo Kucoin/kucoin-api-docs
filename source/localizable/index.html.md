@@ -50,7 +50,7 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 - Add **chain** field to [Create Deposit Address](#create-deposit-address), [Get Deposit Address](#get-deposit-address), [Get Currency Detail](#get-currency-detail), [Get Withdrawal Quotas](#get-withdrawal-quotas) and [Apply Withdraw](#apply-withdraw).
 -  Add the description of how to transfer assets in the [Inner Transfer](#inner-transfer) interface. 
 - Add **L3 demo** to [Full MatchEngine Data(Level 3)](#full-matchengine-data(level-3)).
-- modify the strategy of [Rate Limit](#rate-limit).
+- modify the strategy of [Rate Limit](#request-rate-limit).
 
 **4/24/19**: 
 
@@ -274,7 +274,7 @@ REST API:
 ## Request Rate Limit
 
 When a rate limit is exceeded, a status of **429 Too Many Requests** will be returned.
-If the rate limit is exceeded multiple times, the system will restrict your use of your IP and account for 1 minute. Your remaining request times will be returned in the results.
+If the rate limit is exceeded multiple times, the system will restrict your use of your IP and account for at least 1 minute. Your remaining request times will be returned in the results.
 
 ###REST API
 
@@ -350,18 +350,19 @@ For more information on the VIP fee, you can read: [Tiered Trading Fee Discount 
 * Check whether the content-type of your POST request is in application/json form and is encoded by charset=utf-8
   
 ### Apply Withdraw
-* memo<br/>
-
+* memo
+  
 For currencies without memo, the memo field is not required. Please do not pass the parameter when you are applying to withdraw via API, or the system will return: **kucoin incorrect withdrawal address**.<br/>
 
-* amount<br/>
-
+* amount
+  
 The precision of the **amount** field shall satisfy the withdrawal precision requirements of the currency. The precision requirements for the currencies can be obtained by [Withdrawals Quotas](#get-withdrawal-quotas).
 The withdrawal amount must be an integer multiple of the withdrawal accuracy. If the withdrawal accuracy is 0, the withdrawal amount it can only be an integer.
 
 
 ### .net SDK 
-* Invalid Signature on POST Request<br/>
+* Invalid Signature on POST Request
+
 "{\"code\":\"400005\",\"msg\":\"Invalid KC-API-SIGN\"}"<br/>
 There is a bug in the code:<br/>
  var response = body == null ? await _restRepo.PostApi<ApiResponse<T>, SortedDictionary<string, object>>(url, body, headers) : await _restRepo.PostApi<ApiResponse<T>>(url, headers);<br/>
