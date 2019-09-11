@@ -50,7 +50,7 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 - Add **chain** field to [Create Deposit Address](#create-deposit-address), [Get Deposit Address](#get-deposit-address), [Get Currency Detail](#get-currency-detail), [Get Withdrawal Quotas](#get-withdrawal-quotas) and [Apply Withdraw](#apply-withdraw).
 -  Add the description of how to transfer assets in the [Inner Transfer](#inner-transfer) interface. 
 - Add **L3 demo** to [Full MatchEngine Data(Level 3)](#full-matchengine-data(level-3)).
-- modify the strategy of [Rate Limit](#rate-limit).
+- modify the strategy of [Rate Limit](#request-rate-limit).
 
 **4/24/19**: 
 
@@ -274,7 +274,37 @@ REST API:
 ## Request Rate Limit
 
 When a rate limit is exceeded, a status of **429 Too Many Requests** will be returned.
-If the rate limit is exceeded multiple times, the system will restrict your use of your IP and account for 1 minute. Your remaining request times will be returned in the results.
+If the rate limit is exceeded multiple times, the system will restrict your use of your IP and account for at least 1 minute. Your remaining request times will be returned in the results.
+
+###REST API
+
+The access limit for REST API is applied per API key. For average users, the request limit for each API key is **1800 requests per minute**. The limit strategy is applicable for both public and private endpoints 
+
+####Hard-Limits
+
+[List Fills](#list-fills): 100 requests per 10 seconds(will be restricted for 10 seconds if the limit is exceeded)
+
+[List orders](#list-orders): 200 requests per 10 seconds(will be restricted for 10 seconds if the limit is exceeded)
+
+
+###WEBSOCKET
+
+
+### Number of Connections
+Number of connections per user ID:   ≤ 10
+
+### Connection Times
+Connection Limit: 30 per minute
+
+
+### Number of Uplink Messages 
+Message limit sent to the server: 100 per 10 seconds
+
+ 
+### Topic Subscription Limit
+Subscription limit for each connection: 100 topics
+
+
 
 ### Apply for Higher Request Rate Limit
 If you are a professional trader or market maker and need a higher limit, please send your KuCoin account, reason and approximate trading volume to [api@kucoin.com](mailto:api@kucoin.com).
@@ -320,18 +350,19 @@ For more information on the VIP fee, you can read: [Tiered Trading Fee Discount 
 * Check whether the content-type of your POST request is in application/json form and is encoded by charset=utf-8
   
 ### Apply Withdraw
-* memo<br/>
-
+* memo
+  
 For currencies without memo, the memo field is not required. Please do not pass the parameter when you are applying to withdraw via API, or the system will return: **kucoin incorrect withdrawal address**.<br/>
 
-* amount<br/>
-
+* amount
+  
 The precision of the **amount** field shall satisfy the withdrawal precision requirements of the currency. The precision requirements for the currencies can be obtained by [Withdrawals Quotas](#get-withdrawal-quotas).
 The withdrawal amount must be an integer multiple of the withdrawal accuracy. If the withdrawal accuracy is 0, the withdrawal amount it can only be an integer.
 
 
 ### .net SDK 
-* Invalid Signature on POST Request<br/>
+* Invalid Signature on POST Request
+
 "{\"code\":\"400005\",\"msg\":\"Invalid KC-API-SIGN\"}"<br/>
 There is a bug in the code:<br/>
  var response = body == null ? await _restRepo.PostApi<ApiResponse<T>, SortedDictionary<string, object>>(url, body, headers) : await _restRepo.PostApi<ApiResponse<T>>(url, headers);<br/>
@@ -352,35 +383,6 @@ If an error occurs as follows:
 
 * Check whether the request is HTTPS
 * Remove the RequestBody from the GET request
-
-###REST API
-
-The access limit for REST API is applied per API key. For average users, the request limit for each API key is **1800 requests per minute**. The limit strategy is applicable for both public and private endpoints 
-
-####Hard-Limits
-
-[List Fills](#list-fills): 100 requests per 10 seconds(will be restricted for 10 seconds if the limit is exceeded)
-
-[List orders](#list-orders): 200 requests per 10 seconds(will be restricted for 10 seconds if the limit is exceeded)
-
-
-###WEBSOCKET
-
-
-### Number of Connections
-Number of connections per user ID:   ≤ 10
-
-### Connection Times
-Connection Limit: 30 per minute
-
-
-### Number of Uplink Messages 
-Message limit sent to the server: 100 per 10 seconds
-
- 
-### Topic Subscription Limit
-Subscription limit for each connection: 100 topics
-
 
 
 
@@ -522,7 +524,7 @@ You can manage the API permission on KuCoin’s official website. The permission
 
 
 * **General** - General - Allows a key general permissions. This includes most of the GET endpoints.
-* **Trade** -  Allows a key to create orders and rerieve transaction data.
+* **Trade** -  Allows a key to create orders.
 * **Transfer** -  Allows a key to transfer funds (including deposit and withdrawal). Please note a sub-account is not authorized this permission. Enable with caution - API key transfers WILL BYPASS two-factor authentication.
 
 
@@ -1794,6 +1796,7 @@ The post-only flag ensures that the trader always pays the maker fee and provide
 
 If a post only order will get executed immediately against the existing orders (except iceberg and hidden orders) in the market, the order will be cancelled. If the post only order will execute against an iceberg/hidden order immediately, you will get the maker fees.
 
+ **Notice**: The post only order cannot to be placed simultaneously with an iceberg order or hidden order. 
 
 
 ### HIDDEN AND ICEBERG
@@ -2417,6 +2420,7 @@ If your order is a maker order, the system would return the left pre-frozen **ta
 Notice: 
 
 - For a **hidden**/**iceberg** order, if it is not executed immediately and becomes a maker order, the system would still charge **taker fees** from you.
+- Post Only order will charge you maker fees. If a post only order would get executed immediately against the existing orders (except iceberg and hidden orders) in the market, the order will be cancelled. If the post only order will execute against an iceberg/hidden order immediately, you will get the maker fees. 
 
 
 
@@ -3048,13 +3052,13 @@ Request via this endpoint to get the kline of the specified symbol. Data are ret
 **GET /api/v1/market/candles**
 
 ### Example
-GET /api/v1/market/candles?type=1min&symbol=BTC-USDT
+GET /api/v1/market/candles?type=1min&symbol=BTC-USDT&startAt=1566703297&endAt=1566789757
 
-Param | Description
---------- | -------
+Param | Type | Description
+--------- | ------- | -----------
 symbol | String | [symbol](#get-symbols-list)
 startAt| long | *[Optional]*  Start time (milisecond)
-endAt| long | *[Optional]* End time (milisecond)
+endAt| long | *[Optional]* End time (milisecond), default is 0
 type | Type of candlestick patterns: **1min, 3min, 5min, 15min, 30min, 1hour, 2hour, 4hour, 6hour, 8hour, 12hour, 1day, 1week**
 
 <aside class="notice">For each query, the system would return at most **1500** pieces of data. To obtain more data, please page the data by time.</aside>
@@ -3849,7 +3853,6 @@ The process to maintain an up-to-date Level 3 order book is described below.
 5. Apply playback messages to the snapshot as needed (see below).
 6. After playback is complete, apply real-time stream messages as they arrive.
 
-**任意Open和Match消息都将导致买卖盘发生变更。**
 
 ###MESSAGE TYPE
 
