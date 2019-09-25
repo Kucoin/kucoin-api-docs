@@ -3037,8 +3037,8 @@ GET /api/v1/market/candles?type=1min&symbol=BTC-USDT&startAt=1566703297&endAt=15
 请求参数 | 类型 | 含义
 ------------- | ------- | -------
 symbol | String |  [交易对](#a17b4e2866)
-startAt| long | [可选] 开始时间（毫秒），默认值为0
-endAt| long | [可选]  截止时间（毫秒），默认值为0
+startAt| long | [可选] 开始时间（毫秒）默认值为0
+endAt| long | [可选]  截止时间（毫秒）默认值为0
 type | String | 时间粒度，也就是每根蜡烛的时间区间:<br/>**1min, 3min, 5min, 15min, 30min, 1hour, 2hour, 4hour, 6hour, 8hour, 12hour, 1day, 1week**
 
 <aside class="notice"> 每次查询系统最多返回1500条数据。要获得更多数据，请按时间分页数据。</aside>
