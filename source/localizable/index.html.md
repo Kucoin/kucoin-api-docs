@@ -3059,7 +3059,7 @@ Param | Type | Description
 symbol | String | [symbol](#get-symbols-list)
 startAt| long | *[Optional]*  Start time (milisecond), default is 0
 endAt| long | *[Optional]* End time (milisecond), default is 0
-type | Type of candlestick patterns: **1min, 3min, 5min, 15min, 30min, 1hour, 2hour, 4hour, 6hour, 8hour, 12hour, 1day, 1week**
+type | String |Type of candlestick patterns: **1min, 3min, 5min, 15min, 30min, 1hour, 2hour, 4hour, 6hour, 8hour, 12hour, 1day, 1week**
 
 <aside class="notice">For each query, the system would return at most **1500** pieces of data. To obtain more data, please page the data by time.</aside>
 
