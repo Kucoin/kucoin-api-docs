@@ -30,6 +30,9 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 为了您能获取到最新的API 变更的通知，请在 [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs)添加关注【Watch】
 
+**9/26/19**: 
+
+- 新增 [全局行情快照](#f3027c9902) 添加返回值**symbolName** 交易对名称
 
 **6/19/19**: 
 
@@ -2629,6 +2632,7 @@ time |  时间戳
     "ticker": [
       {
         "symbol": "BTC-USDT",
+        "symbolName": "BTC-USDT",
         "buy": "0.00001191",
         "sell": "0.00001206",
         "changeRate": "0.057",
@@ -2640,6 +2644,7 @@ time |  时间戳
       },
       {
         "symbol": "BCD-BTC",
+        "symbolName": "BTC-USDT",
         "buy": "0.00018564",
         "sell": "0.0002",
         "changeRate": "-0.0753",
@@ -2655,6 +2660,8 @@ time |  时间戳
 
 此接口，可获取所有交易对的tickers(包含24h成交量)
 
+极少数情况下，交易市场存在币种变更名称的情况，如果您想要外部显示正常，您可以调用Get all tickers接口根据返回值的“symbolName”字段显示改名后交易对的交易数据。
+
 ### HTTP请求
 **GET /api/v1/market/allTickers**
 
@@ -2665,6 +2672,7 @@ GET /api/v1/market/allTickers
 字段 | 含义
 --------- | ------- 
 symbol | 交易对
+symbolName| 变更后的交易对名称
 buy |  最佳买一价
 sell | 最佳卖一价
 changeRate |  涨跌幅
@@ -2696,7 +2704,6 @@ last |  最新成交价
 ```  
 
 此接口，可获取指定交易对的最近24小时的ticker
-
 
 ### HTTP请求
 **GET /api/v1/market/stats**
