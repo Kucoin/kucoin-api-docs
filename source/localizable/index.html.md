@@ -29,6 +29,10 @@ The WebSocket contains two sections: Public Channels and Private Channels
 To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
 
+**9/27/19**
+
+- Add **symbolName** response to [Get All Tickers](#get-all-tickers).
+
 **6/19/19**: 
 
 - Modify [Transfer between Master user and Sub-user](#transfer-between-master-user-and-sub-user)
@@ -2647,6 +2651,7 @@ time |  timestamp
     "ticker": [
       {
         "symbol": "BTC-USDT",
+        "symbolName": "BTC-USDT",
         "buy": "0.00001191",
         "sell": "0.00001206",
         "changeRate": "0.057",
@@ -2659,6 +2664,7 @@ time |  timestamp
       },
       {
         "symbol": "BCD-BTC",
+        "symbolName": "BTC-USDT",
         "buy": "0.00018564",
         "sell": "0.0002",
         "changeRate": "-0.0753",
@@ -2674,6 +2680,8 @@ time |  timestamp
 ```
 
 Request market tickers for all the trading pairs in the market (including 24h volume).
+
+On the rare occasion that we will change the currency name, if you still want the changed symbol name, you can use the symbolName field instead of the symbol field via “Get all tickers” endpoint.
 
 ###HTTP REQUEST
 **GET /api/v1/market/allTickers**
@@ -2733,6 +2741,7 @@ symbol | String | [symbol](#get-symbols-list)
 Field |  Description
 --------- | -----------
 symbol | Symbol
+symbolName | Name of trading pairs, it would change after renaming
 high | Highest price in 24h
 vol | 24h volume, executed based on base currency
 volValue | 24h traded amount
