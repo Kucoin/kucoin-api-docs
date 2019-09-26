@@ -3876,7 +3876,7 @@ Topic: **/market/level3:{symbol},{symbol}...**
 
 维护更新Level 3买卖盘的步骤如下： 
 
-1. 订阅Topic: /contractMarket/level3:{symbol}，获取Level 3买卖盘数据流。
+1. 订阅Topic: /market/level3:{symbol}，获取Level 3买卖盘数据流。
 2. 对接收到的Websocket信息流数据进行排序。
 3. 发送[REST](#level-3-2)请求，获取Level 3买卖盘的快照信息。
 4. 回放已排序的信息流，丢弃掉旧Level 3数据该顺序号之前的数据。
