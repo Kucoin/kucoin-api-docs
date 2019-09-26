@@ -2644,7 +2644,7 @@ time |  时间戳
       },
       {
         "symbol": "BCD-BTC",
-        "symbolName": "BTC-USDT",
+        "symbolName": "BCD-BTC",
         "buy": "0.00018564",
         "sell": "0.0002",
         "changeRate": "-0.0753",

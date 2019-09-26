@@ -2664,7 +2664,7 @@ time |  timestamp
       },
       {
         "symbol": "BCD-BTC",
-        "symbolName": "BTC-USDT",
+        "symbolName": "BCD-BTC",
         "buy": "0.00018564",
         "sell": "0.0002",
         "changeRate": "-0.0753",
@@ -2691,6 +2691,7 @@ On the rare occasion that we will change the currency name, if you still want th
 Field |  Description
 --------- | -----------
 symbol |  Symbol
+symbolName | Name of trading pairs, it would change after renaming
 buy |   Best bid price
 sell |  Best ask price
 changeRate |  Change rate
@@ -2741,7 +2742,6 @@ symbol | String | [symbol](#get-symbols-list)
 Field |  Description
 --------- | -----------
 symbol | Symbol
-symbolName | Name of trading pairs, it would change after renaming
 high | Highest price in 24h
 vol | 24h volume, executed based on base currency
 volValue | 24h traded amount
