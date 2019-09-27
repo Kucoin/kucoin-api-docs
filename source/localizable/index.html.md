@@ -2698,7 +2698,8 @@ changeRate |  Change rate
 changePrice | Change price
 high |  Highest price
 low |  Lowest price
-vol |  The executed amount in base currency
+vol |  The executed number in base currency
+volValue | The executed amount in quote currency
 last |  The last traded price
 
 <aside class="spacer8"></aside>
@@ -2711,7 +2712,7 @@ last |  The last traded price
     "symbol": "ETH-BTC",    // symbol
     "high": "0.03736329",   // 24h highest price
     "vol": "2127.286930263025",  // 24h volume，the aggregated trading volume in ETH
-    "volValue": "43.58567564",  // 24h total, the trading volume in base currency of last 24 hours
+    "volValue": "43.58567564",  // 24h total, the trading volume in quote currency of last 24 hours
     "last": "0.03713983",   // last price
     "low": "0.03651252",    // 24h lowest price
     "buy": "0.03712118",    // bestAsk
