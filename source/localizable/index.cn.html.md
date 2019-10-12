@@ -30,6 +30,10 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 为了您能获取到最新的API 变更的通知，请在 [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs)添加关注【Watch】
 
+**10/12/19**: 
+
+- 合并 [交易市场列表](#b8f118fefc) ETH、NEO、TRX交易区为ALTS交易区
+
 **9/26/19**: 
 
 - 新增 [全局行情快照](#f3027c9902) 添加返回值**symbolName** 交易对名称
@@ -2543,7 +2547,7 @@ createdAt |  创建时间
 
 请求参数 | 类型 | 含义
 --------- | ------- | -------
-market | String | [可选] [交易市场](#b8f118fefc): BTC, ETH, KCS, SC, NEO
+market | String | [可选] [交易市场](#b8f118fefc): BTC, KCS, USDS, ALTS
 
 ### 请求示例
 GET /api/v1/symbols
@@ -2742,16 +2746,16 @@ time |  时间戳
 {
 	"data":[
     "BTC",
-    "ETH",
     "KCS",
-    "SC",  //SC已更名为USDS
-    "NEO"
+    "USDS",  //SC已更名为USDS
+    "ALTS"  //ALTS交易区包含ETH、NEO、TRX三个计价币种区
   ]
 }
 ```  
 
 此接口，可以获取整个交易市场的交易币种
 <aside class="notice"> SC已更名为USDS，但您依然可以使用SC作为查询参数。</aside>
+<aside class="notice"> ETH、NEO、TRX三个计价币种区合并至ALTS交易区，您可以通过ALTS交易区查询ETH、NEO、TRX市场的交易对。</aside>
 
 ### HTTP请求
 **GET /api/v1/markets**

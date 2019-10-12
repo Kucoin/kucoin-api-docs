@@ -28,6 +28,9 @@ The WebSocket contains two sections: Public Channels and Private Channels
 
 To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
+**10/12/19**: 
+
+- Merge [Get Market List](get-market-list) ETH、NEO、TRX three markets into ALTS.
 
 **9/27/19**
 
@@ -2763,10 +2766,9 @@ time |  timestamp
 {
 	"data":[
     "BTC",
-    "ETH",
     "KCS",
     "SC",  //SC has been changed to USDS
-    "NEO"
+    "ALTS" //ALTS market includes ETH, NEO, TRX
   ]
 }
 ```  
@@ -2774,6 +2776,7 @@ time |  timestamp
 Request via this endpoint to get the transaction currency for the entire trading market.
 
 <aside class="notice">SC has been changed to USDS, but you can still use SC as a query parameter</aside>
+<aside class="notice">The three markets of ETH, NEO and TRX are merged into the ALTS market. You can query the trading pairs of the ETH, NEO and TRX markets through the ALTS trading area.</aside>
 
 ###HTTP REQUEST
 **GET /api/v1/markets**
