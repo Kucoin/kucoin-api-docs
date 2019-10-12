@@ -2768,7 +2768,7 @@ time |  timestamp
 	"data":[
     "BTC",
     "KCS",
-    "SC",  //SC has been changed to USDS
+    "USDS",  //SC has been changed to USDS
     "ALTS" //ALTS market includes ETH, NEO, TRX
   ]
 }
