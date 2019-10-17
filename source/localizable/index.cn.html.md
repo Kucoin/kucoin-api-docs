@@ -34,6 +34,14 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 - 添加 [获取充值列表](#a5dabc006) 和 [获取提现列表](#c46f4b3b8e)添加 **remark** 字段
 
+**10/12/19**: 
+
+- 合并 [交易市场列表](#b8f118fefc) ETH、NEO、TRX交易区为ALTS交易区
+
+**9/26/19**: 
+
+- 新增 [全局行情快照](#f3027c9902) 添加返回值**symbolName** 交易对名称
+
 **6/19/19**: 
 
 - 修改 [子母账号划转接口](#108b1a50d2)
@@ -2548,7 +2556,7 @@ createdAt |  创建时间
 
 请求参数 | 类型 | 含义
 --------- | ------- | -------
-market | String | [可选] [交易市场](#b8f118fefc): BTC, ETH, KCS, SC, NEO
+market | String | [可选] [交易市场](#b8f118fefc): BTC, KCS, USDS, ALTS
 
 ### 请求示例
 GET /api/v1/symbols
@@ -2637,6 +2645,7 @@ time |  时间戳
     "ticker": [
       {
         "symbol": "BTC-USDT",
+        "symbolName": "BTC-USDT",
         "buy": "0.00001191",
         "sell": "0.00001206",
         "changeRate": "0.057",
@@ -2649,6 +2658,7 @@ time |  时间戳
       },
       {
         "symbol": "BCD-BTC",
+        "symbolName": "BCD-BTC",
         "buy": "0.00018564",
         "sell": "0.0002",
         "changeRate": "-0.0753",
@@ -2665,6 +2675,8 @@ time |  时间戳
 
 此接口，可获取所有交易对的tickers(包含24h成交量)
 
+极少数情况下，交易市场存在币种变更名称的情况，如果您想要外部显示正常，您可以调用Get all tickers接口根据返回值的“symbolName”字段显示改名后交易对的交易数据。
+
 ### HTTP请求
 **GET /api/v1/market/allTickers**
 
@@ -2675,6 +2687,7 @@ GET /api/v1/market/allTickers
 字段 | 含义
 --------- | ------- 
 symbol | 交易对
+symbolName| 变更后的交易对名称
 buy |  最佳买一价
 sell | 最佳卖一价
 changeRate |  涨跌幅
@@ -2707,7 +2720,6 @@ last |  最新成交价
 ```  
 
 此接口，可获取指定交易对的最近24小时的ticker
-
 
 ### HTTP请求
 **GET /api/v1/market/stats**
@@ -2746,16 +2758,16 @@ time |  时间戳
 {
 	"data":[
     "BTC",
-    "ETH",
     "KCS",
-    "SC",  //SC已更名为USDS
-    "NEO"
+    "USDS",  //SC已更名为USDS
+    "ALTS"  //ALTS交易区包含ETH、NEO、TRX三个计价币种区
   ]
 }
 ```  
 
 此接口，可以获取整个交易市场的交易币种
 <aside class="notice"> SC已更名为USDS，但您依然可以使用SC作为查询参数。</aside>
+<aside class="notice"> ETH、NEO、TRX三个计价币种区合并至ALTS交易区，您可以通过ALTS交易区查询ETH、NEO、TRX市场的交易对。</aside>
 
 ### HTTP请求
 **GET /api/v1/markets**

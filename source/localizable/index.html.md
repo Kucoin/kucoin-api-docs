@@ -32,6 +32,14 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 
 - Add the **remark** field to [Get Deposit List](#get-deposit-list) and [Get Withdrawals List](#get-withdrawals-list)
 
+**10/12/19**: 
+
+- Merge [Get Market List](get-market-list) ETH、NEO、TRX three markets into ALTS.
+
+**9/27/19**
+
+- Add **symbolName** response to [Get All Tickers](#get-all-tickers).
+
 **6/19/19**: 
 
 - Modify [Transfer between Master user and Sub-user](#transfer-between-master-user-and-sub-user)
@@ -2655,6 +2663,7 @@ time |  timestamp
     "ticker": [
       {
         "symbol": "BTC-USDT",
+        "symbolName": "BTC-USDT",
         "buy": "0.00001191",
         "sell": "0.00001206",
         "changeRate": "0.057",
@@ -2667,6 +2676,7 @@ time |  timestamp
       },
       {
         "symbol": "BCD-BTC",
+        "symbolName": "BCD-BTC",
         "buy": "0.00018564",
         "sell": "0.0002",
         "changeRate": "-0.0753",
@@ -2683,6 +2693,8 @@ time |  timestamp
 
 Request market tickers for all the trading pairs in the market (including 24h volume).
 
+On the rare occasion that we will change the currency name, if you still want the changed symbol name, you can use the symbolName field instead of the symbol field via “Get all tickers” endpoint.
+
 ###HTTP REQUEST
 **GET /api/v1/market/allTickers**
 
@@ -2691,6 +2703,7 @@ Request market tickers for all the trading pairs in the market (including 24h vo
 Field |  Description
 --------- | -----------
 symbol |  Symbol
+symbolName | Name of trading pairs, it would change after renaming
 buy |   Best bid price
 sell |  Best ask price
 changeRate |  Change rate
@@ -2763,10 +2776,9 @@ time |  timestamp
 {
 	"data":[
     "BTC",
-    "ETH",
     "KCS",
-    "SC",  //SC has been changed to USDS
-    "NEO"
+    "USDS",  //SC has been changed to USDS
+    "ALTS" //ALTS market includes ETH, NEO, TRX
   ]
 }
 ```  
@@ -2774,6 +2786,7 @@ time |  timestamp
 Request via this endpoint to get the transaction currency for the entire trading market.
 
 <aside class="notice">SC has been changed to USDS, but you can still use SC as a query parameter</aside>
+<aside class="notice">The three markets of ETH, NEO and TRX are merged into the ALTS market. You can query the trading pairs of the ETH, NEO and TRX markets through the ALTS trading area.</aside>
 
 ###HTTP REQUEST
 **GET /api/v1/markets**
