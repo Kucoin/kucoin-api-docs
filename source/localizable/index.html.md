@@ -28,6 +28,10 @@ The WebSocket contains two sections: Public Channels and Private Channels
 
 To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
+**10/17/19**: 
+
+- Add the **remark** field to [Get Deposit List](#get-deposit-list) and [Get Withdrawals List](#get-withdrawals-list)
+
 **10/12/19**: 
 
 - Merge [Get Market List](get-market-list) ETH、NEO、TRX three markets into ALTS.
@@ -1314,6 +1318,7 @@ chain | The chain name of currency, e.g. The available value for USDT are OMNI, 
 		"isInner": false,
 		"walletTxId": "5bbb57386d99522d9f954c5a@test004",
 		"status": "SUCCESS",
+        "remark": "test",
 		"createdAt": 1544178843000,
 		"updatedAt": 1544178891000
 	}, {
@@ -1325,6 +1330,7 @@ chain | The chain name of currency, e.g. The available value for USDT are OMNI, 
 		"isInner": false,
 		"walletTxId": "5bbb57386d99522d9f954c5a@test003",
 		"status": "SUCCESS",
+        "remark": "test",
 		"createdAt": 1544177654000,
 		"updatedAt": 1544178733000
 	}]
@@ -1366,6 +1372,7 @@ currency | Currency
 isInner | Internal deposit or not
 walletTxId | Wallet Txid
 status | Status
+remark | remark
 createdAt | Creation time of the database record
 updatedAt | Update time of the database record
 
@@ -1443,10 +1450,11 @@ status | Status
 		"memo": "",
 		"currency": "ETH",
 		"amount": 1.0000000,
-        "fee": 0.0100000,
+    "fee": 0.0100000,
 		"walletTxId": "3e2414d82acce78d38be7fe9",
 		"isInner": false,
 		"status": "FAILURE",
+      "remark": "test",
 		"createdAt": 1546503758000,
 		"updatedAt": 1546504603000
 	}]
@@ -1485,6 +1493,7 @@ fee | Withdrawal fee
 walletTxId | Wallet Txid
 isInner | Internal withdrawal or not
 status | status 
+remark | remark
 createdAt | Creation time
 updatedAt | Update time
 

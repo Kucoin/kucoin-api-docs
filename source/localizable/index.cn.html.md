@@ -30,6 +30,10 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 为了您能获取到最新的API 变更的通知，请在 [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs)添加关注【Watch】
 
+**10/17/19**: 
+
+- 添加 [获取充值列表](#a5dabc006) 和 [获取提现列表](#c46f4b3b8e)添加 **remark** 字段
+
 **10/12/19**: 
 
 - 合并 [交易市场列表](#b8f118fefc) ETH、NEO、TRX交易区为ALTS交易区
@@ -1305,6 +1309,7 @@ chain | 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TR
 		"isInner": false,
 		"walletTxId": "5bbb57386d99522d9f954c5a@test004",
 		"status": "SUCCESS",
+    "remark": "test",
 		"createdAt": 1544178843000,
 		"updatedAt": 1544178891000
 	}, {
@@ -1316,6 +1321,7 @@ chain | 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TR
 		"isInner": false,
 		"walletTxId": "5bbb57386d99522d9f954c5a@test003",
 		"status": "SUCCESS",
+    "remark": "test",
 		"createdAt": 1544177654000,
 		"updatedAt": 1544178733000
 	}]
@@ -1356,6 +1362,7 @@ currency | 币种
 isInner | 是否为平台内部充值
 walletTxId | 钱包交易Id
 status | 状态
+remark | 备注
 createdAt | 创建时间
 updatedAt | 修改时间
 
@@ -1433,10 +1440,11 @@ createAt | 创建时间
 		"memo": "",
 		"currency": "ETH",
 		"amount": 1.0000000,
-        "fee": 0.0100000,
+    "fee": 0.0100000,
 		"walletTxId": "3e2414d82acce78d38be7fe9",
 		"isInner": false,
 		"status": "FAILURE",
+    "remark": "test",
 		"createdAt": 1546503758000,
 		"updatedAt": 1546504603000
 	}]
@@ -1474,7 +1482,8 @@ amount | 提现金额
 fee | 提现手续费
 walletTxId | 钱包交易Id
 isInner | 是否为平台内部提现
-status | 状态 
+status | 状态
+remark | 备注 
 createdAt | 创建时间
 updatedAt | 修改时间
 
