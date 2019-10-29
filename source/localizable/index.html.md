@@ -5392,7 +5392,7 @@ UNLIABILITY: When all the liabilities is repaid and the position returns to “E
 <aside class="spacer4"></aside>
 <aside class="spacer2"></aside>
 
-## Margin Trade Order Received Event
+## Margin Trade Order Enters Event
 
 ```json
 {
@@ -5445,7 +5445,7 @@ The system will push this message to the lenders when the order enters the order
 
 Topic: **/margin/loan:{currency}**
 
-The system will push this message to borrowers when the order is executed by the borrower.
+The system will push this message to the lenders when the order is executed.
 
 
 <aside class="spacer4"></aside>
