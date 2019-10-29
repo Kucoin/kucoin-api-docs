@@ -1292,6 +1292,35 @@ orderId | The order ID of a master-sub assets transfer.
 
 The inner transfer interface is used for transferring assets between the accounts of a user and is free of charges. For example, a user could transfer assets from their main account to their trading account on the platform. 
 
+### ASSESTS TRANSFER
+Asset accounts are not automatically generated (when funds are credited, the main account will be created auto). If you need to transfer assets between main account and trade account:
+
+- [Create](#create-an-account) a main or trade account of the currency; 
+- [Get](#list-accounts) the accountId and the id from the response is the accountId;
+- [Transfer](#inner-transfer) assets between main account and trade account.
+
+
+### HTTP REQUEST
+**POST /api/v1/accounts/inner-transfer**
+
+<aside class="notice">This interface was discontinued on August 29, 2019. Please use the transfer interface provided below.</aside>
+
+### Example
+POST /api/v1/accounts/inner-transfer
+
+### API KEY PERMISSIONS
+This endpoint requires the **"Trade"** permission.
+
+### Parameters
+
+Param | Type | Description
+--------- | ------- | ------- 
+clientOid | String | Unique order id created by users to identify their orders, e.g. UUID.
+payAccountId | String | [Account ID of payer](#list-accounts).
+recAccountId | String | [Account ID of receiver](#list-accounts). 
+amount | String | Transfer amount, the amount is a positive integer multiple of the [currency precision](#get-currencies).
+
+
 ### HTTP REQUEST
 
 **POST /api/v2/accounts/inner-transfer**
