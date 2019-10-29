@@ -1269,6 +1269,39 @@ orderId | 子母账号转账的订单ID
 ```
 此接口用于平台内部账户资金划转，用户可以将资金在储蓄账户、交易账户和杠杆账户之间免费划转。
 
+
+### 划转指南
+
+账户是不会自动创建的（只有当一笔资金充值入账时，储蓄账户才会自动创建）。
+
+储蓄账户和交易账户相互划转指南:
+
+- 首先，按您自己的需求[创建](#9ec360d41d)一个储蓄账户或交易账户；
+- 其次，[获取accountId](#f0f7ae469d)，记录下返回的Id（即accountId)；
+- 最后，调用[内部资金划转](#c08ac949fb)接口，发起转账请求；
+
+
+### HTTP请求
+**POST /api/v1/accounts/inner-transfer**  
+
+<aside class="notice">此接口于2019年08月29日停止使用，请使用下方提供的划转接口。</aside>
+
+
+### 请求示例
+POST /api/v1/accounts/inner-transfer
+
+###API权限
+此接口需要**交易权限**。
+  
+### 请求参数
+
+请求参数 | 类型 | 含义
+--------- | ------- |  ------- 
+clientOid | String | Client Order Id，客户端创建的唯一标识，建议使用UUID
+payAccountId | String | 付款方的accountId [账户ID](#f0f7ae469d)
+recAccountId | String | 收款方的accountId [账户ID](#f0f7ae469d)
+amount | String | 转账金额，精度为[币种精度](#ebcc9fbb02)正整数倍
+
 ### HTTP请求
 
 **POST /api/v2/accounts/inner-transfer**
