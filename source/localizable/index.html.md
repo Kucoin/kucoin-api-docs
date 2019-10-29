@@ -1236,7 +1236,7 @@ currency | String | [currency](#Get-Currencies)
 amount | String | Transfer amount, the amount is a positive integer multiple of the [currency precision](#get-currencies).
 direction | String | OUT — the master user to sub user<br/>IN — the sub user to the master user.
 accountType | String | *[Optional]* The account type of the master user: **MAIN**
-subAccountType | String | The account type of the sub user: **MAIN**, **TRADE** or **MARGIN**
+subAccountType | String | *[Optional]* The account type of the sub user: **MAIN**, **TRADE** or **MARGIN**, default is **MAIN**.
 subUserId | String | the [user ID](#get-user-info-of-all-sub-accounts) of a sub-account.
 
 
@@ -1269,7 +1269,7 @@ currency | String | [currency](#Get-Currencies)
 amount | String | Transfer amount, the amount is a positive integer multiple of the [currency precision](#get-currencies).
 direction | String | OUT — the master user to sub user<br/>IN — the sub user to the master user.
 accountType | String | *[Optional]* The account type of the master user: **MAIN**
-subAccountType | String | The account type of the sub user: **MAIN**, **TRADE**
+subAccountType | String | *[Optional]* The account type of the sub user: **MAIN**, **TRADE**, default is **MAIN**.
 subUserId | String | the [user ID](#get-user-info-of-all-sub-accounts) of a sub-account.
 
 

@@ -1221,7 +1221,7 @@ currency | String | [币种](#ebcc9fbb02)
 amount | String | 转账金额，为[币种精度](#ebcc9fbb02)正整数倍
 direction | String | OUT — 母账号转子账号<br/>IN — 子账号转母账号
 accountType | String | [可选] 母账号账户类型**MAIN**
-subAccountType | String | 子账号账户类型**MAIN**、**TRADE**或**MARGIN**。
+subAccountType | String |[可选] 子账号账户类型**MAIN**、**TRADE**或**MARGIN**，默认为**MAIN**。
 subUserId | String | [子账号的用户Id](#a0bc1cb873)
 
 ### 返回值
@@ -1248,7 +1248,7 @@ currency | String | [币种](#ebcc9fbb02)
 amount | String | 转账金额，为[币种精度](#ebcc9fbb02)正整数倍
 direction | String | OUT — 母账号转子账号<br/>IN — 子账号转母账号
 accountType | String | [可选] 母账号账户类型**MAIN**
-subAccountType | String | 子账号账户类型**MAIN**、**TRADE**或**MARGIN**。
+subAccountType | String |[可选] 子账号账户类型**MAIN**、**TRADE**，默认为**MAIN**。
 subUserId | String | [子账号的用户Id](#a0bc1cb873)
 
 ### 返回值
