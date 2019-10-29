@@ -20,7 +20,7 @@ Welcome to KuCoin’s trader and developer documentation. These documents outlin
 
 The whole documentation is divided into two parts: REST API and Websocket feed.
 
-The REST API contains four sections: User(private) , Trade(private), Market Data(public) and Others(public).
+The REST API contains four sections: User(private) , Trade(private), Market Data(public), Margin Trade and Others(public).
 
 The WebSocket contains two sections: Public Channels and Private Channels
 
@@ -47,6 +47,7 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 - Add **tradeType** field for [List Fills](#list-fills), [Recent Fills](#recent-fills).
 - Add [Get Symbols List](#get-symbols-list)**isMarginEnabled** field.
 - Add [Get Currencies](#get-currencies) and [Get Currency Detail](#get-currency-detail) **isMarginEnabled**, **isDebitEnabled** field.
+- Add [Margin Trade](#margin-trade) module.
 
 **10/17/19**: 
 
@@ -724,7 +725,7 @@ remarks | Remark
 
 
 
-## Account
+# Account
 
 ## Create an Account
 ```json
@@ -3366,6 +3367,7 @@ GET /api/v1/prices
 
 # Margin Trade
 
+# Margin Info
 
 ## Get Mark Price
 
@@ -3408,7 +3410,7 @@ GET /api/v1/mark-price/USDT-BTC/current
 | timePoint   | Time (millisecond)             |
 | value       | Mark price    |
 
-At present, the system is available to return the mark price of the following ticker symbols: USDT-BTC, ETH-BTC, LTC-BTC, EOS-BTC, XRP-BTC, KCS-BTC
+The following ticker symbols are supported: USDT-BTC, ETH-BTC, LTC-BTC, EOS-BTC, XRP-BTC, KCS-BTC
 
 ## Get Margin Configuration Info
 
@@ -3486,7 +3488,9 @@ This endpoint requires the **"Trade"** permission.
 | availableBalance | Available funds in the account |
 | holdBalance | Funds on hold in the account |
 | liability | Total liabilities |
-| maxBorrowSize | Available borrowing size |
+| maxBorrowSize | Available size to borrow |
+
+# Borrow & Lend 
 
 ## Post Borrow Order
 
@@ -3517,9 +3521,9 @@ This endpoint requires the **"Trade"** permission.
 |--------- | ------- | -----------|
 | currency | String | Currency to Borrow |
 | type | String | Type: FOK, IOC |
-| size | BigDecimal | Size to Borrow |
-| maxRate | BigDecimal | *[Optional]* The max interest rate. All interest rates are accepted if this field is left empty.|
-| term | Int | *[Optional]* Term (Unit: Day). All terms are accepted if this field is left empty. Please note to separate the terms via comma. For example, 7,14,28.|
+| size | BigDecimal | Total size |
+| maxRate | BigDecimal | *[Optional]* The max interest rate. All interest rates are acceptable if this field is left empty.|
+| term | Int | *[Optional]* Term (Unit: Day). All terms are acceptable if this field is left empty. Please note to separate the terms via comma. For example, 7,14,28.|
 
 
 <aside class="notice">Available terms currently supported: 7, 14, 28</aside>
@@ -3582,10 +3586,10 @@ This endpoint requires the **"Trade"** permission.
 |----- |-------------|
 | orderId      | Borrow order ID |
 | currency | Currency |
-| size | Size to borrow  |
-| filled | Borrowed size |
+| size | Total size  |
+| filled | Size executed |
 | status | Status. DONE (Canceled or Filled),PROCESSING |
-| matchList | Borrow details |
+| matchList | Execution details |
 | tradeId | Trade ID| |
 | dailyIntRate | Daily interest rate |
 | term | Term |
@@ -3645,9 +3649,9 @@ This endpoint requires the **"Trade"** permission.
 | tradeId | Trade ID |
 | currency  | Currency |
 | liability | Total liabilities |
-| principal | Principal to repay    |
-| accruedInterest | Accrued Interest |
-| createdAt   | Filled time |
+| principal | Outstanding principal to repay    |
+| accruedInterest | Accrued interest |
+| createdAt   | Execution time |
 | maturityTime  | Maturity time |
 | period       | Period  |
 | repaidSize | Repaid size  |
@@ -3740,7 +3744,7 @@ This endpoint requires the **"Trade"** permission.
 |Param | Type | Description |
 |--------- | ------- | -----------|
 | currency | String | Currency |
-| sequence | String | Repayment strategy. RECENTLY_EXPIRE_FIRST: Time priority, namely to repay the loans with the nearest maturity date first, HIGHEST_RATE_FIRST: Rate Priority: Repay the loans of the highest interest rate first. |
+| sequence | String | Repayment strategy. RECENTLY_EXPIRE_FIRST: Time priority, namely to repay the loans of the nearest maturity time first, HIGHEST_RATE_FIRST: Rate Priority: Repay the loans of the highest interest rate first. |
 | size | BigDecimal | Repayment size |
 
 ### RESPONSES
@@ -3815,7 +3819,7 @@ This endpoint requires the **"Trade"** permission.
 |Param | Type | Description |
 |--------- | ------- | -----------|
 | currency     | String | Currency to lend   |
-| size         | String | Size to lend     |
+| size         | String | Total size     |
 | dailyIntRate | String | Daily interest rate. e.g. 0.002 is 0.2% |
 | term         | int    | Term (Unit: Day)    |
 
@@ -3923,8 +3927,8 @@ This endpoint requires the **"Trade"** permission.
 |----- |----------------------------------|
 | orderId      | Lend order ID           |
 | currency     | Currency                |
-| size         | Size to lend            | 
-| filledSize   | Lent Size               |
+| size         | Total size            | 
+| filledSize   | Size executed               |
 | dailyIntRate | Daily interest rate. e.g. 0.002 is 0.2% |
 | term         | Term (Unit: Day)           |
 | createdAt    | Time of the event (millisecond)       |
@@ -3980,14 +3984,14 @@ This endpoint requires the **"Trade"** permission.
 |----- |----------------------------------|
 | orderId      | Lend order ID                     |
 | currency     | Currency                          |
-| size         | Size to lend                      |
-| filledSize   | Lent size                         |
+| size         | Total size                      |
+| filledSize   | Size executed                         |
 | dailyIntRate | Daily interest rate. e.g. 0.002 is 0.2%    |
 | term         | Term (Unit: Day)                     |
 | createdAt    | Time of the event (millisecond)      |
 | status       | Order status: FILLED -- Fully filled, CANCELED -- Canceled |
 
-## Get Unsettled Lend Order History
+## Get Active Lend Order List
 
 
 ```json
@@ -4009,9 +4013,9 @@ This endpoint requires the **"Trade"** permission.
 }
 ```
 
-Request via this endpoint to get the unsettled lend orders . Items are paginated and sorted to show the latest first. See the Pagination section for retrieving additional entries after the first page. The max pageSize is 100.
+Request via this endpoint to get the outstanding lend order list. Items are paginated and sorted to show the latest first. See the Pagination section for retrieving additional entries after the first page. The max pageSize is 100.
 
-When a lending order is filled, the system will generate the lending history. The unsettlement lend orders includes orders unrepaid and partially repaid. 
+When a lending order is executed, the system will generate the lending history. The outstanding lend orders includes orders unrepaid and partially repaid. 
 
 ### HTTP REQUEST
 
@@ -4037,8 +4041,8 @@ This endpoint requires the **"Trade"** permission.
 |----- |----------------------------------|
 | tradeId         | Trade ID                                             |
 | currency        | Currency                                             |
-| size            | Lent size                                            |
-| accruedInterest | Accrued interest. The value will decrease when borrower repays the interest.  |
+| size            | Size executed                                            |
+| accruedInterest | Accrued interest. This value will decrease when borrower repays the interest. |
 | repaid          | Repaid size                                          |
 | dailyIntRate    | Daily interest rate. e.g. 0.002 is 0.2%              |
 | term            | Term (Unit: Day)                                     |
@@ -4069,8 +4073,7 @@ This endpoint requires the **"Trade"** permission.
 
 Request via this endpoint to get the settled lend orders . Items are paginated and sorted to show the latest first. See the Pagination section for retrieving additional entries after the first page. The max pageSize is 100.
 
-
-The settled lend orders include orders fully repaid in advance, orders fully repaid on maturity date, orders not fully repaid but is fully replenished by insurance funds on maturity date, and orders not fully repaid and are partially replenished by insurance funds on maturity date.
+The settled lend orders include orders repaid fully or partially before or at the maturity time.
 
 
 ### HTTP REQUEST
@@ -4097,7 +4100,7 @@ This endpoint requires the **"Trade"** permission.
 |----- |----------------------------------|
 | tradeId      | Trade ID                                     |
 | currency     | Currency                                     |
-| size         | Lent size                                    |
+| size         | Size executed                                    |
 | interest     | Total interest                               |
 | repaid       | Repaid size                                  |
 | dailyIntRate | Daily interest rate. e.g. 0.002 is 0.2%      |
@@ -4118,7 +4121,7 @@ This endpoint requires the **"Trade"** permission.
 }]
 ```
 
-Request via this endpoint to get a lending record for the main account.
+Request via this endpoint to get the lending history of the main account.
 
 
 
@@ -4146,10 +4149,10 @@ This endpoint requires the **"Trade"** permission.
 |----- |----------------------------------|
 | currency        | Currency              |
 | outstanding     | Outstanding size       |
-| filledSize      | Lent size             |
+| filledSize      | Size executed             |
 | accruedInterest | Accrued Interest      |
 | realizedProfit  | Realized profit       |
-| isAutoLend      | Auto lend enable or not |
+| isAutoLend      | Auto-lend enabled or not |
 
 ## Lending Market Data
 
@@ -4162,7 +4165,8 @@ This endpoint requires the **"Trade"** permission.
 ```
 
 Request via this endpoint to get the lending market data. 
-The return value is sorted according to the daily interest rate and the term descending.
+The returned value is sorted based on the descending sequence of the daily interest rate and terms.
+
 
 
 ### HTTP REQUEST
@@ -4205,8 +4209,9 @@ This endpoint requires the **"General"** permission.
 }]
 ```
 
-Request via this endpoint to the latest 300 fills in the lending market.
-The return value is sorted according to the transaction time descending.
+Request via this endpoint to get the last 300 fills in the lending and borrowing market.
+The returned value is sorted based on the descending sequence of the order execution time.
+
 
 
 ### HTTP REQUEST
@@ -4236,7 +4241,7 @@ This endpoint requires the **"General"** permission.
 | size         | Executed size                            |
 | dailyIntRate | Daily interest rate. e.g. 0.002 is 0.2%  |
 | term         | Term (Unit: Day)                         |
-| timestamp    | Executed time (nanosecond)               |
+| timestamp    | Time of execution in nanosecond          |
 
 
 # Others
@@ -4810,7 +4815,7 @@ Topic: **/market/match:{symbol},{symbol}...**
 
 For this topic, **privateChannel** is available.
 
-Subscribe to this topic to obtain the matching event data flow of Level 3.
+Subscribe to this topic to get the matching event data flow of Level 3.
 
 For each order traded, the system would send you the match messages in the following format.
 
@@ -5059,7 +5064,7 @@ This is the result of self-trade prevention adjusting the order size or availabl
 <aside class="spacer8"></aside>
 <aside class="spacer4"></aside>
 
-### How to manage a local L3 orderbook correctly###
+### How to manage a local L3 orderbook correctly
 
 1.Use the websocket channel: **/market/level3:{symbol}** to subscribe to the level3 incremental data and cache all incremental data received.
 
@@ -5108,7 +5113,7 @@ When you maintain a local L3 orderbook data, if you can't fully understand the f
 
 Topic: **/indicator/index:{symbol0},{symbol1}...**
 
-Subscribe to this topic to obtain the index price for the margin trading.
+Subscribe to this topic to get the index price for the margin trading.
 
 ```json
 {
@@ -5125,8 +5130,8 @@ Subscribe to this topic to obtain the index price for the margin trading.
 }
 ```
 
+The following ticker symbols are supported: USDT-BTC, ETH-BTC, LTC-BTC, EOS-BTC, XRP-BTC, KCS-BTC
 
-At present, the system is available to return the mark price of the following ticker symbols: USDT-BTC, ETH-BTC, LTC-BTC, EOS-BTC, XRP-BTC, KCS-BTC
 <aside class="spacer8"></aside>
 <aside class="spacer4"></aside>
 
@@ -5143,7 +5148,7 @@ At present, the system is available to return the mark price of the following ti
 
 Topic: **/indicator/markPrice:{symbol0},{symbol1}...**
 
-Subscribe to this topic to obtain the mark price for the margin trading.
+Subscribe to this topic to get the mark price for margin trading.
 
 ```json
 {
@@ -5159,12 +5164,12 @@ Subscribe to this topic to obtain the mark price for the margin trading.
   }
 }
 ```
+The following ticker symbols are supported: USDT-BTC, ETH-BTC, LTC-BTC, EOS-BTC, XRP-BTC, KCS-BTC
 
-At present, the system is available to return the mark price of the following ticker symbols: USDT-BTC, ETH-BTC, LTC-BTC, EOS-BTC, XRP-BTC, KCS-BTC
 <aside class="spacer8"></aside>
 <aside class="spacer4"></aside>
 
-##  Funding Book Change
+## Order Book Change
 
 ```json
 {
@@ -5178,7 +5183,7 @@ At present, the system is available to return the mark price of the following ti
 Topic: **/margin/fundingBook:{currency0},{currency1}...**
 
 
-Subscribe to this topic to obtain the change for the funding book.
+Subscribe to this topic to get the order book changes on margin trade.
 
 
 ```json
@@ -5193,8 +5198,8 @@ Subscribe to this topic to obtain the change for the funding book.
 		"dailyIntRate": "0.00007",   //Daily interest rate. e.g. 0.002 is 0.2%
 		"annualIntRate": "0.12",     //Annual interest rate. e.g. 0.12 is 12% 
 		"term": 7,                 //Term (Unit: Day)    
-		"size": "1017.5",            //Current total size. When it is 0, remove from the funding-book
-		"side": "lend",            //Side: lend or borrow. Only lend is available.
+		"size": "1017.5",            //Current total size. When this value is 0, remove this record from the order book.
+		"side": "lend",            //Lend or borrow. Currently, only "Lend" is available
 		"ts": 1553846081210004941  //Timestamp (nanosecond)
 
 	}
@@ -5303,8 +5308,8 @@ You will receive this message when an account balance changes. The message conta
   "subject":"debt.ratio",
   "data": {
         "debtRatio": 0.7505,                                         //Debt ratio
-        "totalDebt": "21.7505",                                      //Total debt based on BTC
-        "debtList": {"BTC": "1.21","USDT": "2121.2121","EOS": "0"},  //Debt list
+        "totalDebt": "21.7505",                                      //Total debt in BTC (interest included)
+        "debtList": {"BTC": "1.21","USDT": "2121.2121","EOS": "0"},  //Debt list (interest included)
         "timestamp": 15538460812100                                  //Timestamp (millisecond)
 }
 
@@ -5336,21 +5341,24 @@ The system will push the current debt message periodically when there is a liabi
 
 Topic: **/margin/position**
 
-The system will push the change event when the status of the position change.
+The system will push the change event when the position status changes.
 
 Event type:
 
-FROZEN_FL：爆仓冻结，负债率超过爆仓线时，仓位冻结时，推送此事件。
+FROZEN_FL: When the debt ratio exceeds the liquidation threshold and the position is frozen, the system will push this event.
 
-UNFROZEN_FL：解除爆仓冻结，爆仓处理完成后，仓位恢复到EFFECTIVE状态时，推送此事件。
+UNFROZEN_FL: When the liquidation is finished and the position returns to “EFFECTIVE” status, the system will push this event.
 
-FROZEN_RENEW：自动续借冻结，贷款到期，系统自动续借处理，仓位冻结时，推送此事件。
+FROZEN_RENEW: When the auto-borrow renewing is complete and the position returns to “EFFECTIVE” status, the system will push this event.
 
-UNFROZEN_RENEW：解除自动续借冻结，自动续借处理完成后，仓位恢复到EFFECTIVE状态时，推送此事件。
+UNFROZEN_RENEW: When the account reaches a negative balance, the system will push this event.
 
-LIABILITY：穿仓事件，用户发生穿仓时，推送此事件。
+LIABILITY: When the account reaches a negative balance, the system will push this event.
 
-UNLIABILITY：解除穿仓，归还所有负债后，仓位恢复到EFFECTIVE状态时，推送此事件
+UNLIABILITY: When all the liabilities is repaid and the position returns to “EFFECTIVE” status, the system will push this event.
+
+
+
 
 <aside class="spacer4"></aside>
 <aside class="spacer2"></aside>
@@ -5369,7 +5377,7 @@ UNLIABILITY：解除穿仓，归还所有负债后，仓位恢复到EFFECTIVE状
     "dailyIntRate": 0.0001,                       //Daily interest rate. 
     "term": 7,                                    //Term (Unit: Day)  
     "size": 1,                                    //Size
-    "side": "lend",                               //Side: lend or borrow. Only lend is available.
+    "side": "lend",                               //Lend or borrow. Currently, only "Lend" is available
     "ts": 1553846081210004941                     //Timestamp (nanosecond)
   }
 }
@@ -5377,7 +5385,8 @@ UNLIABILITY：解除穿仓，归还所有负债后，仓位恢复到EFFECTIVE状
 
 Topic: **/margin/loan:{currency}**
 
-Push for borrowers when received the funding book a margin order . 
+The system will push this message to the lenders when the order enters the order book.
+
 
 <aside class="spacer4"></aside>
 <aside class="spacer2"></aside>
@@ -5397,8 +5406,8 @@ Push for borrowers when received the funding book a margin order .
     "dailyIntRate": 0.0001,                       //Daily Interest Rate
     "term": 7,                                    //Term (Unit: Day)
     "size": 1,                                    //Size
-    "lentSize": 0.5,                              //Lent Size
-    "side": "lend",                               //Side: lend or borrow. Only lend is available.
+    "lentSize": 0.5,                              //Size executed
+    "side": "lend",                               //Lend or borrow. Currently, only "Lend" is available
     "ts": 1553846081210004941                     //Timestamp (nanosecond)
   }
 }
@@ -5407,9 +5416,8 @@ Push for borrowers when received the funding book a margin order .
 
 Topic: **/margin/loan:{currency}**
 
-Push for borrowers when received the funding book a margin order . 
+The system will push this message to borrowers when the order is executed by the borrower.
 
-Push for borrowers when order is matched.
 
 <aside class="spacer4"></aside>
 <aside class="spacer2"></aside>
@@ -5426,7 +5434,7 @@ Push for borrowers when order is matched.
 		"currency": "BTC",                            //Currency
 		"orderId": "ac928c66ca53498f9c13a127a60e8",   //Order ID
 		"reason": "filled",                           //Done reason (filled or canceled)
-		"side": "lend",                               //Side: lend or borrow. Only lend is available.
+		"side": "lend",                               //Lend or borrow. Currently, only "Lend" is available
 		"ts": 1553846081210004941                     //Timestamp (nanosecond)
 	}
 }
@@ -5434,7 +5442,7 @@ Push for borrowers when order is matched.
 
 Topic: **/margin/loan:{currency}**
 
-Push for borrowers when order is done.
+The system will push this message to the lenders when the order is completed.
 
 <aside class="spacer4"></aside>
 <aside class="spacer2"></aside>

@@ -23,7 +23,7 @@ search: true
 
 API分为两部分：**REST API和Websocket 实时数据流**
 
- -  REST API包含四个类别：**[用户模块](#b6935b918b)（私有），[交易模块](#484936af01)（私有），[市场数据](#841ec28ecd)（公共），[杠杆交易]（#），[其他接口](#cd67660573)（公共）**
+ -  REST API包含四个类别：**[用户模块](#b6935b918b)（私有），[交易模块](#484936af01)（私有），[市场数据](#841ec28ecd)（公共），[杠杆交易](#540fbda255)，[其他接口](#cd67660573)（公共）**
  -  Websocket包含两类：**公共频道和私人频道**
 
 ## 最近更新
@@ -49,7 +49,7 @@ API分为两部分：**REST API和Websocket 实时数据流**
 - 添加 [成交记录](#6a30a471cf)和[最近成交记录](#5abc068b38) 添加**tradeType**字段，区分现货交易和杠杆交易
 - 添加 [交易对列表](#a17b4e2866)**isMarginEnabled**字段  
 - 添加 [币种详情](#cb79285fc3) 和 [币种列表](#ebcc9fbb02)**isMarginEnabled** 和 **isDebitEnabled** 字段
-
+- 添加 [杠杆交易](#540fbda255) 模块.
 
 **10/17/19**: 
 
@@ -2583,9 +2583,6 @@ GET /api/v1/limit/fills
 
 <aside class="spacer4"></aside>
 <aside class="spacer2"></aside>
-# 市场数据
-
-市场数据是公共的，不需要验证签名。
 
 # 市场数据
 
@@ -3313,6 +3310,8 @@ GET /api/v1/prices
 
 # 杠杆交易
 
+# 杠杆信息
+
 ## 获取当前标记价格
 
 ```json
@@ -3431,6 +3430,8 @@ GET /api/v1/margin/account
 | holdBalance | 账户冻结金额 |
 | liability | 当前总负债 |
 | maxBorrowSize | 当前可借数量 |
+
+# 借贷
 
 ## 发布借入委托
 
@@ -4110,8 +4111,8 @@ GET /api/v1/margin/market?currency=BTC&term=7
 
 | 请求参数 | 类型   | 含义                |
 | -------- | ------ | ------------------- |
-| currency | String | [必须] 币种         |
-| term     | int    | [可选] 期限，单位天 |
+| currency | String | [必须] 币种          |
+| term     | int    | [可选] 期限，单位天    |
 
 ### 返回值
 
@@ -5325,17 +5326,19 @@ Topic: **/margin/position**
 
 事件类型描述：
 
-FROZEN_FL：爆仓冻结，负债率超过爆仓线时，仓位冻结时，推送此事件。
+FROZEN_FL：爆仓冻结。负债率超过爆仓线，仓位冻结时，推送此事件。
 
-UNFROZEN_FL：解除爆仓冻结，爆仓处理完成后，仓位恢复到EFFECTIVE状态时，推送此事件。
+UNFROZEN_FL：解除爆仓冻结。爆仓处理完成后，仓位恢复到EFFECTIVE状态时，推送此事件。
 
-FROZEN_RENEW：自动续借冻结，贷款到期，系统自动续借处理，仓位冻结时，推送此事件。
+FROZEN_RENEW：自动续借冻结。贷款到期，系统自动续借处理，仓位冻结时，推送此事件。
 
-UNFROZEN_RENEW：解除自动续借冻结，自动续借处理完成后，仓位恢复到EFFECTIVE状态时，推送此事件。
+UNFROZEN_RENEW：解除自动续借冻结。自动续借处理完成后，仓位恢复到EFFECTIVE状态时，推送此事件。
 
-LIABILITY：穿仓事件，用户发生穿仓时，推送此事件。
+LIABILITY：穿仓事件。用户发生穿仓时，推送此事件。
 
-UNLIABILITY：解除穿仓，归还所有负债后，仓位恢复到EFFECTIVE状态时，推送此事件
+UNLIABILITY：解除穿仓。归还所有负债后，仓位恢复到EFFECTIVE状态时，推送此事件。
+
+
 
 <aside class="spacer8"></aside>
 <aside class="spacer4"></aside>
