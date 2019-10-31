@@ -2604,38 +2604,73 @@ Take **BTC/USDT** as the trading pair, if you plan to buy **1 BTC** in market pr
 
 ```json
 {
-    "currentPage":1,
-    "pageSize":1,
-    "totalNum":251915,
-    "totalPage":251915,
-    "items":[
+    "code":"200000",
+    "data":[
         {
-            "symbol":"BTC-USDT",
-            "tradeId":"5c35c02709e4f67d5266954e",
-            "orderId":"5c35c02703aa673ceec2a168",
-            "counterOrderId":"5c1ab46003aa676e487fa8e3",
-            "side":"buy",
-            "liquidity":"taker",
-            "forceTaker":true,
-            "price":"0.083",
-            "size":"0.8424304",
-            "funds":"0.0699217232",
-            "fee":"0",
-            "feeRate":"0",
+            "counterOrderId":"5db7ee769797cf0008e3beea",
+            "createdAt":1572335233000,
+            "fee":"0.946357371456",
             "feeCurrency":"USDT",
+            "feeRate":"0.001",
+            "forceTaker":true,
+            "funds":"946.357371456",
+            "liquidity":"taker",
+            "orderId":"5db7ee805d53620008dce1ba",
+            "price":"9466.8",
+            "side":"buy",
+            "size":"0.09996592",
             "stop":"",
-            "tradeType": "TRADE",
-            "type":"limit",
-            "createdAt":1547026472000
+            "symbol":"BTC-USDT",
+            "tradeId":"5db7ee8054c05c0008069e21",
+            "tradeType":"MARGIN_TRADE",
+            "type":"market"
+        },
+        {
+            "counterOrderId":"5db7ee4b5d53620008dcde8e",
+            "createdAt":1572335207000,
+            "fee":"0.94625",
+            "feeCurrency":"USDT",
+            "feeRate":"0.001",
+            "forceTaker":true,
+            "funds":"946.25",
+            "liquidity":"taker",
+            "orderId":"5db7ee675d53620008dce01e",
+            "price":"9462.5",
+            "side":"sell",
+            "size":"0.1",
+            "stop":"",
+            "symbol":"BTC-USDT",
+            "tradeId":"5db7ee6754c05c0008069e03",
+            "tradeType":"MARGIN_TRADE",
+            "type":"market"
+        },
+        {
+            "counterOrderId":"5db69aa4688933000aab8114",
+            "createdAt":1572248229000,
+            "fee":"1.882148318525",
+            "feeCurrency":"USDT",
+            "feeRate":"0.001",
+            "forceTaker":false,
+            "funds":"1882.148318525",
+            "liquidity":"maker",
+            "orderId":"5db69a9c4e6d020008f03275",
+            "price":"9354.5",
+            "side":"sell",
+            "size":"0.20120245",
+            "stop":"",
+            "symbol":"BTC-USDT",
+            "tradeId":"5db69aa477d8de0008c1efac",
+            "tradeType":"MARGIN_TRADE",
+            "type":"limit"
         }
     ]
 }
+
 ```
 
 
 Request via this endpoint to get a list of 1000 fills in the last 24 hours.
 
-Items are paginated and sorted to show the latest first. See the [Pagination](#pagination) section for retrieving additional entries after the first page.
 
 ### HTTP REQUEST
 **GET /api/v1/limit/fills**
@@ -2647,7 +2682,7 @@ GET /api/v1/limit/fills
 ### API KEY PERMISSIONS
 This endpoint requires the **"General"** permission.
 
-###RESPONSES
+### RESPONSES
 Field | Description
 --------- | ------- 
 symbol | symbol
@@ -3403,14 +3438,11 @@ GET /api/v1/prices
 
 ```json
 {
-  "code": "200000",
-  "data": {
 
     "symbol": "USDT-BTC",
     "granularity": 5000,
     "timePoint": 1568701710000,
     "value": 0.00009807
-  }
 }
 ```
 
@@ -3552,7 +3584,7 @@ This endpoint requires the **"Trade"** permission.
 | type | String | Type: FOK, IOC |
 | size | BigDecimal | Total size |
 | maxRate | BigDecimal | *[Optional]* The max interest rate. All interest rates are acceptable if this field is left empty.|
-| term | Int | *[Optional]* Term (Unit: Day). All terms are acceptable if this field is left empty. Please note to separate the terms via comma. For example, 7,14,28.|
+| term | String | *[Optional]* Term (Unit: Day). All terms are acceptable if this field is left empty. Please note to separate the terms via comma. For example, 7,14,28.|
 
 
 <aside class="notice">Available terms currently supported: 7, 14, 28</aside>
@@ -3747,14 +3779,6 @@ This endpoint requires the **"Trade"** permission.
 ## One-Click Repayment
 
 
-```json
-{
-  "code": "200000",
-  "msg": "success",
-  "data": ""
-}
-```
-
 
 ### HTTP REQUEST
 
@@ -3783,13 +3807,6 @@ A successful repayment response is indicated by an HTTP status code 200 and syst
 ## Repay a Single Order
 
 
-```json
-{
-  "code": "200000",
-  "msg": "success",
-  "data": ""
-}
-```
 Request via this endpoint to repay a single order.
 
 
@@ -3880,7 +3897,7 @@ This endpoint requires the **"Trade"** permission.
 |--------- | ------- | -----------|
 | orderId  | String | Lend order ID |
 
-## Set Auto Lend
+## Set Auto-lend
 
 Request via this endpoint to set up the automatic lending for a specified currency.
 
@@ -3902,7 +3919,7 @@ This endpoint requires the **"Trade"** permission.
 |Param | Type | Description |
 |--------- | ------- | -----------|
 | currency     | String  | Currency                                        |
-| isEnable     | boolean | Auto lend enabled or not                                |
+| isEnable     | boolean | Auto-lend enabled or not                                |
 | retainSize   | String  | Reserved size in main account. Required when **isEnable** is true.   |
 | dailyIntRate | String  | Daily interest rate. e.g. 0.002 is 0.2%. Required when **isEnable** is true.     |
 | term         | int     | Term (Unit: Day). Required when **isEnable** is true.            |

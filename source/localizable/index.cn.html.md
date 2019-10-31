@@ -2551,32 +2551,68 @@ KuCoin平台上的订单分为两种类型：Taker 和 Maker。Taker单会与买
 
 ```json
 {
-    "currentPage":1,
-    "pageSize":1,
-    "totalNum":251915,
-    "totalPage":251915,
-    "items":[
+    "code":"200000",
+    "data":[
         {
-            "symbol":"BTC-USDT",
-            "tradeId":"5c35c02709e4f67d5266954e",
-            "orderId":"5c35c02703aa673ceec2a168",
-            "counterOrderId":"5c1ab46003aa676e487fa8e3",
-            "side":"buy",
-            "liquidity":"taker",
-            "forceTaker":true,
-            "price":"0.083",
-            "size":"0.8424304",
-            "funds":"0.0699217232",
-            "fee":"0",
-            "feeRate":"0",
+            "counterOrderId":"5db7ee769797cf0008e3beea",
+            "createdAt":1572335233000,
+            "fee":"0.946357371456",
             "feeCurrency":"USDT",
+            "feeRate":"0.001",
+            "forceTaker":true,
+            "funds":"946.357371456",
+            "liquidity":"taker",
+            "orderId":"5db7ee805d53620008dce1ba",
+            "price":"9466.8",
+            "side":"buy",
+            "size":"0.09996592",
             "stop":"",
-            "tradeType": "TRADE",
-            "type":"limit",
-            "createdAt":1547026472000
+            "symbol":"BTC-USDT",
+            "tradeId":"5db7ee8054c05c0008069e21",
+            "tradeType":"MARGIN_TRADE",
+            "type":"market"
+        },
+        {
+            "counterOrderId":"5db7ee4b5d53620008dcde8e",
+            "createdAt":1572335207000,
+            "fee":"0.94625",
+            "feeCurrency":"USDT",
+            "feeRate":"0.001",
+            "forceTaker":true,
+            "funds":"946.25",
+            "liquidity":"taker",
+            "orderId":"5db7ee675d53620008dce01e",
+            "price":"9462.5",
+            "side":"sell",
+            "size":"0.1",
+            "stop":"",
+            "symbol":"BTC-USDT",
+            "tradeId":"5db7ee6754c05c0008069e03",
+            "tradeType":"MARGIN_TRADE",
+            "type":"market"
+        },
+        {
+            "counterOrderId":"5db69aa4688933000aab8114",
+            "createdAt":1572248229000,
+            "fee":"1.882148318525",
+            "feeCurrency":"USDT",
+            "feeRate":"0.001",
+            "forceTaker":false,
+            "funds":"1882.148318525",
+            "liquidity":"maker",
+            "orderId":"5db69a9c4e6d020008f03275",
+            "price":"9354.5",
+            "side":"sell",
+            "size":"0.20120245",
+            "stop":"",
+            "symbol":"BTC-USDT",
+            "tradeId":"5db69aa477d8de0008c1efac",
+            "tradeType":"MARGIN_TRADE",
+            "type":"limit"
         }
     ]
 }
+
 ```
 
 此接口，可以获取最近24小时1000条成交明细的列表
@@ -2593,7 +2629,6 @@ GET /api/v1/limit/fills
 ### API权限
 此接口需要**通用权限**。
 
-<aside class="notice">这个接口需要使用分页</aside>
 ### 返回值
 
 | 字段             | 含义                        |
@@ -3349,14 +3384,11 @@ GET /api/v1/prices
 
 ```json
 {
-  "code": "200000",
-  "data": {
 
     "symbol": "USDT-BTC",
     "granularity": 5000,
     "timePoint": 1568701710000,
     "value": 0.00009807
-  }
 }
 ```
 
@@ -3498,7 +3530,7 @@ POST /api/v1/margin/borrow
 | type | String | [必选] 类型：FOK、IOC |
 | size | BigDecimal | [必选] 借入数量 |
 | maxRate | BigDecimal | [可选] 最大利率, 不填则表示接受所有利率 |
-| term | Int | [可选] 期限,单位为:天, 不填则表示接受所有期限,逗号隔开,如: 7,14,28 |
+| term | String | [可选] 期限,单位为:天, 不填则表示接受所有期限,逗号隔开,如: 7,14,28 |
 
 <aside class="notice">现系统支持的借入期限: 7、14、28</aside>
 
@@ -3686,13 +3718,6 @@ GET /api/v1/margin/borrow/repaid
 
 ## 一键还款
 
-```json
-{
-  "code": "200000",
-  "msg": "success",
-  "data": ""
-}
-```
 
 
 ### HTTP请求
@@ -3722,13 +3747,6 @@ POST /api/v1/margin/repay/all
 
 ## 单笔还款
 
-```json
-{
-  "code": "200000",
-  "msg": "success",
-  "data": ""
-}
-```
 此接口用于归还指定某笔贷款
 
 ### HTTP请求
@@ -4499,11 +4517,8 @@ ID用于标识请求和ack的唯一字符串。
 ## 消息处理逻辑
 
 - 判断消息的type: 目前有三类消息，message（常用的推送消息），notice（一般的通知），command（连接的命令）
-
 - 判断消息userId: 有userId表示私有消息，没有userId的表示共有消息
-
 - 判断消息topic: 通过topic判断是哪一类消息
-
 - 判断subject: 同一个topic的不同类型消息用subject区分。例如level3的5类分别为trade.l3received,trade.l3changed等
 
 
@@ -5190,7 +5205,7 @@ Topic: **/indicator/markPrice:{symbol0},{symbol1}...**
 <aside class="spacer4"></aside>
 <aside class="spacer2"></aside>
 
-## 杠杆交易资金薄变化
+## 杠杆交易买卖盘变化
 
 ```json
 {
@@ -5203,7 +5218,7 @@ Topic: **/indicator/markPrice:{symbol0},{symbol1}...**
 
 Topic: **/margin/fundingBook:{currency0},{currency1}...**
 
-订阅此topic，可获取杠杆交易借贷资金薄的变化。
+订阅此topic，可获取杠杆交易借贷买卖盘的变化。
 
 ```json
 {
@@ -5376,7 +5391,7 @@ UNLIABILITY：解除穿仓。归还所有负债后，仓位恢复到EFFECTIVE状
 <aside class="spacer8"></aside>
 <aside class="spacer4"></aside>
 
-## 杠杆交易订单入资金薄
+## 杠杆交易订单入买卖盘
 
 ```json
 {
@@ -5398,7 +5413,7 @@ UNLIABILITY：解除穿仓。归还所有负债后，仓位恢复到EFFECTIVE状
 
 Topic: **/margin/loan:{currency}**
 
-出借订单入资金薄时向出借方推送。
+出借订单入买卖盘时向出借方推送。
 
 <aside class="spacer4"></aside>
 <aside class="spacer2"></aside>
