@@ -3438,7 +3438,6 @@ GET /api/v1/prices
 
 ```json
 {
-
     "symbol": "USDT-BTC",
     "granularity": 5000,
     "timePoint": 1568701710000,
