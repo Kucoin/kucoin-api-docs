@@ -5248,19 +5248,18 @@ Topic: **/margin/fundingBook:{currency0},{currency1}...**
 
 ```json
 {
-  "id": "5c24c5da03aa673885cd67ab",
-  "type": "message",
-  "topic": "/margin/fundingBook:BTC",
-  "subject": "funding.update",
+  "type":"message",
+  "topic":"/market/level3:BTC-USDT",
+  "subject":"trade.l3received",
   "data": {
-    "sequence": 1000000,       //序列号, 一条消息和上一条线消息的sequence相差1
-    "currency": "BTC",         //币种
-    "dailyIntRate": 0.00007,   //日利率小数，0.2%返回0.002
-    "annualIntRate": 0.12,     //年化利率小数，12%返回0.12
-    "term": 7,                 //出借期限(天)
-    "size": 1017.5,            //当前总数量，当为0时，从funding-book中删除
-    "side": "lend",            //委托方向，目前只支持借出。lend - 借出；borrow - 借入
-    "ts": 1553846081210004941  //时间戳(纳秒)
+    "sequence":"1545738118241",
+    "symbol":"BTC-USDT",
+    "side":"buy",
+    "orderId":"5c21e80303aa677bd09d7dff",
+    "stopType":"entry",
+    "funds":"1.00000000000000000000",
+    "time":"1545743136994328401",
+    "type":"stop"
   }
 }
 ```
