@@ -1969,7 +1969,7 @@ postOnlys只是一个标识，如果下单有能立即成交的对手方，则�
 
 此端点可以取消单笔订单。
 
-一旦系统收到取消请求，您将收cancelledOrderIds字段。取消请求将由匹配引擎按顺序处理。要知道请求是否已处理，您可以查询订单状态或订阅websocket获取订单消息。
+一旦系统收到取消请求，您将收cancelledOrderIds字段。取消请求将由撮合引擎按顺序处理。要知道请求是否已处理，您可以查询订单状态或订阅websocket获取订单消息。
 
 ### HTTP请求
 
@@ -4334,7 +4334,7 @@ REST API的使用受到了访问频率的限制，因此推荐您使用Websocket
 
 |字段 | 含义|
 -----|-----
-|pingInterval| 发送消息的间隔时间（毫秒）|
+|pingInterval| 发送ping的时间间隔（毫秒）|
 |pingTimeout| 如果在pingTimeout时间后，未收到pong消息，那么连接可能已断开了 |
 |endpoint| Websocket建立连接的服务器地址 |
 |protocol| 支持的协议 |
@@ -4405,7 +4405,7 @@ var socket = new WebSocket("wss://push1-v2.kucoin.com/endpoint?token=xxx&[connec
 
 使用服务器订阅消息时，客户端应向服务器发送订阅消息。
 
-订阅成功后，当**response**参数为**false**时，系统将向您发出“ack”消息。
+订阅成功后，当**response**参数为**true**时，系统将向您发出“ack”消息。
 
 
 ```json
@@ -4670,7 +4670,7 @@ Topic: **/market/snapshot:{symbol}**
 		}
 	},
 	"subject": "trade.snapshot",
-	"topic": "\/market\/snapshot:KCS-BTC",
+	"topic": "/market/snapshot:KCS-BTC",
 	"type": "message"
 }
 ```
@@ -4923,7 +4923,7 @@ Topic: **/market/level3:{symbol},{symbol}...**
 		"time": "1545914149935808589",  //timestamp, 时间戳是纳秒
 		"clientOid": "",   //客户端生成的唯一订单标识 e.g. UUID
 		"type": "received",  //L3 消息类型	
-		"orderType": "limit" // 订单类型 limit,markrt,stop_limit
+		"orderType": "limit" // 订单类型 limit,market,stop_limit
 	}
 }
 ```
@@ -4945,11 +4945,11 @@ Topic: **/market/level3:{symbol},{symbol}...**
 	}
 }
 ```
-当匹配引擎接收到订单指令时，系统将向用户发送确认消息，type为**received**。
+当撮合引擎接收到订单指令时，系统将向用户发送确认消息，type为**received**。
 
 这意味着，订单进入撮合引擎且订单状态为active。一旦撮合引擎收到这个订单信息，无论它是否立即成交，都会向用户发送确认信息。
 
-**received**消息并不是指在买卖盘挂单，而是指这个订单进入撮合引擎。如果订单能够立即成交，（taker订单），会发送**match**消息。如果自成交保护被触发，size会调整，会发送**change**消息。订单没有全部成交的或由于自成交保护取消了的订单会展示在买卖盘中，发送信息中的type为**open**。
+**received**消息并不是指在买卖盘挂单，而是指这个订单进入撮合引擎。如果订单能够立即成交，（taker订单），会发送**match**消息。如果自成交保护被触发，size会调整，会发送**change**消息。没有全部成交会展示在买卖盘中，发送信息中的type为**open**。
 
 
 <aside class="notice">您可以使用您自定义的clientOid来跟踪订单信息，但是特别的clientOid可能会暴露您的策略，所以推荐您使用UUID
@@ -5091,7 +5091,7 @@ privateChannel=true，还会返回remainSize这个字段，指订单中有多少
 }
 ```
 
-当订单信息因为STP(自成交保护)变更，系统会给您推送**chenge**消息。
+当订单信息因为STP(自成交保护)变更，系统会给您推送**change**消息。
 由于自成交保护，需要调整订单数量或资金。订单只会在数量或资金上减少。当一个订单size发生变化会向您推送**change**消息。在买卖盘中订单（**open**）和收到**received**消息但没有进入买卖盘的订单，都可能向您推送**change**消息。新的市价单由于自成交保护导致的导致资金变化也会向您推送**change**消息。
 
 <aside class="spacer8"></aside>
