@@ -3339,7 +3339,7 @@ REST API的使用受到了访问频率的限制，因此推荐您使用Websocket
 
 |字段 | 含义|
 -----|-----
-|pingInterval| 发送消息的间隔时间（毫秒）|
+|pingInterval| 发送ping的时间间隔（毫秒）|
 |pingTimeout| 如果在pingTimeout时间后，未收到pong消息，那么连接可能已断开了 |
 |endpoint| Websocket建立连接的服务器地址 |
 |protocol| 支持的协议 |
@@ -3410,7 +3410,7 @@ var socket = new WebSocket("wss://push1-v2.kucoin.com/endpoint?token=xxx&[connec
 
 使用服务器订阅消息时，客户端应向服务器发送订阅消息。
 
-订阅成功后，当**response**参数为**false**时，系统将向您发出“ack”消息。
+订阅成功后，当**response**参数为**true**时，系统将向您发出“ack”消息。
 
 
 ```json
