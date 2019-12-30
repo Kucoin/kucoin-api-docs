@@ -4845,11 +4845,9 @@ Topic: **/market/match:{symbol},{symbol}...**
 
 ```json
 {
-  "id":"5c24c5da03aa673885cd67aa",
   "type":"message",
   "topic":"/market/match:BTC-USDT",
   "subject":"trade.l3match",
-  "sn":1545896669145,
   "data":{
     "sequence":"1545896669145",
     "symbol":"BTC-USDT",

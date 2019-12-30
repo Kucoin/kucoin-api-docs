@@ -4866,7 +4866,6 @@ For each order traded, the system would send you the match messages in the follo
 
 ```json
 {
-  "id":"5c24c5da03aa673885cd67aa",
   "type":"message",
   "topic":"/market/match:BTC-USDT",
   "subject":"trade.l3match",
