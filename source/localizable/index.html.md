@@ -28,6 +28,11 @@ The WebSocket contains two sections: Public Channels and Private Channels
 
 To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
+**02/01/20**: 
+
+- Add the **time** field to [Get Full Order Book(atomic)](#get-full-order-book(atomic)).
+- Add **reason** field in the subscription for [Stop Order Activate Event](#stop-order-activate-event).
+
 **10/20/19**: 
 
 - Deprecate '/api/v1/accounts/inner-transfer' endpoint for [Inner Transfer](#inner-transfer).
@@ -3092,34 +3097,40 @@ asks | asks
 
 
 ```json
- {
-        "sequence": "1545896707028",
-        "time": 1550653727731,
-        "bids": [
-            [
-                "5c2477e503aa671a745c4057",           //orderId
-                "6",                                  //price
-                "0.999"                               //size
-            ],
-            [
-                "5c2477e103aa671a745c4054",
-                "5",
-                "0.999"
-            ]
-        ],
+{
+    "data": {
+        "sequence": "1573503933086",
         "asks": [
             [
-                "5c24736703aa671a745c401e",           
-                "200",                               
-                "1"                                 
+                "5e0d672c1f311300093ac522",   //orderId
+                "0.1917",                     //price
+                "390.9275",                   //size
+                "1577936689346546088"         //time,nanoseconds
             ],
             [
-                "5c2475c903aa671a745c4033",
-                "201",
-                "1"
+                "5e0d672891432f000819ecc3",
+                "0.19171",
+                "1456.1316",
+                "1577936685718811031"
             ]
-        ]
+        ],
+        "bids": [
+            [
+                "5e0d672cdc53860007f30262",    
+                "0.19166",
+                "178.1936",
+                "1577936689166023452"
+            ],
+            [
+                "5e0d671a91432f000819d1b0",
+                "0.19165",
+                "583.6298",
+                "1577936671595901518"
+            ]
+        ],
+        "time": 1577936685107
     }
+}
 ```
 Request via this endpoint to get the Level 3 order book of the specified trading pari. Level 3 order book includes all bids and asks (the data is non-aggregated, and each item means a single order).
  
@@ -5299,6 +5310,7 @@ When a stop-limit order is received by the system, you will receive a stop messa
     "orderId":"5c21e80303aa677bd09d7dff",
     "stopType":"entry",
     "funds":"1.00000000000000000000",
+    "reason":"canceled",         //include canceled or triggered
     "time":"1545743136994328401",
     "type":"activate"
   }
