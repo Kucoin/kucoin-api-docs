@@ -1974,6 +1974,7 @@ postOnlys只是一个标识，如果下单有能立即成交的对手方，则�
 
 此端点可以取消单笔订单。
 
+
 一旦系统收到取消请求，您将收cancelledOrderIds字段。取消请求将由撮合引擎按顺序处理。要知道请求是否已处理，您可以查询订单状态或订阅websocket获取订单消息。
 
 ### HTTP请求
@@ -4408,7 +4409,7 @@ var socket = new WebSocket("wss://push1-v2.kucoin.com/endpoint?token=xxx&[connec
     "id": "123456789",         //要求唯一 be an unique value
     "type": "subscribe",      //类型: subscribe 
     "topic": "/market/ticker:BTC-USDT,ETH-USDT", //
-    "privateChannel": true,   //是否使用该频道的私有频道，默认为false   
+    "privateChannel": false,   //是否使用该频道的私有频道，默认为false   
     "response": true          //是否需要服务端返回本次订阅的回执信息，默认为false 
 }
 
@@ -4438,7 +4439,7 @@ var socket = new WebSocket("wss://push1-v2.kucoin.com/endpoint?token=xxx&[connec
       "id": "1545910840805",      //要求唯一 
       "type": "unsubscribe",     //类型: unsubscribe 
       "topic": "/market/ticker:BTC-USDT,ETH-USDT",
-      "privateChannel": true,   //是否使用该频道的私有频道，默认为false 
+      "privateChannel": false,   //是否使用该频道的私有频道，默认为false 
       "response": true          //是否需要服务端返回本次订阅的回执信息，默认为false   
   }
 
@@ -4958,7 +4959,9 @@ Topic: **/market/level3:{symbol},{symbol}...**
 
 这意味着，订单进入撮合引擎且订单状态为active。一旦撮合引擎收到这个订单信息，无论它是否立即成交，都会向用户发送确认信息。
 
-**received**消息并不是指在买卖盘挂单，而是指这个订单进入撮合引擎。如果订单能够立即成交，（taker订单），会发送**match**消息。如果自成交保护被触发，size会调整，会发送**change**消息。没有全部成交会展示在买卖盘中，发送信息中的type为**open**。
+
+**received**消息并不是指在买卖盘挂单，而是指这个订单进入撮合引擎。如果订单能够立即成交，（taker订单），会发送**match**消息。如果自成交保护被触发，size会调整，会发送**change**消息。没有全部成交的的订单会展示在买卖盘中，发送信息中的type为**open**。
+
 
 
 <aside class="notice">您可以使用您自定义的clientOid来跟踪订单信息，但是特别的clientOid可能会暴露您的策略，所以推荐您使用UUID
@@ -5101,7 +5104,9 @@ privateChannel=true，还会返回remainSize这个字段，指订单中有多少
 ```
 
 当订单信息因为STP(自成交保护)变更，系统会给您推送**change**消息。
-由于自成交保护，需要调整订单数量或资金。订单只会在数量或资金上减少。当一个订单size发生变化会向您推送**change**消息。在买卖盘中订单（**open**）和收到**received**消息但没有进入买卖盘的订单，都可能向您推送**change**消息。新的市价单由于自成交保护导致的导致资金变化也会向您推送**change**消息。
+
+由于自成交保护，需要调整订单数量或资金。订单只会在数量或资金上减少。当一个订单size发生变化会向您推送**change**消息。在买卖盘中订单（**open**）和收到**received**消息但没有进入买卖盘的订单，都可能向您推送**chaneg**消息。新的市价单由于自成交保护导致的导致资金变化也会向您推送**change**消息。
+
 
 <aside class="spacer8"></aside>
 <aside class="spacer4"></aside>
