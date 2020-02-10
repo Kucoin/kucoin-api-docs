@@ -3402,7 +3402,7 @@ var socket = new WebSocket("wss://push1-v2.kucoin.com/endpoint?token=xxx&[connec
     "id": "123456789",         //要求唯一 be an unique value
     "type": "subscribe",      //类型: subscribe 
     "topic": "/market/ticker:BTC-USDT,ETH-USDT", //
-    "privateChannel": true,   //是否使用该频道的私有频道，默认为false   
+    "privateChannel": false,   //是否使用该频道的私有频道，默认为false   
     "response": true          //是否需要服务端返回本次订阅的回执信息，默认为false 
 }
 
@@ -3432,7 +3432,7 @@ var socket = new WebSocket("wss://push1-v2.kucoin.com/endpoint?token=xxx&[connec
       "id": "1545910840805",      //要求唯一 
       "type": "unsubscribe",     //类型: unsubscribe 
       "topic": "/market/ticker:BTC-USDT,ETH-USDT",
-      "privateChannel": true,   //是否使用该频道的私有频道，默认为false 
+      "privateChannel": false,   //是否使用该频道的私有频道，默认为false 
       "response": true          //是否需要服务端返回本次订阅的回执信息，默认为false   
   }
 
