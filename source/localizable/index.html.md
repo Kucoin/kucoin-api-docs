@@ -4609,50 +4609,7 @@ Subscribe to this topic to get the real time push of all market symbols BBO chan
 ## Symbol Snapshot
 
 ```json
-{
-	"data": {
-		"sequence": "1545896669291",
-		"data": [{
-			"trading": true,
-			"symbol": "KCS-BTC",
-			"buy": 0.00011,
-			"sell": 0.00012,
-			"sort": 100,
-			"volValue": 3.13851792584,
-			"baseCurrency": "KCS",
-			"market": "BTC",
-			"quoteCurrency": "BTC",
-			"symbolCode": "KCS-BTC",
-			"datetime": 1548388122031,
-			"high": 0.00013,
-			"vol": 27514.34842,
-			"low": 0.0001,
-			"changePrice": -1.0e-5,
-			"changeRate": -0.0769,
-			"lastTradedPrice": 0.00012,
-			"board": 0,
-			"mark": 0
-		}]
-	},
-	"subject": "trade.snapshot",
-	"topic": "/market/snapshot:BTC",
-	"type": "message"
-}
-```
 
-Topic: **/market/snapshot:{symbol}**
-
-Subscribe to get snapshot data for a single symbol.
-
-The snapshot data is pushed at **2 seconds** intervals.
-
-<aside class="spacer4"></aside> 
-<aside class="spacer4"></aside> 
-<aside class="spacer"></aside> 
-
-## Market Snapshot
-
-```json
 {
 	"data": {
 		"sequence": "1545896669291",
@@ -4680,6 +4637,50 @@ The snapshot data is pushed at **2 seconds** intervals.
 	},
 	"subject": "trade.snapshot",
 	"topic": "/market/snapshot:KCS-BTC",
+	"type": "message"
+}
+```
+
+Topic: **/market/snapshot:{symbol}**
+
+Subscribe to get snapshot data for a single symbol.
+
+The snapshot data is pushed at **2 seconds** intervals.
+
+<aside class="spacer4"></aside> 
+<aside class="spacer4"></aside> 
+<aside class="spacer"></aside> 
+
+## Market Snapshot
+
+```json
+{
+	"data": {
+		"sequence": "1545896669291",
+		"data": [{
+			"trading": true,
+			"symbol": "KCS-BTC",
+			"buy": 0.00011,
+			"sell": 0.00012,
+			"sort": 100,
+			"volValue": 3.13851792584,
+			"baseCurrency": "KCS",
+			"market": "BTC",
+			"quoteCurrency": "BTC",
+			"symbolCode": "KCS-BTC",
+			"datetime": 1548388122031,
+			"high": 0.00013,
+			"vol": 27514.34842,
+			"low": 0.0001,
+			"changePrice": -1.0e-5,
+			"changeRate": -0.0769,
+			"lastTradedPrice": 0.00012,
+			"board": 0,
+			"mark": 0
+		}]
+	},
+	"subject": "trade.snapshot",
+	"topic": "/market/snapshot:BTC",
 	"type": "message"
 }
 ```
