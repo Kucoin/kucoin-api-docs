@@ -481,12 +481,14 @@ body {
 .toc-link[data-title="User"],
 .toc-link[data-title="Trade"],
 .toc-link[data-title="Market Data"],
+.toc-link[data-title="Margin Trade"],
 .toc-link[data-title="Others"],
 .toc-link[data-title="Websocket Feed"],
 .toc-link[data-title="快速开始"],
 .toc-link[data-title="用户模块"],
 .toc-link[data-title="交易模块"],
 .toc-link[data-title="市场数据"],
+.toc-link[data-title="杠杆交易"],
 .toc-link[data-title="其他接口"],
 .toc-link[data-title="Websocket"]{
   font-weight: bold;
@@ -502,12 +504,14 @@ body {
 .toc-link[data-title="User"]:before,
 .toc-link[data-title="Trade"]:before,
 .toc-link[data-title="Market Data"]:before,
+.toc-link[data-title="Margin Trade"]:before,
 .toc-link[data-title="Others"]:before,
 .toc-link[data-title="Websocket Feed"]:before
 .toc-link[data-title="快速开始"]:before,
 .toc-link[data-title="用户模块"]:before,
 .toc-link[data-title="交易模块"]:before,
 .toc-link[data-title="市场数据"]:before,
+.toc-link[data-title="杠杆交易"]:before,
 .toc-link[data-title="其他接口"]:before,
 .toc-link[data-title="Websocket"]:before {
   content: "";
