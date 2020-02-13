@@ -405,7 +405,7 @@ REST API 对于账户、订单、和市场数据均提供了接口。
 对于**GET** 请求, 端点需要要包含请求参数。
 
 例如，对于"[账户列表](#f0f7ae469d)"接口，其默认端点为 **/api/v1/accounts**。
-如果您的请求参数currency=BTC，则该端点将变为 **/api/v1/accounts?currency=BTC**。因此，您最终请求的URL应为：**https://openapi-v2.kucoin.com/api/v1/accounts?currency=BTC**。
+如果您的请求参数currency=BTC，则该端点将变为 **/api/v1/accounts?currency=BTC**。因此，您最终请求的URL应为：**https://api.kucoin.com/api/v1/accounts?currency=BTC**。
 
 
 ## 请求
@@ -1157,44 +1157,12 @@ orderId | 子母账号转账的订单ID
 此接口用于平台内部账户资金划转，用户可以将资金在储蓄账户和交易账户之间免费划转。
 
 
-###划转指南
-
-账户是不会自动创建的（只有当一笔资金充值入账时，储蓄账户才会自动创建）。
-
-储蓄账户和交易账户相互划转指南:
-
-- 首先，按您自己的需求[创建](#9ec360d41d)一个储蓄账户或交易账户；
-- 其次，[获取accountId](#f0f7ae469d)，记录下返回的Id（即accountId)；
-- 最后，调用[内部资金划转](#c08ac949fb)接口，发起转账请求；
-
-
-### HTTP请求
-**POST /api/v1/accounts/inner-transfer**  
-
-<aside class="notice">此接口于2019年08月29日停止使用，请使用下方提供的划转接口。</aside>
-
-
-### 请求示例
-POST /api/v1/accounts/inner-transfer
-
-###API权限
-此接口需要**交易权限**。
-  
-### 请求参数
-
-请求参数 | 类型 | 含义
---------- | ------- |  ------- 
-clientOid | String | Client Order Id，客户端创建的唯一标识，建议使用UUID
-payAccountId | String | 付款方的accountId [账户ID](#f0f7ae469d)
-recAccountId | String | 收款方的accountId [账户ID](#f0f7ae469d)
-amount | String | 转账金额，精度为[币种精度](#ebcc9fbb02)正整数倍
-
 ### HTTP请求
 **POST /api/v2/accounts/inner-transfer**
 <aside class="notice">推荐使用，于2019年06月05日生效。</aside>
 
 ### 请求示例
-POST /api/v2/accounts/sub-transfer
+POST /api/v2/accounts/inner-transfer
 
 ###API权限
 此接口需要**交易权限**。
@@ -1798,7 +1766,6 @@ ClientOid字段是客户端创建的唯一的ID（推荐使用UUID），只能�
 
 postOnlys只是一个标识，如果下单有能立即成交的对手方，则取消。
 除冰山/隐藏订单外，如果该委托下单后会立刻与市场已有委托(除冰山/隐藏订单外)撮合，那么该委托将被取消。如果被动委托下单后与冰山/隐藏订单立即成交，被动委托订单将收取**maker**费用  
-**注意**：在一笔委托中，不能同时使用Post Only订单和冰山/隐藏单。 
 
 
 ###隐藏单和冰山单(Hidden & Iceberg)
@@ -3609,49 +3576,7 @@ Topic: **/market/ticker:all**
 ## 交易对行情快照
 
 ```json
-{
-	"data": {
-		"sequence": "1545896669291",
-		"data": [{
-			"trading": true,
-			"symbol": "KCS-BTC",
-			"buy": 0.00011,
-			"sell": 0.00012,
-			"sort": 100,
-			"volValue": 3.13851792584,
-			"baseCurrency": "KCS",
-			"market": "BTC",         
-			"quoteCurrency": "BTC",  
-			"symbolCode": "KCS-BTC",
-			"datetime": 1548388122031,
-			"high": 0.00013,
-			"vol": 27514.34842,
-			"low": 0.0001,
-			"changePrice": -1.0e-5,
-			"changeRate": -0.0769,
-			"lastTradedPrice": 0.00012,
-			"board": 0,
-			"mark": 0
-		}]
-	},
-	"subject": "trade.snapshot",
-	"topic": "/market/snapshot:BTC",
-	"type": "message"
-}
-```
 
-Topic: **/market/snapshot:{symbol}**
-
-订阅此topic对可以获取单个[交易对](#a17b4e2866)的行情快照信息，每隔**两秒**推送一次。
-
-
-<aside class="spacer4"></aside> 
-<aside class="spacer4"></aside> 
-<aside class="spacer"></aside> 
-
-## 市场行情快照
-
-```json
 {
 	"data": {
 		"sequence": "1545896669291",
@@ -3679,6 +3604,49 @@ Topic: **/market/snapshot:{symbol}**
 	},
 	"subject": "trade.snapshot",
 	"topic": "/market/snapshot:KCS-BTC",
+	"type": "message"
+}
+```
+
+Topic: **/market/snapshot:{symbol}**
+
+订阅此topic对可以获取单个[交易对](#a17b4e2866)的行情快照信息，每隔**两秒**推送一次。
+
+
+<aside class="spacer4"></aside> 
+<aside class="spacer4"></aside> 
+<aside class="spacer"></aside> 
+
+## 市场行情快照
+
+```json
+{
+	"data": {
+		"sequence": "1545896669291",
+		"data": [{
+			"trading": true,
+			"symbol": "KCS-BTC",
+			"buy": 0.00011,
+			"sell": 0.00012,
+			"sort": 100,
+			"volValue": 3.13851792584,
+			"baseCurrency": "KCS",
+			"market": "BTC",         
+			"quoteCurrency": "BTC",  
+			"symbolCode": "KCS-BTC",
+			"datetime": 1548388122031,
+			"high": 0.00013,
+			"vol": 27514.34842,
+			"low": 0.0001,
+			"changePrice": -1.0e-5,
+			"changeRate": -0.0769,
+			"lastTradedPrice": 0.00012,
+			"board": 0,
+			"mark": 0
+		}]
+	},
+	"subject": "trade.snapshot",
+	"topic": "/market/snapshot:BTC",
 	"type": "message"
 }
 ```

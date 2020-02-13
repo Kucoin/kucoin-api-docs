@@ -416,7 +416,7 @@ Each interface has its own endpoint, described by field **HTTP REQUEST** in the 
 
 For the **GET METHOD** API, the endpoint needs to contain the query parameters string.
 
-E.G. For "List Accounts", the default endpoint of this API is **/api/v1/accounts**. If you pass the "currency" parameter(BTC), the endpoint will become **/api/v1/accounts?currency=BTC** and the final request URL will be **https://openapi-v2.kucoin.com/api/v1/accounts?currency=BTC**.
+E.G. For "List Accounts", the default endpoint of this API is **/api/v1/accounts**. If you pass the "currency" parameter(BTC), the endpoint will become **/api/v1/accounts?currency=BTC** and the final request URL will be **https://api.kucoin.com/api/v1/accounts?currency=BTC**.
 
 
 ## Request
@@ -1169,35 +1169,6 @@ The inner transfer interface is used for transferring assets between the account
 
 <aside class="notice">The sub-account needs to transfer funds from the main account to the trade account before trading.</aside>
 
-###ASSESTS TRANSFER
-Asset accounts are not automatically generated (when funds are credited, the main account will be created auto). If you need to transfer assets between main account and trade account:
-
-- [Create](#create-an-account) a main or trade account of the currency; 
-- [Get](#list-accounts) the accountId and the id from the response is the accountId;
-- [Transfer](#inner-transfer) assets between main account and trade account.
-
-
-###HTTP REQUEST
-**POST /api/v1/accounts/inner-transfer**
-
-<aside class="notice">This interface was discontinued on August 29, 2019. Please use the transfer interface provided below.</aside>
-
-###Example
-POST /api/v1/accounts/inner-transfer
-
-###API KEY PERMISSIONS
-This endpoint requires the **"Trade"** permission.
-
-### Parameters
-
-Param | Type | Description
---------- | ------- | ------- 
-clientOid | String | Unique order id created by users to identify their orders, e.g. UUID.
-payAccountId | String | [Account ID of payer](#list-accounts).
-recAccountId | String | [Account ID of receiver](#list-accounts). 
-amount | String | Transfer amount, the amount is a positive integer multiple of the [currency precision](#get-currencies).
-
-
 ### HTTP REQUEST
 
 **POST /api/v2/accounts/inner-transfer**
@@ -1811,8 +1782,6 @@ Time in force policies provide guarantees about the lifetime of an order. There 
 The post-only flag ensures that the trader always pays the maker fee and provides liquidity to the order book. If any part of the order is going to pay taker fee, the order will be fully rejected.
 
 If a post only order will get executed immediately against the existing orders (except iceberg and hidden orders) in the market, the order will be cancelled. If the post only order will execute against an iceberg/hidden order immediately, you will get the maker fees.
-
- **Notice**: The post only order cannot to be placed simultaneously with an iceberg order or hidden order. 
 
 
 ### HIDDEN AND ICEBERG
