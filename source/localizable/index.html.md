@@ -33,7 +33,7 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 
 **27/02/20**: 
 
-- Add **price protection mechanism** for [Place a new order](#place-a-new-order).
+- Add the **price protection mechanism** for [Place a new order](#place-a-new-order).
   
 **02/01/20**: 
 
