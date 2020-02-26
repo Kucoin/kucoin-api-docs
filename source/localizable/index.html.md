@@ -28,6 +28,13 @@ The WebSocket contains two sections: Public Channels and Private Channels
 
 To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
+
+
+
+**27/02/20**: 
+
+- Add **price protection mechanism** for [Place a new order](#place-a-new-order).
+  
 **02/01/20**: 
 
 - Add the **time** field to [Get Full Order Book(atomic)](#get-full-order-book(atomic)).
@@ -1781,6 +1788,9 @@ Signature is required for this part.
 ```
 
 You can place two types of orders: **limit** and **market**. Orders can only be placed if your account has sufficient funds. Once an order is placed, your account funds will be put on hold for the duration of the order. How much and which funds are put on hold depends on the order type and parameters specified. See the Holds details below. 
+
+<aside class="notice">Placing an order will enable price protection. When the price of the limit order is outside the threshold range, the price protection mechanism will be triggered, causing the order to fail.</aside>
+
 
 Please note that the system will deduct the fees from the orders that entered the order book in advance. Read [List Fills](#list-fills) to learn more.
 
