@@ -28,7 +28,9 @@ The WebSocket contains two sections: Public Channels and Private Channels
 
 To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
+**01/03/20**: 
 
+- Add the description of **postOnly** for [Place a new order](#place-a-new-order).
 
 
 **27/02/20**: 
@@ -1914,10 +1916,12 @@ Time in force policies provide guarantees about the lifetime of an order. There 
 
 * Note that self trades belong to match as well.
 
-###POST ONLY
+### POST ONLY
 The post-only flag ensures that the trader always pays the maker fee and provides liquidity to the order book. If any part of the order is going to pay taker fee, the order will be fully rejected.
 
-If a post only order will get executed immediately against the existing orders (except iceberg and hidden orders) in the market, the order will be cancelled. If the post only order will execute against an iceberg/hidden order immediately, you will get the maker fees.
+If a post only order will get executed immediately against the existing orders (except iceberg and hidden orders) in the market, the order will be cancelled.
+
+* For post only orders, it will get executed immediately against the iceberg orders and hidden orders in the market. Users placing the post only order will be charged the maker fees and the iceberg and hidden orders will be charged the taker fees.
 
 
 ### HIDDEN AND ICEBERG
