@@ -28,6 +28,10 @@ The WebSocket contains two sections: Public Channels and Private Channels
 
 To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
+**03/01/20**: 
+
+- Add the **price protection** when to place a new order to [Place a new order](#place-a-new-order).
+
 **02/01/20**: 
 
 - Add the **time** field to [Get Full Order Book(atomic)](#get-full-order-book(atomic)).
@@ -1993,6 +1997,16 @@ orderId | The ID of the order
 A successful order will be assigned an order ID. A successful order is defined as one that has been accepted by the matching engine.
 
 <aside class="notice">Open orders do not expire and will remain open until they are either filled or canceled.</aside>
+
+###PRICE PROTECTION
+
+1. If there are contra orders against the market/limit orders placed by users in the order book, the system will detect whether the difference between the corresponding market price and the ask/bid price will exceed the threshold (you can request via the API symbol interface).
+2. For limit orders, if the difference exceeds the threshold, the order placement would fail.
+3. For market orders, the order will be partially executed against the existing orders in the market within the threshold and the remaining unfilled part of the order will be canceled immediately.
+For example: If the threshold is 10%, when a user places a market order to buy 10,000 USDT in the KCS/USDT market (at this time, the current ask price is 1.20000), the system would determine that the final execution price would be 1.40000. As for (1.40000-1.20000)/1.20000=16.7%>10%, the threshold price would be 1.30000. Therefore, this market order will execute with the existing orders offering prices up to 1.30000 and the remaining part of the order will be canceled immediately.
+
+<aside class="notice">There might be some deviations of the detection. If your order is not fully filled, it may probably be led by the unfilled part of the order exceeding the threshold.</aside>
+
 
 ## Cancel an order
 
