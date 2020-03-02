@@ -30,6 +30,10 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 为了您能获取到最新的API 变更的通知，请在 [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs)添加关注【Watch】
 
+**02/03/20**: 
+
+- 新增 [批量下单](#de93fae07b)
+
 **01/03/20**: 
 
 - 新增 [下单](#fd6ce2a756)接口，新增**postOnly**说明
@@ -321,6 +325,7 @@ REST&nbsp;API 连接地址:
 ####硬性限制
 [获取成交记录](#6a30a471cf): **每十秒100次请求**（超过会被禁用10秒）
 [获取订单列表](#23e02e24af): **每十秒200次请求**（超过会被禁用10秒）
+[批量下单](#de93fae07b): **每十秒10次请求** （超过会被禁用10秒）
 
 ###WEBSOCKET
 
@@ -1919,11 +1924,25 @@ postOnlys只是一个标识，如果下单有能立即成交的对手方，则�
 | CN  | Cancel new          | 取消新的订单                       |
 | CB  | Cancel both         | 双方都取消                        |
 
-###订单生命周期(ORDER LIFECYCLE)
+### 订单生命周期(ORDER LIFECYCLE)
 
 当下单请求因请求成功（撮合引擎已收到订单）或（因余额不足、参数不合法等原因）被拒绝时，HTTP 请求会进行响应。下单成功，返回订单ID，订单将被撮合，可能会部分或全部成交。部分成交后，订单剩余为未成交部分会变成等待撮合（**Active**）状态（不包括使用立即成交或取消[IOC]的订单）。已完全成交的订单会变成“已完成”（**Done**）状态。
 
 订阅市场数据频道的用户可使用订单ID（**orderId**）和用户订单ID（**clientOid**）来识别消息。
+
+### 价格保护机制
+
+下单将启用价格保护机制。具体规则如下
+
+- 若用户在币币交易所下的市价单/限价单可以与当前买卖盘内订单直接成交，那么系统会判断成交深度对应的价格与同方向盘口价的偏差是否超出阈值（阈值可根据API symbol接口获取）；
+
+- 若超过，当您是限价单时，该订单会提示下单失败；
+
+- 若是市价单则此订单将被系统部分执行，执行上限为阈值对应的价格内的订单数量，其他剩余订单将不被成交。
+
+举例说明：若阈值为10%，当某用户在KCS/USDT交易区下了10,000 USDT的市价买单时(此时卖一价为1.20000)，系统会判断订单成交后最新成交价为1.40000。(1.40000-1.20000)/1.20000=16.7%>10%，而阈值价格为1.30000，此时，用户的这笔市价买单将最多被成交至1.30000，其他剩余订单则不会和买卖盘内订单进行撮合。
+请注意：该功能对深度的探测可能存在偏差，若您的订单未被完全成交有可能是因为超出了阈值的部分未成交。
+
 
 ### 返回值
 
@@ -1932,7 +1951,105 @@ postOnlys只是一个标识，如果下单有能立即成交的对手方，则�
 | orderId                           | 订单Id |
 | 下单成功后，会返回一个orderId字段，意味这订单进入撮合引擎。 |      |
 
-<aside class="notice">订单状态为open，订单不会过期，直到订单被成交或被取消。</aside>
+## 批量下单
+
+```json
+{ 
+    "success": true, // 返回值
+    "code": "200", 
+    "msg": "success", 
+    "retry": false, 
+    "data": { 
+      "data": [ 
+          { 
+            "symbol": "BTC-USDT", 
+            "type": "limit", 
+            "side": "buy", 
+            "price": "9661", 
+            "size": "1", 
+            "funds": null, 
+            "stp": "", 
+            "stop": "", 
+            "stopPrice": "0", 
+            "timeInForce": "GTC", 
+            "cancelAfter": 0, 
+            "postOnly": false, 
+            "hidden": false, 
+            "iceberge": false, 
+            "iceberg": false, 
+            "visibleSize": "0", 
+            "channel": "API", 
+            "id": null, 
+            "status": "fail", 
+            "failMsg": "error.createOrder.accountBalanceInsufficient", 
+            "clientOid": "5e42743514832d53d255d921" 
+          } 
+      ] 
+    } 
+} 
+```
+
+该接口支持在一个接口中批量下单，每次可同时下5个订单，订单类型必须为相同交易对的限价单（目前该接口只支持现货交易，不支持杠杆交易） 
+
+
+### HTTP 请求
+
+**POST /api/v1/orders/multi**
+
+
+### 请求示例
+
+```json
+
+{ 
+  "symbol": "BTC-USDT", // 请求示例
+  "orderList": [ 
+    { 
+      "clientOid": "5e42743514832d53d255d921", 
+      "price": 9661, 
+      "side": "buy", 
+      "size": 1, 
+      "symbol": "BTC-USDT", 
+      "type": "limit" 
+    } 
+  ] 
+} 
+```
+
+POST /api/v1/orders/multi
+
+### API权限
+
+此接口需要**交易权限**。
+
+
+### 请求参数 
+
+| 请求参数     | 类型     | 含义                                                                                    |
+| ---------   | ------  | -------------------------------------------------------------------------------------- |
+| clientOid   | String  | Client Order Id，客户端创建的唯一标识，建议使用UUID                                          |
+| side        | String  | **buy**（买） 或 **sell**（卖）                                                           |
+| symbol      | String  | [交易对](#a17b4e2866) 比如，ETH-BTC                                                       |
+| type        | String  | [可选] 订单类型 **limit** 和  **market** (默认为 **limit**)                                |
+| remark      | String  | [可选] 下单备注，长度不超过100个字符（UTF-8）                                                 |
+| stop        | String  | [可选] 止盈止损单，触发条件， **loss**（小于等于） 或 **entry**（大于等于）。设置后，就必须设置stopPrice参数。               |
+| stopPrice   | String  | [可选] 触发价格，只要设置stop参数，就必须设置此属性。                                                        |
+| stp         | String  | [可选] [自成交保护](#80920cd667)（self trade prevention）分为**CN**, **CO**, **CB** , **DC**四种策略 |
+| tradeType   | String  | [可选] 交易类型，默认为**TRADE**                                                             |
+| price       | String  | 指定货币的价格                                                     |
+| size        | String  | 指定货币的数量                                                     |
+| timeInForce | String  | [可选] 订单时效策略 **GTC**, **GTT**, **IOC**, **FOK** (默认为**GTC**) |
+| cancelAfter | long    | [可选] **n** 秒之后取消，订单时效策略为 **GTT**                            |
+| postOnly    | boolean | [可选] 被动委托的标识, 当订单时效策略为 **IOC** 或 **FOK** 时无效                |
+| hidden      | boolean | [可选] 是否隐藏（买卖盘中不展示）                                          |
+| iceberg     | boolean | [可选] 冰山单中是否仅显示订单的可见部分                                       |
+| visibleSize | String  | [可选] 冰山单最大的展示数量                                             |
+
+### 返回值 
+| 字段    | 含义                        |
+| -------| --------------------------- |
+|status  |  订单创建结果 (success, fail) |
+|failMsg |  失败原因                    |
 
 
 ## 单个撤单

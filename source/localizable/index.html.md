@@ -28,6 +28,10 @@ The WebSocket contains two sections: Public Channels and Private Channels
 
 To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
+**02/03/20**: 
+
+- Add [Place bulk orders](#place-bulk-orders).
+
 **01/03/20**: 
 
 - Add the description of **postOnly** for [Place a new order](#place-a-new-order).
@@ -332,6 +336,7 @@ The access limit for REST API is applied per API key. For average users, the req
 
 [List orders](#list-orders): 200 requests per 10 seconds(will be restricted for 10 seconds if the limit is exceeded)
 
+[Place bulk orders](#place-bulk-orders): 10 requests per 10 seconds(will be restricted for 10 seconds if the limit is exceeded)
 
 ###WEBSOCKET
 
@@ -1946,7 +1951,7 @@ For limit buy orders, we will hold the needed portion from your funds (price x s
 
 For market buy or sell orders where the funds are specified, the funds amount will be put on hold. If only size is specified, all of your account balance (in the quote account) will be put on hold for the duration of the market order (usually a trivially short time). 
 
-###SELF-TRADE PREVENTION
+### SELF-TRADE PREVENTION
 
 **Self-Trade Prevention** is an option in advanced settings.It is not selected by default. If you specify **STP** when placing orders, your order won't be matched by another one which is also yours. On the contrary, if **STP** is not specified in advanced, your order can be matched by another one of your own orders.
 
@@ -1962,10 +1967,18 @@ For market buy or sell orders where the funds are specified, the funds amount wi
 | CN   | Cancel newest                 |
 | CB   | Cancel both                   |
 
-###ORDER LIFECYCLE
+### ORDER LIFECYCLE
 The HTTP Request will respond when an order is either rejected (insufficient funds, invalid parameters, etc) or received (accepted by the matching engine). A **200** response indicates that the order was received and is active. **Active** orders may execute immediately (depending on price and market conditions) either partially or fully. A partial execution will put the remaining size of the order in the open state. An order that is filled completely, will go into the **done** state.
 
 Users listening to streaming market data are encouraged to use the order ID field to identify their received messages in the feed.
+
+### PRICE PROTECTION MECHANISM
+
+1. If there are contra orders against the market/limit orders placed by users in the order book, the system will detect whether the difference between the corresponding market price and the ask/bid price will exceed the threshold (you can request via the API symbol interface).
+2. For limit orders, if the difference exceeds the threshold, the order placement would fail.
+3. For market orders, the order will be partially executed against the existing orders in the market within the threshold and the remaining unfilled part of the order will be canceled immediately.
+For example: If the threshold is 10%, when a user places a market order to buy 10,000 USDT in the KCS/USDT market (at this time, the current ask price is 1.20000), the system would determine that the final execution price would be 1.40000. As for (1.40000-1.20000)/1.20000=16.7%>10%, the threshold price would be 1.30000. Therefore, this market order will execute with the existing orders offering prices up to 1.30000 and the remaining part of the order will be canceled immediately.
+Notice: There might be some deviations of the detection. If your order is not fully filled, it may probably be led by the unfilled part of the order exceeding the threshold.
 
 
 ###RESPONSES
@@ -1976,6 +1989,107 @@ orderId | The ID of the order
 A successful order will be assigned an order ID. A successful order is defined as one that has been accepted by the matching engine.
 
 <aside class="notice">Open orders do not expire and will remain open until they are either filled or canceled.</aside>
+
+
+## Place Bulk Orders
+
+```json
+{ 
+    "success": true, // RESPONSE
+    "code": "200", 
+    "msg": "success", 
+    "retry": false, 
+    "data": { 
+      "data": [ 
+          { 
+            "symbol": "BTC-USDT", 
+            "type": "limit", 
+            "side": "buy", 
+            "price": "9661", 
+            "size": "1", 
+            "funds": null, 
+            "stp": "", 
+            "stop": "", 
+            "stopPrice": "0", 
+            "timeInForce": "GTC", 
+            "cancelAfter": 0, 
+            "postOnly": false, 
+            "hidden": false, 
+            "iceberge": false, 
+            "iceberg": false, 
+            "visibleSize": "0", 
+            "channel": "API", 
+            "id": null, 
+            "status": "fail", 
+            "failMsg": "error.createOrder.accountBalanceInsufficient", 
+            "clientOid": "5e42743514832d53d255d921" 
+          } 
+      ] 
+    } 
+} 
+```
+
+Request via this endpoint to place 5 orders at the same time. The order type must be a limit order of the same symbol. 
+**The interface currently only supports spot trading**
+
+
+### HTTP Request
+
+**POST /api/v1/orders/multi**
+
+
+### Example
+
+```json
+
+{ 
+  "symbol": "BTC-USDT", // EXAMPLE
+  "orderList": [ 
+    { 
+      "clientOid": "5e42743514832d53d255d921", 
+      "price": 9661, 
+      "side": "buy", 
+      "size": 1, 
+      "symbol": "BTC-USDT", 
+      "type": "limit" 
+    } 
+  ] 
+} 
+```
+
+POST /api/v1/orders/multi
+
+### API KEY PERMISSIONS
+This endpoint requires the **"Trade"** permission.
+
+### Parameters
+
+| Param     | type   | Description  |
+| --------- | ------ |-------------------------------- |
+| clientOid | String | Unique order id created by users to identify their orders, e.g. UUID. |
+| side      | String | **buy** or **sell**      |
+| symbol    | String | a valid trading symbol code. e.g. ETH-BTC     |
+| type      | String | *[Optional]* **limit** or **market** (default is **limit**)          |
+| remark    | String | *[Optional]*  remark for the order, length cannot exceed 100 utf8 characters|
+| stop      | String | *[Optional]* Either **loss** or **entry**. Requires **stopPrice** to be defined |
+| stopPrice | String | *[Optional]* Need to be defined if stop is specified. |
+| stp       | String | *[Optional]*  self trade prevention , **CN**, **CO**, **CB** or **DC**|
+| tradeType | String | *[Optional]*  Default is **TRADE** |
+| price       | String  | price per base currency          |
+| size        | String  | amount of base currency to buy or sell         |
+| timeInForce | String  | *[Optional]* **GTC**, **GTT**, **IOC**, or **FOK** (default is **GTC**), read [Time In Force](#time-in-force).   |
+| cancelAfter | long    | *[Optional]*  cancel after **n** seconds, requires **timeInForce** to be **GTT**                   |
+| postOnly    | boolean | *[Optional]*  Post only flag, invalid when **timeInForce** is **IOC** or **FOK**                               |
+| hidden      | boolean | *[Optional]*  Order will not be displayed in the order book |
+| iceberg     | boolean | *[Optional]*  Only aportion of the order is displayed in the order book |
+| visibleSize | String  | *[Optional]*  The maximum visible size of an iceberg order   |
+
+### RESPONSES
+Field | Description
+--------- | ------- 
+|status  |  status (success, fail) |
+|failMsg |  the cause of failure   |
+
 
 ## Cancel an order
 
