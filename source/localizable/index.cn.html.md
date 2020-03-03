@@ -2773,7 +2773,8 @@ GET /api/v1/limit/fills
     "priceIncrement": "0.00000001",
     "feeCurrency": "USDT",
     "enableTrading": true,
-    "isMarginEnabled": true
+    "isMarginEnabled": true,
+    "priceLimitRate": "0.1"
   }
 ]
 ```
@@ -2810,9 +2811,10 @@ GET /api/v1/symbols
 | baseIncrement  | 数量增量，下单的size必须为数量增量的正整数倍      |
 | quoteIncrement | 市价单：资金增量，下单的funds必须为资金增量的正整数倍 |
 | priceIncrement | 限价单：价格增量，下单的price必须为价格增量的正整数倍 |
-| feeCurrency    | 交易计算手续费的币种                    |
+| feeCurrency    | 交易计算手续费的币种                   |
 | enableTrading  | 是否可以用于交易                      |
-| isMarginEnabled | 是否支持杠杆 |
+| isMarginEnabled | 是否支持杠杆                        |
+| priceLimitRate | 价格保护阈值                          |
 
 - **baseMinSize** 和 **baseMaxSize** 这两个字段规范了下单size的最小值和最大值。
 - **priceIncrement** 字段规范了下单的price的最小值和价格增量。

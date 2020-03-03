@@ -2833,7 +2833,8 @@ Signature is not required for this part
     "priceIncrement": "0.00000001",
     "feeCurrency": "USDT",
     "enableTrading": true,
-    "isMarginEnabled": true
+    "isMarginEnabled": true,
+    "priceLimitRate": "0.1"
   }
 ]
 ```
@@ -2872,6 +2873,7 @@ priceIncrement |  The increment of the price required to place a limit order. Th
 feeCurrency | The currency of charged fees. 
 enableTrading |  Available for transaction or not.
 isMarginEnabled |  Available for margin or not.
+priceLimitRate | Threshold for price portection
 
 The **baseMinSize** and **baseMaxSize** fields define the min and max order size. The **priceIncrement** field specifies the min order price as well as the price increment.This also applies to **quote** currency. 
 
