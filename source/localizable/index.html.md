@@ -2189,7 +2189,7 @@ orderId | Order ID, unique identifier of an order.
       {
         "id": "5c35c02703aa673ceec2a168",   //orderid
         "symbol": "BTC-USDT",   //symbol
-        "opType": "DEAL",      // operation type,deal is pending order,cancel is cancel order
+        "opType": "DEAL",      // operation type: DEAL
         "type": "limit",       // order type,e.g. limit,market,stop_limit.
         "side": "buy",         // transaction direction,include buy and sell
         "price": "10",         // order price
@@ -2254,7 +2254,7 @@ Field | Description
 --------- | ------- 
 id |  Order ID, the ID of an order.
 symbol | symbol
-opType |  operation type, Deal (status of the pending orders) and Cancel (status of the canceled orders)
+opType |  Operation type: DEAL
 type | order type,e.g. limit,market,stop_limit.
 side | transaction direction,include buy and sell
 price |  order price
