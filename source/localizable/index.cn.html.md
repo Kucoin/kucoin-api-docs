@@ -100,7 +100,7 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 - 添加 [申请提现](#6eaf6b9ae0)，[获取提现额度](#c46f4b3b8e)，[申请充值地址](#9277fb3f66)，[获取充值地址](#b3114995fd)，[币种详情](#cb79285fc3)，添加**chain**字段。
 - 添加 [内部资金划转](#c08ac949fb) 添加资金划转操作步骤。
-- 添加 对接[Level-3撮合引擎数据](#level-nbsp-3)的[go-level-3-demo](#level-nbsp-3)
+- 添加 对接[Level-3撮合引擎数据](#level-nbsp-3)的[go-level-3-SDK](#level-nbsp-3)
 - 修改 [请求频率限制](#26435b04cf)
 
 
@@ -267,7 +267,7 @@ Level-3市场数据更适合高频交易者<br/>
 * 更实时的获取到订单的成交情况
 * 可以完全取代Rest API的大部分拉取信息功能(Rest请求有严格的请求频率限制)
 
-不同的类型信息的处理可以参考[Level-3 demo](#4623bd9386)或参考下方Level-3的[Message Type](#level-nbsp-3)
+不同的类型信息的处理可以参考[Level-3 SDK](#4623bd9386)或参考下方Level-3的[Message Type](#level-nbsp-3)
 
 ## 客户端开发库
 
@@ -278,7 +278,7 @@ Level-3市场数据更适合高频交易者<br/>
 - [Java SDK](https://github.com/Kucoin/KuCoin-Java-SDK)
 - [PHP SDK](https://github.com/Kucoin/KuCoin-PHP-SDK)
 - [Go SDK](https://github.com/Kucoin/KuCoin-Go-SDK)
-- [Level3-Demo](https://github.com/Kucoin/kucoin-go-level3-demo)
+- [Level3-SDK](https://github.com/Kucoin/kucoin-level3-sdk)
 
 CCXT 是我们官方SDK提供方，您可以使用CCXT来对接Kucoin API。
 更多信息, 请访问: [https://ccxt.trade](https://ccxt.trade).
@@ -1940,7 +1940,7 @@ postOnlys只是一个标识，如果下单有能立即成交的对手方，则�
 
 - 若是市价单则此订单将被系统部分执行，执行上限为阈值对应的价格内的订单数量，其他剩余订单将不被成交。
 
-举例说明：若阈值为10%，当某用户在KCS/USDT交易区下了10,000 USDT的市价买单时(此时卖一价为1.20000)，系统会判断订单成交后最新成交价为1.40000。(1.40000-1.20000)/1.20000=16.7%>10%，而阈值价格为1.30000，此时，用户的这笔市价买单将最多被成交至1.30000，其他剩余订单则不会和买卖盘内订单进行撮合。
+举例说明：若阈值为10%，当某用户在KCS/USDT交易区下了10,000 USDT的市价买单时(此时卖一价为1.20000)，系统会判断订单成交后最新成交价为1.40000。(1.40000-1.20000)/1.20000=16.7%>10%，而阈值价格为1.32000，此时，用户的这笔市价买单将最多被成交至1.32000，其他剩余订单则不会和买卖盘内订单进行撮合。
 请注意：该功能对深度的探测可能存在偏差，若您的订单未被完全成交有可能是因为超出了阈值的部分未成交。
 
 
@@ -2390,7 +2390,7 @@ GET /api/v1/limit/orders
 | ------------- | ------------------------------------------- |
 | id            | 订单id，订单唯一标识                                 |
 | symbol        | 交易对                                         |
-| opType        | 操作类型: DEAL(挂买卖单), CANCEL(撤销)                |
+| opType        | 操作类型: DEAL                                 |
 | type          | 订单类型                                        |
 | side          | 买或卖                                         |
 | price         | 订单价格                                        |
@@ -5233,7 +5233,7 @@ privateChannel=true，还会返回remainSize这个字段，指订单中有多少
 5 接收新的增量数据推送，执行步骤4。
 
 
-如果您在维护一个本地Level-3买卖盘过程中，有不理解的地方，您可以参考用 Go Language 写的[demo](#level-nbsp-3)，里面包含了不同type信息的处理逻辑。
+如果您在维护一个本地Level-3买卖盘过程中，有不理解的地方，您可以参考用 Go Language 写的[SDK](#level-nbsp-3)，里面包含了不同type信息的处理逻辑。
 
 <aside class="spacer4"></aside>
 <aside class="spacer2"></aside>

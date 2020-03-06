@@ -99,7 +99,7 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 
 - Add **chain** field to [Create Deposit Address](#create-deposit-address), [Get Deposit Address](#get-deposit-address), [Get Currency Detail](#get-currency-detail), [Get Withdrawal Quotas](#get-withdrawal-quotas) and [Apply Withdraw](#apply-withdraw).
 -  Add the description of how to transfer assets in the [Inner Transfer](#inner-transfer) interface. 
-- Add **L3 demo** to [Full MatchEngine Data(Level 3)](#full-matchengine-data(level-3)).
+- Add **L3 SDK** to [Full MatchEngine Data(Level 3)](#full-matchengine-data(level-3)).
 - modify the strategy of [Rate Limit](#request-rate-limit).
 
 **4/24/19**: 
@@ -268,7 +268,7 @@ You can subscribe [Level-3 Market Data] (#full-matchengine-data-level-3) via Web
 * Get real-time access to orders 
 * Can completely replace most of the pull API function of the Rest API (There is a strict rate limit on Rest request)
   
-For the processing of different types of information, please refer to [Level-3 demo] (#client-libraries) or [Message Type] (#full-matchengine-data-level-3) of Level-3 below.
+For the processing of different types of information, please refer to [Level-3 SDK] (#client-libraries) or [Message Type] (#full-matchengine-data-level-3) of Level-3 below.
 
 
 
@@ -281,7 +281,7 @@ Client libraries can help you integrate with our API quickly.
 - [Java SDK](https://github.com/Kucoin/KuCoin-Java-SDK)
 - [PHP SDK](https://github.com/Kucoin/KuCoin-PHP-SDK)
 - [Go SDK](https://github.com/Kucoin/KuCoin-Go-SDK)
-- [Level3-Demo](https://github.com/Kucoin/kucoin-go-level3-demo)
+- [Level3-SDK](https://github.com/Kucoin/kucoin-level3-sdk)
 
 
 CCXT is our authorized SDK provider and you may access the KuCoin API through CCXT. For more information, please visit: [https://ccxt.trade](https://ccxt.trade).
@@ -657,6 +657,7 @@ All private REST requests must contain the following headers:
 ```
 
 For the header of KC-API-KEY, 
+
 * Use API-Secret to encrypt the prehash string {timestamp+method+endpoint+body } with sha256 HMAC. The request body is a JSON string and need to be the same with the parameters passed by the API.
 * After that, use base64-encode to encrypt the result in step 1 again.
 
@@ -1977,7 +1978,7 @@ Users listening to streaming market data are encouraged to use the order ID fiel
 1. If there are contra orders against the market/limit orders placed by users in the order book, the system will detect whether the difference between the corresponding market price and the ask/bid price will exceed the threshold (you can request via the API symbol interface).
 2. For limit orders, if the difference exceeds the threshold, the order placement would fail.
 3. For market orders, the order will be partially executed against the existing orders in the market within the threshold and the remaining unfilled part of the order will be canceled immediately.
-For example: If the threshold is 10%, when a user places a market order to buy 10,000 USDT in the KCS/USDT market (at this time, the current ask price is 1.20000), the system would determine that the final execution price would be 1.40000. As for (1.40000-1.20000)/1.20000=16.7%>10%, the threshold price would be 1.30000. Therefore, this market order will execute with the existing orders offering prices up to 1.30000 and the remaining part of the order will be canceled immediately.
+For example: If the threshold is 10%, when a user places a market order to buy 10,000 USDT in the KCS/USDT market (at this time, the current ask price is 1.20000), the system would determine that the final execution price would be 1.40000. As for (1.40000-1.20000)/1.20000=16.7%>10%, the threshold price would be 1.32000. Therefore, this market order will execute with the existing orders offering prices up to 1.32000 and the remaining part of the order will be canceled immediately.
 Notice: There might be some deviations of the detection. If your order is not fully filled, it may probably be led by the unfilled part of the order exceeding the threshold.
 
 
@@ -2425,8 +2426,8 @@ Field | Description
 --------- | ------- 
 orderId | Order ID, unique identifier of an order. 
 symbol | symbol
-opType |  operation type,deal is pending order,cancel is cancel order
-type | order type,e.g. limit,market,stop_limit.
+opType |  Operation type: DEAL
+type | order type, e.g. limit, market, stop_limit
 side | transaction direction,include buy and sell
 price |  order price
 size |  order quantity
@@ -5249,7 +5250,7 @@ This is the result of self-trade prevention adjusting the order size or availabl
 
 5.Receive the new incremental data push and go to step 4.
 
-When you maintain a local L3 orderbook data, if you can't fully understand the following examples, we provide a L3 orderbook maintenance case based on the Go language which you can refer to. This example mainly includes how to update the L3 data under different events, well-maintained orderbook, the data format of the websocket message and so on. The specific link is as follows: [L3 demo](https://github.com/Kucoin/kucoin-go-level3-demo)
+When you maintain a local L3 orderbook data, if you can't fully understand the following examples, we provide a L3 orderbook maintenance case based on the Go language which you can refer to. This example mainly includes how to update the L3 data under different events, well-maintained orderbook, the data format of the websocket message and so on. The specific link is as follows: [L3 SDK](https://github.com/Kucoin/kucoin-level3-sdk)
 
 <aside class="spacer4"></aside>
 <aside class="spacer2"></aside>
