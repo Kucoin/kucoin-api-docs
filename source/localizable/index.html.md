@@ -28,6 +28,10 @@ The WebSocket contains two sections: Public Channels and Private Channels
 
 To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
+**11/03/20**: 
+
+- Add [Service Status](#service-status).
+
 **02/03/20**: 
 
 - Add [Place bulk orders](#place-bulk-orders).
@@ -183,15 +187,16 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 
 1. Read [Sandbox](#sandbox) to learn how to debug API in a test environment.
 2. Read [REST API](#rest-api) to learn how to build a request.
-3. Read [Time](#time) if you want to make a test request (and receive a sample response) without having to authorize.
-4. Read [Authentication](#authentication) to learn how to make an authorized request.
-5. Read [Inner Transfer](#inner-transfer) to see how to transfer assets.
-6. Read [List Accounts](#list-accounts) to learn how to get the data of your account balance.
-7. Read [Place a new order](/#place-a-new-order) to see how to place an order.
-8. Read [Order Book](#get-part-order-book-aggregated) to get a snapshot of the order book.
-9. Read [Websocket Feed](#websocket-feed) to learn how to establish a websocket connection.
-10. Read [Level-2 Market Data](#level-2-market-data) to see how to build a local real-time order book with websocket. 
-11. Read [Account balance notice](#account-balance-notice) to see how to get a private websocket feed and get real time notice of balance changes.
+3. Read [Time](#server-time) if you want to make a test request (and receive a sample response) without having to authorize.
+4. Read [Service Status](#service-status) to maintain your trading strategy based on service status
+5. Read [Authentication](#authentication) to learn how to make an authorized request.
+6. Read [Inner Transfer](#inner-transfer) to see how to transfer assets.
+7. Read [List Accounts](#list-accounts) to learn how to get the data of your account balance.
+8. Read [Place a new order](/#place-a-new-order) to see how to place an order.
+9. Read [Order Book](#get-part-order-book-aggregated) to get a snapshot of the order book.
+10. Read [Websocket Feed](#websocket-feed) to learn how to establish a websocket connection.
+11. Read [Level-2 Market Data](#level-2-market-data) to see how to build a local real-time order book with websocket. 
+12. Read [Account balance notice](#account-balance-notice) to see how to get a private websocket feed and get real time notice of balance changes.
     
 ## Sub-account
 
@@ -695,7 +700,7 @@ The **KC-API-TIMESTAMP** header MUST be number of **milliseconds** since Unix Ep
 
 Decimal values are allowed, e.g. 1547015186532. But you need to be aware that timestamp between match and order is **nanosecond**.
 
-The difference between your timestamp and the API service time must be less than **5 seconds** , or your request will be considered expired and rejected. We recommend using the time endpoint to query for the API [server time](/#time) if you believe there may be time skew between your server and the API server.
+The difference between your timestamp and the API service time must be less than **5 seconds** , or your request will be considered expired and rejected. We recommend using the time endpoint to query for the API [server time](#server-time) if you believe there may be time skew between your server and the API server.
 
 
 
@@ -3364,8 +3369,8 @@ GET /api/v1/market/candles?type=1min&symbol=BTC-USDT&startAt=1566703297&endAt=15
 Param | Type | Description
 --------- | ------- | -----------
 symbol | String | [symbol](#get-symbols-list)
-startAt| long | *[Optional]*  Start time (milisecond), default is 0
-endAt| long | *[Optional]* End time (milisecond), default is 0
+startAt| long | *[Optional]*  Start time (second), default is 0
+endAt| long | *[Optional]* End time (second), default is 0
 type | String |Type of candlestick patterns: **1min, 3min, 5min, 15min, 30min, 1hour, 2hour, 4hour, 6hour, 8hour, 12hour, 1day, 1week**
 
 <aside class="notice">For each query, the system would return at most **1500** pieces of data. To obtain more data, please page the data by time.</aside>
@@ -4402,7 +4407,6 @@ This endpoint requires the **"General"** permission.
 
 # Others
 
-# Time
 
 ## Server Time
 
@@ -4414,13 +4418,44 @@ This endpoint requires the **"General"** permission.
 }
 ```
 
-Get the API server time.
+Get the server time.
 
 ### HTTP REQUEST
 **GET /api/v1/timestamp**
 
 ### Example
 GET /api/v1/timestamp
+
+<aside class="spacer2"></aside> 
+
+## Service Status
+
+```json
+{    
+  "code": "200000",     
+  "data": {
+      "status": "open",                //open, close, cancelonly
+      "msg":  "upgrade match engine"   //remark for operation
+    }
+}
+```
+Get the service status
+
+### HTTP REQUEST
+**GET /api/v1/status**
+
+### Example
+GET /api/v1/status
+
+### RESPONSES
+
+|Field    | Description                                             |
+|-------- |-------------------------------------------------------  |
+| status  | Status of service: **open**, **close** or **cancelonly**|
+| msg     | Remark for operation                                    |
+
+
+
 
 
 # Websocket Feed
