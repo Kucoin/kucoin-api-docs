@@ -28,7 +28,7 @@ The WebSocket contains two sections: Public Channels and Private Channels
 
 To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
-**11/03/20**: 
+**03/11/20**: 
 
 - Add [Service Status](#service-status).
 
