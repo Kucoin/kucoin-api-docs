@@ -30,6 +30,10 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 为了您能获取到最新的API 变更的通知，请在 [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs)添加关注【Watch】
 
+**03/11/20**: 
+
+- 新增 [服务状态](#fb99032698)
+
 **02/03/20**: 
 
 - 新增 [批量下单](#de93fae07b)
@@ -67,6 +71,8 @@ API分为两部分：**REST API和Websocket 实时数据流**
 - 添加 [交易对列表](#a17b4e2866)**isMarginEnabled**字段  
 - 添加 [币种详情](#cb79285fc3) 和 [币种列表](#ebcc9fbb02) **isMarginEnabled** 和 **isDebitEnabled** 字段
 - 添加 [杠杆交易](#540fbda255) 模块.
+
+
 
 **10/17/19**: 
 
@@ -186,15 +192,16 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 1.  [沙盒环境](#2d9a68bcb2) 帮助您在测试环境更快地了解和使用API。
 2.  [REST&nbsp;API](#rest-api) 如何创建一个REST&nbsp;API。
-3.  [服务器时间](#89b4aa6364) 在无需验签的情况下，可以获取服务器时间。（可用作连接测试）。
-4.  [接口认证](#e6a574d26d) 如何进行接口认证。
-5.  [内部资金划转](#c08ac949fb) 储蓄账户和交易账户之间资产的相互划转。
-6.  [账户列表](#f0f7ae469d) 获取个人的账户资产指南。
-7.  [下单](#fd6ce2a756) 获取下单操作指南。
-8.  [委托买卖盘](#ab5235c05c) 获取买卖盘的快照信息。
-9.  [Websocket](#42f0e0ea9d) 如何创建Websocket 连接
-10. [Level-2 市场行情](#level-2-3) 如何使用Websocket 在本地构建一个实时的买卖盘。 
-11. [余额变更](#5a9519dabe) 通过Websocket实时获取账户余额变更信息
+3.  [服务器时间](#89b4aa6364) 在无需验签的情况下，可以获取服务器时间。（可用作连接测试）
+4.  [服务状态](#7cc1fc76fc) 根据服务状态来维护交易策略。
+5.  [接口认证](#e6a574d26d) 如何进行接口认证。
+6.  [内部资金划转](#c08ac949fb) 储蓄账户和交易账户之间资产的相互划转。
+7.  [账户列表](#f0f7ae469d) 获取个人的账户资产指南。
+8.  [下单](#fd6ce2a756) 获取下单操作指南。
+9.  [委托买卖盘](#ab5235c05c) 获取买卖盘的快照信息。
+10. [Websocket](#42f0e0ea9d) 如何创建Websocket 连接
+11. [Level-2 市场行情](#level-2-3) 如何使用Websocket 在本地构建一个实时的买卖盘。 
+12. [余额变更](#5a9519dabe) 通过Websocket实时获取账户余额变更信息
 
 
 
@@ -3309,8 +3316,8 @@ GET /api/v1/market/candles?type=1min&symbol=BTC-USDT&startAt=1566703297&endAt=15
 请求参数 | 类型 | 含义
 ------------- | ------- | -------
 symbol | String |  [交易对](#a17b4e2866)
-startAt| long | [可选] 开始时间（毫秒）默认值为0
-endAt| long | [可选]  截止时间（毫秒）默认值为0
+startAt| long | [可选] 开始时间（秒）默认值为0
+endAt| long | [可选]  截止时间（秒）默认值为0
 type | String | 时间粒度，也就是每根蜡烛的时间区间:<br/>**1min, 3min, 5min, 15min, 30min, 1hour, 2hour, 4hour, 6hour, 8hour, 12hour, 1day, 1week**
 
 <aside class="notice"> 每次查询系统最多返回1500条数据。要获得更多数据，请按时间分页数据。</aside>
@@ -4325,7 +4332,6 @@ GET /api/v1/margin/trade/last?currency=BTC
 # 其他接口
 
 
-# 时间
 
 ## 获取服务器时间
 
@@ -4337,13 +4343,42 @@ GET /api/v1/margin/trade/last?currency=BTC
 }
 ```
 
-此接口，可获取API服务器时间。这是Unix时间戳。
+此接口，可获取服务器时间 (Unix时间戳)
 
 ### HTTP请求
 **GET /api/v1/timestamp**
 
 ### 请求示例
 GET /api/v1/timestamp
+
+<aside class="spacer2"></aside> 
+
+## 获取服务状态
+
+```json
+{    
+  "code": "200000",     
+  "data": {
+      "status": "open",                //open, close, cancelonly
+      "msg":  "upgrade match engine"   //message
+    }
+}
+```
+此接口，可获取服务状态
+
+### HTTP REQUEST
+**GET /api/v1/status**
+
+### Example
+GET /api/v1/status
+
+### RESPONSES
+
+| 字段     | 含义                                          | 
+|-------- | -------------------------------------------   |
+| status  | 服务状态: **open**、 **close** 或 **cancelonly** |
+| msg     | 操作说明                                        |  
+
 
 # Websocket
 
@@ -4399,7 +4434,7 @@ REST API的使用受到了访问频率的限制，因此推荐您使用Websocket
 
 ### 公共令牌 (不需要验证签名):
 
-如果您只订阅公共频道的数据，请按照以下方式请求获取服务器列表和临时公共令牌。
+如果您只订阅公共频道的数据，请按照以下方式请求获取服务实例列表和公共令牌。
 
 #### HTTP请求
 
