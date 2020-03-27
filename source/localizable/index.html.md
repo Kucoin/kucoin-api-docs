@@ -28,6 +28,10 @@ The WebSocket contains two sections: Public Channels and Private Channels
 
 To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
+**03/27/20**: 
+
+- Add the request parameters: **bizType** and **direction** for [Get Account Ledgers](#get-account-ledgers)
+
 **03/11/20**: 
 
 - Add [Service Status](#service-status).
@@ -960,6 +964,8 @@ This endpoint requires the **"General"** permission.
 Param | Type | Description
 --------- | ------- | ------- 
 accountId | String | ID of the account 
+direction | String | *[Optional]*  Side: **in** - Receive, **out** - Send
+bizType   | String | *[Optional]*  Business type: **DEPOSIT**, **WITHDRAW**, **TRANSFER**, **SUB_TRANSFER**,**TRADE_EXCHANGE**, **MARGIN_EXCHANGE**, **KUCOIN_BONUS**, etc.
 startAt| long | *[Optional]*  Start time (milisecond)
 endAt| long | *[Optional]* End time (milisecond)
 

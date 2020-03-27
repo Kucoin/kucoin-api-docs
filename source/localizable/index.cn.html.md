@@ -30,6 +30,10 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 为了您能获取到最新的API 变更的通知，请在 [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs)添加关注【Watch】
 
+**03/27/20**: 
+
+- 添加 [账户流水记录](#c8122540e1) 添加 **bizType** 和 **direction** 请求参数
+
 **03/11/20**: 
 
 - 新增 [服务状态](#fb99032698)
@@ -941,8 +945,10 @@ GET /api/v1/accounts/5bd6e9286d99522a52e458de/ledgers
 请求参数 | 类型 | 含义
 --------- | ------- | ------- 
 accountId | String | 路径参数，[账户ID](#f0f7ae469d)
-startAt| long | [可选] 开始时间（毫秒）
-endAt| long | [可选]  截止时间（毫秒） 
+direction | String | [可选] 出入账方向: **in** -入账, **out** -出账
+bizType   | String | [可选] 业务类型: **DEPOSIT** -充值, **WITHDRAW** -提现, **TRANSFER** -转账, **SUB_TRANSFER** -子账户转账,**TRADE_EXCHANGE** -交易, **MARGIN_EXCHANGE** -杠杆交易, **KUCOIN_BONUS** -鼓励金等
+startAt   | long   | [可选] 开始时间（毫秒）
+endAt     | long   | [可选] 截止时间（毫秒） 
 
 
 ### 返回值
@@ -953,7 +959,7 @@ amount | 资金变动值
 fee | 充值或提现费率
 balance | 变动后的资金总额
 bizType | 业务类型，比如交易，提现，推荐关系奖，借贷等
-direction | 出入账 **out** 或 **in**
+direction | 出入账方向 **out** 或 **in**
 createdAt | 创建时间
 context | 业务核心参数
 
