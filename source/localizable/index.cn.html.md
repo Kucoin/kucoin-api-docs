@@ -30,6 +30,13 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 为了您能获取到最新的API 变更的通知，请在 [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs)添加关注【Watch】
 
+**04/09/20**: 
+
+- 添加 [账户列表](#f0f7ae469d) 添加类型**pool** ，支持矿池账户查询
+- 添加 [内部资金划转](#c08ac949fb) 类型**pool**，支持矿池账户划转
+- 添加 [账户可划转资金](#766919e88c) 类型**pool**，获取矿池账户的可划转的资金
+- 弃用 [账户流水记录](#c8122540e1) 返回值中的 **balance** 字段且展示为0
+
 **03/27/20**: 
 
 - 添加 [账户流水记录](#c8122540e1) 添加 **bizType** 和 **direction** 请求参数
@@ -58,7 +65,7 @@ API分为两部分：**REST API和Websocket 实时数据流**
 **10/20/19**: 
 
 - 废弃 [内部资金划转](#c08ac949fb) 中'/api/v1/accounts/inner-transfer'接口
-- 添加 [账户列表](#f0f7ae469d) 添加类型**margin** ，支持杠杆账户查询
+- 添加 [账户列表](#f0f7ae469d) 添加类型**margin**，支持杠杆账户查询
 - 添加 [单个账户详情](#7f8d035c7d) 支持杠杆账户查询
 - 添加 [创建账户](#9ec360d41d) 添加类型**margin**，支持杠杆账户创建
 - 添加 [账户流水记录](#c8122540e1) 增加杠杆业务类型
@@ -819,14 +826,14 @@ GET /api/v1/accounts
 请求参数 | 类型 | 含义
 --------- | -------| ------- 
 currency | String | [可选] [币种](#ebcc9fbb02)
-type | String |[可选] 账户类型 **main**、**trade**或**margin**
+type | String |[可选] 账户类型 **main**、**trade**、**margin**或**pool**
 
 ### 返回值
 字段 | 含义
 --------- | ------- 
 id | accountId 账户ID 
 currency | 账户对应的币种
-type |账户类型 ，**main**（储蓄账户）、**trade**（交易账户）、**margin**(杠杆账户)
+type |账户类型 ，**main**（储蓄账户）、**trade**（交易账户）、**margin**(杠杆账户)、**pool**(矿池账户)
 balance | 账户资金总额 
 available | 账户可用的资金 
 holds | 账户冻结的资金
@@ -902,7 +909,7 @@ available | 可用资金
 			"currency": "KCS", //币种
 			"amount": "0.0998", //资金变动值
 			"fee": "0", //充值或提现费率
-			"balance": "1994.040596", //变动后的资金总额
+			"balance": "0", //金额变动
 			"bizType": "withdraw", //业务类型
 			"direction": "in", // 出入账方向入账或出账（in or out）
 			"createdAt": 1540296039000, // 创建时间
@@ -915,7 +922,7 @@ available | 可用资金
 			"currency": "KCS",
 			"amount": "0.0998",
 			"fee": "0",
-			"balance": "1994.140396",
+			"balance": "0",
 			"bizType": "trade exchange",
 			"direction": "in",
 			"createdAt": 1540296039000,
@@ -946,7 +953,7 @@ GET /api/v1/accounts/5bd6e9286d99522a52e458de/ledgers
 --------- | ------- | ------- 
 accountId | String | 路径参数，[账户ID](#f0f7ae469d)
 direction | String | [可选] 出入账方向: **in** -入账, **out** -出账
-bizType   | String | [可选] 业务类型: **DEPOSIT** -充值, **WITHDRAW** -提现, **TRANSFER** -转账, **SUB_TRANSFER** -子账户转账,**TRADE_EXCHANGE** -交易, **MARGIN_EXCHANGE** -杠杆交易, **KUCOIN_BONUS** -鼓励金等
+bizType   | String | [可选] 业务类型: **DEPOSIT** -充值, **WITHDRAW** -提现, **TRANSFER** -转账, **SUB_TRANSFER** -子账户转账,**TRADE_EXCHANGE** -交易, **MARGIN_EXCHANGE** -杠杆交易, **KUCOIN_BONUS** -鼓励金
 startAt   | long   | [可选] 开始时间（毫秒）
 endAt     | long   | [可选] 截止时间（毫秒） 
 
@@ -1206,7 +1213,7 @@ GET /api/v1/accounts/transferable?currency=BTC&type=MAIN
 请求参数 | 类型 | 含义
 --------- | ------- |  ------- 
 currency | String | [币种](#ebcc9fbb02)
-type | String |  账户类型**MAIN**、**TRADE** 或 **MARGIN**
+type | String |  账户类型**MAIN**、**TRADE**、**MARGIN** 或 **POOL**
 
 
 ### 返回值
@@ -1296,7 +1303,7 @@ orderId | 子母账号转账的订单ID
     "orderId": "5bd6e9286d99522a52e458de"
 }
 ```
-此接口用于平台内部账户资金划转，用户可以将资金在储蓄账户、交易账户和杠杆账户之间免费划转。
+此接口用于平台内部账户资金划转，用户可以将资金在储蓄账户、交易账户和杠杆账户之间免费划转，支持储蓄账户和矿池账户之间划转。
 
 ### HTTP请求
 
@@ -1313,8 +1320,8 @@ POST /api/v2/accounts/inner-transfer
 --------- | ------- |  ------- 
 clientOid | String | Client Order Id，客户端创建的唯一标识，建议使用UUID
 currency | String | [币种](#ebcc9fbb02)
-from | String |  付款账户类型**main**、**trade** 或 **margin**
-to | String |  收款账户类型**main**、**trade** 或 **margin**
+from | String |  付款账户类型**main**、**trade**、**margin** 或 **pool**
+to | String |  收款账户类型**main**、**trade**、**margin** 或 **pool**
 amount | String | 转账金额，精度为[币种精度](#ebcc9fbb02)正整数倍
 
 
