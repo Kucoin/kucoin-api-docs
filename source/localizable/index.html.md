@@ -28,6 +28,13 @@ The WebSocket contains two sections: Public Channels and Private Channels
 
 To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
+**04/09/20**: 
+
+- Add the **pool** type for [List Accounts](#list-accounts). 
+- Add the **pool** type for [Inner Transfer](#inner-transfer). 
+- Add the **POOL** type for [Get the Transferable](#get-the-transferable).
+- Deprecate the **balance** field for [Get Account Ledgers](#get-account-ledgers) and set **balance** 0 by default.
+
 **03/27/20**: 
 
 - Add the request parameters: **bizType** and **direction** for [Get Account Ledgers](#get-account-ledgers)
@@ -825,14 +832,14 @@ This endpoint requires the **"General"** permission.
 Param | Type | Description
 --------- | ------- | ------- 
 currency | String | *[Optional]* [Currency](#get-currencies) 
-type | String | *[Optional]* Account type: **main**, **trade** or **margin**  
+type | String | *[Optional]* Account type: **main**, **trade**, **margin** or **pool** 
 
 ### RESPONSES
 Field | Description
 --------- | ------- 
 id | The ID of the account 
 currency | Currency
-type | Account type: **main**, **trade** or **margin**
+type | Account type: **main**, **trade**, **margin** or **pool**  
 balance | Total funds in the account 
 available | Funds available to withdraw or trade 
 holds | Funds on hold (not available for use) 
@@ -907,7 +914,7 @@ Items are paginated and sorted to show the latest first. See the [Pagination](#p
 			"currency": "KCS",  //Currency
 			"amount": "0.0998", //Change amount of the funds
 			"fee": "0",  //Deposit or withdrawal fee
-			"balance": "1994.040596",  //Total assets of a currency
+			"balance": "0",  //Total assets of a currency
 			"bizType": "Withdraw",  //business type
 			"direction": "in",     //side, in or out 
 			"createdAt": 1540296039000,  //Creation time
@@ -920,7 +927,7 @@ Items are paginated and sorted to show the latest first. See the [Pagination](#p
 			"currency": "KCS",
 			"amount": "0.0998",
 			"fee": "0",
-			"balance": "1994.140396",
+			"balance": "0",
 			"bizType": "Deposit",
 			"direction": "in",
 			"createdAt": 1540296039000,
@@ -933,7 +940,7 @@ Items are paginated and sorted to show the latest first. See the [Pagination](#p
 			"currency": "KCS",
 			"amount": "0.0998",
 			"fee": "0",
-			"balance": "1994.140396",
+			"balance": "0",
 			"bizType": "trade exchange",
 			"direction": "in",
 			"createdAt": 1540296039000,
@@ -965,7 +972,7 @@ Param | Type | Description
 --------- | ------- | ------- 
 accountId | String | ID of the account 
 direction | String | *[Optional]*  Side: **in** - Receive, **out** - Send
-bizType   | String | *[Optional]*  Business type: **DEPOSIT**, **WITHDRAW**, **TRANSFER**, **SUB_TRANSFER**,**TRADE_EXCHANGE**, **MARGIN_EXCHANGE**, **KUCOIN_BONUS**, etc.
+bizType   | String | *[Optional]*  Business type: **DEPOSIT**, **WITHDRAW**, **TRANSFER**, **SUB_TRANSFER**,**TRADE_EXCHANGE**, **MARGIN_EXCHANGE**, **KUCOIN_BONUS**.
 startAt| long | *[Optional]*  Start time (milisecond)
 endAt| long | *[Optional]* End time (milisecond)
 
@@ -1220,7 +1227,7 @@ This endpoint requires the **"General"** permission.
 Param | Type | Description
 --------- | ------- | ------- 
 currency | String | [currency](#Get-Currencies)
-type | String | The account type: **MAIN**, **TRADE** or **MARGIN**
+type | String | The account type: **MAIN**, **TRADE**, **MARGIN** or **POOL**
 
 
 ### RESPONSES
@@ -1322,6 +1329,7 @@ orderId | The order ID of a master-sub assets transfer.
 ```
 
 The inner transfer interface is used for transferring assets between the accounts of a user and is free of charges. For example, a user could transfer assets from their main account to their trading account on the platform. 
+Support transfer between main account and pool account.
 
 ### HTTP REQUEST
 
@@ -1339,8 +1347,8 @@ Param | Type | Description
 --------- | ------- | ------- 
 clientOid | String | Unique order id created by users to identify their orders, e.g. UUID.
 currency | String | [currency](#Get-Currencies)
-from | String | Account type of payer: **main**, **trade** or **margin** 
-to | String | Account type of payee: **main**, **trade** or **margin** 
+from | String | Account type of payer: **main**, **trade**, **margin** or **pool** 
+to | String | Account type of payee: **main**, **trade**, **margin** or **pool** 
 amount | String | Transfer amount, the amount is a positive integer multiple of the [currency precision](#get-currencies).
 
 
