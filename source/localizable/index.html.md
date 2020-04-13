@@ -3664,8 +3664,7 @@ GET /api/v1/margin/account
 
 ### API KEY PERMISSIONS
 
-This endpoint requires the **"Trade"** permission.
-
+This endpoint requires the **"General"** permission.
 
 ### RESPONSES
 
@@ -5498,7 +5497,25 @@ Topic: **/account/balance**
 
 You will receive this message when an account balance changes. The message contains the details of the change.
 
-<aside class="notice">You can monitor assets change through accountId.</aside>
+
+### Relation Event
+
+| Type    | Description |
+|---------| ----------- | 
+main.deposit | Deposit 
+main.withdraw_hold | Hold withdrawal amount 
+main.withdraw_done | Withdrawal done
+main.transfer | Transfer (Main account)
+main.other | Other operations (Main account)
+trade.hold | Hold (Trade account)
+trade.setted | Settlement (Trade account)
+trade.transfer | Transfer (Trade account)
+trade.other | Other operations (Trade account)
+margin.hold | Hold (Margin account)
+margin.setted | Settlement (Margin account)
+margin.transfer |Transfer (Margin account)
+margin.other | Other operations (Margin account)
+other | Others
 
 <aside class="spacer4"></aside>
 <aside class="spacer2"></aside>
