@@ -3603,7 +3603,7 @@ GET /api/v1/margin/account
 
 ### API权限
 
-该接口需要**交易权限**。
+该接口需要**通用权限**。
 
 
 ### 返回值
@@ -5475,7 +5475,24 @@ Topic: **/account/balance**
 
 当您的账户余额变更时，您会收到详细的账户变更信息。
 
-<aside class="notice">您可以通过accountId监控您的资产变更</aside>
+### Relation Event
+
+类型 | 描述
+--------- | ------- 
+main.deposit | 充值入账
+main.withdraw_hold | 提现冻结
+main.withdraw_done | 提现完成
+main.transfer | 储蓄账户转账
+main.other | 储蓄账户其他操作
+trade.hold | 交易账户冻结
+trade.setted | 交易账户入账
+trade.transfer | 交易账户转账
+trade.other | 交易账户其他操作
+margin.hold | 杠杆账户冻结
+margin.setted | 杠杆账户入账
+margin.transfer | 杠杆账户转账
+margin.other | 杠杆账户其他操作
+other | 其他操作
 
 <aside class="spacer4"></aside>
 <aside class="spacer2"></aside>
