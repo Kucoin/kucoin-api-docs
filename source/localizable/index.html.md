@@ -28,6 +28,13 @@ The WebSocket contains two sections: Public Channels and Private Channels
 
 To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
+
+**04/15/20**: 
+
+- Add WebSocket add **channelType** field: **public** (public channel)、**private** (private channel).
+- Deprecate **（{topic}:privateChannel:{userId}）** and **userId** of private message **after 3 months**.
+
+
 **04/09/20**: 
 
 - Add the **pool** type for [List Accounts](#list-accounts). 
@@ -339,7 +346,7 @@ REST API:
 
 ## Request Rate Limit
 
-When a rate limit is exceeded, a status of **429 Too Many Requests** will be returned.
+When a rate limit is exceeded, a status of **403 Too Many Requests** will be returned.
 If the rate limit is exceeded multiple times, the system will restrict your use of your IP and account for at least 1 minute. Your remaining request times will be returned in the results.
 
 ###REST API
@@ -504,11 +511,10 @@ Code | Meaning
 ---------- | -------
 400 | Bad Request -- Invalid request format.
 401 | Unauthorized -- Invalid API Key.
-403 | Forbidden -- The request is forbidden.
+403 | Forbidden or Too Many Requests -- The request is forbidden or Access limit breached.
 404 | Not Found -- The specified resource could not be found.
 405 | Method Not Allowed -- You tried to access the resource with an invalid method.
 415 | Unsupported Media Type. You need to use: application/json.
-429 | Too Many Requests -- Access limit breached.
 500 | Internal Server Error -- We had a problem with our server. Try again later.
 503 | Service Unavailable -- We're temporarily offline for maintenance. Please try again later.
 
@@ -4734,7 +4740,8 @@ Topic: **/market/ticker:{symbol},{symbol}...**
     "price":"0.08",  // Last traded price
     "bestAskSize":"0.18",  // Best ask size
     "bestBid":"0.049" // Best bid price
-  }
+  },
+  "channelType":"public"
 }
 ```
 Subscribe to this topic to get the realtime push of BBO changes.
@@ -4775,7 +4782,8 @@ Topic: **/market/ticker:all**
     "price":"0.08",
     "bestAskSize":"0.18",
     "bestBid":"0.049"
-  }
+  },
+  "channelType":"public"
 }
 ```
 Subscribe to this topic to get the real time push of all market symbols BBO change.
@@ -4816,7 +4824,8 @@ Subscribe to this topic to get the real time push of all market symbols BBO chan
 	},
 	"subject": "trade.snapshot",
 	"topic": "/market/snapshot:KCS-BTC",
-	"type": "message"
+  "type": "message",
+  "channelType":"public"
 }
 ```
 
@@ -4860,7 +4869,8 @@ The snapshot data is pushed at **2 seconds** intervals.
 	},
 	"subject": "trade.snapshot",
 	"topic": "/market/snapshot:BTC",
-	"type": "message"
+  "type": "message",
+  "channelType":"public"
 }
 ```
 
@@ -4905,7 +4915,8 @@ When the websocket subscription is successful,  the system would send the increm
       "asks":[["6","1","1545896669105"]],           //price, size, sequence
       "bids":[["4","1","1545896669106"]]
     }
-  }
+  },
+  "channelType":"public"
 }
 ```
 
@@ -5040,7 +5051,8 @@ For each order traded, the system would send you the match messages in the follo
     "type":"match",
     "makerOrderId":"5c2187d003aa677bd09d5c93",
     "tradeId":"5c24c5da03aa673885cd67aa"
-  }
+  },
+  "channelType":"public"
 }
 ```
 <aside class="spacer8"></aside>
@@ -5101,7 +5113,8 @@ The following messages(**RECEIVED, OPEN, UPDATE, MATCH, DONE**) are sent over th
 		"clientOid": "",   //unique order id is selected by you to identify your order, e.g. UUID
 		"type": "received",  //L3 messege type. If it is a received message, the update is ended.		
 		"orderType": "limit" // order type,e.g. limit,market,stop_limit
-	}
+  },
+  "channelType":"public"
 }
 ```
 
@@ -5119,7 +5132,8 @@ The following messages(**RECEIVED, OPEN, UPDATE, MATCH, DONE**) are sent over th
 		"clientOid": "",
 		"type": "received",
 		"orderType": "market"
-	}
+  },
+  "channelType":"public"
 }
 ```
 
@@ -5152,7 +5166,8 @@ The received message does not indicate a resting order on the orderbook. It simp
     "price":"6.00000000000000000000",
     "time":"1545914149935808632", //timestamp, timestamps is nanosecond
     "type":"open"  //L3 messege type. If it is an open message, add the corresponding buy or sell order built by orderid, price and size
-  }
+  },
+  "channelType":"public"
 }
 ```
 
@@ -5182,7 +5197,8 @@ When the matching life cycle of an order ends, the order will no longer be displ
     "orderId":"5c24c96103aa6772d55b380b",
     "time":"1545914730696727106",
     "type":"done"
-  }
+  },
+  "channelType":"public"
 }
 ```
 
@@ -5200,7 +5216,8 @@ When the matching life cycle of an order ends, the order will no longer be displ
     "time":"1545914730696797106",  //timestamp, timestamps is nanosecond
     "type":"done", //L3 messege type. If it is a done message, remove the buy or sell order corresponding to the orderid
     "size": "1.12340000000000000000"  //order quantity
-  }
+  },
+  "channelType":"public"
 }
 ```
 
@@ -5229,7 +5246,8 @@ market orders will not have a remaining_size or price field as they are never on
     "type":"match",  //L3 messege type. If it is a match message, reduce the number of order corresponding to the markerOrderId
     "makerOrderId":"5c20492a03aa677bd099ce9d",  //Provide liquidity user order id
     "tradeId":"5c24ca3503aa673885cd67ef"  //match_id，a match to generate two orderids when orders were matched
-  }
+  },
+  "channelType":"public"
 }
 ```
 When two orders become matched, the system will send a match message to user.
@@ -5258,7 +5276,8 @@ The match message indicates that a trade occurred between two orders. The aggres
     "time":"1545915145402532254",  //timestamp, timestamps is nanosecond
     "type":"change",  //L3 messege type. If it is a change message, modify the number of buy or sell order corresponding to the orderid
     "oldSize":"0.18622222000000000000"  //order quantity before update
-  }
+  },
+  "channelType":"public"
 }
 ```
 
@@ -5330,7 +5349,8 @@ Subscribe to this topic to get the index price for the margin trading.
     "granularity": 5000,
     "timestamp": 1551770400000,
     "value": 0.0001092
-  }
+  },
+  "channelType":"private"
 }
 ```
 
@@ -5365,7 +5385,8 @@ Subscribe to this topic to get the mark price for margin trading.
     "granularity": 5000,
     "timestamp": 1551770400000,
     "value": 0.0001093
-  }
+  },
+  "channelType":"private"
 }
 ```
 The following ticker symbols are supported: USDT-BTC, ETH-BTC, LTC-BTC, EOS-BTC, XRP-BTC, KCS-BTC
@@ -5406,7 +5427,8 @@ Subscribe to this topic to get the order book changes on margin trade.
 		"side": "lend",            //Lend or borrow. Currently, only "Lend" is available
 		"ts": 1553846081210004941  //Timestamp (nanosecond)
 
-	}
+  },
+  "channelType":"private"
 }
 ```
 
@@ -5435,7 +5457,8 @@ Subscribe to private channels require **privateChannel=“true”**.
     "funds":"1.00000000000000000000",
     "time":"1545743136994328401",
     "type":"stop"
-  }
+  },
+  "channelType":"private"
 }
 ```
 Topic: **/market/level3:{symbol},{symbol}...**
@@ -5462,7 +5485,8 @@ When a stop-limit order is received by the system, you will receive a stop messa
     "reason":"canceled",         //include canceled or triggered
     "time":"1545743136994328401",
     "type":"activate"
-  }
+  },
+  "channelType":"private"
 }
 ```
 Topic: **/market/level3:{symbol},{symbol}...**
@@ -5489,7 +5513,8 @@ When a stop-limit order is triggered, you will receive an activate message which
 		"relationEventId": "5c21e80303aa677bd09d7dff",
 		"time": "1545743136994",
 		"accountId": "5bd6e9286d99522a52e458de"
-	}
+  },
+  "channelType":"private"
 }
 
 ```
@@ -5534,6 +5559,8 @@ other | Others
         "totalDebt": "21.7505",                                      //Total debt in BTC (interest included)
         "debtList": {"BTC": "1.21","USDT": "2121.2121","EOS": "0"},  //Debt list (interest included)
         "timestamp": 15538460812100                                  //Timestamp (millisecond)
+  },
+  "channelType":"private"
 }
 
 
@@ -5602,7 +5629,8 @@ UNLIABILITY: When all the liabilities is repaid and the position returns to “E
     "size": 1,                                    //Size
     "side": "lend",                               //Lend or borrow. Currently, only "Lend" is available
     "ts": 1553846081210004941                     //Timestamp (nanosecond)
-  }
+  },
+  "channelType":"private"
 }
 ```
 
@@ -5632,7 +5660,8 @@ The system will push this message to the lenders when the order enters the order
     "lentSize": 0.5,                              //Size executed
     "side": "lend",                               //Lend or borrow. Currently, only "Lend" is available
     "ts": 1553846081210004941                     //Timestamp (nanosecond)
-  }
+  },
+  "channelType":"private"
 }
 
 ```
@@ -5659,7 +5688,8 @@ The system will push this message to the lenders when the order is executed.
 		"reason": "filled",                           //Done reason (filled or canceled)
 		"side": "lend",                               //Lend or borrow. Currently, only "Lend" is available
 		"ts": 1553846081210004941                     //Timestamp (nanosecond)
-	}
+  },
+  "channelType":"private"
 }
 ```
 
