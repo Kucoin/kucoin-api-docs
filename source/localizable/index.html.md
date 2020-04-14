@@ -31,7 +31,7 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 
 **04/15/20**: 
 
-- Add WebSocket add **channelType** field: **public** (public channel)、**private** (private channel).
+- Add **channelType** field: **public** (public channel)、**private** (private channel) for WebSocket.
 - Deprecate **（{topic}:privateChannel:{userId}）** and **userId** of private message **after 3 months**.
 
 
