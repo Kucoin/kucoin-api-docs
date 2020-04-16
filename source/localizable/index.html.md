@@ -28,6 +28,8 @@ The WebSocket contains two sections: Public Channels and Private Channels
 
 To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
+
+
 **04/09/20**: 
 
 - Add the **pool** type for [List Accounts](#list-accounts). 
@@ -5404,7 +5406,6 @@ Subscribe to this topic to get the order book changes on margin trade.
 		"size": "1017.5",            //Current total size. When this value is 0, remove this record from the order book.
 		"side": "lend",            //Lend or borrow. Currently, only "Lend" is available
 		"ts": 1553846081210004941  //Timestamp (nanosecond)
-
   }
 }
 ```

@@ -5093,6 +5093,7 @@ Topic: **/market/level3:{symbol},{symbol}...**
 		"type": "received",
 		"orderType": "market"
   }
+  
 }
 ```
 当撮合引擎接收到订单指令时，系统将向用户发送确认消息，type为**received**。
@@ -5389,6 +5390,7 @@ Topic: **/margin/fundingBook:{currency0},{currency1}...**
 		"side": "lend",            //委托方向，目前只支持借出。lend - 借出；borrow - 借入
 		"ts": 1553846081210004941  //时间戳(纳秒)
   }
+
 }
 ```
 
