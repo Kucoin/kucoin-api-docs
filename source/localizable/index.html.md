@@ -339,7 +339,7 @@ REST API:
 
 ## Request Rate Limit
 
-When a rate limit is exceeded, a status of **429 Too Many Requests** will be returned.
+When a rate limit is exceeded, a status of **403 Too Many Requests** will be returned.
 If the rate limit is exceeded multiple times, the system will restrict your use of your IP and account for at least 1 minute. Your remaining request times will be returned in the results.
 
 ###REST API
@@ -504,11 +504,10 @@ Code | Meaning
 ---------- | -------
 400 | Bad Request -- Invalid request format.
 401 | Unauthorized -- Invalid API Key.
-403 | Forbidden -- The request is forbidden.
+403 | Forbidden or Too Many Requests -- The request is forbidden or Access limit breached.
 404 | Not Found -- The specified resource could not be found.
 405 | Method Not Allowed -- You tried to access the resource with an invalid method.
 415 | Unsupported Media Type. You need to use: application/json.
-429 | Too Many Requests -- Access limit breached.
 500 | Internal Server Error -- We had a problem with our server. Try again later.
 503 | Service Unavailable -- We're temporarily offline for maintenance. Please try again later.
 
@@ -3664,8 +3663,7 @@ GET /api/v1/margin/account
 
 ### API KEY PERMISSIONS
 
-This endpoint requires the **"Trade"** permission.
-
+This endpoint requires the **"General"** permission.
 
 ### RESPONSES
 
@@ -4817,7 +4815,7 @@ Subscribe to this topic to get the real time push of all market symbols BBO chan
 	},
 	"subject": "trade.snapshot",
 	"topic": "/market/snapshot:KCS-BTC",
-	"type": "message"
+  "type": "message"
 }
 ```
 
@@ -4861,7 +4859,7 @@ The snapshot data is pushed at **2 seconds** intervals.
 	},
 	"subject": "trade.snapshot",
 	"topic": "/market/snapshot:BTC",
-	"type": "message"
+  "type": "message"
 }
 ```
 
@@ -5102,7 +5100,7 @@ The following messages(**RECEIVED, OPEN, UPDATE, MATCH, DONE**) are sent over th
 		"clientOid": "",   //unique order id is selected by you to identify your order, e.g. UUID
 		"type": "received",  //L3 messege type. If it is a received message, the update is ended.		
 		"orderType": "limit" // order type,e.g. limit,market,stop_limit
-	}
+  }
 }
 ```
 
@@ -5120,7 +5118,7 @@ The following messages(**RECEIVED, OPEN, UPDATE, MATCH, DONE**) are sent over th
 		"clientOid": "",
 		"type": "received",
 		"orderType": "market"
-	}
+  }
 }
 ```
 
@@ -5407,7 +5405,7 @@ Subscribe to this topic to get the order book changes on margin trade.
 		"side": "lend",            //Lend or borrow. Currently, only "Lend" is available
 		"ts": 1553846081210004941  //Timestamp (nanosecond)
 
-	}
+  }
 }
 ```
 
@@ -5490,7 +5488,7 @@ When a stop-limit order is triggered, you will receive an activate message which
 		"relationEventId": "5c21e80303aa677bd09d7dff",
 		"time": "1545743136994",
 		"accountId": "5bd6e9286d99522a52e458de"
-	}
+  }
 }
 
 ```
@@ -5498,7 +5496,25 @@ Topic: **/account/balance**
 
 You will receive this message when an account balance changes. The message contains the details of the change.
 
-<aside class="notice">You can monitor assets change through accountId.</aside>
+
+### Relation Event
+
+| Type    | Description |
+|---------| ----------- | 
+main.deposit | Deposit 
+main.withdraw_hold | Hold withdrawal amount 
+main.withdraw_done | Withdrawal done
+main.transfer | Transfer (Main account)
+main.other | Other operations (Main account)
+trade.hold | Hold (Trade account)
+trade.setted | Settlement (Trade account)
+trade.transfer | Transfer (Trade account)
+trade.other | Other operations (Trade account)
+margin.hold | Hold (Margin account)
+margin.setted | Settlement (Margin account)
+margin.transfer |Transfer (Margin account)
+margin.other | Other operations (Margin account)
+other | Others
 
 <aside class="spacer4"></aside>
 <aside class="spacer2"></aside>
@@ -5517,6 +5533,7 @@ You will receive this message when an account balance changes. The message conta
         "totalDebt": "21.7505",                                      //Total debt in BTC (interest included)
         "debtList": {"BTC": "1.21","USDT": "2121.2121","EOS": "0"},  //Debt list (interest included)
         "timestamp": 15538460812100                                  //Timestamp (millisecond)
+  }
 }
 
 
@@ -5642,7 +5659,7 @@ The system will push this message to the lenders when the order is executed.
 		"reason": "filled",                           //Done reason (filled or canceled)
 		"side": "lend",                               //Lend or borrow. Currently, only "Lend" is available
 		"ts": 1553846081210004941                     //Timestamp (nanosecond)
-	}
+  }
 }
 ```
 

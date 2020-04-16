@@ -26,7 +26,7 @@ API分为两部分：**REST API和Websocket 实时数据流**
  -  REST API包含四个类别：**[用户模块](#b6935b918b)（私有），[交易模块](#484936af01)（私有），[市场数据](#841ec28ecd)（公共），[杠杆交易](#540fbda255)，[其他接口](#cd67660573)（公共）**
  -  Websocket包含两类：**公共频道和私人频道**
 
-## 最近更新
+## 更新预告
 
 为了您能获取到最新的API 变更的通知，请在 [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs)添加关注【Watch】
 
@@ -333,7 +333,7 @@ REST&nbsp;API 连接地址:
 
 ## 请求频率限制
 
-当请求频率超过限制频率时，系统将返回 **429 Too Many Request** 提示。如果请求次数多次超过频率限制，你的IP或账户会被限制使用，限制时间至少1分钟。请求返回中包含当前类型的剩余请求次数。
+当请求频率超过限制频率时，系统将返回 **403 Too Many Request** 提示。如果请求次数多次超过频率限制，你的IP或账户会被限制使用，限制时间至少1分钟。请求返回中包含当前类型的剩余请求次数。
 
 
 ###REST API
@@ -488,11 +488,10 @@ REST API 对于账户、订单、和市场数据均提供了接口。
 | --- | ------------------------------------------------------------------ |
 | 400 | Bad Request -- 无效的请求格式                                             |
 | 401 | Unauthorized -- 无效的API-KEY                                         |
-| 403 | Forbidden -- 请求被禁止                                                 |
+| 403 | Forbidden 或 Too Many Requests -- 请求被禁止 或 超过[请求频率限制](#26435b04cf)     |
 | 404 | Not Found -- 找不到指定资源                                               |
 | 405 | Method Not Allowed -- 您请求资源的方法不正确                                  |
 | 415 | Content-Type: application/json -- [请求类型](#请求)必须为application/json类型 |
-| 429 | Too Many Requests -- 超过[请求频率限制](#26435b04cf)                       |
 | 500 | Internal Server Error -- 服务器出错，请稍后再试                               |
 | 503 | Service Unavailable -- 服务器维护中，请稍后再试                                |
 
@@ -3603,7 +3602,7 @@ GET /api/v1/margin/account
 
 ### API权限
 
-该接口需要**交易权限**。
+该接口需要**通用权限**。
 
 
 ### 返回值
@@ -4781,7 +4780,7 @@ Topic: **/market/ticker:all**
 	},
 	"subject": "trade.snapshot",
 	"topic": "/market/snapshot:KCS-BTC",
-	"type": "message"
+  "type": "message"
 }
 ```
 
@@ -4824,7 +4823,7 @@ Topic: **/market/snapshot:{symbol}**
 	},
 	"subject": "trade.snapshot",
 	"topic": "/market/snapshot:BTC",
-	"type": "message"
+  "type": "message"
 }
 ```
 
@@ -5075,7 +5074,7 @@ Topic: **/market/level3:{symbol},{symbol}...**
 		"clientOid": "",   //客户端生成的唯一订单标识 e.g. UUID
 		"type": "received",  //L3 消息类型	
 		"orderType": "limit" // 订单类型 limit,market,stop_limit
-	}
+  }
 }
 ```
 
@@ -5093,7 +5092,7 @@ Topic: **/market/level3:{symbol},{symbol}...**
 		"clientOid": "",
 		"type": "received",
 		"orderType": "market"
-	}
+  }
 }
 ```
 当撮合引擎接收到订单指令时，系统将向用户发送确认消息，type为**received**。
@@ -5389,7 +5388,7 @@ Topic: **/margin/fundingBook:{currency0},{currency1}...**
 		"size": "1017.5",            //当前总数量，当为0时，从funding-book中删除
 		"side": "lend",            //委托方向，目前只支持借出。lend - 借出；borrow - 借入
 		"ts": 1553846081210004941  //时间戳(纳秒)
-	}
+  }
 }
 ```
 
@@ -5475,7 +5474,24 @@ Topic: **/account/balance**
 
 当您的账户余额变更时，您会收到详细的账户变更信息。
 
-<aside class="notice">您可以通过accountId监控您的资产变更</aside>
+### Relation Event
+
+类型 | 描述
+--------- | ------- 
+main.deposit | 充值入账
+main.withdraw_hold | 提现冻结
+main.withdraw_done | 提现完成
+main.transfer | 储蓄账户转账
+main.other | 储蓄账户其他操作
+trade.hold | 交易账户冻结
+trade.setted | 交易账户入账
+trade.transfer | 交易账户转账
+trade.other | 交易账户其他操作
+margin.hold | 杠杆账户冻结
+margin.setted | 杠杆账户入账
+margin.transfer | 杠杆账户转账
+margin.other | 杠杆账户其他操作
+other | 其他操作
 
 <aside class="spacer4"></aside>
 <aside class="spacer2"></aside>
@@ -5614,7 +5630,7 @@ Topic: **/margin/loan:{currency}**
 		"reason": "filled",                           //订单完成原因, 有filled(撮合完成)和canceled(取消)
 		"side": "lend",                               //委托方向，目前只支持借出。lend - 借出；borrow - 借入
 		"ts": 1553846081210004941                     //时间戳(纳秒)
-	}
+  }
 }
 ```
 
