@@ -30,11 +30,6 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 为了您能获取到最新的API 变更的通知，请在 [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs)添加关注【Watch】
 
-**04/15/20**: 
-
-- 添加 WebSocket推送的消息增加channelType字段: **public**（公共频道，默认）**private** (用户私有频道);
-- 弃用 **三个月后**移除私有频道topic中的（{topic}:privateChannel:{userId}）和 私有消息中的userId;
-
 **04/09/20**: 
 
 - 添加 [账户列表](#f0f7ae469d) 添加类型**pool** ，支持矿池账户查询
@@ -4705,8 +4700,7 @@ Topic: **/market/ticker:{symbol},{symbol}...**
     "price":"0.08",             // 最近成交价格
     "bestAskSize":"0.18",       // 最佳卖一数量
     "bestBid":"0.049"           //最佳买一价
-  },
-  "channelType":"public"
+  }
 }
 ```
 订阅此topic可获取指定[交易对](#a17b4e2866)的BBO(最佳买一和卖一)数据的推送。
@@ -4745,8 +4739,7 @@ Topic: **/market/ticker:all**
     "price":"0.08",             // 最近成交价格
     "bestAskSize":"0.18",       // 最佳卖一数量
     "bestBid":"0.049"           //最佳买一价ß
-  },
-  "channelType":"public"
+  }
 }
 ```
 订阅此topic可获取所有的BBO(最佳买一和卖一)数据的推送。
@@ -4787,8 +4780,7 @@ Topic: **/market/ticker:all**
 	},
 	"subject": "trade.snapshot",
 	"topic": "/market/snapshot:KCS-BTC",
-  "type": "message",
-  "channelType":"public"
+  "type": "message"
 }
 ```
 
@@ -4831,8 +4823,7 @@ Topic: **/market/snapshot:{symbol}**
 	},
 	"subject": "trade.snapshot",
 	"topic": "/market/snapshot:BTC",
-  "type": "message",
-  "channelType":"public"
+  "type": "message"
 }
 ```
 
@@ -4875,8 +4866,7 @@ Topic: **/market/level2:{symbol},{symbol}...**
       "asks":[["6","1","1545896669105"]],           //price, size, sequence
       "bids":[["4","1","1545896669106"]]
     }
-  },
-  "channelType":"public"
+  }
 }
 ```
 
@@ -5021,8 +5011,7 @@ Topic: **/market/match:{symbol},{symbol}...**
     "type":"match",
     "makerOrderId":"5c2187d003aa677bd09d5c93",
     "tradeId":"5c24c5da03aa673885cd67aa"
-  },
-  "channelType":"public"
+  }
 }
 ```
 <aside class="spacer8"></aside>
@@ -5085,8 +5074,7 @@ Topic: **/market/level3:{symbol},{symbol}...**
 		"clientOid": "",   //客户端生成的唯一订单标识 e.g. UUID
 		"type": "received",  //L3 消息类型	
 		"orderType": "limit" // 订单类型 limit,market,stop_limit
-  },
-  "channelType":"public"
+  }
 }
 ```
 
@@ -5104,8 +5092,8 @@ Topic: **/market/level3:{symbol},{symbol}...**
 		"clientOid": "",
 		"type": "received",
 		"orderType": "market"
-  },
-  "channelType":"public"
+  }
+  
 }
 ```
 当撮合引擎接收到订单指令时，系统将向用户发送确认消息，type为**received**。
@@ -5140,8 +5128,7 @@ Topic: **/market/level3:{symbol},{symbol}...**
     "price":"6.00000000000000000000",
     "time":"1545914149935808632", //timestamp, 时间戳是纳秒
     "type":"open"  //L3 messege type. 如果是open, 会返回price 和 size
-  },
-  "channelType":"public"
+  }
 }
 ```
 
@@ -5173,8 +5160,7 @@ privateChannel=true，还会返回remaining_size这个字段，指订单中有�
     "orderId":"5c24c96103aa6772d55b380b",
     "time":"1545914730696727106",
     "type":"done"
-  },
-  "channelType":"public"
+  }
 }
 ```
 
@@ -5192,8 +5178,7 @@ privateChannel=true，还会返回remaining_size这个字段，指订单中有�
     "time":"1545914730696797106",  //timestamp, 时间戳是纳秒
     "type":"done", //L3 messege 类型. 
     "size": "1.12340000000000000000"  //order 数量
-  },
-  "channelType":"public"
+  }
 }
 ```
 
@@ -5222,8 +5207,7 @@ privateChannel=true，还会返回remainSize这个字段，指订单中有多少
     "type":"match",  //L3 messege type. 如果是match, 通过makerOrderId减少订单数量
     "makerOrderId":"5c20492a03aa677bd099ce9d",  //深度提供者 order id
     "tradeId":"5c24ca3503aa673885cd67ef"  //match_id，成功撮合后生成的tradeId
-  },
-  "channelType":"public"
+  }
 }
 ```
 当两个订单成功撮合后，系统会推送match信息。
@@ -5256,8 +5240,7 @@ privateChannel=true，还会返回remainSize这个字段，指订单中有多少
     "time":"1545915145402532254",  //timestamp, 时间戳是纳秒
     "type":"change",  //L3 messege type.如果是change消息，通过orderId修改数量
     "oldSize":"0.18622222000000000000"  //变更前的订单量
-  },
-  "channelType":"public"
+  }
 }
 ```
 
@@ -5332,8 +5315,7 @@ Topic: **/indicator/index:{symbol0},{symbol1}...**
     "granularity": 5000,
     "timestamp": 1551770400000,
     "value": 0.0001092
-  },
-  "channelType":"public"
+  }
 }
 ```
 
@@ -5368,8 +5350,7 @@ Topic: **/indicator/markPrice:{symbol0},{symbol1}...**
     "granularity": 5000,
     "timestamp": 1551770400000,
     "value": 0.0001093
-  },
-  "channelType":"public"
+  }
 }
 ```
 
@@ -5408,8 +5389,8 @@ Topic: **/margin/fundingBook:{currency0},{currency1}...**
 		"size": "1017.5",            //当前总数量，当为0时，从funding-book中删除
 		"side": "lend",            //委托方向，目前只支持借出。lend - 借出；borrow - 借入
 		"ts": 1553846081210004941  //时间戳(纳秒)
-  },
-  "channelType":"public"
+  }
+
 }
 ```
 
@@ -5435,8 +5416,7 @@ Topic: **/margin/fundingBook:{currency0},{currency1}...**
     "funds":"1.00000000000000000000",
     "time":"1545743136994328401",
     "type":"stop"
-  },
-  "channelType":"private"
+  }
 }
 ```
 Topic: /market/level3:{symbol},{symbol}...
@@ -5463,8 +5443,7 @@ Topic: /market/level3:{symbol},{symbol}...
     "reason":"canceled",         //include canceled or triggered
     "time":"1545743136994328401",
     "type":"activate"
-  },
-  "channelType":"private"
+  }
 }
 ```
 Topic: /market/level3:{symbol},{symbol}...
@@ -5489,8 +5468,7 @@ Topic: /market/level3:{symbol},{symbol}...
     "relationEvent": "main.deposit",
     "relationEventId": "5c21e80303aa677bd09d7dff",
     "time": "1545743136994"
-  },
-  "channelType":"private"
+  }
 }
 
 ```
@@ -5533,8 +5511,7 @@ other | 其他操作
         "totalDebt": "21.7505",                                      //总负债(转换为BTC的价值)
         "debtList": {"BTC": "1.21","USDT": "2121.2121","EOS": "0"},  //负债列表
         "timestamp": 15538460812100                                  //时间戳(毫秒)
-    },
-  "channelType":"private"  
+    }
 }
 
 
@@ -5559,8 +5536,7 @@ Topic: **/margin/position**
   "data": {
         "type": "FROZEN_FL",         //事件类型
         "timestamp": 15538460812100  //时间戳(毫秒)
-    },
-  "channelType":"private"  
+    }
 }
 ```
 
@@ -5603,8 +5579,7 @@ UNLIABILITY：解除穿仓。归还所有负债后，仓位恢复到EFFECTIVE状
     "size": 1,                                    //借贷数量
     "side": "lend",                               //委托方向，目前只支持借出。lend - 借出；borrow - 借入
     "ts": 1553846081210004941                     //时间戳(纳秒)
-  },
-  "channelType":"private"
+  }
 }
 ```
 
@@ -5632,8 +5607,7 @@ Topic: **/margin/loan:{currency}**
     "lentSize": 0.5,                              //已借出数量
     "side": "lend",                               //委托方向，目前只支持借出。lend - 借出；borrow - 借入
     "ts": 1553846081210004941                     //时间戳(纳秒)
-  },
-  "channelType":"private"
+  }
 }
 
 ```
@@ -5658,8 +5632,7 @@ Topic: **/margin/loan:{currency}**
 		"reason": "filled",                           //订单完成原因, 有filled(撮合完成)和canceled(取消)
 		"side": "lend",                               //委托方向，目前只支持借出。lend - 借出；borrow - 借入
 		"ts": 1553846081210004941                     //时间戳(纳秒)
-  },
-  "channelType":"private"
+  }
 }
 ```
 
