@@ -4742,7 +4742,7 @@ Topic: **/market/ticker:{symbol},{symbol}...**
   }
 }
 ```
-Subscribe to this topic to get the realtime push of BBO changes. If there is no change within **one second**, it will not be pushed.
+Subscribe to this topic to get the push of BBO changes. If there is no change within **one second**, it will not be pushed.
 
 The ticker channel provides price updates whenever a match happens. If multiple orders are matched at the same time, only the last matching event will be pushed.
 
@@ -4783,7 +4783,7 @@ Topic: **/market/ticker:all**
   }
 }
 ```
-Subscribe to this topic to get the real time push of all market symbols BBO change.
+Subscribe to this topic to get the push of all market symbols BBO change.
 
 
 <aside class="spacer2"></aside> 
