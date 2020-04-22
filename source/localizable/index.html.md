@@ -5239,7 +5239,7 @@ market orders will not have a remaining_size or price field as they are never on
 ```
 When two orders become matched, the system will send a match message to user.
 
-The match message indicates that a trade occurred between two orders. The aggressor or taker order is the one executing immediately after being received and the maker order is a resting order on the book. The side field indicates the maker order side. If the side is sell this indicates the taker was a sell order and the match is considered an up-tick. Respectively, a buy side match is a down-tick.
+The match message indicates that a trade occurred between two orders. The aggressor or taker order is the one executing immediately after being received and the maker order is a resting order on the book. The side field indicates the taker order side. 
 
 <aside class="notice">Before entering the orderbook, the iceberg or hidden order is the same as the ordinary order when it is matched as taker(it has a takerOrderId).</aside>
 
