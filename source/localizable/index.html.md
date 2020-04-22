@@ -28,7 +28,11 @@ The WebSocket contains two sections: Public Channels and Private Channels
 
 To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
+**04/22/20**:
 
+- Deprecate [Get Holds](#get-holds) on 10th May 2020.
+- Add the **relationContext** field for [Account Balance Notice](#account-balance-notice).
+- Modify the default chain of USDT into ERC20.
 
 **04/09/20**: 
 
@@ -1386,14 +1390,14 @@ This endpoint requires the **"Transfer"** permission.
 Param | Type | Description
 --------- | ------- | -----------
 currency | String | Currency
-chain | String | *[Optional]* The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is OMNI. This only apply for multi-chain currency, and there is no need for single chain currency.
+chain | String | *[Optional]* The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20. This only apply for multi-chain currency, and there is no need for single chain currency.
 
 ### RESPONSES
 Field | Description
 --------- | ------- | -----------
 address | Deposit address
 memo | Address remark. If there’s no remark, it is empty. When you [withdraw](#apply-withdraw) from other platforms to the KuCoin, you need to fill in memo(tag). If you do not fill memo (tag), your deposit may not be available, please be cautious.
-chain | The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is OMNI. 
+chain | The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20. 
 
 ## Get Deposit Address
 
@@ -1421,14 +1425,14 @@ This endpoint requires the **"General"** permission.
 Param | Type | Description
 --------- | ------- | -----------
 currency | String | Currency 
-chain | String | *[Optional]* The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is OMNI. This only apply for multi-chain currency, and there is no need for single chain currency.
+chain | String | *[Optional]* The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20. This only apply for multi-chain currency, and there is no need for single chain currency.
 
 ### RESPONSES
 Field | Description
 --------- | ------- | -----------
 address | Deposit address
 memo | Address remark. If there’s no remark, it is empty. When you [withdraw](#apply-withdraw) from other platforms to the KuCoin, you need to fill in memo(tag). If you do not fill memo (tag), your deposit may not be available, please be cautious.
-chain | The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is OMNI.
+chain | The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20.
 
 
 ## Get Deposit List
@@ -1723,7 +1727,7 @@ This endpoint requires the **"General"** permission.
 Param | Type | Description
 --------- | ------- | -----------
 currency | String | currency. e.g. BTC
-chain | String | *[Optional]* The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is OMNI. This only apply for multi-chain currency, and there is no need for single chain currency.
+chain | String | *[Optional]* The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20. This only apply for multi-chain currency, and there is no need for single chain currency.
 
 ### RESPONSES
 Field | Description
@@ -1738,7 +1742,7 @@ usedBTCAmount | The estimated BTC amount (based on the daily fiat limit) that ca
 isWithdrawEnabled | Is the withdraw function enabled or not
 withdrawMinFee | Minimum withdrawal fee
 precision | Floating point precision. 
-chain | The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is OMNI.
+chain | The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20.
 
 ## Apply Withdraw
 
@@ -1769,7 +1773,7 @@ amount | number | Withdrawal amount, a positive number which is a multiple of th
 memo   | String | *[Optional]*   Address remark. If there’s no remark, it is empty. When you withdraw from other platforms to the KuCoin, you need to fill in memo(tag). If you do not fill memo (tag), your deposit may not be available, please be cautious.
 isInner | boolean | *[Optional]*  Internal withdrawal or not. Default setup: false
 remark | String | *[Optional]*  Remark
-chain | String | *[Optional]* The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is OMNI. This only apply for multi-chain currency, and there is no need for single chain currency.
+chain | String | *[Optional]* The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20. This only apply for multi-chain currency, and there is no need for single chain currency.
 
 ### RESPONSES
 Field | Description
@@ -4738,9 +4742,9 @@ Topic: **/market/ticker:{symbol},{symbol}...**
   }
 }
 ```
-Subscribe to this topic to get the realtime push of BBO changes.
+Subscribe to this topic to get the realtime push of BBO changes. If there is no change within **one second**, it will not be pushed.
 
-The ticker channel provides real-time price updates whenever a match happens. If multiple orders are matched at the same time, only the last matching event will be pushed.
+The ticker channel provides price updates whenever a match happens. If multiple orders are matched at the same time, only the last matching event will be pushed.
 
 
 Please note that more information maybe added to messages from this channel in the near future.
@@ -5235,7 +5239,7 @@ market orders will not have a remaining_size or price field as they are never on
 ```
 When two orders become matched, the system will send a match message to user.
 
-The match message indicates that a trade occurred between two orders. The aggressor or taker order is the one executing immediately after being received and the maker order is a resting order on the book. The side field indicates the maker order side. If the side is sell this indicates the maker was a sell order and the match is considered an up-tick. Respectively, a buy side match is a down-tick.
+The match message indicates that a trade occurred between two orders. The aggressor or taker order is the one executing immediately after being received and the maker order is a resting order on the book. The side field indicates the maker order side. If the side is sell this indicates the taker was a sell order and the match is considered an up-tick. Respectively, a buy side match is a down-tick.
 
 <aside class="notice">Before entering the orderbook, the iceberg or hidden order is the same as the ordinary order when it is matched as taker(it has a takerOrderId).</aside>
 
@@ -5479,16 +5483,16 @@ When a stop-limit order is triggered, you will receive an activate message which
 	"topic": "/account/balance",
 	"subject": "account.balance",
 	"data": {
-		"total": "88",
-		"available": "88",
-		"availableChange": "88",
-		"currency": "KCS",
-		"hold": "0",
-		"holdChange": "0",
-		"relationEvent": "main.deposit",
-		"relationEventId": "5c21e80303aa677bd09d7dff",
-		"time": "1545743136994",
-		"accountId": "5bd6e9286d99522a52e458de"
+		"total": "88", // total balance
+		"available": "88", // available balance
+		"availableChange": "88", // the change of available balance
+		"currency": "KCS", // currency
+		"hold": "0", // hold amount
+		"holdChange": "0", // the change of hold balance
+		"relationEvent": "main.deposit", //relation event
+		"relationEventId": "5c21e80303aa677bd09d7dff", // relation event id
+    "relationContext": "{\"symbol\":\"TRTL-BTC\",\"orderId\":\"5e6a5dca947908000990098d\"}", // the context of trade event
+		"time": "1545743136994" // timestamp
   }
 }
 
