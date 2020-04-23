@@ -5473,7 +5473,7 @@ Topic: /market/level3:{symbol},{symbol}...
     "holdChange": "0", // 可用冻结金额变化值
     "relationEvent": "main.deposit", // 关联事件
     "relationEventId": "5c21e80303aa677bd09d7dff", // 关联事件id
-    "relationContext": "{\"symbol\":\"TRTL-BTC\",\"orderId\":\"5e6a5dca947908000990098d\"}", // 交易事件的上下文
+    "relationContext": {"symbol":"BTC-USDT","orderId":"5ea10479415e2f0009949d54"}, // 交易事件的上下文
     "time": "1545743136994" // 时间戳
   }
 }
