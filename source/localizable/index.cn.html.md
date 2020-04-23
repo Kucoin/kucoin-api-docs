@@ -427,9 +427,9 @@ KuCoin为专业做市商提供做市激励计划。
   var response = body != null ? await _restRepo.PostApi<ApiResponse<T>, SortedDictionary<string, object>>(url, body, headers) : await _restRepo.PostApi<ApiResponse<T>>(url, headers);
 
 ### WebSocket 限制
-* 一个连接最多订阅100个topic；
+* 一个连接最多订阅300个topic；
 * token有效期24小时；
-* 一个用户最多10个连接；
+* 一个用户最多50个连接；
 * 客户端每10秒最多上行100个消息；
 * 一个symbol 就是一个topic; e.g.Topic: /market/level3:{symbol},{symbol}... 
 

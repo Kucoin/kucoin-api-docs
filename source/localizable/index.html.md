@@ -443,9 +443,9 @@ After fixing:<br/>
  var response = body != null ? await _restRepo.PostApi<ApiResponse<T>, SortedDictionary<string, object>>(url, body, headers) : await _restRepo.PostApi<ApiResponse<T>>(url, headers);
 
 ### WebSocket
-* Subscription limit for each connection: 100 topics;
+* Subscription limit for each connection: 300 topics;
 * Validity period for token: 24 hours;
-* Number of connections per user: ≤ 10
+* Number of connections per user: ≤ 50
 * Number of Messages of the client side: 100 per 10 seconds;
 * Subscribing one symbol means subscribing a topic; (e.g.Topic: /market/level3:{symbol},{symbol}...) 
 
