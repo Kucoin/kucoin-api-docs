@@ -5491,7 +5491,7 @@ When a stop-limit order is triggered, you will receive an activate message which
 		"holdChange": "0", // the change of hold balance
 		"relationEvent": "main.deposit", //relation event
 		"relationEventId": "5c21e80303aa677bd09d7dff", // relation event id
-    "relationContext": "{\"symbol\":\"TRTL-BTC\",\"orderId\":\"5e6a5dca947908000990098d\"}", // the context of trade event
+		"relationContext": {"symbol":"BTC-USDT","orderId":"5ea10479415e2f0009949d54"}, // the context of trade event
 		"time": "1545743136994" // timestamp
   }
 }
