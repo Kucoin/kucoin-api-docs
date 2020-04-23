@@ -364,7 +364,7 @@ The access limit for REST API is applied per API key. For average users, the req
 
 
 ### Number of Connections
-Number of connections per user ID:   ≤ 10
+Number of connections per user ID:   ≤ 50
 
 ### Connection Times
 Connection Limit: 30 per minute
@@ -375,7 +375,7 @@ Message limit sent to the server: 100 per 10 seconds
 
  
 ### Topic Subscription Limit
-Subscription limit for each connection: 100 topics
+Subscription limit for each connection: 300 topics
 
 
 
