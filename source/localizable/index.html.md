@@ -5489,7 +5489,7 @@ When a stop-limit order is triggered, you will receive an activate message which
 		"currency": "KCS", // currency
 		"hold": "0", // hold amount
 		"holdChange": "0", // the change of hold balance
-		"relationEvent": "main.deposit", //relation event
+		"relationEvent": "trade.setted", //relation event
 		"relationEventId": "5c21e80303aa677bd09d7dff", // relation event id
 		"relationContext": {
                           "symbol":"BTC-USDT",

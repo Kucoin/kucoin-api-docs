@@ -5471,7 +5471,7 @@ Topic: /market/level3:{symbol},{symbol}...
     "currency": "KCS", // 币种
     "hold": "0", // 冻结金额
     "holdChange": "0", // 可用冻结金额变化值
-    "relationEvent": "main.deposit", // 关联事件
+    "relationEvent": "trade.setted", // 关联事件
     "relationEventId": "5c21e80303aa677bd09d7dff", // 关联事件id
     "relationContext": {
                           "symbol":"BTC-USDT",
