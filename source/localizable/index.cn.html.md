@@ -4491,7 +4491,7 @@ REST API的使用受到了访问频率的限制，因此推荐您使用Websocket
 
 |字段 | 含义|
 -----|-----
-|pingInterval| 发送ping的时间间隔（毫秒）|
+|pingInterval| 建议发送ping的时间间隔（毫秒）|
 |pingTimeout| 如果在pingTimeout时间后，未收到pong消息，那么连接可能已断开了 |
 |endpoint| Websocket建立连接的服务器地址 |
 |protocol| 支持的协议 |
