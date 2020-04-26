@@ -4491,7 +4491,7 @@ REST API的使用受到了访问频率的限制，因此推荐您使用Websocket
 
 |字段 | 含义|
 -----|-----
-|pingInterval| 发送ping的时间间隔（毫秒）|
+|pingInterval| 建议发送ping的时间间隔（毫秒）|
 |pingTimeout| 如果在pingTimeout时间后，未收到pong消息，那么连接可能已断开了 |
 |endpoint| Websocket建立连接的服务器地址 |
 |protocol| 支持的协议 |
@@ -4507,6 +4507,8 @@ var socket = new WebSocket("wss://push1-v2.kucoin.com/endpoint?token=xxx&[connec
 
 成功建立连接后，您将会收到系统向您发出的欢迎（welcome）消息。
 
+
+<aside class="notice">客户端需要等待welcome消息，只有收到了welcome消息，才表示连接可用。</aside>
 
 ```json
 {
@@ -4529,12 +4531,9 @@ var socket = new WebSocket("wss://push1-v2.kucoin.com/endpoint?token=xxx&[connec
   "type":"ping"
 }
 ```
-为防止服务器断开TCP连接，客户端需要向服务器发送ping消息以保持连接的活跃性。
-
+为防止服务器断开TCP连接，建议客户端每间隔pingInterval时间发送一条ping指令。
 在服务器收到ping消息后，系统会向客户端返回一条pong消息。
-
-如果服务器在**60秒**内没有收到来自客户端的ping消息，连接将被断开。
-
+如果服务器长时间没有收到来自客户端的消息，连接将被断开。
 
 
 ```json
@@ -4562,7 +4561,7 @@ var socket = new WebSocket("wss://push1-v2.kucoin.com/endpoint?token=xxx&[connec
 
 使用服务器订阅消息时，客户端应向服务器发送订阅消息。
 
-订阅成功后，当**response**参数为**true**时，系统将向您发出“ack”消息。
+订阅成功后，当**response**参数为**true**时，系统将向您发出**“ack”消息**。
 
 
 ```json
