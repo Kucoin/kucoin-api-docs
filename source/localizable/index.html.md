@@ -4561,6 +4561,8 @@ var socket = new WebSocket("wss://push1-v2.kucoin.com/endpoint?token=xxx&[connec
 
 When the connection is successfully established, the system will send a welcome message.
 
+<aside class="notice">Only when the welcome message is received will the connection be available</aside>
+
 **connectId**: the connection id, a unique value taken from the client side. Both the id of the welcome message and the id of the error message are connectId.
 
 **acceptUserMessage**: if the value of acceptUserMessage equal with true, the User Messages can be received.
@@ -4585,11 +4587,12 @@ When the connection is successfully established, the system will send a welcome 
 ```
 
 
-To prevent the TCP link being disconnected by the server, the client side needs to send ping messages to the server to keep alive the link.
+To prevent the TCP link being disconnected by the server, the client side needs to send ping messages every pingInterval time to the server to keep alive the link.
 
 After the ping message is sent to the server, the system would return a pong message to the client side.
 
-If the server has not received the ping from the client for **60 seconds** , the connection will be disconnected.
+If the server has not received any message from the client for a long time, the connection will be disconnected.
+
 
 ```json
 {
