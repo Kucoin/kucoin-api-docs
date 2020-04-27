@@ -3185,8 +3185,6 @@ To maintain up-to-date Order Book, please use [Websocket](#level-2-market-data) 
 
 ### HTTP REQUEST
 
-**GET /api/v1/market/orderbook/level2**  (Will be deprecated on December 31, 2019)
-
 **GET /api/v2/market/orderbook/level2**  (Recommend)
 
 ### Example
@@ -5074,8 +5072,6 @@ Subscribe this topic to get the updated data for orders and trades.
 
 This channel provides real-time updates on orders and trades. These updates can be applied on to a Level 3 order book snapshot for users to maintain an accurate and up-to-date copy of the exchange order book.
 
-<aside class="notice">Note: If you are maintaining a Level 2 order book, please switch to the Level 2 channel.
-</aside>
 
 The process to maintain an up-to-date Level 3 order book is described below.
 

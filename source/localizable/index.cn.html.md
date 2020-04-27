@@ -3123,7 +3123,6 @@ Level 2 买卖盘上的买单和卖单均按照价格汇总，每个价格下仅
 
 ### HTTP请求
 
-**GET /api/v1/market/orderbook/level2**  (将于2019年12月31日弃用)
 
 **GET /api/v2/market/orderbook/level2**  (推荐使用)
 
@@ -4854,8 +4853,9 @@ Topic: **/market/snapshot:{market}**
 
 Topic: **/market/level2:{symbol},{symbol}...**
 
-订阅此topic可获取指定[交易对](#a17b4e2866)Level-2的买卖盘数据，每隔**2秒**推送一次。
+订阅此topic可获取指定[交易对](#a17b4e2866)Level-2买卖盘数据。
 
+订阅成功后，服务端会推送增量的市场数据给您。
 
 
 ```json
@@ -5042,7 +5042,6 @@ Topic: **/market/level3:{symbol},{symbol}...**
 
 可获取订单和交易的实时数据，这些数据流可用于维护一个本地的Level-3买卖盘。
 
-<aside class="notice">注意: 如果您想维护一个本地的Level-2买卖盘，请订阅Level-2市场行情</aside>
 
 维护更新Level 3买卖盘的步骤如下： 
 
