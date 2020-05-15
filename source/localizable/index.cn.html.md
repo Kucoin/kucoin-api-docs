@@ -3127,7 +3127,6 @@ Level 2 买卖盘上的买单和卖单均按照价格汇总，每个价格下仅
 **GET /api/v2/market/orderbook/level2**  (推荐使用)
 
 ### 请求示例
-GET /api/v1/market/orderbook/level2?symbol=BTC-USDT
 GET /api/v2/market/orderbook/level2?symbol=BTC-USDT
 
 ### 请求参数

@@ -3188,7 +3188,6 @@ To maintain up-to-date Order Book, please use [Websocket](#level-2-market-data) 
 **GET /api/v2/market/orderbook/level2**  (Recommend)
 
 ### Example
-GET /api/v1/market/orderbook/level2?symbol=BTC-USDT
 GET /api/v2/market/orderbook/level2?symbol=BTC-USDT
 
 ### PARAMETERS
