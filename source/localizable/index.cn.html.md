@@ -287,7 +287,7 @@ Level-3市场数据更适合高频交易者<br/>
 
 * 更快速获取到市场实时的行情信息，推送速度Level-3 >= Level-2
 * 可以用于构建维护买卖盘
-* 可以获取单笔订单的数量变动原因
+* 可以获取单笔订单的数量变动原
 * 更实时的获取到订单的成交情况
 * 可以完全取代Rest API的大部分拉取信息功能(Rest请求有严格的请求频率限制)
 
@@ -4980,6 +4980,48 @@ Data：
 | 3988.50 | 44   | Buy  |
 | 3988.49 | 100  | Buy  |
 | 3988.48 | 10  | Buy  |
+
+## K线
+
+```json
+{
+    "data":{
+        "symbol":"BTC-USDT",    // 交易对
+        "candles":[
+            "1589968800",   // candle的开盘时间
+            "9786.9",       // open开票价
+            "9740.8",       // close收盘价
+            "9806.1",       // high最高价
+            "9732",         // low最低价
+            "27.45649579",  // volume成交量
+            "268280.09830877"   // turnover成交额
+        ],
+        "time":1589970010253893337  // 当前时间，纳秒
+    },
+    "subject":"trade.candles.update",
+    "topic":"/market/candles:BTC-USDT_1hour",
+    "type":"message"
+}
+```
+Topic: **/market/candles:{symbol}_{type}**
+
+参数 |  含义
+--------- | ------- 
+symbol | 交易对
+type |  1min, 3min, 15min, 30min, 1hour, 2hour, 4hour, 6hour, 8hour, 12hour, 1day, 1week
+
+
+订阅此topic可获取指定 symbol的指定 type 的K线数据。
+
+订阅成功后，服务端会推送的市场K线数据给您。
+
+
+
+
+
+
+
+
 
 ## 撮合执行数据
 
