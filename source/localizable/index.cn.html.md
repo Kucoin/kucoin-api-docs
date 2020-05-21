@@ -371,7 +371,7 @@ REST&nbsp;API 连接地址:
 
 ### 申请提高频率限制
 
-做市商或专业交易员，如需提高请求频率，请将您的账户信息、申请原因，及交易量发送至[api@kucoin.com](mailto:api@kucoin.com)。
+做市商或专业交易员，,如需提高请求频率，请将您的账户信息、申请原因，及交易量发送至[api@kucoin.com](mailto:api@kucoin.com)。
 
 ## 做市激励计划
 
