@@ -5010,6 +5010,40 @@ Now your current order book is up-to-date and final data is as follows:
 | 3988.49 | 100  | Buy  |
 | 3988.48 | 10  | Buy  |
 
+
+## Klines
+
+```json
+{
+    "data":{
+        "symbol":"BTC-USDT",    // symbol
+        "candles":[
+            "1589968800",   // Start time of the candle cycle
+            "9786.9",       // open price
+            "9740.8",       // close price
+            "9806.1",       // high price
+            "9732",         // low price
+            "27.45649579",  // Transaction volume
+            "268280.09830877"   // Transaction amount
+        ],
+        "time":1589970010253893337  // now（us）
+    },
+    "subject":"trade.candles.update",
+    "topic":"/market/candles:BTC-USDT_1hour",
+    "type":"message"
+}
+```
+Topic: **/market/candles:{symbol}_{type}**
+
+Param |  Description
+--------- | ------- 
+symbol | [symbol](#get-symbols-list)
+type |  1min, 3min, 15min, 30min, 1hour, 2hour, 4hour, 6hour, 8hour, 12hour, 1day, 1week
+
+
+Subscribe to this topic to get K-Line data.
+
+
 ## Match Execution Data
 
 ```json
