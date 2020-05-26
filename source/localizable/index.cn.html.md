@@ -5766,7 +5766,7 @@ Topic: **/spotMarket/level3:{symbol}**
 
 ### RECEIVED
 
-```
+```json
 {
     "type":"message"
     "topic":"/spotMarket/level3:BTC-USDT",
@@ -5796,7 +5796,7 @@ Topic: **/spotMarket/level3:{symbol}**
 
 ### OPEN
 
-```
+```json
 {
     "type":"message"
     "topic":"/spotMarket/level3:BTC-USDT",
@@ -5829,7 +5829,7 @@ Topic: **/spotMarket/level3:{symbol}**
 
 一个订单生命周期结束时，订单将不会展示在买卖盘中，系统会推送**done**信息。
 
-```
+```json
 {
     "type":"message"
     "topic":"/spotMarket/level3:BTC-USDT",
@@ -5864,7 +5864,7 @@ Topic: **/spotMarket/level3:{symbol}**
 
 ### MATCH
 
-```
+```json
 {
     "type":"message"
     "topic":"/spotMarket/level3:BTC-USDT",
@@ -5897,7 +5897,7 @@ Topic: **/spotMarket/level3:{symbol}**
 
 ### CHANGE
 
-```
+```json
 {
     "type":"message"
     "topic":"/spotMarket/level3:BTC-USDT",
