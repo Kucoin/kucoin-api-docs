@@ -5575,10 +5575,9 @@ Topic: **/market/level3:{symbol},{symbol}...**
 }
 ```
 
-当限价订单中的剩余部分进入订单簿时，系统将向用户发送**open**消息。
+当限价订单中的剩余部分进入买卖盘时，系统将向用户发送**open**消息。
 
 这意味着这个订单现已在订单簿上，没有立即成交的订单才会推送此消息。 
-privateChannel=true，还会返回remaining_size这个字段，指订单中有多少没有成交的数量
 
 
 <aside class="notice">当接收到 price="", size="0" 的消息时，意味着这是隐藏单</aside>
@@ -5626,7 +5625,6 @@ privateChannel=true，还会返回remaining_size这个字段，指订单中有�
 ```
 
 推送**done**消息，意味着订单从买卖盘中移除，这要有推送过**received**消息的，都会收到**done**消息。 **done**可能指订单被成交或被取消。收到done消息后，就不会在收到关于这个订单的其他的信息了。
-privateChannel=true，还会返回remainSize这个字段，指订单中有多少没有成交的数量，如果为0，则意味着全部成交。市价单不会有remainSize，因为市价单是不会出现在买卖盘中的。
 
 
 <aside class="spacer8"></aside>
