@@ -5460,6 +5460,7 @@ Topic: **/market/match:{symbol},{symbol}...**
 <aside class="spacer8"></aside>
 <aside class="spacer"></aside>
 
+
 ## 完整的撮合引擎数据(Level&nbsp;3)
 
 ```json
@@ -5730,6 +5731,218 @@ privateChannel=true，还会返回remainSize这个字段，指订单中有多少
 
 
 ## 完整的撮合引擎数据（改版）(Level&nbsp;3)
+
+```json
+{
+    "id":1545910660742,
+    "type":"subscribe",
+    "topic":"/spotMarket/level3:BTC-USDT",
+    "response":true
+}
+```
+
+
+
+Topic: **/spotMarket/level3:{symbol}**
+
+订阅此topic，可获取Level-3完整的撮合引擎数据。
+
+可获取订单和交易的实时数据，这些数据流可用于维护一个本地的Level-3买卖盘。
+
+维护更新Level 3买卖盘的步骤如下：
+
+1. 订阅Topic: /spotMarket/level3:{symbol}，获取Level 3买卖盘数据流。
+2. 对接收到的Websocket信息流数据进行排序。
+3. 发送[REST](#level-3-2)请求，获取Level 3买卖盘的快照信息。
+4. 回放已排序的信息流，丢弃掉旧Level 3数据该顺序号之前的数据。
+5. 将回放消息应用于快照（见下文）。
+6. 回放完成后，重复上述步骤，实时更新买卖盘数据。
+
+**任意Open和Match消息都将导致买卖盘发生变更。**
+
+### 消息类型
+
+订阅成功后，系统将以JSON格式，将**RECEIVED**、**OPEN**、**UPDATE**、**MATCH**及**DONE**消息推送到Websocket消息流中。
+
+### RECEIVED
+
+```
+{
+    "type":"message"
+    "topic":"/spotMarket/level3:BTC-USDT",
+    "subject":"received",
+    "data":{
+        "symbol":"BTC-USDT", 
+        "sequence":1545896669147,
+        "orderId":"5c24c72503aa6772d55b378d",
+        "clientOid":"sf144a",
+        "ts":1545914149935808589,
+    }
+}
+
+```
+
+当撮合引擎接收到订单指令时，系统将向用户发送确认消息，type为**received**。
+
+这意味着，订单进入撮合引擎且订单状态为active。一旦撮合引擎收到这个订单信息，无论它是否立即成交，都会向用户发送确认信息。
+
+**received**消息并不是指在买卖盘挂单，而是指这个订单进入撮合引擎。如果订单能够立即成交，（taker订单），会发送**match**消息。如果自成交保护被触发，size会调整，会发送**change**消息。没有全部成交的的订单会展示在买卖盘中，发送信息中的type为**open**。
+
+您可以使用您自定义的clientOid来跟踪订单信息，但是特别的clientOid可能会暴露您的策略，所以推荐您使用UUID
+
+
+
+
+
+### OPEN
+
+```
+{
+    "type":"message"
+    "topic":"/spotMarket/level3:BTC-USDT",
+    "subject":"open",
+    "data":{
+        "symbol":"BTC-USDT",
+        "sequence":1545896669148,
+        "side":"sell",
+        "price":"6.00000000000000000000",
+        "size":"1",
+        "orderId":"5c24c72503aa6772d55b378d",
+        "orderTime":1547697294838004923,
+        "ts":1545914149935808632,
+    }
+}
+
+```
+
+当限价订单中的剩余部分进入订单簿时，系统将向用户发送**open**消息。
+
+这意味着这个订单现已在订单簿上，没有立即成交的订单才会推送此消息。 privateChannel=true，还会返回remaining_size这个字段，指订单中有多少没有成交的数量
+
+当接收到 price="", size="0" 的消息时，意味着这是隐藏单
+
+
+
+
+
+### DONE
+
+一个订单生命周期结束时，订单将不会展示在买卖盘中，系统会推送**done**信息。
+
+```
+{
+    "type":"message"
+    "topic":"/spotMarket/level3:BTC-USDT",
+    "subject":"done",
+    "data":{
+        "symbol":"BTC-USDT",
+        "sequence":3262786901,
+        "reason":"filled",
+        "orderId":"5c24c96103aa6772d55b380b",
+        "ts":1547697294838004923,
+    }
+}
+{
+    "type":"message"
+    "topic":"/spotMarket/level3:BTC-USDT",
+    "subject":"done",
+    "data":{
+        "symbol":"BTC-USDT",
+        "sequence":3262786901,
+        "reason":"canceled",
+        "orderId":"5c24c96103aa6772d55b381b",
+        "ts":1545914730696797106,
+    }
+}
+```
+
+推送**done**消息，意味着订单从买卖盘中移除，这要有推送过**received**消息的，都会收到**done**消息。 **done**可能指订单被成交或被取消。收到done消息后，就不会在收到关于这个订单的其他的信息了。 privateChannel=true，还会返回remainSize这个字段，指订单中有多少没有成交的数量，如果为0，则意味着全部成交。市价单不会有remainSize，因为市价单是不会出现在买卖盘中的。
+
+
+
+
+
+### MATCH
+
+```
+{
+    "type":"message"
+    "topic":"/spotMarket/level3:BTC-USDT",
+    "subject":"match",
+    "data":{
+        "symbol":"BTC-USDT",
+        "sequence":"1545896669291",
+        "side":"buy",
+        "price":"0.08300000000000000000",
+        "size":"0.07600000000000000000",  // 撮合数量
+        "remainSize":"0.01", // 剩余数量
+        "makerOrderId":"5c20492a03aa677bd099ce9d",
+        "takerOrderId":"5c24ca2e03aa6772d55b38bf",
+        "tradeId":"5c24ca3503aa673885cd67ef"
+        "ts":1547697294838004923,
+    }
+}
+
+```
+
+当两个订单成功撮合后，系统会推送match信息。
+
+两个订单成功撮合，会生成一个tradeId
+
+当进入撮合引擎后，taker单会立即与maker单(买卖盘中剩余的订单)开始撮合。side字段是指taker单的成交方向。
+
+在进入买卖盘之前，冰山单或隐藏单和普通的订单一样，撮合成功后作为taker
+
+
+
+### CHANGE
+
+```
+{
+    "type":"message"
+    "topic":"/spotMarket/level3:BTC-USDT",
+    "subject":"update",
+    "data":{
+        "symbol":"BTC-USDT",
+        "sequence":3262786897,
+        "orderId":"5c24caff03aa671aef3ca170",
+        "size":"0.15722222000000000000",  // 更新以后的size
+        "ts":1545915145402532254,
+    }
+}
+
+```
+
+当订单信息因为STP(自成交保护)变更，系统会给您推送**change**消息。
+
+由于自成交保护，需要调整订单数量或资金。订单只会在数量或资金上减少。当一个订单size发生变化会向您推送**change**消息。在买卖盘中订单（**open**）和收到**received**消息但没有进入买卖盘的订单，都可能向您推送**chaneg**消息。新的市价单由于自成交保护导致的导致资金变化也会向您推送**change**消息。
+
+### 构建Level-3买卖盘
+
+如何构建本地OrderBook level-3数据
+
+1 使用websocket订阅 /market/level3:{symbol} 频道订阅level3的增量数据，并缓存收到的所有增量数据。
+
+2 通过[REST](#level-3-2)请求获取level3的快照数据。
+
+3 数据检验：获取快照的sequence不小于缓存的所有增量的最小sequence。如果不满足此条件，从第一步从头开始。
+
+4 回放所有缓存的增量数据:
+
+4.1. 如果增量数据的sequence <= 当前快照的sequence，则舍弃增量数据，并结束本次更新; 否则进行4.2。
+
+4.2 如果增量数据的sequence = 当前快照的sequence+1，则进行4.2.1逻辑更新，否则进行4.3步骤。
+
+4.2.1 更新当前快照的sequence为增量数据的sequence. 4.2.2 如果是received消息，结束更新逻辑。（因为现在received消息不影响level3数据） 4.2.3 如果是open消息，增加orderid,price,size构建的相应买单或卖单 4.2.4 如果是done消息，移除对应orderid对应的买单或者卖单 4.2.5 如果是change消息，修改对应orderid对应的买单或者卖单的数量 4.2.6 如果是match消息，减少对应markerOrderId对应的订单数量
+
+4.3 此种情况为sequence不连续，执行步骤2，重新拉取快照数据，以便保证sequence不缺失。
+
+5 接收新的增量数据推送，执行步骤4。
+
+如果您在维护一个本地Level-3买卖盘过程中，有不理解的地方，您可以参考用 Go Language 写的[SDK](https://docs.kucoin.com/cn/#level-nbsp-3)，里面包含了不同type信息的处理逻辑。
+
+<aside class="spacer4"></aside>
+<aside class="spacer"></aside>
 
 ## 指数价格
 
