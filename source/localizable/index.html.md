@@ -28,6 +28,10 @@ The WebSocket contains two sections: Public Channels and Private Channels
 
 To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
+**05/28/20**:
+
+- Add unique key for [Get Account Ledgers](#get-account-ledgers)
+
 **04/22/20**:
 
 - Deprecate [Get Holds](#get-holds) on 10th May 2020.
@@ -916,6 +920,7 @@ Items are paginated and sorted to show the latest first. See the [Pagination](#p
 	"totalNum": 3,
 	"totalPage": 1,
 	"items": [{
+			"id": "5bc7f080b39c5c03486eef8c",//unique key
 			"currency": "KCS",  //Currency
 			"amount": "0.0998", //Change amount of the funds
 			"fee": "0",  //Deposit or withdrawal fee
@@ -929,6 +934,7 @@ Items are paginated and sorted to show the latest first. See the [Pagination](#p
 			}
 		},
 		{
+			"id": "5bc7f080b39c5c03486def8c",//unique key
 			"currency": "KCS",
 			"amount": "0.0998",
 			"fee": "0",
@@ -942,6 +948,7 @@ Items are paginated and sorted to show the latest first. See the [Pagination](#p
 			}
 		},
 		{
+			"id": "5bc7f080b39c5c03486def8a",//unique key
 			"currency": "KCS",
 			"amount": "0.0998",
 			"fee": "0",
@@ -984,6 +991,7 @@ endAt| long | *[Optional]* End time (milisecond)
 ### RESPONSES
 Field | Description
 --------- | ------- 
+id | unique key
 currency | The currency of an account 
 amount | The total amount of assets (fees included) involved in assets changes such as transaction, withdrawal and bonus distribution. 
 fee | Fees generated in transaction, withdrawal, etc.
