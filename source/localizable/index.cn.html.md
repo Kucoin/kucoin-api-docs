@@ -30,6 +30,11 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 为了您能获取到最新的API 变更的通知，请在 [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs)添加关注【Watch】
 
+
+**05/28/20**:
+
+- 【修改】 [账户流水记录](#c8122540e1)新增唯一id
+
 **04/22/20**:
 
 - 【废弃】 2020年05月10日废弃[账户冻结记录](#8092434cb7)接口
@@ -911,6 +916,7 @@ available | 可用资金
 	"totalNum": 2,
 	"totalPage": 1,
 	"items": [{
+			"id": "5bc7f080b39c5c03486eef8b", //唯一键
 			"currency": "KCS", //币种
 			"amount": "0.0998", //资金变动值
 			"fee": "0", //充值或提现费率
@@ -924,6 +930,7 @@ available | 可用资金
 			}
 		},
 		{
+			"id": "5bc7f080b39c5c03486eef8c", 
 			"currency": "KCS",
 			"amount": "0.0998",
 			"fee": "0",
@@ -966,6 +973,7 @@ endAt     | long   | [可选] 截止时间（毫秒）
 ### 返回值
 字段 | 含义
 --------- | ------- 
+id | 唯一键
 currency | 币种 
 amount | 资金变动值
 fee | 充值或提现费率
