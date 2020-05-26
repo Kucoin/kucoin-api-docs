@@ -2593,7 +2593,7 @@ POST /api/v1/stoporder
 | remark    | String | [可选] 下单备注，长度不超过100个字符（UTF-8）                |
 | stop      | String | [可选] 止盈止损单，触发条件， **loss**（小于等于） 或 **entry**（大于等于）。默认为**loss** |
 | stopPrice | String | 触发价格。                                                   |
-| stp       | String | [可选] [自成交保护](#80920cd667)（self trade prevention）分为**CN**, **CO**, **CB** , **DC**四种策略，**type为limit（限价单）时，不支持DC策略** |
+| stp       | String | [可选] [自成交保护](#80920cd667)（self trade prevention）分为**CN**, **CO**, **CB** , **DC**四种策略，**type为market（市价单）时，不支持DC策略** |
 | tradeType | String | [可选] 交易类型，分为**TRADE**（现货交易）, **MARGIN_TRADE**（杠杆交易）（默认为**TRADE** ） |
 
 #### **limit** 限价单额外所需请求参数
