@@ -545,7 +545,7 @@ If the returned HTTP status code is 200, whereas the operation failed, an error 
 A successful response is indicated by an HTTP status code 200 and system code 200000. The success response is as follows: 
 
 
-```
+```json
 {
   "code": "200000",
   "data": "1544657947759"
@@ -805,15 +805,16 @@ id | accountId, ID of an account
 ## List Accounts
 
 ```json
-[{
+[
+  {
     "id": "5bd6e9286d99522a52e458de",  //accountId
     "currency": "BTC",  //Currency
     "type": "main",     //Account type, including main and trade
     "balance": "237582.04299",  //Total assets of a currency
     "available": "237582.032",  //Available assets of a currency
     "holds": "0.01099". //Hold assets of a currency
-},
-{
+  },
+  {
     "id": "5bd6e9216d99522a52e458d6",
     "currency": "BTC",
     "type": "trade",
@@ -1079,36 +1080,41 @@ The **orderId** field is a unique order ID generated in order placement or withd
 
 ```json
 {
-	"subUserId": "5caefba7d9575a0688f83c45", 
-	"subName": "sdfgsdfgsfd",
-	"mainAccounts": [{
-		"currency": "BTC",
-		"balance": "8",
-		"available": "8",
-    "holds": "0",
-    "baseCurrency": "BTC",
-    "baseCurrencyPrice": "1",
-    "baseAmount": "1.1"
-	}],
-	"tradeAccounts": [{
-		"currency": "BTC",
-		"balance": "1000",
-		"available": "1000",
-    "holds": "0",
-    "baseCurrency": "BTC",
-    "baseCurrencyPrice": "1",
-    "baseAmount": "1.1"
-
-  }],
-  "marginAccounts": [{
-    "currency": "BTC",
-    "balance": "1.1",
-    "available": "1.1",
-    "holds": "0",
-    "baseCurrency": "BTC",
-    "baseCurrencyPrice": "1",
-    "baseAmount": "1.1"
-  }]
+    "subUserId":"5caefba7d9575a0688f83c45",
+    "subName":"sdfgsdfgsfd",
+    "mainAccounts":[
+        {
+            "currency":"BTC",
+            "balance":"8",
+            "available":"8",
+            "holds":"0",
+            "baseCurrency":"BTC",
+            "baseCurrencyPrice":"1",
+            "baseAmount":"1.1"
+        }
+    ],
+    "tradeAccounts":[
+        {
+            "currency":"BTC",
+            "balance":"1000",
+            "available":"1000",
+            "holds":"0",
+            "baseCurrency":"BTC",
+            "baseCurrencyPrice":"1",
+            "baseAmount":"1.1"
+        }
+    ],
+    "marginAccounts":[
+        {
+            "currency":"BTC",
+            "balance":"1.1",
+            "available":"1.1",
+            "holds":"0",
+            "baseCurrency":"BTC",
+            "baseCurrencyPrice":"1",
+            "baseAmount":"1.1"
+        }
+    ]
 }
 ```
 
@@ -1150,38 +1156,43 @@ baseAmount | The base currency amount.
 
 ```json
 [
-  {
-		"subUserId": "5caefba7d9575a0688f83c45",
-		"subName": "kucoin1",
-		"mainAccounts": [{
-			"currency": "BTC",
-			"balance": "6",
-			"available": "6",
-      "holds": "0",
-      "baseCurrency": "BTC",
-      "baseCurrencyPrice": "1",
-      "baseAmount": "1.1"
-
-		}],
-		"tradeAccounts": [{
-			"currency": "BTC",
-			"balance": "1000",
-			"available": "1000",
-      "holds": "0",
-      "baseCurrency": "BTC",
-      "baseCurrencyPrice": "1",
-      "baseAmount": "1.1"
-    }],
-    "marginAccounts": [{
-        "currency": "BTC",
-        "balance": "1.1",
-        "available": "1.1",
-        "holds": "0",
-        "baseCurrency": "BTC",
-        "baseCurrencyPrice": "1",
-        "baseAmount": "1.1"
-    }]
-  }
+    {
+        "subUserId":"5caefba7d9575a0688f83c45",
+        "subName":"kucoin1",
+        "mainAccounts":[
+            {
+                "currency":"BTC",
+                "balance":"6",
+                "available":"6",
+                "holds":"0",
+                "baseCurrency":"BTC",
+                "baseCurrencyPrice":"1",
+                "baseAmount":"1.1"
+            }
+        ],
+        "tradeAccounts":[
+            {
+                "currency":"BTC",
+                "balance":"1000",
+                "available":"1000",
+                "holds":"0",
+                "baseCurrency":"BTC",
+                "baseCurrencyPrice":"1",
+                "baseAmount":"1.1"
+            }
+        ],
+        "marginAccounts":[
+            {
+                "currency":"BTC",
+                "balance":"1.1",
+                "available":"1.1",
+                "holds":"0",
+                "baseCurrency":"BTC",
+                "baseCurrencyPrice":"1",
+                "baseAmount":"1.1"
+            }
+        ]
+    }
 ]
 ```
 
@@ -1447,35 +1458,38 @@ chain | The chain name of currency, e.g. The available value for USDT are OMNI, 
 
 ```json
 {
-  "currentPage": 1,
-  "pageSize": 5,
-  "totalNum": 2,
-  "totalPage": 1,
-	"items": [{
-		"address": "0x5f047b29041bcfdbf0e4478cdfa753a336ba6989",
-		"memo": "5c247c8a03aa677cea2a251d",   
-		"amount": 1,
-		"fee": 0.0001,
-		"currency": "KCS",
-		"isInner": false,
-		"walletTxId": "5bbb57386d99522d9f954c5a@test004",
-		"status": "SUCCESS",
-        "remark": "test",
-		"createdAt": 1544178843000,
-		"updatedAt": 1544178891000
-	}, {
-		"address": "0x5f047b29041bcfdbf0e4478cdfa753a336ba6989",
-		"memo": "5c247c8a03aa677cea2a251d",
-		"amount": 1,
-		"fee": 0.0001,
-		"currency": "KCS",
-		"isInner": false,
-		"walletTxId": "5bbb57386d99522d9f954c5a@test003",
-		"status": "SUCCESS",
-        "remark": "test",
-		"createdAt": 1544177654000,
-		"updatedAt": 1544178733000
-	}]
+    "currentPage":1,
+    "pageSize":5,
+    "totalNum":2,
+    "totalPage":1,
+    "items":[
+        {
+            "address":"0x5f047b29041bcfdbf0e4478cdfa753a336ba6989",
+            "memo":"5c247c8a03aa677cea2a251d",
+            "amount":1,
+            "fee":0.0001,
+            "currency":"KCS",
+            "isInner":false,
+            "walletTxId":"5bbb57386d99522d9f954c5a@test004",
+            "status":"SUCCESS",
+            "remark":"test",
+            "createdAt":1544178843000,
+            "updatedAt":1544178891000
+        },
+        {
+            "address":"0x5f047b29041bcfdbf0e4478cdfa753a336ba6989",
+            "memo":"5c247c8a03aa677cea2a251d",
+            "amount":1,
+            "fee":0.0001,
+            "currency":"KCS",
+            "isInner":false,
+            "walletTxId":"5bbb57386d99522d9f954c5a@test003",
+            "status":"SUCCESS",
+            "remark":"test",
+            "createdAt":1544177654000,
+            "updatedAt":1544178733000
+        }
+    ]
 }
 ```
 
@@ -1524,18 +1538,20 @@ updatedAt | Update time of the database record
 
 ```json
 {
-"currentPage": 1,
-"pageSize": 1,
-"totalNum": 9,
-"totalPage": 9,
-"items": [{
-"currency": "BTC",
-"createAt": 1528536998,
-"amount": "0.03266638",
-"walletTxId": "55c643bc2c68d6f17266383ac1be9e454038864b929ae7cee0bc408cc5c869e8@12ffGWmMMD1zA1WbFm7Ho3JZ1w6NYXjpFk@234",
-"isInner": false,
-"status": "SUCCESS"
-}]
+    "currentPage":1,
+    "pageSize":1,
+    "totalNum":9,
+    "totalPage":9,
+    "items":[
+        {
+            "currency":"BTC",
+            "createAt":1528536998,
+            "amount":"0.03266638",
+            "walletTxId":"55c643bc2c68d6f17266383ac1be9e454038864b929ae7cee0bc408cc5c869e8@12ffGWmMMD1zA1WbFm7Ho3JZ1w6NYXjpFk@234",
+            "isInner":false,
+            "status":"SUCCESS"
+        }
+    ]
 }
 ```
 
@@ -1582,24 +1598,26 @@ status | Status
 
 ```json
 {
-  "currentPage": 1,
-  "pageSize": 10,
-  "totalNum": 1,
-  "totalPage": 1,
-	"items": [{
-	  "id": "5c2dc64e03aa675aa263f1ac",
-		"address": "0x5bedb060b8eb8d823e2414d82acce78d38be7fe9",
-		"memo": "",
-		"currency": "ETH",
-		"amount": 1.0000000,
-    "fee": 0.0100000,
-		"walletTxId": "3e2414d82acce78d38be7fe9",
-		"isInner": false,
-		"status": "FAILURE",
-      "remark": "test",
-		"createdAt": 1546503758000,
-		"updatedAt": 1546504603000
-	}]
+    "currentPage":1,
+    "pageSize":10,
+    "totalNum":1,
+    "totalPage":1,
+    "items":[
+        {
+            "id":"5c2dc64e03aa675aa263f1ac",
+            "address":"0x5bedb060b8eb8d823e2414d82acce78d38be7fe9",
+            "memo":"",
+            "currency":"ETH",
+            "amount":1,
+            "fee":0.01,
+            "walletTxId":"3e2414d82acce78d38be7fe9",
+            "isInner":false,
+            "status":"FAILURE",
+            "remark":"test",
+            "createdAt":1546503758000,
+            "updatedAt":1546504603000
+        }
+    ]
 }
 ```
 
@@ -1646,19 +1664,21 @@ updatedAt | Update time
 
 ```json
 {
-"currentPage": 1,
-"pageSize": 1,
-"totalNum": 2,
-"totalPage": 2,
-"items": [{
-"currency": "BTC",
-"createAt": 1526723468,
-"amount": "0.534",
-"address": "33xW37ZSW4tQvg443Pc7NLCAs167Yc2XUV",
-"walletTxId": "aeacea864c020acf58e51606169240e96774838dcd4f7ce48acf38e3651323f4",
-"isInner": false,
-"status": "SUCCESS"
-}]
+    "currentPage":1,
+    "pageSize":1,
+    "totalNum":2,
+    "totalPage":2,
+    "items":[
+        {
+            "currency":"BTC",
+            "createAt":1526723468,
+            "amount":"0.534",
+            "address":"33xW37ZSW4tQvg443Pc7NLCAs167Yc2XUV",
+            "walletTxId":"aeacea864c020acf58e51606169240e96774838dcd4f7ce48acf38e3651323f4",
+            "isInner":false,
+            "status":"SUCCESS"
+        }
+    ]
 }
 ```
 List of KuCoin V1 historical withdrawals.
@@ -2027,39 +2047,39 @@ A successful order will be assigned an order ID. A successful order is defined a
 ## Place Bulk Orders
 
 ```json
-{ 
-    "success": true, // RESPONSE
-    "code": "200", 
-    "msg": "success", 
-    "retry": false, 
-    "data": { 
-      "data": [ 
-          { 
-            "symbol": "BTC-USDT", 
-            "type": "limit", 
-            "side": "buy", 
-            "price": "9661", 
-            "size": "1", 
-            "funds": null, 
-            "stp": "", 
-            "stop": "", 
-            "stopPrice": "0", 
-            "timeInForce": "GTC", 
-            "cancelAfter": 0, 
-            "postOnly": false, 
-            "hidden": false, 
-            "iceberge": false, 
-            "iceberg": false, 
-            "visibleSize": "0", 
-            "channel": "API", 
-            "id": null, 
-            "status": "fail", 
-            "failMsg": "error.createOrder.accountBalanceInsufficient", 
-            "clientOid": "5e42743514832d53d255d921" 
-          } 
-      ] 
-    } 
-} 
+{
+    "success":true,
+    "code":"200",
+    "msg":"success",
+    "retry":false,
+    "data":{
+        "data":[
+            {
+                "symbol":"BTC-USDT",
+                "type":"limit",
+                "side":"buy",
+                "price":"9661",
+                "size":"1",
+                "funds":null,
+                "stp":"",
+                "stop":"",
+                "stopPrice":"0",
+                "timeInForce":"GTC",
+                "cancelAfter":0,
+                "postOnly":false,
+                "hidden":false,
+                "iceberge":false,
+                "iceberg":false,
+                "visibleSize":"0",
+                "channel":"API",
+                "id":null,
+                "status":"fail",
+                "failMsg":"error.createOrder.accountBalanceInsufficient",
+                "clientOid":"5e42743514832d53d255d921"
+            }
+        ]
+    }
+}
 ```
 
 Request via this endpoint to place 5 orders at the same time. The order type must be a limit order of the same symbol. 
@@ -2074,20 +2094,19 @@ Request via this endpoint to place 5 orders at the same time. The order type mus
 ### Example
 
 ```json
-
-{ 
-  "symbol": "BTC-USDT", // EXAMPLE
-  "orderList": [ 
-    { 
-      "clientOid": "5e42743514832d53d255d921", 
-      "price": 9661, 
-      "side": "buy", 
-      "size": 1, 
-      "symbol": "BTC-USDT", 
-      "type": "limit" 
-    } 
-  ] 
-} 
+{
+    "symbol":"BTC-USDT",
+    "orderList":[
+        {
+            "clientOid":"5e42743514832d53d255d921",
+            "price":9661,
+            "side":"buy",
+            "size":1,
+            "symbol":"BTC-USDT",
+            "type":"limit"
+        }
+    ]
+}
 ```
 
 POST /api/v1/orders/multi
@@ -2336,19 +2355,21 @@ For high-volume trading, it is highly recommended that you maintain your own lis
 
 ```json
 {
-	"currentPage": 1,
-	"pageSize": 50,
-	"totalNum": 1,
-	"totalPage": 1,
-	"items": [{
-		"symbol": "SNOV-ETH",
-		"dealPrice": "0.0000246",
-		"dealValue": "0.018942",
-		"amount": "770",
-		"fee": "0.00001137",
-		"side": "sell",
-		"createdAt": 1540080199
-	}]
+    "currentPage":1,
+    "pageSize":50,
+    "totalNum":1,
+    "totalPage":1,
+    "items":[
+        {
+            "symbol":"SNOV-ETH",
+            "dealPrice":"0.0000246",
+            "dealValue":"0.018942",
+            "amount":"770",
+            "fee":"0.00001137",
+            "side":"sell",
+            "createdAt":1540080199
+        }
+    ]
 }
 ```
 
@@ -2970,36 +2991,36 @@ time |  timestamp
 
 ```json
 {
-    "time": 1550653727731,
-    "ticker": [
-      {
-        "symbol": "BTC-USDT",
-        "symbolName": "BTC-USDT",
-        "buy": "0.00001191",
-        "sell": "0.00001206",
-        "changeRate": "0.057",
-        "changePrice": "0.00000065",
-        "high": "0.0000123",
-        "low": "0.00001109",
-        "vol": "45161.5073",
-        "volValue": "2127.28693026”, 
-        "last": "0.00001204"
-      },
-      {
-        "symbol": "BCD-BTC",
-        "symbolName": "BCD-BTC",
-        "buy": "0.00018564",
-        "sell": "0.0002",
-        "changeRate": "-0.0753",
-        "changePrice": "-0.00001522",
-        "high": "0.00021489",
-        "low": "0.00018351",
-        "vol": "72.99679763",
-        "volValue": "2127.28693026”, 
-        "last": "0.00018664"
-      }
+    "time":1550653727731,
+    "ticker":[
+        {
+            "symbol":"BTC-USDT",
+            "symbolName":"BTC-USDT",
+            "buy":"0.00001191",
+            "sell":"0.00001206",
+            "changeRate":"0.057",
+            "changePrice":"0.00000065",
+            "high":"0.0000123",
+            "low":"0.00001109",
+            "vol":"45161.5073",
+            "volValue":"2127.28693026",
+            "last":"0.00001204"
+        },
+        {
+            "symbol":"BCD-BTC",
+            "symbolName":"BCD-BTC",
+            "buy":"0.00018564",
+            "sell":"0.0002",
+            "changeRate":"-0.0753",
+            "changePrice":"-0.00001522",
+            "high":"0.00021489",
+            "low":"0.00018351",
+            "vol":"72.99679763",
+            "volValue":"2127.28693026",
+            "last":"0.00018664"
+        }
     ]
-  }
+}
 ```
 
 Request market tickers for all the trading pairs in the market (including 24h volume).

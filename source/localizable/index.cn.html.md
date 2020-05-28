@@ -487,10 +487,10 @@ REST API 对于账户、订单、和市场数据均提供了接口。
 
 #### HTTP错误码
 
-```
+```json
 {
-  "code": "400100",
-  "msg": "Invalid Parameter."
+    "code":"400100",
+    "msg":"Invalid Parameter."
 }
 
 ```
@@ -532,10 +532,10 @@ REST API 对于账户、订单、和市场数据均提供了接口。
 
 当系统返回HTTP状态码200和系统代码200000时，表示响应成功，返回结果如下：
 
-```
+```json
 {
-  "code": "200000",
-  "data": "1544657947759"
+    "code":"200000",
+    "data":"1544657947759"
 }
 ```
 
@@ -720,16 +720,16 @@ KC-API-SIGN = 7QP/oM0ykidMdrfNEUmng8eZjg/ZvPafjIqmxiVfYu4=
 
 ```json
 [
-  {
-		"userId": "5cbd31ab9c93e9280cd36a0a",  //subUserId子账号用户ID
-		"subName": "kucoin1",
-		"remarks": "kucoin1"
-	},
-	{
-		"userId": "5cbd31b89c93e9280cd36a0d",
-		"subName": "kucoin2",
-		"remarks": "kucoin2"
-	}
+    {
+        "userId":"5cbd31ab9c93e9280cd36a0a", //subUserId子账号用户ID
+        "subName":"kucoin1",
+        "remarks":"kucoin1"
+    },
+    {
+        "userId":"5cbd31b89c93e9280cd36a0d",
+        "subName":"kucoin2",
+        "remarks":"kucoin2"
+    }
 ]
 ```
 
@@ -765,7 +765,7 @@ GET /api/v1/sub/user
 
 ```json
 {
-    "id": "5bd6e9286d99522a52e458de" //accountId
+    "id":"5bd6e9286d99522a52e458de" //accountId
 }
 ```
 
@@ -796,24 +796,24 @@ id | 账户ID -- accountId
 ## 账户列表
 
 ```json
-
-[{
-    "id": "5bd6e9286d99522a52e458de",  //accountId
-    "currency": "BTC",  //币种
-    "type": "main",     //账户类型，储蓄（main）账户、交易(trade)账户或杠杆（margin）账户
-    "balance": "237582.04299",  //资金总额
-    "available": "237582.032",  //可用金额
-    "holds": "0.01099". //冻结金额
-},
-{
-    "id": "5bd6e9216d99522a52e458d6",
-    "currency": "BTC",
-    "type": "trade",
-    "balance": "1234356",
-    "available": "1234356",
-    "holds": "0"
-}]
-
+[
+    {
+        "id":"5bd6e9286d99522a52e458de", //accountId
+        "currency":"BTC",  //币种
+        "type":"main", //账户类型，储蓄（main）账户、交易(trade)账户或杠杆（margin）账户
+        "balance":"237582.04299",//资金总额
+        "available":"237582.032", //可用金额
+        "holds":"0.01099" //冻结金额
+    },
+    {
+        "id":"5bd6e9216d99522a52e458d6",
+        "currency":"BTC",
+        "type":"trade",
+        "balance":"1234356",
+        "available":"1234356",
+        "holds":"0"
+    }
+]
 ```
 获取账号下账户详情列表。
 
@@ -871,10 +871,10 @@ holds | 账户冻结的资金
 
 ```json
 {
-    "currency": "KCS", //币种
-    "balance": "1000000060.6299", //资金总额
-    "available": "1000000060.6299", //可用资金
-    "holds": "0" //冻结资金
+    "currency":"KCS", //币种
+    "balance":"1000000060.6299", //资金总额
+    "available":"1000000060.6299", //可用资金
+    "holds":"0" //冻结资金
 }
 ```
 此接口返回单个账户的详情。
@@ -911,41 +911,43 @@ available | 可用资金
 
 ```json
 {
-	"currentPage": 1,
-	"pageSize": 10,
-	"totalNum": 2,
-	"totalPage": 1,
-	"items": [{
-			"id": "5bc7f080b39c5c03486eef8b", //唯一键
-			"currency": "KCS", //币种
-			"amount": "0.0998", //资金变动值
-			"fee": "0", //充值或提现费率
-			"balance": "0", //金额变动
-			"bizType": "withdraw", //业务类型
-			"direction": "in", // 出入账方向入账或出账（in or out）
-			"createdAt": 1540296039000, // 创建时间
-			"context": { // 业务核心参数
-				"orderId": "5bc7f080b39c5c03286eef8a",
-				"currency": "BTC"
-			}
-		},
-		{
-			"id": "5bc7f080b39c5c03486eef8c", 
-			"currency": "KCS",
-			"amount": "0.0998",
-			"fee": "0",
-			"balance": "0",
-			"bizType": "trade exchange",
-			"direction": "in",
-			"createdAt": 1540296039000,
-			"context": {
-				"orderId": "5bc7f080b39c5c03286eef8e",
-				"tradeId": "5bc7f080b3949c03286eef8a",
-				"symbol": "BTC-USD"
-			}
-		}
-	]
+    "currentPage":1,
+    "pageSize":10,
+    "totalNum":2,
+    "totalPage":1,
+    "items":[
+        {
+            "id":"5bc7f080b39c5c03486eef8b",//唯一键
+            "currency":"KCS",//币种
+            "amount":"0.0998", //资金变动值
+            "fee":"0", //充值或提现费率
+            "balance":"0", //金额变动
+            "bizType":"withdraw", //业务类型
+            "direction":"in",  // 出入账方向入账或出账（in or out）
+            "createdAt":1540296039000,  // 创建时间
+            "context":{  // 业务核心参数
+                "orderId":"5bc7f080b39c5c03286eef8a",
+                "currency":"BTC"
+            }
+        },
+        {
+            "id":"5bc7f080b39c5c03486eef8c",
+            "currency":"KCS",
+            "amount":"0.0998",
+            "fee":"0",
+            "balance":"0",
+            "bizType":"trade exchange",
+            "direction":"in",
+            "createdAt":1540296039000,
+            "context":{
+                "orderId":"5bc7f080b39c5c03286eef8e",
+                "tradeId":"5bc7f080b3949c03286eef8a",
+                "symbol":"BTC-USD"
+            }
+        }
+    ]
 }
+
 ```
 
 ### HTTP请求
@@ -1064,36 +1066,41 @@ updatedAt | 修改时间
 
 ```json
 {
-	"subUserId": "5caefba7d9575a0688f83c45", 
-	"subName": "sdfgsdfgsfd",
-	"mainAccounts": [{
-		"currency": "BTC",
-		"balance": "8",
-		"available": "8",
-    "holds": "0",
-    "baseCurrency": "BTC",
-    "baseCurrencyPrice": "1",
-    "baseAmount": "1.1"
-	}],
-	"tradeAccounts": [{
-		"currency": "BTC",
-		"balance": "1000",
-		"available": "1000",
-    "holds": "0",
-    "baseCurrency": "BTC",
-    "baseCurrencyPrice": "1",
-    "baseAmount": "1.1"
-
-  }],
-  "marginAccounts": [{
-    "currency": "BTC",
-    "balance": "1.1",
-    "available": "1.1",
-    "holds": "0",
-    "baseCurrency": "BTC",
-    "baseCurrencyPrice": "1",
-    "baseAmount": "1.1"
-  }]
+    "subUserId":"5caefba7d9575a0688f83c45",
+    "subName":"sdfgsdfgsfd",
+    "mainAccounts":[
+        {
+            "currency":"BTC",
+            "balance":"8",
+            "available":"8",
+            "holds":"0",
+            "baseCurrency":"BTC",
+            "baseCurrencyPrice":"1",
+            "baseAmount":"1.1"
+        }
+    ],
+    "tradeAccounts":[
+        {
+            "currency":"BTC",
+            "balance":"1000",
+            "available":"1000",
+            "holds":"0",
+            "baseCurrency":"BTC",
+            "baseCurrencyPrice":"1",
+            "baseAmount":"1.1"
+        }
+    ],
+    "marginAccounts":[
+        {
+            "currency":"BTC",
+            "balance":"1.1",
+            "available":"1.1",
+            "holds":"0",
+            "baseCurrency":"BTC",
+            "baseCurrencyPrice":"1",
+            "baseAmount":"1.1"
+        }
+    ]
 }
 ```
 
@@ -1135,38 +1142,43 @@ baseAmount | 基准货币数量
 
 ```json
 [
-  {
-		"subUserId": "5caefba7d9575a0688f83c45",
-		"subName": "kucoin1",
-		"mainAccounts": [{
-			"currency": "BTC",
-			"balance": "6",
-			"available": "6",
-      "holds": "0",
-      "baseCurrency": "BTC",
-      "baseCurrencyPrice": "1",
-      "baseAmount": "1.1"
-
-		}],
-		"tradeAccounts": [{
-			"currency": "BTC",
-			"balance": "1000",
-			"available": "1000",
-      "holds": "0",
-      "baseCurrency": "BTC",
-      "baseCurrencyPrice": "1",
-      "baseAmount": "1.1"
-    }],
-    "marginAccounts": [{
-        "currency": "BTC",
-        "balance": "1.1",
-        "available": "1.1",
-        "holds": "0",
-        "baseCurrency": "BTC",
-        "baseCurrencyPrice": "1",
-        "baseAmount": "1.1"
-    }]
-  }
+    {
+        "subUserId":"5caefba7d9575a0688f83c45",
+        "subName":"kucoin1",
+        "mainAccounts":[
+            {
+                "currency":"BTC",
+                "balance":"6",
+                "available":"6",
+                "holds":"0",
+                "baseCurrency":"BTC",
+                "baseCurrencyPrice":"1",
+                "baseAmount":"1.1"
+            }
+        ],
+        "tradeAccounts":[
+            {
+                "currency":"BTC",
+                "balance":"1000",
+                "available":"1000",
+                "holds":"0",
+                "baseCurrency":"BTC",
+                "baseCurrencyPrice":"1",
+                "baseAmount":"1.1"
+            }
+        ],
+        "marginAccounts":[
+            {
+                "currency":"BTC",
+                "balance":"1.1",
+                "available":"1.1",
+                "holds":"0",
+                "baseCurrency":"BTC",
+                "baseCurrencyPrice":"1",
+                "baseAmount":"1.1"
+            }
+        ]
+    }
 ]
 ```
 
@@ -1202,12 +1214,12 @@ baseAmount | 基准货币数量
 ## 获取可划转资金
 
 ```json
- {
-    "currency": "KCS",
-    "balance": "0",
-    "available": "0",
-    "holds": "0",
-    "transferable": "0"
+{
+    "currency":"KCS",
+    "balance":"0",
+    "available":"0",
+    "holds":"0",
+    "transferable":"0"
 }
 ```
 此接口可获取指定账户和币种下的可划转的资金。
@@ -1244,7 +1256,7 @@ transferable | 可划转资金
 
 ```json
 {
-	"orderId": "5cbd870fd9575a18e4438b9a"
+    "orderId":"5cbd870fd9575a18e4438b9a"
 }
 ```
 
@@ -1313,7 +1325,7 @@ orderId | 子母账号转账的订单ID
 
 ```json
 {
-    "orderId": "5bd6e9286d99522a52e458de"
+    "orderId":"5bd6e9286d99522a52e458de"
 }
 ```
 此接口用于平台内部账户资金划转，用户可以将资金在储蓄账户、交易账户和杠杆账户之间免费划转，支持储蓄账户和矿池账户之间划转。
@@ -1349,9 +1361,9 @@ orderId | 内部资金划转的订单ID
 
 ```json
 {
-	"address": "0x78d3ad1c0aa1bf068e19c94a2d7b16c9c0fcd8b1",
-	"memo": "5c247c8a03aa677cea2a251d",   //标签
-	"chain": "OMNI"
+    "address":"0x78d3ad1c0aa1bf068e19c94a2d7b16c9c0fcd8b1",
+    "memo":"5c247c8a03aa677cea2a251d",
+    "chain":"OMNI"
 }
 ```
 
@@ -1384,9 +1396,9 @@ chain | 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TR
 
 ```json
 {
-	"address": "0x78d3ad1c0aa1bf068e19c94a2d7b16c9c0fcd8b1",
-	"memo": "5c247c8a03aa677cea2a251d",        //标签
-	"chain": "OMNI"
+    "address":"0x78d3ad1c0aa1bf068e19c94a2d7b16c9c0fcd8b1",
+    "memo":"5c247c8a03aa677cea2a251d",
+    "chain":"ERC20"
 }
 ```
 
@@ -1420,35 +1432,38 @@ chain | 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TR
 
 ```json
 {
-  "currentPage": 1,
-  "pageSize": 5,
-  "totalNum": 2,
-  "totalPage": 1,
-	"items": [{
-		"address": "0x5f047b29041bcfdbf0e4478cdfa753a336ba6989",
-		"memo": "5c247c8a03aa677cea2a251d",
-		"amount": 1,
-		"fee": 0.0001,
-		"currency": "KCS",
-		"isInner": false,
-		"walletTxId": "5bbb57386d99522d9f954c5a@test004",
-		"status": "SUCCESS",
-    "remark": "test",
-		"createdAt": 1544178843000,
-		"updatedAt": 1544178891000
-	}, {
-		"address": "0x5f047b29041bcfdbf0e4478cdfa753a336ba6989",
-		"memo": "5c247c8a03aa677cea2a251d",
-		"amount": 1,
-		"fee": 0.0001,
-		"currency": "KCS",
-		"isInner": false,
-		"walletTxId": "5bbb57386d99522d9f954c5a@test003",
-		"status": "SUCCESS",
-    "remark": "test",
-		"createdAt": 1544177654000,
-		"updatedAt": 1544178733000
-	}]
+    "currentPage":1,
+    "pageSize":5,
+    "totalNum":2,
+    "totalPage":1,
+    "items":[
+        {
+            "address":"0x5f047b29041bcfdbf0e4478cdfa753a336ba6989",
+            "memo":"5c247c8a03aa677cea2a251d",
+            "amount":1,
+            "fee":0.0001,
+            "currency":"KCS",
+            "isInner":false,
+            "walletTxId":"5bbb57386d99522d9f954c5a@test004",
+            "status":"SUCCESS",
+            "remark":"test",
+            "createdAt":1544178843000,
+            "updatedAt":1544178891000
+        },
+        {
+            "address":"0x5f047b29041bcfdbf0e4478cdfa753a336ba6989",
+            "memo":"5c247c8a03aa677cea2a251d",
+            "amount":1,
+            "fee":0.0001,
+            "currency":"KCS",
+            "isInner":false,
+            "walletTxId":"5bbb57386d99522d9f954c5a@test003",
+            "status":"SUCCESS",
+            "remark":"test",
+            "createdAt":1544177654000,
+            "updatedAt":1544178733000
+        }
+    ]
 }
 ```
 
@@ -1495,18 +1510,20 @@ updatedAt | 修改时间
 
 ```json
 {
-"currentPage": 1,
-"pageSize": 1,
-"totalNum": 9,
-"totalPage": 9,
-"items": [{
-"currency": "BTC",
-"createAt": 1528536998,
-"amount": "0.03266638",
-"walletTxId": "55c643bc2c68d6f17266383ac1be9e454038864b929ae7cee0bc408cc5c869e8@12ffGWmMMD1zA1WbFm7Ho3JZ1w6NYXjpFk@234",
-"isInner": false,
-"status": "SUCCESS"
-}]
+    "currentPage":1,
+    "pageSize":1,
+    "totalNum":9,
+    "totalPage":9,
+    "items":[
+        {
+            "currency":"BTC",
+            "createAt":1528536998,
+            "amount":"0.03266638",
+            "walletTxId":"55c643bc2c68d6f17266383ac1be9e454038864b929ae7cee0bc408cc5c869e8@12ffGWmMMD1zA1WbFm7Ho3JZ1w6NYXjpFk@234",
+            "isInner":false,
+            "status":"SUCCESS"
+        }
+    ]
 }
 ```
 
@@ -1554,24 +1571,26 @@ createAt | 创建时间
 
 ```json
 {
-  "currentPage": 1,
-  "pageSize": 10,
-  "totalNum": 1,
-  "totalPage": 1,
-	"items": [{
-	  "id": "5c2dc64e03aa675aa263f1ac",
-		"address": "0x5bedb060b8eb8d823e2414d82acce78d38be7fe9",
-		"memo": "",
-		"currency": "ETH",
-		"amount": 1.0000000,
-    "fee": 0.0100000,
-		"walletTxId": "3e2414d82acce78d38be7fe9",
-		"isInner": false,
-		"status": "FAILURE",
-    "remark": "test",
-		"createdAt": 1546503758000,
-		"updatedAt": 1546504603000
-	}]
+    "currentPage":1,
+    "pageSize":10,
+    "totalNum":1,
+    "totalPage":1,
+    "items":[
+        {
+            "id":"5c2dc64e03aa675aa263f1ac",
+            "address":"0x5bedb060b8eb8d823e2414d82acce78d38be7fe9",
+            "memo":"",
+            "currency":"ETH",
+            "amount":1,
+            "fee":0.01,
+            "walletTxId":"3e2414d82acce78d38be7fe9",
+            "isInner":false,
+            "status":"FAILURE",
+            "remark":"test",
+            "createdAt":1546503758000,
+            "updatedAt":1546504603000
+        }
+    ]
 }
 ```
 
@@ -1616,19 +1635,21 @@ updatedAt | 修改时间
 
 ```json
 {
-  "currentPage": 1,
-  "pageSize": 1,
-  "totalNum": 2,
-  "totalPage": 2,
-	"items": [{
-	  "currency": "BTC",
-    "createAt": 1526723468,
-    "amount": "0.534",
-    "address": "33xW37ZSW4tQvg443Pc7NLCAs167Yc2XUV",
-    "walletTxId": "aeacea864c020acf58e51606169240e96774838dcd4f7ce48acf38e3651323f4",
-    "isInner": false,
-    "status": "SUCCESS"
-	}]
+    "currentPage":1,
+    "pageSize":1,
+    "totalNum":2,
+    "totalPage":2,
+    "items":[
+        {
+            "currency":"BTC",
+            "createAt":1526723468,
+            "amount":"0.534",
+            "address":"33xW37ZSW4tQvg443Pc7NLCAs167Yc2XUV",
+            "walletTxId":"aeacea864c020acf58e51606169240e96774838dcd4f7ce48acf38e3651323f4",
+            "isInner":false,
+            "status":"SUCCESS"
+        }
+    ]
 }
 
 ```
@@ -1675,18 +1696,18 @@ status | 状态
 
 ```json
 {
-	"currency": "KCS",
-	"limitBTCAmount": "2.0",
-	"usedBTCAmount": "0",
-	"limitAmount": "75.67567568",
-	"remainAmount": "75.67567568",
-	"availableAmount": "9697.41991348",
-	"withdrawMinFee": "0.93000000",
-	"innerWithdrawMinFee": "0.00000000",
-	"withdrawMinSize": "1.4",
-	"isWithdrawEnabled": true,
-	"precision": 8,   //提现金额精度
-	"chain": "OMNI"
+    "currency":"KCS",
+    "limitBTCAmount":"2.0",
+    "usedBTCAmount":"0",
+    "limitAmount":"75.67567568",
+    "remainAmount":"75.67567568",
+    "availableAmount":"9697.41991348",
+    "withdrawMinFee":"0.93000000",
+    "innerWithdrawMinFee":"0.00000000",
+    "withdrawMinSize":"1.4",
+    "isWithdrawEnabled":true,
+    "precision":8,
+    "chain":"OMNI"
 }
 ```
 
@@ -1726,7 +1747,7 @@ chain | 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TR
 
 ```json
 {
-  "withdrawalId": "5bffb63303aa675e8bbe18f9"
+    "withdrawalId":"5bffb63303aa675e8bbe18f9"
 }
 ```
 
@@ -1794,7 +1815,7 @@ withdrawalId | String | 路径参数，[提现Id](#c46f4b3b8e) 唯一标识
 
 ```json
 {
-  "orderId": "5bd6e9286d99522a52e458de"
+    "orderId":"5bd6e9286d99522a52e458de"
 }
 ```
 
@@ -1987,39 +2008,39 @@ postOnlys只是一个标识，如果下单有能立即成交的对手方，则�
 ## 批量下单
 
 ```json
-{ 
-    "success": true, // 返回值
-    "code": "200", 
-    "msg": "success", 
-    "retry": false, 
-    "data": { 
-      "data": [ 
-          { 
-            "symbol": "BTC-USDT", 
-            "type": "limit", 
-            "side": "buy", 
-            "price": "9661", 
-            "size": "1", 
-            "funds": null, 
-            "stp": "", 
-            "stop": "", 
-            "stopPrice": "0", 
-            "timeInForce": "GTC", 
-            "cancelAfter": 0, 
-            "postOnly": false, 
-            "hidden": false, 
-            "iceberge": false, 
-            "iceberg": false, 
-            "visibleSize": "0", 
-            "channel": "API", 
-            "id": null, 
-            "status": "fail", 
-            "failMsg": "error.createOrder.accountBalanceInsufficient", 
-            "clientOid": "5e42743514832d53d255d921" 
-          } 
-      ] 
-    } 
-} 
+{
+    "success":true,
+    "code":"200",
+    "msg":"success",
+    "retry":false,
+    "data":{
+        "data":[
+            {
+                "symbol":"BTC-USDT",
+                "type":"limit",
+                "side":"buy",
+                "price":"9661",
+                "size":"1",
+                "funds":null,
+                "stp":"",
+                "stop":"",
+                "stopPrice":"0",
+                "timeInForce":"GTC",
+                "cancelAfter":0,
+                "postOnly":false,
+                "hidden":false,
+                "iceberge":false,
+                "iceberg":false,
+                "visibleSize":"0",
+                "channel":"API",
+                "id":null,
+                "status":"fail",
+                "failMsg":"error.createOrder.accountBalanceInsufficient",
+                "clientOid":"5e42743514832d53d255d921"
+            }
+        ]
+    }
+}
 ```
 
 该接口支持在一个接口中批量下单，每次可同时下5个订单，订单类型必须为相同交易对的限价单（目前该接口只支持现货交易，不支持杠杆交易） 
@@ -2034,19 +2055,19 @@ postOnlys只是一个标识，如果下单有能立即成交的对手方，则�
 
 ```json
 
-{ 
-  "symbol": "BTC-USDT", // 请求示例
-  "orderList": [ 
-    { 
-      "clientOid": "5e42743514832d53d255d921", 
-      "price": 9661, 
-      "side": "buy", 
-      "size": 1, 
-      "symbol": "BTC-USDT", 
-      "type": "limit" 
-    } 
-  ] 
-} 
+{
+    "symbol":"BTC-USDT",
+    "orderList":[
+        {
+            "clientOid":"5e42743514832d53d255d921",
+            "price":9661,
+            "side":"buy",
+            "size":1,
+            "symbol":"BTC-USDT",
+            "type":"limit"
+        }
+    ]
+}
 ```
 
 POST /api/v1/orders/multi
@@ -2089,8 +2110,8 @@ POST /api/v1/orders/multi
 
 ```json
 {
-     "cancelledOrderIds": [
-      "5bd6e9286d99522a52e458de"   //orderId
+    "cancelledOrderIds":[
+        "5bd6e9286d99522a52e458de"
     ]
 }
 ```
@@ -2133,17 +2154,17 @@ DELETE /api/v1/orders/5bd6e9286d99522a52e458de
 
 ```json
 {
-   "cancelledOrderIds": [
-      "5c52e11203aa677f33e493fb",  //orderId
-      "5c52e12103aa677f33e493fe",
-      "5c52e12a03aa677f33e49401",
-      "5c52e1be03aa677f33e49404",
-      "5c52e21003aa677f33e49407",
-      "5c6243cb03aa67580f20bf2f",
-      "5c62443703aa67580f20bf32",
-      "5c6265c503aa676fee84129c",
-      "5c6269e503aa676fee84129f",
-      "5c626b0803aa676fee8412a2"
+    "cancelledOrderIds":[
+        "5c52e11203aa677f33e493fb",
+        "5c52e12103aa677f33e493fe",
+        "5c52e12a03aa677f33e49401",
+        "5c52e1be03aa677f33e49404",
+        "5c52e21003aa677f33e49407",
+        "5c6243cb03aa67580f20bf2f",
+        "5c62443703aa67580f20bf32",
+        "5c6265c503aa676fee84129c",
+        "5c6269e503aa676fee84129f",
+        "5c626b0803aa676fee8412a2"
     ]
 }
 ```
@@ -2792,23 +2813,23 @@ GET /api/v1/limit/fills
 
 ```json
 [
-  {
-    "symbol": "BTC-USDT",
-    "name": "BTC-USDT",
-    "baseCurrency": "BTC",
-    "quoteCurrency": "USDT",
-    "baseMinSize": "0.00000001",
-    "quoteMinSize": "0.01",
-    "baseMaxSize": "10000",
-    "quoteMaxSize": "100000",
-    "baseIncrement": "0.00000001",
-    "quoteIncrement": "0.01",
-    "priceIncrement": "0.00000001",
-    "feeCurrency": "USDT",
-    "enableTrading": true,
-    "isMarginEnabled": true,
-    "priceLimitRate": "0.1"
-  }
+    {
+        "symbol":"BTC-USDT",
+        "name":"BTC-USDT",
+        "baseCurrency":"BTC",
+        "quoteCurrency":"USDT",
+        "baseMinSize":"0.00000001",
+        "quoteMinSize":"0.01",
+        "baseMaxSize":"10000",
+        "quoteMaxSize":"100000",
+        "baseIncrement":"0.00000001",
+        "quoteIncrement":"0.01",
+        "priceIncrement":"0.00000001",
+        "feeCurrency":"USDT",
+        "enableTrading":true,
+        "isMarginEnabled":true,
+        "priceLimitRate":"0.1"
+    }
 ]
 ```
 
@@ -2863,15 +2884,14 @@ GET /api/v1/symbols
 ```json
 //Get Ticker
 {
-    "sequence": "1550467636704",
-    "bestAsk": "0.03715004",
-    "size": "0.17",
-    "price": "0.03715005",
-    "bestBidSize": "3.803",
-    "bestBid": "0.03710768",
-    "bestAskSize": "1.788",
-    "time": 1550653727731
-
+    "sequence":"1550467636704",
+    "bestAsk":"0.03715004",
+    "size":"0.17",
+    "price":"0.03715005",
+    "bestBidSize":"3.803",
+    "bestBid":"0.03710768",
+    "bestAskSize":"1.788",
+    "time":1550653727731
 }
 ```
 
@@ -2911,36 +2931,36 @@ time |  时间戳
 
 ```json
 {
-    "time": 1550653727731,
-    "ticker": [
-      {
-        "symbol": "BTC-USDT",
-        "symbolName": "BTC-USDT",
-        "buy": "0.00001191",
-        "sell": "0.00001206",
-        "changeRate": "0.057",
-        "changePrice": "0.00000065",
-        "high": "0.0000123",
-        "low": "0.00001109",
-        "vol": "45161.5073",
-        "volValue": "43.58567564",  
-        "last": "0.00001204"
-      },
-      {
-        "symbol": "BCD-BTC",
-        "symbolName": "BCD-BTC",
-        "buy": "0.00018564",
-        "sell": "0.0002",
-        "changeRate": "-0.0753",
-        "changePrice": "-0.00001522",
-        "high": "0.00021489",
-        "low": "0.00018351",
-        "vol": "72.99679763",
-        "volValue": "43.58567564",  
-        "last": "0.00018664"
-      }
+    "time":1550653727731,
+    "ticker":[
+        {
+            "symbol":"BTC-USDT",
+            "symbolName":"BTC-USDT",
+            "buy":"0.00001191",
+            "sell":"0.00001206",
+            "changeRate":"0.057",
+            "changePrice":"0.00000065",
+            "high":"0.0000123",
+            "low":"0.00001109",
+            "vol":"45161.5073",
+            "volValue":"43.58567564",
+            "last":"0.00001204"
+        },
+        {
+            "symbol":"BCD-BTC",
+            "symbolName":"BCD-BTC",
+            "buy":"0.00018564",
+            "sell":"0.0002",
+            "changeRate":"-0.0753",
+            "changePrice":"-0.00001522",
+            "high":"0.00021489",
+            "low":"0.00018351",
+            "vol":"72.99679763",
+            "volValue":"43.58567564",
+            "last":"0.00018664"
+        }
     ]
-  }
+}
 ```
 
 此接口，可获取所有交易对的tickers(包含24h成交量)
@@ -3027,12 +3047,12 @@ time |  时间戳
 ```json
 //Get Market List
 {
-	"data":[
-    "BTC",
-    "KCS",
-    "USDS",  //SC已更名为USDS
-    "ALTS"  //ALTS交易区包含ETH、NEO、TRX三个计价币种区
-  ]
+    "data":[
+        "BTC",
+        "KCS",
+        "USDS",
+        "ALTS"
+    ]
 }
 ```  
 
@@ -3055,12 +3075,28 @@ GET /api/v1/markets
 
 ```json
 {
-    "sequence": "3262786978",
-    "time": 1550653727731,
-    "bids": [["6500.12", "0.45054140"],
-             ["6500.11", "0.45054140"]],  //[price，size]
-    "asks": [["6500.16", "0.57753524"],
-             ["6500.15", "0.57753524"]]   
+    "sequence":"3262786978",
+    "time":1550653727731,
+    "bids":[
+        [
+            "6500.12",//price
+            "0.45054140"//size
+        ],
+        [
+            "6500.11",
+            "0.45054140"
+        ]
+    ],
+    "asks":[
+        [
+            "6500.16",
+            "0.57753524"
+        ],
+        [
+            "6500.15",
+            "0.57753524"
+        ]
+    ]
 }
 ```
 此接口，可获取指定交易对的买卖盘数据。
@@ -3110,12 +3146,28 @@ asks | 卖盘
 
 ```json
 {
-    "sequence": "3262786978",
-    "time": 1550653727731,
-    "bids": [["6500.12", "0.45054140"],
-             ["6500.11", "0.45054140"]],  //[price，size]
-    "asks": [["6500.16", "0.57753524"],
-             ["6500.15", "0.57753524"]]  
+    "sequence":"3262786978",
+    "time":1550653727731,
+    "bids":[
+        [
+            "6500.12", //price
+            "0.45054140" 
+        ],
+        [
+            "6500.11",
+            "0.45054140"
+        ]
+    ],
+    "asks":[
+        [
+            "6500.16",
+            "0.57753524"
+        ],
+        [
+            "6500.15",
+            "0.57753524"
+        ]
+    ]
 }
 ```
 此接口获取指定交易对的所有活动委托的快照。
@@ -3168,14 +3220,14 @@ asks | 卖盘
 
 ```json
 {
-    "data": {
-        "sequence": "1573503933086",
-        "asks": [
+    "data":{
+        "sequence":"1573503933086",
+        "asks":[
             [
-                "5e0d672c1f311300093ac522",   //订单ID
-                "0.1917",                     //价格
-                "390.9275",                   //数量
-                "1577936689346546088"         //时间,纳秒
+                "5e0d672c1f311300093ac522",//订单ID
+                "0.1917",//价格
+                "390.9275",//数量
+                "1577936689346546088"//时间,纳秒
             ],
             [
                 "5e0d672891432f000819ecc3",
@@ -3184,9 +3236,9 @@ asks | 卖盘
                 "1577936685718811031"
             ]
         ],
-        "bids": [
+        "bids":[
             [
-                "5e0d672cdc53860007f30262",    
+                "5e0d672cdc53860007f30262",
                 "0.19166",
                 "178.1936",
                 "1577936689166023452"
@@ -3198,7 +3250,7 @@ asks | 卖盘
                 "1577936671595901518"
             ]
         ],
-        "time": 1577936685107
+        "time":1577936685107
     }
 }
 ```
@@ -3249,20 +3301,20 @@ asks | 卖盘
 
 ```json
 [
-  {
-      "sequence": "1545896668571",
-      "price": "0.07",                      //成交价格
-      "size": "0.004",                      //成交数量
-      "side": "buy",                        //成交方向
-      "time": 1545904567062140823           //交易时间
-  },
-  {
-      "sequence": "1545896668578",
-      "price": "0.054",
-      "size": "0.066",
-      "side": "buy",
-      "time": 1545904581619888405
-  }
+    {
+        "sequence":"1545896668571", 
+        "price":"0.07",//成交价格
+        "size":"0.004", //成交数量
+        "side":"buy", //成交方向
+        "time":1545904567062140823
+    },
+    {
+        "sequence":"1545896668578",
+        "price":"0.054",
+        "size":"0.066",
+        "side":"buy",
+        "time":1545904581619888405
+    }
 ]
 ```
 此接口，可获取指定交易对的成交历史列表。
@@ -3301,24 +3353,23 @@ Taker订单的成交方向。Taker订单指立刻与买卖盘上的已有订单�
 
 ```json
 [
-  [
-      "1545904980",             //k线周期的开始时间
-      "0.058",                  //开盘价
-      "0.049",                  //收盘价
-      "0.058",                  //最高价
-      "0.049",                  //最低价
-      "0.018",                  //成交量
-      "0.000945"                //成交额
-  ],
-  [
-      "1545904920",
-      "0.058",
-      "0.072",
-      "0.072",
-      "0.058",
-      "0.103",
-      "0.006986"
-  ]
+    [
+        "1545904980", //k线周期的开始时间
+        "0.058",  //开盘价
+        "0.058", //收盘价
+        "0.049", //最高价
+        "0.018",  //最低价
+        "0.000945"  //成交量
+    ],
+    [
+        "1545904920",
+        "0.058",
+        "0.072",
+        "0.072",
+        "0.058",
+        "0.103",
+        "0.006986"
+    ]
 ]
 ```
 此接口，返回指定交易对的kline(蜡烛图），返回数据根据时间粒度划分。
@@ -3365,32 +3416,6 @@ turnover | 成交额
 
 ```json
 
-[{
-    "currency": "BTC",
-    "name": "BTC",
-    "fullName": "Bitcoin",
-    "precision": 8,
-    "withdrawalMinSize": "0.002",
-    "withdrawalMinFee": "0.0005",
-    "isWithdrawEnabled": true,
-    "isDepositEnabled": true,
-    "isMarginEnabled": true,
-    "isDebitEnabled": true
-},
-{
-
-    "currency": "ETH",
-    "name": "ETH",
-    "fullName": "Ethereum",
-    "precision": 8,
-    "withdrawalMinSize": "0.02",
-    "withdrawalMinFee": "0.01",
-    "isWithdrawEnabled": true,
-    "isDepositEnabled": true,
-    "isMarginEnabled": true,
-    "isDebitEnabled": true
-
-}]
 ```
 
 此接口，返回币种详情列表。
@@ -3437,17 +3462,17 @@ GET /api/v1/currencies
 
 ```json
 {
-    "currency": "BTC",
-    "name": "BTC",
-    "fullName": "Bitcoin",
-    "precision": 8,
-    "withdrawalMinSize": "0.002",
-    "withdrawalMinFee": "0.0005",
-    "isWithdrawEnabled": true,
-    "isDepositEnabled": true,
-    "isMarginEnabled": true,
-    "isDebitEnabled": true
-  }
+    "currency":"BTC",
+    "name":"BTC",
+    "fullName":"Bitcoin",
+    "precision":8,
+    "withdrawalMinSize":"0.002",
+    "withdrawalMinFee":"0.0005",
+    "isWithdrawEnabled":true,
+    "isDepositEnabled":true,
+    "isMarginEnabled":true,
+    "isDebitEnabled":true
+}
 ```
 
 此接口，返回可交易币种的法币换算后的价格
@@ -3487,12 +3512,12 @@ GET /api/v1/currencies/BTC
 
 ```json
 {
-    "code": "200000",
-    "data": {
-        "BTC": "3911.28000000",
-        "ETH": "144.55492453",
-        "LTC": "48.45888179",
-        "KCS": "0.45546856"
+    "code":"200000",
+    "data":{
+        "BTC":"3911.28000000",
+        "ETH":"144.55492453",
+        "LTC":"48.45888179",
+        "KCS":"0.45546856"
     }
 }
 ```
@@ -3519,10 +3544,10 @@ GET /api/v1/prices
 
 ```json
 {
-    "symbol": "USDT-BTC",
-    "granularity": 5000,
-    "timePoint": 1568701710000,
-    "value": 0.00009807
+    "symbol":"USDT-BTC",
+    "granularity":5000,
+    "timePoint":1568701710000,
+    "value":0.00009807
 }
 ```
 
@@ -3557,11 +3582,15 @@ GET /api/v1/mark-price/USDT-BTC/current
 
 ```json
 {
-    "currencyList": ["BTC","USDT","EOS"],
-    "warningDebtRatio": "0.8",
-    "liqDebtRatio": "0.9",
-    "maxLeverage": "3"
-  }
+    "currencyList":[
+        "BTC",
+        "USDT",
+        "EOS"
+    ],
+    "warningDebtRatio":"0.8",
+    "liqDebtRatio":"0.9",
+    "maxLeverage":"3"
+}
 ```
 
 此接口返回杠杆配置信息
@@ -3588,18 +3617,18 @@ GET /api/v1/margin/config
 
 ```json
 {
-    "accounts": [
-      {
-        "availableBalance": "990.11",
-        "currency": "USDT",
-        "holdBalance": "7.22",
-        "liability": "66.66",
-        "maxBorrowSize": "88.88",
-        "totalBalance": "997.33"
-      }
+    "accounts":[
+        {
+            "availableBalance":"990.11",
+            "currency":"USDT",
+            "holdBalance":"7.22",
+            "liability":"66.66",
+            "maxBorrowSize":"88.88",
+            "totalBalance":"997.33"
+        }
     ],
-    "debtRatio": "0.33"
-  }
+    "debtRatio":"0.33"
+}
 ```
 
 此接口返回当前杠杆账户信息
@@ -3636,9 +3665,9 @@ GET /api/v1/margin/account
 
 ```json
 {
-    "orderId": "a2111213",
-    "currency": "USDT"
-  }
+    "orderId":"a2111213",
+    "currency":"USDT"
+}
 ```
 
 
@@ -3679,22 +3708,22 @@ POST /api/v1/margin/borrow
 
 ```json
 {
-    "currency": "USDT",
-    "filled": 1.009,
-    "matchList": [
-      {
-        "currency": "USDT",
-        "dailyIntRate": "0.001",
-        "size": "12.9",
-        "term": 7,
-        "timestamp": "1544657947759",
-        "tradeId": "1212331"
-      }
+    "currency":"USDT",
+    "filled":1.009,
+    "matchList":[
+        {
+            "currency":"USDT",
+            "dailyIntRate":"0.001",
+            "size":"12.9",
+            "term":7,
+            "timestamp":"1544657947759",
+            "tradeId":"1212331"
+        }
     ],
-    "orderId": "a2111213",
-    "size": "1.009",
-    "status": "DONE"
-  }
+    "orderId":"a2111213",
+    "size":"1.009",
+    "status":"DONE"
+}
 ```
 
 调用[发布借入委托](#ebcc9fbb02) 后,根据返回的委托id，查询借入详情。
@@ -3737,25 +3766,25 @@ GET /api/v1/margin/borrow?orderId=123456789
 
 ```json
 {
-    "currentPage": 0,
-    "items": [
-      {
-        "accruedInterest": "0.22121",
-        "createdAt": "1544657947759",
-        "currency": "USDT",
-        "dailyIntRate": "0.0021",
-        "liability": "1.32121",
-        "maturityTime": "1544657947759",
-        "principal": "1.22121",
-        "repaidSize": "0",
-        "term": 7,
-        "tradeId": "1231141"
-      }
-    ],
-    "pageSize": 0,
-    "totalNum": 0,
-    "totalPage": 0
-  }
+    "currentPage":0,
+    "pageSize":0,
+    "totalNum":0,
+    "totalPage":0,
+    "items":[
+        {
+            "accruedInterest":"0.22121",
+            "createdAt":"1544657947759",
+            "currency":"USDT",
+            "dailyIntRate":"0.0021",
+            "liability":"1.32121",
+            "maturityTime":"1544657947759",
+            "principal":"1.22121",
+            "repaidSize":"0",
+            "term":7,
+            "tradeId":"1231141"
+        }
+    ]
+}
 ```
 
 
@@ -3797,23 +3826,23 @@ GET /api/v1/margin/borrow/outstanding
 
 ```json
 {
-    "currentPage": 0,
-    "items": [
-      {
-        "currency": "USDT",
-        "dailyIntRate": "0.0021",
-        "interest": "0.22121",
-        "principal": "1.22121",
-        "repaidSize": "0",
-        "repayTime": "1544657947759",
-        "term": 7,
-        "tradeId": "1231141"
-      }
-    ],
-    "pageSize": 0,
-    "totalNum": 0,
-    "totalPage": 0
-  }
+    "currentPage":0,
+    "pageSize":0,
+    "totalNum":0,
+    "totalPage":0,
+    "items":[
+        {
+            "currency":"USDT",
+            "dailyIntRate":"0.0021",
+            "interest":"0.22121",
+            "principal":"1.22121",
+            "repaidSize":"0",
+            "repayTime":"1544657947759",
+            "term":7,
+            "tradeId":"1231141"
+        }
+    ]
+}
 ```
 
 
@@ -3912,7 +3941,7 @@ POST /api/v1/margin/repay/single
 
 ```json
 {
-	"orderId": "5da5a4f0f943c040c2f8501e"
+    "orderId":"5da5a4f0f943c040c2f8501e"
 }
 ```
 
@@ -3999,19 +4028,21 @@ POST /api/v1/margin/toggle-auto-lend
 
 ```json
 {
-	"currentPage": 1,
-	"pageSize": 1,
-	"totalNum": 1,
-	"totalPage": 1,
-	"items": [{
-		"orderId": "5da59f5ef943c033b2b643e4",
-		"currency": "BTC",
-		"size": "0.51",
-		"filledSize": "0",
-		"dailyIntRate": "0.0001",
-		"term": 7,
-		"createdAt": 1571135326913
-	}]
+    "currentPage":1,
+    "pageSize":1,
+    "totalNum":1,
+    "totalPage":1,
+    "items":[
+        {
+            "orderId":"5da59f5ef943c033b2b643e4",
+            "currency":"BTC",
+            "size":"0.51",
+            "filledSize":"0",
+            "dailyIntRate":"0.0001",
+            "term":7,
+            "createdAt":1571135326913
+        }
+    ]
 }
 ```
 
@@ -4054,20 +4085,22 @@ GET /api/v1/margin/lend/active?currency=BTC&currentPage=1&pageSize=50
 
 ```json
 {
-	"currentPage": 1,
-	"pageSize": 1,
-	"totalNum": 1,
-	"totalPage": 1,
-	"items": [{
-		"orderId": "5da59f5bf943c033b2b643da",
-		"currency": "BTC",
-		"size": "0.51",
-		"filledSize": "0.51",
-		"dailyIntRate": "0.0001",
-		"term": 7,
-		"createdAt": 1571135323984,
-		"status": "FILLED"
-	}]
+    "currentPage":1,
+    "pageSize":1,
+    "totalNum":1,
+    "totalPage":1,
+    "items":[
+        {
+            "orderId":"5da59f5bf943c033b2b643da",
+            "currency":"BTC",
+            "size":"0.51",
+            "filledSize":"0.51",
+            "dailyIntRate":"0.0001",
+            "term":7,
+            "createdAt":1571135323984,
+            "status":"FILLED"
+        }
+    ]
 }
 ```
 
@@ -4111,20 +4144,22 @@ GET /api/v1/margin/lend/done?currency=BTC&currentPage=1&pageSize=50
 
 ```json
 {
-	"currentPage": 1,
-	"pageSize": 1,
-	"totalNum": 1,
-	"totalPage": 1,
-	"items": [{
-		"tradeId": "5da6dba0f943c0c81f5d5db5",
-		"currency": "BTC",
-		"size": "0.51",
-		"accruedInterest": "0",
-		"repaid": "0.10999968",
-		"dailyIntRate": "0.0001",
-		"term": 14,
-		"maturityTime": 1572425888958
-	}]
+    "currentPage":1,
+    "pageSize":1,
+    "totalNum":1,
+    "totalPage":1,
+    "items":[
+        {
+            "tradeId":"5da6dba0f943c0c81f5d5db5",
+            "currency":"BTC",
+            "size":"0.51",
+            "accruedInterest":"0",
+            "repaid":"0.10999968",
+            "dailyIntRate":"0.0001",
+            "term":14,
+            "maturityTime":1572425888958
+        }
+    ]
 }
 ```
 
@@ -4168,21 +4203,23 @@ GET /api/v1/margin/lend/trade/unsettled?currency=BTC&currentPage=1&pageSize=50
 
 ```json
 {
-	"currentPage": 1,
-	"pageSize": 1,
-	"totalNum": 1,
-	"totalPage": 1,
-	"items": [{
-		"tradeId": "5da59fe6f943c033b2b6440b",
-		"currency": "BTC",
-		"size": "0.51",
-		"interest": "0.00004899",
-		"repaid": "0.510041641",
-		"dailyIntRate": "0.0001",
-		"term": 7,
-		"settledAt": 1571216254767,
-		"note": "The account of the borrowers reached a negative balance, and the system has supplemented the loss via the insurance fund. Deposit funds: 0.51."
-	}]
+    "currentPage":1,
+    "pageSize":1,
+    "totalNum":1,
+    "totalPage":1,
+    "items":[
+        {
+            "tradeId":"5da59fe6f943c033b2b6440b",
+            "currency":"BTC",
+            "size":"0.51",
+            "interest":"0.00004899",
+            "repaid":"0.510041641",
+            "dailyIntRate":"0.0001",
+            "term":7,
+            "settledAt":1571216254767,
+            "note":"The account of the borrowers reached a negative balance, and the system has supplemented the loss via the insurance fund. Deposit funds: 0.51."
+        }
+    ]
 }
 ```
 
@@ -4226,14 +4263,16 @@ GET /api/v1/margin/lend/trade/settled?currency=BTC&currentPage=1&pageSize=50
 ## 资产借出记录
 
 ```json
-[{
-	"currency": "BTC",
-	"outstanding": "1.02",
-	"filledSize": "0.91000213",
-	"accruedInterest": "0.00000213",
-	"realizedProfit": "0.000045261",
-	"isAutoLend": false
-}]
+[
+    {
+        "currency":"BTC",
+        "outstanding":"1.02",
+        "filledSize":"0.91000213",
+        "accruedInterest":"0.00000213",
+        "realizedProfit":"0.000045261",
+        "isAutoLend":false
+    }
+]
 ```
 
 该接口可以查询用户借出资产相关的统计信息
@@ -4270,11 +4309,13 @@ GET /api/v1/margin/lend/assets?currency=BTC
 ## 借出市场信息
 
 ```json
-[{
-	"dailyIntRate": "0.0001",
-	"term": 7,
-	"size": "1.02"
-}]
+[
+    {
+        "dailyIntRate":"0.0001",
+        "term":7,
+        "size":"1.02"
+    }
+]
 ```
 
 该接口可以查询借出市场的信息，一次性返回所有满足条件的记录
@@ -4310,14 +4351,16 @@ GET /api/v1/margin/market?currency=BTC&term=7
 ## 借贷市场成交信息
 
 ```json
-[{
-	"tradeId": "5da6dba0f943c0c81f5d5db5",
-	"currency": "BTC",
-	"size": "0.51",
-	"dailyIntRate": "0.0001",
-	"term": 14,
-	"timestamp": 1571216288958989641
-}]
+[
+    {
+        "tradeId":"5da6dba0f943c0c81f5d5db5",
+        "currency":"BTC",
+        "size":"0.51",
+        "dailyIntRate":"0.0001",
+        "term":14,
+        "timestamp":1571216288958989641
+    }
+]
 ```
 
 该接口可以查询借贷市场最近的300条成交信息
@@ -4360,10 +4403,10 @@ GET /api/v1/margin/trade/last?currency=BTC
 ## 获取服务器时间
 
 ```json
-{  
-  "code":"200000",
-  "msg":"success",
-  "data":1546837113087
+{
+    "code":"200000",
+    "msg":"success",
+    "data":1546837113087
 }
 ```
 
@@ -4380,11 +4423,11 @@ GET /api/v1/timestamp
 ## 获取服务状态
 
 ```json
-{    
-  "code": "200000",     
-  "data": {
-      "status": "open",                //open, close, cancelonly
-      "msg":  "upgrade match engine"   //message
+{
+    "code":"200000",
+    "data":{
+        "status":"open", // //open, close, cancelonly
+        "msg":"upgrade match engine"
     }
 }
 ```
@@ -4415,20 +4458,20 @@ REST API的使用受到了访问频率的限制，因此推荐您使用Websocket
 
 ```json
   {
-    "code": "200000",
-    "data": {
-        "instanceServers": [
+    "code":"200000",
+    "data":{
+        "instanceServers":[
             {
-                "pingInterval": 50000,
-                "endpoint": "wss://push.kumex.net/endpoint",
-                "protocol": "websocket",
-                "encrypt": true,
-                "pingTimeout": 10000
+                "pingInterval":50000,
+                "endpoint":"wss://push.kumex.net/endpoint",
+                "protocol":"websocket",
+                "encrypt":true,
+                "pingTimeout":10000
             }
         ],
-        "token": "vYNlCtbz4XNJ1QncwWilJnBtmmfe4geLQDUA62kKJsDChc6I4bRDQc73JfIrlFaVYIAE0Gv2--MROnLAgjVsWkcDq_MuG7qV7EktfCEIphiqnlfpQn4Ybg==.IoORVxR2LmKV7_maOR9xOg=="
+        "token":"vYNlCtbz4XNJ1QncwWilJnBtmmfe4geLQDUA62kKJsDChc6I4bRDQc73JfIrlFaVYIAE0Gv2--MROnLAgjVsWkcDq_MuG7qV7EktfCEIphiqnlfpQn4Ybg==.IoORVxR2LmKV7_maOR9xOg=="
     }
-  }
+}
 ```
 
 在创建Websocket连接前，您需申请一个令牌（Token）。
@@ -4533,8 +4576,8 @@ var socket = new WebSocket("wss://push1-v2.kucoin.com/endpoint?token=xxx&[connec
 ## Ping
 ```json
 {
-  "id":"1545910590801",
-  "type":"ping"
+    "id":"1545910590801",
+    "type":"ping"
 }
 ```
 为防止服务器断开TCP连接，建议客户端每间隔pingInterval时间发送一条ping指令。
@@ -4544,8 +4587,8 @@ var socket = new WebSocket("wss://push1-v2.kucoin.com/endpoint?token=xxx&[connec
 
 ```json
 {
-  "id":"1545910590801",
-  "type":"pong"
+    "id":"1545910590801",
+    "type":"pong"
 }
 ```
 <aside class="spacer3"></aside>
@@ -4555,14 +4598,13 @@ var socket = new WebSocket("wss://push1-v2.kucoin.com/endpoint?token=xxx&[connec
 
 ```json
   // 订阅
-{
-    "id": "123456789",         //要求唯一 be an unique value
-    "type": "subscribe",      //类型: subscribe 
-    "topic": "/market/ticker:BTC-USDT,ETH-USDT", //
-    "privateChannel": false,   //是否使用该频道的私有频道，默认为false   
-    "response": true          //是否需要服务端返回本次订阅的回执信息，默认为false 
+  {
+    "id":"123456789",
+    "type":"subscribe",
+    "topic":"/market/ticker:BTC-USDT,ETH-USDT",
+    "privateChannel":false,
+    "response":true
 }
-
 ```
 
 使用服务器订阅消息时，客户端应向服务器发送订阅消息。
@@ -4571,10 +4613,10 @@ var socket = new WebSocket("wss://push1-v2.kucoin.com/endpoint?token=xxx&[connec
 
 
 ```json
-  {
+{
     "id":"1545910660739",
     "type":"ack"
-  }
+}
 ```
 
 当订阅频道产生新消息时，系统将向客户端推送消息。了解消息格式，请查看频道介绍。
@@ -4585,21 +4627,21 @@ var socket = new WebSocket("wss://push1-v2.kucoin.com/endpoint?token=xxx&[connec
 
 ```json
   // 取消订阅
-  {
-      "id": "1545910840805",      //要求唯一 
-      "type": "unsubscribe",     //类型: unsubscribe 
-      "topic": "/market/ticker:BTC-USDT,ETH-USDT",
-      "privateChannel": false,   //是否使用该频道的私有频道，默认为false 
-      "response": true          //是否需要服务端返回本次订阅的回执信息，默认为false   
-  }
+ {
+    "id":"1545910840805",  //要求唯一 
+    "type":"unsubscribe", //类型: unsubscribe 
+    "topic":"/market/ticker:BTC-USDT,ETH-USDT",
+    "privateChannel":false, //是否使用该频道的私有频道，默认为false 
+    "response":true //是否需要服务端返回本次订阅的回执信息，默认为false   
+}
 
 ```
 
 ```json
-  {
-    "id": "1545910840805",
-    "type": "ack"
-  }
+{
+    "id":"1545910840805",
+    "type":"ack"
+}
 ```
 
 ### 参数
@@ -4688,12 +4730,11 @@ ID用于标识请求和ack的唯一字符串。
 ## 交易瞬时行情
 
 ```json
-
 {
-    "id": 1545910660739,                          
-    "type": "subscribe",
-    "topic": "/market/ticker:BTC-USDT",
-    "response": true                              
+    "id":1545910660739,
+    "type":"subscribe",
+    "topic":"/market/ticker:BTC-USDT",
+    "response":true
 }
 ```
 Topic: **/market/ticker:{symbol},{symbol}...**
@@ -4727,30 +4768,29 @@ Topic: **/market/ticker:{symbol},{symbol}...**
 ## 全部交易对瞬时行情
 
 ```json
-
 {
-    "id": 1545910660739,                          
-    "type": "subscribe",
-    "topic": "/market/ticker:all",
-    "response": true                              
+    "id":1545910660739,
+    "type":"subscribe",
+    "topic":"/market/ticker:all",
+    "response":true
 }
 ```
 Topic: **/market/ticker:all**
 
 ```json
 {
-  "type":"message",
-  "topic":"/market/ticker:all",
-  "subject":"BTC-USDT",
-  "data":{
-    "sequence":"1545896668986",  //序列号
-    "bestAsk":"0.08",            //最佳卖一价
-    "size":"0.011",             // 最近成交数量
-    "bestBidSize":"0.036",      //最佳买一数量
-    "price":"0.08",             // 最近成交价格
-    "bestAskSize":"0.18",       // 最佳卖一数量
-    "bestBid":"0.049"           //最佳买一价ß
-  }
+    "type":"message",
+    "topic":"/market/ticker:all",
+    "subject":"BTC-USDT",
+    "data":{
+        "sequence":"1545896668986",
+        "bestAsk":"0.08",
+        "size":"0.011",
+        "bestBidSize":"0.036",
+        "price":"0.08",
+        "bestAskSize":"0.18",
+        "bestBid":"0.049"
+    }
 }
 ```
 订阅此topic可获取所有的BBO(最佳买一和卖一)数据的推送。
@@ -4763,35 +4803,34 @@ Topic: **/market/ticker:all**
 ## 交易对行情快照
 
 ```json
-
 {
-	"data": {
-		"sequence": "1545896669291",
-		"data": {
-			"trading": true,
-			"symbol": "KCS-BTC",
-			"buy": 0.00011,
-			"sell": 0.00012,
-			"sort": 100,
-			"volValue": 3.13851792584,
-			"baseCurrency": "KCS",
-			"market": "BTC",
-			"quoteCurrency": "BTC",
-			"symbolCode": "KCS-BTC",
-			"datetime": 1548388122031,
-			"high": 0.00013,
-			"vol": 27514.34842,
-			"low": 0.0001,
-			"changePrice": -1.0e-5,
-			"changeRate": -0.0769,
-			"lastTradedPrice": 0.00012,
-			"board": 0,
-			"mark": 0
-		}
-	},
-	"subject": "trade.snapshot",
-	"topic": "/market/snapshot:KCS-BTC",
-  "type": "message"
+    "data":{
+        "sequence":"1545896669291",
+        "data":{
+            "trading":true,
+            "symbol":"KCS-BTC",
+            "buy":0.00011,
+            "sell":0.00012,
+            "sort":100,
+            "volValue":3.13851792584,
+            "baseCurrency":"KCS",
+            "market":"BTC",
+            "quoteCurrency":"BTC",
+            "symbolCode":"KCS-BTC",
+            "datetime":1548388122031,
+            "high":0.00013,
+            "vol":27514.34842,
+            "low":0.0001,
+            "changePrice":-0.00001,
+            "changeRate":-0.0769,
+            "lastTradedPrice":0.00012,
+            "board":0,
+            "mark":0
+        }
+    },
+    "subject":"trade.snapshot",
+    "topic":"/market/snapshot:KCS-BTC",
+    "type":"message"
 }
 ```
 
@@ -4808,33 +4847,35 @@ Topic: **/market/snapshot:{symbol}**
 
 ```json
 {
-	"data": {
-		"sequence": "1545896669291",
-		"data": [{
-			"trading": true,
-			"symbol": "KCS-BTC",
-			"buy": 0.00011,
-			"sell": 0.00012,
-			"sort": 100,
-			"volValue": 3.13851792584,
-			"baseCurrency": "KCS",
-			"market": "BTC",         
-			"quoteCurrency": "BTC",  
-			"symbolCode": "KCS-BTC",
-			"datetime": 1548388122031,
-			"high": 0.00013,
-			"vol": 27514.34842,
-			"low": 0.0001,
-			"changePrice": -1.0e-5,
-			"changeRate": -0.0769,
-			"lastTradedPrice": 0.00012,
-			"board": 0,
-			"mark": 0
-		}]
-	},
-	"subject": "trade.snapshot",
-	"topic": "/market/snapshot:BTC",
-  "type": "message"
+    "data":{
+        "sequence":"1545896669291",
+        "data":[
+            {
+                "trading":true,
+                "symbol":"KCS-BTC",
+                "buy":0.00011,
+                "sell":0.00012,
+                "sort":100,
+                "volValue":3.13851792584,
+                "baseCurrency":"KCS",
+                "market":"BTC",
+                "quoteCurrency":"BTC",
+                "symbolCode":"KCS-BTC",
+                "datetime":1548388122031,
+                "high":0.00013,
+                "vol":27514.34842,
+                "low":0.0001,
+                "changePrice":-0.00001,
+                "changeRate":-0.0769,
+                "lastTradedPrice":0.00012,
+                "board":0,
+                "mark":0
+            }
+        ]
+    },
+    "subject":"trade.snapshot",
+    "topic":"/market/snapshot:BTC",
+    "type":"message"
 }
 ```
 
@@ -4851,10 +4892,10 @@ Topic: **/market/snapshot:{market}**
 
 ```json
 {
-    "id": 1545910660740,                          
-    "type": "subscribe",
-    "topic": "/market/level2:BTC-USDT",
-    "response": true                              
+    "id":1545910660740,
+    "type":"subscribe",
+    "topic":"/market/level2:BTC-USDT",
+    "response":true
 }
 ```
 
@@ -4867,18 +4908,30 @@ Topic: **/market/level2:{symbol},{symbol}...**
 
 ```json
 {
-  "type":"message",
-  "topic":"/market/level2:BTC-USDT",
-  "subject":"trade.l2update",
-  "data":{
-    "sequenceStart":1545896669105,
-    "sequenceEnd":1545896669106,
-    "symbol":"BTC-USDT",
-    "changes":{
-      "asks":[["6","1","1545896669105"]],           //price, size, sequence
-      "bids":[["4","1","1545896669106"]]
+    "type":"message",
+    "topic":"/market/level2:BTC-USDT",
+    "subject":"trade.l2update",
+    "data":{
+        "sequenceStart":1545896669105,
+        "sequenceEnd":1545896669106,
+        "symbol":"BTC-USDT",
+        "changes":{
+            "asks":[
+                [
+                    "6",//price
+                    "1", //size
+                    "1545896669105" //sequence
+                ]
+            ],
+            "bids":[
+                [
+                    "4",
+                    "1",
+                    "1545896669106"
+                ]
+            ]
+        }
     }
-  }
 }
 ```
 
@@ -5009,21 +5062,21 @@ Topic: **/market/match:{symbol},{symbol}...**
 
 ```json
 {
-  "type":"message",
-  "topic":"/market/match:BTC-USDT",
-  "subject":"trade.l3match",
-  "data":{
-    "sequence":"1545896669145",
-    "symbol":"BTC-USDT",
-    "side":"buy",
-    "size":"0.01022222000000000000",
-    "price":"0.08200000000000000000",
-    "takerOrderId":"5c24c5d903aa6772d55b371e",
-    "time":"1545913818099033203",
-    "type":"match",
-    "makerOrderId":"5c2187d003aa677bd09d5c93",
-    "tradeId":"5c24c5da03aa673885cd67aa"
-  }
+    "type":"message",
+    "topic":"/market/match:BTC-USDT",
+    "subject":"trade.l3match",
+    "data":{
+        "sequence":"1545896669145",
+        "symbol":"BTC-USDT",
+        "side":"buy",
+        "size":"0.01022222000000000000",
+        "price":"0.08200000000000000000",
+        "takerOrderId":"5c24c5d903aa6772d55b371e",
+        "time":"1545913818099033203",
+        "type":"match",
+        "makerOrderId":"5c2187d003aa677bd09d5c93",
+        "tradeId":"5c24c5da03aa673885cd67aa"
+    }
 }
 ```
 <aside class="spacer8"></aside>
@@ -5033,11 +5086,11 @@ Topic: **/market/match:{symbol},{symbol}...**
 
 ```json
 {
-    "id": 1545910660742,                          
-    "type": "subscribe",
-    "topic": "/market/level3:BTC-USDT",
-    "privateChannel": false,                      
-    "response": true                              
+    "id":1545910660742,
+    "type":"subscribe",
+    "topic":"/market/level3:BTC-USDT",
+    "privateChannel":false,
+    "response":true
 }
 ```
 
