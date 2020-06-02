@@ -2570,11 +2570,11 @@ GET /api/v1/orders/5c35c02703aa673ceec2a168
 
 ### HTTP 请求
 
-**POST /api/v1/stoporder**
+**POST /api/v1/stop-order**
 
 ### 请求示例
 
-POST /api/v1/stoporder
+POST /api/v1/stop-order
 
 ### API权限
 
@@ -2633,11 +2633,11 @@ POST /api/v1/stoporder
 
 ### HTTP请求
 
-**DELETE /api/v1/stoporder/{symbol}/{orderId}**
+**DELETE /api/v1/stop-order/{symbol}/{orderId}**
 
 ### 请求示例
 
-DELETE /api/v1/stoporder/BTC-USDT/5bd6e9286d99522a52e458de
+DELETE /api/v1/stop-order/BTC-USDT/5bd6e9286d99522a52e458de
 
 ### 请求参数
 
@@ -2668,11 +2668,11 @@ DELETE /api/v1/stoporder/BTC-USDT/5bd6e9286d99522a52e458de
 
 ### HTTP请求
 
-**DELETE /api/v1/stoporder/cancel**
+**DELETE /api/v1/stop-order/cancel**
 
 ### 请求示例
 
-**DELETE /api/v1/stoporder/cancel?symbol=ETH-BTC&tradeType=TRADE&orderIds=5bd6e9286d99522a52e458de,5bd6e9286d99522a52e458df**
+**DELETE /api/v1/stop-order/cancel?symbol=ETH-BTC&tradeType=TRADE&orderIds=5bd6e9286d99522a52e458de,5bd6e9286d99522a52e458df**
 
 ### API权限
 
@@ -2698,11 +2698,11 @@ DELETE /api/v1/stoporder/BTC-USDT/5bd6e9286d99522a52e458de
 
 ### HTTP请求
 
-**GET /api/v1/stoporder/{symbol}/{orderId}**
+**GET /api/v1/stop-order/{symbol}/{orderId}**
 
 ### 请求示例
 
-GET /api/v1/stoporder/BTC-USDT/5c35c02703aa673ceec2a168
+GET /api/v1/stop-order/BTC-USDT/5c35c02703aa673ceec2a168
 
 ### API权限
 
@@ -2753,11 +2753,11 @@ GET /api/v1/stoporder/BTC-USDT/5c35c02703aa673ceec2a168
 
 ### HTTP请求
 
-**GET /api/v1/stoporder
+**GET /api/v1/stop-order
 
 ### 请求示例
 
-GET /api/v1/stoporder
+GET /api/v1/stop-order
 
 ### API权限
 
@@ -2817,11 +2817,11 @@ GET /api/v1/stoporder
 
 ### HTTP请求
 
-**GET /api/v1/stoporder/queryOrderByClientOid**
+**GET /api/v1/stop-order/queryOrderByClientOid**
 
 ### 请求示例
 
-GET /api/v1/stoporder/queryOrderByClientOid?symbol=BTC-USDT&clientOid=9823jnfda923a
+GET /api/v1/stop-order/queryOrderByClientOid?symbol=BTC-USDT&clientOid=9823jnfda923a
 
 ### API权限
 
