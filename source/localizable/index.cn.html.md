@@ -31,6 +31,12 @@ API分为两部分：**REST API和Websocket 实时数据流**
 为了您能获取到最新的API 变更的通知，请在 [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs)添加关注【Watch】
 
 
+**06/12/20**:
+
+- 【添加】 Websocket推送消息增加channelType字段: public(公共频道，默认)、private(用户私有频道)、session(会话频道)；
+- 【弃用】 三个月后移除私用频道topic中({topic}:privateChannel:{userId})和私有消息中的userId
+
+
 **05/28/20**:
 
 - 【修改】 [账户流水记录](#c8122540e1)新增唯一id
