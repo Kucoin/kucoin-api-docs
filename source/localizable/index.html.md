@@ -28,6 +28,11 @@ The WebSocket contains two sections: Public Channels and Private Channels
 
 To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
+**06/12/20**:
+
+- Add channelType field: public(public channel, default), private(private channel), session(session channel) for Websocket.
+- Deprecate ({topic}:privateChannel:{userId}) and userId in private messages after three months.
+
 **05/28/20**:
 
 - Add unique key for [Get Account Ledgers](#get-account-ledgers)
