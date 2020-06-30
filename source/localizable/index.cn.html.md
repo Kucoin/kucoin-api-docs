@@ -2622,8 +2622,7 @@ POST /api/v1/stop-order
 
 | 字段                                | 含义   |
 | ----------------------------------- | ------ |
-| orderId                             | 订单Id |
-| 下单成功后，会返回一个orderId字段。 |        |
+| orderId                             | 订单Id。下单成功后，会返回一个orderId字段。 |
 
 ## 单个撤单
 
@@ -3507,7 +3506,7 @@ asks | 卖盘
         ],
         "bids": [
             [
-                "5e0d672cdc53860007f30262",    
+                "5e0d672cdc53860007f30262",
                 "0.19166",
                 "178.1936",
                 "1577936689166023452"
@@ -3551,7 +3550,7 @@ symbol | String |  [交易对](#a17b4e2866)
 字段 | 含义
 --------- | ------- 
 sequence | 序列号
-time | 时间戳，纳秒
+time | 时间戳，毫秒
 bids | 买盘
 asks | 卖盘
 
@@ -3561,6 +3560,82 @@ asks | 卖盘
 
 **Bids**: 买盘，根据价格从高到低
 
+## Level-3全部买卖盘(非聚合)(改版)
+
+
+```json
+{
+    "data": {
+        "sequence": 1573503933086,
+        "asks": [
+            [
+                "5e0d672c1f311300093ac522",   //订单ID
+                "0.1917",                     //价格
+                "390.9275",                   //数量
+                1577936689346546088           //时间,纳秒
+            ],
+            [
+                "5e0d672891432f000819ecc3",
+                "0.19171",
+                "1456.1316",
+                1577936685718811031
+            ]
+        ],
+        "bids": [
+            [
+                "5e0d672cdc53860007f30262",
+                "0.19166",
+                "178.1936",
+                1577936689166023452
+            ],
+            [
+                "5e0d671a91432f000819d1b0",
+                "0.19165",
+                "583.6298",
+                1577936671595901518
+            ]
+        ],
+        "time": 1577936689346546088
+    }
+}
+```
+
+此接口，可获取指定交易对的所有未结委托的快照。Level 3 返回了买卖盘上的所有数据（未按价格汇总，一个价格对应一个挂单）。
+
+该功能适用于专业交易员，因为该过程将使用较多服务器资源及流量，访问频率受到了严格控制。
+
+为保证本地买卖盘数据为最新数据，在获取Level 3快照后，请使用[Websocket](#level-nbsp-3)推送的增量消息来更新Level 3买卖盘。
+
+在买卖盘中，卖盘是以价格从低到高排序的，价格相同的订单以进入买卖盘的时间从低到高排序。买盘是以价格从高到低排序的，价格相同的订单以进入买卖盘的时间从低到高排序。撮合引擎将按照订单在买卖盘中排列顺序依次进行撮合。
+
+
+### HTTP请求
+**GET /api/v2/market/orderbook/level3**
+
+### 请求示例
+GET GET /api/v2/market/orderbook/level3?symbol=BTC-USDT
+
+### 请求参数
+
+
+请求参数 | 类型 | 含义
+--------- | ------- | -------
+symbol | String |  [交易对](#a17b4e2866)
+
+### 返回值
+
+字段 | 含义
+--------- | ------- 
+sequence | 序列号
+time | 时间戳，纳秒
+bids | 买盘
+asks | 卖盘
+
+###数据排序方式 
+
+**Asks**: 卖盘，根据价格从低到高
+
+**Bids**: 买盘，根据价格从高到低
 
 <aside class="spacer4"></aside>
 
@@ -5433,8 +5508,6 @@ type |  1min, 3min, 15min, 30min, 1hour, 2hour, 4hour, 6hour, 8hour, 12hour, 1da
 ```
 Topic: **/market/match:{symbol},{symbol}...**
 
-此topic，提供 **privateChannel** 
-
 订阅此topic，可获取撮合执行数据。
 
 
@@ -5763,16 +5836,16 @@ Topic: **/spotMarket/level3:{symbol}**
 
 ```json
 {
-    "type":"message"
-    "topic":"/spotMarket/level3:BTC-USDT",
-    "subject":"received",
     "data":{
-        "symbol":"BTC-USDT", 
-        "sequence":1545896669147,
-        "orderId":"5c24c72503aa6772d55b378d",
-        "clientOid":"sf144a",
-        "ts":1545914149935808589,
-    }
+        "symbol":"KCS-USDT",
+        "sequence":1592995125432,
+        "orderId":"5efab07953bdea00089965d2",
+        "clientOid":"1593487481000906",
+        "ts":1593487481683297666
+    },
+    "subject":"received",
+    "topic":"/spotMarket/level3:KCS-USDT",
+    "type":"message"
 }
 
 ```
@@ -5793,24 +5866,24 @@ Topic: **/spotMarket/level3:{symbol}**
 
 ```json
 {
-    "type":"message"
-    "topic":"/spotMarket/level3:BTC-USDT",
-    "subject":"open",
     "data":{
-        "symbol":"BTC-USDT",
-        "sequence":1545896669148,
-        "side":"sell",
-        "price":"6.00000000000000000000",
-        "size":"1",
-        "orderId":"5c24c72503aa6772d55b378d",
-        "orderTime":1547697294838004923,
-        "ts":1545914149935808632,
-    }
+        "symbol":"KCS-USDT",
+        "sequence":1592995125433,
+        "side":"buy",
+        "orderTime":1593487481683297666,
+        "size":"0.1",
+        "orderId":"5efab07953bdea00089965d2",
+        "price":"0.937",
+        "ts":1593487481683297666
+    },
+    "subject":"open",
+    "topic":"/spotMarket/level3:KCS-USDT",
+    "type":"message"
 }
 
 ```
 
-当限价订单中的剩余部分进入订单簿时，系统将向用户发送**open**消息。
+当限价订单中的剩余部分进入买卖盘时，系统将向用户发送**open**消息。
 
 这意味着这个订单现已在订单簿上，没有立即成交的订单才会推送此消息。 
 
@@ -5826,32 +5899,32 @@ Topic: **/spotMarket/level3:{symbol}**
 
 ```json
 {
-    "type":"message"
-    "topic":"/spotMarket/level3:BTC-USDT",
-    "subject":"done",
     "data":{
-        "symbol":"BTC-USDT",
-        "sequence":3262786901,
+        "symbol":"KCS-USDT",
         "reason":"filled",
-        "orderId":"5c24c96103aa6772d55b380b",
-        "ts":1547697294838004923,
-    }
+        "sequence":1592995125437,
+        "orderId":"5efab07953bdea00089965fa",
+        "ts":1593487482038606180
+    },
+    "subject":"done",
+    "topic":"/spotMarket/level3:KCS-USDT",
+    "type":"message"
 }
 {
-    "type":"message"
-    "topic":"/spotMarket/level3:BTC-USDT",
-    "subject":"done",
     "data":{
-        "symbol":"BTC-USDT",
-        "sequence":3262786901,
+        "symbol":"KCS-USDT",
         "reason":"canceled",
-        "orderId":"5c24c96103aa6772d55b381b",
-        "ts":1545914730696797106,
-    }
+        "sequence":1592995125434,
+        "orderId":"5efab07953bdea00089965d2",
+        "ts":1593487481893140844
+    },
+    "subject":"done",
+    "topic":"/spotMarket/level3:KCS-USDT",
+    "type":"message"
 }
 ```
 
-推送**done**消息，意味着订单从买卖盘中移除，这要有推送过**received**消息的，都会收到**done**消息。 **done**可能指订单被成交或被取消。收到done消息后，就不会在收到关于这个订单的其他的信息了。 
+推送**done**消息，意味着订单从买卖盘中移除，这要有推送过**received**消息的，都会收到**done**消息。 **done**可能指订单被成交或被取消。收到done消息后，就不会在收到关于这个订单的其他的信息了。
 
 
 
@@ -5860,22 +5933,23 @@ Topic: **/spotMarket/level3:{symbol}**
 ### MATCH
 
 ```json
+
 {
-    "type":"message"
-    "topic":"/spotMarket/level3:BTC-USDT",
-    "subject":"match",
     "data":{
-        "symbol":"BTC-USDT",
-        "sequence":"1545896669291",
-        "side":"buy",
-        "price":"0.08300000000000000000",
-        "size":"0.07600000000000000000",  // 撮合数量
-        "remainSize":"0.01", // 剩余数量
-        "makerOrderId":"5c20492a03aa677bd099ce9d",
-        "takerOrderId":"5c24ca2e03aa6772d55b38bf",
-        "tradeId":"5c24ca3503aa673885cd67ef"
-        "ts":1547697294838004923,
-    }
+        "symbol":"KCS-USDT",
+        "sequence":1592995125436,
+        "side":"sell",
+        "size":"0.1",
+        "price":"0.96738",
+        "takerOrderId":"5efab07953bdea00089965fa",
+        "makerOrderId":"5efab01453bdea00089959ba",
+        "tradeId":"5efab07a4ee4c7000a82d6d9",
+        "remainSize":"2.9",
+        "ts":1593487482038606180
+    },
+    "subject":"match",
+    "topic":"/spotMarket/level3:KCS-USDT",
+    "type":"message"
 }
 
 ```
@@ -5884,33 +5958,33 @@ Topic: **/spotMarket/level3:{symbol}**
 
 两个订单成功撮合，会生成一个tradeId
 
-当进入撮合引擎后，taker单会立即与maker单(买卖盘中剩余的订单)开始撮合。side字段是指taker单的成交方向。
+当进入撮合引擎后，taker单会立即与maker单(买卖盘中剩余的订单)开始撮合。side字段是指taker单的成交方向。remainSize为maker单的剩余数量。
 
 在进入买卖盘之前，冰山单或隐藏单和普通的订单一样，撮合成功后作为taker
 
 
 
-### CHANGE
+### UPDATE
 
 ```json
 {
-    "type":"message"
-    "topic":"/spotMarket/level3:BTC-USDT",
-    "subject":"update",
     "data":{
-        "symbol":"BTC-USDT",
-        "sequence":3262786897,
-        "orderId":"5c24caff03aa671aef3ca170",
-        "size":"0.15722222000000000000",  // 更新以后的size
-        "ts":1545915145402532254,
-    }
+        "symbol":"KCS-USDT",
+        "sequence":1592995125858,
+        "size":"0.06",
+        "orderId":"5efab14d53bdea0008997298",
+        "ts":1593487696535838711
+    },
+    "subject":"update",
+    "topic":"/spotMarket/level3:KCS-USDT",
+    "type":"message"
 }
 
 ```
 
-当订单信息因为STP(自成交保护)变更，系统会给您推送**change**消息。
+当订单信息因为STP(自成交保护)变更，系统会给您推送**update**消息。
 
-由于自成交保护，需要调整订单数量或资金。订单只会在数量或资金上减少。当一个订单size发生变化会向您推送**change**消息。在买卖盘中订单（**open**）和收到**received**消息但没有进入买卖盘的订单，都可能向您推送**chaneg**消息。新的市价单由于自成交保护导致的导致资金变化也会向您推送**change**消息。
+由于自成交保护，需要调整订单数量或资金。订单只会在数量或资金上减少。当一个订单size发生变化会向您推送**update**消息。在买卖盘中订单（**open**）和收到**received**消息但没有进入买卖盘的订单，都可能向您推送**update**消息。新的市价单由于自成交保护导致的导致资金变化也会向您推送**update**消息。size为更新后的数量。
 
 ### 构建Level-3买卖盘
 
@@ -5943,7 +6017,7 @@ Topic: **/spotMarket/level3:{symbol}**
 
 ```json
 {
-  "id": 1545910660740,                              
+  "id": 1545910660740,
   "type": "subscribe",
   "topic": "/indicator/index:USDT-BTC",
   "response": true
@@ -5981,7 +6055,7 @@ Topic: **/indicator/index:{symbol0},{symbol1}...**
 
 ```json
 {
-  "id": 1545910660741,                              
+  "id": 1545910660741,
   "type": "subscribe",
   "topic": "/indicator/markPrice:USDT-BTC",
   "response": true
@@ -6291,36 +6365,8 @@ Topic: **/margin/loan:{currency}**
 
 ## 订单私有频道消息
  
-```json
-{
-    "type": "message",
-    "topic": “/spotMarket/tradeOrders”
-    "subject": “orderChange”
-    "channelType": “private”
-    "data": {
-        "orderId": "5cdfc138b21023a909e5ad55", //订单👌
-        "symbol": "BTC-USDT",  // symbol 
-        "type": "match",  //  消息类型，取值列表: "open", "match", "filled", "canceled", "update"
-        "status": “open”, //订单状态: "match", "open", "done"
-        "matchSize":””; //成交数量 (当类型为"match"时包含此字段)
-        "matchPrice":””;// 成交价格 (当类型为"match"时包含此字段)
-        "orderType":”limit”; //订单类型, "market"表示市价单", "limit"表示限价单
-        "side": "buy",  //订单方向，买或卖
-        "price": "3600",  //订单价格
-        "size": "20001",  //订单数量
-         “remainSize”:"20001",  //订单剩余可用于交易的数量
-         "filledSize":"20000",  //订单已成交的数量
-        "tradeId": “5ce24c16b210233c36eexxxx”,//交易号(当类型为"match"时包含此字段)
-        "clientOid": "5ce24c16b210233c36ee321d",  //用户自定义ID
-        "orderTime": 1545914149935808589,  //单时间
-        "oldSize ":""， // 更新前的数量(当类型为"update"时包含此字段)
-         ‘liquidity’:’maker’ //成交方向，取taker一方的买卖方向
-         ‘ts’:1545914149935808589
-         
-    }
-}
-```
- 订单私有频道消息将推送订单所有有关变更的消息。
+
+订单私有频道消息将推送订单所有有关变更的消息。
 
 **订单状态**
 
@@ -6330,14 +6376,147 @@ Topic: **/margin/loan:{currency}**
 
 "done": 订单完成；
 
-**消息类型**
+### 消息类型
 
-"open": 订单进入买卖盘时发出的消息；
 
-"match": 订单成交时发出的消息；
+#### open 
+```json
+{
+    "data":{
+        "symbol":"KCS-USDT",
+        "orderType":"limit",
+        "side":"buy",
+        "orderId":"5efab07953bdea00089965d2",
+        "type":"open",
+        "orderTime":1593487481683297666,
+        "size":"0.1",
+        "filledSize":"0",
+        "price":"0.937",
+        "clientOid":"1593487481000906",
+        "remainSize":"0.1",
+        "status":"open",
+        "ts":1593487481683297666
+    },
+    "subject":"orderChange",
+    "topic":"/spotMarket/tradeOrders",
+    "channelType":"private",
+    "type":"message",
+    "userId":"5db7e1b4b101d2264c0546f4"
+}
+```
 
-"filled": 订单因成交后状态变为DONE时发出的消息；
+订单进入买卖盘时发出的消息。
 
-"canceled": 订单因被取消后状态变为DONE时发出的消息；
+#### match
 
-"update": 订单因被修改发出的消息；
+```json
+{
+    "data":{
+        "symbol":"KCS-USDT",
+        "orderType":"limit",
+        "side":"sell",
+        "orderId":"5efab07953bdea00089965fa",
+        "liquidity":"taker",
+        "type":"match",
+        "orderTime":1593487482038606180,
+        "size":"0.1",
+        "filledSize":"0.1",
+        "price":"0.938",
+        "matchPrice":"0.96738",
+        "matchSize":"0.1",
+        "tradeId":"5efab07a4ee4c7000a82d6d9",
+        "clientOid":"1593487481000313",
+        "remainSize":"0",
+        "status":"match",
+        "ts":1593487482038606180
+    },
+    "subject":"orderChange",
+    "topic":"/spotMarket/tradeOrders",
+    "channelType":"private",
+    "type":"message",
+    "userId":"5db7e1b4b101d2264c0546f4"
+}
+```
+订单成交时发出的消息
+
+#### filled
+```json
+{
+    "data":{
+        "symbol":"KCS-USDT",
+        "orderType":"limit",
+        "side":"sell",
+        "orderId":"5efab07953bdea00089965fa",
+        "type":"filled",
+        "orderTime":1593487482038606180,
+        "size":"0.1",
+        "filledSize":"0.1",
+        "price":"0.938",
+        "clientOid":"1593487481000313",
+        "remainSize":"0",
+        "status":"done",
+        "ts":1593487482038606180
+    },
+    "subject":"orderChange",
+    "topic":"/spotMarket/tradeOrders",
+    "channelType":"private",
+    "type":"message",
+    "userId":"5db7e1b4b101d2264c0546f4"
+}
+```
+订单因成交后状态变为DONE时发出的消息
+
+#### canceled
+```json
+{
+    "data":{
+        "symbol":"KCS-USDT",
+        "orderType":"limit",
+        "side":"buy",
+        "orderId":"5efab07953bdea00089965d2",
+        "type":"canceled",
+        "orderTime":1593487481683297666,
+        "size":"0.1",
+        "filledSize":"0",
+        "price":"0.937",
+        "clientOid":"1593487481000906",
+        "remainSize":"0",
+        "status":"done",
+        "ts":1593487481893140844
+    },
+    "subject":"orderChange",
+    "topic":"/spotMarket/tradeOrders",
+    "channelType":"private",
+    "type":"message",
+    "userId":"5db7e1b4b101d2264c0546f4"
+}
+```
+订单因被取消后状态变为DONE时发出的消息
+
+#### update
+```json
+{
+    "data":{
+        "symbol":"KCS-USDT",
+        "orderType":"limit",
+        "side":"buy",
+        "orderId":"5efab13f53bdea00089971df",
+        "type":"update",
+        "oldSize":"0.1",
+        "orderTime":1593487679693183319,
+        "size":"0.06",
+        "filledSize":"0",
+        "price":"0.937",
+        "clientOid":"1593487679000249",
+        "remainSize":"0.06",
+        "status":"open",
+        "ts":1593487682916117521
+    },
+    "subject":"orderChange",
+    "topic":"/spotMarket/tradeOrders",
+    "channelType":"private",
+    "type":"message",
+    "userId":"5db7e1b4b101d2264c0546f4"
+}
+```
+订单因被修改发出的消息
