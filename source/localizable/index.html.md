@@ -5548,8 +5548,6 @@ Subscribe to this topic to get K-Line data.
 ```
 Topic: **/market/match:{symbol},{symbol}...**
 
-For this topic, **privateChannel** is available.
-
 Subscribe to this topic to get the matching event data flow of Level 3.
 
 For each order traded, the system would send you the match messages in the following format.
