@@ -260,7 +260,7 @@ Valid orders sent to the matching engine are confirmed immediately and are in th
 
 ### Self-Trade Prevention
 
-**Self-Trade Prevention** is an option in advanced settings.It is not selected by default. If you specify STP when placing orders, your order won't be matched by another one which is also yours. On the contrary, if STP is not specified in advanced, your order can be matched by another one of your own orders.
+**Self-Trade Prevention** is an option in advanced settings.It is not selected by default. If you specify STP when placing orders, your order won't be matched by another one which is also yours. On the contrary, if STP is not specified in advanced, your order can be matched by another one of your own orders. It should be noted that only the taker's protection strategy is effective.
 
 
 #### DECREMENT AND CANCEL(DC)
