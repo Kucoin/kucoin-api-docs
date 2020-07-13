@@ -32,7 +32,7 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 **07/13/20**:
 
-- 【添加】 新增[订单私有频道消息](#b931e794ac)，公共频道[完整的撮合引擎数据（改版）(Level 3)](#level-nbsp-3-2)，[Level2 - 5档深度频道](#level2-5)，[Level2 - 50档深度频道](#level2-50)；
+- 【添加】 新增[私有订单变更事件](#b931e794ac)，公共频道[完整的撮合引擎数据（改版）(Level 3)](#level-nbsp-3-2)，[Level2 - 5档深度频道](#level2-5)，[Level2 - 50档深度频道](#level2-50)；
 - 【添加】 新增[Level-3全部买卖盘(非聚合)(改版)](#level-3-3)；
 
 
@@ -6124,11 +6124,11 @@ Topic: **/margin/loan:{currency}**
 <aside class="spacer4"></aside>
 <aside class="spacer2"></aside>
 
-## 订单私有频道消息
+## 私有订单变更事件
 
 Topic: **/spotMarket/tradeOrders:{symbol},{symbol}...**
 
-订单私有频道消息将推送订单所有有关变更的消息。
+该topic将推送所有有关您的订单的变更事件。
 
 **订单状态**
 
