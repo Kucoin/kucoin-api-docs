@@ -28,10 +28,17 @@ The WebSocket contains two sections: Public Channels and Private Channels
 
 To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
+
+**07/13/20**:
+
+- Add [Private Channel Messages](#private-channel-messages)，[Full MatchEngine Data (revision) (Level 3)](#full-matchengine-data-revision-level3)，[Level2 - 5 best ask/bid orders](#level2---5-best-askbid-orders)，[Level2 - 50 best ask/bid orders](#level2---50-best-askbid-orders)；
+- Add [Get Full Order Book(atomic)(revision)](#get-full-order-bookatomicrevision)；
+
 **06/12/20**:
 
 - Add channelType field: public(public channel, default), private(private channel), session(session channel) for Websocket.
 - Deprecate ({topic}:privateChannel:{userId}) and userId in private messages after three months.
+
 
 **05/28/20**:
 
@@ -265,7 +272,7 @@ Valid orders sent to the matching engine are confirmed immediately and are in th
 
 ### Self-Trade Prevention
 
-**Self-Trade Prevention** is an option in advanced settings.It is not selected by default. If you specify STP when placing orders, your order won't be matched by another one which is also yours. On the contrary, if STP is not specified in advanced, your order can be matched by another one of your own orders.
+**Self-Trade Prevention** is an option in advanced settings.It is not selected by default. If you specify STP when placing orders, your order won't be matched by another one which is also yours. On the contrary, if STP is not specified in advanced, your order can be matched by another one of your own orders. It should be noted that only the taker's protection strategy is effective.
 
 
 #### DECREMENT AND CANCEL(DC)
@@ -411,7 +418,7 @@ Users with good maker strategies and huge trading volume are welcome to particip
 KuCoin now provides a VIP fast track to users with a large trading volume in crypto. If your accounts on different platforms have a total trading volume of more than 1000 BTC in the last 30 days, please send the following information via email to **vip@kucoin.com**, with subject "VIP Fast Track Application":
 
 KuCoin account ID.
-Proof of trading volume on other platforms within the past 30 days. Proof of a VIP level is also acceptable.
+Proof of trading volume on other platforms within the past 30 days. Proof of a VIP level is also acceptable.
 
 We will offer you a jumpstart (e.g. a VIP level which matches your volume on other exchanges even though you are not trading as much on KuCoin) for 30 days. After 30 days, your VIP level will be calculated based on your actual trading volume on KuCoin.
 
@@ -3271,7 +3278,7 @@ asks | asks
         ],
         "bids": [
             [
-                "5e0d672cdc53860007f30262",    
+                "5e0d672cdc53860007f30262",
                 "0.19166",
                 "178.1936",
                 "1577936689166023452"
@@ -3314,7 +3321,83 @@ symbol | String | [symbol](#get-symbols-list)
 Field |  Description
 --------- | -----------
 sequence | Sequence number
-time | Timestamp
+time | Timestamp, milliseconds
+bids | bids
+asks | asks
+
+### Data Sort 
+
+**Asks**: Sort price from low to high
+
+**Bids**: Sort price from high to low
+
+## Get Full Order Book(atomic)(revision)
+
+
+```json
+{
+    "data": {
+        "sequence": 1573503933086,
+        "asks": [
+            [
+                "5e0d672c1f311300093ac522",   //orderId
+                "0.1917",                     //price
+                "390.9275",                   //size
+                1577936689346546088           //time,nanoseconds
+            ],
+            [
+                "5e0d672891432f000819ecc3",
+                "0.19171",
+                "1456.1316",
+                1577936685718811031
+            ]
+        ],
+        "bids": [
+            [
+                "5e0d672cdc53860007f30262",
+                "0.19166",
+                "178.1936",
+                1577936689166023452
+            ],
+            [
+                "5e0d671a91432f000819d1b0",
+                "0.19165",
+                "583.6298",
+                1577936671595901518
+            ]
+        ],
+        "time": 1577936689346546088
+    }
+}
+```
+Request via this endpoint to get the Level 3 order book of the specified trading pari. Level 3 order book includes all bids and asks (the data is non-aggregated, and each item means a single order).
+ 
+
+This API is generally used by professional traders because it uses more server resources and traffic, and we have strict access frequency control.
+
+To maintain up-to-date order book, please use [Websocket](#full-matchengine-data-level-3) incremental feed after retrieving the Level 3 snapshot.
+
+In the orderbook, the selling data is sorted low to high by price and orders with the same price are sorted in time sequence. The buying data is sorted high to low by price and orders with the same price are sorted in time sequence. The matching engine will match the orders according to the price and time sequence.
+
+
+### HTTP REQUEST
+**GET /api/v2/market/orderbook/level3**
+
+### Example
+GET GET /api/v2/market/orderbook/level3?symbol=BTC-USDT
+
+### PARAMETERS
+
+Param | Type | Description
+--------- | ------- | -----------
+symbol | String | [symbol](#get-symbols-list)
+
+### RESPONSES
+
+Field |  Description
+--------- | -----------
+sequence | Sequence number
+time | Timestamp, nanoseconds
 bids | bids
 asks | asks
 
@@ -4781,7 +4864,7 @@ Subscribe to this topic to get the push of BBO changes. If there is no change wi
 The ticker channel provides price updates whenever a match happens. If multiple orders are matched at the same time, only the last matching event will be pushed.
 
 
-Please note that more information maybe added to messages from this channel in the near future.
+Please note that more information may be added to messages from this channel in the near future.
 
 
 <aside class="spacer2"></aside> 
@@ -5044,6 +5127,74 @@ Now your current order book is up-to-date and final data is as follows:
 | 3988.49 | 100  | Buy  |
 | 3988.48 | 10  | Buy  |
 
+## Level2 - 5 best ask/bid orders
+```json
+{
+    "type": "message",
+    "topic": "/spotMarket/level2Depth5:BTC-USDT", 
+    "subject": "level2",
+    "data": {
+	"asks":[
+      ["9989",8]，
+       ["9990",32],
+      ["9991",47],
+      ["9992",3],
+ 	 ["9993",3],
+    ],
+    "bids":[
+      ["9988",56],
+      ["9987",15],
+      ["9986",100],
+      ["9985",10]
+      ["9984",10]
+
+    ]
+      "timestamp": 1586948108193 
+
+
+      }
+  }
+
+```
+
+Topic: **/spotMarket/level2Depth5:{symbol},{symbol}...**
+
+The system will return the 5 best ask/bid orders data, which is the snapshot data of every 100 milliseconds (in other words, the 5 best ask/bid orders data returned every 100 milliseconds in real-time).
+
+## Level2 - 50 best ask/bid orders
+
+```json
+{
+    "type": "message",
+    "topic": "/spotMarket/level2Depth50:BTC-USDT",
+    "subject": "level2",
+    "data": {
+	"asks":[
+      ["9993",3],
+      ["9992",3],
+      ["9991",47],
+      ["9990",32],
+      ["9989",8],
+ ….
+    ],
+    "bids":[
+      ["9988",56],
+      ["9987",15],
+      ["9986",100],
+      ["9985",10]
+      ["9984",10]
+...
+    ]
+      "timestamp": 1586948108193
+      }
+  }
+
+
+```
+
+Topic: **/spotMarket/level2Depth50:{symbol},{symbol}...**
+
+The system will return the 50 best ask/bid orders data, which is the snapshot data of every 100 milliseconds (in other words, the 50 best ask/bid orders data returned every 100 milliseconds in real-time).
 
 ## Klines
 
@@ -5090,8 +5241,6 @@ Subscribe to this topic to get K-Line data.
 }
 ```
 Topic: **/market/match:{symbol},{symbol}...**
-
-For this topic, **privateChannel** is available.
 
 Subscribe to this topic to get the matching event data flow of Level 3.
 
@@ -5333,7 +5482,7 @@ The match message indicates that a trade occurred between two orders. The aggres
 }
 ```
 
-When an order is changed due to STP, the system would send a change message to the user.
+When an order is changed due to STP, the system would send a change message to the user.
 This is the result of self-trade prevention adjusting the order size or available funds. Orders can only decrease in size or funds. Change messages are always sent when an order changes in size; this includes resting orders (open) as well as received but not yet open orders. Change messages are also sent when a new market order goes through self trade prevention and the funds for the market order have changed.
 
 <aside class="spacer8"></aside>
@@ -5374,6 +5523,219 @@ When you maintain a local L3 orderbook data, if you can't fully understand the f
 <aside class="spacer4"></aside>
 <aside class="spacer2"></aside>
 
+
+## Full MatchEngine Data (revision) (Level&nbsp;3)
+
+
+```json
+{
+    "id":1545910660742,
+    "type":"subscribe",
+    "topic":"/spotMarket/level3:BTC-USDT",
+    "response":true
+}
+```
+
+
+
+Topic: **/spotMarket/level3:{symbol},{symbol}...**
+
+Subscribe this topic to get the updated data for orders and trades.
+
+This channel provides real-time updates on orders and trades. These updates can be applied on to a Level 3 order book snapshot for users to maintain an accurate and up-to-date copy of the exchange order book.
+
+The process to maintain an up-to-date Level 3 order book is described below.
+
+1. Subscribe Topic: /spotMarket/level3:{symbol} to get an up-to-date Level 3 order book data.
+2. Queue every messages received over the websocket stream.
+3. Make a [REST](#level-3-2) request to get the snapshot data of the order book.
+4. Playback queued messages, and discard sequence numbers before or equal to the snapshot sequence number.
+5.  Apply playback messages to the snapshot as needed (see below).
+6.  After playback is complete, apply real-time stream messages as they arrive.
+
+**Any Open and Match messages will result in changes to the order book.**
+
+### MESSAGE TYPE
+
+
+The following messages(**RECEIVED**, **OPEN**, **UPDATE**, **MATCH**, **DONE**) are sent over the websocket stream in JSON format after subscribing to this channel:
+
+### RECEIVED
+
+```json
+{
+    "type":"message"
+    "topic":"/spotMarket/level3:BTC-USDT",
+    "subject":"received",
+    "data":{
+        "symbol":"BTC-USDT", 
+        "sequence":1545896669147,
+        "orderId":"5c24c72503aa6772d55b378d",
+        "clientOid":"sf144a",
+        "ts":1545914149935808589,
+    }
+}
+
+```
+
+When the matching engine receives an order command, the system would send a **received** message to the user.
+
+This will mean that a valid order has been received and is now with an active status. This message is emitted for every single valid order as soon as the matching engine receives it whether it fills immediately or not.
+
+The **received** message does not indicate a resting order on the orderbook. It simply indicates a new incoming order which has been accepted by the matching engine for processing. Received orders may cause **match** messages to follow if they are being filled immediately (i.e if you made a ‘taker’ order). Self-trade prevention may also trigger **change** messages to follow if the order size needs to be adjusted. Orders which are not fully filled or canceled due to self-trade prevention result in an **open** message and become resting orders on the orderbook.
+
+You can filter your orders through clientOid, but it will be posted to L3 message (it may cause your orders strategy to be known for others), it is recommended that you can use UUID as clientOid.
+
+
+### OPEN
+
+```json
+{
+    "type":"message"
+    "topic":"/spotMarket/level3:BTC-USDT",
+    "subject":"open",
+    "data":{
+        "symbol":"BTC-USDT",
+        "sequence":1545896669148,
+        "side":"sell",
+        "price":"6.00000000000000000000",
+        "size":"1",
+        "orderId":"5c24c72503aa6772d55b378d",
+        "orderTime":1547697294838004923,
+        "ts":1545914149935808632,
+    }
+}
+
+```
+
+When the remaining part in a limit order enters the order book, the system will send an **open** message to the user.
+
+This will mean that the order is now open on the order book. This message will only be sent for orders which are not fully filled immediately. remaining_size will indicate how much of the order is unfilled and going on the book.
+
+When receiving a message with price="", size="0", it means this is a hidden order
+
+
+
+
+
+### DONE
+
+When the matching life cycle of an order ends, the order will no longer be displayed on the order book and the system will send a **done** message to the user.
+
+```json
+{
+    "type":"message"
+    "topic":"/spotMarket/level3:BTC-USDT",
+    "subject":"done",
+    "data":{
+        "symbol":"BTC-USDT",
+        "sequence":3262786901,
+        "reason":"filled",
+        "orderId":"5c24c96103aa6772d55b380b",
+        "ts":1547697294838004923,
+    }
+}
+{
+    "type":"message"
+    "topic":"/spotMarket/level3:BTC-USDT",
+    "subject":"done",
+    "data":{
+        "symbol":"BTC-USDT",
+        "sequence":3262786901,
+        "reason":"canceled",
+        "orderId":"5c24c96103aa6772d55b381b",
+        "ts":1545914730696797106,
+    }
+}
+```
+
+This will mean that the order is no longer on the order book. The message is sent for all orders for which there was a **received** message. This message can result from an order being canceled or filled. There will be no more messages for this order_id after a **done** message. remain_size indicates how much of the order went unfilled; this will be 0 for filled orders. Market orders will not have a remainSize or price field as they are never on the open order book at a given price.
+
+### MATCH
+
+```json
+{
+    "type":"message"
+    "topic":"/spotMarket/level3:BTC-USDT",
+    "subject":"match",
+    "data":{
+        "symbol":"BTC-USDT",
+        "sequence":"1545896669291",
+        "side":"buy",
+        "price":"0.08300000000000000000",
+        "size":"0.07600000000000000000",  //  Matching Size
+        "remainSize":"0.01", //  Remain Size
+        "makerOrderId":"5c20492a03aa677bd099ce9d",
+        "takerOrderId":"5c24ca2e03aa6772d55b38bf",
+        "tradeId":"5c24ca3503aa673885cd67ef"
+        "ts":1547697294838004923,
+    }
+}
+
+```
+
+When two orders become matched, the system will send a match message to user.
+
+
+The match message indicates that a trade occurred between two orders. The taker order is the one executing immediately after being received and the maker order is a resting order on the book. The side field indicates the taker order side.
+
+Before entering the orderbook, the iceberg or hidden order is the same as the ordinary order when it is matched as taker (it has a takerOrderId).
+
+
+
+### CHANGE
+
+```json
+{
+    "type":"message"
+    "topic":"/spotMarket/level3:BTC-USDT",
+    "subject":"update",
+    "data":{
+        "symbol":"BTC-USDT",
+        "sequence":3262786897,
+        "orderId":"5c24caff03aa671aef3ca170",
+        "size":"0.15722222000000000000",  // Updated Size
+        "ts":1545915145402532254,
+    }
+}
+
+```
+
+
+When an order is changed due to STP, the system would send a **change** message to the user. This is the result of self-trade prevention adjusting the order size or available funds. Orders can only decrease in size or funds. **change** messages are always sent when an order changes in size; this includes resting orders (**open**) as well as **received** but not yet open orders. **change** messages are also sent when a new market order goes through self trade prevention and the funds for the market order have changed.
+ 
+### How to manage a local L3 orderbook correctly
+
+
+1. Use the websocket channel: /market/level3:{symbol} to subscribe to the level3 incremental data and cache all incremental data received.
+
+2.Get the snapshot data of level3 through the rest interface, [REST](#level-3-2) https://api.kucoin.com/api/v1/market/orderbook/level3?symbol={symbol}.
+
+3.Verify the data that you received. The sequence of the snapshot should not be less than the minimum sequence of all increments of the cache. If this condition is not met, start from the first step.
+
+4.Playback all cached incremental data:
+
+4.1 If the sequence of the incremental data is less or equal to the sequence of the current snapshot, discard the incremental data and end the update; otherwise proceed to 4.2.
+
+4.2 If the sequence of incremental data = sequence+1 of the current snapshot, proceed to 4.2.1 logical update, otherwise proceed to step 4.3.
+
+4.2.1 Update the sequence of the current snapshot to the sequence of the incremental data.
+
+4.2.2 If it is a received message, end the update logic (now the received message does not affect the level 3 data).
+
+4.2.3 If it is an open message, add the corresponding buy or sell order built by orderid, price and size.
+
+4.2.4 If it is a done message, remove the buy or sell order corresponding to the orderid.
+
+4.2.5 If it is a change message, modify the number of buy or sell order corresponding to the orderid.
+
+4.2.6 If it is a match message, reduce the number of order corresponding to the markerOrderId.
+
+4.3 In this case, the sequence is not continuous. Perform step 2 and re-pull the snapshot data to ensure that the sequence is not missing.
+
+5.Receive the new incremental data push and go to step 4.
+
+When you maintain a local L3 orderbook data, if you can't fully understand the above examples, you can check the L3 orderbook maintenance case based on the Go language (https://docs.kucoin.com/cn/#level-nbsp-3). This example mainly includes how to update the L3 data under different events, well-maintained orderbook, the data format of the websocket message, etc. The specific link is as follows: L3 SDK
 
 ## Index Price
 
@@ -5448,7 +5810,7 @@ The following ticker symbols are supported: USDT-BTC, ETH-BTC, LTC-BTC, EOS-BTC,
 
 ```json
 {
-  "id": 1545910660742,                              
+  "id": 1545910660742,
   "type": "subscribe",
   "topic": "/margin/fundingBook:BTC",
   "response": true
@@ -5488,6 +5850,11 @@ Subscribe to this topic to get the order book changes on margin trade.
 # Private Channels
 
 Subscribe to private channels require **privateChannel=“true”**.
+
+
+
+<aside class="spacer4"></aside>
+<aside class="spacer"></aside>
 
 ## Stop Order Received Event
 
@@ -5744,3 +6111,161 @@ The system will push this message to the lenders when the order is completed.
 
 <aside class="spacer4"></aside>
 <aside class="spacer2"></aside>
+
+## Private Channel Messages
+
+Topic: **/spotMarket/tradeOrders:{symbol},{symbol}...**
+
+Private channel messages will push all the information in order changes.
+
+
+**Order Status**
+
+“match”: when taker order executes with orders in the order book, the taker order status is “match”;
+
+“open”: the order is in the order book;
+
+“done”: the order is fully executed successfully;
+
+### Message Type
+
+#### open
+```json
+{
+    "data":{
+        "symbol":"KCS-USDT",
+        "orderType":"limit",
+        "side":"buy",
+        "orderId":"5efab07953bdea00089965d2",
+        "type":"open",
+        "orderTime":1593487481683297666,
+        "size":"0.1",
+        "filledSize":"0",
+        "price":"0.937",
+        "clientOid":"1593487481000906",
+        "remainSize":"0.1",
+        "status":"open",
+        "ts":1593487481683297666
+    },
+    "subject":"orderChange",
+    "topic":"/spotMarket/tradeOrders",
+    "channelType":"private",
+    "type":"message",
+    "userId":"5db7e1b4b101d2264c0546f4"
+}
+```
+when the order enters into the order book;
+
+#### match
+```json
+{
+    "data":{
+        "symbol":"KCS-USDT",
+        "orderType":"limit",
+        "side":"sell",
+        "orderId":"5efab07953bdea00089965fa",
+        "liquidity":"taker",
+        "type":"match",
+        "orderTime":1593487482038606180,
+        "size":"0.1",
+        "filledSize":"0.1",
+        "price":"0.938",
+        "matchPrice":"0.96738",
+        "matchSize":"0.1",
+        "tradeId":"5efab07a4ee4c7000a82d6d9",
+        "clientOid":"1593487481000313",
+        "remainSize":"0",
+        "status":"match",
+        "ts":1593487482038606180
+    },
+    "subject":"orderChange",
+    "topic":"/spotMarket/tradeOrders",
+    "channelType":"private",
+    "type":"message",
+    "userId":"5db7e1b4b101d2264c0546f4"
+}
+```
+when the order has been executed;
+
+#### filled
+```json
+{
+    "data":{
+        "symbol":"KCS-USDT",
+        "orderType":"limit",
+        "side":"sell",
+        "orderId":"5efab07953bdea00089965fa",
+        "type":"filled",
+        "orderTime":1593487482038606180,
+        "size":"0.1",
+        "filledSize":"0.1",
+        "price":"0.938",
+        "clientOid":"1593487481000313",
+        "remainSize":"0",
+        "status":"done",
+        "ts":1593487482038606180
+    },
+    "subject":"orderChange",
+    "topic":"/spotMarket/tradeOrders",
+    "channelType":"private",
+    "type":"message",
+    "userId":"5db7e1b4b101d2264c0546f4"
+}
+```
+when the order has been executed and its status was changed into DONE;
+
+#### canceled
+```json
+{
+    "data":{
+        "symbol":"KCS-USDT",
+        "orderType":"limit",
+        "side":"buy",
+        "orderId":"5efab07953bdea00089965d2",
+        "type":"canceled",
+        "orderTime":1593487481683297666,
+        "size":"0.1",
+        "filledSize":"0",
+        "price":"0.937",
+        "clientOid":"1593487481000906",
+        "remainSize":"0",
+        "status":"done",
+        "ts":1593487481893140844
+    },
+    "subject":"orderChange",
+    "topic":"/spotMarket/tradeOrders",
+    "channelType":"private",
+    "type":"message",
+    "userId":"5db7e1b4b101d2264c0546f4"
+}
+```
+when the order has been cancelled and its status was changed into DONE;
+
+#### update
+```json
+{
+    "data":{
+        "symbol":"KCS-USDT",
+        "orderType":"limit",
+        "side":"buy",
+        "orderId":"5efab13f53bdea00089971df",
+        "type":"update",
+        "oldSize":"0.1",
+        "orderTime":1593487679693183319,
+        "size":"0.06",
+        "filledSize":"0",
+        "price":"0.937",
+        "clientOid":"1593487679000249",
+        "remainSize":"0.06",
+        "status":"open",
+        "ts":1593487682916117521
+    },
+    "subject":"orderChange",
+    "topic":"/spotMarket/tradeOrders",
+    "channelType":"private",
+    "type":"message",
+    "userId":"5db7e1b4b101d2264c0546f4"
+}
+```
+when the order has been updated;
+
