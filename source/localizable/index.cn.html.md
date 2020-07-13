@@ -30,6 +30,16 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 为了您能获取到最新的API 变更的通知，请在 [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs)添加关注【Watch】
 
+**07/13/20**:
+
+- 【添加】 新增[订单私有频道消息](#b931e794ac)，公共频道[完整的撮合引擎数据（改版）(Level 3)](#level-nbsp-3-2)，[Level2 - 5档深度频道](#level2-5)，[Level2 - 50档深度频道](#level2-50)；
+- 【添加】 新增[Level-3全部买卖盘(非聚合)(改版)](#level-3-3)；
+
+
+**06/12/20**:
+
+- 【添加】 Websocket推送消息增加channelType字段: public(公共频道，默认)、private(用户私有频道)、session(会话频道)；
+- 【弃用】 三个月后移除私用频道topic中({topic}:privateChannel:{userId})和私有消息中的userId
 
 **05/28/20**:
 
@@ -2547,268 +2557,6 @@ GET /api/v1/orders/5c35c02703aa673ceec2a168
 
 <aside class="spacer4"></aside>
 <aside class="spacer2"></aside>
-
-# 止盈止损
-
-止盈止损单，是指当最新成交价格达到了设置的止损触发价格（stopPrice）后，会生成一个订单（限价/市价），订单的撮合顺序为价格优先，然后时间优先。
-
-**stop: 'loss'(止损):** 当最新成交价格小于等于**stopPrice**时触发。
-
-**stop: 'entry'(止盈):** 当最新成交价格大于等于**stopPrice**时触发。
-
-最新交易价格可以在最新[撮合执行数据](#c7f054198c)里面获取。注意，由于Websocket消息有丢失的可能，无法接收所有撮合执行数据。
-
-当您下一个止损单时，系统不会冻结您账户中的资产。
-
-## 下单
-
-**请求体中的JSON字符串中不要有多余的空格**
-
-### 下单限制
-
-对于一个账号，每一个交易对最大止盈止损委托数量 **20** 。
-
-### HTTP 请求
-
-**POST /api/v1/stop-order**
-
-### 请求示例
-
-POST /api/v1/stop-order
-
-### API权限
-
-此接口需要**交易权限**。
-
-### 请求参数
-
-下单公有的请求参数
-
-| 请求参数  | 类型   | 含义                                                         |
-| --------- | ------ | ------------------------------------------------------------ |
-| clientOid | String | Client Order Id，客户端创建的唯一标识，建议使用UUID          |
-| side      | String | **buy**（买） 或 **sell**（卖）                              |
-| symbol    | String | [交易对](#a17b4e2866) 比如，ETH-BTC |
-| type      | String | [可选] 订单类型 **limit** 和 **market**，默认为**limit**     |
-| remark    | String | [可选] 下单备注，长度不超过100个字符（UTF-8）                |
-| stop      | String | [可选] 止盈止损单，触发条件， **loss**（小于等于） 或 **entry**（大于等于）。默认为**loss** |
-| stopPrice | String | 触发价格。                                                   |
-| stp       | String | [可选] [自成交保护](#80920cd667)（self trade prevention）分为**CN**, **CO**, **CB** , **DC**四种策略，**type为market（市价单）时，不支持DC策略** |
-| tradeType | String | [可选] 交易类型，分为**TRADE**（现货交易）, **MARGIN_TRADE**（杠杆交易）（默认为**TRADE** ） |
-
-#### **limit** 限价单额外所需请求参数
-
-| 请求参数    | 类型    | 含义                                                         |
-| ----------- | ------- | ------------------------------------------------------------ |
-| price       | String  | 指定货币的价格                                               |
-| size        | String  | 指定货币的数量                                               |
-| timeInForce | String  | [可选] 订单时效策略 **GTC**, **GTT**, **IOC**, **FOK** (默认为**GTC**) |
-| cancelAfter | long    | [可选] **n** 秒之后取消，订单时效策略为 **GTT**              |
-| postOnly    | boolean | [可选] 被动委托的标识, 当订单时效策略为 **IOC** 或 **FOK** 时无效 |
-| hidden      | boolean | [可选] 是否隐藏（买卖盘中不展示）                            |
-| iceberg     | boolean | [可选] 冰山单中是否仅显示订单的可见部分                      |
-| visibleSize | String  | [可选] 冰山单最大的展示数量                                  |
-
-#### **market** 市价单额外所需请求参数
-
-| 请求参数 | 类型   | 含义                     |
-| -------- | ------ | ------------------------ |
-| size     | String | 否（size和funds 二选一） |
-| funds    | String | 否（size和funds 二选一） |
-
-- 下市价单，需定买卖数量或资金
-
-### 返回值
-
-| 字段                                | 含义   |
-| ----------------------------------- | ------ |
-| orderId                             | 订单Id。下单成功后，会返回一个orderId字段。 |
-
-## 单个撤单
-
-此端点可以取消单笔订单。
-
-一旦系统收到取消请求，您将收cancelledOrderIds字段。要知道请求是否已处理，您可以查询订单状态或订阅websocket获取订单消息。
-
-### HTTP请求
-
-**DELETE /api/v1/stop-order/{symbol}/{orderId}**
-
-### 请求示例
-
-DELETE /api/v1/stop-order/BTC-USDT/5bd6e9286d99522a52e458de
-
-### 请求参数
-
-| 请求参数 | 类型   | 含义                                                         |
-| -------- | ------ | ------------------------------------------------------------ |
-| orderId  | String | 路径参数，[订单Id](#23e02e24af) 唯一标识 |
-| symbol   | String | 路径参数，交易对                                             |
-
-### 返回值
-
-| 字段              | 含义         |
-| ----------------- | ------------ |
-| cancelledOrderIds | 取消的订单id |
-
-### API权限
-
-此接口需要**交易权限**。
-
-**orderId** 是服务器生成的订单唯一标识，不是客户端生成的clientOid
-
-### 撤单被拒
-
-如果订单不能撤销（已经成交或已经取消），会返回错误信息，可根据返回的msg获取原因。
-
-## 批量撤单
-
-此接口，可以取消当前活跃的止盈止损单，返回值是是已取消订单的ID列表。
-
-### HTTP请求
-
-**DELETE /api/v1/stop-order/cancel**
-
-### 请求示例
-
-**DELETE /api/v1/stop-order/cancel?symbol=ETH-BTC&tradeType=TRADE&orderIds=5bd6e9286d99522a52e458de,5bd6e9286d99522a52e458df**
-
-### API权限
-
-此接口需要**交易权限**。
-
-### 请求参数
-
-| 请求参数  | 类型   | 含义                                                         |
-| --------- | ------ | ------------------------------------------------------------ |
-| symbol    | String | [可选] 取消指定[交易对](#a17b4e2866)的open订单 |
-| tradeType | String | [可选] 取消指定交易类型的open 订单（默认为取消TRADE现货交易订单） |
-| orderIds  | String | [可选] 指定订单号，可以多个，用逗号分隔                      |
-
-### 返回值
-
-| 字段              | 含义         |
-| ----------------- | ------------ |
-| cancelledOrderIds | 取消的订单id |
-
-## 单个订单详情
-
-此接口，可以通过订单id获取单个订单信息。
-
-### HTTP请求
-
-**GET /api/v1/stop-order/{symbol}/{orderId}**
-
-### 请求示例
-
-GET /api/v1/stop-order/BTC-USDT/5c35c02703aa673ceec2a168
-
-### API权限
-
-此接口需要**通用权限**。
-
-### 请求参数
-
-| 请求参数 | 类型   | 含义                                                         |
-| -------- | ------ | ------------------------------------------------------------ |
-| orderId  | String | 路径参数，[订单Id](#23e02e24af) 唯一标识 |
-| symbol   | String | 路径参数，交易对                                             |
-
-### 返回值
-
-| 字段            | 含义                                                |
-| --------------- | --------------------------------------------------- |
-| id              | 订单id，订单唯一标识                                |
-| symbol          | 交易对                                              |
-| userId          | 用户ID                                              |
-| type            | 订单类型                                            |
-| side            | 买或卖                                              |
-| price           | 订单价格                                            |
-| size            | 订单数量                                            |
-| funds           | 下单金额                                            |
-| stp             | 自成交保护                                          |
-| timeInForce     | 订单时效策略                                        |
-| cancelAfter     | timeInForce 为 GTT n秒后触发                        |
-| postOnly        | 是否为被动委托                                      |
-| hidden          | 是否为隐藏单                                        |
-| iceberg         | 是否为冰山单                                        |
-| visibleSize     | 冰山单在买卖盘可见数量                              |
-| channel         | 下单来源                                            |
-| clientOid       | 客户端生成的标识                                    |
-| remark          | 订单说明                                            |
-| tags            | 订单标签                                            |
-| iceberg         | 是否为冰山单                                        |
-| tradeSource     | 冰山单在买卖盘可见数量                              |
-| tradeType       | 交易类型: TRADE（现货交易）, MARGIN_TRADE(杠杆交易) |
-| feeCurrency     | 计手续费币种                                        |
-| createdAt       | 创建时间                                            |
-| stop            | 止盈止损类型                                        |
-| stopPrice       | 触发价格                                            |
-| stopTriggerTime | 创建时间                                            |
-
-## 获取止盈止损单列表
-
-此接口，可获取订单列表 返回值是[分页](#88b6b4f79a)后的数据。
-
-### HTTP请求
-
-**GET /api/v1/stop-order
-
-### 请求示例
-
-GET /api/v1/stop-order
-
-### API权限
-
-此接口需要**通用权限**。
-
-这个接口需要使用分页
-
-### 请求参数
-
-| 请求参数    | 类型   | 含义                                                         |
-| ----------- | ------ | ------------------------------------------------------------ |
-| symbol      | String | [可选] 只返回指定[交易对](#a17b4e2866)的订单信息 |
-| side        | String | [可选] **buy（买）** 或 **sell（卖）**                       |
-| type        | String | [可选] 订单类型: **limit（限价单）**, **market(市价单)**, **limit_stop(限价止盈止损单)**, **market_stop（市价止盈止损单）** |
-| tradeType   | String | [可选] 交易类型: **TRADE（现货交易）**, **MARGIN_TRADE(杠杆交易)** |
-| startAt     | long   | [可选] 开始时间（毫秒）                                      |
-| endAt       | long   | [可选] 截止时间（毫秒）                                      |
-| currentPage | Int    | [可选] 当前页号                                              |
-| orderIds    | String | [可选] 订单号列表，用逗号分隔                                |
-| pageSize    | Int    | [可选] 每页大小                                              |
-
-### 返回值
-
-| 字段            | 含义                                                |
-| --------------- | --------------------------------------------------- |
-| id              | 订单id，订单唯一标识                                |
-| symbol          | 交易对                                              |
-| userId          | 用户ID                                              |
-| type            | 订单类型                                            |
-| side            | 买或卖                                              |
-| price           | 订单价格                                            |
-| size            | 订单数量                                            |
-| funds           | 下单金额                                            |
-| stp             | 自成交保护                                          |
-| timeInForce     | 订单时效策略                                        |
-| cancelAfter     | timeInForce 为 GTT n秒后触发                        |
-| postOnly        | 是否为被动委托                                      |
-| hidden          | 是否为隐藏单                                        |
-| iceberg         | 是否为冰山单                                        |
-| visibleSize     | 冰山单在买卖盘可见数量                              |
-| channel         | 下单来源                                            |
-| clientOid       | 客户端生成的标识                                    |
-| remark          | 订单说明                                            |
-| tags            | 订单标签                                            |
-| tradeSource     | 冰山单在买卖盘可见数量                              |
-| tradeType       | 交易类型: TRADE（现货交易）, MARGIN_TRADE(杠杆交易) |
-| feeCurrency     | 计手续费币种                                        |
-| createdAt       | 创建时间                                            |
-| stop            | 止盈止损类型                                        |
-| stopPrice       | 触发价格                                            |
-| stopTriggerTime | 创建时间                                            |
-
 
 # 成交明细
 
@@ -6069,44 +5817,55 @@ Topic: **/margin/fundingBook:{currency0},{currency1}...**
 
 
 # 私有频道
-## 止盈止损
 
-### 止损单事件
-
-Topic: /spotMarket/advancedOrders
-
-Subject: stopOrder
-
-1.当系统收到止盈止损订单时，您将收到一条type为的'open'消息，表示此订单已委托成功并等待触发。
-
-2.当您的止盈止损订单被触发时，您将收到一条type为的'triggered'消息，表示此订单已经被触发。
-
-3.当您的止盈止损订单被取消时，您将收到一条type为的'cancel'消息，表示此订单已被取消。
+## 止损单放置事件
 
 ```json
 {
-    "domainId":"kucoin",
-    "subject":"stopOrder",
-    "topic":"/spotMarket/advancedOrders",
-    "userId":"5ea4f483366df00009f3ffee",
-    "data":{
-        "createdAt":1589789942337,
-        "orderId":"5ec244f6a8a75e0009958237",
-        "orderPrice":"0.00062000000000000000",
-        "orderType":"stop",
-        "side":"sell",
-        "size":"1.00000000000000000000",
-        "stop":"entry",
-        "stopPrice":"0.00062000000000000000",
-        "symbol":"KCS-BTC",
-        "tradeType":"TRADE",
-        "triggerSuccess":true,
-        "ts":1589790121382281286,
-        "type":"triggered"
-    }
+  "type":"message",
+  "topic":"/market/level3:BTC-USDT",
+  "subject":"trade.l3received",
+  "data": {
+    "sequence":"1545738118241",
+    "symbol":"BTC-USDT",
+    "side":"buy",
+    "orderId":"5c21e80303aa677bd09d7dff",
+    "stopType":"entry",
+    "funds":"1.00000000000000000000",
+    "time":"1545743136994328401",
+    "type":"stop"
+  }
 }
 ```
+Topic: /market/level3:{symbol},{symbol}...
 
+当系统收到止盈止损订单时，您将收到一条'stop'消息，表示此订单已进入队列并等待触发。
+
+<aside class="spacer4"></aside>
+<aside class="spacer"></aside>
+
+## 止损单触发事件
+
+```json
+{
+  "type":"message",
+  "topic":"/market/level3:BTC-USDT",
+  "subject":"trade.l3received",
+  "data": {
+    "sequence":"1545738118241",
+    "symbol":"BTC-USDT",
+    "side":"buy",
+    "orderId":"5c21e80303aa677bd09d7dff",
+    "stopType":"entry",
+    "funds":"1.00000000000000000000",
+    "reason":"canceled",         //include canceled or triggered
+    "time":"1545743136994328401",
+    "type":"activate"
+  }
+}
+```
+Topic: /market/level3:{symbol},{symbol}...
+触发止盈止损单后，您将收到一条'activate'消息，表示此订单开始进入撮合引擎匹配的生命周期。
 
 <aside class="spacer4"></aside>
 <aside class="spacer"></aside>
