@@ -30,8 +30,8 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 
 **07/13/20**:
 
-- Add [Private Channel Messages](#private-channel-messages)，[Full MatchEngine Data (revision) (Level 3)](#full-matchengine-data-revision-level3)，[Level2 - 5 best ask/bid orders](#level2---5-best-askbid-orders)，[Level2 - 50 best ask/bid orders](#level2---50-best-askbid-orders)；
-- Add [Get Full Order Book(atomic)(revision)](#get-full-order-bookatomicrevision)；
+- Add [Private Order Change Events](#private-order-change-events)，[Full MatchEngine Data (revision) (Level 3)](#full-matchengine-data-revision-level-nbsp-3)，[Level2 - 5 best ask/bid orders](#level2-5-best-askbid-orders)，[Level2 - 50 best ask/bid orders](#level2-50-best-askbid-orders)；
+- Add [Get Full Order Book(atomic)(revision)](#get-full-order-book-atomic-revision)；
 
 **05/28/20**:
 
