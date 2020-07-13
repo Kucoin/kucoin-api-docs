@@ -6084,11 +6084,11 @@ The system will push this message to the lenders when the order is completed.
 <aside class="spacer4"></aside>
 <aside class="spacer2"></aside>
 
-## Private Channel Messages
+## Private Order Change Events
 
 Topic: **/spotMarket/tradeOrders:{symbol},{symbol}...**
 
-Private channel messages will push all the information in order changes.
+This topic will push all change events of your orders.
 
 
 **Order Status**

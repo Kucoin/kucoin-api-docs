@@ -6065,11 +6065,11 @@ Topic: **/margin/loan:{currency}**
 <aside class="spacer4"></aside>
 <aside class="spacer2"></aside>
 
-## 订单私有频道消息
+## 私有订单变更事件
 
 Topic: **/spotMarket/tradeOrders:{symbol},{symbol}...**
 
-订单私有频道消息将推送订单所有有关变更的消息。
+该topic将推送所有有关您的订单的变更事件。
 
 **订单状态**
 
