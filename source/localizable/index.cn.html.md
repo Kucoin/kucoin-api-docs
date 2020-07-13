@@ -2801,7 +2801,6 @@ GET /api/v1/stop-order
 | clientOid       | 客户端生成的标识                                    |
 | remark          | 订单说明                                            |
 | tags            | 订单标签                                            |
-| iceberg         | 是否为冰山单                                        |
 | tradeSource     | 冰山单在买卖盘可见数量                              |
 | tradeType       | 交易类型: TRADE（现货交易）, MARGIN_TRADE(杠杆交易) |
 | feeCurrency     | 计手续费币种                                        |
@@ -2809,62 +2808,6 @@ GET /api/v1/stop-order
 | stop            | 止盈止损类型                                        |
 | stopPrice       | 触发价格                                            |
 | stopTriggerTime | 创建时间                                            |
-
-## 根据clientOid获取单个订单详情
-
-此接口，可以通过订单id获取单个订单信息。
-
-### HTTP请求
-
-**GET /api/v1/stop-order/queryOrderByClientOid**
-
-### 请求示例
-
-GET /api/v1/stop-order/queryOrderByClientOid?symbol=BTC-USDT&clientOid=9823jnfda923a
-
-### API权限
-
-此接口需要**通用权限**。
-
-### 请求参数
-
-| 请求参数  | 类型   | 含义             |
-| --------- | ------ | ---------------- |
-| clientOid | String | 客户端生成的标识 |
-| symbol    | String | 交易对           |
-
-### 返回值
-
-| 字段            | 含义                                                |
-| --------------- | --------------------------------------------------- |
-| id              | 订单id，订单唯一标识                                |
-| symbol          | 交易对                                              |
-| userId          | 用户ID                                              |
-| type            | 订单类型                                            |
-| side            | 买或卖                                              |
-| price           | 订单价格                                            |
-| size            | 订单数量                                            |
-| funds           | 下单金额                                            |
-| stp             | 自成交保护                                          |
-| timeInForce     | 订单时效策略                                        |
-| cancelAfter     | timeInForce 为 GTT n秒后触发                        |
-| postOnly        | 是否为被动委托                                      |
-| hidden          | 是否为隐藏单                                        |
-| iceberg         | 是否为冰山单                                        |
-| visibleSize     | 冰山单在买卖盘可见数量                              |
-| channel         | 下单来源                                            |
-| clientOid       | 客户端生成的标识                                    |
-| remark          | 订单说明                                            |
-| tags            | 订单标签                                            |
-| iceberg         | 是否为冰山单                                        |
-| tradeSource     | 冰山单在买卖盘可见数量                              |
-| tradeType       | 交易类型: TRADE（现货交易）, MARGIN_TRADE(杠杆交易) |
-| feeCurrency     | 计手续费币种                                        |
-| createdAt       | 创建时间                                            |
-| stop            | 止盈止损类型                                        |
-| stopPrice       | 触发价格                                            |
-| stopTriggerTime | 创建时间                                            |
-
 
 
 # 成交明细
@@ -5415,7 +5358,7 @@ Data：
 
 ```
 
-Topic: **/spotMarket/level2Depth5:{symbol}**
+Topic: **/spotMarket/level2Depth5:{symbol},{symbol}...**
 
 每次返回前五档的深度数据，此数据为每100毫秒的快照数据，即每隔100毫秒，快照当前时刻市场买卖盘的5档深度数据并推送
 
@@ -5449,7 +5392,7 @@ Topic: **/spotMarket/level2Depth5:{symbol}**
 
 ```
 
-Topic: **/spotMarket/level2Depth50:{symbol}**
+Topic: **/spotMarket/level2Depth50:{symbol},{symbol}...**
 
 每次返回前50档的深度数据，此数据为每100毫秒的快照数据，即每隔100毫秒，快照当前时刻市场买卖盘的50档深度数据并推送
 
@@ -5811,7 +5754,7 @@ Topic: **/market/level3:{symbol},{symbol}...**
 
 
 
-Topic: **/spotMarket/level3:{symbol}**
+Topic: **/spotMarket/level3:{symbol},{symbol}...**
 
 订阅此topic，可获取Level-3完整的撮合引擎数据。
 
@@ -6364,7 +6307,8 @@ Topic: **/margin/loan:{currency}**
 <aside class="spacer2"></aside>
 
 ## 订单私有频道消息
- 
+
+Topic: **/spotMarket/tradeOrders:{symbol},{symbol}...**
 
 订单私有频道消息将推送订单所有有关变更的消息。
 

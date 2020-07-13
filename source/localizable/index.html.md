@@ -2858,65 +2858,9 @@ This request is paginated.
 | clientOid       | user-entered order unique mark                                    |
 | remark          | remark                                            |
 | tags            | tab order source                                            |
-| iceberg         | iceberg order                                        |
 | tradeSource     | display quantity for iceberg order                              |
 | tradeType       | The type of trading : TRADE（Spot Trading）, MARGIN_TRADE (Margin Trading). |
 | feeCurrency     | charge fee currency                                         |
-| createdAt       | create time                                          |
-| stop            | stop type, include entry and loss                   |
-| stopPrice       | stopPrice                                            |
-| stopTriggerTime | Trigger Time                                       |
-
-## Get details of a single order via clientOid.
-
-Request via this endpoint to get a single order info by order ID.
-
-### HTTP REQUEST
-
-**GET /api/v1/stop-order/queryOrderByClientOid**
-
-### EXAMPLE
-
-GET /api/v1/stop-order/queryOrderByClientOid?symbol=BTC-USDT&clientOid=9823jnfda923a
-
-### API KEY PERMISSIONS
-
-This endpoint requires the “General permission”
-
-### PARAMETERS
-
-| Param  | Type   | Description             |
-| --------- | ------ | ---------------- |
-| clientOid | String | user-entered order unique mark |
-| symbol    | String | symbol           |
-
-### RESPONSES
-
-|    Field          |  Description                                                |
-| --------------- | --------------------------------------------------- |
-| id              | Order ID, the ID of an order                      |
-| symbol          | symbol                                                 |
-| userId          | ID of the user                                   |
-| type            | order type,e.g. limit,market,stop_limit.  |
-| side            | transaction direction,include buy and sell  |
-| price           | order price                                          |
-| size            | order quantity                                       |
-| funds           | order funds                                         |
-| stp             | self trade prevention,include CN,CO,DC,CB                          |
-| timeInForce     |  time InForce,include GTC,GTT,IOC,FOK                                  |
-| cancelAfter     | cancel orders time，requires timeInForce to be GTT                        |
-| postOnly        |  postOnly                                      |
-| hidden          |  hidden order                                        |
-| iceberg         |  iceberg order                                        |
-| visibleSize     | display quantity for iceberg order                              |
-| channel         | order source                                            |
-| clientOid       | user-entered order unique mark                      |
-| remark          | remark                                            |
-| tags            |  tag order source                                           |
-| iceberg         |  iceberg order                                        |
-| tradeSource     | display quantity for iceberg order                      |
-| tradeType       | The type of trading : TRADE（Spot Trading）, MARGIN_TRADE (Margin Trading).  |
-| feeCurrency     | charge fee currency                                |
 | createdAt       | create time                                          |
 | stop            | stop type, include entry and loss                   |
 | stopPrice       | stopPrice                                            |
@@ -5463,7 +5407,7 @@ Now your current order book is up-to-date and final data is as follows:
 
 ```
 
-Topic: **/spotMarket/level2Depth5:{symbol}**
+Topic: **/spotMarket/level2Depth5:{symbol},{symbol}...**
 
 The system will return the 5 best ask/bid orders data, which is the snapshot data of every 100 milliseconds (in other words, the 5 best ask/bid orders data returned every 100 milliseconds in real-time).
 
@@ -5498,7 +5442,7 @@ The system will return the 5 best ask/bid orders data, which is the snapshot dat
 
 ```
 
-Topic: **/spotMarket/level2Depth50:{symbol}**
+Topic: **/spotMarket/level2Depth50:{symbol},{symbol}...**
 
 The system will return the 50 best ask/bid orders data, which is the snapshot data of every 100 milliseconds (in other words, the 50 best ask/bid orders data returned every 100 milliseconds in real-time).
 
@@ -5844,7 +5788,7 @@ When you maintain a local L3 orderbook data, if you can't fully understand the f
 
 
 
-Topic: **/spotMarket/level3:{symbol}**
+Topic: **/spotMarket/level3:{symbol},{symbol}...**
 
 Subscribe this topic to get the updated data for orders and trades.
 
@@ -6456,6 +6400,8 @@ The system will push this message to the lenders when the order is completed.
 <aside class="spacer2"></aside>
 
 ## Private Channel Messages
+
+Topic: **/spotMarket/tradeOrders:{symbol},{symbol}...**
 
 Private channel messages will push all the information in order changes.
 
