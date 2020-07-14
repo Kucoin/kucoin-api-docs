@@ -5629,6 +5629,7 @@ Topic: **/spotMarket/level3:{symbol},{symbol}...**
 推送**done**消息，意味着订单从买卖盘中移除，这要有推送过**received**消息的，都会收到**done**消息。 **done**可能指订单被成交或被取消。收到done消息后，就不会在收到关于这个订单的其他的信息了。
 
 <aside class="spacer4"></aside>
+<aside class="spacer4"></aside>
 <aside class="spacer2"></aside>
 
 ### MATCH
@@ -6091,8 +6092,6 @@ Topic: **/spotMarket/tradeOrders**
 
 "done": 订单完成；
 
-<aside class="spacer4"></aside>
-<aside class="spacer2"></aside>
 
 ### 消息类型
 
@@ -6125,6 +6124,7 @@ Topic: **/spotMarket/tradeOrders**
 
 订单进入买卖盘时发出的消息。
 
+<aside class="spacer4"></aside>
 <aside class="spacer4"></aside>
 <aside class="spacer2"></aside>
 
@@ -6161,6 +6161,7 @@ Topic: **/spotMarket/tradeOrders**
 订单成交时发出的消息
 
 <aside class="spacer4"></aside>
+<aside class="spacer4"></aside>
 <aside class="spacer2"></aside>
 
 #### filled
@@ -6191,6 +6192,7 @@ Topic: **/spotMarket/tradeOrders**
 订单因成交后状态变为DONE时发出的消息
 
 <aside class="spacer4"></aside>
+<aside class="spacer4"></aside>
 <aside class="spacer2"></aside>
 
 #### canceled
@@ -6220,6 +6222,7 @@ Topic: **/spotMarket/tradeOrders**
 ```
 订单因被取消后状态变为DONE时发出的消息
 
+<aside class="spacer4"></aside>
 <aside class="spacer4"></aside>
 <aside class="spacer2"></aside>
 
