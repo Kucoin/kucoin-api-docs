@@ -32,7 +32,7 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 **07/13/20**:
 
-- 【添加】 新增[私有订单变更事件](#b931e794ac)，公共频道[完整的撮合引擎数据（改版）(Level 3)](#level-nbsp-3-2)，[Level2 - 5档深度频道](#level2-5)，[Level2 - 50档深度频道](#level2-50)；
+- 【添加】 新增[私有订单变更事件](#6c2474816d)，公共频道[完整的撮合引擎数据（改版）(Level 3)](#level-nbsp-3-2)，[Level2 - 5档深度频道](#level2-5)，[Level2 - 50档深度频道](#level2-50)；
 - 【添加】 新增[Level-3全部买卖盘(非聚合)(改版)](#level-3-3)；
 
 
@@ -4666,6 +4666,25 @@ var socket = new WebSocket("wss://push1-v2.kucoin.com/endpoint?token=xxx&[connec
 
 当订阅频道产生新消息时，系统将向客户端推送消息。了解消息格式，请查看频道介绍。
 
+### 参数
+#### ID
+ID用于标识请求和ack的唯一字符串。
+
+#### Topic
+您订阅的频道内容。
+
+#### PrivateChannel
+
+您可通过privateChannel参数订阅以一些特殊的topic（如： /market/level3）。该参数默认设置为“false”。设置为“true”时，则您只能收到与您订阅的topic相关的内容推送。Topic字段在返回数据中的格式为：{topic}:privateChannel:{userId}。
+
+
+#### Response
+若设置为True, 用户成功订阅后，系统将返回ack消息。
+
+客户端需要发送订阅消息到服务端，获取指定topic的消息。
+
+但系统会将相应topic的消息发送到客户端，详情返回值请参照指定的topic。
+
 ## 退订
 
 用于取消您之前订阅的topic
@@ -4703,28 +4722,6 @@ var socket = new WebSocket("wss://push1-v2.kucoin.com/endpoint?token=xxx&[connec
 
 #### Response
 退订成功后，当**response**参数为**true**时，系统将向您发出“ack”消息。
-
-### 参数
-#### ID
-ID用于标识请求和ack的唯一字符串。
-
-#### Topic
-您订阅的频道内容。
-
-#### PrivateChannel
-
-您可通过privateChannel参数订阅以一些特殊的topic（如： /market/level3）。该参数默认设置为“false”。设置为“true”时，则您只能收到与您订阅的topic相关的内容推送。Topic字段在返回数据中的格式为：{topic}:privateChannel:{userId}。
-
-
-#### Response
-若设置为True, 用户成功订阅后，系统将返回ack消息。
-
-客户端需要发送订阅消息到服务端，获取指定topic的消息。
-
-但系统会将相应topic的消息发送到客户端，详情返回值请参照指定的topic。
-
-
-
 
 
 ## 多路复用
