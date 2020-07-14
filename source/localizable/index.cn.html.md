@@ -5110,6 +5110,10 @@ Topic: **/spotMarket/level2Depth5:{symbol},{symbol}...**
 
 每次返回前五档的深度数据，此数据为每100毫秒的快照数据，即每隔100毫秒，快照当前时刻市场买卖盘的5档深度数据并推送
 
+<aside class="spacer4"></aside> 
+<aside class="spacer4"></aside> 
+<aside class="spacer"></aside> 
+
 ## Level2 - 50档深度频道
 ```json
 {
@@ -5143,6 +5147,11 @@ Topic: **/spotMarket/level2Depth5:{symbol},{symbol}...**
 Topic: **/spotMarket/level2Depth50:{symbol},{symbol}...**
 
 每次返回前50档的深度数据，此数据为每100毫秒的快照数据，即每隔100毫秒，快照当前时刻市场买卖盘的50档深度数据并推送
+
+<aside class="spacer4"></aside> 
+<aside class="spacer4"></aside> 
+<aside class="spacer"></aside> 
+
 
 ## K线
 
@@ -6062,8 +6071,9 @@ Topic: **/margin/loan:{currency}**
 Topic: **/margin/loan:{currency}**
 
 出借订单完成时向出借方推送。
-<aside class="spacer4"></aside>
-<aside class="spacer2"></aside>
+<aside class="spacer4"></aside> 
+<aside class="spacer4"></aside> 
+<aside class="spacer"></aside> 
 
 ## 私有订单变更事件
 

@@ -5133,6 +5133,10 @@ Topic: **/spotMarket/level2Depth5:{symbol},{symbol}...**
 
 The system will return the 5 best ask/bid orders data, which is the snapshot data of every 100 milliseconds (in other words, the 5 best ask/bid orders data returned every 100 milliseconds in real-time).
 
+<aside class="spacer4"></aside> 
+<aside class="spacer4"></aside> 
+<aside class="spacer"></aside> 
+
 ## Level2 - 50 best ask/bid orders
 
 ```json
@@ -5167,6 +5171,10 @@ The system will return the 5 best ask/bid orders data, which is the snapshot dat
 Topic: **/spotMarket/level2Depth50:{symbol},{symbol}...**
 
 The system will return the 50 best ask/bid orders data, which is the snapshot data of every 100 milliseconds (in other words, the 50 best ask/bid orders data returned every 100 milliseconds in real-time).
+
+<aside class="spacer4"></aside> 
+<aside class="spacer4"></aside> 
+<aside class="spacer"></aside> 
 
 ## Klines
 
@@ -6081,8 +6089,9 @@ Topic: **/margin/loan:{currency}**
 
 The system will push this message to the lenders when the order is completed.
 
-<aside class="spacer4"></aside>
-<aside class="spacer2"></aside>
+<aside class="spacer4"></aside> 
+<aside class="spacer4"></aside> 
+<aside class="spacer"></aside> 
 
 ## Private Order Change Events
 
