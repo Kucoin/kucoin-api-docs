@@ -4521,28 +4521,6 @@ REST API的使用受到了访问频率的限制，因此推荐您使用Websocket
 在创建Websocket连接前，您需申请一个令牌（Token）。
 
 
-## 申请连接令牌
-
-```json
-{
-    "code": "200000",
-    "data": {
-        "instanceServers": [
-            {
-                "pingInterval": 50000,
-                "endpoint": "wss://push1-v2.kucoin.net/endpoint",
-                "protocol": "websocket",
-                "encrypt": true,
-                "pingTimeout": 10000
-            }
-        ],
-        "token": "vYNlCtbz4XNJ1QncwWilJnBtmmfe4geLQDUA62kKJsDChc6I4bRDQc73JfIrlFaVYIAE0Gv2--MROnLAgjVsWkcDq_MuG7qV7EktfCEIphiqnlfpQn4Ybg==.IoORVxR2LmKV7_maOR9xOg=="
-    }
-}
-```
-
-在您创建Websocket连接之前，需要申请一个令牌 token。
-
 ### 公共令牌 (不需要验证签名):
 
 如果您只订阅公共频道的数据，请按照以下方式请求获取服务实例列表和公共令牌。
