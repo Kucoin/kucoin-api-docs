@@ -5568,6 +5568,9 @@ The process to maintain an up-to-date Level 3 order book is described below.
 
 The following messages(**RECEIVED**, **OPEN**, **UPDATE**, **MATCH**, **DONE**) are sent over the websocket stream in JSON format after subscribing to this channel:
 
+<aside class="spacer4"></aside>
+<aside class="spacer2"></aside>
+
 ### RECEIVED
 
 ```json
@@ -5594,6 +5597,8 @@ The **received** message does not indicate a resting order on the orderbook. It 
 
 You can filter your orders through clientOid, but it will be posted to L3 message (it may cause your orders strategy to be known for others), it is recommended that you can use UUID as clientOid.
 
+<aside class="spacer4"></aside>
+<aside class="spacer2"></aside>
 
 ### OPEN
 
@@ -5623,7 +5628,8 @@ This will mean that the order is now open on the order book. This message will o
 When receiving a message with price="", size="0", it means this is a hidden order
 
 
-
+<aside class="spacer4"></aside>
+<aside class="spacer2"></aside>
 
 
 ### DONE
@@ -5659,6 +5665,9 @@ When the matching life cycle of an order ends, the order will no longer be displ
 
 This will mean that the order is no longer on the order book. The message is sent for all orders for which there was a **received** message. This message can result from an order being canceled or filled. There will be no more messages for this order_id after a **done** message. remain_size indicates how much of the order went unfilled; this will be 0 for filled orders. Market orders will not have a remainSize or price field as they are never on the open order book at a given price.
 
+<aside class="spacer4"></aside>
+<aside class="spacer2"></aside>
+
 ### MATCH
 
 ```json
@@ -5689,7 +5698,8 @@ The match message indicates that a trade occurred between two orders. The taker 
 
 Before entering the orderbook, the iceberg or hidden order is the same as the ordinary order when it is matched as taker (it has a takerOrderId).
 
-
+<aside class="spacer4"></aside>
+<aside class="spacer2"></aside>
 
 ### CHANGE
 
@@ -6136,6 +6146,9 @@ This topic will push all change events of your orders.
 
 “done”: the order is fully executed successfully;
 
+<aside class="spacer4"></aside>
+<aside class="spacer2"></aside>
+
 ### Message Type
 
 #### open
@@ -6164,6 +6177,9 @@ This topic will push all change events of your orders.
 }
 ```
 when the order enters into the order book;
+
+<aside class="spacer4"></aside>
+<aside class="spacer2"></aside>
 
 #### match
 ```json
@@ -6196,6 +6212,9 @@ when the order enters into the order book;
 ```
 when the order has been executed;
 
+<aside class="spacer4"></aside>
+<aside class="spacer2"></aside>
+
 #### filled
 ```json
 {
@@ -6223,6 +6242,9 @@ when the order has been executed;
 ```
 when the order has been executed and its status was changed into DONE;
 
+<aside class="spacer4"></aside>
+<aside class="spacer2"></aside>
+
 #### canceled
 ```json
 {
@@ -6249,6 +6271,9 @@ when the order has been executed and its status was changed into DONE;
 }
 ```
 when the order has been cancelled and its status was changed into DONE;
+
+<aside class="spacer4"></aside>
+<aside class="spacer2"></aside>
 
 #### update
 ```json
