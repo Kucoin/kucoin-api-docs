@@ -5539,16 +5539,16 @@ Topic: **/spotMarket/level3:{symbol},{symbol}...**
 
 ```json
 {
+    "type":"message",
+    "topic":"/spotMarket/level3:KCS-USDT",
+    "subject":"received",
     "data":{
         "symbol":"KCS-USDT",
         "sequence":1592995125432,
         "orderId":"5efab07953bdea00089965d2",
         "clientOid":"1593487481000906",
         "ts":1593487481683297666
-    },
-    "subject":"received",
-    "topic":"/spotMarket/level3:KCS-USDT",
-    "type":"message"
+    }
 }
 
 ```
@@ -5569,6 +5569,9 @@ Topic: **/spotMarket/level3:{symbol},{symbol}...**
 
 ```json
 {
+    "type":"message",
+    "topic":"/spotMarket/level3:KCS-USDT",
+    "subject":"open",
     "data":{
         "symbol":"KCS-USDT",
         "sequence":1592995125433,
@@ -5578,10 +5581,7 @@ Topic: **/spotMarket/level3:{symbol},{symbol}...**
         "orderId":"5efab07953bdea00089965d2",
         "price":"0.937",
         "ts":1593487481683297666
-    },
-    "subject":"open",
-    "topic":"/spotMarket/level3:KCS-USDT",
-    "type":"message"
+    }
 }
 
 ```
@@ -5601,28 +5601,28 @@ Topic: **/spotMarket/level3:{symbol},{symbol}...**
 
 ```json
 {
+    "type":"message",
+    "topic":"/spotMarket/level3:KCS-USDT",
+    "subject":"done",
     "data":{
         "symbol":"KCS-USDT",
         "reason":"filled",
         "sequence":1592995125437,
         "orderId":"5efab07953bdea00089965fa",
         "ts":1593487482038606180
-    },
-    "subject":"done",
-    "topic":"/spotMarket/level3:KCS-USDT",
-    "type":"message"
+    }
 }
 {
+    "type":"message",
+    "topic":"/spotMarket/level3:KCS-USDT",
+    "subject":"done",
     "data":{
         "symbol":"KCS-USDT",
         "reason":"canceled",
         "sequence":1592995125434,
         "orderId":"5efab07953bdea00089965d2",
         "ts":1593487481893140844
-    },
-    "subject":"done",
-    "topic":"/spotMarket/level3:KCS-USDT",
-    "type":"message"
+    }
 }
 ```
 
@@ -5637,6 +5637,9 @@ Topic: **/spotMarket/level3:{symbol},{symbol}...**
 ```json
 
 {
+    "type":"message",
+    "topic":"/spotMarket/level3:KCS-USDT",
+    "subject":"match",
     "data":{
         "symbol":"KCS-USDT",
         "sequence":1592995125436,
@@ -5648,10 +5651,7 @@ Topic: **/spotMarket/level3:{symbol},{symbol}...**
         "tradeId":"5efab07a4ee4c7000a82d6d9",
         "remainSize":"2.9",
         "ts":1593487482038606180
-    },
-    "subject":"match",
-    "topic":"/spotMarket/level3:KCS-USDT",
-    "type":"message"
+    }
 }
 
 ```
@@ -5671,16 +5671,16 @@ Topic: **/spotMarket/level3:{symbol},{symbol}...**
 
 ```json
 {
+    "type":"message",
+    "topic":"/spotMarket/level3:KCS-USDT",
+    "subject":"update",
     "data":{
         "symbol":"KCS-USDT",
         "sequence":1592995125858,
         "size":"0.06",
         "orderId":"5efab14d53bdea0008997298",
         "ts":1593487696535838711
-    },
-    "subject":"update",
-    "topic":"/spotMarket/level3:KCS-USDT",
-    "type":"message"
+    }
 }
 
 ```
@@ -6096,9 +6096,13 @@ Topic: **/spotMarket/tradeOrders**
 ### 消息类型
 
 
-#### open 
+#### open
 ```json
 {
+    "type":"message",
+    "topic":"/spotMarket/tradeOrders",
+    "subject":"orderChange",
+    "channelType":"private",
     "data":{
         "symbol":"KCS-USDT",
         "orderType":"limit",
@@ -6113,12 +6117,7 @@ Topic: **/spotMarket/tradeOrders**
         "remainSize":"0.1",
         "status":"open",
         "ts":1593487481683297666
-    },
-    "subject":"orderChange",
-    "topic":"/spotMarket/tradeOrders",
-    "channelType":"private",
-    "type":"message",
-    "userId":"5db7e1b4b101d2264c0546f4"
+    }
 }
 ```
 
@@ -6132,6 +6131,10 @@ Topic: **/spotMarket/tradeOrders**
 
 ```json
 {
+    "type":"message",
+    "topic":"/spotMarket/tradeOrders",
+    "subject":"orderChange",
+    "channelType":"private",
     "data":{
         "symbol":"KCS-USDT",
         "orderType":"limit",
@@ -6150,12 +6153,7 @@ Topic: **/spotMarket/tradeOrders**
         "remainSize":"0",
         "status":"match",
         "ts":1593487482038606180
-    },
-    "subject":"orderChange",
-    "topic":"/spotMarket/tradeOrders",
-    "channelType":"private",
-    "type":"message",
-    "userId":"5db7e1b4b101d2264c0546f4"
+    }
 }
 ```
 订单成交时发出的消息
@@ -6167,6 +6165,10 @@ Topic: **/spotMarket/tradeOrders**
 #### filled
 ```json
 {
+    "type":"message",
+    "topic":"/spotMarket/tradeOrders",
+    "subject":"orderChange",
+    "channelType":"private",
     "data":{
         "symbol":"KCS-USDT",
         "orderType":"limit",
@@ -6181,12 +6183,7 @@ Topic: **/spotMarket/tradeOrders**
         "remainSize":"0",
         "status":"done",
         "ts":1593487482038606180
-    },
-    "subject":"orderChange",
-    "topic":"/spotMarket/tradeOrders",
-    "channelType":"private",
-    "type":"message",
-    "userId":"5db7e1b4b101d2264c0546f4"
+    }
 }
 ```
 订单因成交后状态变为DONE时发出的消息
@@ -6198,6 +6195,10 @@ Topic: **/spotMarket/tradeOrders**
 #### canceled
 ```json
 {
+    "type":"message",
+    "topic":"/spotMarket/tradeOrders",
+    "subject":"orderChange",
+    "channelType":"private",
     "data":{
         "symbol":"KCS-USDT",
         "orderType":"limit",
@@ -6212,12 +6213,7 @@ Topic: **/spotMarket/tradeOrders**
         "remainSize":"0",
         "status":"done",
         "ts":1593487481893140844
-    },
-    "subject":"orderChange",
-    "topic":"/spotMarket/tradeOrders",
-    "channelType":"private",
-    "type":"message",
-    "userId":"5db7e1b4b101d2264c0546f4"
+    }
 }
 ```
 订单因被取消后状态变为DONE时发出的消息
@@ -6229,6 +6225,10 @@ Topic: **/spotMarket/tradeOrders**
 #### update
 ```json
 {
+    "type":"message",
+    "topic":"/spotMarket/tradeOrders",
+    "subject":"orderChange",
+    "channelType":"private",
     "data":{
         "symbol":"KCS-USDT",
         "orderType":"limit",
@@ -6244,12 +6244,7 @@ Topic: **/spotMarket/tradeOrders**
         "remainSize":"0.06",
         "status":"open",
         "ts":1593487682916117521
-    },
-    "subject":"orderChange",
-    "topic":"/spotMarket/tradeOrders",
-    "channelType":"private",
-    "type":"message",
-    "userId":"5db7e1b4b101d2264c0546f4"
+    }
 }
 ```
 订单因被修改发出的消息
