@@ -5532,6 +5532,9 @@ Topic: **/spotMarket/level3:{symbol},{symbol}...**
 
 订阅成功后，系统将以JSON格式，将**RECEIVED**、**OPEN**、**UPDATE**、**MATCH**及**DONE**消息推送到Websocket消息流中。
 
+<aside class="spacer4"></aside>
+<aside class="spacer2"></aside>
+
 ### RECEIVED
 
 ```json
@@ -5559,8 +5562,8 @@ Topic: **/spotMarket/level3:{symbol},{symbol}...**
 您可以使用您自定义的clientOid来跟踪订单信息，但是特别的clientOid可能会暴露您的策略，所以推荐您使用UUID
 
 
-
-
+<aside class="spacer4"></aside>
+<aside class="spacer2"></aside>
 
 ### OPEN
 
@@ -5589,9 +5592,8 @@ Topic: **/spotMarket/level3:{symbol},{symbol}...**
 
 当接收到 price="", size="0" 的消息时，意味着这是隐藏单
 
-
-
-
+<aside class="spacer4"></aside>
+<aside class="spacer2"></aside>
 
 ### DONE
 
@@ -5626,9 +5628,8 @@ Topic: **/spotMarket/level3:{symbol},{symbol}...**
 
 推送**done**消息，意味着订单从买卖盘中移除，这要有推送过**received**消息的，都会收到**done**消息。 **done**可能指订单被成交或被取消。收到done消息后，就不会在收到关于这个订单的其他的信息了。
 
-
-
-
+<aside class="spacer4"></aside>
+<aside class="spacer2"></aside>
 
 ### MATCH
 
@@ -5662,7 +5663,8 @@ Topic: **/spotMarket/level3:{symbol},{symbol}...**
 
 在进入买卖盘之前，冰山单或隐藏单和普通的订单一样，撮合成功后作为taker
 
-
+<aside class="spacer4"></aside>
+<aside class="spacer2"></aside>
 
 ### UPDATE
 
@@ -6089,6 +6091,9 @@ Topic: **/spotMarket/tradeOrders**
 
 "done": 订单完成；
 
+<aside class="spacer4"></aside>
+<aside class="spacer2"></aside>
+
 ### 消息类型
 
 
@@ -6119,6 +6124,9 @@ Topic: **/spotMarket/tradeOrders**
 ```
 
 订单进入买卖盘时发出的消息。
+
+<aside class="spacer4"></aside>
+<aside class="spacer2"></aside>
 
 #### match
 
@@ -6152,6 +6160,9 @@ Topic: **/spotMarket/tradeOrders**
 ```
 订单成交时发出的消息
 
+<aside class="spacer4"></aside>
+<aside class="spacer2"></aside>
+
 #### filled
 ```json
 {
@@ -6179,6 +6190,9 @@ Topic: **/spotMarket/tradeOrders**
 ```
 订单因成交后状态变为DONE时发出的消息
 
+<aside class="spacer4"></aside>
+<aside class="spacer2"></aside>
+
 #### canceled
 ```json
 {
@@ -6205,6 +6219,9 @@ Topic: **/spotMarket/tradeOrders**
 }
 ```
 订单因被取消后状态变为DONE时发出的消息
+
+<aside class="spacer4"></aside>
+<aside class="spacer2"></aside>
 
 #### update
 ```json
