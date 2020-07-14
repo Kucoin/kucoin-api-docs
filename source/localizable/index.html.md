@@ -6095,7 +6095,7 @@ The system will push this message to the lenders when the order is completed.
 
 ## Private Order Change Events
 
-Topic: **/spotMarket/tradeOrders:{symbol},{symbol}...**
+Topic: **/spotMarket/tradeOrders**
 
 This topic will push all change events of your orders.
 

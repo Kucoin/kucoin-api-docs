@@ -6077,7 +6077,7 @@ Topic: **/margin/loan:{currency}**
 
 ## 私有订单变更事件
 
-Topic: **/spotMarket/tradeOrders:{symbol},{symbol}...**
+Topic: **/spotMarket/tradeOrders**
 
 该topic将推送所有有关您的订单的变更事件。
 
