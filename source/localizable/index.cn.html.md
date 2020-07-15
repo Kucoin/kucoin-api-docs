@@ -32,7 +32,7 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 **07/13/20**:
 
-- 【添加】 新增[私有订单变更事件](#b931e794ac)，公共频道[完整的撮合引擎数据（改版）(Level 3)](#level-nbsp-3-2)，[Level2 - 5档深度频道](#level2-5)，[Level2 - 50档深度频道](#level2-50)；
+- 【添加】 新增[私有订单变更事件](#6c2474816d)，公共频道[完整的撮合引擎数据（改版）(Level 3)](#level-nbsp-3-2)，[Level2 - 5档深度频道](#level2-5)，[Level2 - 50档深度频道](#level2-50)；
 - 【添加】 新增[Level-3全部买卖盘(非聚合)(改版)](#level-3-3)；
 
 
@@ -4570,28 +4570,6 @@ REST API的使用受到了访问频率的限制，因此推荐您使用Websocket
 在创建Websocket连接前，您需申请一个令牌（Token）。
 
 
-## 申请连接令牌
-
-```json
-{
-    "code": "200000",
-    "data": {
-        "instanceServers": [
-            {
-                "pingInterval": 50000,
-                "endpoint": "wss://push1-v2.kucoin.net/endpoint",
-                "protocol": "websocket",
-                "encrypt": true,
-                "pingTimeout": 10000
-            }
-        ],
-        "token": "vYNlCtbz4XNJ1QncwWilJnBtmmfe4geLQDUA62kKJsDChc6I4bRDQc73JfIrlFaVYIAE0Gv2--MROnLAgjVsWkcDq_MuG7qV7EktfCEIphiqnlfpQn4Ybg==.IoORVxR2LmKV7_maOR9xOg=="
-    }
-}
-```
-
-在您创建Websocket连接之前，需要申请一个令牌 token。
-
 ### 公共令牌 (不需要验证签名):
 
 如果您只订阅公共频道的数据，请按照以下方式请求获取服务实例列表和公共令牌。
@@ -4714,6 +4692,25 @@ var socket = new WebSocket("wss://push1-v2.kucoin.com/endpoint?token=xxx&[connec
 
 当订阅频道产生新消息时，系统将向客户端推送消息。了解消息格式，请查看频道介绍。
 
+### 参数
+#### ID
+ID用于标识请求和ack的唯一字符串。
+
+#### Topic
+您订阅的频道内容。
+
+#### PrivateChannel
+
+您可通过privateChannel参数订阅以一些特殊的topic（如： /market/level3）。该参数默认设置为“false”。设置为“true”时，则您只能收到与您订阅的topic相关的内容推送。Topic字段在返回数据中的格式为：{topic}:privateChannel:{userId}。
+
+
+#### Response
+若设置为True, 用户成功订阅后，系统将返回ack消息。
+
+客户端需要发送订阅消息到服务端，获取指定topic的消息。
+
+但系统会将相应topic的消息发送到客户端，详情返回值请参照指定的topic。
+
 ## 退订
 
 用于取消您之前订阅的topic
@@ -4751,28 +4748,6 @@ var socket = new WebSocket("wss://push1-v2.kucoin.com/endpoint?token=xxx&[connec
 
 #### Response
 退订成功后，当**response**参数为**true**时，系统将向您发出“ack”消息。
-
-### 参数
-#### ID
-ID用于标识请求和ack的唯一字符串。
-
-#### Topic
-您订阅的频道内容。
-
-#### PrivateChannel
-
-您可通过privateChannel参数订阅以一些特殊的topic（如： /market/level3）。该参数默认设置为“false”。设置为“true”时，则您只能收到与您订阅的topic相关的内容推送。Topic字段在返回数据中的格式为：{topic}:privateChannel:{userId}。
-
-
-#### Response
-若设置为True, 用户成功订阅后，系统将返回ack消息。
-
-客户端需要发送订阅消息到服务端，获取指定topic的消息。
-
-但系统会将相应topic的消息发送到客户端，详情返回值请参照指定的topic。
-
-
-
 
 
 ## 多路复用
@@ -5598,16 +5573,16 @@ Topic: **/spotMarket/level3:{symbol},{symbol}...**
 
 ```json
 {
+    "type":"message",
+    "topic":"/spotMarket/level3:KCS-USDT",
+    "subject":"received",
     "data":{
         "symbol":"KCS-USDT",
         "sequence":1592995125432,
         "orderId":"5efab07953bdea00089965d2",
         "clientOid":"1593487481000906",
         "ts":1593487481683297666
-    },
-    "subject":"received",
-    "topic":"/spotMarket/level3:KCS-USDT",
-    "type":"message"
+    }
 }
 
 ```
@@ -5628,6 +5603,9 @@ Topic: **/spotMarket/level3:{symbol},{symbol}...**
 
 ```json
 {
+    "type":"message",
+    "topic":"/spotMarket/level3:KCS-USDT",
+    "subject":"open",
     "data":{
         "symbol":"KCS-USDT",
         "sequence":1592995125433,
@@ -5637,10 +5615,7 @@ Topic: **/spotMarket/level3:{symbol},{symbol}...**
         "orderId":"5efab07953bdea00089965d2",
         "price":"0.937",
         "ts":1593487481683297666
-    },
-    "subject":"open",
-    "topic":"/spotMarket/level3:KCS-USDT",
-    "type":"message"
+    }
 }
 
 ```
@@ -5660,28 +5635,28 @@ Topic: **/spotMarket/level3:{symbol},{symbol}...**
 
 ```json
 {
+    "type":"message",
+    "topic":"/spotMarket/level3:KCS-USDT",
+    "subject":"done",
     "data":{
         "symbol":"KCS-USDT",
         "reason":"filled",
         "sequence":1592995125437,
         "orderId":"5efab07953bdea00089965fa",
         "ts":1593487482038606180
-    },
-    "subject":"done",
-    "topic":"/spotMarket/level3:KCS-USDT",
-    "type":"message"
+    }
 }
 {
+    "type":"message",
+    "topic":"/spotMarket/level3:KCS-USDT",
+    "subject":"done",
     "data":{
         "symbol":"KCS-USDT",
         "reason":"canceled",
         "sequence":1592995125434,
         "orderId":"5efab07953bdea00089965d2",
         "ts":1593487481893140844
-    },
-    "subject":"done",
-    "topic":"/spotMarket/level3:KCS-USDT",
-    "type":"message"
+    }
 }
 ```
 
@@ -5696,6 +5671,9 @@ Topic: **/spotMarket/level3:{symbol},{symbol}...**
 ```json
 
 {
+    "type":"message",
+    "topic":"/spotMarket/level3:KCS-USDT",
+    "subject":"match",
     "data":{
         "symbol":"KCS-USDT",
         "sequence":1592995125436,
@@ -5707,10 +5685,7 @@ Topic: **/spotMarket/level3:{symbol},{symbol}...**
         "tradeId":"5efab07a4ee4c7000a82d6d9",
         "remainSize":"2.9",
         "ts":1593487482038606180
-    },
-    "subject":"match",
-    "topic":"/spotMarket/level3:KCS-USDT",
-    "type":"message"
+    }
 }
 
 ```
@@ -5730,16 +5705,16 @@ Topic: **/spotMarket/level3:{symbol},{symbol}...**
 
 ```json
 {
+    "type":"message",
+    "topic":"/spotMarket/level3:KCS-USDT",
+    "subject":"update",
     "data":{
         "symbol":"KCS-USDT",
         "sequence":1592995125858,
         "size":"0.06",
         "orderId":"5efab14d53bdea0008997298",
         "ts":1593487696535838711
-    },
-    "subject":"update",
-    "topic":"/spotMarket/level3:KCS-USDT",
-    "type":"message"
+    }
 }
 
 ```
@@ -6155,9 +6130,13 @@ Topic: **/spotMarket/tradeOrders**
 ### 消息类型
 
 
-#### open 
+#### open
 ```json
 {
+    "type":"message",
+    "topic":"/spotMarket/tradeOrders",
+    "subject":"orderChange",
+    "channelType":"private",
     "data":{
         "symbol":"KCS-USDT",
         "orderType":"limit",
@@ -6172,12 +6151,7 @@ Topic: **/spotMarket/tradeOrders**
         "remainSize":"0.1",
         "status":"open",
         "ts":1593487481683297666
-    },
-    "subject":"orderChange",
-    "topic":"/spotMarket/tradeOrders",
-    "channelType":"private",
-    "type":"message",
-    "userId":"5db7e1b4b101d2264c0546f4"
+    }
 }
 ```
 
@@ -6191,6 +6165,10 @@ Topic: **/spotMarket/tradeOrders**
 
 ```json
 {
+    "type":"message",
+    "topic":"/spotMarket/tradeOrders",
+    "subject":"orderChange",
+    "channelType":"private",
     "data":{
         "symbol":"KCS-USDT",
         "orderType":"limit",
@@ -6209,12 +6187,7 @@ Topic: **/spotMarket/tradeOrders**
         "remainSize":"0",
         "status":"match",
         "ts":1593487482038606180
-    },
-    "subject":"orderChange",
-    "topic":"/spotMarket/tradeOrders",
-    "channelType":"private",
-    "type":"message",
-    "userId":"5db7e1b4b101d2264c0546f4"
+    }
 }
 ```
 订单成交时发出的消息
@@ -6226,6 +6199,10 @@ Topic: **/spotMarket/tradeOrders**
 #### filled
 ```json
 {
+    "type":"message",
+    "topic":"/spotMarket/tradeOrders",
+    "subject":"orderChange",
+    "channelType":"private",
     "data":{
         "symbol":"KCS-USDT",
         "orderType":"limit",
@@ -6240,12 +6217,7 @@ Topic: **/spotMarket/tradeOrders**
         "remainSize":"0",
         "status":"done",
         "ts":1593487482038606180
-    },
-    "subject":"orderChange",
-    "topic":"/spotMarket/tradeOrders",
-    "channelType":"private",
-    "type":"message",
-    "userId":"5db7e1b4b101d2264c0546f4"
+    }
 }
 ```
 订单因成交后状态变为DONE时发出的消息
@@ -6257,6 +6229,10 @@ Topic: **/spotMarket/tradeOrders**
 #### canceled
 ```json
 {
+    "type":"message",
+    "topic":"/spotMarket/tradeOrders",
+    "subject":"orderChange",
+    "channelType":"private",
     "data":{
         "symbol":"KCS-USDT",
         "orderType":"limit",
@@ -6271,12 +6247,7 @@ Topic: **/spotMarket/tradeOrders**
         "remainSize":"0",
         "status":"done",
         "ts":1593487481893140844
-    },
-    "subject":"orderChange",
-    "topic":"/spotMarket/tradeOrders",
-    "channelType":"private",
-    "type":"message",
-    "userId":"5db7e1b4b101d2264c0546f4"
+    }
 }
 ```
 订单因被取消后状态变为DONE时发出的消息
@@ -6288,6 +6259,10 @@ Topic: **/spotMarket/tradeOrders**
 #### update
 ```json
 {
+    "type":"message",
+    "topic":"/spotMarket/tradeOrders",
+    "subject":"orderChange",
+    "channelType":"private",
     "data":{
         "symbol":"KCS-USDT",
         "orderType":"limit",
@@ -6303,12 +6278,7 @@ Topic: **/spotMarket/tradeOrders**
         "remainSize":"0.06",
         "status":"open",
         "ts":1593487682916117521
-    },
-    "subject":"orderChange",
-    "topic":"/spotMarket/tradeOrders",
-    "channelType":"private",
-    "type":"message",
-    "userId":"5db7e1b4b101d2264c0546f4"
+    }
 }
 ```
 订单因被修改发出的消息
