@@ -5575,15 +5575,15 @@ The following messages(**RECEIVED**, **OPEN**, **UPDATE**, **MATCH**, **DONE**) 
 
 ```json
 {
-    "type":"message"
-    "topic":"/spotMarket/level3:BTC-USDT",
+    "type":"message",
+    "topic":"/spotMarket/level3:KCS-USDT",
     "subject":"received",
     "data":{
-        "symbol":"BTC-USDT", 
-        "sequence":1545896669147,
-        "orderId":"5c24c72503aa6772d55b378d",
-        "clientOid":"sf144a",
-        "ts":1545914149935808589,
+        "symbol":"KCS-USDT",
+        "sequence":1592995125432,
+        "orderId":"5efab07953bdea00089965d2",
+        "clientOid":"1593487481000906",
+        "ts":1593487481683297666
     }
 }
 
@@ -5604,18 +5604,18 @@ You can filter your orders through clientOid, but it will be posted to L3 messag
 
 ```json
 {
-    "type":"message"
-    "topic":"/spotMarket/level3:BTC-USDT",
+    "type":"message",
+    "topic":"/spotMarket/level3:KCS-USDT",
     "subject":"open",
     "data":{
-        "symbol":"BTC-USDT",
-        "sequence":1545896669148,
-        "side":"sell",
-        "price":"6.00000000000000000000",
-        "size":"1",
-        "orderId":"5c24c72503aa6772d55b378d",
-        "orderTime":1547697294838004923,
-        "ts":1545914149935808632,
+        "symbol":"KCS-USDT",
+        "sequence":1592995125433,
+        "side":"buy",
+        "orderTime":1593487481683297666,
+        "size":"0.1",
+        "orderId":"5efab07953bdea00089965d2",
+        "price":"0.937",
+        "ts":1593487481683297666
     }
 }
 
@@ -5638,27 +5638,27 @@ When the matching life cycle of an order ends, the order will no longer be displ
 
 ```json
 {
-    "type":"message"
-    "topic":"/spotMarket/level3:BTC-USDT",
+    "type":"message",
+    "topic":"/spotMarket/level3:KCS-USDT",
     "subject":"done",
     "data":{
-        "symbol":"BTC-USDT",
-        "sequence":3262786901,
+        "symbol":"KCS-USDT",
         "reason":"filled",
-        "orderId":"5c24c96103aa6772d55b380b",
-        "ts":1547697294838004923,
+        "sequence":1592995125437,
+        "orderId":"5efab07953bdea00089965fa",
+        "ts":1593487482038606180
     }
 }
 {
-    "type":"message"
-    "topic":"/spotMarket/level3:BTC-USDT",
+    "type":"message",
+    "topic":"/spotMarket/level3:KCS-USDT",
     "subject":"done",
     "data":{
-        "symbol":"BTC-USDT",
-        "sequence":3262786901,
+        "symbol":"KCS-USDT",
         "reason":"canceled",
-        "orderId":"5c24c96103aa6772d55b381b",
-        "ts":1545914730696797106,
+        "sequence":1592995125434,
+        "orderId":"5efab07953bdea00089965d2",
+        "ts":1593487481893140844
     }
 }
 ```
@@ -5673,20 +5673,20 @@ This will mean that the order is no longer on the order book. The message is sen
 
 ```json
 {
-    "type":"message"
-    "topic":"/spotMarket/level3:BTC-USDT",
+    "type":"message",
+    "topic":"/spotMarket/level3:KCS-USDT",
     "subject":"match",
     "data":{
-        "symbol":"BTC-USDT",
-        "sequence":"1545896669291",
-        "side":"buy",
-        "price":"0.08300000000000000000",
-        "size":"0.07600000000000000000",  //  Matching Size
-        "remainSize":"0.01", //  Remain Size
-        "makerOrderId":"5c20492a03aa677bd099ce9d",
-        "takerOrderId":"5c24ca2e03aa6772d55b38bf",
-        "tradeId":"5c24ca3503aa673885cd67ef"
-        "ts":1547697294838004923,
+        "symbol":"KCS-USDT",
+        "sequence":1592995125436,
+        "side":"sell",
+        "size":"0.1",  // Matching Size
+        "price":"0.96738",
+        "takerOrderId":"5efab07953bdea00089965fa",
+        "makerOrderId":"5efab01453bdea00089959ba",
+        "tradeId":"5efab07a4ee4c7000a82d6d9",
+        "remainSize":"2.9",  // Remain Size
+        "ts":1593487482038606180
     }
 }
 
@@ -5706,15 +5706,15 @@ Before entering the orderbook, the iceberg or hidden order is the same as the or
 
 ```json
 {
-    "type":"message"
-    "topic":"/spotMarket/level3:BTC-USDT",
+    "type":"message",
+    "topic":"/spotMarket/level3:KCS-USDT",
     "subject":"update",
     "data":{
-        "symbol":"BTC-USDT",
-        "sequence":3262786897,
-        "orderId":"5c24caff03aa671aef3ca170",
-        "size":"0.15722222000000000000",  // Updated Size
-        "ts":1545915145402532254,
+        "symbol":"KCS-USDT",
+        "sequence":1592995125858,
+        "size":"0.06",
+        "orderId":"5efab14d53bdea0008997298",  // Updated Size
+        "ts":1593487696535838711
     }
 }
 
@@ -6153,6 +6153,10 @@ This topic will push all change events of your orders.
 #### open
 ```json
 {
+    "type":"message",
+    "topic":"/spotMarket/tradeOrders",
+    "subject":"orderChange",
+    "channelType":"private",
     "data":{
         "symbol":"KCS-USDT",
         "orderType":"limit",
@@ -6167,12 +6171,7 @@ This topic will push all change events of your orders.
         "remainSize":"0.1",
         "status":"open",
         "ts":1593487481683297666
-    },
-    "subject":"orderChange",
-    "topic":"/spotMarket/tradeOrders",
-    "channelType":"private",
-    "type":"message",
-    "userId":"5db7e1b4b101d2264c0546f4"
+    }
 }
 ```
 when the order enters into the order book;
@@ -6184,6 +6183,10 @@ when the order enters into the order book;
 #### match
 ```json
 {
+    "type":"message",
+    "topic":"/spotMarket/tradeOrders",
+    "subject":"orderChange",
+    "channelType":"private",
     "data":{
         "symbol":"KCS-USDT",
         "orderType":"limit",
@@ -6202,12 +6205,7 @@ when the order enters into the order book;
         "remainSize":"0",
         "status":"match",
         "ts":1593487482038606180
-    },
-    "subject":"orderChange",
-    "topic":"/spotMarket/tradeOrders",
-    "channelType":"private",
-    "type":"message",
-    "userId":"5db7e1b4b101d2264c0546f4"
+    }
 }
 ```
 when the order has been executed;
@@ -6219,6 +6217,10 @@ when the order has been executed;
 #### filled
 ```json
 {
+    "type":"message",
+    "topic":"/spotMarket/tradeOrders",
+    "subject":"orderChange",
+    "channelType":"private",
     "data":{
         "symbol":"KCS-USDT",
         "orderType":"limit",
@@ -6233,12 +6235,7 @@ when the order has been executed;
         "remainSize":"0",
         "status":"done",
         "ts":1593487482038606180
-    },
-    "subject":"orderChange",
-    "topic":"/spotMarket/tradeOrders",
-    "channelType":"private",
-    "type":"message",
-    "userId":"5db7e1b4b101d2264c0546f4"
+    }
 }
 ```
 when the order has been executed and its status was changed into DONE;
@@ -6250,6 +6247,10 @@ when the order has been executed and its status was changed into DONE;
 #### canceled
 ```json
 {
+    "type":"message",
+    "topic":"/spotMarket/tradeOrders",
+    "subject":"orderChange",
+    "channelType":"private",
     "data":{
         "symbol":"KCS-USDT",
         "orderType":"limit",
@@ -6264,12 +6265,7 @@ when the order has been executed and its status was changed into DONE;
         "remainSize":"0",
         "status":"done",
         "ts":1593487481893140844
-    },
-    "subject":"orderChange",
-    "topic":"/spotMarket/tradeOrders",
-    "channelType":"private",
-    "type":"message",
-    "userId":"5db7e1b4b101d2264c0546f4"
+    }
 }
 ```
 when the order has been cancelled and its status was changed into DONE;
@@ -6281,6 +6277,10 @@ when the order has been cancelled and its status was changed into DONE;
 #### update
 ```json
 {
+    "type":"message",
+    "topic":"/spotMarket/tradeOrders",
+    "subject":"orderChange",
+    "channelType":"private",
     "data":{
         "symbol":"KCS-USDT",
         "orderType":"limit",
@@ -6296,12 +6296,7 @@ when the order has been cancelled and its status was changed into DONE;
         "remainSize":"0.06",
         "status":"open",
         "ts":1593487682916117521
-    },
-    "subject":"orderChange",
-    "topic":"/spotMarket/tradeOrders",
-    "channelType":"private",
-    "type":"message",
-    "userId":"5db7e1b4b101d2264c0546f4"
+    }
 }
 ```
 when the order has been updated;
