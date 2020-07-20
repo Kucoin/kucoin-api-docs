@@ -41,12 +41,6 @@ API分为两部分：**REST API和Websocket 实时数据流**
 - 【添加】 Websocket推送消息增加channelType字段: public(公共频道，默认)、private(用户私有频道)、session(会话频道)；
 - 【弃用】 三个月后移除私用频道topic中({topic}:privateChannel:{userId})和私有消息中的userId
 
-**06/12/20**:
-
-- 【添加】 Websocket推送消息增加channelType字段: public(公共频道，默认)、private(用户私有频道)、session(会话频道)；
-- 【弃用】 三个月后移除私用频道topic中({topic}:privateChannel:{userId})和私有消息中的userId
-
-
 **05/28/20**:
 
 - 【修改】 [账户流水记录](#c8122540e1)新增唯一id
@@ -388,7 +382,7 @@ REST&nbsp;API 连接地址:
 
 ### 订阅topic数量 
 
-每个连接最大可订阅topic数量限制：300个topics
+每个连接最大可订阅topic数量限制：300个topic
 
 ### 申请提高频率限制
 
@@ -441,7 +435,7 @@ KuCoin为专业做市商提供做市激励计划。
 
 ### .net SDK
 * POST请求验签错误<br/> 
-  "{\"code\":\"400005\",\"msg\":\"Invalid KC-API-SIGN\"}"<br/>
+  {"code":"400005", "msg":"Invalid KC-API-SIGN"}<br/>
   代码有bug<br/>
   var response = body == null ? await _restRepo.PostApi<ApiResponse<T>, SortedDictionary<string, object>>(url, body, headers) : await _restRepo.PostApi<ApiResponse<T>>(url, headers);<br/>
   修改为:<br/>
@@ -452,7 +446,7 @@ KuCoin为专业做市商提供做市激励计划。
 * token有效期24小时；
 * 一个用户最多50个连接；
 * 客户端每10秒最多上行100个消息；
-* 一个symbol 就是一个topic; e.g.Topic: /market/level3:{symbol},{symbol}... 
+* 一个symbol就是一个topic; e.g.Topic: /market/level3:{symbol},{symbol}... 
 
 ### 返回 403 问题
 
@@ -582,7 +576,7 @@ Pagination允许使用当前页数获取结果，非常适用于获取实时数�
 
 ### 数字 
 
-为了保证跨平台的数字的精确度，Decimal 需要转化为字符串返回。请在发出请求时，将数字转换为字符串来避免数字被截断或者精度错误。
+为了保证跨平台的数字的精确度，Decimal转化为字符串返回。请在发出请求时，将数字转换为字符串来避免数字被截断或者精度错误。
 
 ## 接口认证
 
@@ -686,7 +680,7 @@ Rest请求头必须包含以下内容:
 请求头中的 **KC-API-SIGN**: 
 
 1. 使用 API-Secret 对
-  {timestamp + method+ endpoint  + body} 拼接的字符串进行**HMAC-sha256**加密。
+  {timestamp + method + endpoint + body} 拼接的字符串进行**HMAC-sha256**加密。
 2. 再将加密内容使用 **base64** 加密。
 
 注意：
@@ -719,9 +713,8 @@ KC-API-SIGN = 7QP/oM0ykidMdrfNEUmng8eZjg/ZvPafjIqmxiVfYu4=
 
 ### 选择时间戳
 
-请求头中的 **KC-API-TIMESTAMP** 必须为[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)，精确到毫秒。例如，1547015186532
+请求头中的 **KC-API-TIMESTAMP** 必须为[Unix 时间](http://en.wikipedia.org/wiki/Unix_time)，精确到毫秒，例如，1547015186532。
 
-请求头的KC-API-TIMESTAMP必须为Unix UTC时间，需精确到毫秒（如：1547015186532）。
 服务器请求的时间戳与API服务器时差必须控制在5秒以内，否则请求会因过期而被服务器拒绝。如果服务器与API服务器之间存在时间偏差，请使用平台提供的服务器时间接口，获取API[服务器的时间](#3f1907847c)。
 
 # 用户模块
@@ -1883,8 +1876,8 @@ POST /api/v1/orders
 
 | 请求参数        | 类型      | 含义                                                          |
 | ----------- | ------- | ----------------------------------------------------------- |
-| price       | String  | 指定货币的价格                                                     |
-| size        | String  | 指定货币的数量                                                     |
+| price       | String  | 指定币种的价格                                                     |
+| size        | String  | 指定币种的数量                                                     |
 | timeInForce | String  | [可选] 订单时效策略 **GTC**, **GTT**, **IOC**, **FOK** (默认为**GTC**) |
 | cancelAfter | long    | [可选] **n** 秒之后取消，订单时效策略为 **GTT**                            |
 | postOnly    | boolean | [可选] 被动委托的标识, 当订单时效策略为 **IOC** 或 **FOK** 时无效                |
@@ -1899,7 +1892,7 @@ POST /api/v1/orders
 size | String | 否（size和funds 二选一） | 下单数量
 funds | String |  否（size和funds 二选一）| 下单资金
 
-* 下市价单，需定买卖数量或资金
+* 下市价单，需定买卖数量或资金。
 
 ###术语解释
 
@@ -1909,7 +1902,7 @@ funds | String |  否（size和funds 二选一）| 下单资金
 
 ###Client Order Id(clientOid)
 
-ClientOid字段是客户端创建的唯一的ID（推荐使用UUID），只能包含数字、字母、下划线（_） 和 分隔线（-）。这个字段会在获取订单信息时返回。您可使用clientOid来标识您的订单。ClientOid不同于服务端创建的订单ID。请不要使用同一个clientOid发起请求。clientOid最长不得超过40个字符。
+ClientOid字段是客户端创建的唯一ID（推荐使用UUID），只能包含数字、字母、下划线（_） 和 分隔线（-）。这个字段会在获取订单信息时返回。您可使用clientOid来标识您的订单。ClientOid不同于服务端创建的订单ID。请不要使用同一个clientOid发起请求。clientOid最长不得超过40个字符。
 
 请妥善记录服务端创建的orderId，以用于查询订单状态的更新。
 
@@ -1937,7 +1930,7 @@ ClientOid字段是客户端创建的唯一的ID（推荐使用UUID），只能�
 当您下一个止损单时，系统会提前冻结您的交易账户资金。所以，**下止损单时，推荐您使用金额（fund）下单**。
 
 ###价格(Price)
-下限价单时，price 必须以交易对的[价格增量 priceIncrement](#a17b4e2866)为基准，价格增量是交易对的价格的精度。比如，对BTC-USDT 这个交易对, 它的 priceIncrement 为0.00001000。那么你下单的 price 不可以小于0.00001000，且为 priceIncrement 的正整数倍，否则下单时会报错，invalid priceIncrement。
+下限价单时，price 必须以交易对的[价格增量 priceIncrement](#a17b4e2866)为基准，价格增量是交易对的价格的精度。比如，对BTC-USDT这个交易对, 它的 priceIncrement 为0.00001000。那么你下单的 price 不可以小于0.00001000，且为 priceIncrement 的正整数倍，否则下单时会报错，invalid priceIncrement。
 
 ###数量(Size)
 下限价单时，size 是指交易对的交易对象(即写在靠前部分的资产名)的数量。size 必须以交易对中的[数量增量 baseIncrement](#a17b4e2866)为基准，数量增量是交易对的数量的精度。下单的 size 为 baseIncrement 的正整数倍并且必须在 baseMinSize 和 baseMaxSize 之间。
@@ -1960,7 +1953,7 @@ ClientOid字段是客户端创建的唯一的ID（推荐使用UUID），只能�
 ###被动委托(PostOnly)
 
 postOnlys只是一个标识，如果下单有能立即成交的对手方，则取消。
-* 当用户所下订单是postonly订单时，如果订单进入撮合引擎后遇到冰山单和隐藏单可以立即成交，postonly 订单收maker 手续费，冰山单和隐藏单收taker 手续费。
+* 当用户所下订单是postonly订单时，如果订单进入撮合引擎后遇到冰山单和隐藏单可以立即成交，postonly 订单收maker 手续费，冰山单和隐藏单收taker手续费。
 
 ###隐藏单和冰山单(Hidden & Iceberg)
 
@@ -2171,6 +2164,7 @@ DELETE /api/v1/orders/5bd6e9286d99522a52e458de
 ```json
 {
     "cancelledOrderIds":[
+
         "5c52e11203aa677f33e493fb",
         "5c52e12103aa677f33e493fe",
         "5c52e12a03aa677f33e49401",
@@ -2220,38 +2214,38 @@ DELETE /api/v1/orders/5bd6e9286d99522a52e458de
     "totalNum": 153408,
     "totalPage": 153408,
     "items": [
-      {
-        "id": "5c35c02703aa673ceec2a168",
-        "symbol": "BTC-USDT",
-        "opType": "DEAL",
-        "type": "limit",
-        "side": "buy",
-        "price": "10",
-        "size": "2",
-        "funds": "0",
-        "dealFunds": "0.166",
-        "dealSize": "2",
-        "fee": "0",
-        "feeCurrency": "USDT",
-        "stp": "",
-        "stop": "",
-        "stopTriggered": false,
-        "stopPrice": "0",
-        "timeInForce": "GTC",
-        "postOnly": false,
-        "hidden": false,
-        "iceberg": false,
-        "visibleSize": "0",
-        "cancelAfter": 0,
-        "channel": "IOS",
-        "clientOid": "",
-        "remark": "",
-        "tags": "",
-        "isActive": false,
-        "cancelExist": false,
-        "createdAt": 1547026471000,
-        "tradeType": "TRADE"
-      }
+        {
+            "id": "5c35c02703aa673ceec2a168",
+            "symbol": "BTC-USDT",
+            "opType": "DEAL",
+            "type": "limit",
+            "side": "buy",
+            "price": "10",
+            "size": "2",
+            "funds": "0",
+            "dealFunds": "0.166",
+            "dealSize": "2",
+            "fee": "0",
+            "feeCurrency": "USDT",
+            "stp": "",
+            "stop": "",
+            "stopTriggered": false,
+            "stopPrice": "0",
+            "timeInForce": "GTC",
+            "postOnly": false,
+            "hidden": false,
+            "iceberg": false,
+            "visibleSize": "0",
+            "cancelAfter": 0,
+            "channel": "IOS",
+            "clientOid": "",
+            "remark": "",
+            "tags": "",
+            "isActive": false,
+            "cancelExist": false,
+            "createdAt": 1547026471000,
+            "tradeType": "TRADE"
+        }
     ]
  }
 ```
@@ -2345,15 +2339,15 @@ GET /api/v1/orders
     "totalNum": 1,
     "totalPage": 1,
     "items": [
-      {
-        "symbol": "SNOV-ETH",
-        "dealPrice": "0.0000246",
-        "dealValue": "0.018942",
-        "amount": "770",
-        "fee": "0.00001137",
-        "side": "sell",
-        "createdAt": 1540080199
-      }
+        {
+            "symbol": "SNOV-ETH",
+            "dealPrice": "0.0000246",
+            "dealValue": "0.018942",
+            "amount": "770",
+            "fee": "0.00001137",
+            "side": "sell",
+            "createdAt": 1540080199
+        }
     ]
  }
 ```
@@ -2404,38 +2398,38 @@ GET /api/v1/hist-orders
     "totalNum": 153408,
     "totalPage": 153408,
     "items": [
-      {
-        "id": "5c35c02703aa673ceec2a168",
-        "symbol": "BTC-USDT",
-        "opType": "DEAL",
-        "type": "limit",
-        "side": "buy",
-        "price": "10",
-        "size": "2",
-        "funds": "0",
-        "dealFunds": "0.166",
-        "dealSize": "2",
-        "fee": "0",
-        "feeCurrency": "USDT",
-        "stp": "",
-        "stop": "",
-        "stopTriggered": false,
-        "stopPrice": "0",
-        "timeInForce": "GTC",
-        "postOnly": false,
-        "hidden": false,
-        "iceberg": false,
-        "visibleSize": "0",
-        "cancelAfter": 0,
-        "channel": "IOS",
-        "clientOid": "",
-        "remark": "",
-        "tags": "",
-        "isActive": false,
-        "cancelExist": false,
-        "createdAt": 1547026471000,
-        "tradeType": "TRADE"
-      }
+        {
+            "id": "5c35c02703aa673ceec2a168",
+            "symbol": "BTC-USDT",
+            "opType": "DEAL",
+            "type": "limit",
+            "side": "buy",
+            "price": "10",
+            "size": "2",
+            "funds": "0",
+            "dealFunds": "0.166",
+            "dealSize": "2",
+            "fee": "0",
+            "feeCurrency": "USDT",
+            "stp": "",
+            "stop": "",
+            "stopTriggered": false,
+            "stopPrice": "0",
+            "timeInForce": "GTC",
+            "postOnly": false,
+            "hidden": false,
+            "iceberg": false,
+            "visibleSize": "0",
+            "cancelAfter": 0,
+            "channel": "IOS",
+            "clientOid": "",
+            "remark": "",
+            "tags": "",
+            "isActive": false,
+            "cancelExist": false,
+            "createdAt": 1547026471000,
+            "tradeType": "TRADE"
+        }
     ]
  }
 ```
@@ -2902,12 +2896,12 @@ GET /api/v1/symbols
 //Get Ticker
 {
     "sequence":"1550467636704",
-    "bestAsk":"0.03715004",
-    "size":"0.17",
     "price":"0.03715005",
-    "bestBidSize":"3.803",
-    "bestBid":"0.03710768",
+    "size":"0.17",
+    "bestAsk":"0.03715004",
     "bestAskSize":"1.788",
+    "bestBid":"0.03710768",
+    "bestBidSize":"3.803",
     "time":1550653727731
 }
 ```
@@ -2932,12 +2926,12 @@ symbol | String |  [交易对](#a17b4e2866)
 字段 | 含义
 --------- | ------- 
 sequence | 序列号
-bestAsk |  最佳卖一价
-size | 最新成交数量
 price |  最新成交价格
-bestBidSize | 最佳买一数量
-bestBid |  最佳买一价
+size | 最新成交数量
+bestAsk |  最佳卖一价
 bestAskSize |  最佳卖一数量
+bestBid |  最佳买一价
+bestBidSize | 最佳买一数量
 time |  时间戳
 
 
@@ -2948,7 +2942,6 @@ time |  时间戳
 
 ```json
 {
-    "time":1550653727731,
     "ticker":[
         {
             "symbol":"BTC-USDT",
@@ -2976,7 +2969,8 @@ time |  时间戳
             "volValue":"43.58567564",
             "last":"0.00018664"
         }
-    ]
+    ],
+    "time":1550653727731
 }
 ```
 
@@ -3013,16 +3007,16 @@ last |  最新成交价
 {
     "symbol": "ETH-BTC",    // 交易对
     "high": "0.03736329",   // 24h最高价 
+    "low": "0.03651252",    // 24h最低价
     "vol": "2127.286930263025",  // 24h成交量，以基础币种计量的交易量 
     "volValue": "43.58567564",  // 24h成交金额
     "last": "0.03713983",   // 最新成交价
-    "low": "0.03651252",    // 24h最低价
     "buy": "0.03712118",    // 最佳买一价
     "sell": "0.03713983",   // 最佳卖一价
     "changePrice": "0.00037224",  //24h 涨跌价
     "averagePrice": "8699.24180977",//昨日24小时平均成交价格
-    "time": 1550847784668,  //时间戳
-    "changeRate": "0.0101" // 24h涨跌幅
+    "changeRate": "0.0101", // 24h涨跌幅
+    "time": 1550847784668  //时间戳
 }
 ```  
 
@@ -3047,10 +3041,10 @@ symbol | String |  [交易对](#a17b4e2866)
 --------- | ------- 
 symbol | 交易对
 high | 24h最高价
+low |  24h最低价
 vol | 24h成交量，以基础币种计量的交易量
 volValue | 24h 成交金额
 last | 最新成交价
-low |  24h最低价
 buy |  最佳买一价
 sell | 最佳卖一价
 changeRate |  24h涨跌幅
@@ -3065,6 +3059,7 @@ time |  时间戳
 //Get Market List
 {
     "data":[
+
         "BTC",
         "KCS",
         "USDS",
@@ -3093,7 +3088,6 @@ GET /api/v1/markets
 ```json
 {
     "sequence":"3262786978",
-    "time":1550653727731,
     "bids":[
         [
             "6500.12",//price
@@ -3113,7 +3107,8 @@ GET /api/v1/markets
             "6500.15",
             "0.57753524"
         ]
-    ]
+    ],
+    "time":1550653727731
 }
 ```
 此接口，可获取指定交易对的买卖盘数据。
@@ -3121,8 +3116,6 @@ GET /api/v1/markets
 买卖盘上的买单和卖单均按照价格汇总，每个价格下仅返回一个根据价格汇总的挂单量。
 
 此接口，只会返回部分的买卖盘数据，level2_20是指返回买卖方各20条数据，level_100 是指返回买卖方各100条数据。推荐您使用这个接口，因为响应速度更快，流量消耗小。
-
-为保证本地买卖盘数据为最新数据，在获取Level 2快照后，请使用[Websocket](#level-2-3)推送的增量消息来更新Level 2买卖盘。
 
 
 
@@ -3164,7 +3157,6 @@ asks | 卖盘
 ```json
 {
     "sequence":"3262786978",
-    "time":1550653727731,
     "bids":[
         [
             "6500.12", //price
@@ -3184,7 +3176,8 @@ asks | 卖盘
             "6500.15",
             "0.57753524"
         ]
-    ]
+    ],
+    "time":1550653727731
 }
 ```
 此接口获取指定交易对的所有活动委托的快照。
@@ -3238,6 +3231,7 @@ asks | 卖盘
 ```json
 {
     "data":{
+
         "sequence":"1573503933086",
         "asks":[
             [
@@ -3315,6 +3309,7 @@ asks | 卖盘
 ```json
 {
     "data": {
+
         "sequence": 1573503933086,
         "asks": [
             [
@@ -3353,7 +3348,7 @@ asks | 卖盘
 
 该功能适用于专业交易员，因为该过程将使用较多服务器资源及流量，访问频率受到了严格控制。
 
-为保证本地买卖盘数据为最新数据，在获取Level 3快照后，请使用[Websocket](#level-nbsp-3)推送的增量消息来更新Level 3买卖盘。
+为保证本地买卖盘数据为最新数据，在获取Level 3快照后，请使用[Websocket](#level-nbsp-3-2)推送的增量消息来更新Level 3买卖盘。
 
 在买卖盘中，卖盘是以价格从低到高排序的，价格相同的订单以进入买卖盘的时间从低到高排序。买盘是以价格从高到低排序的，价格相同的订单以进入买卖盘的时间从低到高排序。撮合引擎将按照订单在买卖盘中排列顺序依次进行撮合。
 
@@ -3607,6 +3602,7 @@ GET /api/v1/currencies/BTC
 {
     "code":"200000",
     "data":{
+
         "BTC":"3911.28000000",
         "ETH":"144.55492453",
         "LTC":"48.45888179",
@@ -3712,8 +3708,8 @@ GET /api/v1/margin/config
 {
     "accounts":[
         {
-            "availableBalance":"990.11",
             "currency":"USDT",
+            "availableBalance":"990.11",
             "holdBalance":"7.22",
             "liability":"66.66",
             "maxBorrowSize":"88.88",
@@ -3801,7 +3797,9 @@ POST /api/v1/margin/borrow
 
 ```json
 {
+    "orderId":"a2111213",
     "currency":"USDT",
+    "size":"1.009",
     "filled":1.009,
     "matchList":[
         {
@@ -3813,8 +3811,6 @@ POST /api/v1/margin/borrow
             "tradeId":"1212331"
         }
     ],
-    "orderId":"a2111213",
-    "size":"1.009",
     "status":"DONE"
 }
 ```
@@ -3865,8 +3861,8 @@ GET /api/v1/margin/borrow?orderId=123456789
     "totalPage":0,
     "items":[
         {
+            "tradeId":"1231141",
             "accruedInterest":"0.22121",
-            "createdAt":"1544657947759",
             "currency":"USDT",
             "dailyIntRate":"0.0021",
             "liability":"1.32121",
@@ -3874,7 +3870,7 @@ GET /api/v1/margin/borrow?orderId=123456789
             "principal":"1.22121",
             "repaidSize":"0",
             "term":7,
-            "tradeId":"1231141"
+            "createdAt":"1544657947759"
         }
     ]
 }
@@ -3925,14 +3921,14 @@ GET /api/v1/margin/borrow/outstanding
     "totalPage":0,
     "items":[
         {
+            "tradeId":"1231141",
             "currency":"USDT",
             "dailyIntRate":"0.0021",
             "interest":"0.22121",
             "principal":"1.22121",
             "repaidSize":"0",
             "repayTime":"1544657947759",
-            "term":7,
-            "tradeId":"1231141"
+            "term":7
         }
     ]
 }
@@ -4519,6 +4515,7 @@ GET /api/v1/timestamp
 {
     "code":"200000",
     "data":{
+
         "status":"open", // //open, close, cancelonly
         "msg":"upgrade match engine"
     }
@@ -4544,7 +4541,7 @@ GET /api/v1/status
 
 REST API的使用受到了访问频率的限制，因此推荐您使用Websocket获取实时数据。
 
-<aside class="notice">推荐您只创建一个Websocket连接，使用多路复用的方式去订阅数据</aside>
+<aside class="notice">推荐您只创建一个Websocket连接，在这个连接上订阅多个通道的数据</aside>
 
 
 ## 申请连接令牌
@@ -4553,12 +4550,13 @@ REST API的使用受到了访问频率的限制，因此推荐您使用Websocket
   {
     "code":"200000",
     "data":{
+
         "instanceServers":[
             {
-                "pingInterval":50000,
                 "endpoint":"wss://push.kumex.net/endpoint",
                 "protocol":"websocket",
                 "encrypt":true,
+                "pingInterval":50000,
                 "pingTimeout":10000
             }
         ],
@@ -4584,12 +4582,13 @@ REST API的使用受到了访问频率的限制，因此推荐您使用Websocket
 {
     "code": "200000",
     "data": {
+
         "instanceServers": [
             {
-                "pingInterval": 50000,
                 "endpoint": "wss://push1-v2.kucoin.com/endpoint",
                 "protocol": "websocket",
                 "encrypt": true,
+                "pingInterval": 50000,
                 "pingTimeout": 10000
             }
         ],
@@ -4611,11 +4610,11 @@ REST API的使用受到了访问频率的限制，因此推荐您使用Websocket
 
 |字段 | 含义|
 -----|-----
-|pingInterval| 建议发送ping的时间间隔（毫秒）|
-|pingTimeout| 如果在pingTimeout时间后，未收到pong消息，那么连接可能已断开了 |
 |endpoint| Websocket建立连接的服务器地址 |
 |protocol| 支持的协议 |
 |encrypt| 表示是否使用了SSL加密 |
+|pingInterval| 建议发送ping的时间间隔（毫秒）|
+|pingTimeout| 如果在pingTimeout时间后，未收到pong消息，那么连接可能已断开了 |
 |token | 令牌 |
 
 
@@ -4632,14 +4631,14 @@ var socket = new WebSocket("wss://push1-v2.kucoin.com/endpoint?token=xxx&[connec
 
 ```json
 {
-  "id":"hQvf8jkno",
-  "type":"welcome"
+    "id":"hQvf8jkno",
+    "type":"welcome"
 }
 ```
 
 **connectId**：连接ID，是客户端生成的唯一标识。您在创建连接时收到的欢迎（welcome）消息的ID以及错误消息的ID都属于连接ID（connectId）。
 
-**acceptUserMessage**：当acceptUserMessage的值为 **true** 时，可以接收到用户的私人消息。
+**acceptUserMessage**：当acceptUserMessage的值为 **true** 时，可以接收到用户所有的私人消息。如果你想只接收指定topic的私人消息，请在订阅时使用privateChannel:true。
 
 
 <aside class="spacer2"></aside>
@@ -4669,7 +4668,7 @@ var socket = new WebSocket("wss://push1-v2.kucoin.com/endpoint?token=xxx&[connec
 
 ```json
   // 订阅
-  {
+{
     "id":"123456789",
     "type":"subscribe",
     "topic":"/market/ticker:BTC-USDT,ETH-USDT",
@@ -4701,7 +4700,7 @@ ID用于标识请求和ack的唯一字符串。
 
 #### PrivateChannel
 
-您可通过privateChannel参数订阅以一些特殊的topic（如： /market/level3）。该参数默认设置为“false”。设置为“true”时，则您只能收到与您订阅的topic相关的内容推送。Topic字段在返回数据中的格式为：{topic}:privateChannel:{userId}。
+您可通过privateChannel参数订阅以一些特殊的topic（如： /market/level3）。该参数默认设置为“false”。设置为“true”时，则您只能收到与您订阅的topic相关的内容推送。
 
 
 #### Response
@@ -4717,7 +4716,7 @@ ID用于标识请求和ack的唯一字符串。
 
 ```json
   // 取消订阅
- {
+{
     "id":"1545910840805",  //要求唯一 
     "type":"unsubscribe", //类型: unsubscribe 
     "topic":"/market/ticker:BTC-USDT,ETH-USDT",
@@ -4743,7 +4742,7 @@ ID用于标识请求和ack的唯一字符串。
 您订阅的topic内容。
 
 #### PrivateChannel
-您可通过privateChannel参数订阅以一些公共topic（如：/market/level3）。该参数默认设置为“false”。设置为“true”，您只能收到与您订阅相关的内容推送。Topic字段在返回数据中的格式为：{topic}:privateChannel:{userId}。
+设置为“true”，您可以退订相关的私有频道推送。
 
 
 #### Response
@@ -4809,18 +4808,19 @@ Topic: **/market/ticker:{symbol},{symbol}...**
 
 ```json
 {
-  "type":"message",
-  "topic":"/market/ticker:BTC-USDT",
-  "subject":"trade.ticker",
-  "data":{
-    "sequence":"1545896668986",  //序列号
-    "bestAsk":"0.08",            //最佳卖一价
-    "size":"0.011",             // 最近成交数量
-    "bestBidSize":"0.036",      //最佳买一数量
-    "price":"0.08",             // 最近成交价格
-    "bestAskSize":"0.18",       // 最佳卖一数量
-    "bestBid":"0.049"           //最佳买一价
-  }
+    "type":"message",
+    "topic":"/market/ticker:BTC-USDT",
+    "subject":"trade.ticker",
+    "data":{
+
+        "sequence":"1545896668986", //序列号
+        "price":"0.08",             // 最近成交价格
+        "size":"0.011",             // 最近成交数量
+        "bestAsk":"0.08",           //最佳卖一价
+        "bestAskSize":"0.18",       // 最佳卖一数量
+        "bestBid":"0.049",          //最佳买一价
+        "bestBidSize":"0.036",      //最佳买一数量
+    }
 }
 ```
 订阅此topic可获取指定[交易对](#a17b4e2866)的BBO(最佳买一和卖一)数据的推送，如果**一秒**内没有变化，就不推送。
@@ -4851,13 +4851,14 @@ Topic: **/market/ticker:all**
     "topic":"/market/ticker:all",
     "subject":"BTC-USDT",
     "data":{
+
         "sequence":"1545896668986",
-        "bestAsk":"0.08",
-        "size":"0.011",
-        "bestBidSize":"0.036",
         "price":"0.08",
+        "size":"0.011",
+        "bestAsk":"0.08",
         "bestAskSize":"0.18",
-        "bestBid":"0.049"
+        "bestBid":"0.049",
+        "bestBidSize":"0.036"
     }
 }
 ```
@@ -4872,9 +4873,14 @@ Topic: **/market/ticker:all**
 
 ```json
 {
+    "type":"message",
+    "topic":"/market/snapshot:KCS-BTC",
+    "subject":"trade.snapshot",
     "data":{
+        
         "sequence":"1545896669291",
         "data":{
+
             "trading":true,
             "symbol":"KCS-BTC",
             "buy":0.00011,
@@ -4895,10 +4901,7 @@ Topic: **/market/ticker:all**
             "board":0,
             "mark":0
         }
-    },
-    "subject":"trade.snapshot",
-    "topic":"/market/snapshot:KCS-BTC",
-    "type":"message"
+    }
 }
 ```
 
@@ -4915,7 +4918,11 @@ Topic: **/market/snapshot:{symbol}**
 
 ```json
 {
+    "type":"message",
+    "topic":"/market/snapshot:BTC",
+    "subject":"trade.snapshot",
     "data":{
+
         "sequence":"1545896669291",
         "data":[
             {
@@ -4940,10 +4947,7 @@ Topic: **/market/snapshot:{symbol}**
                 "mark":0
             }
         ]
-    },
-    "subject":"trade.snapshot",
-    "topic":"/market/snapshot:BTC",
-    "type":"message"
+    }
 }
 ```
 
@@ -4980,10 +4984,12 @@ Topic: **/market/level2:{symbol},{symbol}...**
     "topic":"/market/level2:BTC-USDT",
     "subject":"trade.l2update",
     "data":{
+
         "sequenceStart":1545896669105,
         "sequenceEnd":1545896669106,
         "symbol":"BTC-USDT",
         "changes":{
+
             "asks":[
                 [
                     "6",//price
@@ -5006,11 +5012,11 @@ Topic: **/market/level2:{symbol},{symbol}...**
 校准流程:
 
 
-1. 将Websocket推送的Level 2数据缓存在本地。
-2. 通过REST请求拉取[Level 2](#level-2-2)买卖盘的快照信息。
-3. 回放缓存的Level 2数据流。
-4. 将拉取的最新Level 2数据流回放到本地缓存中，以确保最新的Level 2买卖盘数据顺序号与之前的Level 2数据顺序号连续无间断。丢弃掉旧Level 2数据该顺序号之前的数据，更新Level 2数据流。
-5. 请根据订单数量对应的顺序号更新Level 2的全部买卖盘数据。如果数量为0，则需要将该数量对应的订单价格从Level 2数据流中移除。如遇其他情况，正常更新买卖盘数据即可。
+1. 将Websocket推送的Level 2数据缓存在本地;
+2. 通过REST请求拉取[Level 2](#level-2-2)买卖盘的快照;
+3. 回放缓存的Level 2数据流;
+4. 将Level 2数据流应用到快照上，确保数据顺序号与之前数据顺序号连续无间断，丢弃小于快照顺序号的level2数据;
+5. 根据订单的价格和数量更新买卖盘。如果价格为0，忽略这条消息，只更新顺序号；如果数量为0，则需要将该数量对应的订单价格从买卖盘中移除。如遇其他情况，正常更新买卖盘即可。
 
 [Level 2](#level-2-2) 的Change属性是一个“price, size, sequence”的字符串值。
 
@@ -5040,7 +5046,7 @@ Topic: **/market/level2:{symbol},{symbol}...**
 
 "bids":[
 
-  ["3988.50", "44", "17"] // 更新 price 为 3988.50 的size
+    ["3988.50", "44", "17"] // 更新 price 为 3988.50 的size
 
 ]
 
@@ -5117,26 +5123,26 @@ Data：
     "topic": "/spotMarket/level2Depth5:BTC-USDT", 
     "subject": "level2",
     "data": {
-	"asks":[
-      ["9989",8]，
-       ["9990",32],
-      ["9991",47],
-      ["9992",3],
- 	 ["9993",3],
-    ],
-    "bids":[
-      ["9988",56],
-      ["9987",15],
-      ["9986",100],
-      ["9985",10]
-      ["9984",10]
 
-    ]
-      "timestamp": 1586948108193 
+	    "asks":[
 
+            ["9989","8"],     //价格, 数量
+            ["9990","32"],
+            ["9991","47"],
+            ["9992","3"],
+ 	        ["9993","3"],
+        ],
+        "bids":[
 
-      }
-  }
+            ["9988","56"],
+            ["9987","15"],
+            ["9986","100"],
+            ["9985","10"],
+            ["9984","10"]
+        ],
+        "timestamp": 1586948108193 
+    }
+}
 
 ```
 
@@ -5155,26 +5161,26 @@ Topic: **/spotMarket/level2Depth5:{symbol},{symbol}...**
     "topic": "/spotMarket/level2Depth50:BTC-USDT",
     "subject": "level2",
     "data": {
-	"asks":[
-      ["9993",3],
-      ["9992",3],
-      ["9991",47],
-      ["9990",32],
-      ["9989",8],
- ….
-    ],
-    "bids":[
-      ["9988",56],
-      ["9987",15],
-      ["9986",100],
-      ["9985",10]
-      ["9984",10]
-...
-    ]
-      "timestamp": 1586948108193
+
+	    "asks":[
+
+            ["9993","3"],    //价格, 数量
+            ["9992","3"],
+            ["9991","47"],
+            ["9990","32"],
+            ["9989","8"]
+        ],
+        "bids":[
+
+            ["9988","56"],
+            ["9987","15"],
+            ["9986","100"],
+            ["9985","10"],
+            ["9984","10"]
+        ]
+        "timestamp": 1586948108193
       }
   }
-
 
 ```
 
@@ -5191,9 +5197,14 @@ Topic: **/spotMarket/level2Depth50:{symbol},{symbol}...**
 
 ```json
 {
+    "type":"message",
+    "topic":"/market/candles:BTC-USDT_1hour",
+    "subject":"trade.candles.update",
     "data":{
+
         "symbol":"BTC-USDT",    // 交易对
         "candles":[
+
             "1589968800",   // candle的开盘时间
             "9786.9",       // open开票价
             "9740.8",       // close收盘价
@@ -5203,10 +5214,7 @@ Topic: **/spotMarket/level2Depth50:{symbol},{symbol}...**
             "268280.09830877"   // turnover成交额
         ],
         "time":1589970010253893337  // 当前时间，纳秒
-    },
-    "subject":"trade.candles.update",
-    "topic":"/market/candles:BTC-USDT_1hour",
-    "type":"message"
+    }
 }
 ```
 Topic: **/market/candles:{symbol}_{type}**
@@ -5221,7 +5229,7 @@ type |  1min, 3min, 15min, 30min, 1hour, 2hour, 4hour, 6hour, 8hour, 12hour, 1da
 
 订阅成功后，服务端会推送的市场K线数据给您。
 
-
+<aside class="spacer2"></aside> 
 
 
 
@@ -5251,21 +5259,22 @@ Topic: **/market/match:{symbol},{symbol}...**
     "topic":"/market/match:BTC-USDT",
     "subject":"trade.l3match",
     "data":{
+
         "sequence":"1545896669145",
+        "type":"match",
         "symbol":"BTC-USDT",
         "side":"buy",
-        "size":"0.01022222000000000000",
         "price":"0.08200000000000000000",
+        "size":"0.01022222000000000000",
+        "tradeId":"5c24c5da03aa673885cd67aa",
         "takerOrderId":"5c24c5d903aa6772d55b371e",
-        "time":"1545913818099033203",
-        "type":"match",
         "makerOrderId":"5c2187d003aa677bd09d5c93",
-        "tradeId":"5c24c5da03aa673885cd67aa"
+        "time":"1545913818099033203"
     }
 }
 ```
 <aside class="spacer8"></aside>
-<aside class="spacer"></aside>
+<aside class="spacer2"></aside>
 
 
 ## 完整的撮合引擎数据(Level&nbsp;3)
@@ -5291,12 +5300,12 @@ Topic: **/market/level3:{symbol},{symbol}...**
 
 维护更新Level 3买卖盘的步骤如下： 
 
-1. 订阅Topic: /market/level3:{symbol}，获取Level 3买卖盘数据流。
-2. 对接收到的Websocket信息流数据进行排序。
-3. 发送[REST](#level-3-2)请求，获取Level 3买卖盘的快照信息。
-4. 回放已排序的信息流，丢弃掉旧Level 3数据该顺序号之前的数据。
-5. 将回放消息应用于快照（见下文）。
-6. 回放完成后，重复上述步骤，实时更新买卖盘数据。
+1. 订阅Topic: /market/level3:{symbol}，获取Level 3买卖盘数据流;
+2. 按顺序缓存接收到的数据流;
+3. 发送[REST](#level-3-2)请求，获取Level 3买卖盘快照；
+4. 回放数据流，确保顺序号是连续的，并丢弃掉小于或等于快照顺序号的数据;
+5. 将回放数据流应用于快照（见下文）;
+6. 回放完成后，使用实时数据流更新买卖盘。
 
 
 **任意Open和Match消息都将导致买卖盘发生变更。**
@@ -5315,15 +5324,16 @@ Topic: **/market/level3:{symbol},{symbol}...**
 	"topic": "/market/level3:BTC-USDT",
 	"subject": "trade.l3received",
 	"data": {
+
 		"sequence": "1545896669147",
-		"symbol": "BTC-USDT",
-		"side": "sell",  //买卖方向, buy and sell
-		"orderId": "5c24c72503aa6772d55b378d",  //order id
-		"price": "4.00000000000000000000", 
-		"time": "1545914149935808589",  //timestamp, 时间戳是纳秒
-		"clientOid": "",   //客户端生成的唯一订单标识 e.g. UUID
 		"type": "received",  //L3 消息类型	
-		"orderType": "limit" // 订单类型 limit,market,stop_limit
+		"orderId": "5c24c72503aa6772d55b378d",  //order id
+		"symbol": "BTC-USDT",
+		"orderType": "limit", // 订单类型 limit,market,stop_limit
+		"side": "sell",  //买卖方向, buy and sell
+		"price": "4.00000000000000000000", 
+		"clientOid": "",   //客户端生成的唯一订单标识 e.g. UUID
+		"time": "1545914149935808589"  //timestamp, 时间戳是纳秒
   }
 }
 ```
@@ -5334,16 +5344,16 @@ Topic: **/market/level3:{symbol},{symbol}...**
 	"topic": "/market/level3:BTC-USDT",
 	"subject": "trade.l3received",
 	"data": {
+
 		"sequence": "1545896669100",
-		"symbol": "BTC-USDT",
-		"side": "sell",
-		"orderId": "5c24c72503aa6772d55b178d",
-		"time": "1545914149835808589",
-		"clientOid": "",
 		"type": "received",
-		"orderType": "market"
+		"orderId": "5c24c72503aa6772d55b178d",
+		"symbol": "BTC-USDT",
+		"orderType": "market",
+		"side": "sell",
+		"clientOid": "",
+		"time": "1545914149835808589"
   }
-  
 }
 ```
 当撮合引擎接收到订单指令时，系统将向用户发送确认消息，type为**received**。
@@ -5366,23 +5376,24 @@ Topic: **/market/level3:{symbol},{symbol}...**
 
 ```json
 {
-  "type":"message",
-  "topic":"/market/level3:BTC-USDT",
-  "subject":"trade.l3open",
-  "data":{
-    "sequence":"1545896669148",
-    "symbol":"BTC-USDT",
-    "side":"sell",  //买卖方向, buy and sell
-    "size":"1", //order 数量
-    "orderId":"5c24c72503aa6772d55b378d",  //order id
-    "price":"6.00000000000000000000",
-    "time":"1545914149935808632", //timestamp, 时间戳是纳秒
-    "type":"open"  //L3 messege type. 如果是open, 会返回price 和 size
-  }
+    "type":"message",
+    "topic":"/market/level3:BTC-USDT",
+    "subject":"trade.l3open",
+    "data":{
+
+        "sequence":"1545896669148",
+        "type":"open",  //L3 messege type. 如果是open, 会返回price 和 size
+        "orderId":"5c24c72503aa6772d55b378d",  //order id
+        "symbol":"BTC-USDT",
+        "side":"sell",  //买卖方向, buy and sell
+        "price":"6.00000000000000000000",
+        "size":"1", //order 数量
+        "time":"1545914149935808632"  //timestamp, 时间戳是纳秒
+    }
 }
 ```
 
-当限价订单中的剩余部分进入买卖盘时，系统将向用户发送**open**消息。privateChannel=true，还会返回remaining_size这个字段，指订单中有多少没有成交的数量
+当限价订单中的剩余部分进入买卖盘时，系统将向用户发送**open**消息。privateChannel=true，还会返回remainingSize这个字段，指订单中有多少没有成交的数量
 
 这意味着这个订单现已在订单簿上，没有立即成交的订单才会推送此消息。 
 
@@ -5398,35 +5409,37 @@ Topic: **/market/level3:{symbol},{symbol}...**
 
 ```json
 {
-  "type":"message",
-  "topic":"/market/level3:BTC-USDT",
-  "subject":"trade.l3done",
-  "data":{
-    "sequence":"1545896669226",
-    "symbol":"BTC-USDT",
-    "reason":"filled", //成交
-    "side":"buy",
-    "orderId":"5c24c96103aa6772d55b380b",
-    "time":"1545914730696727106",
-    "type":"done"
+    "type":"message",
+    "topic":"/market/level3:BTC-USDT",
+    "subject":"trade.l3done",
+    "data":{
+
+        "sequence":"1545896669226",
+        "type":"done",
+        "orderId":"5c24c96103aa6772d55b380b",
+        "symbol":"BTC-USDT",
+        "side":"buy",
+        "reason":"filled", //成交
+        "time":"1545914730696727106"
   }
 }
 ```
 
 ```json
 {
-  "type":"message",
-  "topic":"/market/level3:BTC-USDT",
-  "subject":"trade.l3done",
-  "data":{
-    "sequence":"1545896669227",
-    "symbol":"BTC-USDT",
-    "reason":"canceled",  //取消
-    "side":"buy",  //买卖方向, buy and sell
-    "orderId":"5c24c96103aa6772d55b381b",  //order id
-    "time":"1545914730696797106",  //timestamp, 时间戳是纳秒
-    "type":"done", //L3 messege 类型. 
-    "size": "1.12340000000000000000"  //order 数量
+    "type":"message",
+    "topic":"/market/level3:BTC-USDT",
+    "subject":"trade.l3done",
+    "data":{
+
+        "sequence":"1545896669227",
+        "type":"done", //L3 messege 类型. 
+        "orderId":"5c24c96103aa6772d55b381b",  //order id
+        "symbol":"BTC-USDT",
+        "side":"buy",  //买卖方向, buy and sell
+        "size": "1.12340000000000000000",  //order 数量
+        "reason":"canceled",  //取消
+        "time":"1545914730696797106"  //timestamp 时间戳是纳秒
   }
 }
 ```
@@ -5441,20 +5454,21 @@ Topic: **/market/level3:{symbol},{symbol}...**
 
 ```json
 {
-  "type":"message",
-  "topic":"/market/level3:BTC-USDT",
-  "subject":"trade.l3match",
-  "data":{
-    "sequence":"1545896669291",
-    "symbol":"BTC-USDT",
-    "side":"buy",  //买卖方向, buy and sell
-    "size":"0.07600000000000000000",  //order 数量
-    "price":"0.08300000000000000000",  
-    "takerOrderId":"5c24ca2e03aa6772d55b38bf",  //深度提取者 order id
-    "time":"1545914933083576866",  //timestamp, 时间戳是纳秒
-    "type":"match",  //L3 messege type. 如果是match, 通过makerOrderId减少订单数量
-    "makerOrderId":"5c20492a03aa677bd099ce9d",  //深度提供者 order id
-    "tradeId":"5c24ca3503aa673885cd67ef"  //match_id，成功撮合后生成的tradeId
+    "type":"message",
+    "topic":"/market/level3:BTC-USDT",
+    "subject":"trade.l3match",
+    "data":{
+
+        "sequence":"1545896669291",
+        "type":"match",  //L3 messege type. 如果是match, 通过makerOrderId减少订单数量
+        "symbol":"BTC-USDT",
+        "side":"buy",  //买卖方向, buy and sell
+        "price":"0.08300000000000000000",  
+        "size":"0.07600000000000000000",  //order 数量
+        "tradeId":"5c24ca3503aa673885cd67ef",  //match id，成功撮合后生成的tradeId
+        "takerOrderId":"5c24ca2e03aa6772d55b38bf",  //深度提取者 order id
+        "makerOrderId":"5c20492a03aa677bd099ce9d",  //深度提供者 order id
+        "time":"1545914933083576866"  //timestamp 时间戳是纳秒
   }
 }
 ```
@@ -5472,20 +5486,21 @@ Topic: **/market/level3:{symbol},{symbol}...**
 
 ```json
 {
-  "type":"message",
-  "topic":"/market/level3:BTC-USDT",
-  "subject":"trade.l3change",
-  "data":{
-    "sequence":"1545896669656",
-    "symbol":"BTC-USDT",
-    "side":"buy",  //买卖方向, buy and sell
-    "orderId":"5c24caff03aa671aef3ca170",  //order id
-    "price":"1.00000000000000000000",
-    "newSize":"0.15722222000000000000",  //变更后 order 数量
-    "time":"1545915145402532254",  //timestamp, 时间戳是纳秒
-    "type":"change",  //L3 messege type.如果是change消息，通过orderId修改数量
-    "oldSize":"0.18622222000000000000"  //变更前的订单量
-  }
+    "type":"message",
+    "topic":"/market/level3:BTC-USDT",
+    "subject":"trade.l3change",
+    "data":{
+
+        "sequence":"1545896669656",
+        "type":"change",  //L3 messege type.如果是change消息，通过orderId修改数量
+        "symbol":"BTC-USDT",
+        "orderId":"5c24caff03aa671aef3ca170",  //order id
+        "side":"buy",  //买卖方向, buy and sell
+        "price":"1.00000000000000000000",
+        "newSize":"0.15722222000000000000",  //变更后 order 数量
+        "oldSize":"0.18622222000000000000",  //变更前的订单量
+        "time":"1545915145402532254"  //timestamp 时间戳是纳秒
+    }
 }
 ```
 
@@ -5502,26 +5517,26 @@ Topic: **/market/level3:{symbol},{symbol}...**
 
 如何构建本地OrderBook level-3数据
 
-1 使用websocket订阅 /market/level3:{symbol} 频道订阅level3的增量数据，并缓存收到的所有增量数据。
+1 使用websocket订阅 /market/level3:{symbol} 频道增量数据，并缓存收到的所有增量数据;
 
-2 通过[REST](#level-3-2)请求获取level3的快照数据。
+2 通过[REST](#level-3-2)请求获取level3的快照数据;
 
-3 数据检验：获取快照的sequence不小于缓存的所有增量的最小sequence。如果不满足此条件，从第一步从头开始。
+3 数据检验：获取快照的sequence不小于缓存的所有增量的最小sequence，如果不满足此条件，从第一步从头开始;
 
 4 回放所有缓存的增量数据:
 
-    4.1. 如果增量数据的sequence <= 当前快照的sequence，则舍弃增量数据，并结束本次更新; 否则进行4.2。
+    4.1. 如果增量数据的sequence <= 当前快照的sequence，则舍弃增量数据，并结束本次更新; 否则进行4.2;
 
-    4.2 如果增量数据的sequence = 当前快照的sequence+1，则进行4.2.1逻辑更新，否则进行4.3步骤。
+    4.2 如果增量数据的sequence = 当前快照的sequence + 1，则进行4.2.1逻辑更新，否则进行4.3步骤;
 
-      4.2.1 更新当前快照的sequence为增量数据的sequence.
+      4.2.1 更新当前快照的sequence为增量数据的sequence;
       4.2.2 如果是received消息，结束更新逻辑。（因为现在received消息不影响level3数据）
       4.2.3 如果是open消息，增加orderid,price,size构建的相应买单或卖单
       4.2.4 如果是done消息，移除对应orderid对应的买单或者卖单
       4.2.5 如果是change消息，修改对应orderid对应的买单或者卖单的数量
       4.2.6 如果是match消息，减少对应markerOrderId对应的订单数量
 
-    4.3 此种情况为sequence不连续，执行步骤2，重新拉取快照数据，以便保证sequence不缺失。
+    4.3 此种情况为sequence不连续，执行步骤2，重新拉取快照数据，以便保证sequence不缺失;
 
 5 接收新的增量数据推送，执行步骤4。
 
@@ -5553,12 +5568,12 @@ Topic: **/spotMarket/level3:{symbol},{symbol}...**
 
 维护更新Level 3买卖盘的步骤如下：
 
-1. 订阅Topic: /spotMarket/level3:{symbol}，获取Level 3买卖盘数据流。
-2. 对接收到的Websocket信息流数据进行排序。
-3. 发送[REST](#level-3-2)请求，获取Level 3买卖盘的快照信息。
-4. 回放已排序的信息流，丢弃掉旧Level 3数据该顺序号之前的数据。
-5. 将回放消息应用于快照（见下文）。
-6. 回放完成后，重复上述步骤，实时更新买卖盘数据。
+1. 订阅Topic: /spotMarket/level3:{symbol}，获取Level 3买卖盘数据流;
+2. 按顺序缓存接收到的数据流;
+3. 发送[REST](#level-3-3)请求，获取Level 3买卖盘的快照;
+4. 回放数据流，确保顺序号是连续的，并丢弃掉小于或等于快照顺序号的数据;
+5. 将回放消息应用于快照（见下文）;
+6. 回放完成后，使用实时数据流更新买卖盘。
 
 **任意Open和Match消息都将导致买卖盘发生变更。**
 
@@ -5577,6 +5592,7 @@ Topic: **/spotMarket/level3:{symbol},{symbol}...**
     "topic":"/spotMarket/level3:KCS-USDT",
     "subject":"received",
     "data":{
+
         "symbol":"KCS-USDT",
         "sequence":1592995125432,
         "orderId":"5efab07953bdea00089965d2",
@@ -5607,13 +5623,14 @@ Topic: **/spotMarket/level3:{symbol},{symbol}...**
     "topic":"/spotMarket/level3:KCS-USDT",
     "subject":"open",
     "data":{
+
         "symbol":"KCS-USDT",
         "sequence":1592995125433,
-        "side":"buy",
-        "orderTime":1593487481683297666,
-        "size":"0.1",
         "orderId":"5efab07953bdea00089965d2",
+        "side":"buy",
         "price":"0.937",
+        "size":"0.1",
+        "orderTime":1593487481683297666,
         "ts":1593487481683297666
     }
 }
@@ -5639,22 +5656,26 @@ Topic: **/spotMarket/level3:{symbol},{symbol}...**
     "topic":"/spotMarket/level3:KCS-USDT",
     "subject":"done",
     "data":{
+
         "symbol":"KCS-USDT",
-        "reason":"filled",
         "sequence":1592995125437,
         "orderId":"5efab07953bdea00089965fa",
+        "reason":"filled",
         "ts":1593487482038606180
     }
 }
+
+
 {
     "type":"message",
     "topic":"/spotMarket/level3:KCS-USDT",
     "subject":"done",
     "data":{
+
         "symbol":"KCS-USDT",
-        "reason":"canceled",
         "sequence":1592995125434,
         "orderId":"5efab07953bdea00089965d2",
+        "reason":"canceled",
         "ts":1593487481893140844
     }
 }
@@ -5675,15 +5696,16 @@ Topic: **/spotMarket/level3:{symbol},{symbol}...**
     "topic":"/spotMarket/level3:KCS-USDT",
     "subject":"match",
     "data":{
+
         "symbol":"KCS-USDT",
         "sequence":1592995125436,
         "side":"sell",
-        "size":"0.1",
         "price":"0.96738",
+        "size":"0.1",
+        "remainSize":"2.9",
+        "tradeId":"5efab07a4ee4c7000a82d6d9",
         "takerOrderId":"5efab07953bdea00089965fa",
         "makerOrderId":"5efab01453bdea00089959ba",
-        "tradeId":"5efab07a4ee4c7000a82d6d9",
-        "remainSize":"2.9",
         "ts":1593487482038606180
     }
 }
@@ -5709,10 +5731,11 @@ Topic: **/spotMarket/level3:{symbol},{symbol}...**
     "topic":"/spotMarket/level3:KCS-USDT",
     "subject":"update",
     "data":{
+
         "symbol":"KCS-USDT",
         "sequence":1592995125858,
-        "size":"0.06",
         "orderId":"5efab14d53bdea0008997298",
+        "size":"0.06",
         "ts":1593487696535838711
     }
 }
@@ -5770,16 +5793,17 @@ Topic: **/indicator/index:{symbol0},{symbol1}...**
 
 ```json
 {
-  "id":"5c24c5da03aa673885cd67a0",
-  "type":"message",
-  "topic":"/indicator/index:USDT-BTC",
-  "subject":"tick",
-  "data":{
-    "symbol": "USDT-BTC",
-    "granularity": 5000,
-    "timestamp": 1551770400000,
-    "value": 0.0001092
-  }
+    "id":"5c24c5da03aa673885cd67a0",
+    "type":"message",
+    "topic":"/indicator/index:USDT-BTC",
+    "subject":"tick",
+    "data":{
+
+        "symbol": "USDT-BTC",
+        "granularity": 5000,
+        "timestamp": 1551770400000,
+        "value": 0.0001092
+    }
 }
 ```
 
@@ -5805,16 +5829,17 @@ Topic: **/indicator/markPrice:{symbol0},{symbol1}...**
 
 ```json
 {
-  "id":"5c24c5da03aa673885cd67aa",
-  "type":"message",
-  "topic":"/indicator/markPrice:USDT-BTC",
-  "subject":"tick",
-  "data":{
-    "symbol": "USDT-BTC",
-    "granularity": 5000,
-    "timestamp": 1551770400000,
-    "value": 0.0001093
-  }
+    "id":"5c24c5da03aa673885cd67aa",
+    "type":"message",
+    "topic":"/indicator/markPrice:USDT-BTC",
+    "subject":"tick",
+    "data":{
+
+        "symbol": "USDT-BTC",
+        "granularity": 5000,
+        "timestamp": 1551770400000,
+        "value": 0.0001093
+    }
 }
 ```
 
@@ -5845,6 +5870,7 @@ Topic: **/margin/fundingBook:{currency0},{currency1}...**
 	"topic": "/margin/fundingBook:BTC",
 	"subject": "funding.update",
 	"data": {
+
 		"sequence": 1000000,       //序列号, 一条消息和上一条线消息的sequence相差1
 		"currency": "BTC",         //币种
 		"dailyIntRate": "0.00007",   //日利率小数，0.2%返回0.002
@@ -5854,7 +5880,6 @@ Topic: **/margin/fundingBook:{currency0},{currency1}...**
 		"side": "lend",            //委托方向，目前只支持借出。lend - 借出；borrow - 借入
 		"ts": 1553846081210004941  //时间戳(纳秒)
   }
-
 }
 ```
 
@@ -5868,19 +5893,21 @@ Topic: **/margin/fundingBook:{currency0},{currency1}...**
 
 ```json
 {
-  "type":"message",
-  "topic":"/market/level3:BTC-USDT",
-  "subject":"trade.l3received",
-  "data": {
-    "sequence":"1545738118241",
-    "symbol":"BTC-USDT",
-    "side":"buy",
-    "orderId":"5c21e80303aa677bd09d7dff",
-    "stopType":"entry",
-    "funds":"1.00000000000000000000",
-    "time":"1545743136994328401",
-    "type":"stop"
-  }
+    "type":"message",
+    "topic":"/market/level3:BTC-USDT",
+    "subject":"trade.l3received",
+    "channelType":"private",
+    "data": {
+
+        "sequence":"1545738118241",
+        "orderId":"5c21e80303aa677bd09d7dff",
+        "symbol":"BTC-USDT",
+        "type":"stop",
+        "side":"buy",
+        "stopType":"entry",
+        "funds":"1.00000000000000000000",
+        "time":"1545743136994328401"
+    }
 }
 ```
 Topic: /market/level3:{symbol},{symbol}...
@@ -5894,19 +5921,21 @@ Topic: /market/level3:{symbol},{symbol}...
 
 ```json
 {
-  "type":"message",
-  "topic":"/market/level3:BTC-USDT",
-  "subject":"trade.l3received",
-  "data": {
-    "sequence":"1545738118241",
-    "symbol":"BTC-USDT",
-    "side":"buy",
-    "orderId":"5c21e80303aa677bd09d7dff",
-    "stopType":"entry",
-    "funds":"1.00000000000000000000",
-    "reason":"canceled",         //include canceled or triggered
-    "time":"1545743136994328401",
-    "type":"activate"
+    "type":"message",
+    "topic":"/market/level3:BTC-USDT",
+    "subject":"trade.l3received",
+    "channelType":"private",
+    "data": {
+
+        "sequence":"1545738118241",
+        "orderId":"5c21e80303aa677bd09d7dff",
+        "type":"activate",
+        "symbol":"BTC-USDT",
+        "side":"buy",
+        "stopType":"entry",
+        "funds":"1.00000000000000000000",
+        "reason":"canceled",         //include canceled or triggered
+        "time":"1545743136994328401"
   }
 }
 ```
@@ -5919,23 +5948,26 @@ Topic: /market/level3:{symbol},{symbol}...
 ## 余额变更事件
 ```json
 {
-  "type":"message",
-  "topic":"/account/balance",
-  "subject":"account.balance",
-  "data":{
-    "total": "88", //总额
-    "available": "88", // 可用余额
-    "availableChange": "88", // 可用余额变化值
-    "currency": "KCS", // 币种
-    "hold": "0", // 冻结金额
-    "holdChange": "0", // 可用冻结金额变化值
-    "relationEvent": "trade.setted", // 关联事件
-    "relationEventId": "5c21e80303aa677bd09d7dff", // 关联事件id
-    "relationContext": {
-                          "symbol":"BTC-USDT",
-                          "orderId":"5ea10479415e2f0009949d54",
-                          "tradeId":"5e6a5dca9e16882a7d83b7a4" // 成交了才会有tradeId
-                        }, // 交易事件的上下文
+    "type":"message",
+    "topic":"/account/balance",
+    "subject":"account.balance",
+    "channelType":"private",
+    "data":{
+
+        "total": "88", //总额
+        "available": "88", // 可用余额
+        "availableChange": "88", // 可用余额变化值
+        "currency": "KCS", // 币种
+        "hold": "0", // 冻结金额
+        "holdChange": "0", // 可用冻结金额变化值
+        "relationEvent": "trade.setted", // 关联事件
+        "relationEventId": "5c21e80303aa677bd09d7dff", // 关联事件id
+        "relationContext": {
+
+            "tradeId":"5e6a5dca9e16882a7d83b7a4", // 成交了才会有tradeId
+            "orderId":"5ea10479415e2f0009949d54",
+            "symbol":"BTC-USDT"
+        }, // 交易事件的上下文
     "time": "1545743136994" // 时间戳
   }
 }
@@ -5971,18 +6003,18 @@ other | 其他操作
 
 ```json
 {
-  "type":"message",
-  "userId": "xbc453tg732eba53a88ggyt8c",
-  "topic":"/margin/position",
-  "subject":"debt.ratio",
-  "data": {
+    "type":"message",
+    "topic":"/margin/position",
+    "subject":"debt.ratio",
+    "channelType":"private",
+    "data": {
+
         "debtRatio": 0.7505,                                         //负债率
         "totalDebt": "21.7505",                                      //总负债(转换为BTC的价值)
         "debtList": {"BTC": "1.21","USDT": "2121.2121","EOS": "0"},  //负债列表
         "timestamp": 15538460812100                                  //时间戳(毫秒)
     }
 }
-
 
 ```
 
@@ -5998,11 +6030,12 @@ Topic: **/margin/position**
 
 ```json
 {
-  "type":"message",
-  "userId": "xbc453tg732eba53a88ggyt8c",
-  "topic":"/margin/position",
-  "subject":"position.status",
-  "data": {
+    "type":"message",
+    "topic":"/margin/position",
+    "subject":"position.status",
+    "channelType":"private",
+    "data": {
+
         "type": "FROZEN_FL",         //事件类型
         "timestamp": 15538460812100  //时间戳(毫秒)
     }
@@ -6036,19 +6069,20 @@ UNLIABILITY：解除穿仓。归还所有负债后，仓位恢复到EFFECTIVE状
 
 ```json
 {
-  "type": "message",
-  "userId": "xbc453tg732eba53a88ggyt8c",
-  "topic": "/margin/loan:BTC",
-  "subject": "order.open",
-  "data": {
-    "currency": "BTC",                            //币种
-    "orderId": "ac928c66ca53498f9c13a127a60e8",   //订单id
-    "dailyIntRate": 0.0001,                       //日利率
-    "term": 7,                                    //出借期限(天)
-    "size": 1,                                    //借贷数量
-    "side": "lend",                               //委托方向，目前只支持借出。lend - 借出；borrow - 借入
-    "ts": 1553846081210004941                     //时间戳(纳秒)
-  }
+    "type": "message",
+    "topic": "/margin/loan:BTC",
+    "subject": "order.open",
+    "channelType":"private",
+    "data": {
+
+        "currency": "BTC",                            //币种
+        "orderId": "ac928c66ca53498f9c13a127a60e8",   //订单id
+        "dailyIntRate": 0.0001,                       //日利率
+        "term": 7,                                    //出借期限(天)
+        "size": 1,                                    //借贷数量
+        "side": "lend",                               //委托方向，目前只支持借出。lend - 借出；borrow - 借入
+        "ts": 1553846081210004941                     //时间戳(纳秒)
+    }
 }
 ```
 
@@ -6063,20 +6097,21 @@ Topic: **/margin/loan:{currency}**
 
 ```json
 {
-  "type": "message",
-  "userId": "xbc453tg732eba53a88ggyt8c",
-  "topic": "/margin/loan:BTC",
-  "subject": "order.update",
-  "data": {
-    "currency": "BTC",                            //币种
-    "orderId": "ac928c66ca53498f9c13a127a60e8",   //订单id
-    "dailyIntRate": 0.0001,                       //日利率
-    "term": 7,                                    //出借期限(天)
-    "size": 1,                                    //借贷数量
-    "lentSize": 0.5,                              //已借出数量
-    "side": "lend",                               //委托方向，目前只支持借出。lend - 借出；borrow - 借入
-    "ts": 1553846081210004941                     //时间戳(纳秒)
-  }
+    "type": "message",
+    "topic": "/margin/loan:BTC",
+    "subject": "order.update",
+    "channelType":"private",
+    "data": {
+
+        "currency": "BTC",                            //币种
+        "orderId": "ac928c66ca53498f9c13a127a60e8",   //订单id
+        "dailyIntRate": 0.0001,                       //日利率
+        "term": 7,                                    //出借期限(天)
+        "size": 1,                                    //借贷数量
+        "lentSize": 0.5,                              //已借出数量
+        "side": "lend",                               //委托方向，目前只支持借出。lend - 借出；borrow - 借入
+        "ts": 1553846081210004941                     //时间戳(纳秒)
+    }
 }
 
 ```
@@ -6092,16 +6127,17 @@ Topic: **/margin/loan:{currency}**
 ```json
 {
 	"type": "message",
-	"userId": "xbc453tg732eba53a88ggyt8c",
 	"topic": "/margin/loan:BTC",
 	"subject": "order.done",
+    "channelType":"private",
 	"data": {
+
 		"currency": "BTC",                            //币种
 		"orderId": "ac928c66ca53498f9c13a127a60e8",   //订单id
 		"reason": "filled",                           //订单完成原因, 有filled(撮合完成)和canceled(取消)
 		"side": "lend",                               //委托方向，目前只支持借出。lend - 借出；borrow - 借入
 		"ts": 1553846081210004941                     //时间戳(纳秒)
-  }
+    }
 }
 ```
 
@@ -6138,6 +6174,7 @@ Topic: **/spotMarket/tradeOrders**
     "subject":"orderChange",
     "channelType":"private",
     "data":{
+
         "symbol":"KCS-USDT",
         "orderType":"limit",
         "side":"buy",
@@ -6170,6 +6207,7 @@ Topic: **/spotMarket/tradeOrders**
     "subject":"orderChange",
     "channelType":"private",
     "data":{
+
         "symbol":"KCS-USDT",
         "orderType":"limit",
         "side":"sell",
@@ -6204,6 +6242,7 @@ Topic: **/spotMarket/tradeOrders**
     "subject":"orderChange",
     "channelType":"private",
     "data":{
+
         "symbol":"KCS-USDT",
         "orderType":"limit",
         "side":"sell",
@@ -6234,6 +6273,7 @@ Topic: **/spotMarket/tradeOrders**
     "subject":"orderChange",
     "channelType":"private",
     "data":{
+
         "symbol":"KCS-USDT",
         "orderType":"limit",
         "side":"buy",
@@ -6264,6 +6304,7 @@ Topic: **/spotMarket/tradeOrders**
     "subject":"orderChange",
     "channelType":"private",
     "data":{
+
         "symbol":"KCS-USDT",
         "orderType":"limit",
         "side":"buy",
