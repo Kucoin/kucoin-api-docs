@@ -28,10 +28,17 @@ The WebSocket contains two sections: Public Channels and Private Channels
 
 To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
+
 **07/13/20**:
 
 - Add [Private Order Change Events](#private-order-change-events)，[Full MatchEngine Data (revision) (Level 3)](#full-matchengine-data-revision-level-nbsp-3)，[Level2 - 5 best ask/bid orders](#level2-5-best-askbid-orders)，[Level2 - 50 best ask/bid orders](#level2-50-best-askbid-orders)；
 - Add [Get Full Order Book(atomic)(revision)](#get-full-order-book-atomic-revision)；
+
+**06/12/20**:
+
+- Add channelType field: public(public channel, default), private(private channel), session(session channel) for Websocket.
+- Deprecate ({topic}:privateChannel:{userId}) and userId in private messages after three months.
+
 
 **05/28/20**:
 
@@ -445,7 +452,7 @@ The withdrawal amount must be an integer multiple of the withdrawal accuracy. If
 ### .net SDK 
 * Invalid Signature on POST Request
 
-"{\"code\":\"400005\",\"msg\":\"Invalid KC-API-SIGN\"}"<br/>
+{"code":"400005", "msg":"Invalid KC-API-SIGN"}<br/>
 There is a bug in the code:<br/>
  var response = body == null ? await _restRepo.PostApi<ApiResponse<T>, SortedDictionary<string, object>>(url, body, headers) : await _restRepo.PostApi<ApiResponse<T>>(url, headers);<br/>
 After fixing:<br/>
@@ -550,7 +557,7 @@ If the returned HTTP status code is 200, whereas the operation failed, an error 
 A successful response is indicated by an HTTP status code 200 and system code 200000. The success response is as follows: 
 
 
-```
+```json
 {
   "code": "200000",
   "data": "1544657947759"
@@ -688,7 +695,7 @@ All private REST requests must contain the following headers:
 
 For the header of KC-API-KEY, 
 
-* Use API-Secret to encrypt the prehash string {timestamp+method+endpoint+body } with sha256 HMAC. The request body is a JSON string and need to be the same with the parameters passed by the API.
+* Use API-Secret to encrypt the prehash string {timestamp+method+endpoint+body} with sha256 HMAC. The request body is a JSON string and need to be the same with the parameters passed by the API.
 * After that, use base64-encode to encrypt the result in step 1 again.
 
 Notice: 
@@ -810,15 +817,16 @@ id | accountId, ID of an account
 ## List Accounts
 
 ```json
-[{
+[
+  {
     "id": "5bd6e9286d99522a52e458de",  //accountId
     "currency": "BTC",  //Currency
     "type": "main",     //Account type, including main and trade
     "balance": "237582.04299",  //Total assets of a currency
     "available": "237582.032",  //Available assets of a currency
     "holds": "0.01099". //Hold assets of a currency
-},
-{
+  },
+  {
     "id": "5bd6e9216d99522a52e458d6",
     "currency": "BTC",
     "type": "trade",
@@ -920,54 +928,58 @@ Items are paginated and sorted to show the latest first. See the [Pagination](#p
 
 ```json
 {
-	"currentPage": 1,
-	"pageSize": 10,
-	"totalNum": 3,
-	"totalPage": 1,
-	"items": [{
-			"id": "5bc7f080b39c5c03486eef8c",//unique key
-			"currency": "KCS",  //Currency
-			"amount": "0.0998", //Change amount of the funds
-			"fee": "0",  //Deposit or withdrawal fee
-			"balance": "0",  //Total assets of a currency
-			"bizType": "Withdraw",  //business type
-			"direction": "in",     //side, in or out 
-			"createdAt": 1540296039000,  //Creation time
-			"context": {          //Business core parameters
-				"orderId": "5bc7f080b39c5c03286eef8a",
-				"txId": "bf848bfb6736780b930e12c68721ea57f8b0484a4af3f30db75c93ecf16905c9"
-			}
-		},
-		{
-			"id": "5bc7f080b39c5c03486def8c",//unique key
-			"currency": "KCS",
-			"amount": "0.0998",
-			"fee": "0",
-			"balance": "0",
-			"bizType": "Deposit",
-			"direction": "in",
-			"createdAt": 1540296039000,
-			"context": {
-				"orderId": "5bc7f080b39c5c03286eef8a",
-				"txId": "bf848bfb6736780b930e12c68721ea57f8b0484a4af3f30db75c93ecf16905c9"
-			}
-		},
-		{
-			"id": "5bc7f080b39c5c03486def8a",//unique key
-			"currency": "KCS",
-			"amount": "0.0998",
-			"fee": "0",
-			"balance": "0",
-			"bizType": "trade exchange",
-			"direction": "in",
-			"createdAt": 1540296039000,
-			"context": {
-				"orderId": "5bc7f080b39c5c03286eef8e",
-				"tradeId": "5bc7f080b3949c03286eef8a",
-				"symbol": "BTC-USD"
-			}
-		}
-	]
+    "currentPage": 1,
+    "pageSize": 10,
+    "totalNum": 3,
+    "totalPage": 1,
+    "items": [
+        {
+            "id": "5bc7f080b39c5c03486eef8c",//unique key
+            "currency": "KCS",  //Currency
+            "amount": "0.0998", //Change amount of the funds
+            "fee": "0",  //Deposit or withdrawal fee
+            "balance": "0",  //Total assets of a currency
+            "bizType": "Withdraw",  //business type
+            "direction": "in",     //side, in or out 
+            "createdAt": 1540296039000,  //Creation time
+            "context": {          //Business core parameters
+
+                "orderId": "5bc7f080b39c5c03286eef8a",
+                "txId": "bf848bfb6736780b930e12c68721ea57f8b0484a4af3f30db75c93ecf16905c9"
+            }
+        },
+        {
+            "id": "5bc7f080b39c5c03486def8c",//unique key
+            "currency": "KCS",
+            "amount": "0.0998",
+            "fee": "0",
+            "balance": "0",
+            "bizType": "Deposit",
+            "direction": "in",
+            "createdAt": 1540296039000,
+            "context": {
+
+                "orderId": "5bc7f080b39c5c03286eef8a",
+                "txId": "bf848bfb6736780b930e12c68721ea57f8b0484a4af3f30db75c93ecf16905c9"
+            }
+        },
+        {
+            "id": "5bc7f080b39c5c03486def8a",//unique key
+            "currency": "KCS",
+            "amount": "0.0998",
+            "fee": "0",
+            "balance": "0",
+            "bizType": "trade exchange",
+            "direction": "in",
+            "createdAt": 1540296039000,
+            "context": {
+
+                "tradeId": "5bc7f080b3949c03286eef8a",
+                "orderId": "5bc7f080b39c5c03286eef8e",
+                "symbol": "BTC-USD"
+            }
+        }
+    ]
 }
 ```
 
@@ -1084,36 +1096,41 @@ The **orderId** field is a unique order ID generated in order placement or withd
 
 ```json
 {
-	"subUserId": "5caefba7d9575a0688f83c45", 
-	"subName": "sdfgsdfgsfd",
-	"mainAccounts": [{
-		"currency": "BTC",
-		"balance": "8",
-		"available": "8",
-    "holds": "0",
-    "baseCurrency": "BTC",
-    "baseCurrencyPrice": "1",
-    "baseAmount": "1.1"
-	}],
-	"tradeAccounts": [{
-		"currency": "BTC",
-		"balance": "1000",
-		"available": "1000",
-    "holds": "0",
-    "baseCurrency": "BTC",
-    "baseCurrencyPrice": "1",
-    "baseAmount": "1.1"
-
-  }],
-  "marginAccounts": [{
-    "currency": "BTC",
-    "balance": "1.1",
-    "available": "1.1",
-    "holds": "0",
-    "baseCurrency": "BTC",
-    "baseCurrencyPrice": "1",
-    "baseAmount": "1.1"
-  }]
+    "subUserId":"5caefba7d9575a0688f83c45",
+    "subName":"sdfgsdfgsfd",
+    "mainAccounts":[
+        {
+            "currency":"BTC",
+            "balance":"8",
+            "available":"8",
+            "holds":"0",
+            "baseCurrency":"BTC",
+            "baseCurrencyPrice":"1",
+            "baseAmount":"1.1"
+        }
+    ],
+    "tradeAccounts":[
+        {
+            "currency":"BTC",
+            "balance":"1000",
+            "available":"1000",
+            "holds":"0",
+            "baseCurrency":"BTC",
+            "baseCurrencyPrice":"1",
+            "baseAmount":"1.1"
+        }
+    ],
+    "marginAccounts":[
+        {
+            "currency":"BTC",
+            "balance":"1.1",
+            "available":"1.1",
+            "holds":"0",
+            "baseCurrency":"BTC",
+            "baseCurrencyPrice":"1",
+            "baseAmount":"1.1"
+        }
+    ]
 }
 ```
 
@@ -1155,38 +1172,43 @@ baseAmount | The base currency amount.
 
 ```json
 [
-  {
-		"subUserId": "5caefba7d9575a0688f83c45",
-		"subName": "kucoin1",
-		"mainAccounts": [{
-			"currency": "BTC",
-			"balance": "6",
-			"available": "6",
-      "holds": "0",
-      "baseCurrency": "BTC",
-      "baseCurrencyPrice": "1",
-      "baseAmount": "1.1"
-
-		}],
-		"tradeAccounts": [{
-			"currency": "BTC",
-			"balance": "1000",
-			"available": "1000",
-      "holds": "0",
-      "baseCurrency": "BTC",
-      "baseCurrencyPrice": "1",
-      "baseAmount": "1.1"
-    }],
-    "marginAccounts": [{
-        "currency": "BTC",
-        "balance": "1.1",
-        "available": "1.1",
-        "holds": "0",
-        "baseCurrency": "BTC",
-        "baseCurrencyPrice": "1",
-        "baseAmount": "1.1"
-    }]
-  }
+    {
+        "subUserId":"5caefba7d9575a0688f83c45",
+        "subName":"kucoin1",
+        "mainAccounts":[
+            {
+                "currency":"BTC",
+                "balance":"6",
+                "available":"6",
+                "holds":"0",
+                "baseCurrency":"BTC",
+                "baseCurrencyPrice":"1",
+                "baseAmount":"1.1"
+            }
+        ],
+        "tradeAccounts":[
+            {
+                "currency":"BTC",
+                "balance":"1000",
+                "available":"1000",
+                "holds":"0",
+                "baseCurrency":"BTC",
+                "baseCurrencyPrice":"1",
+                "baseAmount":"1.1"
+            }
+        ],
+        "marginAccounts":[
+            {
+                "currency":"BTC",
+                "balance":"1.1",
+                "available":"1.1",
+                "holds":"0",
+                "baseCurrency":"BTC",
+                "baseCurrencyPrice":"1",
+                "baseAmount":"1.1"
+            }
+        ]
+    }
 ]
 ```
 
@@ -1452,35 +1474,38 @@ chain | The chain name of currency, e.g. The available value for USDT are OMNI, 
 
 ```json
 {
-  "currentPage": 1,
-  "pageSize": 5,
-  "totalNum": 2,
-  "totalPage": 1,
-	"items": [{
-		"address": "0x5f047b29041bcfdbf0e4478cdfa753a336ba6989",
-		"memo": "5c247c8a03aa677cea2a251d",   
-		"amount": 1,
-		"fee": 0.0001,
-		"currency": "KCS",
-		"isInner": false,
-		"walletTxId": "5bbb57386d99522d9f954c5a@test004",
-		"status": "SUCCESS",
-        "remark": "test",
-		"createdAt": 1544178843000,
-		"updatedAt": 1544178891000
-	}, {
-		"address": "0x5f047b29041bcfdbf0e4478cdfa753a336ba6989",
-		"memo": "5c247c8a03aa677cea2a251d",
-		"amount": 1,
-		"fee": 0.0001,
-		"currency": "KCS",
-		"isInner": false,
-		"walletTxId": "5bbb57386d99522d9f954c5a@test003",
-		"status": "SUCCESS",
-        "remark": "test",
-		"createdAt": 1544177654000,
-		"updatedAt": 1544178733000
-	}]
+    "currentPage":1,
+    "pageSize":5,
+    "totalNum":2,
+    "totalPage":1,
+    "items":[
+        {
+            "address":"0x5f047b29041bcfdbf0e4478cdfa753a336ba6989",
+            "memo":"5c247c8a03aa677cea2a251d",
+            "amount":1,
+            "fee":0.0001,
+            "currency":"KCS",
+            "isInner":false,
+            "walletTxId":"5bbb57386d99522d9f954c5a@test004",
+            "status":"SUCCESS",
+            "remark":"test",
+            "createdAt":1544178843000,
+            "updatedAt":1544178891000
+        },
+        {
+            "address":"0x5f047b29041bcfdbf0e4478cdfa753a336ba6989",
+            "memo":"5c247c8a03aa677cea2a251d",
+            "amount":1,
+            "fee":0.0001,
+            "currency":"KCS",
+            "isInner":false,
+            "walletTxId":"5bbb57386d99522d9f954c5a@test003",
+            "status":"SUCCESS",
+            "remark":"test",
+            "createdAt":1544177654000,
+            "updatedAt":1544178733000
+        }
+    ]
 }
 ```
 
@@ -1529,18 +1554,20 @@ updatedAt | Update time of the database record
 
 ```json
 {
-"currentPage": 1,
-"pageSize": 1,
-"totalNum": 9,
-"totalPage": 9,
-"items": [{
-"currency": "BTC",
-"createAt": 1528536998,
-"amount": "0.03266638",
-"walletTxId": "55c643bc2c68d6f17266383ac1be9e454038864b929ae7cee0bc408cc5c869e8@12ffGWmMMD1zA1WbFm7Ho3JZ1w6NYXjpFk@234",
-"isInner": false,
-"status": "SUCCESS"
-}]
+    "currentPage":1,
+    "pageSize":1,
+    "totalNum":9,
+    "totalPage":9,
+    "items":[
+        {
+            "currency":"BTC",
+            "createAt":1528536998,
+            "amount":"0.03266638",
+            "walletTxId":"55c643bc2c68d6f17266383ac1be9e454038864b929ae7cee0bc408cc5c869e8@12ffGWmMMD1zA1WbFm7Ho3JZ1w6NYXjpFk@234",
+            "isInner":false,
+            "status":"SUCCESS"
+        }
+    ]
 }
 ```
 
@@ -1587,24 +1614,26 @@ status | Status
 
 ```json
 {
-  "currentPage": 1,
-  "pageSize": 10,
-  "totalNum": 1,
-  "totalPage": 1,
-	"items": [{
-	  "id": "5c2dc64e03aa675aa263f1ac",
-		"address": "0x5bedb060b8eb8d823e2414d82acce78d38be7fe9",
-		"memo": "",
-		"currency": "ETH",
-		"amount": 1.0000000,
-    "fee": 0.0100000,
-		"walletTxId": "3e2414d82acce78d38be7fe9",
-		"isInner": false,
-		"status": "FAILURE",
-      "remark": "test",
-		"createdAt": 1546503758000,
-		"updatedAt": 1546504603000
-	}]
+    "currentPage":1,
+    "pageSize":10,
+    "totalNum":1,
+    "totalPage":1,
+    "items":[
+        {
+            "id":"5c2dc64e03aa675aa263f1ac",
+            "address":"0x5bedb060b8eb8d823e2414d82acce78d38be7fe9",
+            "memo":"",
+            "currency":"ETH",
+            "amount":1,
+            "fee":0.01,
+            "walletTxId":"3e2414d82acce78d38be7fe9",
+            "isInner":false,
+            "status":"FAILURE",
+            "remark":"test",
+            "createdAt":1546503758000,
+            "updatedAt":1546504603000
+        }
+    ]
 }
 ```
 
@@ -1651,19 +1680,21 @@ updatedAt | Update time
 
 ```json
 {
-"currentPage": 1,
-"pageSize": 1,
-"totalNum": 2,
-"totalPage": 2,
-"items": [{
-"currency": "BTC",
-"createAt": 1526723468,
-"amount": "0.534",
-"address": "33xW37ZSW4tQvg443Pc7NLCAs167Yc2XUV",
-"walletTxId": "aeacea864c020acf58e51606169240e96774838dcd4f7ce48acf38e3651323f4",
-"isInner": false,
-"status": "SUCCESS"
-}]
+    "currentPage":1,
+    "pageSize":1,
+    "totalNum":2,
+    "totalPage":2,
+    "items":[
+        {
+            "currency":"BTC",
+            "createAt":1526723468,
+            "amount":"0.534",
+            "address":"33xW37ZSW4tQvg443Pc7NLCAs167Yc2XUV",
+            "walletTxId":"aeacea864c020acf58e51606169240e96774838dcd4f7ce48acf38e3651323f4",
+            "isInner":false,
+            "status":"SUCCESS"
+        }
+    ]
 }
 ```
 List of KuCoin V1 historical withdrawals.
@@ -2032,39 +2063,39 @@ A successful order will be assigned an order ID. A successful order is defined a
 ## Place Bulk Orders
 
 ```json
-{ 
-    "success": true, // RESPONSE
-    "code": "200", 
-    "msg": "success", 
-    "retry": false, 
-    "data": { 
-      "data": [ 
-          { 
-            "symbol": "BTC-USDT", 
-            "type": "limit", 
-            "side": "buy", 
-            "price": "9661", 
-            "size": "1", 
-            "funds": null, 
-            "stp": "", 
-            "stop": "", 
-            "stopPrice": "0", 
-            "timeInForce": "GTC", 
-            "cancelAfter": 0, 
-            "postOnly": false, 
-            "hidden": false, 
-            "iceberge": false, 
-            "iceberg": false, 
-            "visibleSize": "0", 
-            "channel": "API", 
-            "id": null, 
-            "status": "fail", 
-            "failMsg": "error.createOrder.accountBalanceInsufficient", 
-            "clientOid": "5e42743514832d53d255d921" 
-          } 
-      ] 
-    } 
-} 
+{
+    "success":true,
+    "code":"200",
+    "msg":"success",
+    "retry":false,
+    "data":{
+        "data":[
+            {
+                "symbol":"BTC-USDT",
+                "type":"limit",
+                "side":"buy",
+                "price":"9661",
+                "size":"1",
+                "funds":null,
+                "stp":"",
+                "stop":"",
+                "stopPrice":"0",
+                "timeInForce":"GTC",
+                "cancelAfter":0,
+                "postOnly":false,
+                "hidden":false,
+                "iceberge":false,
+                "iceberg":false,
+                "visibleSize":"0",
+                "channel":"API",
+                "id":null,
+                "status":"fail",
+                "failMsg":"error.createOrder.accountBalanceInsufficient",
+                "clientOid":"5e42743514832d53d255d921"
+            }
+        ]
+    }
+}
 ```
 
 Request via this endpoint to place 5 orders at the same time. The order type must be a limit order of the same symbol. 
@@ -2079,20 +2110,19 @@ Request via this endpoint to place 5 orders at the same time. The order type mus
 ### Example
 
 ```json
-
-{ 
-  "symbol": "BTC-USDT", // EXAMPLE
-  "orderList": [ 
-    { 
-      "clientOid": "5e42743514832d53d255d921", 
-      "price": 9661, 
-      "side": "buy", 
-      "size": 1, 
-      "symbol": "BTC-USDT", 
-      "type": "limit" 
-    } 
-  ] 
-} 
+{
+    "symbol":"BTC-USDT",
+    "orderList":[
+        {
+            "clientOid":"5e42743514832d53d255d921",
+            "price":9661,
+            "side":"buy",
+            "size":1,
+            "symbol":"BTC-USDT",
+            "type":"limit"
+        }
+    ]
+}
 ```
 
 POST /api/v1/orders/multi
@@ -2175,17 +2205,18 @@ If the order could not be canceled (already filled or previously canceled, etc),
 
 ```json
 {
-   "cancelledOrderIds": [
-      "5c52e11203aa677f33e493fb",  //orderId
-      "5c52e12103aa677f33e493fe",
-      "5c52e12a03aa677f33e49401",
-      "5c52e1be03aa677f33e49404",
-      "5c52e21003aa677f33e49407",
-      "5c6243cb03aa67580f20bf2f",
-      "5c62443703aa67580f20bf32",
-      "5c6265c503aa676fee84129c",
-      "5c6269e503aa676fee84129f",
-      "5c626b0803aa676fee8412a2"
+    "cancelledOrderIds": [
+
+        "5c52e11203aa677f33e493fb",  //orderId
+        "5c52e12103aa677f33e493fe",
+        "5c52e12a03aa677f33e49401",
+        "5c52e1be03aa677f33e49404",
+        "5c52e21003aa677f33e49407",
+        "5c6243cb03aa67580f20bf2f",
+        "5c62443703aa67580f20bf32",
+        "5c6265c503aa676fee84129c",
+        "5c6269e503aa676fee84129f",
+        "5c626b0803aa676fee8412a2"
     ]
 }
 ```
@@ -2223,39 +2254,39 @@ orderId | Order ID, unique identifier of an order.
     "totalNum": 153408,
     "totalPage": 153408,
     "items": [
-      {
-        "id": "5c35c02703aa673ceec2a168",   //orderid
-        "symbol": "BTC-USDT",   //symbol
-        "opType": "DEAL",      // operation type: DEAL
-        "type": "limit",       // order type,e.g. limit,market,stop_limit.
-        "side": "buy",         // transaction direction,include buy and sell
-        "price": "10",         // order price
-        "size": "2",           // order quantity
-        "funds": "0",          // order funds
-        "dealFunds": "0.166",  // deal funds
-        "dealSize": "2",       // deal quantity
-        "fee": "0",            // fee
-        "feeCurrency": "USDT", // charge fee currency
-        "stp": "",             // self trade prevention,include CN,CO,DC,CB
-        "stop": "",            // stop type
-        "stopTriggered": false,  // stop order is triggered
-        "stopPrice": "0",      // stop price
-        "timeInForce": "GTC",  // time InForce,include GTC,GTT,IOC,FOK
-        "postOnly": false,     // postOnly
-        "hidden": false,       // hidden order
-        "iceberg": false,      // iceberg order
-        "visibleSize": "0",    // display quantity for iceberg order
-        "cancelAfter": 0,      // cancel orders time，requires timeInForce to be GTT
-        "channel": "IOS",      // order source
-        "clientOid": "",       // user-entered order unique mark
-        "remark": "",          // remark
-        "tags": "",            // tag order source        
-        "isActive": false,     // status before unfilled or uncancelled 
-        "cancelExist": false,   // order cancellation transaction record
-        "createdAt": 1547026471000,  // create time
-        "tradeType": "TRADE"
-      }
-    ]
+        {
+            "id": "5c35c02703aa673ceec2a168",   //orderid
+            "symbol": "BTC-USDT",   //symbol
+            "opType": "DEAL",      // operation type: DEAL
+            "type": "limit",       // order type,e.g. limit,market,stop_limit.
+            "side": "buy",         // transaction direction,include buy and sell
+            "price": "10",         // order price
+            "size": "2",           // order quantity
+            "funds": "0",          // order funds
+            "dealFunds": "0.166",  // deal funds
+            "dealSize": "2",       // deal quantity
+            "fee": "0",            // fee
+            "feeCurrency": "USDT", // charge fee currency
+            "stp": "",             // self trade prevention,include CN,CO,DC,CB
+            "stop": "",            // stop type
+            "stopTriggered": false,  // stop order is triggered
+            "stopPrice": "0",      // stop price
+            "timeInForce": "GTC",  // time InForce,include GTC,GTT,IOC,FOK
+            "postOnly": false,     // postOnly
+            "hidden": false,       // hidden order
+            "iceberg": false,      // iceberg order
+            "visibleSize": "0",    // display quantity for iceberg order
+            "cancelAfter": 0,      // cancel orders time，requires timeInForce to be GTT
+            "channel": "IOS",      // order source
+            "clientOid": "",       // user-entered order unique mark
+            "remark": "",          // remark
+            "tags": "",            // tag order source        
+            "isActive": false,     // status before unfilled or uncancelled 
+            "cancelExist": false,   // order cancellation transaction record
+            "createdAt": 1547026471000,  // create time
+            "tradeType": "TRADE"
+        }
+     ]
  }
 ```
 
@@ -2341,19 +2372,21 @@ For high-volume trading, it is highly recommended that you maintain your own lis
 
 ```json
 {
-	"currentPage": 1,
-	"pageSize": 50,
-	"totalNum": 1,
-	"totalPage": 1,
-	"items": [{
-		"symbol": "SNOV-ETH",
-		"dealPrice": "0.0000246",
-		"dealValue": "0.018942",
-		"amount": "770",
-		"fee": "0.00001137",
-		"side": "sell",
-		"createdAt": 1540080199
-	}]
+    "currentPage":1,
+    "pageSize":50,
+    "totalNum":1,
+    "totalPage":1,
+    "items":[
+        {
+            "symbol":"SNOV-ETH",
+            "dealPrice":"0.0000246",
+            "dealValue":"0.018942",
+            "amount":"770",
+            "fee":"0.00001137",
+            "side":"sell",
+            "createdAt":1540080199
+        }
+    ]
 }
 ```
 
@@ -2409,40 +2442,40 @@ createdAt | Create time.
     "totalNum": 153408,
     "totalPage": 153408,
     "items": [
-      {
-        "id": "5c35c02703aa673ceec2a168",
-        "symbol": "BTC-USDT",
-        "opType": "DEAL",
-        "type": "limit",
-        "side": "buy",
-        "price": "10",
-        "size": "2",
-        "funds": "0",
-        "dealFunds": "0.166",
-        "dealSize": "2",
-        "fee": "0",
-        "feeCurrency": "USDT",
-        "stp": "",
-        "stop": "",
-        "stopTriggered": false,
-        "stopPrice": "0",
-        "timeInForce": "GTC",
-        "postOnly": false,
-        "hidden": false,
-        "iceberg": false,
-        "visibleSize": "0",
-        "cancelAfter": 0,
-        "channel": "IOS",
-        "clientOid": "",
-        "remark": "",
-        "tags": "",
-        "isActive": false,
-        "cancelExist": false,
-        "createdAt": 1547026471000,
-        "tradeType": "TRADE"
-      }
+        {
+            "id": "5c35c02703aa673ceec2a168",
+            "symbol": "BTC-USDT",
+            "opType": "DEAL",
+            "type": "limit",
+            "side": "buy",
+            "price": "10",
+            "size": "2",
+            "funds": "0",
+            "dealFunds": "0.166",
+            "dealSize": "2",
+            "fee": "0",
+            "feeCurrency": "USDT",
+            "stp": "",
+            "stop": "",
+            "stopTriggered": false,
+            "stopPrice": "0",
+            "timeInForce": "GTC",
+            "postOnly": false,
+            "hidden": false,
+            "iceberg": false,
+            "visibleSize": "0",
+            "cancelAfter": 0,
+            "channel": "IOS",
+            "clientOid": "",
+            "remark": "",
+            "tags": "",
+            "isActive": false,
+            "cancelExist": false,
+            "createdAt": 1547026471000,
+            "tradeType": "TRADE"
+        }
     ]
- }
+}
 ```
 
 Request via this endpoint to get 1000 orders in the last 24 hours. 
@@ -2857,23 +2890,23 @@ Signature is not required for this part
 
 ```json
 [
-  {
-    "symbol": "BTC-USDT",
-    "name": "BTC-USDT",
-    "baseCurrency": "BTC",
-    "quoteCurrency": "USDT",
-    "baseMinSize": "0.00000001",
-    "quoteMinSize": "0.01",
-    "baseMaxSize": "10000",
-    "quoteMaxSize": "100000",
-    "baseIncrement": "0.00000001",
-    "quoteIncrement": "0.01",
-    "priceIncrement": "0.00000001",
-    "feeCurrency": "USDT",
-    "enableTrading": true,
-    "isMarginEnabled": true,
-    "priceLimitRate": "0.1"
-  }
+    {
+        "symbol": "BTC-USDT",
+        "name": "BTC-USDT",
+        "baseCurrency": "BTC",
+        "quoteCurrency": "USDT",
+        "baseMinSize": "0.00000001",
+        "quoteMinSize": "0.01",
+        "baseMaxSize": "10000",
+        "quoteMaxSize": "100000",
+        "baseIncrement": "0.00000001",
+        "quoteIncrement": "0.01",
+        "priceIncrement": "0.00000001",
+        "feeCurrency": "USDT",
+        "enableTrading": true,
+        "isMarginEnabled": true,
+        "priceLimitRate": "0.1"
+    }
 ]
 ```
 
@@ -2934,7 +2967,6 @@ The order price must be a positive integer multiple of this priceIncrement (i.e.
     "bestBid": "0.03710768",
     "bestAskSize": "1.788",
     "time": 1550653727731
-
 }
 ```
 
@@ -2975,36 +3007,36 @@ time |  timestamp
 
 ```json
 {
-    "time": 1550653727731,
-    "ticker": [
-      {
-        "symbol": "BTC-USDT",
-        "symbolName": "BTC-USDT",
-        "buy": "0.00001191",
-        "sell": "0.00001206",
-        "changeRate": "0.057",
-        "changePrice": "0.00000065",
-        "high": "0.0000123",
-        "low": "0.00001109",
-        "vol": "45161.5073",
-        "volValue": "2127.28693026”, 
-        "last": "0.00001204"
-      },
-      {
-        "symbol": "BCD-BTC",
-        "symbolName": "BCD-BTC",
-        "buy": "0.00018564",
-        "sell": "0.0002",
-        "changeRate": "-0.0753",
-        "changePrice": "-0.00001522",
-        "high": "0.00021489",
-        "low": "0.00018351",
-        "vol": "72.99679763",
-        "volValue": "2127.28693026”, 
-        "last": "0.00018664"
-      }
+    "time":1550653727731,
+    "ticker":[
+        {
+            "symbol":"BTC-USDT",
+            "symbolName":"BTC-USDT",
+            "buy":"0.00001191",
+            "sell":"0.00001206",
+            "changeRate":"0.057",
+            "changePrice":"0.00000065",
+            "high":"0.0000123",
+            "low":"0.00001109",
+            "vol":"45161.5073",
+            "volValue":"2127.28693026",
+            "last":"0.00001204"
+        },
+        {
+            "symbol":"BCD-BTC",
+            "symbolName":"BCD-BTC",
+            "buy":"0.00018564",
+            "sell":"0.0002",
+            "changeRate":"-0.0753",
+            "changePrice":"-0.00001522",
+            "high":"0.00021489",
+            "low":"0.00018351",
+            "vol":"72.99679763",
+            "volValue":"2127.28693026",
+            "last":"0.00018664"
+        }
     ]
-  }
+}
 ```
 
 Request market tickers for all the trading pairs in the market (including 24h volume).
@@ -3091,6 +3123,7 @@ time |  timestamp
 //Get Market List
 {
 	"data":[
+
     "BTC",
     "KCS",
     "USDS",  //SC has been changed to USDS
@@ -3233,6 +3266,7 @@ asks | asks
 ```json
 {
     "data": {
+
         "sequence": "1573503933086",
         "asks": [
             [
@@ -3309,6 +3343,7 @@ asks | asks
 ```json
 {
     "data": {
+
         "sequence": 1573503933086,
         "asks": [
             [
@@ -3347,7 +3382,7 @@ Request via this endpoint to get the Level 3 order book of the specified trading
 
 This API is generally used by professional traders because it uses more server resources and traffic, and we have strict access frequency control.
 
-To maintain up-to-date order book, please use [Websocket](#full-matchengine-data-level-3) incremental feed after retrieving the Level 3 snapshot.
+To maintain up-to-date order book, please use [Websocket](#full-matchengine-data-revision-level-nbsp-3) incremental feed after retrieving the Level 3 snapshot.
 
 In the orderbook, the selling data is sorted low to high by price and orders with the same price are sorted in time sequence. The buying data is sorted high to low by price and orders with the same price are sorted in time sequence. The matching engine will match the orders according to the price and time sequence.
 
@@ -3387,20 +3422,20 @@ asks | asks
 
 ```json
 [
-  {
-      "sequence": "1545896668571",
-      "price": "0.07",                      //Filled price
-      "size": "0.004",                      //Filled amount
-      "side": "buy",                        //Filled side. The filled side is set to the taker by default.
-      "time": 1545904567062140823           //Transaction time
-  },
-  {
-      "sequence": "1545896668578",
-      "price": "0.054",
-      "size": "0.066",
-      "side": "buy",
-      "time": 1545904581619888405
-  }
+    {
+        "sequence": "1545896668571",
+        "price": "0.07",                      //Filled price
+        "size": "0.004",                      //Filled amount
+        "side": "buy",                        //Filled side. The filled side is set to the taker by default.
+        "time": 1545904567062140823           //Transaction time
+    },
+    {
+        "sequence": "1545896668578",
+        "price": "0.054",
+        "size": "0.066",
+        "side": "buy",
+        "time": 1545904581619888405
+    }
 ]
 ```
 Request via this endpoint to get the trade history of the specified symbol.
@@ -3438,24 +3473,24 @@ The trade side indicates the taker order side. A taker order is the order that w
 
 ```json
 [
-  [
-      "1545904980",             //Start time of the candle cycle
-      "0.058",                  //opening price
-      "0.049",                  //closing price
-      "0.058",                  //highest price
-      "0.049",                  //lowest price
-      "0.018",                  //Transaction amount
-      "0.000945"                //Transaction volume
-  ],
-  [
-      "1545904920",
-      "0.058",
-      "0.072",
-      "0.072",
-      "0.058",
-      "0.103",
-      "0.006986"
-  ]
+    [
+        "1545904980",             //Start time of the candle cycle
+        "0.058",                  //opening price
+        "0.049",                  //closing price
+        "0.058",                  //highest price
+        "0.049",                  //lowest price
+        "0.018",                  //Transaction amount
+        "0.000945"                //Transaction volume
+    ],
+    [
+        "1545904920",
+        "0.058",
+        "0.072",
+        "0.072",
+        "0.058",
+        "0.103",
+        "0.006986"
+    ]
 ]
 ```
 Request via this endpoint to get the kline of the specified symbol. Data are returned in grouped buckets based on requested type.
@@ -3501,32 +3536,32 @@ turnover | Transaction amount
 
 ```json
 
-[{
-    "currency": "BTC",
-    "name": "BTC",
-    "fullName": "Bitcoin",
-    "precision": 8,
-    "withdrawalMinSize": "0.002",
-    "withdrawalMinFee": "0.0005",
-    "isWithdrawEnabled": true,   
-    "isDepositEnabled": true,
-    "isMarginEnabled": true,
-    "isDebitEnabled": true
-},
-{
-
-    "currency": "ETH",
-    "name": "ETH",
-    "fullName": "Ethereum",
-    "precision": 8,
-    "withdrawalMinSize": "0.02",
-    "withdrawalMinFee": "0.01",
-    "isWithdrawEnabled": true,
-    "isDepositEnabled": true,
-    "isMarginEnabled": true,
-    "isDebitEnabled": true
-  
-}]
+[
+    {
+        "currency": "BTC",
+        "name": "BTC",
+        "fullName": "Bitcoin",
+        "precision": 8,
+        "withdrawalMinSize": "0.002",
+        "withdrawalMinFee": "0.0005",
+        "isWithdrawEnabled": true,   
+        "isDepositEnabled": true,
+        "isMarginEnabled": true,
+       "isDebitEnabled": true
+    },
+    {
+        "currency": "ETH",
+        "name": "ETH",
+        "fullName": "Ethereum",
+        "precision": 8,
+        "withdrawalMinSize": "0.02",
+        "withdrawalMinFee": "0.01",
+        "isWithdrawEnabled": true,
+        "isDepositEnabled": true,
+        "isMarginEnabled": true,
+        "isDebitEnabled": true
+    }
+]
 
 ```
 
@@ -3628,6 +3663,7 @@ chain | String | *[Optional]* Support for querying the chain of currency, e.g. T
 {
     "code": "200000",
     "data": {
+
         "BTC": "3911.28000000",
         "ETH": "144.55492453",
         "LTC": "48.45888179",
@@ -3778,7 +3814,7 @@ This endpoint requires the **"General"** permission.
 {
     "orderId": "a2111213",
     "currency": "USDT"
-  }
+}
 ```
 
 
@@ -3820,7 +3856,9 @@ This endpoint requires the **"Trade"** permission.
 
 ```json
 {
+    "orderId": "a2111213",
     "currency": "USDT",
+    "size": "1.009",
     "filled": 1.009,
     "matchList": [
       {
@@ -3832,8 +3870,6 @@ This endpoint requires the **"Trade"** permission.
         "tradeId": "1212331"
       }
     ],
-    "orderId": "a2111213",
-    "size": "1.009",
     "status": "DONE"
   }
 
@@ -3881,23 +3917,23 @@ This endpoint requires the **"Trade"** permission.
 ```json
 {
     "currentPage": 0,
-    "items": [
-      {
-        "accruedInterest": "0.22121",
-        "createdAt": "1544657947759",
-        "currency": "USDT",
-        "dailyIntRate": "0.0021",
-        "liability": "1.32121",
-        "maturityTime": "1544657947759",
-        "principal": "1.22121",
-        "repaidSize": "0",
-        "term": 7,
-        "tradeId": "1231141"
-      }
-    ],
     "pageSize": 0,
     "totalNum": 0,
-    "totalPage": 0
+    "totalPage": 0,
+    "items": [
+        {
+            "tradeId": "1231141",
+            "currency": "USDT",
+            "accruedInterest": "0.22121",
+            "dailyIntRate": "0.0021",
+            "liability": "1.32121",
+            "maturityTime": "1544657947759",
+            "principal": "1.22121",
+            "repaidSize": "0",
+            "term": 7,
+            "createdAt": "1544657947759"
+        }
+    ]
   }
 ```
 
@@ -3942,22 +3978,22 @@ This endpoint requires the **"Trade"** permission.
 
 ```json
 {
-    "currentPage": 0,
-    "items": [
-      {
-        "currency": "USDT",
-        "dailyIntRate": "0.0021",
-        "interest": "0.22121",
-        "principal": "1.22121",
-        "repaidSize": "0",
-        "repayTime": "1544657947759",
-        "term": 7,
-        "tradeId": "1231141"
-      }
-    ],
     "pageSize": 0,
     "totalNum": 0,
-    "totalPage": 0
+    "totalPage": 0,
+    "currentPage": 0,
+    "items": [
+        {
+            "tradeId": "1231141",
+            "currency": "USDT",
+            "dailyIntRate": "0.0021",
+            "interest": "0.22121",
+            "principal": "1.22121",
+            "repaidSize": "0",
+            "repayTime": "1544657947759",
+            "term": 7
+        }
+    ]
   }
 ```
 
@@ -4148,19 +4184,21 @@ This endpoint requires the **"Trade"** permission.
 
 ```json
 {
-	"currentPage": 1,
-	"pageSize": 1,
-	"totalNum": 1,
-	"totalPage": 1,
-	"items": [{
-		"orderId": "5da59f5ef943c033b2b643e4",
-		"currency": "BTC",
-		"size": "0.51",
-		"filledSize": "0",
-		"dailyIntRate": "0.0001",
-		"term": 7,
-		"createdAt": 1571135326913
-	}]
+	  "currentPage": 1,
+	  "pageSize": 1,
+	  "totalNum": 1,
+	  "totalPage": 1,
+	  "items": [
+        {
+            "orderId": "5da59f5ef943c033b2b643e4",
+            "currency": "BTC",
+            "size": "0.51",
+            "filledSize": "0",
+            "dailyIntRate": "0.0001",
+            "term": 7,
+            "createdAt": 1571135326913
+        }
+    ]
 }
 ```
 
@@ -4204,20 +4242,22 @@ This endpoint requires the **"Trade"** permission.
 
 ```json
 {
-	"currentPage": 1,
-	"pageSize": 1,
-	"totalNum": 1,
-	"totalPage": 1,
-	"items": [{
-		"orderId": "5da59f5bf943c033b2b643da",
-		"currency": "BTC",
-		"size": "0.51",
-		"filledSize": "0.51",
-		"dailyIntRate": "0.0001",
-		"term": 7,
-		"createdAt": 1571135323984,
-		"status": "FILLED"
-	}]
+    "currentPage": 1,
+    "pageSize": 1,
+    "totalNum": 1,
+    "totalPage": 1,
+    "items": [
+        {
+            "orderId": "5da59f5bf943c033b2b643da",
+            "currency": "BTC",
+            "size": "0.51",
+            "filledSize": "0.51",
+            "dailyIntRate": "0.0001",
+            "term": 7,
+            "status": "FILLED",
+            "createdAt": 1571135323984
+        }
+    ]
 }
 ```
 
@@ -4261,20 +4301,22 @@ This endpoint requires the **"Trade"** permission.
 
 ```json
 {
-	"currentPage": 1,
-	"pageSize": 1,
-	"totalNum": 1,
-	"totalPage": 1,
-	"items": [{
-		"tradeId": "5da6dba0f943c0c81f5d5db5",
-		"currency": "BTC",
-		"size": "0.51",
-		"accruedInterest": "0",
-		"repaid": "0.10999968",
-		"dailyIntRate": "0.0001",
-		"term": 14,
-		"maturityTime": 1572425888958
-	}]
+    "currentPage": 1,
+    "pageSize": 1,
+    "totalNum": 1,
+    "totalPage": 1,
+    "items": [
+        {
+            "tradeId": "5da6dba0f943c0c81f5d5db5",
+            "currency": "BTC",
+            "size": "0.51",
+            "accruedInterest": "0",
+            "repaid": "0.10999968",
+            "dailyIntRate": "0.0001",
+            "term": 14,
+            "maturityTime": 1572425888958
+        }
+    ]
 }
 ```
 
@@ -4318,21 +4360,23 @@ This endpoint requires the **"Trade"** permission.
 
 ```json
 {
-	"currentPage": 1,
-	"pageSize": 1,
-	"totalNum": 1,
-	"totalPage": 1,
-	"items": [{
-		"tradeId": "5da59fe6f943c033b2b6440b",
-		"currency": "BTC",
-		"size": "0.51",
-		"interest": "0.00004899",
-		"repaid": "0.510041641",
-		"dailyIntRate": "0.0001",
-		"term": 7,
-		"settledAt": 1571216254767,
-		"note": "The account of the borrowers reached a negative balance, and the system has supplemented the loss via the insurance fund. Deposit funds: 0.51."
-	}]
+    "currentPage": 1,
+    "pageSize": 1,
+    "totalNum": 1,
+    "totalPage": 1,
+    "items": [
+        {
+            "tradeId": "5da59fe6f943c033b2b6440b",
+            "currency": "BTC",
+            "size": "0.51",
+            "interest": "0.00004899",
+            "repaid": "0.510041641",
+            "dailyIntRate": "0.0001",
+            "term": 7,
+            "settledAt": 1571216254767,
+            "note": "The account of the borrowers reached a negative balance, and the system has supplemented the loss via the insurance fund. Deposit funds: 0.51."
+        }
+    ]
 }
 ```
 
@@ -4376,14 +4420,16 @@ This endpoint requires the **"Trade"** permission.
 ## Get Account Lend Record
 
 ```json
-[{
-	"currency": "BTC",
-	"outstanding": "1.02",
-	"filledSize": "0.91000213",
-	"accruedInterest": "0.00000213",
-	"realizedProfit": "0.000045261",
-	"isAutoLend": false
-}]
+[
+    {
+        "currency": "BTC",
+        "outstanding": "1.02",
+        "filledSize": "0.91000213",
+        "accruedInterest": "0.00000213",
+        "realizedProfit": "0.000045261",
+        "isAutoLend": false
+    }
+]
 ```
 
 Request via this endpoint to get the lending history of the main account.
@@ -4422,11 +4468,13 @@ This endpoint requires the **"Trade"** permission.
 ## Lending Market Data
 
 ```json
-[{
-	"dailyIntRate": "0.0001",
-	"term": 7,
-	"size": "1.02"
-}]
+[
+    {
+        "dailyIntRate": "0.0001",
+        "term": 7,
+        "size": "1.02"
+    }
+]
 ```
 
 Request via this endpoint to get the lending market data. 
@@ -4464,14 +4512,16 @@ This endpoint requires the **"General"** permission.
 ## Margin Trade Data
 
 ```json
-[{
-	"tradeId": "5da6dba0f943c0c81f5d5db5",
-	"currency": "BTC",
-	"size": "0.51",
-	"dailyIntRate": "0.0001",
-	"term": 14,
-	"timestamp": 1571216288958989641
-}]
+[
+    {
+        "tradeId": "5da6dba0f943c0c81f5d5db5",
+        "currency": "BTC",
+        "size": "0.51",
+        "dailyIntRate": "0.0001",
+        "term": 14,
+        "timestamp": 1571216288958989641
+    }
+]
 ```
 
 Request via this endpoint to get the last 300 fills in the lending and borrowing market.
@@ -4516,9 +4566,9 @@ This endpoint requires the **"General"** permission.
 
 ```json
 {  
-  "code":"200000",
-  "msg":"success",
-  "data":1546837113087
+    "code":"200000",
+    "msg":"success",
+    "data":1546837113087
 }
 ```
 
@@ -4538,6 +4588,7 @@ GET /api/v1/timestamp
 {    
   "code": "200000",     
   "data": {
+
       "status": "open",                //open, close, cancelonly
       "msg":  "upgrade match engine"   //remark for operation
     }
@@ -4576,12 +4627,13 @@ While there is a strict access frequency control for REST API, we highly recomme
 {
     "code": "200000",
     "data": {
+      
         "instanceServers": [
             {
-                "pingInterval": 50000,
                 "endpoint": "wss://push1-v2.kucoin.com/endpoint",
                 "protocol": "websocket",
                 "encrypt": true,
+                "pingInterval": 50000,
                 "pingTimeout": 10000
             }
         ],
@@ -4606,12 +4658,13 @@ If you only use public channels (e.g. all public market data), please make reque
 {
     "code": "200000",
     "data": {
+
         "instanceServers": [
             {
-                "pingInterval": 50000,
                 "endpoint": "wss://push1-v2.kucoin.com/endpoint",
                 "protocol": "websocket",
                 "encrypt": true,
+                "pingInterval": 50000,
                 "pingTimeout": 10000
             }
         ],
@@ -4631,11 +4684,11 @@ For private channels and messages (e.g. account balance notice), please make req
 
 |Field | Description|
 -----|-----
-|pingInterval| Recommended to send ping interval in millisecond|
-|pingTimeout| After such a long time(millisecond), if you do not receive pong, it will be considered as disconnected. |
 |endpoint| Websocket server address for establishing connection|
 |protocol| Protocol supported|
 |encrypt| Indicate whether SSL encryption is used |
+|pingInterval| Recommended to send ping interval in millisecond|
+|pingTimeout| After such a long time(millisecond), if you do not receive pong, it will be considered as disconnected. |
 |token| token|
 
 ## Create connection
@@ -4651,12 +4704,12 @@ When the connection is successfully established, the system will send a welcome 
 
 **connectId**: the connection id, a unique value taken from the client side. Both the id of the welcome message and the id of the error message are connectId.
 
-**acceptUserMessage**: if the value of acceptUserMessage equal with true, the User Messages can be received.
+**acceptUserMessage**: if the value of acceptUserMessage equal with true, the User Messages can be received. If you want to receive only private messages of the specified topic, please use privateChannel:true when subscribing.
 
 ```json
 {
-  "id":"hQvf8jkno",
-  "type":"welcome"
+    "id":"hQvf8jkno",
+    "type":"welcome"
 }
 ```
 
@@ -4667,8 +4720,8 @@ When the connection is successfully established, the system will send a welcome 
 ## Ping
 ```json
 {
-  "id":"1545910590801",
-  "type":"ping"
+    "id":"1545910590801",
+    "type":"ping"
 }
 ```
 
@@ -4682,8 +4735,8 @@ If the server has not received any message from the client for a long time, the 
 
 ```json
 {
-  "id":"1545910590801",
-  "type":"pong"
+    "id":"1545910590801",
+    "type":"pong"
 }
 ```
 <aside class="spacer3"></aside>
@@ -4706,10 +4759,10 @@ If the subscription succeeds, the system will send ack messages to you, when the
 
 
 ```json
-  {
+{
     "id":"1545910660739",
     "type":"ack"
-  }
+}
 ```
 While there are topic messages generated, the system will send the corresponding messages to the client side. For details about the message format, please check the definitions of topics.
 
@@ -4721,7 +4774,7 @@ ID is unique string to mark the request which is same as id property of ack.
 The topic you want to subscribe to.
 
 #### PrivateChannel
-For some specific topics (e.g. /market/level3), **privateChannel** is available. The default value of **privateChannel** is **False**. If the **privateChannel** is set to **true**, the user will only receive messages related himself on the topic. The format of the **topic** field in the returned data is **{topic}:privateChannel:{userId}**.
+For some specific topics (e.g. /market/level3), **privateChannel** is available. The default value of **privateChannel** is **False**. If the **privateChannel** is set to **true**, the user will only receive messages related himself on the topic. 
 
 #### Response
 If the response is set as ture, the system will return the ack messages after the subscription succeed.
@@ -4741,8 +4794,8 @@ Unsubscribe from topics you have subscribed to.
 
 ```json
 {
-  "id": "1545910840805",
-  "type": "ack"
+    "id": "1545910840805",
+    "type": "ack"
 }
 ```
 
@@ -4755,10 +4808,10 @@ Unique string to mark the request.
 The topic you want to subscribe.
 
 #### PrivateChannel
-For some specific **public** topics (e.g. /market/level3), **privateChannel** is available. The default value of **privateChannel** is **False**. If the **privateChannel** is set to **true**, the user will only receive messages related himself on the topic. The format of the **topic** field in the returned data is **{topic}:privateChannel:{userId}**.
+If the **privateChannel** is set to **true**, the private topic will be unsubscribed. 
 
 #### Response
-If the response is set as ture, the system would return the ack messages after the unsubscription succeed.
+If the response is set as true, the system would return the ack messages after the unsubscription succeed.
 
 ## Multiplex
 
@@ -4817,18 +4870,19 @@ Topic: **/market/ticker:{symbol},{symbol}...**
 
 ```json
 {
-  "type":"message",
-  "topic":"/market/ticker:BTC-USDT",
-  "subject":"trade.ticker",
-  "data":{
-    "sequence":"1545896668986", // Sequence number
-    "bestAsk":"0.08",  // Best ask price
-    "size":"0.011",   //  Last traded amount
-    "bestBidSize":"0.036",  // Best bid size
-    "price":"0.08",  // Last traded price
-    "bestAskSize":"0.18",  // Best ask size
-    "bestBid":"0.049" // Best bid price
-  }
+    "type":"message",
+    "topic":"/market/ticker:BTC-USDT",
+    "subject":"trade.ticker",
+    "data":{
+
+        "sequence":"1545896668986", // Sequence number
+        "price":"0.08",             // Last traded price
+        "size":"0.011",             //  Last traded amount
+        "bestAsk":"0.08",          // Best ask price
+        "bestAskSize":"0.18",      // Best ask size
+        "bestBid":"0.049",         // Best bid price
+        "bestBidSize":"0.036"     // Best bid size
+    }
 }
 ```
 Subscribe to this topic to get the push of BBO changes. If there is no change within **one second**, it will not be pushed.
@@ -4858,18 +4912,19 @@ Topic: **/market/ticker:all**
 
 ```json
 {
-  "type":"message",
-  "topic":"/market/ticker:all",
-  "subject":"BTC-USDT",
-  "data":{
-    "sequence":"1545896668986",
-    "bestAsk":"0.08",
-    "size":"0.011",
-    "bestBidSize":"0.036",
-    "price":"0.08",
-    "bestAskSize":"0.18",
-    "bestBid":"0.049"
-  }
+    "type":"message",
+    "topic":"/market/ticker:all",
+    "subject":"BTC-USDT",
+    "data":{
+
+        "sequence":"1545896668986",
+        "bestAsk":"0.08",
+        "size":"0.011",
+        "bestBidSize":"0.036",
+        "price":"0.08",
+        "bestAskSize":"0.18",
+        "bestBid":"0.049"
+    }
 }
 ```
 Subscribe to this topic to get the push of all market symbols BBO change.
@@ -4884,33 +4939,35 @@ Subscribe to this topic to get the push of all market symbols BBO change.
 ```json
 
 {
-	"data": {
-		"sequence": "1545896669291",
-		"data": {
-			"trading": true,
-			"symbol": "KCS-BTC",
-			"buy": 0.00011,
-			"sell": 0.00012,
-			"sort": 100,
-			"volValue": 3.13851792584,   //total
-			"baseCurrency": "KCS",
-			"market": "BTC",
-			"quoteCurrency": "BTC",
-			"symbolCode": "KCS-BTC",
-			"datetime": 1548388122031,
-			"high": 0.00013,
-			"vol": 27514.34842,
-			"low": 0.0001,
-			"changePrice": -1.0e-5,
-			"changeRate": -0.0769,
-			"lastTradedPrice": 0.00012,
-			"board": 0,
-			"mark": 0
-		}
-	},
-	"subject": "trade.snapshot",
-	"topic": "/market/snapshot:KCS-BTC",
-  "type": "message"
+    "type": "message",
+    "topic": "/market/snapshot:KCS-BTC",
+    "subject": "trade.snapshot",
+    "data": {
+
+        "sequence": "1545896669291",
+        "data": {
+
+            "trading": true,
+            "symbol": "KCS-BTC",
+            "buy": 0.00011,
+            "sell": 0.00012,
+            "sort": 100,
+            "volValue": 3.13851792584,   //total
+            "baseCurrency": "KCS",
+            "market": "BTC",
+            "quoteCurrency": "BTC",
+            "symbolCode": "KCS-BTC",
+            "datetime": 1548388122031,
+            "high": 0.00013,
+            "vol": 27514.34842,
+            "low": 0.0001,
+            "changePrice": -1.0e-5,
+            "changeRate": -0.0769,
+            "lastTradedPrice": 0.00012,
+            "board": 0,
+            "mark": 0
+        }
+    }
 }
 ```
 
@@ -4928,33 +4985,37 @@ The snapshot data is pushed at **2 seconds** intervals.
 
 ```json
 {
-	"data": {
-		"sequence": "1545896669291",
-		"data": [{
-			"trading": true,
-			"symbol": "KCS-BTC",
-			"buy": 0.00011,
-			"sell": 0.00012,
-			"sort": 100,
-			"volValue": 3.13851792584,
-			"baseCurrency": "KCS",
-			"market": "BTC",
-			"quoteCurrency": "BTC",
-			"symbolCode": "KCS-BTC",
-			"datetime": 1548388122031,
-			"high": 0.00013,
-			"vol": 27514.34842,
-			"low": 0.0001,
-			"changePrice": -1.0e-5,
-			"changeRate": -0.0769,
-			"lastTradedPrice": 0.00012,
-			"board": 0,
-			"mark": 0
-		}]
-	},
-	"subject": "trade.snapshot",
-	"topic": "/market/snapshot:BTC",
-  "type": "message"
+    "type": "message",
+    "topic": "/market/snapshot:BTC",
+    "subject": "trade.snapshot",
+    "data": {
+
+        "sequence": "1545896669291",
+        "data": [
+            {
+
+                "trading": true,
+                "symbol": "KCS-BTC",
+                "buy": 0.00011,
+                "sell": 0.00012,
+                "sort": 100,
+                "volValue": 3.13851792584,
+                "baseCurrency": "KCS",
+                "market": "BTC",
+                "quoteCurrency": "BTC",
+                "symbolCode": "KCS-BTC",
+                "datetime": 1548388122031,
+                "high": 0.00013,
+                "vol": 27514.34842,
+                "low": 0.0001,
+                "changePrice": -1.0e-5,
+                "changeRate": -0.0769,
+                "lastTradedPrice": 0.00012,
+                "board": 0,
+                "mark": 0
+          }
+       ]
+    }
 }
 ```
 
@@ -4988,18 +5049,20 @@ When the websocket subscription is successful,  the system would send the increm
 
 ```json
 {
-  "type":"message",
-  "topic":"/market/level2:BTC-USDT",
-  "subject":"trade.l2update",
-  "data":{
-    "sequenceStart":1545896669105,
-    "sequenceEnd":1545896669106,
-    "symbol":"BTC-USDT",
-    "changes":{
-      "asks":[["6","1","1545896669105"]],           //price, size, sequence
-      "bids":[["4","1","1545896669106"]]
+    "type":"message",
+    "topic":"/market/level2:BTC-USDT",
+    "subject":"trade.l2update",
+    "data":{
+
+        "sequenceStart":1545896669105,
+        "sequenceEnd":1545896669106,
+        "symbol":"BTC-USDT",
+        "changes":{
+
+            "asks":[["6","1","1545896669105"]],           //price, size, sequence
+            "bids":[["4","1","1545896669106"]]
+        }
     }
-  }
 }
 ```
 
@@ -5009,7 +5072,7 @@ Calibration procedure：
 2. Initiate a [REST](#get-full-order-book-aggregated) request to get the snapshot data of Level 2 order book.
 3. Playback the cached Level 2 data flow.
 4. Apply the new Level 2 data flow to the local snapshot to ensure that the sequence of the new Level 2 update lines up with the sequence of the previous Level 2 data. Discard all the message prior to that sequence, and then playback the change to snapshot.
-5. Update the level2 full data based on sequence according to the size. If the price is 0, ignore the messages and update the sequence. If the size=0, update the sequence and remove the price of which the size is 0 out of level 2. For other cases, please update the price.
+5. Update the level2 full data based on sequence according to the price and size. If the price is 0, ignore the messages and update the sequence. If the size=0, update the sequence and remove the price of which the size is 0 out of level 2. For other cases, please update the price.
 
 
 **Example**
@@ -5106,26 +5169,26 @@ Now your current order book is up-to-date and final data is as follows:
     "topic": "/spotMarket/level2Depth5:BTC-USDT", 
     "subject": "level2",
     "data": {
-	"asks":[
-      ["9989",8]，
-       ["9990",32],
-      ["9991",47],
-      ["9992",3],
- 	 ["9993",3],
-    ],
-    "bids":[
-      ["9988",56],
-      ["9987",15],
-      ["9986",100],
-      ["9985",10]
-      ["9984",10]
 
-    ]
-      "timestamp": 1586948108193 
+	      "asks":[
 
+            ["9989","8"],    //price, size
+            ["9990","32"],
+            ["9991","47"],
+            ["9992","3"],
+            ["9993","3"],
+        ],
+        "bids":[
 
-      }
-  }
+            ["9988","56"],
+            ["9987","15"],
+            ["9986","100"],
+            ["9985","10"],
+            ["9984","10"]
+        ],
+        "timestamp": 1586948108193 
+    }
+}
 
 ```
 
@@ -5145,26 +5208,26 @@ The system will return the 5 best ask/bid orders data, which is the snapshot dat
     "topic": "/spotMarket/level2Depth50:BTC-USDT",
     "subject": "level2",
     "data": {
-	"asks":[
-      ["9993",3],
-      ["9992",3],
-      ["9991",47],
-      ["9990",32],
-      ["9989",8],
- ….
-    ],
-    "bids":[
-      ["9988",56],
-      ["9987",15],
-      ["9986",100],
-      ["9985",10]
-      ["9984",10]
-...
-    ]
-      "timestamp": 1586948108193
-      }
-  }
 
+	      "asks":[
+
+            ["9993","3"],     //price,size
+            ["9992","3"],
+            ["9991","47"],
+            ["9990","32"],
+            ["9989","8"]
+        ],
+        "bids":[
+
+            ["9988","56"],
+            ["9987","15"],
+            ["9986","100"],
+            ["9985","10"],
+            ["9984","10"]
+        ]
+        "timestamp": 1586948108193
+    }
+}
 
 ```
 
@@ -5180,9 +5243,14 @@ The system will return the 50 best ask/bid orders data, which is the snapshot da
 
 ```json
 {
+    "type":"message",
+    "topic":"/market/candles:BTC-USDT_1hour",
+    "subject":"trade.candles.update",
     "data":{
+
         "symbol":"BTC-USDT",    // symbol
         "candles":[
+
             "1589968800",   // Start time of the candle cycle
             "9786.9",       // open price
             "9740.8",       // close price
@@ -5192,10 +5260,7 @@ The system will return the 50 best ask/bid orders data, which is the snapshot da
             "268280.09830877"   // Transaction amount
         ],
         "time":1589970010253893337  // now（us）
-    },
-    "subject":"trade.candles.update",
-    "topic":"/market/candles:BTC-USDT_1hour",
-    "type":"message"
+    }
 }
 ```
 Topic: **/market/candles:{symbol}_{type}**
@@ -5228,21 +5293,22 @@ For each order traded, the system would send you the match messages in the follo
 
 ```json
 {
-  "type":"message",
-  "topic":"/market/match:BTC-USDT",
-  "subject":"trade.l3match",
-  "data":{
-    "sequence":"1545896669145",
-    "symbol":"BTC-USDT",
-    "side":"buy",
-    "size":"0.01022222000000000000",
-    "price":"0.08200000000000000000",
-    "takerOrderId":"5c24c5d903aa6772d55b371e",
-    "time":"1545913818099033203",
-    "type":"match",
-    "makerOrderId":"5c2187d003aa677bd09d5c93",
-    "tradeId":"5c24c5da03aa673885cd67aa"
-  }
+    "type":"message",
+    "topic":"/market/match:BTC-USDT",
+    "subject":"trade.l3match",
+    "data":{
+
+        "sequence":"1545896669145",
+        "type":"match",
+        "symbol":"BTC-USDT",
+        "side":"buy",
+        "price":"0.08200000000000000000",
+        "size":"0.01022222000000000000",
+        "tradeId":"5c24c5da03aa673885cd67aa",
+        "takerOrderId":"5c24c5d903aa6772d55b371e",
+        "makerOrderId":"5c2187d003aa677bd09d5c93",
+        "time":"1545913818099033203"
+    }
 }
 ```
 <aside class="spacer8"></aside>
@@ -5288,38 +5354,40 @@ The following messages(**RECEIVED, OPEN, UPDATE, MATCH, DONE**) are sent over th
 
 ```json
 {
-	"type": "message",
-	"topic": "/market/level3:BTC-USDT",
-	"subject": "trade.l3received",
-	"data": {
-		"sequence": "1545896669147",
-		"symbol": "BTC-USDT",
-		"side": "sell",  //side, include buy and sell
-		"orderId": "5c24c72503aa6772d55b378d",  //order id
-		"price": "4.00000000000000000000", 
-		"time": "1545914149935808589",  //timestamp, timestamps is nanosecond
-		"clientOid": "",   //unique order id is selected by you to identify your order, e.g. UUID
-		"type": "received",  //L3 messege type. If it is a received message, the update is ended.		
-		"orderType": "limit" // order type,e.g. limit,market,stop_limit
-  }
+    "type": "message",
+    "topic": "/market/level3:BTC-USDT",
+    "subject": "trade.l3received",
+    "data": {
+
+        "sequence": "1545896669147",
+        "type": "received",  //L3 messege type. If it is a received message, the update is ended.		
+        "symbol": "BTC-USDT",
+        "orderId": "5c24c72503aa6772d55b378d",  //order id
+        "orderType": "limit", // order type,e.g. limit,market,stop_limit
+        "side": "sell",  //side, include buy and sell
+        "price": "4.00000000000000000000", 
+        "clientOid": "",   //unique order id is selected by you to identify your order, e.g. UUID
+        "time": "1545914149935808589"  //timestamp, timestamps is nanosecond
+    }
 }
 ```
 
 ```json
 {
-	"type": "message",
-	"topic": "/market/level3:BTC-USDT",
-	"subject": "trade.l3received",
-	"data": {
-		"sequence": "1545896669100",
-		"symbol": "BTC-USDT",
-		"side": "sell",
-		"orderId": "5c24c72503aa6772d55b178d",
-		"time": "1545914149835808589",
-		"clientOid": "",
-		"type": "received",
-		"orderType": "market"
-  }
+    "type": "message",
+    "topic": "/market/level3:BTC-USDT",
+    "subject": "trade.l3received",
+    "data": {
+
+        "sequence": "1545896669100",
+        "type": "received",
+        "orderId": "5c24c72503aa6772d55b178d",
+        "symbol": "BTC-USDT",
+        "orderType": "market",
+        "side": "sell",
+        "clientOid": "",
+        "time": "1545914149835808589"
+    }
 }
 ```
 
@@ -5340,19 +5408,20 @@ The received message does not indicate a resting order on the orderbook. It simp
 
 ```json
 {
-  "type":"message",
-  "topic":"/market/level3:BTC-USDT",
-  "subject":"trade.l3open",
-  "data":{
-    "sequence":"1545896669148",
-    "symbol":"BTC-USDT",
-    "side":"sell",  //side, include buy and sell
-    "size":"1", //order quantity
-    "orderId":"5c24c72503aa6772d55b378d",  //order id
-    "price":"6.00000000000000000000",
-    "time":"1545914149935808632", //timestamp, timestamps is nanosecond
-    "type":"open"  //L3 messege type. If it is an open message, add the corresponding buy or sell order built by orderid, price and size
-  }
+    "type":"message",
+    "topic":"/market/level3:BTC-USDT",
+    "subject":"trade.l3open",
+    "data":{
+
+        "sequence":"1545896669148",
+        "type":"open",  //L3 messege type. If it is an open message, add the corresponding buy or sell order built by orderid, price and size
+        "orderId":"5c24c72503aa6772d55b378d",  //order id
+        "symbol":"BTC-USDT",
+        "side":"sell",  //side, include buy and sell
+        "price":"6.00000000000000000000",
+        "size":"1", //order quantity
+        "time":"1545914149935808632" //timestamp, timestamps is nanosecond
+    }
 }
 ```
 
@@ -5371,36 +5440,38 @@ When the matching life cycle of an order ends, the order will no longer be displ
 
 ```json
 {
-  "type":"message",
-  "topic":"/market/level3:BTC-USDT",
-  "subject":"trade.l3done",
-  "data":{
-    "sequence":"1545896669226",
-    "symbol":"BTC-USDT",
-    "reason":"filled",
-    "side":"buy",
-    "orderId":"5c24c96103aa6772d55b380b",
-    "time":"1545914730696727106",
-    "type":"done"
-  }
+    "type":"message",
+    "topic":"/market/level3:BTC-USDT",
+    "subject":"trade.l3done",
+    "data":{
+
+        "sequence":"1545896669226",
+        "type":"done",
+        "orderId":"5c24c96103aa6772d55b380b",
+        "symbol":"BTC-USDT",
+        "side":"buy",
+        "reason":"filled", //filled
+        "time":"1545914730696727106"
+    }
 }
 ```
 
 ```json
 {
-  "type":"message",
-  "topic":"/market/level3:BTC-USDT",
-  "subject":"trade.l3done",
-  "data":{
-    "sequence":"1545896669227",
-    "symbol":"BTC-USDT",
-    "reason":"canceled",  //Order completion status, include canceled and filled
-    "side":"buy",  //side, include buy and sell
-    "orderId":"5c24c96103aa6772d55b381b",  //order id
-    "time":"1545914730696797106",  //timestamp, timestamps is nanosecond
-    "type":"done", //L3 messege type. If it is a done message, remove the buy or sell order corresponding to the orderid
-    "size": "1.12340000000000000000"  //order quantity
-  }
+    "type":"message",
+    "topic":"/market/level3:BTC-USDT",
+    "subject":"trade.l3done",
+    "data":{
+
+        "sequence":"1545896669227",
+        "type":"done", //L3 messege type. If it is a done message, remove the buy or sell order corresponding to the orderid
+        "orderId":"5c24c96103aa6772d55b381b",  //order id
+        "symbol":"BTC-USDT",
+        "side":"buy",  //side, include buy and sell
+        "size": "1.12340000000000000000",  //order quantity
+        "reason":"canceled",  //Order completion status, include canceled and filled
+        "time":"1545914730696797106"  //timestamp, timestamps is nanosecond
+    }
 }
 ```
 
@@ -5415,20 +5486,21 @@ market orders will not have a remaining_size or price field as they are never on
 
 ```json
 {
-  "type":"message",
-  "topic":"/market/level3:BTC-USDT",
-  "subject":"trade.l3match",
-  "data":{
-    "sequence":"1545896669291",
-    "symbol":"BTC-USDT",
-    "side":"buy",  //side, include buy and sell
-    "size":"0.07600000000000000000",  //order quantity
-    "price":"0.08300000000000000000",  
-    "takerOrderId":"5c24ca2e03aa6772d55b38bf",  //Extract liquidity user order id
-    "time":"1545914933083576866",  //timestamp, timestamps is nanosecond
-    "type":"match",  //L3 messege type. If it is a match message, reduce the number of order corresponding to the markerOrderId
-    "makerOrderId":"5c20492a03aa677bd099ce9d",  //Provide liquidity user order id
-    "tradeId":"5c24ca3503aa673885cd67ef"  //match_id，a match to generate two orderids when orders were matched
+    "type":"message",
+    "topic":"/market/level3:BTC-USDT",
+    "subject":"trade.l3match",
+    "data":{
+
+        "sequence":"1545896669291",
+        "type":"match",  //L3 messege type. If it is a match message, reduce the number of order corresponding to the markerOrderId
+        "symbol":"BTC-USDT",
+        "side":"buy",  //side, include buy and sell
+        "price":"0.08300000000000000000",  
+        "size":"0.07600000000000000000",  //order quantity
+        "tradeId":"5c24ca3503aa673885cd67ef",  //match_id，a match to generate two orderids when orders were matched
+        "takerOrderId":"5c24ca2e03aa6772d55b38bf",  //Extract liquidity user order id
+        "makerOrderId":"5c20492a03aa677bd099ce9d",  //Provide liquidity user order id
+        "time":"1545914933083576866"  //timestamp, timestamps is nanosecond
   }
 }
 ```
@@ -5445,19 +5517,20 @@ The match message indicates that a trade occurred between two orders. The aggres
 
 ```json
 {
-  "type":"message",
-  "topic":"/market/level3:BTC-USDT",
-  "subject":"trade.l3change",
-  "data":{
-    "sequence":"1545896669656",
-    "symbol":"BTC-USDT",
-    "side":"buy",  //side, include buy and sell
-    "orderId":"5c24caff03aa671aef3ca170",  //order id
-    "price":"1.00000000000000000000",
-    "newSize":"0.15722222000000000000",  //Updated order quantity
-    "time":"1545915145402532254",  //timestamp, timestamps is nanosecond
-    "type":"change",  //L3 messege type. If it is a change message, modify the number of buy or sell order corresponding to the orderid
-    "oldSize":"0.18622222000000000000"  //order quantity before update
+    "type":"message",
+    "topic":"/market/level3:BTC-USDT",
+    "subject":"trade.l3change",
+    "data":{
+
+        "sequence":"1545896669656",
+        "type":"change",  //L3 messege type. If it is a change message, modify the number of buy or sell order corresponding to the orderid
+        "orderId":"5c24caff03aa671aef3ca170",  //order id
+        "symbol":"BTC-USDT",
+        "side":"buy",  //side, include buy and sell
+        "price":"1.00000000000000000000",
+        "newSize":"0.15722222000000000000",  //Updated order quantity
+        "oldSize":"0.18622222000000000000",  //order quantity before update
+        "time":"1545915145402532254"  //timestamp, timestamps is nanosecond
   }
 }
 ```
@@ -5528,7 +5601,7 @@ The process to maintain an up-to-date Level 3 order book is described below.
 
 1. Subscribe Topic: /spotMarket/level3:{symbol} to get an up-to-date Level 3 order book data.
 2. Queue every messages received over the websocket stream.
-3. Make a [REST](#level-3-2) request to get the snapshot data of the order book.
+3. Make a [REST](#get-full-order-book-atomic-revision) request to get the snapshot data of the order book.
 4. Playback queued messages, and discard sequence numbers before or equal to the snapshot sequence number.
 5.  Apply playback messages to the snapshot as needed (see below).
 6.  After playback is complete, apply real-time stream messages as they arrive.
@@ -5551,6 +5624,7 @@ The following messages(**RECEIVED**, **OPEN**, **UPDATE**, **MATCH**, **DONE**) 
     "topic":"/spotMarket/level3:KCS-USDT",
     "subject":"received",
     "data":{
+
         "symbol":"KCS-USDT",
         "sequence":1592995125432,
         "orderId":"5efab07953bdea00089965d2",
@@ -5580,13 +5654,14 @@ You can filter your orders through clientOid, but it will be posted to L3 messag
     "topic":"/spotMarket/level3:KCS-USDT",
     "subject":"open",
     "data":{
+
         "symbol":"KCS-USDT",
         "sequence":1592995125433,
-        "side":"buy",
-        "orderTime":1593487481683297666,
-        "size":"0.1",
         "orderId":"5efab07953bdea00089965d2",
+        "side":"buy",
         "price":"0.937",
+        "size":"0.1",
+        "orderTime":1593487481683297666,
         "ts":1593487481683297666
     }
 }
@@ -5614,22 +5689,26 @@ When the matching life cycle of an order ends, the order will no longer be displ
     "topic":"/spotMarket/level3:KCS-USDT",
     "subject":"done",
     "data":{
+
         "symbol":"KCS-USDT",
-        "reason":"filled",
-        "sequence":1592995125437,
         "orderId":"5efab07953bdea00089965fa",
+        "sequence":1592995125437,
+        "reason":"filled",
         "ts":1593487482038606180
     }
 }
+
+
 {
     "type":"message",
     "topic":"/spotMarket/level3:KCS-USDT",
     "subject":"done",
     "data":{
+
         "symbol":"KCS-USDT",
-        "reason":"canceled",
         "sequence":1592995125434,
         "orderId":"5efab07953bdea00089965d2",
+        "reason":"canceled",
         "ts":1593487481893140844
     }
 }
@@ -5649,15 +5728,16 @@ This will mean that the order is no longer on the order book. The message is sen
     "topic":"/spotMarket/level3:KCS-USDT",
     "subject":"match",
     "data":{
+
         "symbol":"KCS-USDT",
         "sequence":1592995125436,
         "side":"sell",
-        "size":"0.1",  // Matching Size
         "price":"0.96738",
+        "size":"0.1",  // Matching Size
+        "remainSize":"2.9",  // Remain Size
         "takerOrderId":"5efab07953bdea00089965fa",
         "makerOrderId":"5efab01453bdea00089959ba",
         "tradeId":"5efab07a4ee4c7000a82d6d9",
-        "remainSize":"2.9",  // Remain Size
         "ts":1593487482038606180
     }
 }
@@ -5682,10 +5762,11 @@ Before entering the orderbook, the iceberg or hidden order is the same as the or
     "topic":"/spotMarket/level3:KCS-USDT",
     "subject":"update",
     "data":{
+
         "symbol":"KCS-USDT",
         "sequence":1592995125858,
-        "size":"0.06",
         "orderId":"5efab14d53bdea0008997298",  // Updated Size
+        "size":"0.06",
         "ts":1593487696535838711
     }
 }
@@ -5745,16 +5826,17 @@ Subscribe to this topic to get the index price for the margin trading.
 
 ```json
 {
-  "id":"5c24c5da03aa673885cd67a0",
-  "type":"message",
-  "topic":"/indicator/index:USDT-BTC",
-  "subject":"tick",
-  "data":{
-    "symbol": "USDT-BTC",
-    "granularity": 5000,
-    "timestamp": 1551770400000,
-    "value": 0.0001092
-  }
+    "id":"5c24c5da03aa673885cd67a0",
+    "type":"message",
+    "topic":"/indicator/index:USDT-BTC",
+    "subject":"tick",
+    "data":{
+
+        "symbol": "USDT-BTC",
+        "granularity": 5000,
+        "timestamp": 1551770400000,
+        "value": 0.0001092
+    }
 }
 ```
 
@@ -5780,16 +5862,17 @@ Subscribe to this topic to get the mark price for margin trading.
 
 ```json
 {
-  "id":"5c24c5da03aa673885cd67aa",
-  "type":"message",
-  "topic":"/indicator/markPrice:USDT-BTC",
-  "subject":"tick",
-  "data":{
-    "symbol": "USDT-BTC",
-    "granularity": 5000,
-    "timestamp": 1551770400000,
-    "value": 0.0001093
-  }
+    "id":"5c24c5da03aa673885cd67aa",
+    "type":"message",
+    "topic":"/indicator/markPrice:USDT-BTC",
+    "subject":"tick",
+    "data":{
+
+        "symbol": "USDT-BTC",
+        "granularity": 5000,
+        "timestamp": 1551770400000,
+        "value": 0.0001093
+    }
 }
 ```
 The following ticker symbols are supported: USDT-BTC, ETH-BTC, LTC-BTC, EOS-BTC, XRP-BTC, KCS-BTC
@@ -5816,20 +5899,21 @@ Subscribe to this topic to get the order book changes on margin trade.
 
 ```json
 {
-	"id": "5c24c5da03aa673885cd67ab",
-	"type": "message",
-	"topic": "/margin/fundingBook:BTC",
-	"subject": "funding.update",
-	"data": {
-		"sequence": 1000000,       //Sequence number
-		"currency": "BTC",         //Currency
-		"dailyIntRate": "0.00007",   //Daily interest rate. e.g. 0.002 is 0.2%
-		"annualIntRate": "0.12",     //Annual interest rate. e.g. 0.12 is 12% 
-		"term": 7,                 //Term (Unit: Day)    
-		"size": "1017.5",            //Current total size. When this value is 0, remove this record from the order book.
-		"side": "lend",            //Lend or borrow. Currently, only "Lend" is available
-		"ts": 1553846081210004941  //Timestamp (nanosecond)
-  }
+    "id": "5c24c5da03aa673885cd67ab",
+	  "type": "message",
+	  "topic": "/margin/fundingBook:BTC",
+	  "subject": "funding.update",
+	  "data": {
+
+		    "sequence": 1000000,       //Sequence number
+		    "currency": "BTC",         //Currency
+		    "dailyIntRate": "0.00007",   //Daily interest rate. e.g. 0.002 is 0.2%
+		    "annualIntRate": "0.12",     //Annual interest rate. e.g. 0.12 is 12% 
+		    "term": 7,                 //Term (Unit: Day)    
+		    "size": "1017.5",            //Current total size. When this value is 0, remove this record from the order book.
+		    "side": "lend",            //Lend or borrow. Currently, only "Lend" is available
+		    "ts": 1553846081210004941  //Timestamp (nanosecond)
+    }
 }
 ```
 
@@ -5851,18 +5935,20 @@ Subscribe to private channels require **privateChannel=“true”**.
 
 ```json
 {
-  "type":"message",
-  "topic":"/market/level3:BTC-USDT",
-  "subject":"trade.l3received",
-  "data": {
-    "sequence":"1545738118241",
-    "symbol":"BTC-USDT",
-    "side":"buy",
-    "orderId":"5c21e80303aa677bd09d7dff",
-    "stopType":"entry",
-    "funds":"1.00000000000000000000",
-    "time":"1545743136994328401",
-    "type":"stop"
+    "type":"message",
+    "topic":"/market/level3:BTC-USDT",
+    "subject":"trade.l3received",
+    "channelType":"private",
+    "data": {
+
+        "sequence":"1545738118241",
+        "orderId":"5c21e80303aa677bd09d7dff",
+        "symbol":"BTC-USDT",
+        "type":"stop",
+        "side":"buy",
+        "stopType":"entry",
+        "funds":"1.00000000000000000000",
+        "time":"1545743136994328401"
   }
 }
 ```
@@ -5877,19 +5963,21 @@ When a stop-limit order is received by the system, you will receive a stop messa
 
 ```json
 {
-  "type":"message",
-  "topic":"/market/level3:BTC-USDT",
-  "subject":"trade.l3received",
-  "data": {
-    "sequence":"1545738118241",
-    "symbol":"BTC-USDT",
-    "side":"buy",
-    "orderId":"5c21e80303aa677bd09d7dff",
-    "stopType":"entry",
-    "funds":"1.00000000000000000000",
-    "reason":"canceled",         //include canceled or triggered
-    "time":"1545743136994328401",
-    "type":"activate"
+    "type":"message",
+    "topic":"/market/level3:BTC-USDT",
+    "subject":"trade.l3received",
+    "channelType":"private",
+    "data": {
+
+        "sequence":"1545738118241",
+        "orderId":"5c21e80303aa677bd09d7dff",
+        "type":"activate",
+        "symbol":"BTC-USDT",
+        "side":"buy",
+        "stopType":"entry",
+        "funds":"1.00000000000000000000",
+        "reason":"canceled",         //include canceled or triggered
+        "time":"1545743136994328401"
   }
 }
 ```
@@ -5903,23 +5991,26 @@ When a stop-limit order is triggered, you will receive an activate message which
 ## Account Balance Notice
 ```json
 {
-	"type": "message",
-	"topic": "/account/balance",
-	"subject": "account.balance",
-	"data": {
-		"total": "88", // total balance
-		"available": "88", // available balance
-		"availableChange": "88", // the change of available balance
-		"currency": "KCS", // currency
-		"hold": "0", // hold amount
-		"holdChange": "0", // the change of hold balance
-		"relationEvent": "trade.setted", //relation event
-		"relationEventId": "5c21e80303aa677bd09d7dff", // relation event id
-		"relationContext": {
-                          "symbol":"BTC-USDT",
-                          "orderId":"5ea10479415e2f0009949d54",
-                          "tradeId":"5e6a5dca9e16882a7d83b7a4" // the trade Id when order is executed
-                        },  // the context of trade event
+    "type": "message",
+	  "topic": "/account/balance",
+	  "subject": "account.balance",
+    "channelType":"private",
+	  "data": {
+
+		    "total": "88", // total balance
+		    "available": "88", // available balance
+		    "availableChange": "88", // the change of available balance
+		    "currency": "KCS", // currency
+		    "hold": "0", // hold amount
+		    "holdChange": "0", // the change of hold balance
+		    "relationEvent": "trade.setted", //relation event
+		    "relationEventId": "5c21e80303aa677bd09d7dff", // relation event id
+		    "relationContext": {
+
+            "symbol":"BTC-USDT",
+            "tradeId":"5e6a5dca9e16882a7d83b7a4", // the trade Id when order is executed
+            "orderId":"5ea10479415e2f0009949d54"
+        },  // the context of trade event
 		"time": "1545743136994" // timestamp
   }
 }
@@ -5957,18 +6048,18 @@ other | Others
 
 ```json
 {
-  "type":"message",
-  "userId": "xbc453tg732eba53a88ggyt8c",
-  "topic":"/margin/position",
-  "subject":"debt.ratio",
-  "data": {
+    "type":"message",
+    "topic":"/margin/position",
+    "subject":"debt.ratio",
+    "channelType":"private",
+    "data": {
+
         "debtRatio": 0.7505,                                         //Debt ratio
         "totalDebt": "21.7505",                                      //Total debt in BTC (interest included)
         "debtList": {"BTC": "1.21","USDT": "2121.2121","EOS": "0"},  //Debt list (interest included)
         "timestamp": 15538460812100                                  //Timestamp (millisecond)
   }
 }
-
 
 ```
 
@@ -5984,11 +6075,12 @@ The system will push the current debt message periodically when there is a liabi
 
 ```json
 {
-  "type":"message",
-  "userId": "xbc453tg732eba53a88ggyt8c",
-  "topic":"/margin/position",
-  "subject":"position.status",
-  "data": {
+    "type":"message",
+    "topic":"/margin/position",
+    "subject":"position.status",
+    "channelType":"private",
+    "data": {
+
         "type": "FROZEN_FL",         //Event type
         "timestamp": 15538460812100  //Timestamp (millisecond)
     }
@@ -6023,19 +6115,20 @@ UNLIABILITY: When all the liabilities is repaid and the position returns to “E
 
 ```json
 {
-  "type": "message",
-  "userId": "xbc453tg732eba53a88ggyt8c",
-  "topic": "/margin/loan:BTC",
-  "subject": "order.open",
-  "data": {
-    "currency": "BTC",                            //Currency
-    "orderId": "ac928c66ca53498f9c13a127a60e8",   //Trade ID
-    "dailyIntRate": 0.0001,                       //Daily interest rate. 
-    "term": 7,                                    //Term (Unit: Day)  
-    "size": 1,                                    //Size
-    "side": "lend",                               //Lend or borrow. Currently, only "Lend" is available
-    "ts": 1553846081210004941                     //Timestamp (nanosecond)
-  }
+    "type": "message",
+    "topic": "/margin/loan:BTC",
+    "subject": "order.open",
+    "channelType":"private",
+    "data": {
+
+        "currency": "BTC",                            //Currency
+        "orderId": "ac928c66ca53498f9c13a127a60e8",   //Trade ID
+        "dailyIntRate": 0.0001,                       //Daily interest rate. 
+        "term": 7,                                    //Term (Unit: Day)  
+        "size": 1,                                    //Size
+        "side": "lend",                               //Lend or borrow. Currently, only "Lend" is available
+        "ts": 1553846081210004941                     //Timestamp (nanosecond)
+    }
 }
 ```
 
@@ -6052,20 +6145,21 @@ The system will push this message to the lenders when the order enters the order
 
 ```json
 {
-  "type": "message",
-  "userId": "xbc453tg732eba53a88ggyt8c",
-  "topic": "/margin/loan:BTC",
-  "subject": "order.update",
-  "data": {
-    "currency": "BTC",                            //Currency
-    "orderId": "ac928c66ca53498f9c13a127a60e8",   //Order ID
-    "dailyIntRate": 0.0001,                       //Daily Interest Rate
-    "term": 7,                                    //Term (Unit: Day)
-    "size": 1,                                    //Size
-    "lentSize": 0.5,                              //Size executed
-    "side": "lend",                               //Lend or borrow. Currently, only "Lend" is available
-    "ts": 1553846081210004941                     //Timestamp (nanosecond)
-  }
+    "type": "message",
+    "topic": "/margin/loan:BTC",
+    "subject": "order.update",
+    "channelType":"private",
+    "data": {
+
+        "currency": "BTC",                            //Currency
+        "orderId": "ac928c66ca53498f9c13a127a60e8",   //Order ID
+        "dailyIntRate": 0.0001,                       //Daily Interest Rate
+        "term": 7,                                    //Term (Unit: Day)
+        "size": 1,                                    //Size
+        "lentSize": 0.5,                              //Size executed
+        "side": "lend",                               //Lend or borrow. Currently, only "Lend" is available
+        "ts": 1553846081210004941                     //Timestamp (nanosecond)
+    }
 }
 
 ```
@@ -6083,10 +6177,11 @@ The system will push this message to the lenders when the order is executed.
 ```json
 {
 	"type": "message",
-	"userId": "xbc453tg732eba53a88ggyt8c",
 	"topic": "/margin/loan:BTC",
 	"subject": "order.done",
+  "channelType":"private",
 	"data": {
+
 		"currency": "BTC",                            //Currency
 		"orderId": "ac928c66ca53498f9c13a127a60e8",   //Order ID
 		"reason": "filled",                           //Done reason (filled or canceled)
@@ -6130,6 +6225,7 @@ This topic will push all change events of your orders.
     "subject":"orderChange",
     "channelType":"private",
     "data":{
+
         "symbol":"KCS-USDT",
         "orderType":"limit",
         "side":"buy",
@@ -6160,6 +6256,7 @@ when the order enters into the order book;
     "subject":"orderChange",
     "channelType":"private",
     "data":{
+
         "symbol":"KCS-USDT",
         "orderType":"limit",
         "side":"sell",
@@ -6194,6 +6291,7 @@ when the order has been executed;
     "subject":"orderChange",
     "channelType":"private",
     "data":{
+
         "symbol":"KCS-USDT",
         "orderType":"limit",
         "side":"sell",
@@ -6224,6 +6322,7 @@ when the order has been executed and its status was changed into DONE;
     "subject":"orderChange",
     "channelType":"private",
     "data":{
+
         "symbol":"KCS-USDT",
         "orderType":"limit",
         "side":"buy",
@@ -6254,6 +6353,7 @@ when the order has been cancelled and its status was changed into DONE;
     "subject":"orderChange",
     "channelType":"private",
     "data":{
+
         "symbol":"KCS-USDT",
         "orderType":"limit",
         "side":"buy",
