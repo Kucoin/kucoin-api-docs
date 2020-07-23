@@ -78,6 +78,7 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 
 - Add the **price protection mechanism** for [Place a new order](#place-a-new-order).
   
+
 **02/01/20**: 
 
 - Add the **time** field to [Get Full Order Book(atomic)](#get-full-order-book(atomic)).
@@ -132,6 +133,7 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 - Add the usage description to the favorite withdrawal address [Apply Withdraw](#apply-withdraw).
 - Add **averagePrice** field to [Get 24hr Stats](#get-24hr-stats).
   
+
 **5/8/19** : 
 
 - Add **chain** field to [Create Deposit Address](#create-deposit-address), [Get Deposit Address](#get-deposit-address), [Get Currency Detail](#get-currency-detail), [Get Withdrawal Quotas](#get-withdrawal-quotas) and [Apply Withdraw](#apply-withdraw).
@@ -306,6 +308,7 @@ You can subscribe [Level-3 Market Data] (#full-matchengine-data-level-3) via Web
 * Get real-time access to orders 
 * Can completely replace most of the pull API function of the Rest API (There is a strict rate limit on Rest request)
   
+
 For the processing of different types of information, please refer to [Level-3 SDK] (#client-libraries) or [Message Type] (#full-matchengine-data-level-3) of Level-3 below.
 
 
@@ -389,7 +392,7 @@ Connection Limit: 30 per minute
 ### Number of Uplink Messages 
 Message limit sent to the server: 100 per 10 seconds
 
- 
+
 ### Topic Subscription Limit
 Subscription limit for each connection: 300 topics
 
@@ -441,10 +444,12 @@ For more information on the VIP fee, you can read: [Tiered Trading Fee Discount 
 ### Apply Withdraw
 * memo
   
+
 For currencies without memo, the memo field is not required. Please do not pass the parameter when you are applying to withdraw via API, or the system will return: **kucoin incorrect withdrawal address**.<br/>
 
 * amount
   
+
 The precision of the **amount** field shall satisfy the withdrawal precision requirements of the currency. The precision requirements for the currencies can be obtained by [Withdrawals Quotas](#get-withdrawal-quotas).
 The withdrawal amount must be an integer multiple of the withdrawal accuracy. If the withdrawal accuracy is 0, the withdrawal amount it can only be an integer.
 
@@ -736,7 +741,7 @@ The difference between your timestamp and the API service time must be less than
 
 
 
-  
+
 # User
 Signature is required for this part.
 
@@ -1165,7 +1170,7 @@ holds | Funds on hold (not available for use).
 baseCurrency | Calculated on this currency.
 baseCurrencyPrice | The base currency price.
 baseAmount | The base currency amount.
- 
+
 
 ## Get the Aggregated Balance of all Sub-Accounts
 
@@ -1237,7 +1242,7 @@ holds | Funds on hold (not available for use).
 baseCurrency | Calculated on this currency.
 baseCurrencyPrice | The base currency price.
 baseAmount | The base currency amount.
- 
+
 
 ## Get the Transferable
 
@@ -1356,7 +1361,7 @@ subUserId | String | the [user ID](#get-user-info-of-all-sub-accounts) of a sub-
 Field | Description
 --------- | ------- 
 orderId | The order ID of a master-sub assets transfer.
- 
+
 
 
 
@@ -1380,7 +1385,7 @@ POST /api/v2/accounts/inner-transfer
 
 ### API KEY PERMISSIONS
 This endpoint requires the **"Trade"** permission.
-  
+
 ### Parameters
 
 Param | Type | Description
@@ -2236,7 +2241,7 @@ This endpoint requires the **"Trade"** permission.
 |Param | Type | Description|
 |--------- | ------- | -----------|
 |symbol | String | *[Optional]* symbol, cancel the orders for the specified trade pair. |
-| tradeType| String | *[Optional]* the type of trading, cancel the orders for the specified trading type, and the default is to cancel the spot trading order (**TRADE**).|    
+| tradeType| String | *[Optional]* the type of trading, cancel the orders for the specified trading type, and the default is to cancel the spot trading order (**TRADE**).|
 
 ###RESPONSES###
 Field | Description
@@ -2721,6 +2726,7 @@ The settlement contains two parts:
 - **Transactional settlement** 
 - **Fee settlement**
   
+
 After an order is matched, the transactional and fee settlement data will be updated in the data store. Once the data is updated, the system would enable the settlement process and will deduct the fees from your pre-frozen assets. After that, the currency will be transferred to the account of the user.  
 
 **Fees**
@@ -3082,7 +3088,7 @@ last |  The last traded price
     "time": 1550847784668,  //time
     "changeRate": "0.0101" // 24h change rate
 }
-```  
+```
 
 Request via this endpoint to get the statistics of the specified ticker in the last 24 hours.
 
@@ -3130,7 +3136,7 @@ time |  timestamp
     "ALTS" //ALTS market includes ETH, NEO, TRX
   ]
 }
-```  
+```
 
 Request via this endpoint to get the transaction currency for the entire trading market.
 
@@ -3301,7 +3307,7 @@ asks | asks
 }
 ```
 Request via this endpoint to get the Level 3 order book of the specified trading pari. Level 3 order book includes all bids and asks (the data is non-aggregated, and each item means a single order).
- 
+
 
 This API is generally used by professional traders because it uses more server resources and traffic, and we have strict access frequency control.
 
@@ -3378,7 +3384,7 @@ asks | asks
 }
 ```
 Request via this endpoint to get the Level 3 order book of the specified trading pari. Level 3 order book includes all bids and asks (the data is non-aggregated, and each item means a single order).
- 
+
 
 This API is generally used by professional traders because it uses more server resources and traffic, and we have strict access frequency control.
 
@@ -4230,7 +4236,7 @@ This endpoint requires the **"Trade"** permission.
 |----- |----------------------------------|
 | orderId      | Lend order ID           |
 | currency     | Currency                |
-| size         | Total size            | 
+| size         | Total size            |
 | filledSize   | Size executed               |
 | dailyIntRate | Daily interest rate. e.g. 0.002 is 0.2% |
 | term         | Term (Unit: Day)           |
@@ -5314,7 +5320,7 @@ For each order traded, the system would send you the match messages in the follo
 <aside class="spacer8"></aside>
 <aside class="spacer"></aside>
 
-## Full MatchEngine Data(Level 3)
+## Full MatchEngine Data(Level 3) [Deprecated]
 
 ```json
 {
@@ -5325,6 +5331,8 @@ For each order traded, the system would send you the match messages in the follo
     "response": true                              
 }
 ```
+
+***It's deprecated, please use [Full MatchEngine Data(Level 3)](#full-matchengine-data-level-3) instead.***
 
 Topic: **/market/level3:{symbol},{symbol}...**
 
@@ -5577,7 +5585,7 @@ When you maintain a local L3 orderbook data, if you can't fully understand the f
 <aside class="spacer2"></aside>
 
 
-## Full MatchEngine Data (revision) (Level&nbsp;3)
+## Full MatchEngine Data(Level 3)
 
 
 ```json
@@ -5775,7 +5783,7 @@ Before entering the orderbook, the iceberg or hidden order is the same as the or
 
 
 When an order is changed due to STP, the system would send a **change** message to the user. This is the result of self-trade prevention adjusting the order size or available funds. Orders can only decrease in size or funds. **change** messages are always sent when an order changes in size; this includes resting orders (**open**) as well as **received** but not yet open orders. **change** messages are also sent when a new market order goes through self trade prevention and the funds for the market order have changed.
- 
+
 ### How to manage a local L3 orderbook correctly
 
 
