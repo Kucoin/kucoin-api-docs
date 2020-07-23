@@ -680,7 +680,7 @@ Rest请求头必须包含以下内容:
 请求头中的 **KC-API-SIGN**: 
 
 1. 使用 API-Secret 对
-  {timestamp + method + endpoint + body} 拼接的字符串进行**HMAC-sha256**加密。
+    {timestamp + method + endpoint + body} 拼接的字符串进行**HMAC-sha256**加密。
 2. 再将加密内容使用 **base64** 加密。
 
 注意：
@@ -3018,7 +3018,7 @@ last |  最新成交价
     "changeRate": "0.0101", // 24h涨跌幅
     "time": 1550847784668  //时间戳
 }
-```  
+```
 
 此接口，可获取指定交易对的最近24小时的ticker
 
@@ -3066,7 +3066,7 @@ time |  时间戳
         "ALTS"
     ]
 }
-```  
+```
 
 此接口，可以获取整个交易市场的交易币种
 <aside class="notice"> SC已更名为USDS，但您依然可以使用SC作为查询参数。</aside>
@@ -4531,10 +4531,10 @@ GET /api/v1/status
 
 ### RESPONSES
 
-| 字段     | 含义                                          | 
+| 字段     | 含义                                          |
 |-------- | -------------------------------------------   |
 | status  | 服务状态: **open**、 **close** 或 **cancelonly** |
-| msg     | 操作说明                                        |  
+| msg     | 操作说明                                        |
 
 
 # Websocket
@@ -5025,7 +5025,7 @@ Topic: **/market/level2:{symbol},{symbol}...**
 
 
 
-   
+
 
 **示例**
 
@@ -5277,7 +5277,7 @@ Topic: **/market/match:{symbol},{symbol}...**
 <aside class="spacer2"></aside>
 
 
-## 完整的撮合引擎数据(Level&nbsp;3)
+## 完整的撮合引擎数据(Level&nbsp;3) 【已弃用】
 
 ```json
 {
@@ -5288,6 +5288,7 @@ Topic: **/market/match:{symbol},{symbol}...**
     "response":true
 }
 ```
+***已弃用，请使用[完整的撮合引擎数据(Level 3)](#level-3-5)代替***
 
 Topic: **/market/level3:{symbol},{symbol}...**
 
@@ -5526,16 +5527,16 @@ Topic: **/market/level3:{symbol},{symbol}...**
 4 回放所有缓存的增量数据:
 
     4.1. 如果增量数据的sequence <= 当前快照的sequence，则舍弃增量数据，并结束本次更新; 否则进行4.2;
-
+    
     4.2 如果增量数据的sequence = 当前快照的sequence + 1，则进行4.2.1逻辑更新，否则进行4.3步骤;
-
+    
       4.2.1 更新当前快照的sequence为增量数据的sequence;
       4.2.2 如果是received消息，结束更新逻辑。（因为现在received消息不影响level3数据）
       4.2.3 如果是open消息，增加orderid,price,size构建的相应买单或卖单
       4.2.4 如果是done消息，移除对应orderid对应的买单或者卖单
       4.2.5 如果是change消息，修改对应orderid对应的买单或者卖单的数量
       4.2.6 如果是match消息，减少对应markerOrderId对应的订单数量
-
+    
     4.3 此种情况为sequence不连续，执行步骤2，重新拉取快照数据，以便保证sequence不缺失;
 
 5 接收新的增量数据推送，执行步骤4。
@@ -5547,7 +5548,7 @@ Topic: **/market/level3:{symbol},{symbol}...**
 <aside class="spacer2"></aside>
 
 
-## 完整的撮合引擎数据（改版）(Level&nbsp;3)
+## 完整的撮合引擎数据(Level 3)
 
 ```json
 {
