@@ -4851,11 +4851,11 @@ The sequence field exists in order book, trade history and snapshot messages by 
 
 
 ## General Logic for Message Judgement in Client Side
-- Judge message type. There are three types of messages at present: message (the commonly used messages for push), notice (the notices generally used), and command (consecutive command).
+1.Judge message type. There are three types of messages at present: message (the commonly used messages for push), notice (the notices generally used), and command (consecutive command).
 
-- Judge messages by topic. You could judge the message type through the topic. 
+2.Judge messages by topic. You could judge the message type through the topic. 
 
-- Judge messages by subject. For the same type of messages with the same topic, you could judge the type of messages through their subjects. 
+3.Judge messages by subject. For the same type of messages with the same topic, you could judge the type of messages through their subjects. 
 
 # Public Channels
 
