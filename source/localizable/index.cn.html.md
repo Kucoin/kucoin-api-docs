@@ -4787,9 +4787,8 @@ ID用于标识请求和ack的唯一字符串。
 ## 消息处理逻辑
 
 - 判断消息的type: 目前有三类消息，message（常用的推送消息），notice（一般的通知），command（连接的命令）
-- 判断消息userId: 有userId表示私有消息，没有userId的表示共有消息
 - 判断消息topic: 通过topic判断是哪一类消息
-- 判断subject: 同一个topic的不同类型消息用subject区分。例如level3的5类分别为trade.l3received,trade.l3changed等
+- 判断subject: 同一个topic的不同类型消息用subject区分。例如level3的5类分别为received, open等
 
 
 # 公共频道

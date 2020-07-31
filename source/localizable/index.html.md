@@ -4836,13 +4836,13 @@ You would then, receive messages corresponding to the id **tunnelIId**:
 
 {"id": "1JpoPamgFM", "type": "message", "topic": "/market/ticker:KCS-BTC", "subject": "trade.ticker", "tunnelId": "bt1", "data": {...}}
 
-To close the **tunnel**, you can enter the command below: 
+To close the **tunnel**, you can enter the command below:
 
 {"id": "1JpsAHsxKS", "type": "closeTunnel", "tunnelId": "bt1", "response": true}
 
 ##### Limitations
 
-1. The multiplex **tunnel** is provided for API users only. 
+1. The multiplex **tunnel** is provided for API users only.
 2. The maximum multiplex tunnels available: **5**.
 
 
@@ -4851,13 +4851,11 @@ The sequence field exists in order book, trade history and snapshot messages by 
 
 
 ## General Logic for Message Judgement in Client Side
-1.Judge message type. There are three types of messages at present: message (the commonly used messages for push), notice (the notices generally used), and command (consecutive command).
+- Judge message type. There are three types of messages at present: message (the commonly used messages for push), notice (the notices generally used), and command (consecutive command).
 
-2.Judge messages by userId. Messages with userId are private messages, messages without userId are common messages.
+- Judge messages by topic. You could judge the message type through the topic. 
 
-3.Judge messages by topic. You could judge the message type through the topic. 
-
-4.Judge messages by subject. For the same type of messages with the same topic, you could judge the type of messages through their subjects. 
+- Judge messages by subject. For the same type of messages with the same topic, you could judge the type of messages through their subjects. 
 
 # Public Channels
 
@@ -4866,11 +4864,10 @@ The sequence field exists in order book, trade history and snapshot messages by 
 ```json
 
 {
-    "id": 1545910660739,                          
+    "id": 1545910660739,
     "type": "subscribe",
     "topic": "/market/ticker:BTC-USDT",
-    "response": true                              
-}
+    "response": true
 ```
 Topic: **/market/ticker:{symbol},{symbol}...**
 
