@@ -520,21 +520,29 @@ REST API 对于账户、订单、和市场数据均提供了接口。
 
 #### 系统错误码
 
-| 代码     | 意义                                                                                                                                 |
-| ------ | ---------------------------------------------------------------------------------------------------------------------------------- |
+| 代码   | 意义                                                         |
+| ------ | ------------------------------------------------------------ |
+| 200001 | Order creation for this pair suspended--交易对暂停交易       |
+| 200002 | Order cancel for this pair suspended--交易对暂停取消订单     |
+| 200003 | Number of orders breached the limit--委托中订单数量过多      |
+| 200009 | Please complete the KYC verification before you trade XX--需要通过KYC高级认证才能交易该币对 |
+| 200004 | Balance insufficient--账户余额不足                           |
 | 400001 | Any of KC-API-KEY, KC-API-SIGN, KC-API-TIMESTAMP, KC-API-PASSPHRASE is missing in your request header -- 请求头中缺少[验签参数](#35e3a383b3) |
-| 400002 | KC-API-TIMESTAMP Invalid -- 请求时间与服务器时差超过5秒                                                                                         |
-| 400003 | KC-API-KEY not exists -- API-KEY 不存在                                                                                               |
-| 400004 | KC-API-PASSPHRASE error -- API-PASSPHRASE 不正确                                                                                      |
-| 400005 | Signature error -- [签名](#消息签名)错误，请检查您的签名                                                                                           |
-| 400006 | The requested ip address is not in the api whitelist -- 请求IP不在API白名单中                                                              |
-| 400007 | Access Denied -- API权限不足，无法访问该URI目标地址。                                                                                             |
-| 404000 | Url Not Found -- 找不到请求资源                                                                                                           |
-| 400100 | Parameter Error -- 请求参数不合法                                                                                                         |
-| 411100 | User are frozen -- 用户被冻结，请联系[帮助中心](https://kucoin.zendesk.com/hc/zh-cn/requests/new)                                               |
-| 500000 | Internal Server Error -- 服务器出错，请稍后再试                                                                                               |
-
-
+| 400002 | KC-API-TIMESTAMP Invalid -- 请求时间与服务器时差超过5秒      |
+| 400003 | KC-API-KEY not exists -- API-KEY 不存在                      |
+| 400004 | KC-API-PASSPHRASE error -- API-PASSPHRASE 不正确             |
+| 400005 | Signature error -- [签名](#消息签名)错误，请检查您的签名     |
+| 400006 | The requested ip address is not in the api whitelist -- 请求IP不在API白名单中 |
+| 400007 | Access Denied -- API权限不足，无法访问该URI目标地址。        |
+| 404000 | Url Not Found -- 找不到请求资源                              |
+| 400100 | Parameter Error -- 请求参数不合法                            |
+| 400200 | Forbidden to place an order--禁止在该交易对下单              |
+| 400500 | Your located country/region is currently not supported for the trading of this token--该数字资产不支持您所在区域的用户参与，感谢您的理解 |
+| 400700 | Transaction restricted, there's a risk problem in your account--您的账户存在风险问题，暂时不允许进行交易 |
+| 400800 | Leverage order failed--杠杠下单失败                          |
+| 411100 | User are frozen -- 用户被冻结，请联系[帮助中心](https://kucoin.zendesk.com/hc/zh-cn/requests/new) |
+| 500000 | Internal Server Error -- 服务器出错，请稍后再试              |
+| 900001 | symbol not exists--交易对不存在                              |
 
 如果系统返回HTTP状态码为200，但业务失败，系统会报错。您可根据返回的参数消息排查错误。
 
