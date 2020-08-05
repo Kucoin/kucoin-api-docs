@@ -531,7 +531,7 @@ REST API 对于账户、订单、和市场数据均提供了接口。
 | 400002 | KC-API-TIMESTAMP Invalid -- 请求时间与服务器时差超过5秒      |
 | 400003 | KC-API-KEY not exists -- API-KEY 不存在                      |
 | 400004 | KC-API-PASSPHRASE error -- API-PASSPHRASE 不正确             |
-| 400005 | Signature error -- [签名](#消息签名)错误，请检查您的签名     |
+| 400005 | Signature error -- [签名](#8ba46c43fe)错误，请检查您的签名     |
 | 400006 | The requested ip address is not in the api whitelist -- 请求IP不在API白名单中 |
 | 400007 | Access Denied -- API权限不足，无法访问该URI目标地址。        |
 | 404000 | Url Not Found -- 找不到请求资源                              |
