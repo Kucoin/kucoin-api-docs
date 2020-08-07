@@ -14,7 +14,7 @@ search: true
 
 # General
 
-## Introduction 
+## Introduction
 
 Welcome to KuCoin’s trader and developer documentation. These documents outline the exchange functionality, market details, and APIs.
 
@@ -50,52 +50,52 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 - Add the **relationContext** field for [Account Balance Notice](#account-balance-notice).
 - Modify the default chain of USDT into ERC20.
 
-**04/09/20**: 
+**04/09/20**:
 
-- Add the **pool** type for [List Accounts](#list-accounts). 
-- Add the **pool** type for [Inner Transfer](#inner-transfer). 
+- Add the **pool** type for [List Accounts](#list-accounts).
+- Add the **pool** type for [Inner Transfer](#inner-transfer).
 - Add the **POOL** type for [Get the Transferable](#get-the-transferable).
 - Deprecate the **balance** field for [Get Account Ledgers](#get-account-ledgers) and set **balance** 0 by default.
 
-**03/27/20**: 
+**03/27/20**:
 
 - Add the request parameters: **bizType** and **direction** for [Get Account Ledgers](#get-account-ledgers)
 
-**03/11/20**: 
+**03/11/20**:
 
 - Add [Service Status](#service-status).
 
-**02/03/20**: 
+**02/03/20**:
 
 - Add [Place bulk orders](#place-bulk-orders).
 
-**01/03/20**: 
+**01/03/20**:
 
 - Add the description of **postOnly** for [Place a new order](#place-a-new-order).
 
 
-**27/02/20**: 
+**27/02/20**:
 
 - Add the **price protection mechanism** for [Place a new order](#place-a-new-order).
-  
 
-**02/01/20**: 
+
+**02/01/20**:
 
 - Add the **time** field to [Get Full Order Book(atomic)](#get-full-order-book(atomic)).
 - Add **reason** field in the subscription for [Stop Order Activate Event](#stop-order-activate-event).
 
-**10/20/19**: 
+**10/20/19**:
 
 - Deprecate '/api/v1/accounts/inner-transfer' endpoint for [Inner Transfer](#inner-transfer).
-- Add the **margin** type for [List Accounts](#list-accounts). 
+- Add the **margin** type for [List Accounts](#list-accounts).
 - Support the margin account for [Get an Account](#get-an-account).
 - Add the **margin** type for [Create an Account](#create-an-account).
 - Add the extra bizType for margin via [Get Account Ledgers](#get-account-ledgers).
-- Add the extra bizType for margin via [Get Holds](#get-holds) 
+- Add the extra bizType for margin via [Get Holds](#get-holds)
 - Add the margin account via [Get Account Balance of a Sub-Account](#get-account-balance-of-a-sub-account)
 - Support the margin account for [Get the Aggregated Balance of all Sub-Accounts](#get-the-aggregated-balance-of-all-sub-accounts)
-- Add the **MARGIN** type for [Transfer between Master user and Sub-user](#transfer-between-master-user-and-sub-user) 
-- Add the **margin** type for [Inner Transfer](#inner-transfer) 
+- Add the **MARGIN** type for [Transfer between Master user and Sub-user](#transfer-between-master-user-and-sub-user)
+- Add the **margin** type for [Inner Transfer](#inner-transfer)
 - Add [Get the Transferable](#get-the-transferable).
 - Add [Place a new order](#place-a-new-order) **tradeType** field.
 - Add [Cancel all orders](#cancel-all-orders) **tradeType** field.
@@ -105,11 +105,11 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 - Add [Get Currencies](#get-currencies) and [Get Currency Detail](#get-currency-detail) **isMarginEnabled**, **isDebitEnabled** field.
 - Add [Margin Trade](#margin-trade) module.
 
-**10/17/19**: 
+**10/17/19**:
 
 - Add the **remark** field to [Get Deposit List](#get-deposit-list) and [Get Withdrawals List](#get-withdrawals-list)
 
-**10/12/19**: 
+**10/12/19**:
 
 - Merge [Get Market List](get-market-list) ETH、NEO、TRX three markets into ALTS.
 
@@ -117,31 +117,31 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 
 - Add **symbolName** response to [Get All Tickers](#get-all-tickers).
 
-**6/19/19**: 
+**6/19/19**:
 
 - Modify [Transfer between Master user and Sub-user](#transfer-between-master-user-and-sub-user)
 
-**6/13/19**: 
+**6/13/19**:
 
 - Add [FAQ](#faq) for Open API.
 - Add the advantage descriptions for [Level-3](#matchengine-data).
 
-**5/28/19**: 
+**5/28/19**:
 
 - Modify [Get Market List](#Get-Market-List) SC changed to USDS.
 - Add one new endpoint for [Inner Transfer](#inner-transfer), the original interface will expire after three months (8/28/19).
 - Add the usage description to the favorite withdrawal address [Apply Withdraw](#apply-withdraw).
 - Add **averagePrice** field to [Get 24hr Stats](#get-24hr-stats).
-  
 
-**5/8/19** : 
+
+**5/8/19** :
 
 - Add **chain** field to [Create Deposit Address](#create-deposit-address), [Get Deposit Address](#get-deposit-address), [Get Currency Detail](#get-currency-detail), [Get Withdrawal Quotas](#get-withdrawal-quotas) and [Apply Withdraw](#apply-withdraw).
--  Add the description of how to transfer assets in the [Inner Transfer](#inner-transfer) interface. 
+-  Add the description of how to transfer assets in the [Inner Transfer](#inner-transfer) interface.
 - Add **L3 SDK** to [Full MatchEngine Data(Level 3)](#full-matchengine-data(level-3)).
 - modify the strategy of [Rate Limit](#request-rate-limit).
 
-**4/24/19**: 
+**4/24/19**:
 
 - Delete the "size" and "funds" fields of the “received” message in the subscription for [Full MatchEngine Data(Level 3)](#full-matchengine-data(level-3)) via the public channels, therefore protecting the hidden orders. These fields in the private channels remain unchangeds.
 - Delete the “remainSize” field of the “open” messages in the subscription for [Full MatchEngine Data(Level 3)](#full-matchengine-data(level-3)) via the public channels, therefore protecting the hidden orders. These fileds in the private channels remain unchanged.
@@ -150,74 +150,74 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 - Add [Get the Aggregated Balance of all Sub-Accounts of the Current User](#get-the-aggregated-balance-of-all-sub-accounts-of-the-current-user).
 - Add [Transfer between Master account and Sub-Account](#transfer-between-master-account-and-sub-account).
 
-**3/27/19** : 
+**3/27/19** :
 
 - Add **feeCurrency** field to [Get Symbols List](#get-symbols-list).
 
-**3/25/19** : 
+**3/25/19** :
 
 - Add **volValue** field to [Get All Tickers](#get-all-tickers).
 - Add **clientOid** field to [Full MatchEngine Data(Level 3)](#full-matchengine-data(level-3))which allows you to filter your order info by clientOid when you subscribe to the "received " messages through private channels.
 - Add **accountId** field in the subscription for [Account balance notice](#account-balance-notice).
 
-**3/13/19** : 
+**3/13/19** :
 
 - Modify the maximum matching orders for a single trading pair in one account is 200 (stop orders included).
 
-**3/6/19** : 
+**3/6/19** :
 
 - Add **nanoseconds** as the time unit of the order system and matching engine.
 
-**2/28/19** : 
+**2/28/19** :
 
 - Modify [Get Symbols List](#get-symbols-list) response description
 - Add [Get V1 Historical Deposits List](#get-v1-historical-deposits-list)
 - Add [Get V1 Historical Withdrawals List](#get-v1-historical-withdrawals-list)
 - Add [Get V1 Historical Orders List](#get-v1-historical-orders-list)
 - Add explanation to part of the API JSON field
-- Delete "sn" field in [Match Execution Data](#match-execution-data) 
+- Delete "sn" field in [Match Execution Data](#match-execution-data)
 - Modify [Get Fiat Price](#get-fiat-price) parameter description
 - Add "acceptUsermessage" option when connecting to the WebSocket.
 
-**2/22/19** : 
+**2/22/19** :
 
 - Add **volValue** field to [Get 24hr Stats](#get-24hr-stats)
 
-**2/21/19** : 
+**2/21/19** :
 
-- Add [Get Full Order Book(aggregated) v2](#get-full-order-book-aggregated) 
-- Add **time** field to Level-1,2,3 Data 
+- Add [Get Full Order Book(aggregated) v2](#get-full-order-book-aggregated)
+- Add **time** field to Level-1,2,3 Data
 - Add [Get Fiat Price](#get-fiat-price)
 
-**2/20/19** : 
+**2/20/19** :
 
-- Add **time** field to [Get All Tickers](#get-all-tickers) and [Get Ticker](#get-ticker) 
+- Add **time** field to [Get All Tickers](#get-all-tickers) and [Get Ticker](#get-ticker)
 
-**2/19/19** : 
+**2/19/19** :
 
 - Add [Get All Tickers](#get-all-tickers)
 
-**2/18/19** : 
+**2/18/19** :
 
 - Add [Recent Orders](#recent-orders)
 - Add [Recent Fills](#recent-fills)
 
-**2/16/19** : 
+**2/16/19** :
 
 - Add [All Symbols Ticker](#all-symbols-ticker)
 - Modify [Permissions](#permissions)
 
-**1/30/19** : 
+**1/30/19** :
 
 - Add SDK official provider [CCXT](#client-libraries)
 
-**1/25/19** : 
+**1/25/19** :
 
 - Add [Get Market List](#get-market-list)
 - Add [Symbol Snapshot Feed](#symbol-snapshot)
 - Add [Market Snapshot Feed](#market-snapshot)
 - Add official [Java & Go SDK](#client-libraries)
-  
+
 ## Reading Guide
 
 1. Read [Sandbox](#sandbox) to learn how to debug API in a test environment.
@@ -230,16 +230,16 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 8. Read [Place a new order](/#place-a-new-order) to see how to place an order.
 9. Read [Order Book](#get-part-order-book-aggregated) to get a snapshot of the order book.
 10. Read [Websocket Feed](#websocket-feed) to learn how to establish a websocket connection.
-11. Read [Level-2 Market Data](#level-2-market-data) to see how to build a local real-time order book with websocket. 
+11. Read [Level-2 Market Data](#level-2-market-data) to see how to build a local real-time order book with websocket.
 12. Read [Account balance notice](#account-balance-notice) to see how to get a private websocket feed and get real time notice of balance changes.
-    
+
 ## Sub-account
 
 You can create a sub-account and its API key on the web end.
 
 A sub-account can be used to separate the funds for crypto tradings and the funds can be transferred between the master account and the sub-account. Please note that the funds in sub-account is limited for sub-account crypto trading only and the funds cannot be withdrawn directly from the sub-account.
 
-The API of a sub-account is available to access all the public endpoints. Besides this, traders can access the following private endpoints via the API key of a sub-account: 
+The API of a sub-account is available to access all the public endpoints. Besides this, traders can access the following private endpoints via the API key of a sub-account:
 
 
 Endpoints | Description
@@ -305,9 +305,9 @@ You can subscribe [Level-3 Market Data] (#full-matchengine-data-level-3) via Web
 * Get real-time market information in the market faster (push speed: Level-3 >= Level-2)
 * Can be used to build and maintain order book
 * Can get the reason for the quantity change of a single order
-* Get real-time access to orders 
+* Get real-time access to orders
 * Can completely replace most of the pull API function of the Rest API (There is a strict rate limit on Rest request)
-  
+
 
 For the processing of different types of information, please refer to [Level-3 SDK] (#client-libraries) or [Message Type] (#full-matchengine-data-level-3) of Level-3 below.
 
@@ -369,7 +369,7 @@ If the rate limit is exceeded multiple times, the system will restrict your use 
 
 ###REST API
 
-The access limit for REST API is applied per API key. For average users, the request limit for each API key is **1800 requests per minute**. The limit strategy is applicable for both public and private endpoints 
+The access limit for REST API is applied per API key. For average users, the request limit for each API key is **1800 requests per minute**. The limit strategy is applicable for both public and private endpoints
 
 ####Hard-Limits
 
@@ -389,7 +389,7 @@ Number of connections per user ID:   ≤ 50
 Connection Limit: 30 per minute
 
 
-### Number of Uplink Messages 
+### Number of Uplink Messages
 Message limit sent to the server: 100 per 10 seconds
 
 
@@ -440,21 +440,21 @@ For more information on the VIP fee, you can read: [Tiered Trading Fee Discount 
 * Check whether you are using the correct encoding in your signature, e.g. base64
 * Check whether the **GET** request is submitted as a form
 * Check whether the content-type of your POST request is in application/json form and is encoded by charset=utf-8
-  
+
 ### Apply Withdraw
 * memo
-  
+
 
 For currencies without memo, the memo field is not required. Please do not pass the parameter when you are applying to withdraw via API, or the system will return: **kucoin incorrect withdrawal address**.<br/>
 
 * amount
-  
+
 
 The precision of the **amount** field shall satisfy the withdrawal precision requirements of the currency. The precision requirements for the currencies can be obtained by [Withdrawals Quotas](#get-withdrawal-quotas).
 The withdrawal amount must be an integer multiple of the withdrawal accuracy. If the withdrawal accuracy is 0, the withdrawal amount it can only be an integer.
 
 
-### .net SDK 
+### .net SDK
 * Invalid Signature on POST Request
 
 {"code":"400005", "msg":"Invalid KC-API-SIGN"}<br/>
@@ -468,7 +468,7 @@ After fixing:<br/>
 * Validity period for token: 24 hours;
 * Number of connections per user: ≤ 50
 * Number of Messages of the client side: 100 per 10 seconds;
-* Subscribing one symbol means subscribing a topic; (e.g.Topic: /market/level3:{symbol},{symbol}...) 
+* Subscribing one symbol means subscribing a topic; (e.g.Topic: /market/level3:{symbol},{symbol}...)
 
 ### 403  Error
 
@@ -490,12 +490,12 @@ The REST API has endpoints for account and order management as well as public ma
 
 The base url is **https://api.kucoin.com**.  
 
-The request URL needs to be determined by BASE and specific endpoint combination. 
+The request URL needs to be determined by BASE and specific endpoint combination.
 
 ## Endpoint of the Interface
 
 
-Each interface has its own endpoint, described by field **HTTP REQUEST** in the docs. 
+Each interface has its own endpoint, described by field **HTTP REQUEST** in the docs.
 
 For the **GET METHOD** API, the endpoint needs to contain the query parameters string.
 
@@ -569,7 +569,7 @@ If the returned HTTP status code is 200, whereas the operation failed, an error 
 
 ### Success
 
-A successful response is indicated by an HTTP status code 200 and system code 200000. The success response is as follows: 
+A successful response is indicated by an HTTP status code 200 and system code 200000. The success response is as follows:
 
 
 ```json
@@ -585,7 +585,7 @@ A successful response is indicated by an HTTP status code 200 and system code 20
 
 Pagination allows for fetching results with the current page and is well suited for real time data. Endpoints like /api/v1/deposits, /api/v1/orders, /api/v1/fills, will return the latest items by default (50 pages in total). To retrieve more results, users should specify the currentPage number in the subsequent requests to turn the page based on the data previously returned.
 
-#### PARAMETERS 
+#### PARAMETERS
 
 Parameter | Default | Description
 ---------- | ------- | ------
@@ -597,15 +597,15 @@ pageSize | 50 | Number of results per request.
 **GET /api/v1/orders?currentPage=1&pageSize=50**
 
 
-## Types 
+## Types
 
-### Timestamps 
+### Timestamps
 
-Unless otherwise specified, all timestamps from API are returned in **milliseconds**(e.g. **1546658861000**). Most modern languages and libraries will handle this without issues. 
+Unless otherwise specified, all timestamps from API are returned in **milliseconds**(e.g. **1546658861000**). Most modern languages and libraries will handle this without issues.
 
 But please note that the timestamps between the **matching engine** and the **order** system are in nanoseconds.
 
-### Numbers 
+### Numbers
 Decimal numbers are returned as strings in order to preserve the full precision across platforms. When making a request, it is recommended that you also convert your numbers to strings to avoid truncation and precision errors.
 
 ## Authentication
@@ -654,9 +654,9 @@ All private REST requests must contain the following headers:
         }
 
         public function signature($request_path = '', $body = '', $timestamp = false, $method = 'GET') {
-          
+
           $body = is_array($body) ? json_encode($body) : $body; // Body must be in json format
-          
+
           $timestamp = $timestamp ? $timestamp : time() * 1000;
 
           $what = $timestamp . $method . $request_path . $body;
@@ -664,12 +664,12 @@ All private REST requests must contain the following headers:
           return base64_encode(hash_hmac("sha256", $what, $this->secret, true));
         }
     }
-    ?> 
+    ?>
 ```
 
 ```python
     #Example for get balance of accounts in python
-    
+
     api_key = "api_key"
     api_secret = "api_secret"
     api_passphrase = "api_passphrase"
@@ -687,7 +687,7 @@ All private REST requests must contain the following headers:
     response = requests.request('get', url, headers=headers)
     print(response.status_code)
     print(response.json())
-    
+
     #Example for create deposit addresses in python
     url = 'https://openapi-sandbox.kucoin.com/api/v1/deposit-addresses'
     now = int(time.time() * 1000)
@@ -708,14 +708,14 @@ All private REST requests must contain the following headers:
     print(response.json())
 ```
 
-For the header of KC-API-KEY, 
+For the header of KC-API-KEY,
 
 * Use API-Secret to encrypt the prehash string {timestamp+method+endpoint+body} with sha256 HMAC. The request body is a JSON string and need to be the same with the parameters passed by the API.
 * After that, use base64-encode to encrypt the result in step 1 again.
 
-Notice: 
+Notice:
 
-* The encrypted timestamp shall be consistent with the KC-API-TIMESTAMP field in the request header. 
+* The encrypted timestamp shall be consistent with the KC-API-TIMESTAMP field in the request header.
 * The body to be encrypted shall be consistent with the content of the Request Body.  
 * The Method should be UPPER CASE.
 * For GET, DELETE request, the endpoint needs to contain the query string. e.g. /api/v1/deposit-addresses?currency=XBT. The body is "" if there is no request body (typically for GET requests).
@@ -725,7 +725,7 @@ Notice:
 ```python
 #Example for Create Deposit Address
 
-curl -H "Content-Type:application/json" -H "KC-API-KEY:5c2db93503aa674c74a31734" -H "KC-API-TIMESTAMP:1547015186532" -H "KC-API-PASSPHRASE:Abc123456" -H "KC-API-SIGN:7QP/oM0ykidMdrfNEUmng8eZjg/ZvPafjIqmxiVfYu4=" 
+curl -H "Content-Type:application/json" -H "KC-API-KEY:5c2db93503aa674c74a31734" -H "KC-API-TIMESTAMP:1547015186532" -H "KC-API-PASSPHRASE:Abc123456" -H "KC-API-SIGN:7QP/oM0ykidMdrfNEUmng8eZjg/ZvPafjIqmxiVfYu4="
 -X POST -d '{"currency":"BTC"}' http://openapi-v2.kucoin.com/api/v1/deposit-addresses
 
 KC-API-KEY = 5c2db93503aa674c74a31734
@@ -790,7 +790,7 @@ This endpoint requires the **"General"** permission.
 ### RESPONSES
 
 Field | Description
---------- | ------- 
+--------- | -------
 userId | The user ID of your sub-account
 subName | The username of your sub-account
 remarks | Remark
@@ -819,13 +819,13 @@ This endpoint requires the **"General"** permission.
 ### Parameters
 
 Param | Type | Description
---------- | ------- | ------- 
+--------- | ------- | -------
 type | String | Account type: **main**, **trade**, **margin**
-currency | String | [Currency](#get-currencies) 
+currency | String | [Currency](#get-currencies)
 
 ### RESPONSES
 Field | Description
---------- | ------- 
+--------- | -------
 id | accountId, ID of an account
 
 
@@ -867,22 +867,22 @@ This endpoint requires the **"General"** permission.
 ### Parameters
 
 Param | Type | Description
---------- | ------- | ------- 
-currency | String | *[Optional]* [Currency](#get-currencies) 
-type | String | *[Optional]* Account type: **main**, **trade**, **margin** or **pool** 
+--------- | ------- | -------
+currency | String | *[Optional]* [Currency](#get-currencies)
+type | String | *[Optional]* Account type: **main**, **trade**, **margin** or **pool**
 
 ### RESPONSES
 Field | Description
---------- | ------- 
-id | The ID of the account 
+--------- | -------
+id | The ID of the account
 currency | Currency
 type | Account type: **main**, **trade**, **margin** or **pool**  
-balance | Total funds in the account 
-available | Funds available to withdraw or trade 
-holds | Funds on hold (not available for use) 
+balance | Total funds in the account
+available | Funds available to withdraw or trade
+holds | Funds on hold (not available for use)
 
 ### ACCOUNT TYPE
-There are three types of accounts: 1) **main** account 2) **trade** account 3) **margin** account. 
+There are three types of accounts: 1) **main** account 2) **trade** account 3) **margin** account.
 
 No fees will be charged for the funds transfer between these account.
 
@@ -926,15 +926,15 @@ accountId | String | **Path parameter.** ID of the account
 
 ### RESPONSES
 Field | Description
---------- | ------- 
-currency | The currency of the account 
-balance | Total funds in the account 
-holds | Funds on hold (not available for use) 
-available | Funds available to withdraw or trade 
+--------- | -------
+currency | The currency of the account
+balance | Total funds in the account
+holds | Funds on hold (not available for use)
+available | Funds available to withdraw or trade
 
 
 
-## Get Account Ledgers 
+## Get Account Ledgers
 
 Request via this endpoint to get the account ledgers.
 
@@ -955,7 +955,7 @@ Items are paginated and sorted to show the latest first. See the [Pagination](#p
             "fee": "0",  //Deposit or withdrawal fee
             "balance": "0",  //Total assets of a currency
             "bizType": "Withdraw",  //business type
-            "direction": "in",     //side, in or out 
+            "direction": "in",     //side, in or out
             "createdAt": 1540296039000,  //Creation time
             "context": {          //Business core parameters
 
@@ -1013,8 +1013,8 @@ This endpoint requires the **"General"** permission.
 ### Parameters
 
 Param | Type | Description
---------- | ------- | ------- 
-accountId | String | ID of the account 
+--------- | ------- | -------
+accountId | String | ID of the account
 direction | String | *[Optional]*  Side: **in** - Receive, **out** - Send
 bizType   | String | *[Optional]*  Business type: **DEPOSIT**, **WITHDRAW**, **TRANSFER**, **SUB_TRANSFER**,**TRADE_EXCHANGE**, **MARGIN_EXCHANGE**, **KUCOIN_BONUS**.
 startAt| long | *[Optional]*  Start time (milisecond)
@@ -1022,23 +1022,23 @@ endAt| long | *[Optional]* End time (milisecond)
 
 ### RESPONSES
 Field | Description
---------- | ------- 
+--------- | -------
 id | unique key
-currency | The currency of an account 
-amount | The total amount of assets (fees included) involved in assets changes such as transaction, withdrawal and bonus distribution. 
+currency | The currency of an account
+amount | The total amount of assets (fees included) involved in assets changes such as transaction, withdrawal and bonus distribution.
 fee | Fees generated in transaction, withdrawal, etc.
 balance | Remaining funds after the transaction.
-bizType | Business type leading to the changes in funds, such as exchange, withdrawal, deposit,  KUCOIN_BONUS, REFERRAL_BONUS, Lendings etc. 
+bizType | Business type leading to the changes in funds, such as exchange, withdrawal, deposit,  KUCOIN_BONUS, REFERRAL_BONUS, Lendings etc.
 direction | Side, **out** or **in**
 createdAt | Time of the event
 context | Business related information such as order ID, serial No., etc.
 
 ### context
-If the returned value under bizType is **“trade exchange”**, the additional info. (such as order ID and trade ID, trading pair, etc.) of the trade will be returned in field **context**. 
+If the returned value under bizType is **“trade exchange”**, the additional info. (such as order ID and trade ID, trading pair, etc.) of the trade will be returned in field **context**.
 
 
 
-## Get Holds 
+## Get Holds
 
 ```json
 {
@@ -1051,7 +1051,7 @@ If the returned value under bizType is **“trade exchange”**, the additional 
             "currency": "ETH",  //Currency
             "holdAmount": "5083",  //Hold amount of a currency
             "bizType": "Withdraw",     //business type
-            "orderId": "5bc7f080b39c5c03286eef8e", // ID of funds freezed order 
+            "orderId": "5bc7f080b39c5c03286eef8e", // ID of funds freezed order
             "createdAt": 1545898567000, //Creation time
             "updatedAt": 1545898567000。//update time
         },
@@ -1083,8 +1083,8 @@ This endpoint requires the **"General"** permission.
 ### Parameters
 
 Param | Type | Description
---------- | ------- | ------- 
-accountId | String | ID of the account. 
+--------- | ------- | -------
+accountId | String | ID of the account.
 
 
 
@@ -1094,7 +1094,7 @@ Field | Description
 currency | currency
 holdAmount | Remaining funds frozen (calculated by subtracting any unfrozen funds from the initial frozen funds))
 bizType | Business type which led to the freezing of the funds, such as transaction, withdrawal, lendings etc.
-orderId | ID of funds freezed order (this ID is unique to the frozen asset order) 
+orderId | ID of funds freezed order (this ID is unique to the frozen asset order)
 createdAt | Time of the event
 updatedAt | Update time
 
@@ -1164,13 +1164,13 @@ This endpoint requires the **"General"** permission.
 ### Parameters
 
 Param | Type | Description
---------- | ------- | ------- 
+--------- | ------- | -------
 subUserId | String | the [user ID](#get-user-info-of-all-sub-accounts) of a sub-account.
 
 ### RESPONSES
 
 Field | Description
---------- | ------- 
+--------- | -------
 subUserId | The user ID of a sub-user.
 subName | The username of a sub-user.
 currency | Currency
@@ -1242,7 +1242,7 @@ This endpoint requires the **"General"** permission.
 ### RESPONSES
 
 Field | Description
---------- | ------- 
+--------- | -------
 subUserId | The user ID of the sub-user.
 subName | The username of the sub-user.
 currency | The currency of the account.
@@ -1280,7 +1280,7 @@ This endpoint requires the **"General"** permission.
 ### Parameters
 
 Param | Type | Description
---------- | ------- | ------- 
+--------- | ------- | -------
 currency | String | [currency](#Get-Currencies)
 type | String | The account type: **MAIN**, **TRADE**, **MARGIN** or **POOL**
 
@@ -1288,7 +1288,7 @@ type | String | The account type: **MAIN**, **TRADE**, **MARGIN** or **POOL**
 ### RESPONSES
 
 Field | Description
---------- | ------- 
+--------- | -------
 currency | Currency
 balance | Total funds in an account.
 available | Funds available to withdraw or trade.
@@ -1304,7 +1304,7 @@ transferable | Funds available to transfer.
 	"orderId": "5cbd870fd9575a18e4438b9a"
 }
 ```
-This endpoint is used for transferring the assets between the master user and the sub-user.<br/> The main account of the master user supports the transfer to the main account or trade account of the sub-user. 
+This endpoint is used for transferring the assets between the master user and the sub-user.<br/> The main account of the master user supports the transfer to the main account or trade account of the sub-user.
 
 ### HTTP REQUEST
 
@@ -1323,7 +1323,7 @@ This endpoint requires the **"Trade"** permission.
 ### Parameters
 
 Param | Type | Description
---------- | ------- | ------- 
+--------- | ------- | -------
 clientOid | String | Unique order id created by users to identify their orders, e.g. UUID.
 currency | String | [currency](#Get-Currencies)
 amount | String | Transfer amount, the amount is a positive integer multiple of the [currency precision](#get-currencies).
@@ -1336,7 +1336,7 @@ subUserId | String | the [user ID](#get-user-info-of-all-sub-accounts) of a sub-
 ### RESPONSES
 
 Field | Description
---------- | ------- 
+--------- | -------
 orderId | The order ID of a master-sub assets transfer.
 
 
@@ -1356,7 +1356,7 @@ This endpoint requires the **"Trade"** permission.
 ### Parameters
 
 Param | Type | Description
---------- | ------- | ------- 
+--------- | ------- | -------
 clientOid | String | Unique order id created by users to identify their orders, e.g. UUID.
 currency | String | [currency](#Get-Currencies)
 amount | String | Transfer amount, the amount is a positive integer multiple of the [currency precision](#get-currencies).
@@ -1369,7 +1369,7 @@ subUserId | String | the [user ID](#get-user-info-of-all-sub-accounts) of a sub-
 ### RESPONSES
 
 Field | Description
---------- | ------- 
+--------- | -------
 orderId | The order ID of a master-sub assets transfer.
 
 
@@ -1383,7 +1383,7 @@ orderId | The order ID of a master-sub assets transfer.
 }
 ```
 
-The inner transfer interface is used for transferring assets between the accounts of a user and is free of charges. For example, a user could transfer assets from their main account to their trading account on the platform. 
+The inner transfer interface is used for transferring assets between the accounts of a user and is free of charges. For example, a user could transfer assets from their main account to their trading account on the platform.
 Support transfer between main account and pool account.
 
 ### HTTP REQUEST
@@ -1399,17 +1399,17 @@ This endpoint requires the **"Trade"** permission.
 ### Parameters
 
 Param | Type | Description
---------- | ------- | ------- 
+--------- | ------- | -------
 clientOid | String | Unique order id created by users to identify their orders, e.g. UUID.
 currency | String | [currency](#Get-Currencies)
-from | String | Account type of payer: **main**, **trade**, **margin** or **pool** 
-to | String | Account type of payee: **main**, **trade**, **margin** or **pool** 
+from | String | Account type of payer: **main**, **trade**, **margin** or **pool**
+to | String | Account type of payee: **main**, **trade**, **margin** or **pool**
 amount | String | Transfer amount, the amount is a positive integer multiple of the [currency precision](#get-currencies).
 
 
 ### RESPONSES
 Field | Description
---------- | ------- 
+--------- | -------
 orderId | The order ID of a funds transfer
 
 
@@ -1424,7 +1424,7 @@ orderId | The order ID of a funds transfer
 	"chain": "OMNI"
 }
 ```
-Request via this endpoint to create a deposit address for a currency you intend to deposit. 
+Request via this endpoint to create a deposit address for a currency you intend to deposit.
 
 ### HTTP REQUEST
 **POST /api/v1/deposit-addresses**
@@ -1447,7 +1447,7 @@ Field | Description
 --------- | ------- | -----------
 address | Deposit address
 memo | Address remark. If there’s no remark, it is empty. When you [withdraw](#apply-withdraw) from other platforms to the KuCoin, you need to fill in memo(tag). If you do not fill memo (tag), your deposit may not be available, please be cautious.
-chain | The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20. 
+chain | The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20.
 
 ## Get Deposit Address
 
@@ -1474,7 +1474,7 @@ This endpoint requires the **"General"** permission.
 
 Param | Type | Description
 --------- | ------- | -----------
-currency | String | Currency 
+currency | String | Currency
 chain | String | *[Optional]* The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20. This only apply for multi-chain currency, and there is no need for single chain currency.
 
 ### RESPONSES
@@ -1543,7 +1543,7 @@ This endpoint requires the **"General"** permission.
 
 Param | Type | Description
 --------- | ------- | -----------
-currency | String | *[Optional]*  Currency 
+currency | String | *[Optional]*  Currency
 startAt| long | *[Optional]*  Start time (milisecond)
 endAt| long | *[Optional]* End time (milisecond)
 status | String | *[Optional]*  Status. Available value: PROCESSING, SUCCESS, and FAILURE
@@ -1674,16 +1674,16 @@ endAt| long | *[Optional]* End time (milisecond)
 
 ### RESPONSES
 Field | Description
---------- | ------- 
-id | Unique identity 
+--------- | -------
+id | Unique identity
 address | Withdrawal address
 memo |  Address remark. If there’s no remark, it is empty. When you [withdraw](#apply-withdraw) from other platforms to the KuCoin, you need to fill in memo(tag). If you do not fill memo (tag), your deposit may not be available, please be cautious.
-currency | Currency 
+currency | Currency
 amount | Withdrawal amount
-fee | Withdrawal fee 
+fee | Withdrawal fee
 walletTxId | Wallet Txid
 isInner | Internal withdrawal or not
-status | status 
+status | status
 remark | remark
 createdAt | Creation time
 updatedAt | Update time
@@ -1800,7 +1800,7 @@ innerWithdrawMinFee | Fees for internal withdrawal
 usedBTCAmount | The estimated BTC amount (based on the daily fiat limit) that can be withdrawn within the current day
 isWithdrawEnabled | Is the withdraw function enabled or not
 withdrawMinFee | Minimum withdrawal fee
-precision | Floating point precision. 
+precision | Floating point precision.
 chain | The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20.
 
 ## Apply Withdraw
@@ -1828,7 +1828,7 @@ Param | Type | Description
 --------- | ------- | -----------
 currency  | String | Currency
 address   | String | Withdrawal address
-amount | number | Withdrawal amount, a positive number which is a multiple of the amount precision (fees excluded) 
+amount | number | Withdrawal amount, a positive number which is a multiple of the amount precision (fees excluded)
 memo   | String | *[Optional]*   Address remark. If there’s no remark, it is empty. When you withdraw from other platforms to the KuCoin, you need to fill in memo(tag). If you do not fill memo (tag), your deposit may not be available, please be cautious.
 isInner | boolean | *[Optional]*  Internal withdrawal or not. Default setup: false
 remark | String | *[Optional]*  Remark
@@ -1836,7 +1836,7 @@ chain | String | *[Optional]* The chain name of currency, e.g. The available val
 
 ### RESPONSES
 Field | Description
---------- | ------- 
+--------- | -------
 withdrawalId | Withdrawal id
 
 For cryptocurrency withdrawal, KuCoin supports internal and external transaction fee deduction, which means when the balance in your main account is sufficient to support the withdrawal, the system will initially deduct the transaction fees from your main account. But if the balance in your main account is not sufficient to support the withdrawal, the system will deduct the fees from your withdrawal amount.
@@ -1862,7 +1862,7 @@ This endpoint requires the **"Transfer"** permission.
 
 Param | Type | Description
 --------- | ------- | -----------
-withdrawalId | String | Path parameter, a unique ID for a withdrawal order 
+withdrawalId | String | Path parameter, a unique ID for a withdrawal order
 
 # Trade
 
@@ -1878,7 +1878,7 @@ Signature is required for this part.
 }
 ```
 
-You can place two types of orders: **limit** and **market**. Orders can only be placed if your account has sufficient funds. Once an order is placed, your account funds will be put on hold for the duration of the order. How much and which funds are put on hold depends on the order type and parameters specified. See the Holds details below. 
+You can place two types of orders: **limit** and **market**. Orders can only be placed if your account has sufficient funds. Once an order is placed, your account funds will be put on hold for the duration of the order. How much and which funds are put on hold depends on the order type and parameters specified. See the Holds details below.
 
 <aside class="notice">Placing an order will enable price protection. When the price of the limit order is outside the threshold range, the price protection mechanism will be triggered, causing the order to fail.</aside>
 
@@ -1891,7 +1891,7 @@ Before placing an order, please read [Get Symbol List](#get-symbols-list) to und
 
 ###Place Order Limit
 
-The maximum matching orders for a single trading pair in one account is **200** (stop orders included). 
+The maximum matching orders for a single trading pair in one account is **200** (stop orders included).
 
 
 ### HTTP Request
@@ -1978,12 +1978,12 @@ The last trade can be found in the latest match message. Note that not all match
 
 The last trade price is the last price at which an order was filled. This price can be found in the latest match message. Note that not all match messages may be received due to dropped messages.
 
-Note that when triggered, stop orders execute as either market or limit orders, depending on the type. 
+Note that when triggered, stop orders execute as either market or limit orders, depending on the type.
 
 When placing a stop loss order, the system will pre-freeze the assets in your account for the order. **When you are going to place a stop market order, we recommend you to specify the funds for the order when trading**.
 
 ###PRICE
-The price must be specified in priceIncrement symbol units. The priceIncrement is the smallest unit of price. For the BTC-USDT symbol, the priceIncrement is 0.00001000. Prices less than 0.00001000 will not be accepted, The price for the placed order should be multiple numbers of priceIncrement, or the system would report an error when you place the order. Not required for market orders. 
+The price must be specified in priceIncrement symbol units. The priceIncrement is the smallest unit of price. For the BTC-USDT symbol, the priceIncrement is 0.00001000. Prices less than 0.00001000 will not be accepted, The price for the placed order should be multiple numbers of priceIncrement, or the system would report an error when you place the order. Not required for market orders.
 
 ###SIZE
 The size must be greater than the baseMinSize for the symbol and no larger than the baseMaxSize. The size must be specified in baseIncrement symbol units. Size indicates the amount of BTC (or base currency) to buy or sell.
@@ -2024,8 +2024,8 @@ Different from the hidden order, an **iceberg order** is divided into visible po
 
 In a matching event, the visible portion of an iceberg order will be executed first, and another visible portion will pop up until the order is fully filled.
 
-**Note**: 
-- The system will charge **taker fees** for **Hidden** and **iceberg Orders**. 
+**Note**:
+- The system will charge **taker fees** for **Hidden** and **iceberg Orders**.
 
 - If both "Iceberg" and "Hidden" are selected, your order will be filled as an **iceberg Order** by default.
 
@@ -2033,7 +2033,7 @@ In a matching event, the visible portion of an iceberg order will be executed fi
 ###HOLDS
 For limit buy orders, we will hold the needed portion from your funds (price x size of the order). Likewise, on sell orders, we will also hold the amount of assets that you wish to sell. Actual fees are assessed at the time of a trade. If you cancel a partially filled or unfilled order, any remaining funds will be released from being held.
 
-For market buy or sell orders where the funds are specified, the funds amount will be put on hold. If only size is specified, all of your account balance (in the quote account) will be put on hold for the duration of the market order (usually a trivially short time). 
+For market buy or sell orders where the funds are specified, the funds amount will be put on hold. If only size is specified, all of your account balance (in the quote account) will be put on hold for the duration of the market order (usually a trivially short time).
 
 ### SELF-TRADE PREVENTION
 
@@ -2067,7 +2067,7 @@ Notice: There might be some deviations of the detection. If your order is not fu
 
 ###RESPONSES
 Field | Description
---------- | ------- 
+--------- | -------
 orderId | The ID of the order
 
 A successful order will be assigned an order ID. A successful order is defined as one that has been accepted by the matching engine.
@@ -2113,7 +2113,7 @@ A successful order will be assigned an order ID. A successful order is defined a
 }
 ```
 
-Request via this endpoint to place 5 orders at the same time. The order type must be a limit order of the same symbol. 
+Request via this endpoint to place 5 orders at the same time. The order type must be a limit order of the same symbol.
 **The interface currently only supports spot trading**
 
 
@@ -2169,7 +2169,7 @@ This endpoint requires the **"Trade"** permission.
 
 ### RESPONSES
 Field | Description
---------- | ------- 
+--------- | -------
 |status  |  status (success, fail) |
 |failMsg |  the cause of failure   |
 
@@ -2189,14 +2189,14 @@ Request via this endpoint to cancel a single order previously placed.
 You will receive cancelledOrderIds field once the system has received the cancellation request. The cancellation request will be processed by the matching engine in sequence. To know if the request is processed    (successfully or not), you may check the order status or the update message from the pushes.
 
 
-### HTTP REQUEST 
+### HTTP REQUEST
 **DELETE /api/v1/orders/{orderId}**
 
 ### Example
 DELETE /api/v1/orders/5bd6e9286d99522a52e458de
 
 
-### API KEY PERMISSIONS 
+### API KEY PERMISSIONS
 This endpoint requires the **"Trade"** permission.
 
 ### Parameters ###
@@ -2206,7 +2206,7 @@ orderId | String | [Order ID](#list-orders), unique ID of the order.
 
 ###RESPONSES###
 Field | Description
---------- | ------- 
+--------- | -------
 orderId | Unique ID of the cancelled order
 
 
@@ -2255,8 +2255,8 @@ This endpoint requires the **"Trade"** permission.
 
 ###RESPONSES###
 Field | Description
---------- | ------- 
-orderId | Order ID, unique identifier of an order. 
+--------- | -------
+orderId | Order ID, unique identifier of an order.
 
 
 
@@ -2296,7 +2296,7 @@ orderId | Order ID, unique identifier of an order.
             "clientOid": "",       // user-entered order unique mark
             "remark": "",          // remark
             "tags": "",            // tag order source        
-            "isActive": false,     // status before unfilled or uncancelled 
+            "isActive": false,     // status before unfilled or uncancelled
             "cancelExist": false,   // order cancellation transaction record
             "createdAt": 1547026471000,  // create time
             "tradeType": "TRADE"
@@ -2326,15 +2326,15 @@ Param | Type | Description
 --------- | ------- | -----------
 status | String |*[Optional]* **active** or **done**(done as default), Only list orders with a specific status .
 symbol |String|*[Optional]* Only list orders for a specific symbol.
-side | String | *[Optional]* **buy** or **sell** 
-type | String | *[Optional]* **limit**, **market**, **limit_stop** or **market_stop** 
+side | String | *[Optional]* **buy** or **sell**
+type | String | *[Optional]* **limit**, **market**, **limit_stop** or **market_stop**
 tradeType | String |The type of trading : **TRADE**（Spot Trading）, **MARGIN_TRADE** (Margin Trading).
 startAt| long | *[Optional]*  Start time (milisecond)
 endAt| long | *[Optional]* End time (milisecond)
 
 ###RESPONSES
 Field | Description
---------- | ------- 
+--------- | -------
 id |  Order ID, the ID of an order.
 symbol | symbol
 opType |  Operation type: DEAL
@@ -2361,7 +2361,7 @@ channel | order source
 clientOid | user-entered order unique mark
 remark | remark
 tags | tag order source
-isActive |  order status, true and false. If true, the order is active, if false, the order is fillled or cancelled 
+isActive |  order status, true and false. If true, the order is active, if false, the order is fillled or cancelled
 cancelExist | order cancellation transaction record
 createdAt | create time
 tradeType | The type of trading : **TRADE**（Spot Trading）, **MARGIN_TRADE** (Margin Trading).
@@ -2405,7 +2405,7 @@ For high-volume trading, it is highly recommended that you maintain your own lis
 }
 ```
 
-Request via this endpoint to get your historical orders list of the KuCoin V1. 
+Request via this endpoint to get your historical orders list of the KuCoin V1.
 Items are paginated and sorted to show the latest first. See the [Pagination](#pagination) section for retrieving additional entries after the first page.
 
 <aside class="notice">Default query for one month of data.</aside>
@@ -2493,7 +2493,7 @@ createdAt | Create time.
 }
 ```
 
-Request via this endpoint to get 1000 orders in the last 24 hours. 
+Request via this endpoint to get 1000 orders in the last 24 hours.
 Items are paginated and sorted to show the latest first. See the [Pagination](#pagination) section for retrieving additional entries after the first page.
 
 ### HTTP REQUEST
@@ -2508,8 +2508,8 @@ This endpoint requires the **"General"** permission.
 
 ###RESPONSES
 Field | Description
---------- | ------- 
-orderId | Order ID, unique identifier of an order. 
+--------- | -------
+orderId | Order ID, unique identifier of an order.
 symbol | symbol
 opType |  Operation type: DEAL
 type | order type, e.g. limit, market, stop_limit
@@ -2535,7 +2535,7 @@ channel | order source
 clientOid | user-entered order unique mark
 remark | remark
 tags | tag order source
-isActive | order status, true and false. If true, the order is active, if false, the order is fillled or cancelled 
+isActive | order status, true and false. If true, the order is active, if false, the order is fillled or cancelled
 cancelExist | order cancellation transaction record
 createdAt | create time
 tradeType | The type of trading : **TRADE**（Spot Trading）, **MARGIN_TRADE** (Margin Trading).
@@ -2596,11 +2596,11 @@ This endpoint requires the **"General"** permission.
 ### PARAMETERS
 Param | Type | Description
 --------- | ------- | -----------
-orderId | String | Order ID, unique identifier of an order, obtained via the [List orders](#list-orders). 
+orderId | String | Order ID, unique identifier of an order, obtained via the [List orders](#list-orders).
 
 ###RESPONSES
 Field | Description
---------- | ------- 
+--------- | -------
 orderId | Order ID, the ID of an order
 symbol | symbol
 opType |  operation type,deal is pending order,cancel is cancel order
@@ -2627,7 +2627,7 @@ channel | order source
 clientOid | user-entered order unique mark
 remark | remark
 tags | tag order source
-isActive | order status, true and false. If true, the order is active, if false, the order is fillled or cancelled 
+isActive | order status, true and false. If true, the order is active, if false, the order is fillled or cancelled
 cancelExist | order cancellation transaction record
 createdAt | create time
 tradeType | The type of trading : **TRADE**（Spot Trading）, **MARGIN_TRADE** (Margin Trading).
@@ -2694,10 +2694,10 @@ You can request fills for specific orders using query parameters.
 
 Param | Type | Description
 --------- | ------- | -----------
-orderId | String |*[Optional]* Limit the list of fills to this orderId（If you specify orderId, ignore other conditions） 
-symbol | String |*[Optional]* Limit the list of fills to this symbol 
-side | String |*[Optional]* **buy** or **sell** 
-type | String |*[Optional]* **limit**, **market**, **limit_stop** or **market_stop** 
+orderId | String |*[Optional]* Limit the list of fills to this orderId（If you specify orderId, ignore other conditions）
+symbol | String |*[Optional]* Limit the list of fills to this symbol
+side | String |*[Optional]* **buy** or **sell**
+type | String |*[Optional]* **limit**, **market**, **limit_stop** or **market_stop**
 startAt| long | *[Optional]*  Start time (milisecond)
 endAt| long | *[Optional]* End time (milisecond)
 tradeType | String |The type of trading : **TRADE**（Spot Trading）, **MARGIN_TRADE** (Margin Trading).
@@ -2705,11 +2705,11 @@ tradeType | String |The type of trading : **TRADE**（Spot Trading）, **MARGIN_
 
 ### RESPONSES
 Field | Description
---------- | ------- 
+--------- | -------
 symbol | symbol.
 tradeId | trade id, it is generated by Matching engine.
-orderId | Order ID, unique identifier of an order. 
-counterOrderId | counter order id. 
+orderId | Order ID, unique identifier of an order.
+counterOrderId | counter order id.
 side | transaction direction,include buy and sell.
 price |  order price
 size |  order quantity
@@ -2732,10 +2732,10 @@ The system allows you to retrieve data up to one week (start from the last day b
 
 **Settlement**
 
-The settlement contains two parts: 
-- **Transactional settlement** 
+The settlement contains two parts:
+- **Transactional settlement**
 - **Fee settlement**
-  
+
 
 After an order is matched, the transactional and fee settlement data will be updated in the data store. Once the data is updated, the system would enable the settlement process and will deduct the fees from your pre-frozen assets. After that, the currency will be transferred to the account of the user.  
 
@@ -2745,7 +2745,7 @@ Orders on KuCoin platform are classified into two types， taker and maker. A ta
 
 The system will pre-freeze a predicted taker fee when you place an order.The liquidity field indicates if the fill was charged taker or maker fees.
 
-With the leading matching engine system in the market, users placing orders on KuCoin platform are classified into two types: **taker** and **maker**. **Taker**s, as the taker in the market, would be charged with taker fees; while **maker**s as the maker in the market, would be charged with less fees than the taker, or even get maker fees from KuCoin （The exchange platform would compensate the transaction fees for you）. 
+With the leading matching engine system in the market, users placing orders on KuCoin platform are classified into two types: **taker** and **maker**. **Taker**s, as the taker in the market, would be charged with taker fees; while **maker**s as the maker in the market, would be charged with less fees than the taker, or even get maker fees from KuCoin （The exchange platform would compensate the transaction fees for you）.
 
 After placing orders on the KuCoin platform, to ensure the execution of these orders, the system would pre-freeze your assets based on the taker fee charges (because the system could not predict the order types you may choose). Please be noted that the system would deduct the fees from the orders entered the orderbook in advance.
 
@@ -2757,10 +2757,10 @@ After the order is executed and when the left order funds is **0**, the transact
 
 If your order is a maker order, the system would return the left pre-frozen **taker** fees to you.
 
-Notice: 
+Notice:
 
 - For a **hidden**/**iceberg** order, if it is not executed immediately and becomes a maker order, the system would still charge **taker fees** from you.
-- Post Only order will charge you maker fees. If a post only order would get executed immediately against the existing orders (except iceberg and hidden orders) in the market, the order will be cancelled. If the post only order will execute against an iceberg/hidden order immediately, you will get the maker fees. 
+- Post Only order will charge you maker fees. If a post only order would get executed immediately against the existing orders (except iceberg and hidden orders) in the market, the order will be cancelled. If the post only order will execute against an iceberg/hidden order immediately, you will get the maker fees.
 
 
 
@@ -2873,11 +2873,11 @@ This endpoint requires the **"General"** permission.
 
 ### RESPONSES
 Field | Description
---------- | ------- 
+--------- | -------
 symbol | symbol
 tradeId | trade id, it is generated by Matching engine.
-orderId | Order ID, unique identifier of an order. 
-counterOrderId | counter order id. 
+orderId | Order ID, unique identifier of an order.
+counterOrderId | counter order id.
 side | transaction direction,include buy and sell.
 price |  order price
 size |  order quantity
@@ -2946,8 +2946,8 @@ market | String |*[Optional]* The [trading market](#get-market-list).
 
 Field |  Description
 --------- | -----------
-symbol | unique code of a symbol, it would not change after renaming 
-name | Name of trading pairs, it would change after renaming 
+symbol | unique code of a symbol, it would not change after renaming
+name | Name of trading pairs, it would change after renaming
 baseCurrency |  Base currency,e.g. BTC.
 quoteCurrency |  Quote currency,e.g. USDT.
 baseMinSize |  The minimum order quantity requried to place an order.
@@ -2957,12 +2957,12 @@ quoteMaxSize | The maximum order funds  required to place a market order.
 baseIncrement |The increment of the order size. The value shall be a positive multiple of the baseIncrement.
 quoteIncrement | The increment of the funds required to place a market order. The value shall be a positive multiple of the quoteIncrement.
 priceIncrement |  The increment of the price required to place a limit order. The value shall be a positive multiple of the priceIncrement.
-feeCurrency | The currency of charged fees. 
+feeCurrency | The currency of charged fees.
 enableTrading |  Available for transaction or not.
 isMarginEnabled |  Available for margin or not.
 priceLimitRate | Threshold for price portection
 
-The **baseMinSize** and **baseMaxSize** fields define the min and max order size. The **priceIncrement** field specifies the min order price as well as the price increment.This also applies to **quote** currency. 
+The **baseMinSize** and **baseMaxSize** fields define the min and max order size. The **priceIncrement** field specifies the min order price as well as the price increment.This also applies to **quote** currency.
 
 The order price must be a positive integer multiple of this priceIncrement (i.e. if the increment is 0.01, the  0.001 and 0.021 order prices would be rejected).
 
@@ -2986,7 +2986,7 @@ The order price must be a positive integer multiple of this priceIncrement (i.e.
 }
 ```
 
-Request via this endpoint to get Level 1 Market Data. The returned value includes the best bid price and size, the best ask price and size as well as the last traded price and the last traded size. 
+Request via this endpoint to get Level 1 Market Data. The returned value includes the best bid price and size, the best ask price and size as well as the last traded price and the last traded size.
 
 ### HTTP REQUEST
 **GET /api/v1/market/orderbook/level1**
@@ -3005,10 +3005,10 @@ symbol | String |[symbol](#get-symbols-list)
 ### RESPONSES
 Field |  Description
 --------- | -----------
-sequence | Sequence 
+sequence | Sequence
 bestAsk |  Best ask price
-size | Last traded size 
-price |  Last traded price 
+size | Last traded size
+price |  Last traded price
 bestBidSize | Best bid size
 bestBid | Best bid price
 bestAskSize |  Best ask size
@@ -3194,7 +3194,7 @@ To maintain up-to-date Order Book, please use [Websocket](#level-2-market-data) 
 
 **GET /api/v1/market/orderbook/level2_100**
 
-### Example 
+### Example
 GET /api/v1/market/orderbook/level2_20?symbol=BTC-USDT
 GET /api/v1/market/orderbook/level2_100?symbol=BTC-USDT
 
@@ -3347,7 +3347,7 @@ time | Timestamp, milliseconds
 bids | bids
 asks | asks
 
-### Data Sort 
+### Data Sort
 
 **Asks**: Sort price from low to high
 
@@ -3424,7 +3424,7 @@ time | Timestamp, nanoseconds
 bids | bids
 asks | asks
 
-### Data Sort 
+### Data Sort
 
 **Asks**: Sort price from low to high
 
@@ -3531,7 +3531,7 @@ type | String |Type of candlestick patterns: **1min, 3min, 5min, 15min, 30min, 1
 
 <aside class="notice">For each query, the system would return at most **1500** pieces of data. To obtain more data, please page the data by time.</aside>
 
-### RESPONSES 
+### RESPONSES
 
 Field |  Description
 --------- | -----------
@@ -3592,7 +3592,7 @@ Request via this endpoint to get the currency list.
 ### Example
 GET /api/v1/currencies
 
-### RESPONSES 
+### RESPONSES
 
 |Field | Description|
 |-----|-------------|
@@ -3606,6 +3606,7 @@ GET /api/v1/currencies
 |isDepositEnabled| Support deposit or not |
 |isMarginEnabled| Support margin or not |
 |isDebitEnabled| Support debit or not |
+|confirms| Number of block confirmations|
 
 **CURRENCY CODES**
 
@@ -3617,11 +3618,11 @@ BTC | Bitcoin
 ETH | Ethereum
 KCS | Kucoin Shares
 
-For a coin, the "**currency**" is a fixed value and works as the only recognized identity of the coin. As the "**name**", "**fullnane**" and "**precision**" of a coin are modifiable values, when the "**name**" of a coin is changed, you should use "**currency**" to get the coin. 
+For a coin, the "**currency**" is a fixed value and works as the only recognized identity of the coin. As the "**name**", "**fullnane**" and "**precision**" of a coin are modifiable values, when the "**name**" of a coin is changed, you should use "**currency**" to get the coin.
 
 For example:
 
-The "**currency**" of XRB is "XRB", if the "**name**" of XRB is changed into "**Nano**", you should use "XRB" (the currency of XRB) to search the coin. 
+The "**currency**" of XRB is "XRB", if the "**name**" of XRB is changed into "**Nano**", you should use "XRB" (the currency of XRB) to search the coin.
 
 ## Get Currency Detail
 
@@ -3656,7 +3657,7 @@ Param | Type | Description
 currency | String | **Path parameter**. [Currency](#get-currencies)
 chain | String | *[Optional]* Support for querying the chain of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20. This only apply for multi-chain currency, and there is no need for single chain currency.
 
-### RESPONSES 
+### RESPONSES
 
 |Field | Description|
 |-----|-------------|
@@ -3670,6 +3671,7 @@ chain | String | *[Optional]* Support for querying the chain of currency, e.g. T
 |isDepositEnabled| Support deposit or not |
 |isMarginEnabled| Support margin or not |
 |isDebitEnabled| Support debit or not |
+|confirms| Number of block confirmations|
 
 ## Get Fiat Price
 
@@ -3822,7 +3824,7 @@ This endpoint requires the **"General"** permission.
 | liability | Total liabilities |
 | maxBorrowSize | Available size to borrow |
 
-# Borrow & Lend 
+# Borrow & Lend
 
 ## Post Borrow Order
 
@@ -4252,7 +4254,7 @@ This endpoint requires the **"Trade"** permission.
 | term         | Term (Unit: Day)           |
 | createdAt    | Time of the event (millisecond)       |
 
-## Get Lent History 
+## Get Lent History
 
 
 
@@ -4338,7 +4340,7 @@ This endpoint requires the **"Trade"** permission.
 
 Request via this endpoint to get the outstanding lend order list. Items are paginated and sorted to show the latest first. See the Pagination section for retrieving additional entries after the first page. The max pageSize is 100.
 
-When a lending order is executed, the system will generate the lending history. The outstanding lend orders includes orders unrepaid and partially repaid. 
+When a lending order is executed, the system will generate the lending history. The outstanding lend orders includes orders unrepaid and partially repaid.
 
 ### HTTP REQUEST
 
@@ -4493,7 +4495,7 @@ This endpoint requires the **"Trade"** permission.
 ]
 ```
 
-Request via this endpoint to get the lending market data. 
+Request via this endpoint to get the lending market data.
 The returned value is sorted based on the descending sequence of the daily interest rate and terms.
 
 
@@ -4596,7 +4598,7 @@ Get the server time.
 ### Example
 GET /api/v1/timestamp
 
-<aside class="spacer2"></aside> 
+<aside class="spacer2"></aside>
 
 ## Service Status
 
@@ -4643,7 +4645,7 @@ While there is a strict access frequency control for REST API, we highly recomme
 {
     "code": "200000",
     "data": {
-      
+
         "instanceServers": [
             {
                 "endpoint": "wss://push1-v2.kucoin.com/endpoint",
@@ -4790,7 +4792,7 @@ ID is unique string to mark the request which is same as id property of ack.
 The topic you want to subscribe to.
 
 #### PrivateChannel
-For some specific topics (e.g. /market/level3), **privateChannel** is available. The default value of **privateChannel** is **False**. If the **privateChannel** is set to **true**, the user will only receive messages related himself on the topic. 
+For some specific topics (e.g. /market/level3), **privateChannel** is available. The default value of **privateChannel** is **False**. If the **privateChannel** is set to **true**, the user will only receive messages related himself on the topic.
 
 #### Response
 If the response is set as ture, the system will return the ack messages after the subscription succeed.
@@ -4803,7 +4805,7 @@ Unsubscribe from topics you have subscribed to.
     "id": "1545910840805",                            //The id should be an unique value
     "type": "unsubscribe",
     "topic": "/market/ticker:BTC-USDT,ETH-USDT",      //Topic needs to be unsubscribed. Some topics support to divisional unsubscribe the informations of multiple trading pairs through ",".
-    "privateChannel": false, 
+    "privateChannel": false,
     "response": true,                                  //Whether the server needs to return the receipt information of this subscription or not. Set as false by default.
 }
 ```
@@ -4824,7 +4826,7 @@ Unique string to mark the request.
 The topic you want to subscribe.
 
 #### PrivateChannel
-If the **privateChannel** is set to **true**, the private topic will be unsubscribed. 
+If the **privateChannel** is set to **true**, the private topic will be unsubscribed.
 
 #### Response
 If the response is set as true, the system would return the ack messages after the unsubscription succeed.
@@ -4838,7 +4840,7 @@ For example, enter the command below to open **bt1** multiple tunnel :
 
  {"id": "1Jpg30DEdU", "type": "openTunnel", "newTunnelId": "bt1", "response": true}
 
-Add “**tunnelId**” in the command: 
+Add “**tunnelId**” in the command:
 
 {"id": "1JpoPamgFM", "type": "subscribe", "topic": "/market/ticker:KCS-BTC"，"tunnelId": "bt1", "response": true}
 
@@ -4863,13 +4865,13 @@ The sequence field exists in order book, trade history and snapshot messages by 
 ## General Logic for Message Judgement in Client Side
 1.Judge message type. There are three types of messages at present: message (the commonly used messages for push), notice (the notices generally used), and command (consecutive command).
 
-2.Judge messages by topic. You could judge the message type through the topic. 
+2.Judge messages by topic. You could judge the message type through the topic.
 
-3.Judge messages by subject. For the same type of messages with the same topic, you could judge the type of messages through their subjects. 
+3.Judge messages by subject. For the same type of messages with the same topic, you could judge the type of messages through their subjects.
 
 # Public Channels
 
-## Symbol Ticker 
+## Symbol Ticker
 
 ```json
 
@@ -4906,8 +4908,8 @@ The ticker channel provides price updates whenever a match happens. If multiple 
 Please note that more information may be added to messages from this channel in the near future.
 
 
-<aside class="spacer2"></aside> 
-<aside class="spacer4"></aside> 
+<aside class="spacer2"></aside>
+<aside class="spacer4"></aside>
 
 
 ## All Symbols Ticker
@@ -4943,8 +4945,8 @@ Topic: **/market/ticker:all**
 Subscribe to this topic to get the push of all market symbols BBO change.
 
 
-<aside class="spacer2"></aside> 
-<aside class="spacer4"></aside> 
+<aside class="spacer2"></aside>
+<aside class="spacer4"></aside>
 
 
 ## Symbol Snapshot
@@ -4990,9 +4992,9 @@ Subscribe to get snapshot data for a single symbol.
 
 The snapshot data is pushed at **2 seconds** intervals.
 
-<aside class="spacer4"></aside> 
-<aside class="spacer4"></aside> 
-<aside class="spacer"></aside> 
+<aside class="spacer4"></aside>
+<aside class="spacer4"></aside>
+<aside class="spacer"></aside>
 
 ## Market Snapshot
 
@@ -5039,9 +5041,9 @@ Subscribe this topic to get the snapshot data of for the entire [market](#get-ma
 
 The snapshot data is pushed at **2 seconds** intervals.
 
-<aside class="spacer4"></aside> 
-<aside class="spacer4"></aside> 
-<aside class="spacer"></aside> 
+<aside class="spacer4"></aside>
+<aside class="spacer4"></aside>
+<aside class="spacer"></aside>
 
 ## Level-2 Market Data
 
@@ -5179,7 +5181,7 @@ Now your current order book is up-to-date and final data is as follows:
 ```json
 {
     "type": "message",
-    "topic": "/spotMarket/level2Depth5:BTC-USDT", 
+    "topic": "/spotMarket/level2Depth5:BTC-USDT",
     "subject": "level2",
     "data": {
 
@@ -5199,7 +5201,7 @@ Now your current order book is up-to-date and final data is as follows:
             ["9985","10"],
             ["9984","10"]
         ],
-        "timestamp": 1586948108193 
+        "timestamp": 1586948108193
     }
 }
 
@@ -5209,9 +5211,9 @@ Topic: **/spotMarket/level2Depth5:{symbol},{symbol}...**
 
 The system will return the 5 best ask/bid orders data, which is the snapshot data of every 100 milliseconds (in other words, the 5 best ask/bid orders data returned every 100 milliseconds in real-time).
 
-<aside class="spacer4"></aside> 
-<aside class="spacer4"></aside> 
-<aside class="spacer"></aside> 
+<aside class="spacer4"></aside>
+<aside class="spacer4"></aside>
+<aside class="spacer"></aside>
 
 ## Level2 - 50 best ask/bid orders
 
@@ -5248,9 +5250,9 @@ Topic: **/spotMarket/level2Depth50:{symbol},{symbol}...**
 
 The system will return the 50 best ask/bid orders data, which is the snapshot data of every 100 milliseconds (in other words, the 50 best ask/bid orders data returned every 100 milliseconds in real-time).
 
-<aside class="spacer4"></aside> 
-<aside class="spacer4"></aside> 
-<aside class="spacer"></aside> 
+<aside class="spacer4"></aside>
+<aside class="spacer4"></aside>
+<aside class="spacer"></aside>
 
 ## Klines
 
@@ -5279,7 +5281,7 @@ The system will return the 50 best ask/bid orders data, which is the snapshot da
 Topic: **/market/candles:{symbol}_{type}**
 
 Param |  Description
---------- | ------- 
+--------- | -------
 symbol | [symbol](#get-symbols-list)
 type |  1min, 3min, 15min, 30min, 1hour, 2hour, 4hour, 6hour, 8hour, 12hour, 1day, 1week
 
@@ -5380,7 +5382,7 @@ The following messages(**RECEIVED, OPEN, UPDATE, MATCH, DONE**) are sent over th
         "orderId": "5c24c72503aa6772d55b378d",  //order id
         "orderType": "limit", // order type,e.g. limit,market,stop_limit
         "side": "sell",  //side, include buy and sell
-        "price": "4.00000000000000000000", 
+        "price": "4.00000000000000000000",
         "clientOid": "",   //unique order id is selected by you to identify your order, e.g. UUID
         "time": "1545914149935808589"  //timestamp, timestamps is nanosecond
     }
@@ -5521,7 +5523,7 @@ market orders will not have a remaining_size or price field as they are never on
 ```
 When two orders become matched, the system will send a match message to user.
 
-The match message indicates that a trade occurred between two orders. The aggressor or taker order is the one executing immediately after being received and the maker order is a resting order on the book. The side field indicates the taker order side. 
+The match message indicates that a trade occurred between two orders. The aggressor or taker order is the one executing immediately after being received and the maker order is a resting order on the book. The side field indicates the taker order side.
 
 <aside class="notice">Before entering the orderbook, the iceberg or hidden order is the same as the ordinary order when it is matched as taker(it has a takerOrderId).</aside>
 
@@ -5923,7 +5925,7 @@ Subscribe to this topic to get the order book changes on margin trade.
 		    "sequence": 1000000,       //Sequence number
 		    "currency": "BTC",         //Currency
 		    "dailyIntRate": "0.00007",   //Daily interest rate. e.g. 0.002 is 0.2%
-		    "annualIntRate": "0.12",     //Annual interest rate. e.g. 0.12 is 12% 
+		    "annualIntRate": "0.12",     //Annual interest rate. e.g. 0.12 is 12%
 		    "term": 7,                 //Term (Unit: Day)    
 		    "size": "1017.5",            //Current total size. When this value is 0, remove this record from the order book.
 		    "side": "lend",            //Lend or borrow. Currently, only "Lend" is available
@@ -6039,9 +6041,9 @@ You will receive this message when an account balance changes. The message conta
 ### Relation Event
 
 | Type    | Description |
-|---------| ----------- | 
-main.deposit | Deposit 
-main.withdraw_hold | Hold withdrawal amount 
+|---------| ----------- |
+main.deposit | Deposit
+main.withdraw_hold | Hold withdrawal amount
 main.withdraw_done | Withdrawal done
 main.transfer | Transfer (Main account)
 main.other | Other operations (Main account)
@@ -6138,7 +6140,7 @@ UNLIABILITY: When all the liabilities is repaid and the position returns to “E
 
         "currency": "BTC",                            //Currency
         "orderId": "ac928c66ca53498f9c13a127a60e8",   //Trade ID
-        "dailyIntRate": 0.0001,                       //Daily interest rate. 
+        "dailyIntRate": 0.0001,                       //Daily interest rate.
         "term": 7,                                    //Term (Unit: Day)  
         "size": 1,                                    //Size
         "side": "lend",                               //Lend or borrow. Currently, only "Lend" is available
@@ -6210,9 +6212,9 @@ Topic: **/margin/loan:{currency}**
 
 The system will push this message to the lenders when the order is completed.
 
-<aside class="spacer4"></aside> 
-<aside class="spacer4"></aside> 
-<aside class="spacer"></aside> 
+<aside class="spacer4"></aside>
+<aside class="spacer4"></aside>
+<aside class="spacer"></aside>
 
 ## Private Order Change Events
 
@@ -6387,4 +6389,3 @@ when the order has been cancelled and its status was changed into DONE;
 }
 ```
 when the order has been updated;
-
