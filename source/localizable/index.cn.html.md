@@ -14,7 +14,7 @@ search: true
 
 # 快速开始
 
-## 简介 
+## 简介
 
 欢迎使KuCoin开发者文档。
 
@@ -51,39 +51,39 @@ API分为两部分：**REST API和Websocket 实时数据流**
 - 【添加】 [余额变更事件](#5a9519dabe) 新增 **relationContext**
 - 【修改】 USDT币种的默认链修改为ERC20
 
-**04/09/20**: 
+**04/09/20**:
 
 - 【添加】 [账户列表](#f0f7ae469d) 添加类型**pool** ，支持矿池账户查询
 - 【添加】 [内部资金划转](#c08ac949fb) 类型**pool**，支持矿池账户划转
 - 【添加】 [账户可划转资金](#766919e88c) 类型**pool**，获取矿池账户的可划转的资金
 - 【弃用】 [账户流水记录](#c8122540e1) 返回值中的 **balance** 字段且展示为0
 
-**03/27/20**: 
+**03/27/20**:
 
 - 【添加】 [账户流水记录](#c8122540e1) 添加 **bizType** 和 **direction** 请求参数
 
-**03/11/20**: 
+**03/11/20**:
 
 - 【新增】 [服务状态](#fb99032698)
 
-**02/03/20**: 
+**02/03/20**:
 
 - 【新增】 [批量下单](#de93fae07b)
 
-**01/03/20**: 
+**01/03/20**:
 
 - 【新增】 [下单](#fd6ce2a756)接口，新增**postOnly**说明
 
-**27/02/20**: 
+**27/02/20**:
 
 - 【新增】 [下单](#fd6ce2a756)接口，新增价格保护机制
 
-**02/01/20**: 
+**02/01/20**:
 
 - 【添加】 [Level-3全部买卖盘(非聚合)](#level-3-2) 添加**time**时间字段
 - 【添加】 [止损单触发事件](#bd9bf72174) 添加字段**reason**，支持止损触发类型
 
-**10/20/19**: 
+**10/20/19**:
 
 - 【废弃】 [内部资金划转](#c08ac949fb) 中'/api/v1/accounts/inner-transfer'接口
 - 【添加】 [账户列表](#f0f7ae469d) 添加类型**margin**，支持杠杆账户查询
@@ -106,35 +106,35 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 
 
-**10/17/19**: 
+**10/17/19**:
 
 - 【添加】 [获取充值列表](#a5dabc006) 和 [获取提现列表](#c46f4b3b8e)添加 **remark** 字段
 
-**10/12/19**: 
+**10/12/19**:
 
 - 【合并】 [交易市场列表](#b8f118fefc) ETH、NEO、TRX交易区为ALTS交易区
 
-**9/26/19**: 
+**9/26/19**:
 
 - 【新增】 [全局行情快照](#f3027c9902) 添加返回值**symbolName** 交易对名称
 
-**6/19/19**: 
+**6/19/19**:
 
 - 【修改】 [子母账号划转接口](#108b1a50d2)
 
-**6/13/19**: 
+**6/13/19**:
 
 - 【添加】 对接Open API[常见问题](#765f554c38)
 - 【添加】 [Level-3的优势](#34b637869b).
 
-**5/28/19**: 
+**5/28/19**:
 
 - 【修改】 [交易市场列表](#b8f118fefc) SC改名为USDS。
 - 【添加】 [内部资金划转](#c08ac949fb) 新增接口，原来的接口于三个月后（8/28/19）过期。
 - 【添加】 [申请提现](#6eaf6b9ae0) **指定收藏地址提现** 描述。
 - 【添加】 [24小时统计](#24) 添加字段 **averagePrice** 昨日24小时平均成交价格。
 
-**5/8/19**: 
+**5/8/19**:
 
 - 【添加】 [申请提现](#6eaf6b9ae0)，[获取提现额度](#c46f4b3b8e)，[申请充值地址](#9277fb3f66)，[获取充值地址](#b3114995fd)，[币种详情](#cb79285fc3)，添加**chain**字段。
 - 【添加】 [内部资金划转](#c08ac949fb) 添加资金划转操作步骤。
@@ -142,7 +142,7 @@ API分为两部分：**REST API和Websocket 实时数据流**
 - 【修改】 [请求频率限制](#26435b04cf)
 
 
-**4/24/19**: 
+**4/24/19**:
 
 - 【删除】 [完整的撮合引擎数据(Level&nbsp;3)](#level-nbsp-3) 为了保护隐藏订单信息，在**received** 消息中删除 **size**  和 **funds** 字段，私人频道字段保持不变。
 - 【删除】 [完整的撮合引擎数据(Level&nbsp;3)](#level-nbsp-3) 为了保护隐藏订单信息，在 **open** 消息中删除 **remainSize** 字段，私人频道字段保持不变。
@@ -151,68 +151,68 @@ API分为两部分：**REST API和Websocket 实时数据流**
 - 【新增】 [获取所有子账户信息](#93f3f96acd)接口。
 - 【新增】 [子母账号资金划转](#108b1a50d2)接口。
 
-**3/27/19** : 
+**3/27/19** :
 
 - 【添加】 [交易对列表](#a17b4e2866) **feeCurrency** 字段。
 
-**3/25/19** : 
+**3/25/19** :
 
 - 【添加】 [全局行情快照](#f3027c9902) **volValue** 字段。
 - 【添加】 [完整的撮合引擎数据(Level&nbsp;3)](#level-nbsp-3) **received**消息中  **clientOid** 字段，您可以通过 **clientOid** 来筛选订单信息。
 - 【添加】 私人频道[余额变更](#5a9519dabe) **accountId** 字段，您可以通过 **accountId** 来跟踪账户余额变更信息。
 
-**3/13/19** : 
+**3/13/19** :
 
 - 【修改】 一个用户，允许单个交易对，撮合中的订单最大数为200（包括止损订单）。
 
-**3/6/19** : 
+**3/6/19** :
 
 - 【添加】 订单系统和撮合引擎时间单位为  **nanoseconds**。
 
-**2/28/19** : 
+**2/28/19** :
 
 - 【修改】 [交易对列表](#a17b4e2866) 返回值描述。
 - 【新增】 [获取V1历史充值列表](#v1)接口。
 - 【新增】 [获取V1历史提现列表](#v1-2)接口。
 - 【新增】 [获取V1历史订单列表](#v1-3)接口。
 - 【添加】 部分API JSON 字段描述。
-- 【删除】 [撮合执行数据](#c7f054198c) 删除 **sn** 字段 。 
+- 【删除】 [撮合执行数据](#c7f054198c) 删除 **sn** 字段 。
 - 【修改】 [法币换算价格](#a2e56e9e0e) 参数描述。
 - 【添加】 创建Websocket连接时 **acceptUsermessage** 字段的描述。
 
-**2/22/19** : 
+**2/22/19** :
 
 - 【添加】 [24小时统计](#24) 添加**volValue**字段。
 
-**2/21/19** : 
+**2/21/19** :
 
-- 【新增】 [全部买卖盘(价格合并)](#level-2-2) 
+- 【新增】 [全部买卖盘(价格合并)](#level-2-2)
 - 【添加】 Level-1,2,3 数据添加 **time** 字段
 - 【新增】 [法币换算价格](#a2e56e9e0e)接口。
 
-**2/20/19** : 
+**2/20/19** :
 
 - 【添加】 [全局行情快照](#f3027c9902)和[行情快照](#b784c68bd3)添加 **time** 字段
 
-**2/19/19** : 
+**2/19/19** :
 
 - 【添加】 [全局行情快照](#f3027c9902)
 
-**2/18/19** : 
+**2/18/19** :
 
 - 【新增】 [最近订单列表](#23e02e24af)接口
 - 【新增】 [最近成交记录](#5abc068b38)接口
 
-**2/16/19** : 
+**2/16/19** :
 
 - 【添加】 公共频道添加[全部交易对瞬时行情](#251e3b7813) 订阅
 - 【修改】 [权限](#api-2)描述
 
-**1/30/19** : 
+**1/30/19** :
 
 - 【新增】 官方SDK [CCXT](#client-libraries)
 
-**1/25/19** : 
+**1/25/19** :
 
 - 【添加】 [Get Market List](#get-market-list)
 - 【添加】 [交易对行情快照](#396f791c4d)
@@ -232,7 +232,7 @@ API分为两部分：**REST API和Websocket 实时数据流**
 8.  [下单](#fd6ce2a756) 获取下单操作指南。
 9.  [委托买卖盘](#ab5235c05c) 获取买卖盘的快照信息。
 10. [Websocket](#42f0e0ea9d) 如何创建Websocket 连接
-11. [Level-2 市场行情](#level-2-3) 如何使用Websocket 在本地构建一个实时的买卖盘。 
+11. [Level-2 市场行情](#level-2-3) 如何使用Websocket 在本地构建一个实时的买卖盘。
 12. [余额变更](#5a9519dabe) 通过Websocket实时获取账户余额变更信息
 
 
@@ -266,7 +266,7 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 <aside class="notice">子账号不支持提现和充值</aside>
 
-## 撮合引擎 
+## 撮合引擎
 
 ### 订单生命周期
 
@@ -380,7 +380,7 @@ REST&nbsp;API 连接地址:
 
 向服务器发送指令条数限制：每10秒 100条
 
-### 订阅topic数量 
+### 订阅topic数量
 
 每个连接最大可订阅topic数量限制：300个topic
 
@@ -403,8 +403,8 @@ KuCoin为专业做市商提供做市激励计划。
 - 过去30天内在任何交易所交易的交易量证明或VIP级别的证明
 - 请简要说明做市的方法（不需要详细说明）以及估算做市订单量的百分比。
 
-  
-## VIP快速通道 
+
+## VIP快速通道
 
 具有良好做市策略和大交易量的用户欢迎参与长期做市商计划。 如果您的帐户资产大于10BTC，请提供以下信息以发送电子邮件至：
 
@@ -424,7 +424,7 @@ KuCoin为专业做市商提供做市激励计划。
 * 检查签名生成是否为base64编码
 * get请求是否以表单方式提交
 * post请求的数据格式是否是json格式（application/json; charset=utf-8）
-  
+
 ### 申请提现
 * memo字段<br/>
   个别币种提现需要memo字段，该字段在其他平台可能会表示成tag或paymentId<br/>
@@ -434,7 +434,7 @@ KuCoin为专业做市商提供做市激励计划。
   提现金额必须为提现精度的整数倍，如果为0表示只能为整数。
 
 ### .net SDK
-* POST请求验签错误<br/> 
+* POST请求验签错误<br/>
   {"code":"400005", "msg":"Invalid KC-API-SIGN"}<br/>
   代码有bug<br/>
   var response = body == null ? await _restRepo.PostApi<ApiResponse<T>, SortedDictionary<string, object>>(url, body, headers) : await _restRepo.PostApi<ApiResponse<T>>(url, headers);<br/>
@@ -446,7 +446,7 @@ KuCoin为专业做市商提供做市激励计划。
 * token有效期24小时；
 * 一个用户最多50个连接；
 * 客户端每10秒最多上行100个消息；
-* 一个symbol就是一个topic; e.g.Topic: /market/level3:{symbol},{symbol}... 
+* 一个symbol就是一个topic; e.g.Topic: /market/level3:{symbol},{symbol}...
 
 ### 返回 403 问题
 
@@ -462,11 +462,11 @@ KuCoin为专业做市商提供做市激励计划。
 
 REST API 对于账户、订单、和市场数据均提供了接口。
 
-基本URL: **https://api.kucoin.com**。 
+基本URL: **https://api.kucoin.com**。
 
 <aside class="notice">为了遵守当地法律要求，使用中国IP的用户不允许访问以上URL。</aside>
 
-请求URL由基本URL和接口端点组成。 
+请求URL由基本URL和接口端点组成。
 
 ## 接口端点(Endpoint)
 
@@ -489,7 +489,7 @@ REST API 对于账户、订单、和市场数据均提供了接口。
 对于 **GET和DELETE** 请求, 需将参数拼接在请求URL中。(**例如， /api/v1/accounts?currency=BTC**)
 
 对于 **POST和PUT** 请求, 需将参数以JSON格式拼接在请求主体中(**例如， {"currency":"BTC"}**)。
-注意：不要在JSON字符串中添加空格。 
+注意：不要在JSON字符串中添加空格。
 
 ### 错误返回
 
@@ -574,15 +574,15 @@ Pagination允许使用当前页数获取结果，非常适用于获取实时数�
 **GET /api/v1/orders?currentPage=1&pageSize=50**
 
 
-## 类型说明 
+## 类型说明
 
-### 时间戳 
+### 时间戳
 
 所有时间戳参数都应以毫秒为单位，除非另有说明。例如， **1544657947759**。
 
 撮合引擎和订单系统的时间戳使用的是纳秒为单位。
 
-### 数字 
+### 数字
 
 为了保证跨平台的数字的精确度，Decimal转化为字符串返回。请在发出请求时，将数字转换为字符串来避免数字被截断或者精度错误。
 
@@ -607,7 +607,7 @@ Key和Secret由KuCoin随机生成并提供，Passphrase是您在创建API时使�
 * **提现权限** - 允许API划转资金，包含充值和提现。子账号没有提现权限。
   授权提现权限时请注意，不需要邮箱验证和谷歌验证就可以使用API进行转账。
 
-  
+
 
 请参考下方API文档，看接口具体需要哪些权限。
 
@@ -632,9 +632,9 @@ Rest请求头必须包含以下内容:
         }
 
         public function signature($request_path = '', $body = '', $timestamp = false, $method = 'GET') {
-          
+
           $body = is_array($body) ? json_encode($body) : $body; // Body must be in json format
-          
+
           $timestamp = $timestamp ? $timestamp : time() * 1000;
 
           $what = $timestamp . $method . $request_path . $body;
@@ -642,12 +642,12 @@ Rest请求头必须包含以下内容:
           return base64_encode(hash_hmac("sha256", $what, $this->secret, true));
         }
     }
-    ?> 
+    ?>
 ```
 
 ```python
     #Example for get balance of accounts in python
-    
+
     api_key = "api_key"
     api_secret = "api_secret"
     api_passphrase = "api_passphrase"
@@ -665,7 +665,7 @@ Rest请求头必须包含以下内容:
     response = requests.request('get', url, headers=headers)
     print(response.status_code)
     print(response.json())
-    
+
     #Example for create deposit addresses in python
     url = 'https://openapi-sandbox.kucoin.com/api/v1/deposit-addresses'
     now = int(time.time() * 1000)
@@ -685,7 +685,7 @@ Rest请求头必须包含以下内容:
     print(response.status_code)
     print(response.json())
 ```
-请求头中的 **KC-API-SIGN**: 
+请求头中的 **KC-API-SIGN**:
 
 1. 使用 API-Secret 对
     {timestamp + method + endpoint + body} 拼接的字符串进行**HMAC-sha256**加密。
@@ -703,7 +703,7 @@ Rest请求头必须包含以下内容:
 ```python
 #Example for Create Deposit Address
 
-curl -H "Content-Type:application/json" -H "KC-API-KEY:5c2db93503aa674c74a31734" -H "KC-API-TIMESTAMP:1547015186532" -H "KC-API-PASSPHRASE:Abc123456" -H "KC-API-SIGN:7QP/oM0ykidMdrfNEUmng8eZjg/ZvPafjIqmxiVfYu4=" 
+curl -H "Content-Type:application/json" -H "KC-API-KEY:5c2db93503aa674c74a31734" -H "KC-API-TIMESTAMP:1547015186532" -H "KC-API-PASSPHRASE:Abc123456" -H "KC-API-SIGN:7QP/oM0ykidMdrfNEUmng8eZjg/ZvPafjIqmxiVfYu4="
 -X POST -d '{"currency":"BTC"}' http://openapi-v2.kucoin.com/api/v1/deposit-addresses
 
 KC-API-KEY = 5c2db93503aa674c74a31734
@@ -799,13 +799,13 @@ POST /api/v1/accounts
 ### 请求参数
 
 请求参数 | 类型 | 含义
---------- | ------- | ------- 
+--------- | ------- | -------
 type | String | 账户类型，**main**、**trade**或**margin**
 currency | String |[币种](#ebcc9fbb02)
 
 ### 返回值
 字段 | 含义
---------- | ------- 
+--------- | -------
 id | 账户ID -- accountId
 
 
@@ -851,18 +851,18 @@ GET /api/v1/accounts
 ### 请求参数
 
 请求参数 | 类型 | 含义
---------- | -------| ------- 
+--------- | -------| -------
 currency | String | [可选] [币种](#ebcc9fbb02)
 type | String |[可选] 账户类型 **main**、**trade**、**margin**或**pool**
 
 ### 返回值
 字段 | 含义
---------- | ------- 
-id | accountId 账户ID 
+--------- | -------
+id | accountId 账户ID
 currency | 账户对应的币种
 type |账户类型 ，**main**（储蓄账户）、**trade**（交易账户）、**margin**(杠杆账户)、**pool**(矿池账户)
-balance | 账户资金总额 
-available | 账户可用的资金 
+balance | 账户资金总额
+available | 账户可用的资金
 holds | 账户冻结的资金
 
 ### 账户类型
@@ -908,12 +908,12 @@ GET /api/v1/accounts/5bd6e9286d99522a52e458de
 ### 请求参数
 
 请求参数 | 类型 | 含义
---------- | ------- | ------- 
+--------- | ------- | -------
 accountId | String | 路径参数，[账户ID](#f0f7ae469d)
 
 ### 返回值
 字段 | 含义
---------- | ------- 
+--------- | -------
 currency | 币种
 balance | 账户资金总额
 holds | 冻结资金
@@ -981,19 +981,19 @@ GET /api/v1/accounts/5bd6e9286d99522a52e458de/ledgers
 ### 请求参数
 
 请求参数 | 类型 | 含义
---------- | ------- | ------- 
+--------- | ------- | -------
 accountId | String | 路径参数，[账户ID](#f0f7ae469d)
 direction | String | [可选] 出入账方向: **in** -入账, **out** -出账
 bizType   | String | [可选] 业务类型: **DEPOSIT** -充值, **WITHDRAW** -提现, **TRANSFER** -转账, **SUB_TRANSFER** -子账户转账,**TRADE_EXCHANGE** -交易, **MARGIN_EXCHANGE** -杠杆交易, **KUCOIN_BONUS** -鼓励金
 startAt   | long   | [可选] 开始时间（毫秒）
-endAt     | long   | [可选] 截止时间（毫秒） 
+endAt     | long   | [可选] 截止时间（毫秒）
 
 
 ### 返回值
 字段 | 含义
---------- | ------- 
+--------- | -------
 id | 唯一键
-currency | 币种 
+currency | 币种
 amount | 资金变动值
 fee | 充值或提现费率
 balance | 变动后的资金总额
@@ -1142,7 +1142,7 @@ subUserId | String | 路径参数，[子账号的用户Id](#a0bc1cb873)
 ### 返回值
 
 字段 | 含义
---------- | ------- 
+--------- | -------
 subUserId | 子账号的用户Id
 subName | 子账号的用户名
 currency | 币种
@@ -1215,7 +1215,7 @@ GET /api/v1/sub-accounts
 ### 返回值
 
 字段 | 描述
---------- | ------- 
+--------- | -------
 subUserId | 子账号的用户ID
 subName | 子账号的用户名
 currency | 币种
@@ -1253,14 +1253,14 @@ GET /api/v1/accounts/transferable?currency=BTC&type=MAIN
 ### 请求参数
 
 请求参数 | 类型 | 含义
---------- | ------- |  ------- 
+--------- | ------- |  -------
 currency | String | [币种](#ebcc9fbb02)
 type | String |  账户类型**MAIN**、**TRADE**、**MARGIN** 或 **POOL**
 
 
 ### 返回值
 字段 | 含义
---------- | ------- 
+--------- | -------
 currency | 币种
 balance | 资金总额
 available | 可用资金
@@ -1295,7 +1295,7 @@ POST /api/v2/accounts/sub-transfer
 
 ### 请求参数
 请求参数 | 类型 | 含义
---------- | ------- | ------- 
+--------- | ------- | -------
 clientOid | String | Client Order Id，客户端创建的唯一标识，建议使用UUID
 currency | String | [币种](#ebcc9fbb02)
 amount | String | 转账金额，为[币种精度](#ebcc9fbb02)正整数倍
@@ -1306,11 +1306,11 @@ subUserId | String | [子账号的用户Id](#a0bc1cb873)
 
 ### 返回值
 字段 | 含义
---------- | ------- 
+--------- | -------
 orderId | 子母账号转账的订单ID
 
 ### HTTP请求
-**POST /api/v1/accounts/sub-transfer** 
+**POST /api/v1/accounts/sub-transfer**
 
 <aside class="notice">这个接口不支持杠杆账户</aside>
 
@@ -1322,7 +1322,7 @@ POST /api/v1/accounts/sub-transfer
 
 ### 请求参数
 请求参数 | 类型 | 含义
---------- | ------- | ------- 
+--------- | ------- | -------
 clientOid | String | Client Order Id，客户端创建的唯一标识，建议使用UUID
 currency | String | [币种](#ebcc9fbb02)
 amount | String | 转账金额，为[币种精度](#ebcc9fbb02)正整数倍
@@ -1333,7 +1333,7 @@ subUserId | String | [子账号的用户Id](#a0bc1cb873)
 
 ### 返回值
 字段 | 含义
---------- | ------- 
+--------- | -------
 orderId | 子母账号转账的订单ID
 
 
@@ -1359,7 +1359,7 @@ POST /api/v2/accounts/inner-transfer
 
 ### 请求参数
 请求参数 | 类型 | 含义
---------- | ------- |  ------- 
+--------- | ------- |  -------
 clientOid | String | Client Order Id，客户端创建的唯一标识，建议使用UUID
 currency | String | [币种](#ebcc9fbb02)
 from | String |  付款账户类型**main**、**trade**、**margin** 或 **pool**
@@ -1369,7 +1369,7 @@ amount | String | 转账金额，精度为[币种精度](#ebcc9fbb02)正整数�
 
 ### 返回值
 字段 | 含义
---------- | ------- 
+--------- | -------
 orderId | 内部资金划转的订单ID
 
 # 充值
@@ -1398,13 +1398,13 @@ POST /api/v1/deposit-addresses
 ### 请求参数
 
 请求参数 | 类型 | 含义
---------- | ------- |  ------- 
+--------- | ------- |  -------
 currency | String | [币种](#ebcc9fbb02)
-chain | String | [可选] 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为ERC20。这个参数用于区分多链的币种，单链币种不需要。 
+chain | String | [可选] 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为ERC20。这个参数用于区分多链的币种，单链币种不需要。
 
 ### 返回值
 字段 | 含义
---------- | ------- 
+--------- | -------
 address | 充值地址
 memo | 地址标签memo(tag)，如果返回为空，则该币种没有memo。对于没有memo的币种，在[提现](#6eaf6b9ae0)的时候不可以传递memo
 chain | 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为ERC20。
@@ -1434,13 +1434,13 @@ GET /api/v1/deposit-addresses
 ### 请求参数
 
 请求参数 | 类型 | 含义
---------- | -------  | ------- 
+--------- | -------  | -------
 currency | String |[币种](#ebcc9fbb02)
 chain | String | [可选] 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为ERC20。这个参数用于区分多链的币种，单链币种不需要。
 
 ### 返回值
 字段 | 含义
---------- | ------- 
+--------- | -------
 address | 充值地址
 memo | 地址标签memo(tag)，如果返回为空，则该币种没有memo。对于没有memo的币种，在[提现](#6eaf6b9ae0)的时候不可以传递memo
 chain | 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为ERC20。
@@ -1501,15 +1501,15 @@ GET /api/v1/deposits
 ### 请求参数
 
 请求参数 | 类型 | 含义
---------- | ------- | ------- 
+--------- | ------- | -------
 currency | String |[可选] [币种](#ebcc9fbb02)
 startAt| long | [可选] 开始时间（毫秒）
-endAt| long | [可选]  截止时间（毫秒） 
+endAt| long | [可选]  截止时间（毫秒）
 status | String | [可选] 状态。可选值: PROCESSING, SUCCESS, FAILURE
 
 ### 返回值
 字段 | 含义
---------- | ------- 
+--------- | -------
 address | 充值地址
 memo | 地址标签memo(tag)，如果返回为空，则该币种没有memo。对于没有memo的币种，在[提现](#6eaf6b9ae0)的时候不可以传递memo
 amount | 充值金额
@@ -1573,7 +1573,7 @@ endAt| long | [可选]  截止时间（毫秒）
 
 ### 返回值
 字段 | 含义
---------- | ------- 
+--------- | -------
 amount | 充值金额
 currency | 币种
 isInner | 是否为平台内充值
@@ -1629,21 +1629,21 @@ GET /api/v1/withdrawals
 currency | String | [可选] [币种](#ebcc9fbb02)
 status | String | [可选]  状态。可选值: PROCESSING, WALLET_PROCESSING, SUCCESS, FAILURE
 startAt| long | [可选] 开始时间（毫秒）
-endAt| long | [可选]  截止时间（毫秒） 
+endAt| long | [可选]  截止时间（毫秒）
 
 ### 返回值
 字段 |  含义
---------- | ------- 
+--------- | -------
 id | 唯一标识
 address | 提现地址
 memo | 提现地址标识
-currency | 币种 
+currency | 币种
 amount | 提现金额
 fee | 提现手续费
 walletTxId | 钱包交易Id
 isInner | 是否为平台内部提现
 status | 状态
-remark | 备注 
+remark | 备注
 createdAt | 创建时间
 updatedAt | 修改时间
 
@@ -1694,13 +1694,13 @@ GET /api/v1/hist-withdrawals
 currency | String | [可选] [币种](#ebcc9fbb02)
 status | String | [可选] 状态。可选值: PROCESSING, SUCCESS, FAILURE
 startAt| long | [可选] 开始时间（毫秒）
-endAt| long | [可选]  截止时间（毫秒） 
+endAt| long | [可选]  截止时间（毫秒）
 
 
 
 ### 返回值
 字段 | 含义
---------- | ------- 
+--------- | -------
 amount | 提现金额
 currency | 币种
 isInner | 是否为平台内部提现
@@ -1747,7 +1747,7 @@ chain | String | [可选] 币种的链名。例如，对于USDT，现有的链�
 
 ### 返回值
 字段 | 含义
---------- | ------- 
+--------- | -------
 currency | 币种
 availableAmount | 可提现的金额
 remainAmount | 当日剩余可提现的额度
@@ -1793,7 +1793,7 @@ chain | String | [可选] 针对一币多链的币种，可通过chain获取币�
 
 ### 返回值
 字段 | 含义
---------- | ------- 
+--------- | -------
 withdrawalId | 提现Id 唯一标识
 
 KuCoin支持外扣手续费和内扣手续费。当您的储蓄账户的余额足以支持支付提现手续费时，首先从您的储蓄账户中扣除手续费，反之，从您的提现金额中扣除手续费。
@@ -2060,7 +2060,7 @@ postOnlys只是一个标识，如果下单有能立即成交的对手方，则�
 }
 ```
 
-该接口支持在一个接口中批量下单，每次可同时下5个订单，订单类型必须为相同交易对的限价单（目前该接口只支持现货交易，不支持杠杆交易） 
+该接口支持在一个接口中批量下单，每次可同时下5个订单，订单类型必须为相同交易对的限价单（目前该接口只支持现货交易，不支持杠杆交易）
 
 
 ### HTTP 请求
@@ -2094,7 +2094,7 @@ POST /api/v1/orders/multi
 此接口需要**交易权限**。
 
 
-### 请求参数 
+### 请求参数
 
 | 请求参数     | 类型     | 含义                                                                                    |
 | ---------   | ------  | -------------------------------------------------------------------------------------- |
@@ -2116,7 +2116,7 @@ POST /api/v1/orders/multi
 | iceberg     | boolean | [可选] 冰山单中是否仅显示订单的可见部分                                       |
 | visibleSize | String  | [可选] 冰山单最大的展示数量                                             |
 
-### 返回值 
+### 返回值
 | 字段    | 含义                        |
 | -------| --------------------------- |
 |status  |  订单创建结果 (success, fail) |
@@ -2932,7 +2932,7 @@ symbol | String |  [交易对](#a17b4e2866)
 
 ### 返回值
 字段 | 含义
---------- | ------- 
+--------- | -------
 sequence | 序列号
 price |  最新成交价格
 size | 最新成交数量
@@ -2994,7 +2994,7 @@ GET /api/v1/market/allTickers
 
 ### 返回值
 字段 | 含义
---------- | ------- 
+--------- | -------
 symbol | 交易对
 symbolName| 变更后的交易对名称
 buy |  最佳买一价
@@ -3014,9 +3014,9 @@ last |  最新成交价
 //Get 24hr Stats
 {
     "symbol": "ETH-BTC",    // 交易对
-    "high": "0.03736329",   // 24h最高价 
+    "high": "0.03736329",   // 24h最高价
     "low": "0.03651252",    // 24h最低价
-    "vol": "2127.286930263025",  // 24h成交量，以基础币种计量的交易量 
+    "vol": "2127.286930263025",  // 24h成交量，以基础币种计量的交易量
     "volValue": "43.58567564",  // 24h成交金额
     "last": "0.03713983",   // 最新成交价
     "buy": "0.03712118",    // 最佳买一价
@@ -3046,7 +3046,7 @@ symbol | String |  [交易对](#a17b4e2866)
 ### 返回值
 
 字段 | 含义
---------- | ------- 
+--------- | -------
 symbol | 交易对
 high | 24h最高价
 low |  24h最低价
@@ -3089,7 +3089,7 @@ GET /api/v1/markets
 
 <aside class="spacer2"></aside>
 
-# 委托买卖盘 
+# 委托买卖盘
 
 ## Level-2部分买卖盘(价格聚合)
 
@@ -3129,9 +3129,9 @@ GET /api/v1/markets
 
 ### HTTP请求
 
-**GET /api/v1/market/orderbook/level2_20** 
+**GET /api/v1/market/orderbook/level2_20**
 
-**GET /api/v1/market/orderbook/level2_100** 
+**GET /api/v1/market/orderbook/level2_100**
 
 ### 请求示例
 GET /api/v1/market/orderbook/level2_20?symbol=BTC-USDT
@@ -3147,13 +3147,13 @@ symbol | String |  [交易对](#a17b4e2866)
 ### 返回值
 
 字段 | 含义
---------- | ------- 
+--------- | -------
 sequence | 序列号
 time | 时间戳
 bids | 买盘
 asks | 卖盘
 
-###数据排序方式 
+###数据排序方式
 
 **Asks**: 买盘，根据价格从低到高
 
@@ -3168,7 +3168,7 @@ asks | 卖盘
     "bids":[
         [
             "6500.12", //price
-            "0.45054140" 
+            "0.45054140"
         ],
         [
             "6500.11",
@@ -3217,13 +3217,13 @@ symbol | String |  [交易对](#a17b4e2866)
 ### 返回值
 
 字段 | 含义
---------- | ------- 
+--------- | -------
 sequence | 序列号
 time | 时间戳
 bids | 买盘
 asks | 卖盘
 
-###数据排序方式 
+###数据排序方式
 
 **Asks**: 买盘，根据价格从低到高（v2）
 
@@ -3299,13 +3299,13 @@ symbol | String |  [交易对](#a17b4e2866)
 ### 返回值
 
 字段 | 含义
---------- | ------- 
+--------- | -------
 sequence | 序列号
 time | 时间戳，毫秒
 bids | 买盘
 asks | 卖盘
 
-###数据排序方式 
+###数据排序方式
 
 **Asks**: 卖盘，根据价格从低到高
 
@@ -3377,13 +3377,13 @@ symbol | String |  [交易对](#a17b4e2866)
 ### 返回值
 
 字段 | 含义
---------- | ------- 
+--------- | -------
 sequence | 序列号
 time | 时间戳，纳秒
 bids | 买盘
 asks | 卖盘
 
-###数据排序方式 
+###数据排序方式
 
 **Asks**: 卖盘，根据价格从低到高
 
@@ -3398,7 +3398,7 @@ asks | 卖盘
 ```json
 [
     {
-        "sequence":"1545896668571", 
+        "sequence":"1545896668571",
         "price":"0.07",//成交价格
         "size":"0.004", //成交数量
         "side":"buy", //成交方向
@@ -3431,7 +3431,7 @@ symbol | String |  [交易对](#a17b4e2866)
 ### 返回值
 
 字段 | 含义
---------- | ------- 
+--------- | -------
 sequence | 序列号
 time | 交易时间戳
 price | 订单价格
@@ -3496,7 +3496,7 @@ type | String | 时间粒度，也就是每根蜡烛的时间区间:<br/>**1min,
 ###返回值
 
 字段 | 含义
---------- | ------- 
+--------- | -------
 time | k线周期的开始时间
 open | 开盘价
 close | 收盘价
@@ -3539,6 +3539,7 @@ GET /api/v1/currencies
 |isDepositEnabled| 是否可充值|
 |isMarginEnabled|是否支持杠杆|
 |isDebitEnabled|是否支持借贷|
+|confirms| 区块链确认数|
 
 ### 币种标识(currency code)
 
@@ -3602,6 +3603,7 @@ GET /api/v1/currencies/BTC
 |isDepositEnabled| 是否可充值|
 |isMarginEnabled|是否支持杠杆|
 |isDebitEnabled|是否支持借贷|
+|confirms| 区块链确认数|
 
 ## 法币换算价格
 此接口，返回法币换算后的价格
@@ -3673,7 +3675,7 @@ GET /api/v1/mark-price/USDT-BTC/current
 | timePoint   | 时间点(毫秒)  |
 | value       | 标记价格值    |
 
-目前支持的标记价格有：USDT-BTC, ETH-BTC, LTC-BTC, EOS-BTC, XRP-BTC, KCS-BTC 
+目前支持的标记价格有：USDT-BTC, ETH-BTC, LTC-BTC, EOS-BTC, XRP-BTC, KCS-BTC
 
 ## 查询杠杆配置信息
 
@@ -4515,7 +4517,7 @@ GET /api/v1/margin/trade/last?currency=BTC
 ### 请求示例
 GET /api/v1/timestamp
 
-<aside class="spacer2"></aside> 
+<aside class="spacer2"></aside>
 
 ## 获取服务状态
 
@@ -4725,10 +4727,10 @@ ID用于标识请求和ack的唯一字符串。
 ```json
   // 取消订阅
 {
-    "id":"1545910840805",  //要求唯一 
-    "type":"unsubscribe", //类型: unsubscribe 
+    "id":"1545910840805",  //要求唯一
+    "type":"unsubscribe", //类型: unsubscribe
     "topic":"/market/ticker:BTC-USDT,ETH-USDT",
-    "privateChannel":false, //是否使用该频道的私有频道，默认为false 
+    "privateChannel":false, //是否使用该频道的私有频道，默认为false
     "response":true //是否需要服务端返回本次订阅的回执信息，默认为false   
 }
 
@@ -4836,8 +4838,8 @@ Topic: **/market/ticker:{symbol},{symbol}...**
 
 平台后期可能会向该渠道推送更多的信息。
 
-<aside class="spacer2"></aside> 
-<aside class="spacer4"></aside> 
+<aside class="spacer2"></aside>
+<aside class="spacer4"></aside>
 
 
 ## 全部交易对瞬时行情
@@ -4872,8 +4874,8 @@ Topic: **/market/ticker:all**
 订阅此topic可获取所有的BBO(最佳买一和卖一)数据的推送。
 
 
-<aside class="spacer2"></aside> 
-<aside class="spacer4"></aside> 
+<aside class="spacer2"></aside>
+<aside class="spacer4"></aside>
 
 
 ## 交易对行情快照
@@ -4884,7 +4886,7 @@ Topic: **/market/ticker:all**
     "topic":"/market/snapshot:KCS-BTC",
     "subject":"trade.snapshot",
     "data":{
-        
+
         "sequence":"1545896669291",
         "data":{
 
@@ -4917,9 +4919,9 @@ Topic: **/market/snapshot:{symbol}**
 订阅此topic对可以获取单个[交易对](#a17b4e2866)的行情快照信息，每隔**两秒**推送一次。
 
 
-<aside class="spacer4"></aside> 
-<aside class="spacer4"></aside> 
-<aside class="spacer"></aside> 
+<aside class="spacer4"></aside>
+<aside class="spacer4"></aside>
+<aside class="spacer"></aside>
 
 ## 市场行情快照
 
@@ -4963,9 +4965,9 @@ Topic: **/market/snapshot:{market}**
 订阅此topic可获取指定[交易市场](#b8f118fefc)的所有交易对的行情快照，每隔**2秒**推送一次。
 
 
-<aside class="spacer4"></aside> 
-<aside class="spacer4"></aside> 
-<aside class="spacer"></aside> 
+<aside class="spacer4"></aside>
+<aside class="spacer4"></aside>
+<aside class="spacer"></aside>
 
 ## Level-2市场行情
 
@@ -5127,7 +5129,7 @@ Data：
 ```json
 {
     "type": "message",
-    "topic": "/spotMarket/level2Depth5:BTC-USDT", 
+    "topic": "/spotMarket/level2Depth5:BTC-USDT",
     "subject": "level2",
     "data": {
 
@@ -5147,7 +5149,7 @@ Data：
             ["9985","10"],
             ["9984","10"]
         ],
-        "timestamp": 1586948108193 
+        "timestamp": 1586948108193
     }
 }
 
@@ -5157,9 +5159,9 @@ Topic: **/spotMarket/level2Depth5:{symbol},{symbol}...**
 
 每次返回前五档的深度数据，此数据为每100毫秒的快照数据，即每隔100毫秒，快照当前时刻市场买卖盘的5档深度数据并推送
 
-<aside class="spacer4"></aside> 
-<aside class="spacer4"></aside> 
-<aside class="spacer"></aside> 
+<aside class="spacer4"></aside>
+<aside class="spacer4"></aside>
+<aside class="spacer"></aside>
 
 ## Level2 - 50档深度频道
 ```json
@@ -5195,9 +5197,9 @@ Topic: **/spotMarket/level2Depth50:{symbol},{symbol}...**
 
 每次返回前50档的深度数据，此数据为每100毫秒的快照数据，即每隔100毫秒，快照当前时刻市场买卖盘的50档深度数据并推送
 
-<aside class="spacer4"></aside> 
-<aside class="spacer4"></aside> 
-<aside class="spacer"></aside> 
+<aside class="spacer4"></aside>
+<aside class="spacer4"></aside>
+<aside class="spacer"></aside>
 
 
 ## K线
@@ -5227,7 +5229,7 @@ Topic: **/spotMarket/level2Depth50:{symbol},{symbol}...**
 Topic: **/market/candles:{symbol}_{type}**
 
 参数 |  含义
---------- | ------- 
+--------- | -------
 symbol | 交易对
 type |  1min, 3min, 15min, 30min, 1hour, 2hour, 4hour, 6hour, 8hour, 12hour, 1day, 1week
 
@@ -5236,7 +5238,7 @@ type |  1min, 3min, 15min, 30min, 1hour, 2hour, 4hour, 6hour, 8hour, 12hour, 1da
 
 订阅成功后，服务端会推送的市场K线数据给您。
 
-<aside class="spacer2"></aside> 
+<aside class="spacer2"></aside>
 
 
 
@@ -5299,14 +5301,14 @@ Topic: **/market/match:{symbol},{symbol}...**
 
 Topic: **/market/level3:{symbol},{symbol}...**
 
-此topic，提供 **privateChannel** 
+此topic，提供 **privateChannel**
 
 订阅此topic，可获取Level-3完整的撮合引擎数据。
 
 可获取订单和交易的实时数据，这些数据流可用于维护一个本地的Level-3买卖盘。
 
 
-维护更新Level 3买卖盘的步骤如下： 
+维护更新Level 3买卖盘的步骤如下：
 
 1. 订阅Topic: /market/level3:{symbol}，获取Level 3买卖盘数据流;
 2. 按顺序缓存接收到的数据流;
@@ -5334,12 +5336,12 @@ Topic: **/market/level3:{symbol},{symbol}...**
 	"data": {
 
 		"sequence": "1545896669147",
-		"type": "received",  //L3 消息类型	
+		"type": "received",  //L3 消息类型
 		"orderId": "5c24c72503aa6772d55b378d",  //order id
 		"symbol": "BTC-USDT",
 		"orderType": "limit", // 订单类型 limit,market,stop_limit
 		"side": "sell",  //买卖方向, buy and sell
-		"price": "4.00000000000000000000", 
+		"price": "4.00000000000000000000",
 		"clientOid": "",   //客户端生成的唯一订单标识 e.g. UUID
 		"time": "1545914149935808589"  //timestamp, 时间戳是纳秒
   }
@@ -5403,7 +5405,7 @@ Topic: **/market/level3:{symbol},{symbol}...**
 
 当限价订单中的剩余部分进入买卖盘时，系统将向用户发送**open**消息。privateChannel=true，还会返回remainingSize这个字段，指订单中有多少没有成交的数量
 
-这意味着这个订单现已在订单簿上，没有立即成交的订单才会推送此消息。 
+这意味着这个订单现已在订单簿上，没有立即成交的订单才会推送此消息。
 
 
 <aside class="notice">当接收到 price="", size="0" 的消息时，意味着这是隐藏单</aside>
@@ -5441,7 +5443,7 @@ Topic: **/market/level3:{symbol},{symbol}...**
     "data":{
 
         "sequence":"1545896669227",
-        "type":"done", //L3 messege 类型. 
+        "type":"done", //L3 messege 类型.
         "orderId":"5c24c96103aa6772d55b381b",  //order id
         "symbol":"BTC-USDT",
         "side":"buy",  //买卖方向, buy and sell
@@ -5483,7 +5485,7 @@ Topic: **/market/level3:{symbol},{symbol}...**
 当两个订单成功撮合后，系统会推送match信息。两个订单成功撮合，会生成一个tradeId,
 当进入撮合引擎后，taker单会立即与maker单(买卖盘中剩余的订单)开始撮合。side字段是指taker单的成交方向。
 
- 
+
 
 <aside class="notice">在进入买卖盘之前，冰山单或隐藏单和普通的订单一样，撮合成功后作为taker</aside>
 
@@ -5534,16 +5536,16 @@ Topic: **/market/level3:{symbol},{symbol}...**
 4 回放所有缓存的增量数据:
 
     4.1. 如果增量数据的sequence <= 当前快照的sequence，则舍弃增量数据，并结束本次更新; 否则进行4.2;
-    
+
     4.2 如果增量数据的sequence = 当前快照的sequence + 1，则进行4.2.1逻辑更新，否则进行4.3步骤;
-    
+
       4.2.1 更新当前快照的sequence为增量数据的sequence;
       4.2.2 如果是received消息，结束更新逻辑。（因为现在received消息不影响level3数据）
       4.2.3 如果是open消息，增加orderid,price,size构建的相应买单或卖单
       4.2.4 如果是done消息，移除对应orderid对应的买单或者卖单
       4.2.5 如果是change消息，修改对应orderid对应的买单或者卖单的数量
       4.2.6 如果是match消息，减少对应markerOrderId对应的订单数量
-    
+
     4.3 此种情况为sequence不连续，执行步骤2，重新拉取快照数据，以便保证sequence不缺失;
 
 5 接收新的增量数据推送，执行步骤4。
@@ -5647,7 +5649,7 @@ Topic: **/spotMarket/level3:{symbol},{symbol}...**
 
 当限价订单中的剩余部分进入买卖盘时，系统将向用户发送**open**消息。
 
-这意味着这个订单现已在订单簿上，没有立即成交的订单才会推送此消息。 
+这意味着这个订单现已在订单簿上，没有立即成交的订单才会推送此消息。
 
 当接收到 price="", size="0" 的消息时，意味着这是隐藏单
 
@@ -5988,7 +5990,7 @@ Topic: **/account/balance**
 ### Relation Event
 
 类型 | 描述
---------- | ------- 
+--------- | -------
 main.deposit | 充值入账
 main.withdraw_hold | 提现冻结
 main.withdraw_done | 提现完成
@@ -6152,9 +6154,9 @@ Topic: **/margin/loan:{currency}**
 Topic: **/margin/loan:{currency}**
 
 出借订单完成时向出借方推送。
-<aside class="spacer4"></aside> 
-<aside class="spacer4"></aside> 
-<aside class="spacer"></aside> 
+<aside class="spacer4"></aside>
+<aside class="spacer4"></aside>
+<aside class="spacer"></aside>
 
 ## 私有订单变更事件
 
