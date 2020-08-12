@@ -261,6 +261,8 @@ Endpoints | Description
 [List Orders](#list-orders) | Get orders details.
 [Recent Orders](#recent-orders) | Get order details of the last 24 hours(up to 1000).
 [Get an order](#get-an-order) | Get the details of a single order.
+[List Fills](#list-fills) | Get the order execution details.
+[Recent Fills](#recent-fills) | Get order execution details of the last 24 hours(up to 1000).
 [Cancel Single Order by clientOid](#cancel-single-order-by-clientoid) | Cancel Single Order by clientOid.
 [Get Single Active Order by clientOid](#get-single-active-order-by-clientoid) | Get Single Active Order by clientOid.
 
