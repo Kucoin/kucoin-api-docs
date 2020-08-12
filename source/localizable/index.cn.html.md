@@ -30,6 +30,11 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 为了您能获取到最新的API 变更的通知，请在 [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs)添加关注【Watch】
 
+**08/12/20**:
+
+- 【添加】 新增[基于clientOid 单个撤单](#clientoid)
+- 【添加】 新增[基于clientOid 获取单个活跃订单详情](#clientoid-2)
+
 **07/13/20**:
 
 - 【添加】 新增[私有订单变更事件](#6c2474816d)，公共频道[完整的撮合引擎数据（改版）(Level 3)](#level-nbsp-3-2)，[Level2 - 5档深度频道](#level2-5)，[Level2 - 50档深度频道](#level2-50)；
@@ -260,7 +265,8 @@ API分为两部分：**REST API和Websocket 实时数据流**
 | [单个订单详情](#d86507e2dd) | 获取单个订单详情                    |
 | [成交记录](#6a30a471cf)   | 获取成交记录                      |
 | [最近成交记录](#5abc068b38) | 获取最近24小时内的成交记录（最多1000条记录）   |
-
+| [基于clientOid 单个撤单](#clientoid)   | 基于clientOid 单个撤单                      |
+| [基于clientOid 获取单个活跃订单详情](#clientoid-2) | 基于clientOid 获取单个活跃订单详情   |
 子账号与母账号共享同一手续费等级（根据子账号与母账号交易额/KCS持有量累加求和计算划分）。
 子账号在交易之前需要将资金从储蓄账户转到交易账户。
 
@@ -2146,6 +2152,10 @@ POST /api/v1/orders/multi
 
 DELETE /api/v1/orders/5bd6e9286d99522a52e458de
 
+### API权限
+
+此接口需要**交易权限**。
+
 ### 请求参数
 
 | 请求参数    | 类型     | 含义                            |
@@ -2158,14 +2168,49 @@ DELETE /api/v1/orders/5bd6e9286d99522a52e458de
 | ----------------- | ------- |
 | cancelledOrderIds | 取消的订单id |
 
-### API权限
-
-此接口需要**交易权限**。
 
 <aside class="notice">The <b>orderId</b> 是服务器生成的订单唯一标识，不是客户端生成的clientOId</aside>
 ### 撤单被拒
 
 如果订单不能撤销（已经成交或已经取消），会返回错误信息，可根据返回的msg获取原因。
+
+
+## 基于clientOid 单个撤单
+
+```json
+{
+  "cancelledOrderId": "5f311183c9b6d539dc614db3",
+  "clientOid": "6d539dc614db3"
+}
+```
+
+此接口发送一个通过clientOid撤销订单的请求。
+
+### HTTP请求
+
+**DELETE /api/v1/order/client-order/{clientOid}**
+
+### 请求示例
+
+DELETE /api/v1/order/client-order/6d539dc614db3
+
+### API权限
+
+此接口需要**交易权限**。
+
+### 请求参数
+
+| 请求参数    | 类型     | 含义                            |
+| ------- | ------ | ----------------------------- |
+| clientOid | String | 路径参数，客户端生成的标识 |
+
+### 返回值
+
+| 字段                | 含义      |
+| ----------------- | ------- |
+| cancelledOrderId | 取消的订单id |
+| clientOid | 客户端生成的标识 |
+
 
 ## 全部撤单
 
@@ -2586,6 +2631,101 @@ GET /api/v1/orders/5c35c02703aa673ceec2a168
 
 <aside class="spacer4"></aside>
 <aside class="spacer2"></aside>
+
+
+## 基于clientOid 获取单个活跃订单详情
+
+```json
+{
+  "id": "5f3113a1c9b6d539dc614dc6",
+  "symbol": "KCS-BTC",
+  "opType": "DEAL",
+  "type": "limit",
+  "side": "buy",
+  "price": "0.00001",
+  "size": "1",
+  "funds": "0",
+  "dealFunds": "0",
+  "dealSize": "0",
+  "fee": "0",
+  "feeCurrency": "BTC",
+  "stp": "",
+  "stop": "",
+  "stopTriggered": false,
+  "stopPrice": "0",
+  "timeInForce": "GTC",
+  "postOnly": false,
+  "hidden": false,
+  "iceberg": false,
+  "visibleSize": "0",
+  "cancelAfter": 0,
+  "channel": "API",
+  "clientOid": "6d539dc614db312",
+  "remark": "",
+  "tags": "",
+  "isActive": true,
+  "cancelExist": false,
+  "createdAt": 1597051810000,
+  "tradeType": "TRADE"
+}
+```
+
+此接口，可以通过clientOid查询单个活跃委托的信息，若订单不存在或者已经结算则提示订单不存在。
+
+### HTTP请求
+
+**GET /api/v1/order/client-order/{clientOid}**
+
+### 请求示例
+
+GET /api/v1/order/client-order/6d539dc614db312
+
+### API权限
+
+此接口需要**通用权限**。
+
+### 请求参数
+
+| 请求参数    | 类型     | 含义                            |
+| ------- | ------ | ----------------------------- |
+| clientOid | String | 路径参数，客户端生成的标识 |
+
+### 返回值
+
+| 字段            | 含义                                          |
+| ------------- | ------------------------------------------- |
+| id            | 订单id，订单唯一标识                                 |
+| symbol        | 交易对                                         |
+| opType        | 操作类型: DEAL                                  |
+| type          | 订单类型                                        |
+| side          | 买或卖                                         |
+| price         | 订单价格                                        |
+| size          | 订单数量                                        |
+| funds         | 下单金额                                        |
+| dealFunds     | 成交额                                         |
+| dealSize      | 成交数量                                        |
+| fee           | 手续费                                         |
+| feeCurrency   | 计手续费币种                                      |
+| stp           | 自成交保护                                       |
+| stop          | 止盈止损类型， entry:止盈; loss:止损                   |
+| stopTriggered | 是否触发止盈止损                                    |
+| stopPrice     | 止盈止损触发价格                                    |
+| timeInForce   | 订单时效策略                                      |
+| postOnly      | 是否为被动委托                                     |
+| hidden        | 是否为隐藏单                                      |
+| iceberg       | 是否为冰山单                                      |
+| visibleSize   | 冰山单在买卖盘可见数量                                 |
+| cancelAfter   | timeInForce 为 GTT n秒后触发                     |
+| channel       | 下单来源                                        |
+| clientOid     | 客户端生成的标识                                    |
+| remark        | 订单说明                                        |
+| tags          | 订单标签                                        |
+| isActive      | 订单状态 true: 订单状态为 open					 |
+| cancelExist   | 订单是否存在取消记录                                  |
+| createdAt     | 创建时间                                        |
+| tradeType     | 交易类型: TRADE（现货交易）, MARGIN_TRADE(杠杆交易)                                        |
+
+
 
 # 成交明细
 

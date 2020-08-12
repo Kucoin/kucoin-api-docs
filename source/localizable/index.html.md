@@ -28,6 +28,11 @@ The WebSocket contains two sections: Public Channels and Private Channels
 
 To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
+**08/12/20**:
+
+- Add [Cancel Single Order by clientOid](#cancel-single-order-by-clientoid)；
+- Add [Get Single Active Order by clientOid](#get-single-active-order-by-clientoid)；
+
 
 **07/13/20**:
 
@@ -256,8 +261,8 @@ Endpoints | Description
 [List Orders](#list-orders) | Get orders details.
 [Recent Orders](#recent-orders) | Get order details of the last 24 hours(up to 1000).
 [Get an order](#get-an-order) | Get the details of a single order.
-[List Fills](#list-fills) | Get the order execution details.
-[Recent Fills](#recent-fills) | Get order execution details of the last 24 hours(up to 1000).
+[Cancel Single Order by clientOid](#cancel-single-order-by-clientoid) | Cancel Single Order by clientOid.
+[Get Single Active Order by clientOid](#get-single-active-order-by-clientoid) | Get Single Active Order by clientOid.
 
  A sub-account shares the same fee level as its master-account. (The fee level will be calculated based on the total transaction amount of the sub-account and the master account or the holding amount of KCS.)
 
@@ -2216,6 +2221,46 @@ orderId | Unique ID of the cancelled order
 ### CANCEL REJECT ###
 If the order could not be canceled (already filled or previously canceled, etc), then an error response will indicate the reason in the **message** field.
 
+## Cancel Single Order by clientOid
+
+```json
+{
+  "cancelledOrderId": "5f311183c9b6d539dc614db3",
+  "clientOid": "6d539dc614db3"
+}
+```
+
+Request via this interface to cancel an order via the clientOid.
+
+### HTTP REQUEST
+
+**DELETE /api/v1/order/client-order/{clientOid}**
+
+### Example
+
+DELETE /api/v1/order/client-order/6d539dc614db3
+
+### API KEY PERMISSIONS
+
+This endpoint requires the **"Trade"** permission.
+
+###RESPONSES###
+
+| Param | Type | Description                            |
+| ------- | ------ | ----------------------------- |
+| clientOid | String | Unique order id created by users to identify their orders |
+
+### RESPONSES
+
+| Field | Description     |
+| ----------------- | ------- |
+| cancelledOrderId | Order ID of cancelled order |
+| clientOid | Unique order id created by users to identify their orders |
+
+
+
+
+
 ## Cancel all orders
 
 ```json
@@ -2636,6 +2681,100 @@ tradeType | The type of trading : **TRADE**（Spot Trading）, **MARGIN_TRADE** 
 
 <aside class="spacer4"></aside>
 <aside class="spacer2"></aside>
+
+
+## Get Single Active Order by clientOid 
+
+```json
+{
+  "id": "5f3113a1c9b6d539dc614dc6",
+  "symbol": "KCS-BTC",
+  "opType": "DEAL",
+  "type": "limit",
+  "side": "buy",
+  "price": "0.00001",
+  "size": "1",
+  "funds": "0",
+  "dealFunds": "0",
+  "dealSize": "0",
+  "fee": "0",
+  "feeCurrency": "BTC",
+  "stp": "",
+  "stop": "",
+  "stopTriggered": false,
+  "stopPrice": "0",
+  "timeInForce": "GTC",
+  "postOnly": false,
+  "hidden": false,
+  "iceberg": false,
+  "visibleSize": "0",
+  "cancelAfter": 0,
+  "channel": "API",
+  "clientOid": "6d539dc614db312",
+  "remark": "",
+  "tags": "",
+  "isActive": true,
+  "cancelExist": false,
+  "createdAt": 1597051810000,
+  "tradeType": "TRADE"
+}
+```
+
+Request via this interface to check the information of a single active order via clientOid. The system will prompt that the order does not exists if the order does not exist or has been settled.
+
+
+### HTTP REQUEST
+
+**GET /api/v1/order/client-order/{clientOid}**
+
+### Example
+
+GET /api/v1/order/client-order/6d539dc614db312
+
+### API KEY PERMISSIONS
+This endpoint requires the **"General"** permission.
+
+### PARAMETERS
+
+| Param | Type | Description                           |
+| ------- | ------ | ----------------------------- |
+| clientOid | String | Unique order id created by users to identify their orders |
+
+###RESPONSES
+Field | Description
+--------- | -------
+orderId | Order ID, the ID of an order
+symbol | symbol
+opType |  operation type,deal is pending order,cancel is cancel order
+type | order type,e.g. limit,market,stop_limit.
+side | transaction direction,include buy and sell
+price |  order price
+size |  order quantity
+funds | order funds
+dealFunds |  deal funds
+dealSize | deal quantity
+fee | fee
+feeCurrency | charge fee currency
+stp |  self trade prevention,include CN,CO,DC,CB
+stop |  stop type, include entry and loss
+stopTriggered |  stop order is triggered
+stopPrice |  stop price
+timeInForce | time InForce,include GTC,GTT,IOC,FOK
+postOnly | postOnly
+hidden | hidden order
+iceberg | iceberg order
+visibleSize | display quantity for iceberg order
+cancelAfter | cancel orders time，requires timeInForce to be GTT
+channel | order source
+clientOid | user-entered order unique mark
+remark | remark
+tags | tag order source
+isActive | order status, true and false. If true, the order is active, if false, the order is fillled or cancelled
+cancelExist | order cancellation transaction record
+createdAt | create time
+tradeType | The type of trading : **TRADE**（Spot Trading）, **MARGIN_TRADE** (Margin Trading).
+
+
 
 # Fills
 
