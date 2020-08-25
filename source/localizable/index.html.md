@@ -28,6 +28,11 @@ The WebSocket contains two sections: Public Channels and Private Channels
 
 To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
+**08/25/20**:
+
+- Add REST API [Stop Order](#stop-order)
+- Add websocket [Stop Order Event](#stop-order-event)，and deprecate [Stop Order Received Event](#stop-order-received-event), [Stop Order Activate Event](#stop-order-activate-event)
+
 **08/12/20**:
 
 - Add [Cancel Single Order by clientOid](#cancel-single-order-by-clientoid)；
@@ -1920,8 +1925,6 @@ This endpoint requires the **"Trade"** permission.
 | symbol    | String | a valid trading symbol code. e.g. ETH-BTC     |
 | type      | String | *[Optional]* **limit** or **market** (default is **limit**)          |
 | remark    | String | *[Optional]*  remark for the order, length cannot exceed 100 utf8 characters|
-| stop      | String | *[Optional]* Either **loss** or **entry**. Requires **stopPrice** to be defined |
-| stopPrice | String | *[Optional]* Need to be defined if stop is specified. |
 | stp       | String | *[Optional]*  self trade prevention , **CN**, **CO**, **CB** or **DC**|
 | tradeType | String | *[Optional]* The type of trading : **TRADE**（Spot Trade）, **MARGIN_TRADE** (Margin Trade). Default is **TRADE** |
 
@@ -1970,24 +1973,6 @@ A **market order** differs from a limit order in that the execution price is not
 
 ###TradeType
 The platform currently supports spot (**TRADE**) and margin (**MARGIN_TRADE**) . The system will freeze the funds of the specified account according to your parameter type. If this parameter is not specified, the funds in your trade account will be frozen by default.
-
-###STOP ORDER
-
-A stop order is an order to buy or sell the specified amount of cryptos at the last traded
-price or pre-specified limit price once the order has traded at or through a pre-specified stopPrice. The order will be executed by the highest price first. For orders of the same price, the order will be executed in time priority.
-
-**stop: 'loss':** Triggers when the last trade price changes to a value at or below the stopPrice.
-
-**stop: 'entry':** Triggers when the last trade price changes to a value at or above the stopPrice.
-
-
-The last trade can be found in the latest match message. Note that not all match messages may be received due to dropped messages.
-
-The last trade price is the last price at which an order was filled. This price can be found in the latest match message. Note that not all match messages may be received due to dropped messages.
-
-Note that when triggered, stop orders execute as either market or limit orders, depending on the type.
-
-When placing a stop loss order, the system will pre-freeze the assets in your account for the order. **When you are going to place a stop market order, we recommend you to specify the funds for the order when trading**.
 
 ###PRICE
 The price must be specified in priceIncrement symbol units. The priceIncrement is the smallest unit of price. For the BTC-USDT symbol, the priceIncrement is 0.00001000. Prices less than 0.00001000 will not be accepted, The price for the placed order should be multiple numbers of priceIncrement, or the system would report an error when you place the order. Not required for market orders.
@@ -2206,12 +2191,12 @@ DELETE /api/v1/orders/5bd6e9286d99522a52e458de
 ### API KEY PERMISSIONS
 This endpoint requires the **"Trade"** permission.
 
-### Parameters ###
+### Parameters
 Param | Type | Description
 --------- | ------- | -----------
 orderId | String | [Order ID](#list-orders), unique ID of the order.
 
-###RESPONSES###
+### RESPONSES
 Field | Description
 --------- | -------
 orderId | Unique ID of the cancelled order
@@ -2220,7 +2205,7 @@ orderId | Unique ID of the cancelled order
 
 <aside class="notice">The <b>order ID</b> is the server-assigned order id and not the passed clientOid.</aside>
 
-### CANCEL REJECT ###
+### CANCEL REJECT
 If the order could not be canceled (already filled or previously canceled, etc), then an error response will indicate the reason in the **message** field.
 
 ## Cancel Single Order by clientOid
@@ -2300,7 +2285,7 @@ This endpoint requires the **"Trade"** permission.
 |symbol | String | *[Optional]* symbol, cancel the orders for the specified trade pair. |
 | tradeType| String | *[Optional]* the type of trading, cancel the orders for the specified trading type, and the default is to cancel the spot trading order (**TRADE**).|
 
-###RESPONSES###
+### RESPONSES
 Field | Description
 --------- | -------
 orderId | Order ID, unique identifier of an order.
@@ -2379,7 +2364,7 @@ tradeType | String |The type of trading : **TRADE**（Spot Trading）, **MARGIN_
 startAt| long | *[Optional]*  Start time (milisecond)
 endAt| long | *[Optional]* End time (milisecond)
 
-###RESPONSES
+### RESPONSES
 Field | Description
 --------- | -------
 id |  Order ID, the ID of an order.
@@ -2413,7 +2398,7 @@ cancelExist | order cancellation transaction record
 createdAt | create time
 tradeType | The type of trading : **TRADE**（Spot Trading）, **MARGIN_TRADE** (Margin Trading).
 
-###ORDER STATUS AND SETTLEMENT
+### ORDER STATUS AND SETTLEMENT
 Any order on the exchange order book is in active status. Orders removed from the order book will be marked with done status. After an order becomes done, there may be a few milliseconds latency before it’s fully settled.
 
 You can check the orders in any status. If the status parameter is not specified, orders of done status will be returned by default.
@@ -2425,7 +2410,7 @@ The history for cancelled orders is only kept for **one month**. You will not be
 
 <aside class="notice">The total number of items retrieved cannot exceed 500,000. If it is exceeded, please shorten the query time range.</aside>
 
-###POLLING
+### POLLING
 For high-volume trading, it is highly recommended that you maintain your own list of open orders and use one of the streaming market data feeds to keep it updated. You should poll the open orders endpoint to obtain the current state of any open order.
 
 
@@ -2481,7 +2466,7 @@ startAt| long | *[Optional]*  Start time (milisecond)
 endAt| long | *[Optional]* End time (milisecond)
 side | String | *[Optional]*  **buy** or **sell**
 
-###RESPONSES###
+### RESPONSES
 Field | Description
 --------- | -------
 symbol | symbol
@@ -3408,7 +3393,7 @@ time | Timestamp
 bids | bids
 asks | asks
 
-### Data Sort ###
+### Data Sor
 
 **Asks**: Sort price from low to high (v2)
 
@@ -4716,6 +4701,349 @@ This endpoint requires the **"General"** permission.
 | dailyIntRate | Daily interest rate. e.g. 0.002 is 0.2%  |
 | term         | Term (Unit: Day)                         |
 | timestamp    | Time of execution in nanosecond          |
+
+# Stop Order
+
+A stop order is an order to buy or sell the specified amount of cryptos at the last traded price or pre-specified limit price once the order has traded at or through a pre-specified stopPrice. The order will be executed by the highest price first. For orders of the same price, the order will be executed in time priority.
+
+**stop: 'loss'**: Triggers when the last trade price changes to a value at or below the stopPrice.
+
+**stop: 'entry'**: Triggers when the last trade price changes to a value at or above the stopPrice.
+
+The last trade can be found in the latest match message. Note that not all match messages may be received due to dropped messages.
+
+The last trade price is the last price at which an order was filled. This price can be found in the latest match message. Note that not all match messages may be received due to dropped messages.
+
+Note that when triggered, stop orders execute as either market or limit orders, depending on the type.
+
+When placing a stop loss order, the system will not pre-freeze the assets in your account for the order. **When you are going to place a stop market order, we recommend you to specify the funds for the order when trading**.
+
+## Place a new order
+
+**Do not include extra spaces in JSON strings in request body.**
+
+### Limitation
+
+The maximum untriggered stop orders for a single trading pair in one account is **20**.
+
+### HTTP Request
+
+**POST /api/v1/stop-order**
+
+### Example
+
+POST /api/v1/stop-order
+
+### API KEY PERMISSIONS
+
+This endpoint requires the **"Trade"** permission.
+
+### Request Body Parameters
+
+| Param  | Type   | Description                                                         |
+| --------- | ------ | ------------------------------------------------------------ |
+| clientOid | String | Unique order id created by users to identify their orders, e.g. UUID.          |
+| side      | String | **buy** or **sell**                              |
+| symbol    | String | a valid trading symbol code. e.g. ETH-BTC |
+| type      | String | *[Optional]* **limit** or **market**, the default is **limit**     |
+| remark    | String | *[Optional]* remark for the order, length cannot exceed 100 utf8 characters                |
+| stop      | String | *[Optional]* Either **loss** or **entry**, the default is **loss**. Requires stopPrice to be defined.|
+| stopPrice | String | Need to be defined if stop is specified.                                                   |
+| stp       | String | *[Optional]* self trade prevention , **CN**, **CO**, **CB** , **DC** (limit order does not support DC) |
+| tradeType | String | *[Optional]* The type of trading : **TRADE**（Spot Trade）, **MARGIN_TRADE** (Margin Trade). Default is **TRADE** |
+
+#### LIMIT ORDER PARAMETERS
+
+| Param       | type    | Description                                                  |
+| ----------- | ------- | ------------------- |
+| price       | String  | price per base currency          |
+| size        | String  | amount of base currency to buy or sell         |
+| timeInForce | String  | *[Optional]* **GTC**, **GTT**, **IOC**, or **FOK** (default is **GTC**), read [Time In Force](#time-in-force).   |
+| cancelAfter | long    | *[Optional]*  cancel after **n** seconds, requires **timeInForce** to be **GTT**                   |
+| postOnly    | boolean | *[Optional]*  Post only flag, invalid when **timeInForce** is **IOC** or **FOK**                               |
+| hidden      | boolean | *[Optional]*  Order will not be displayed in the order book |
+| iceberg    | boolean | *[Optional]*  Only aportion of the order is displayed in the order book |
+| visibleSize | String  | *[Optional]*  The maximum visible size of an iceberg order   |
+
+
+#### MARKET ORDER PARAMETERS
+
+Param | type | Description
+--------- | ------- | -----------
+size | String | *[Optional]*  Desired amount in base currency
+funds | String | *[Optional]*  The desired amount of quote currency to use
+
+* It is required that you use one of the two parameters, **size** or **funds**.
+
+###RESPONSES
+Field | Description
+--------- | -------
+orderId | The ID of the order
+
+A successful order will be assigned an order ID. A successful order is defined as one that has been accepted by the matching engine.
+
+## Cancel an Order
+
+Request via this endpoint to cancel a single stop order previously placed.
+
+You will receive cancelledOrderIds field once the system has received the cancellation request. The cancellation request will be processed by the matching engine in sequence. To know if the request is processed (successfully or not), you may check the order status or the update message from the pushes.
+
+### HTTP Request
+
+**DELETE /api/v1/stop-order/{orderId}**
+
+### Example
+
+DELETE /api/v1/stop-order/5bd6e9286d99522a52e458de
+
+### API KEY PERMISSIONS
+This endpoint requires the **"Trade"** permission.
+
+### Parameters
+Param | Type | Description
+--------- | ------- | -----------
+orderId | String | [Order ID](#list-orders), unique ID of the order.
+
+### RESPONSES
+Field | Description
+--------- | -------
+orderId | Unique ID of the cancelled order
+
+
+
+<aside class="notice">The <b>order ID</b> is the server-assigned order id and not the passed clientOid.</aside>
+
+### CANCEL REJECT
+If the order could not be canceled (already filled or previously canceled, etc), then an error response will indicate the reason in the **message** field.
+
+## Cancel Orders
+
+Request via this interface to cancel a batch of stop orders.
+
+### HTTP Request
+
+**DELETE /api/v1/stop-order/cancel**
+
+### Example
+
+**DELETE /api/v1/stop-order/cancel?symbol=ETH-BTC&tradeType=TRADE&orderIds=5bd6e9286d99522a52e458de,5bd6e9286d99522a52e458df**
+
+### API KEY PERMISSIONS
+
+This endpoint requires the **"General"** permission.
+
+### PARAMETERS
+
+| Parm      | Type   | Decription                                                   |
+| --------- | ------ | ------------------------------------------------------------ |
+| symbol    | String | [Optional] symbol                                            |
+| tradeType | String | [Optional] The type of trading : **TRADE**（Spot Trading）, **MARGIN_TRADE** (Margin Trading). |
+| orderIds  | String | [Optional] Comma seperated order IDs.                        |
+
+### RESPONSES
+
+| Field             | Decription          |
+| ----------------- | ------------------- |
+| cancelledOrderIds | cancelled order ids |
+
+## Get Single Order Info
+
+Request via this interface to get a stop order information via the order ID.
+
+### HTTP Request
+
+**GET /api/v1/stop-order/{orderId}**
+
+### Example
+
+GET /api/v1/stop-order/5c35c02703aa673ceec2a168
+
+### API KEY PERMISSIONS
+
+This endpoint requires the **"General"** permission.
+
+### PARAMETERS
+
+| Parm    | Type   | Decription |
+| ------- | ------ | ---------- |
+| orderId | String | Order ID   |
+
+
+
+### RESPONSES
+
+| Field       | Description                                                  |
+| ----------- | ------------------------------------------------------------ |
+| id          | Order ID, the ID of an order.                                |
+| symbol      | Symbol                                                       |
+| userId      | User ID                                                      |
+| type        | Order type                                                   |
+| side        | transaction direction,include buy and sell                   |
+| price       | order price                                                  |
+| size        | order quantity                                               |
+| funds       | order funds                                                  |
+| stp         | self trade prevention                                        |
+| timeInForce | time InForce,include GTC,GTT,IOC,FOK                         |
+| cancelAfter | cancel orders after n seconds，requires timeInForce to be GTT |
+| postOnly    | postOnly                                                     |
+| hidden      | hidden order                                                 |
+| iceberg     | Iceberg order                                                |
+| visibleSize | displayed quantity for iceberg order                         |
+| channel     | order source                                                 |
+| clientOid   | user-entered order unique mark                               |
+| remark      | Remarks                                                      |
+| tags        | tag order source                                             |
+| tradeType   | The type of trading : **TRADE**（Spot Trading）, **MARGIN_TRADE** (Margin Trading). |
+| feeCurrency | The currency of the fee                                      |
+| createdAt   | order creation time                                          |
+| stop        | Stop order type, include loss and entry                      |
+| stopPrice   | stop price                                                   |
+
+
+## List Stop Orders
+
+
+Request via this endpoint to get your current untriggered stop order list. Items are paginated and sorted to show the latest first. See the [Pagination](#pagination) section for retrieving additional entries after the first page.
+
+### HTTP REQUEST
+**GET /api/v1/stop-order**
+
+### Example
+GET /api/v1/stop-order
+
+### API KEY PERMISSIONS
+This endpoint requires the **"General"** permission.
+
+<aside class="notice">This request is paginated.</aside>
+
+
+### PARAMETERS
+You can pinpoint the results with the following query paramaters.
+
+Param | Type | Description
+--------- | ------- | -----------
+status | String |*[Optional]* **active** or **done**(done as default), Only list orders with a specific status .
+symbol |String|*[Optional]* Only list orders for a specific symbol.
+side | String | *[Optional]* **buy** or **sell**
+type | String | *[Optional]* **limit**, **market**, **limit_stop** or **market_stop**
+tradeType | String |The type of trading : **TRADE**（Spot Trading）, **MARGIN_TRADE** (Margin Trading).
+startAt| long | *[Optional]*  Start time (milisecond)
+endAt| long | *[Optional]* End time (milisecond)
+currentPage | Int    | *[Optional]* current page
+orderIds    | String | *[Optional]* comma seperated order ID list
+pageSize    | Int    | *[Optional]* page size
+
+### RESPONSES
+
+| Field       | Description                                                  |
+| ----------- | ------------------------------------------------------------ |
+| id          | Order ID, the ID of an order.                                |
+| symbol      | Symbol                                                       |
+| userId      | User ID                                                      |
+| type        | Order type                                                   |
+| side        | transaction direction,include buy and sell                   |
+| price       | order price                                                  |
+| size        | order quantity                                               |
+| funds       | order funds                                                  |
+| stp         | self trade prevention                                        |
+| timeInForce | time InForce,include GTC,GTT,IOC,FOK                         |
+| cancelAfter | cancel orders after n seconds，requires timeInForce to be GTT |
+| postOnly    | postOnly                                                     |
+| hidden      | hidden order                                                 |
+| iceberg     | Iceberg order                                                |
+| visibleSize | displayed quantity for iceberg order                         |
+| channel     | order source                                                 |
+| clientOid   | user-entered order unique mark                               |
+| remark      | Remarks                                                      |
+| tags        | tag order source                                             |
+| tradeType   | The type of trading : **TRADE**（Spot Trading）, **MARGIN_TRADE** (Margin Trading). |
+| feeCurrency | The currency of the fee                                      |
+| createdAt   | order creation time                                          |
+| stop        | Stop order type, include loss and entry                      |
+| stopPrice   | stop price                                                   |
+
+
+## Get Single Order by clientOid
+
+Request via this interface to get a stop order information via the clientOid.
+
+### HTTP Request
+
+**GET /api/v1/stop-order/queryOrderByClientOid**
+
+### Example
+
+GET /api/v1/stop-order/queryOrderByClientOid?symbol=BTC-USDT&clientOid=9823jnfda923a
+
+### API KEY PERMISSIONS
+
+This endpoint requires the **"Trade"** permission.
+
+### PARAMETERS
+
+| Param | Type | Description                            |
+| ------- | ------ | ----------------------------- |
+| clientOid | String | Unique order id created by users to identify their orders |
+| symbol | String | [Optional] Unique order id created by users to identify their orders |
+
+### RESPONSES
+| Field       | Description                                                  |
+| ----------- | ------------------------------------------------------------ |
+| id          | Order ID, the ID of an order.                                |
+| symbol      | Symbol                                                       |
+| userId      | User ID                                                      |
+| type        | Order type                                                   |
+| side        | transaction direction,include buy and sell                   |
+| price       | order price                                                  |
+| size        | order quantity                                               |
+| funds       | order funds                                                  |
+| stp         | self trade prevention                                        |
+| timeInForce | time InForce,include GTC,GTT,IOC,FOK                         |
+| cancelAfter | cancel orders after n seconds，requires timeInForce to be GTT |
+| postOnly    | postOnly                                                     |
+| hidden      | hidden order                                                 |
+| iceberg     | Iceberg order                                                |
+| visibleSize | displayed quantity for iceberg order                         |
+| channel     | order source                                                 |
+| clientOid   | user-entered order unique mark                               |
+| remark      | Remarks                                                      |
+| tags        | tag order source                                             |
+| tradeType   | The type of trading : **TRADE**（Spot Trading）, **MARGIN_TRADE** (Margin Trading). |
+| feeCurrency | The currency of the fee                                      |
+| createdAt   | order creation time                                          |
+| stop        | Stop order type, include loss and entry                      |
+| stopPrice   | stop price                                                   |
+
+
+## Cancel Single Order by clientOid
+
+Request via this interface to cancel a stop order via the clientOid.
+
+### HTTP REQUEST
+
+**DELETE /api/v1/stop-order/cancelOrderByClientOidUsing**
+
+### Example
+
+DELETE /api/v1/stop-order/cancelOrderByClientOidUsing?symbol=BTC-USDT&clientOid=9823jnfda923a
+
+### API KEY PERMISSIONS
+
+This endpoint requires the **"Trade"** permission.
+
+### PARAMETERS
+
+| Param | Type | Description                            |
+| ------- | ------ | ----------------------------- |
+| clientOid | String | Unique order id created by users to identify their orders |
+| symbol | String | [Optional] Unique order id created by users to identify their orders |
+
+### RESPONSES
+
+| Field | Description     |
+| ----------------- | ------- |
+| cancelledOrderId | Order ID of cancelled order |
+| clientOid | Unique order id created by users to identify their orders |
 
 
 # Others
@@ -6085,11 +6413,184 @@ Subscribe to this topic to get the order book changes on margin trade.
 Subscribe to private channels require **privateChannel=“true”**.
 
 
+## Private Order Change Events
+
+Topic: **/spotMarket/tradeOrders**
+
+This topic will push all change events of your orders.
+
+
+**Order Status**
+
+“match”: when taker order executes with orders in the order book, the taker order status is “match”;
+
+“open”: the order is in the order book;
+
+“done”: the order is fully executed successfully;
+
+
+### Message Type
+
+#### open
+```json
+{
+    "type":"message",
+    "topic":"/spotMarket/tradeOrders",
+    "subject":"orderChange",
+    "channelType":"private",
+    "data":{
+
+        "symbol":"KCS-USDT",
+        "orderType":"limit",
+        "side":"buy",
+        "orderId":"5efab07953bdea00089965d2",
+        "type":"open",
+        "orderTime":1593487481683297666,
+        "size":"0.1",
+        "filledSize":"0",
+        "price":"0.937",
+        "clientOid":"1593487481000906",
+        "remainSize":"0.1",
+        "status":"open",
+        "ts":1593487481683297666
+    }
+}
+```
+when the order enters into the order book;
 
 <aside class="spacer4"></aside>
-<aside class="spacer"></aside>
+<aside class="spacer4"></aside>
+<aside class="spacer2"></aside>
 
-## Stop Order Received Event
+#### match
+```json
+{
+    "type":"message",
+    "topic":"/spotMarket/tradeOrders",
+    "subject":"orderChange",
+    "channelType":"private",
+    "data":{
+
+        "symbol":"KCS-USDT",
+        "orderType":"limit",
+        "side":"sell",
+        "orderId":"5efab07953bdea00089965fa",
+        "liquidity":"taker",
+        "type":"match",
+        "orderTime":1593487482038606180,
+        "size":"0.1",
+        "filledSize":"0.1",
+        "price":"0.938",
+        "matchPrice":"0.96738",
+        "matchSize":"0.1",
+        "tradeId":"5efab07a4ee4c7000a82d6d9",
+        "clientOid":"1593487481000313",
+        "remainSize":"0",
+        "status":"match",
+        "ts":1593487482038606180
+    }
+}
+```
+when the order has been executed;
+
+<aside class="spacer4"></aside>
+<aside class="spacer4"></aside>
+<aside class="spacer2"></aside>
+
+#### filled
+```json
+{
+    "type":"message",
+    "topic":"/spotMarket/tradeOrders",
+    "subject":"orderChange",
+    "channelType":"private",
+    "data":{
+
+        "symbol":"KCS-USDT",
+        "orderType":"limit",
+        "side":"sell",
+        "orderId":"5efab07953bdea00089965fa",
+        "type":"filled",
+        "orderTime":1593487482038606180,
+        "size":"0.1",
+        "filledSize":"0.1",
+        "price":"0.938",
+        "clientOid":"1593487481000313",
+        "remainSize":"0",
+        "status":"done",
+        "ts":1593487482038606180
+    }
+}
+```
+when the order has been executed and its status was changed into DONE;
+
+<aside class="spacer4"></aside>
+<aside class="spacer4"></aside>
+<aside class="spacer2"></aside>
+
+#### canceled
+```json
+{
+    "type":"message",
+    "topic":"/spotMarket/tradeOrders",
+    "subject":"orderChange",
+    "channelType":"private",
+    "data":{
+
+        "symbol":"KCS-USDT",
+        "orderType":"limit",
+        "side":"buy",
+        "orderId":"5efab07953bdea00089965d2",
+        "type":"canceled",
+        "orderTime":1593487481683297666,
+        "size":"0.1",
+        "filledSize":"0",
+        "price":"0.937",
+        "clientOid":"1593487481000906",
+        "remainSize":"0",
+        "status":"done",
+        "ts":1593487481893140844
+    }
+}
+```
+when the order has been cancelled and its status was changed into DONE;
+
+<aside class="spacer4"></aside>
+<aside class="spacer4"></aside>
+<aside class="spacer2"></aside>
+
+#### update
+```json
+{
+    "type":"message",
+    "topic":"/spotMarket/tradeOrders",
+    "subject":"orderChange",
+    "channelType":"private",
+    "data":{
+
+        "symbol":"KCS-USDT",
+        "orderType":"limit",
+        "side":"buy",
+        "orderId":"5efab13f53bdea00089971df",
+        "type":"update",
+        "oldSize":"0.1",
+        "orderTime":1593487679693183319,
+        "size":"0.06",
+        "filledSize":"0",
+        "price":"0.937",
+        "clientOid":"1593487679000249",
+        "remainSize":"0.06",
+        "status":"open",
+        "ts":1593487682916117521
+    }
+}
+```
+when the order has been updated;
+
+<aside class="spacer4"></aside>
+<aside class="spacer4"></aside>
+
+## Stop Order Received Event (Deprecated)
 
 ```json
 {
@@ -6117,7 +6618,7 @@ When a stop-limit order is received by the system, you will receive a stop messa
 <aside class="spacer4"></aside>
 <aside class="spacer"></aside>
 
-## Stop Order Activate Event
+## Stop Order Activate Event (Deprecated)
 
 ```json
 {
@@ -6353,180 +6854,44 @@ Topic: **/margin/loan:{currency}**
 
 The system will push this message to the lenders when the order is completed.
 
+
+
 <aside class="spacer4"></aside>
 <aside class="spacer4"></aside>
 <aside class="spacer"></aside>
 
-## Private Order Change Events
-
-Topic: **/spotMarket/tradeOrders**
-
-This topic will push all change events of your orders.
 
 
-**Order Status**
-
-“match”: when taker order executes with orders in the order book, the taker order status is “match”;
-
-“open”: the order is in the order book;
-
-“done”: the order is fully executed successfully;
-
-
-### Message Type
-
-#### open
 ```json
 {
-    "type":"message",
-    "topic":"/spotMarket/tradeOrders",
-    "subject":"orderChange",
-    "channelType":"private",
+    "topic":"/spotMarket/advancedOrders",
+    "subject":"stopOrder",
     "data":{
-
-        "symbol":"KCS-USDT",
-        "orderType":"limit",
-        "side":"buy",
-        "orderId":"5efab07953bdea00089965d2",
-        "type":"open",
-        "orderTime":1593487481683297666,
-        "size":"0.1",
-        "filledSize":"0",
-        "price":"0.937",
-        "clientOid":"1593487481000906",
-        "remainSize":"0.1",
-        "status":"open",
-        "ts":1593487481683297666
-    }
-}
-```
-when the order enters into the order book;
-
-<aside class="spacer4"></aside>
-<aside class="spacer4"></aside>
-<aside class="spacer2"></aside>
-
-#### match
-```json
-{
-    "type":"message",
-    "topic":"/spotMarket/tradeOrders",
-    "subject":"orderChange",
-    "channelType":"private",
-    "data":{
-
-        "symbol":"KCS-USDT",
-        "orderType":"limit",
+        "createdAt":1589789942337,
+        "orderId":"5ec244f6a8a75e0009958237",
+        "orderPrice":"0.00062",
+        "orderType":"stop",
         "side":"sell",
-        "orderId":"5efab07953bdea00089965fa",
-        "liquidity":"taker",
-        "type":"match",
-        "orderTime":1593487482038606180,
-        "size":"0.1",
-        "filledSize":"0.1",
-        "price":"0.938",
-        "matchPrice":"0.96738",
-        "matchSize":"0.1",
-        "tradeId":"5efab07a4ee4c7000a82d6d9",
-        "clientOid":"1593487481000313",
-        "remainSize":"0",
-        "status":"match",
-        "ts":1593487482038606180
+        "size":"1",
+        "stop":"entry",
+        "stopPrice":"0.00062",
+        "symbol":"KCS-BTC",
+        "tradeType":"TRADE",
+        "triggerSuccess":true,
+        "ts":1589790121382281286,
+        "type":"triggered"
     }
 }
 ```
-when the order has been executed;
 
-<aside class="spacer4"></aside>
-<aside class="spacer4"></aside>
-<aside class="spacer2"></aside>
+## Stop Order Event
 
-#### filled
-```json
-{
-    "type":"message",
-    "topic":"/spotMarket/tradeOrders",
-    "subject":"orderChange",
-    "channelType":"private",
-    "data":{
+Topic: /spotMarket/advancedOrders
 
-        "symbol":"KCS-USDT",
-        "orderType":"limit",
-        "side":"sell",
-        "orderId":"5efab07953bdea00089965fa",
-        "type":"filled",
-        "orderTime":1593487482038606180,
-        "size":"0.1",
-        "filledSize":"0.1",
-        "price":"0.938",
-        "clientOid":"1593487481000313",
-        "remainSize":"0",
-        "status":"done",
-        "ts":1593487482038606180
-    }
-}
-```
-when the order has been executed and its status was changed into DONE;
+Subject: stopOrder
 
-<aside class="spacer4"></aside>
-<aside class="spacer4"></aside>
-<aside class="spacer2"></aside>
+When a stop order is received by the system, you will receive a message with "open" type. It means that this order entered the system and waited to be triggered.
 
-#### canceled
-```json
-{
-    "type":"message",
-    "topic":"/spotMarket/tradeOrders",
-    "subject":"orderChange",
-    "channelType":"private",
-    "data":{
+When a stop order is triggered by current trading price, you will receive a message with "triggered" type.
 
-        "symbol":"KCS-USDT",
-        "orderType":"limit",
-        "side":"buy",
-        "orderId":"5efab07953bdea00089965d2",
-        "type":"canceled",
-        "orderTime":1593487481683297666,
-        "size":"0.1",
-        "filledSize":"0",
-        "price":"0.937",
-        "clientOid":"1593487481000906",
-        "remainSize":"0",
-        "status":"done",
-        "ts":1593487481893140844
-    }
-}
-```
-when the order has been cancelled and its status was changed into DONE;
-
-<aside class="spacer4"></aside>
-<aside class="spacer4"></aside>
-<aside class="spacer2"></aside>
-
-#### update
-```json
-{
-    "type":"message",
-    "topic":"/spotMarket/tradeOrders",
-    "subject":"orderChange",
-    "channelType":"private",
-    "data":{
-
-        "symbol":"KCS-USDT",
-        "orderType":"limit",
-        "side":"buy",
-        "orderId":"5efab13f53bdea00089971df",
-        "type":"update",
-        "oldSize":"0.1",
-        "orderTime":1593487679693183319,
-        "size":"0.06",
-        "filledSize":"0",
-        "price":"0.937",
-        "clientOid":"1593487679000249",
-        "remainSize":"0.06",
-        "status":"open",
-        "ts":1593487682916117521
-    }
-}
-```
-when the order has been updated;
+When you cancel a stop order, you will receive a message with "cancel" type.
