@@ -6851,7 +6851,7 @@ The system will push this message to the lenders when the order is executed.
 	"type": "message",
 	"topic": "/margin/loan:BTC",
 	"subject": "order.done",
-  "channelType":"private",
+    "channelType":"private",
 	"data": {
 
 		"currency": "BTC",                            //Currency
@@ -6877,9 +6877,12 @@ The system will push this message to the lenders when the order is completed.
 
 ```json
 {
+    "type":"message",
     "topic":"/spotMarket/advancedOrders",
     "subject":"stopOrder",
+    "channelType":"private",
     "data":{
+
         "createdAt":1589789942337,
         "orderId":"5ec244f6a8a75e0009958237",
         "orderPrice":"0.00062",
