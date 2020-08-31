@@ -365,7 +365,7 @@ REST&nbsp;API 连接地址:
 
 ## 请求频率限制
 
-当请求频率超过限制频率时，系统将返回 **403 Too Many Request** 提示。如果请求次数多次超过频率限制，你的IP或账户会被限制使用，限制时间至少1分钟。请求返回中包含当前类型的剩余请求次数。
+当请求频率超过限制频率时，系统将返回 **403 Forbidden** 或者 **429 Too Many Request** 提示。如果请求次数多次超过频率限制，你的IP或账户会被限制使用，限制时间至少1分钟。请求返回中包含当前类型的剩余请求次数。
 
 
 ###REST API
@@ -6817,7 +6817,7 @@ Topic: **/margin/loan:{currency}**
     "subject":"stopOrder",
     "channelType":"private",
     "data":{
-        
+
         "createdAt":1589789942337,
         "orderId":"5ec244f6a8a75e0009958237",
         "orderPrice":"0.00062",
