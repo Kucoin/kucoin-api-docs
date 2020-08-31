@@ -376,7 +376,7 @@ REST API:
 
 ## Request Rate Limit
 
-When a rate limit is exceeded, a status of **403 Too Many Requests** will be returned.
+When a rate limit is exceeded, a status of **403 Forbidden** or **429 Too Many Request** will be returned.
 If the rate limit is exceeded multiple times, the system will restrict your use of your IP and account for at least 1 minute. Your remaining request times will be returned in the results.
 
 ###REST API
