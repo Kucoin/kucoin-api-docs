@@ -3264,11 +3264,11 @@ GET /api/v1/stop-order/queryOrderByClientOid?symbol=BTC-USDT&clientOid=9823jnfda
 
 ### HTTP请求
 
-**DELETE /api/v1/stop-order/cancelOrderByClientOidUsing**
+**DELETE /api/v1/stop-order/cancelOrderByClientOid**
 
 ### 请求示例
 
-DELETE /api/v1/stop-order/cancelOrderByClientOidUsing?symbol=BTC-USDT&clientOid=9823jnfda923a
+DELETE /api/v1/stop-order/cancelOrderByClientOid?symbol=BTC-USDT&clientOid=9823jnfda923a
 
 ### API权限
 
