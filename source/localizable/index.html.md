@@ -3351,11 +3351,11 @@ Request via this interface to cancel a stop order via the clientOid.
 
 ### HTTP REQUEST
 
-**DELETE /api/v1/stop-order/cancelOrderByClientOidUsing**
+**DELETE /api/v1/stop-order/cancelOrderByClientOid**
 
 ### Example
 
-DELETE /api/v1/stop-order/cancelOrderByClientOidUsing?symbol=BTC-USDT&clientOid=9823jnfda923a
+DELETE /api/v1/stop-order/cancelOrderByClientOid?symbol=BTC-USDT&clientOid=9823jnfda923a
 
 ### API KEY PERMISSIONS
 
