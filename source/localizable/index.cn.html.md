@@ -4788,7 +4788,7 @@ var socket = new WebSocket("wss://push1-v2.kucoin.com/endpoint?token=xxx&[connec
 
 **connectId**：连接ID，是客户端生成的唯一标识。您在创建连接时收到的欢迎（welcome）消息的ID以及错误消息的ID都属于连接ID（connectId）。
 
-**acceptUserMessage**：当acceptUserMessage的值为 **true** 时，可以接收到用户所有的私人消息。如果你想只接收指定topic的私人消息，请在订阅时使用privateChannel:true。
+**acceptUserMessage**：当acceptUserMessage的值为 **true** 时，可以接收到用户所有的私人消息，（注意：推送会包括那些即将被弃用的旧格式的推送数据，可能会出现重复推送的情况，建议你按照需求单独订阅）。如果你想只接收指定topic的私人消息，请在订阅时使用privateChannel:true。
 
 
 <aside class="spacer2"></aside>
