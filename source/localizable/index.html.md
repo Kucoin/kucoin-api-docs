@@ -5204,7 +5204,7 @@ When the connection is successfully established, the system will send a welcome 
 
 **connectId**: the connection id, a unique value taken from the client side. Both the id of the welcome message and the id of the error message are connectId.
 
-**acceptUserMessage**: if the value of acceptUserMessage equal with true, the User Messages can be received. If you want to receive only private messages of the specified topic, please use privateChannel:true when subscribing.
+**acceptUserMessage**: if the value of acceptUserMessage is **true**, you will receive the User Messages (Note: The push will include the data in old format that will be deprecated. The push might repeat. It is recommended that you separately subscribe data according to your needs). If you only want to receive private messages of the specified topic, please set privateChannel to true when subscribing.
 
 ```json
 {
