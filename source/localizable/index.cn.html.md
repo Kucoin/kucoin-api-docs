@@ -324,18 +324,13 @@ Level-3市场数据更适合高频交易者<br/>
 - [PHP SDK](https://github.com/Kucoin/KuCoin-PHP-SDK)
 - [Go SDK](https://github.com/Kucoin/KuCoin-Go-SDK)
 - [Level3-SDK](https://github.com/Kucoin/kucoin-level3-sdk)
+- [Python SDK](https://github.com/Kucoin/kucoin-python-sdk)
+- [Nodejs SDK](https://github.com/Kucoin/kucoin-node-sdk)
 
 CCXT 是我们官方SDK提供方，您可以使用CCXT来对接Kucoin API。
 更多信息, 请访问: [https://ccxt.trade](https://ccxt.trade).
 
-**非官方**
 
-感谢社区贡献者，这些是社区开发人员提供的开源SDK。由于每个库都经常更新，因此KuCoin不会审查所有源代码，也不会对其进行严格测试。KuCoin不对SDK的安全性负责。请在使用前进行基本的代码审查并评估风险。请在使用前，浏览一下pull request以及issue。
-
-- Python [sammchardy/python-kucoin](https://github.com/sammchardy/python-kucoin)
-- .NET [mscheetz/KuCoinApi.Net](https://github.com/mscheetz/KuCoinApi.Net/tree/v2.0)
-
-欢迎各位开发者 向KuCoin[提交](https://github.com/Kucoin) SDK，优秀者将获得KCS作为奖励。
 
 **代码样例**
 
