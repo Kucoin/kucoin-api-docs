@@ -335,19 +335,12 @@ Client libraries can help you integrate with our API quickly.
 - [PHP SDK](https://github.com/Kucoin/KuCoin-PHP-SDK)
 - [Go SDK](https://github.com/Kucoin/KuCoin-Go-SDK)
 - [Level3-SDK](https://github.com/Kucoin/kucoin-level3-sdk)
+- [Python SDK](https://github.com/Kucoin/kucoin-python-sdk)
+- [Nodejs SDK](https://github.com/Kucoin/kucoin-node-sdk)
 
 
 CCXT is our authorized SDK provider and you may access the KuCoin API through CCXT. For more information, please visit: [https://ccxt.trade](https://ccxt.trade).
 
-**Unofficial SDK of KuCoin**
-
-Thanks to the great community contributors, these are the open-source SDKs contributed by community developers. Since each library is updated frequently, KuCoin does not review all source code and does not rigorously test it. KuCoin is not responsible for the security of the SDK. Please conduct a basic code review and assess the risks before use
-and we recommend you to check the **pull requests** and **issues** before the usage.
-
-- Python [sammchardy/python-kucoin](https://github.com/sammchardy/python-kucoin)
-- .NET [mscheetz/KuCoinApi.Net](https://github.com/mscheetz/KuCoinApi.Net/tree/v2.0)
-
-If you are a developer, [submit](https://github.com/Kucoin) your SDK to us and get KCS rewards.
 
 **Examples**
 
