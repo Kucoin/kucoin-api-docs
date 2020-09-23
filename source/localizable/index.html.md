@@ -590,7 +590,7 @@ Pagination allows for fetching results with the current page and is well suited 
 Parameter | Default | Description
 ---------- | ------- | ------
 currentPage | 1 | Current request page.
-pageSize | 50 | Number of results per request.
+pageSize | 50 | Number of results per request. Minimum is 10, maximum is 500. 
 
 
 #### Example
@@ -3409,8 +3409,7 @@ asks | asks
 
 **Bids**: Sort price from high to low (v1 & v2)
 
-
-## Get Full Order Book(atomic)
+## Get Full Order Book(atomic)(deprecated)
 
 
 ```json
@@ -3450,6 +3449,8 @@ asks | asks
     }
 }
 ```
+***It's deprecated, please use [Get Full Order Book(atomic)](#get-full-order-book-atomic-revision) instead.***
+
 Request via this endpoint to get the Level 3 order book of the specified trading pari. Level 3 order book includes all bids and asks (the data is non-aggregated, and each item means a single order).
 
 
@@ -3533,6 +3534,8 @@ Request via this endpoint to get the Level 3 order book of the specified trading
 This API is generally used by professional traders because it uses more server resources and traffic, and we have strict access frequency control.
 
 To maintain up-to-date order book, please use [Websocket](#full-matchengine-data-revision-level-nbsp-3) incremental feed after retrieving the Level 3 snapshot.
+
+If you do not use Level-3 to build incremental order book, we suggest you do not use this endpoint because of a large latency, which is only applicable to Level-3 incremental construction.
 
 In the orderbook, the selling data is sorted low to high by price and orders with the same price are sorted in time sequence. The buying data is sorted high to low by price and orders with the same price are sorted in time sequence. The matching engine will match the orders according to the price and time sequence.
 
