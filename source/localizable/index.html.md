@@ -28,6 +28,12 @@ The WebSocket contains two sections: Public Channels and Private Channels
 
 To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
+**10/20/20**:
+
+- Add the Basic Taker Fee,Basic Maker Fee,Taker Fee Coefficient,Maker Fee Coefficient for [Get 24hr Stats](#get-24hr-stats),[Get All Tickers](#get-all-tickers)
+- Add [Transfer between Master user and Sub-user](#transfer-between-master-user-and-sub-user) Added types of account that support transfer
+- Add [Inner Transfer](#inner-transfer) Added types of account that support transfer
+
 **08/12/20**:
 
 - Add [Cancel Single Order by clientOid](#cancel-single-order-by-clientoid)；
@@ -1304,7 +1310,7 @@ transferable | Funds available to transfer.
 	"orderId": "5cbd870fd9575a18e4438b9a"
 }
 ```
-This endpoint is used for transferring the assets between the master user and the sub-user.<br/> The main account of the master user supports the transfer to the main account or trade account of the sub-user.
+Funds in the main account, trading account and margin account of a Master Account can be transferred to the main account, trading account, futures account and margin account of its Sub-Account. The futures account of both the Master Account and Sub-Account can only accept funds transferred in from the main account, trading account and margin account and cannot transfer out to these accounts.
 
 ### HTTP REQUEST
 
@@ -1328,8 +1334,8 @@ clientOid | String | Unique order id created by users to identify their orders, 
 currency | String | [currency](#Get-Currencies)
 amount | String | Transfer amount, the amount is a positive integer multiple of the [currency precision](#get-currencies).
 direction | String | OUT — the master user to sub user<br/>IN — the sub user to the master user.
-accountType | String | *[Optional]* The account type of the master user: **MAIN**
-subAccountType | String | *[Optional]* The account type of the sub user: **MAIN**, **TRADE** or **MARGIN**, default is **MAIN**.
+accountType | String | *[Optional]* The account type of the master user: **MAIN**, **TRADE**, **MARGIN** or **CONTRACT**
+subAccountType | String | *[Optional]* The account type of the sub user: **MAIN**, **TRADE**, **MARGIN** or **CONTRACT**, default is **MAIN**.
 subUserId | String | the [user ID](#get-user-info-of-all-sub-accounts) of a sub-account.
 
 
@@ -1383,8 +1389,7 @@ orderId | The order ID of a master-sub assets transfer.
 }
 ```
 
-The inner transfer interface is used for transferring assets between the accounts of a user and is free of charges. For example, a user could transfer assets from their main account to their trading account on the platform.
-Support transfer between main account and pool account.
+This interface is used to transfer fund among accounts on the platform. Users can transfer among main account, trading account, margin account and Pool-X account for free. Users can also transfer funds from other accounts to futures account, however funds cannot be transferred out from futures account.
 
 ### HTTP REQUEST
 
@@ -1403,7 +1408,7 @@ Param | Type | Description
 clientOid | String | Unique order id created by users to identify their orders, e.g. UUID.
 currency | String | [currency](#Get-Currencies)
 from | String | Account type of payer: **main**, **trade**, **margin** or **pool**
-to | String | Account type of payee: **main**, **trade**, **margin** or **pool**
+to | String | Account type of payee: **main**, **trade**, **margin** , **contract** or **pool**
 amount | String | Transfer amount, the amount is a positive integer multiple of the [currency precision](#get-currencies).
 
 
@@ -3157,33 +3162,26 @@ time |  timestamp
 
 ```json
 {
-    "time":1550653727731,
+    "time":1602832092060,
     "ticker":[
         {
-            "symbol":"BTC-USDT",
-            "symbolName":"BTC-USDT",
-            "buy":"0.00001191",
-            "sell":"0.00001206",
-            "changeRate":"0.057",
-            "changePrice":"0.00000065",
-            "high":"0.0000123",
-            "low":"0.00001109",
-            "vol":"45161.5073",
-            "volValue":"2127.28693026",
-            "last":"0.00001204"
-        },
-        {
-            "symbol":"BCD-BTC",
-            "symbolName":"BCD-BTC",
-            "buy":"0.00018564",
-            "sell":"0.0002",
-            "changeRate":"-0.0753",
-            "changePrice":"-0.00001522",
-            "high":"0.00021489",
-            "low":"0.00018351",
-            "vol":"72.99679763",
-            "volValue":"2127.28693026",
-            "last":"0.00018664"
+            "time": 1602832092060,	// time
+            "symbol": "BTC-USDT",	// symbol
+            "symbolName":"BTC-USDT", // Name of trading pairs, it would change after renaming
+            "buy": "11328.9",	// bestAsk
+            "sell": "11329",	// bestBid
+            "changeRate": "-0.0055",	// 24h change rate
+            "changePrice": "-63.6",	// 24h change price
+            "high": "11610",	// 24h highest price
+            "low": "11200",	// 24h lowest price
+            "vol": "2282.70993217",	// 24h volume，the aggregated trading volume in BTC
+            "volValue": "25984946.157790431",	// 24h total, the trading volume in quote currency of last 24 hours
+            "last": "11328.9",	// last price
+            "averagePrice": "11360.66065903",	// 24h average transaction price yesterday
+            "takerFeeRate": "0.001",	// Basic Taker Fee
+            "makerFeeRate": "0.001",	// Basic Maker Fee
+            "takerCoefficient": "1",	// Taker Fee Coefficient
+            "makerCoefficient": "1"	// Maker Fee Coefficient
         }
     ]
 }
@@ -3200,37 +3198,46 @@ On the rare occasion that we will change the currency name, if you still want th
 ### RESPONSES
 Field |  Description
 --------- | -----------
-symbol |  Symbol
+time |  timestamp
+symbol | Symbol
 symbolName | Name of trading pairs, it would change after renaming
-buy |   Best bid price
-sell |  Best ask price
-changeRate |  Change rate
-changePrice | Change price
-high |  Highest price
-low |  Lowest price
-vol |  The executed number in base currency
-volValue | The executed amount in quote currency
-last |  The last traded price
-
-<aside class="spacer8"></aside>
+buy |  Best bid price
+sell | Best ask price
+changeRate |  24h change rate
+changePrice | 24h change price
+high | Highest price in 24h
+low |  Lowest price in 24h
+vol | 24h volume, executed based on base currency
+volValue | 24h traded amount
+last | Last traded price
+averagePrice | Average trading price in the last 24 hours
+takerFeeRate | Basic Taker Fee
+makerFeeRate | Basic Maker Fee
+takerCoefficient | Taker Fee Coefficient
+makerCoefficient | Maker Fee Coefficient
+<aside class="spacer2"></aside>
 
 ## Get 24hr Stats
 
 ```json
 //Get 24hr Stats
 {
-    "symbol": "ETH-BTC",    // symbol
-    "high": "0.03736329",   // 24h highest price
-    "vol": "2127.286930263025",  // 24h volume，the aggregated trading volume in ETH
-    "volValue": "43.58567564",  // 24h total, the trading volume in quote currency of last 24 hours
-    "last": "0.03713983",   // last price
-    "low": "0.03651252",    // 24h lowest price
-    "buy": "0.03712118",    // bestAsk
-    "sell": "0.03713983",   // bestBid
-    "changePrice": "0.00037224",  // 24h change price
-    "averagePrice": "8699.24180977",//24h average transaction price yesterday
-    "time": 1550847784668,  //time
-    "changeRate": "0.0101" // 24h change rate
+    "time": 1602832092060,	// time
+    "symbol": "BTC-USDT",	// symbol
+    "buy": "11328.9",	// bestAsk
+    "sell": "11329",	// bestBid
+    "changeRate": "-0.0055",	// 24h change rate
+    "changePrice": "-63.6",	// 24h change price
+    "high": "11610",	// 24h highest price
+    "low": "11200",	// 24h lowest price
+    "vol": "2282.70993217",	// 24h volume，the aggregated trading volume in BTC
+    "volValue": "25984946.157790431",	// 24h total, the trading volume in quote currency of last 24 hours
+    "last": "11328.9",	// last price
+    "averagePrice": "11360.66065903",	// 24h average transaction price yesterday
+    "takerFeeRate": "0.001",	// Basic Taker Fee
+    "makerFeeRate": "0.001",	// Basic Maker Fee
+    "takerCoefficient": "1",	// Taker Fee Coefficient
+    "makerCoefficient": "1"	// Maker Fee Coefficient
 }
 ```
 
@@ -3252,19 +3259,22 @@ symbol | String | [symbol](#get-symbols-list)
 ### RESPONSES
 Field |  Description
 --------- | -----------
+time |  timestamp
 symbol | Symbol
-high | Highest price in 24h
-vol | 24h volume, executed based on base currency
-volValue | 24h traded amount
-last | Last traded price
-low |  Lowest price in 24h
 buy |  Best bid price
 sell | Best ask price
 changeRate |  24h change rate
-averagePrice | Avergage trading price in the last 24 hours
 changePrice | 24h change price
-time |  timestamp
-
+high | Highest price in 24h
+low |  Lowest price in 24h
+vol | 24h volume, executed based on base currency
+volValue | 24h traded amount
+last | Last traded price
+averagePrice | Average trading price in the last 24 hours
+takerFeeRate | Basic Taker Fee
+makerFeeRate | Basic Maker Fee
+takerCoefficient | Taker Fee Coefficient
+makerCoefficient | Maker Fee Coefficient
 <aside class="spacer2"></aside>
 
 ## Get Market List

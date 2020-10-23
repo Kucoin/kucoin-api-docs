@@ -30,6 +30,12 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 为了您能获取到最新的API 变更的通知，请在 [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs)添加关注【Watch】
 
+**10/20/20**:
+
+- 【添加】 [全局行情快照](#f3027c9902),[24小时统计](#24) 增加吃单基础手续费、挂单基础手续费、吃单手续费系数、挂单手续费系数。
+- 【添加】 [子母账号资金划转](#108b1a50d2) 增加划转账户类型
+- 【添加】 [内部资金划转](#c08ac949fb) 增加划转账户类型
+
 **08/12/20**:
 
 - 【添加】 新增[基于clientOid 单个撤单](#clientoid)
@@ -1279,7 +1285,7 @@ transferable | 可划转资金
 ```
 
 此接口，用于子母账号之间资金的划转。
-母账号的储蓄账户支持向子账号的储蓄账户、交易账户或杠杆账户划转。
+支持母账号的储蓄/交易/杠杆账户向子账号的储蓄/交易/账户杠杆划转。合约账户只支持从其他账户转入资金，不支持转出资金至其他账户。
 
 
 ### HTTP请求
@@ -1301,8 +1307,8 @@ clientOid | String | Client Order Id，客户端创建的唯一标识，建议�
 currency | String | [币种](#ebcc9fbb02)
 amount | String | 转账金额，为[币种精度](#ebcc9fbb02)正整数倍
 direction | String | OUT — 母账号转子账号<br/>IN — 子账号转母账号
-accountType | String | [可选] 母账号账户类型**MAIN**
-subAccountType | String |[可选] 子账号账户类型**MAIN**、**TRADE**或**MARGIN**，默认为**MAIN**。
+accountType | String | [可选] 母账号账户类型**MAIN**、**TRADE**、**MARGIN**或**CONTRACT**，
+subAccountType | String |[可选] 子账号账户类型**MAIN**、**TRADE**、**MARGIN**或**CONTRACT**，默认为**MAIN**。
 subUserId | String | [子账号的用户Id](#a0bc1cb873)
 
 ### 返回值
@@ -1346,8 +1352,7 @@ orderId | 子母账号转账的订单ID
     "orderId":"5bd6e9286d99522a52e458de"
 }
 ```
-此接口用于平台内部账户资金划转，用户可以将资金在储蓄账户、交易账户和杠杆账户之间免费划转，支持储蓄账户和矿池账户之间划转。
-
+此接口用于平台内部账户资金划转，用户可以将资金在储蓄账户、交易账户、杠杆账户和矿池账户之间免费划转。同时支持从其他账户划转资金至合约账户，但不支持从合约账户转出资金至其他账户。
 ### HTTP请求
 
 **POST /api/v2/accounts/inner-transfer**
@@ -1364,7 +1369,7 @@ POST /api/v2/accounts/inner-transfer
 clientOid | String | Client Order Id，客户端创建的唯一标识，建议使用UUID
 currency | String | [币种](#ebcc9fbb02)
 from | String |  付款账户类型**main**、**trade**、**margin** 或 **pool**
-to | String |  收款账户类型**main**、**trade**、**margin** 或 **pool**
+to | String |  收款账户类型**main**、**trade**、**margin** 、**contract** 或 **pool**
 amount | String | 转账金额，精度为[币种精度](#ebcc9fbb02)正整数倍
 
 
@@ -3087,33 +3092,26 @@ time |  时间戳
 {
     "ticker":[
         {
-            "symbol":"BTC-USDT",
-            "symbolName":"BTC-USDT",
-            "buy":"0.00001191",
-            "sell":"0.00001206",
-            "changeRate":"0.057",
-            "changePrice":"0.00000065",
-            "high":"0.0000123",
-            "low":"0.00001109",
-            "vol":"45161.5073",
-            "volValue":"43.58567564",
-            "last":"0.00001204"
-        },
-        {
-            "symbol":"BCD-BTC",
-            "symbolName":"BCD-BTC",
-            "buy":"0.00018564",
-            "sell":"0.0002",
-            "changeRate":"-0.0753",
-            "changePrice":"-0.00001522",
-            "high":"0.00021489",
-            "low":"0.00018351",
-            "vol":"72.99679763",
-            "volValue":"43.58567564",
-            "last":"0.00018664"
+          "time": 1602832092060,	// 时间戳
+          "symbol": "BTC-USDT",	// 交易对
+          "symbolName": "BTC-USDT", // 变更后的交易对名称
+          "buy": "11328.9",	// 最佳买一价
+          "sell": "11329",	// 最佳卖一价
+          "changeRate": "-0.0055",	// 24h涨跌幅	
+          "changePrice": "-63.6",	//24h 涨跌价
+          "high": "11610",	// 24h最高价
+          "low": "11200",	// 24h最低价
+          "vol": "2282.70993217",	// 24h成交量，以基础币种计量的交易量
+          "volValue": "25984946.157790431",	// 24h成交金额
+          "last": "11328.9",	// 最新成交价
+          "averagePrice": "11360.66065903",	// 昨日24小时平均成交价格
+          "takerFeeRate": "0.001",	// 吃单基础手续费
+          "makerFeeRate": "0.001",	// 挂单基础手续费
+          "takerCoefficient": "1",	// 吃单手续费系数
+          "makerCoefficient": "1"	// 挂单手续费系数
         }
     ],
-    "time":1550653727731
+    "time":1602832092060
 }
 ```
 
@@ -3130,36 +3128,46 @@ GET /api/v1/market/allTickers
 ### 返回值
 字段 | 含义
 --------- | -------
+time |  时间戳
 symbol | 交易对
 symbolName| 变更后的交易对名称
 buy |  最佳买一价
 sell | 最佳卖一价
-changeRate |  涨跌幅
-changePrice | 涨跌价
-high |  最高价
-low |  最低价
-vol |  以基础币种计量的成交量
-volValue | 成交金额
-last |  最新成交价
-<aside class="spacer8"></aside>
+changeRate |  24h涨跌幅
+changePrice | 24h涨跌价格
+high | 24h最高价
+low |  24h最低价
+vol | 24h成交量，以基础币种计量的交易量
+volValue | 24h 成交金额
+last | 最新成交价
+averagePrice | 昨日24小时平均成交价格
+takerFeeRate | 吃单基础手续费
+makerFeeRate | 挂单基础手续费
+takerCoefficient | 吃单手续费系数
+makerCoefficient | 挂单手续费系数
+<aside class="spacer2"></aside>
 
 ## 24小时统计
 
 ```json
 //Get 24hr Stats
 {
-    "symbol": "ETH-BTC",    // 交易对
-    "high": "0.03736329",   // 24h最高价
-    "low": "0.03651252",    // 24h最低价
-    "vol": "2127.286930263025",  // 24h成交量，以基础币种计量的交易量
-    "volValue": "43.58567564",  // 24h成交金额
-    "last": "0.03713983",   // 最新成交价
-    "buy": "0.03712118",    // 最佳买一价
-    "sell": "0.03713983",   // 最佳卖一价
-    "changePrice": "0.00037224",  //24h 涨跌价
-    "averagePrice": "8699.24180977",//昨日24小时平均成交价格
-    "changeRate": "0.0101", // 24h涨跌幅
-    "time": 1550847784668  //时间戳
+  "time": 1602832092060,	// 时间戳
+  "symbol": "BTC-USDT",	// 交易对
+  "buy": "11328.9",	// 最佳买一价
+  "sell": "11329",	// 最佳卖一价
+  "changeRate": "-0.0055",	// 24h涨跌幅	
+  "changePrice": "-63.6",	//24h 涨跌价
+  "high": "11610",	// 24h最高价
+  "low": "11200",	// 24h最低价
+  "vol": "2282.70993217",	// 24h成交量，以基础币种计量的交易量
+  "volValue": "25984946.157790431",	// 24h成交金额
+  "last": "11328.9",	// 最新成交价
+  "averagePrice": "11360.66065903",	// 昨日24小时平均成交价格
+  "takerFeeRate": "0.001",	// 吃单基础手续费
+  "makerFeeRate": "0.001",	// 挂单基础手续费
+  "takerCoefficient": "1",	// 吃单手续费系数
+  "makerCoefficient": "1"	// 挂单手续费系数
 }
 ```
 
@@ -3182,18 +3190,22 @@ symbol | String |  [交易对](#a17b4e2866)
 
 字段 | 含义
 --------- | -------
+time |  时间戳
 symbol | 交易对
+buy |  最佳买一价
+sell | 最佳卖一价
+changeRate |  24h涨跌幅
+changePrice | 24h涨跌价格
 high | 24h最高价
 low |  24h最低价
 vol | 24h成交量，以基础币种计量的交易量
 volValue | 24h 成交金额
 last | 最新成交价
-buy |  最佳买一价
-sell | 最佳卖一价
-changeRate |  24h涨跌幅
 averagePrice | 昨日24小时平均成交价格
-changePrice | 24h涨跌价格
-time |  时间戳
+takerFeeRate | 吃单基础手续费
+makerFeeRate | 挂单基础手续费
+takerCoefficient | 吃单手续费系数
+makerCoefficient | 挂单手续费系数
 <aside class="spacer2"></aside>
 
 ## 交易市场列表
