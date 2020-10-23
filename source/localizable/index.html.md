@@ -28,11 +28,12 @@ The WebSocket contains two sections: Public Channels and Private Channels
 
 To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
-**10/20/20**:
+**10/23/20**:
 
-- Add the Basic Taker Fee,Basic Maker Fee,Taker Fee Coefficient,Maker Fee Coefficient for [Get 24hr Stats](#get-24hr-stats),[Get All Tickers](#get-all-tickers)
-- Add [Transfer between Master user and Sub-user](#transfer-between-master-user-and-sub-user) Added types of account that support transfer
-- Add [Inner Transfer](#inner-transfer) Added types of account that support transfer
+- Add the Basic Taker Fee,Basic Maker Fee,Taker Fee Coefficient,Maker Fee Coefficient for [Get 24hr Stats](#get-24hr-stats),[Get All Tickers](#get-all-tickers).
+- Add [Transfer between Master user and Sub-user](#transfer-between-master-user-and-sub-user) Added types of account that support transfer.
+- Add [Inner Transfer](#inner-transfer) Added types of account that support transfer.
+- Deprecate '/api/v1/accounts/sub-transfer' endpoint for [Transfer between Master user and Sub-user](#transfer-between-master-user-and-sub-user).
 
 **08/12/20**:
 
@@ -1344,41 +1345,6 @@ subUserId | String | the [user ID](#get-user-info-of-all-sub-accounts) of a sub-
 Field | Description
 --------- | -------
 orderId | The order ID of a master-sub assets transfer.
-
-
-### HTTP REQUEST
-
-**POST /api/v1/accounts/sub-transfer**
-
-<aside class="notice">This interface is not available for margin account</aside>
-
-### Example
-POST /api/v1/accounts/sub-transfer
-
-
-### API KEY PERMISSIONS
-This endpoint requires the **"Trade"** permission.
-
-### Parameters
-
-Param | Type | Description
---------- | ------- | -------
-clientOid | String | Unique order id created by users to identify their orders, e.g. UUID.
-currency | String | [currency](#Get-Currencies)
-amount | String | Transfer amount, the amount is a positive integer multiple of the [currency precision](#get-currencies).
-direction | String | OUT — the master user to sub user<br/>IN — the sub user to the master user.
-accountType | String | *[Optional]* The account type of the master user: **MAIN**
-subAccountType | String | *[Optional]* The account type of the sub user: **MAIN**, **TRADE**, default is **MAIN**.
-subUserId | String | the [user ID](#get-user-info-of-all-sub-accounts) of a sub-account.
-
-
-### RESPONSES
-
-Field | Description
---------- | -------
-orderId | The order ID of a master-sub assets transfer.
-
-
 
 
 ## Inner Transfer

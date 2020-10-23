@@ -30,11 +30,12 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 为了您能获取到最新的API 变更的通知，请在 [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs)添加关注【Watch】
 
-**10/20/20**:
+**10/23/20**:
 
-- 【添加】 [全局行情快照](#f3027c9902),[24小时统计](#24) 增加吃单基础手续费、挂单基础手续费、吃单手续费系数、挂单手续费系数。
+- 【添加】 [全局行情快照](#f3027c9902),[24小时统计](#24) 增加吃单基础手续费、挂单基础手续费、吃单手续费系数、挂单手续费系数
 - 【添加】 [子母账号资金划转](#108b1a50d2) 增加划转账户类型
 - 【添加】 [内部资金划转](#c08ac949fb) 增加划转账户类型
+- 【废弃】 [子母账号资金划转](#108b1a50d2) 中'/api/v1/accounts/sub-transfer'接口
 
 **08/12/20**:
 
@@ -1315,35 +1316,6 @@ subUserId | String | [子账号的用户Id](#a0bc1cb873)
 字段 | 含义
 --------- | -------
 orderId | 子母账号转账的订单ID
-
-### HTTP请求
-**POST /api/v1/accounts/sub-transfer**
-
-<aside class="notice">这个接口不支持杠杆账户</aside>
-
-### 请求示例
-POST /api/v1/accounts/sub-transfer
-
-### API权限
-此接口需要**交易权限**。
-
-### 请求参数
-请求参数 | 类型 | 含义
---------- | ------- | -------
-clientOid | String | Client Order Id，客户端创建的唯一标识，建议使用UUID
-currency | String | [币种](#ebcc9fbb02)
-amount | String | 转账金额，为[币种精度](#ebcc9fbb02)正整数倍
-direction | String | OUT — 母账号转子账号<br/>IN — 子账号转母账号
-accountType | String | [可选] 母账号账户类型**MAIN**
-subAccountType | String |[可选] 子账号账户类型**MAIN**、**TRADE**，默认为**MAIN**。
-subUserId | String | [子账号的用户Id](#a0bc1cb873)
-
-### 返回值
-字段 | 含义
---------- | -------
-orderId | 子母账号转账的订单ID
-
-
 
 ## 内部资金划转
 
