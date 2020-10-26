@@ -3766,7 +3766,7 @@ asks | asks
 ```
 ***It's deprecated, will be removed at 2020-12-01. please use [Get Full Order Book(atomic)](#get-full-order-book-atomic-revision) instead.***
 
-Request via this endpoint to get the Level 3 order book of the specified trading pari. Level 3 order book includes all bids and asks (the data is non-aggregated, and each item means a single order).
+Request via this endpoint to get the Level 3 order book of the specified trading pair. Level 3 order book includes all bids and asks (the data is non-aggregated, and each item means a single order).
 
 
 This API is generally used by professional traders because it uses more server resources and traffic, and we have strict access frequency control.
@@ -3843,7 +3843,7 @@ asks | asks
     }
 }
 ```
-Request via this endpoint to get the Level 3 order book of the specified trading pari. Level 3 order book includes all bids and asks (the data is non-aggregated, and each item means a single order).
+Request via this endpoint to get the Level 3 order book of the specified trading pair. Level 3 order book includes all bids and asks (the data is non-aggregated, and each item means a single order).
 
 
 This API is generally used by professional traders because it uses more server resources and traffic, and we have strict access frequency control.
