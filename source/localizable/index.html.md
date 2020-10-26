@@ -28,7 +28,7 @@ The WebSocket contains two sections: Public Channels and Private Channels
 
 To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
-**10/23/20**:
+**10/28/20**:
 
 - Add the Basic Taker Fee,Basic Maker Fee,Taker Fee Coefficient,Maker Fee Coefficient for [Get 24hr Stats](#get-24hr-stats),[Get All Tickers](#get-all-tickers).
 - Add [Transfer between Master user and Sub-user](#transfer-between-master-user-and-sub-user) Added types of account that support transfer.
@@ -3720,9 +3720,9 @@ asks | asks
 
 **Asks**: Sort price from low to high (v2)
 
-**Asks**: Sort price from high to low (v1)
+**Asks**: Sort price from high to low (v1) (Deprecated, will be removed at 2020-12-01)
 
-**Bids**: Sort price from high to low (v1 & v2)
+**Bids**: Sort price from high to low
 
 ## Get Full Order Book(atomic)(deprecated)
 
@@ -3764,7 +3764,7 @@ asks | asks
     }
 }
 ```
-***It's deprecated, please use [Get Full Order Book(atomic)](#get-full-order-book-atomic-revision) instead.***
+***It's deprecated, will be removed at 2020-12-01. please use [Get Full Order Book(atomic)](#get-full-order-book-atomic-revision) instead.***
 
 Request via this endpoint to get the Level 3 order book of the specified trading pari. Level 3 order book includes all bids and asks (the data is non-aggregated, and each item means a single order).
 
@@ -3803,7 +3803,7 @@ asks | asks
 
 **Bids**: Sort price from high to low
 
-## Get Full Order Book(atomic)(revision)
+## Get Full Order Book(atomic)
 
 
 ```json
@@ -6598,6 +6598,9 @@ Topic: **/market/level3:{symbol},{symbol}...**
 
 When a stop-limit order is received by the system, you will receive a stop message which means that this order entered the stop queue and waited to be triggered.
 
+***It's deprecated, please use [Stop Order Event](#stop-order-event) instead.***
+
+
 <aside class="spacer4"></aside>
 <aside class="spacer"></aside>
 
@@ -6626,6 +6629,8 @@ When a stop-limit order is received by the system, you will receive a stop messa
 Topic: **/market/level3:{symbol},{symbol}...**
 
 When a stop-limit order is triggered, you will receive an activate message which means that this order started the matching life cycle.
+
+***It's deprecated, please use [Stop Order Event](#stop-order-event) instead.***
 
 <aside class="spacer4"></aside>
 <aside class="spacer2"></aside>
