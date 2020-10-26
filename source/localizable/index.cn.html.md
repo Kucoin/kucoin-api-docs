@@ -30,14 +30,14 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 为了您能获取到最新的API 变更的通知，请在 [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs)添加关注【Watch】
 
-**10/23/20**:
+**10/28/20**:
 
 - 【添加】 [全局行情快照](#f3027c9902),[24小时统计](#24) 增加吃单基础手续费、挂单基础手续费、吃单手续费系数、挂单手续费系数
 - 【添加】 [子母账号资金划转](#108b1a50d2) 增加划转账户类型
 - 【添加】 [内部资金划转](#c08ac949fb) 增加划转账户类型
 - 【废弃】 [子母账号资金划转](#108b1a50d2) 中'/api/v1/accounts/sub-transfer'接口
 - 【添加】 新增REST API[止盈止损](#e7116ba965)
-- 【添加】 新增websocket[止盈止损事件](#3c27c94b77)，并弃用[止损单放置事件](#7bd1b172b3)和[止损单放置事件](#44aa1ad733)
+- 【添加】 新增websocket[止盈止损事件](#3c27c94b77)，并弃用[止损单放置事件](#7bd1b172b3)和[止损单触发事件](#44aa1ad733)
 
 **08/12/20**:
 
@@ -3647,7 +3647,7 @@ Level 2 买卖盘上的买单和卖单均按照价格汇总，每个价格下仅
 
 ### HTTP请求
 
-**GET /api/v2/market/orderbook/level2**  (推荐使用)
+**GET /api/v2/market/orderbook/level2**
 
 ### 请求示例
 GET /api/v2/market/orderbook/level2?symbol=BTC-USDT
@@ -3672,13 +3672,13 @@ asks | 卖盘
 
 **Asks**: 买盘，根据价格从低到高（v2）
 
-**Asks**:买盘， 根据价格从高到低（v1）
+**Asks**:买盘， 根据价格从高到低（v1）（已弃用，将于2020-12-01删除。）
 
-**Bids**: 卖盘，根据价格从高到低（v1 & v2）
+**Bids**: 卖盘，根据价格从高到低
 
 
 
-## Level-3全部买卖盘(非聚合)(弃用)
+## Level-3全部买卖盘(非聚合)(已弃用)
 
 
 ```json
@@ -3719,7 +3719,7 @@ asks | 卖盘
 }
 ```
 
-***已弃用，请使用[Level-3全部买卖盘(非聚合)](#level-3-3)代替。***
+***已弃用，将于2020-12-01删除。请使用[Level-3全部买卖盘(非聚合)](#level-3-3)代替。***
 
 此接口，可获取指定交易对的所有未结委托的快照。Level 3 返回了买卖盘上的所有数据（未按价格汇总，一个价格对应一个挂单）。
 
@@ -3758,7 +3758,7 @@ asks | 卖盘
 
 **Bids**: 买盘，根据价格从高到低
 
-## Level-3全部买卖盘(非聚合)(改版)
+## Level-3全部买卖盘(非聚合)
 
 
 ```json
@@ -5747,7 +5747,7 @@ Topic: **/market/match:{symbol},{symbol}...**
     "response":true
 }
 ```
-***已弃用，请使用[完整的撮合引擎数据(Level 3)](#level-3-5)代替***
+***已弃用，将于2020-12-01删除。请使用[完整的撮合引擎数据(Level 3)](#level-3-5)代替***
 
 Topic: **/market/level3:{symbol},{symbol}...**
 
@@ -6553,6 +6553,8 @@ Topic: /market/level3:{symbol},{symbol}...
 
 当系统收到止盈止损订单时，您将收到一条'stop'消息，表示此订单已进入队列并等待触发。
 
+***已弃用，请使用[止盈止损事件](#15686a8768)代替***
+
 <aside class="spacer4"></aside>
 <aside class="spacer"></aside>
 
@@ -6580,6 +6582,8 @@ Topic: /market/level3:{symbol},{symbol}...
 ```
 Topic: /market/level3:{symbol},{symbol}...
 触发止盈止损单后，您将收到一条'activate'消息，表示此订单开始进入撮合引擎匹配的生命周期。
+
+***已弃用，请使用[止盈止损事件](#15686a8768)代替***
 
 <aside class="spacer4"></aside>
 <aside class="spacer"></aside>
