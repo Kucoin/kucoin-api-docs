@@ -2328,7 +2328,8 @@ Field | Description
 
 Request via this endpoint to cancel a single order previously placed.
 
-You will receive cancelledOrderIds field once the system has received the cancellation request. The cancellation request will be processed by the matching engine in sequence. To know if the request is processed    (successfully or not), you may check the order status or the update message from the pushes.
+<aside class="notice">This interface is only for cancellation requests. The cancellation result needs to be obtained by querying the order status or subscribing to websocket. It is recommended that you DO NOT cancel the order until receiving the Open message, otherwise the order cannot be cancelled successfully.
+</aside>
 
 
 ### HTTP REQUEST

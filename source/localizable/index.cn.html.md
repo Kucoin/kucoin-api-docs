@@ -2272,8 +2272,8 @@ POST /api/v1/orders/multi
 
 此端点可以取消单笔订单。
 
-
-一旦系统收到取消请求，您将收cancelledOrderIds字段。取消请求将由撮合引擎按顺序处理。要知道请求是否已处理，您可以查询订单状态或订阅websocket获取订单消息。
+<aside class="notice">此接口只提交取消请求。实际取消结果需要通过查询订单状态或订阅websocket获取订单消息。建议您在收到Open消息后再进行撤单，否则会导致订单取消不成功。
+</aside>
 
 ### HTTP请求
 
