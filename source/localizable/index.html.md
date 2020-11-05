@@ -198,7 +198,6 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 - Add explanation to part of the API JSON field
 - Delete "sn" field in [Match Execution Data](#match-execution-data)
 - Modify [Get Fiat Price](#get-fiat-price) parameter description
-- Add "acceptUsermessage" option when connecting to the WebSocket.
 
 **2/22/19** :
 
@@ -1525,14 +1524,14 @@ This endpoint requires the **"Transfer"** permission.
 Param | Type | Description
 --------- | ------- | -----------
 currency | String | Currency
-chain | String | *[Optional]* The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20. This only apply for multi-chain currency, and there is no need for single chain currency.
+chain | String | *[Optional]* The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20. The available value for BTC are Native, Segwit, TRC20, the parameters are bech32, btc, trx, default is Native. This only apply for multi-chain currency, and there is no need for single chain currency. 
 
 ### RESPONSES
 Field | Description
---------- | ------- | -----------
+--------- | ------- 
 address | Deposit address
 memo | Address remark. If there’s no remark, it is empty. When you [withdraw](#apply-withdraw) from other platforms to the KuCoin, you need to fill in memo(tag). If you do not fill memo (tag), your deposit may not be available, please be cautious.
-chain | The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20.
+chain | The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20. The available value for BTC are Native, Segwit, TRC20, the parameters are bech32, btc, trx, default is Native. 
 
 ## Get Deposit Address
 
@@ -1560,14 +1559,14 @@ This endpoint requires the **"General"** permission.
 Param | Type | Description
 --------- | ------- | -----------
 currency | String | Currency
-chain | String | *[Optional]* The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20. This only apply for multi-chain currency, and there is no need for single chain currency.
+chain | String | *[Optional]* The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20. The available value for BTC are Native, Segwit, TRC20, the parameters are bech32, btc, trx, default is Native. This only apply for multi-chain currency, and there is no need for single chain currency. 
 
 ### RESPONSES
 Field | Description
---------- | ------- | -----------
+--------- | ------- 
 address | Deposit address
 memo | Address remark. If there’s no remark, it is empty. When you [withdraw](#apply-withdraw) from other platforms to the KuCoin, you need to fill in memo(tag). If you do not fill memo (tag), your deposit may not be available, please be cautious.
-chain | The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20.
+chain | The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20. The available value for BTC are Native, Segwit, TRC20, the parameters are bech32, btc, trx, default is Native. 
 
 
 ## Get Deposit List
@@ -5354,7 +5353,7 @@ For private channels and messages (e.g. account balance notice), please make req
 ## Create connection
 
 ```javascript
-var socket = new WebSocket("wss://push1-v2.kucoin.com/endpoint?token=xxx&[connectId=xxxxx]&acceptUserMessage=true");
+var socket = new WebSocket("wss://push1-v2.kucoin.com/endpoint?token=xxx&[connectId=xxxxx]");
 ```
 
 
@@ -5364,7 +5363,7 @@ When the connection is successfully established, the system will send a welcome 
 
 **connectId**: the connection id, a unique value taken from the client side. Both the id of the welcome message and the id of the error message are connectId.
 
-**acceptUserMessage**: if the value of acceptUserMessage is **true**, you will receive the User Messages (Note: The push will include the data in old format that will be deprecated. The push might repeat. It is recommended that you separately subscribe data according to your needs). If you only want to receive private messages of the specified topic, please set privateChannel to true when subscribing.
+If you only want to receive private messages of the specified topic, please set privateChannel to true when subscribing.
 
 ```json
 {
