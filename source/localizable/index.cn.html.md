@@ -30,7 +30,16 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 为了您能获取到最新的API 变更的通知，请在 [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs)添加关注【Watch】
 
+
+
+**11/05/20**:
+
+- 【添加】 [手续费](#307d666742)模块，增加[用户基础手续费](#a7b53083e5),[用户实际费率](#4d7761e141)接口
+- 【添加】 增加[账户流水记录](#c8122540e1)接口，并弃用[账户流水记录（弃用）](#9b26dde3d2)接口
+
+
 **10/28/20**:
+
 
 - 【添加】 [全局行情快照](#f3027c9902),[24小时统计](#24) 增加吃单基础手续费、挂单基础手续费、吃单手续费系数、挂单手续费系数
 - 【添加】 [子母账号资金划转](#108b1a50d2) 增加划转账户类型
@@ -192,7 +201,6 @@ API分为两部分：**REST API和Websocket 实时数据流**
 - 【添加】 部分API JSON 字段描述。
 - 【删除】 [撮合执行数据](#c7f054198c) 删除 **sn** 字段 。
 - 【修改】 [法币换算价格](#a2e56e9e0e) 参数描述。
-- 【添加】 创建Websocket连接时 **acceptUsermessage** 字段的描述。
 
 **2/22/19** :
 
@@ -931,7 +939,9 @@ available | 可用资金
 
 
 
-## 账户流水记录
+## 账户流水记录（弃用）
+
+已弃用，请用[账户流水记录](#c8122540e1)代替
 
 此接口返回账户的出入账流水记录。
 返回值是[分页](#88b6b4f79a)后的数据，根据时间降序排序。
@@ -1016,6 +1026,90 @@ context | 业务核心参数
 如果 **bizType** 是trade exchange，那么 **context** 字段会包含交易的额外信息（订单id，交易id，交易对）。
 
 
+
+## 账户流水记录
+
+此接口返回所有账户的出入账流水记录，支持多币种查询。
+返回值是[分页](#88b6b4f79a)后的数据，根据时间降序排序。
+
+```json
+{
+    "currentPage":1,
+    "pageSize":10,
+    "totalNum":2,
+    "totalPage":1,
+    "items":[
+        {
+            "id":"5bc7f080b39c5c03486eef8b",//唯一键
+            "currency":"KCS",//币种
+            "amount":"0.0998", //资金变动值
+            "fee":"0", //充值或提现费率
+            "balance":"0", //金额变动
+            "bizType":"withdraw", //业务类型
+            "direction":"in",  // 出入账方向入账或出账（in or out）
+            "createdAt":1540296039000,  // 创建时间
+            "context":{  // 业务核心参数
+                "orderId":"5bc7f080b39c5c03286eef8a",
+                "currency":"BTC"
+            }
+        },
+        {
+            "id":"5bc7f080b39c5c03486eef8c",
+            "currency":"KCS",
+            "amount":"0.0998",
+            "fee":"0",
+            "balance":"0",
+            "bizType":"trade exchange",
+            "direction":"in",
+            "createdAt":1540296039000,
+            "context":{
+                "orderId":"5bc7f080b39c5c03286eef8e",
+                "tradeId":"5bc7f080b3949c03286eef8a",
+                "symbol":"BTC-USD"
+            }
+        }
+    ]
+}
+
+```
+
+### HTTP请求
+**GET /api/v1/accounts/ledgers**
+
+
+### 请求示例
+GET /api/v1/accounts/ledgers?currency=BTC&startAt=1601395200000
+
+### API权限
+此接口需要**通用权限**。
+
+<aside class="notice">这个接口需要使用分页</aside>
+### 请求参数
+
+请求参数 | 类型 | 含义
+--------- | ------- | -------
+currency | String |  [可选] 币种，选填，可多选，以逗号分隔，最多支持选择10个币种，若不填写，默认查询所有币种
+direction | String | [可选] 出入账方向: **in** -入账, **out** -出账
+bizType   | String | [可选] 业务类型: **DEPOSIT** -充值, **WITHDRAW** -提现, **TRANSFER** -转账, **SUB_TRANSFER** -子账户转账,**TRADE_EXCHANGE** -交易, **MARGIN_EXCHANGE** -杠杆交易, **KUCOIN_BONUS** -鼓励金
+startAt   | long   | [可选] 开始时间（毫秒）
+endAt     | long   | [可选] 截止时间（毫秒）
+
+
+### 返回值
+字段 | 含义
+--------- | -------
+id | 唯一键
+currency | 币种
+amount | 资金变动值
+fee | 充值或提现费率
+balance | 变动后的资金总额
+bizType | 业务类型，比如交易，提现，推荐关系奖，借贷等
+direction | 出入账方向 **out** 或 **in**
+createdAt | 创建时间
+context | 业务核心参数
+
+### context
+如果 **bizType** 是trade exchange，那么 **context** 字段会包含交易的额外信息（订单id，交易id，交易对）。
 
 
 
@@ -1380,14 +1474,14 @@ POST /api/v1/deposit-addresses
 请求参数 | 类型 | 含义
 --------- | ------- |  -------
 currency | String | [币种](#ebcc9fbb02)
-chain | String | [可选] 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为ERC20。这个参数用于区分多链的币种，单链币种不需要。
+chain | String | [可选] 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为ERC20。对于BTC，现有的链有Native、Segwit、TRC20，参数分别为bech32、btc、trx。默认值为Native。这个参数用于区分多链的币种，单链币种不需要。 
 
 ### 返回值
 字段 | 含义
 --------- | -------
 address | 充值地址
 memo | 地址标签memo(tag)，如果返回为空，则该币种没有memo。对于没有memo的币种，在[提现](#6eaf6b9ae0)的时候不可以传递memo
-chain | 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为ERC20。
+chain | 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为ERC20。对于BTC，现有的链有Native、Segwit、TRC20，参数分别为bech32、btc、trx。默认值为Native。 
 
 ## 获取充值地址
 
@@ -1416,14 +1510,14 @@ GET /api/v1/deposit-addresses
 请求参数 | 类型 | 含义
 --------- | -------  | -------
 currency | String |[币种](#ebcc9fbb02)
-chain | String | [可选] 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为ERC20。这个参数用于区分多链的币种，单链币种不需要。
+chain | String | [可选] 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为ERC20。对于BTC，现有的链有Native、Segwit、TRC20，参数分别为bech32、btc、trx。默认值为Native。这个参数用于区分多链的币种，单链币种不需要。 
 
 ### 返回值
 字段 | 含义
 --------- | -------
 address | 充值地址
 memo | 地址标签memo(tag)，如果返回为空，则该币种没有memo。对于没有memo的币种，在[提现](#6eaf6b9ae0)的时候不可以传递memo
-chain | 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为ERC20。
+chain | 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为ERC20。对于BTC，现有的链有Native、Segwit、TRC20，参数分别为bech32、btc、trx。默认值为Native。 
 
 ## 获取充值列表
 
@@ -1801,6 +1895,85 @@ DELETE /api/v1/withdrawals/5bffb63303aa675e8bbe18f9
 --------- | ------- | -------
 withdrawalId | String | 路径参数，[提现Id](#c46f4b3b8e) 唯一标识
 
+
+# 手续费
+
+## 用户基础手续费
+
+此接口返回用户的基础费率。
+
+```json
+{
+    "code": "200000",
+    "data": {
+        "takerFeeRate": "0.001",
+        "makerFeeRate": "0.001"
+    }
+}
+```
+
+### HTTP请求
+**GET /api/v1/base-fee**
+
+### 请求示例
+GET /api/v1/base-fee
+
+### API权限
+此接口需要**通用权限**。
+
+### 返回值
+字段 |  含义
+--------- | -------
+takerFeeRate | 用户挂单基础手续费率
+makerFeeRate | 用户吃单基础手续费率
+
+## 交易对实际费率
+
+此接口返回用户交易时实际费率，一次限制最多查10个交易对，子用户的费率和母用户保持一致。
+
+```json
+{
+    "code": "200000",
+    "data": [
+        {
+            "symbol": "BTC-USDT",
+            "takerFeeRate": "0.001",
+            "makerFeeRate": "0.001"
+        },
+        {
+            "symbol": "KCS-USDT",
+            "takerFeeRate": "0.002",
+            "makerFeeRate": "0.0005"
+        }
+    ]
+}
+```
+
+### HTTP请求
+**GET /api/v1/trade-fees**
+
+### 请求示例
+GET /api/v1/trade-fees?symbols=BTC-USDT,KCS-USDT
+
+### API权限
+此接口需要**通用权限**。
+
+
+### 请求参数
+
+请求参数 | 类型 | 含义
+--------- | ------- | -------
+symbols| String | 交易对，可多填，逗号分割，一次限制最多查10个交易对
+
+
+### 返回值
+字段 |  含义
+--------- | -------
+symbol | 交易对唯一标识码，重命名后不会改变
+takerFeeRate | 交易对挂单实际手续费率
+makerFeeRate | 交易对吃单实际手续费率
+
+
 # 交易模块
 
 以下请求需要校验[签名](#8ba46c43fe)。
@@ -2101,8 +2274,8 @@ POST /api/v1/orders/multi
 
 此端点可以取消单笔订单。
 
-
-一旦系统收到取消请求，您将收cancelledOrderIds字段。取消请求将由撮合引擎按顺序处理。要知道请求是否已处理，您可以查询订单状态或订阅websocket获取订单消息。
+<aside class="notice">此接口只提交取消请求。实际取消结果需要通过查询订单状态或订阅websocket获取订单消息。建议您在收到Open消息后再进行撤单，否则会导致订单取消不成功。
+</aside>
 
 ### HTTP请求
 
@@ -5098,7 +5271,7 @@ var socket = new WebSocket("wss://push1-v2.kucoin.com/endpoint?token=xxx&[connec
 
 **connectId**：连接ID，是客户端生成的唯一标识。您在创建连接时收到的欢迎（welcome）消息的ID以及错误消息的ID都属于连接ID（connectId）。
 
-**acceptUserMessage**：当acceptUserMessage的值为 **true** 时，可以接收到用户所有的私人消息，（注意：推送会包括那些即将被弃用的旧格式的推送数据，可能会出现重复推送的情况，建议你按照需求单独订阅）。如果你想只接收指定topic的私人消息，请在订阅时使用privateChannel:true。
+如果你想只接收指定topic的私人消息，请在订阅时使用privateChannel:true。
 
 
 <aside class="spacer2"></aside>

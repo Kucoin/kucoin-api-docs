@@ -28,6 +28,12 @@ The WebSocket contains two sections: Public Channels and Private Channels
 
 To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
+
+**11/05/20**:
+
+- Add [Trade Fee](#trade-fee) module，[Basic user fee](#basic-user-fee),[Actual fee rate of the trading pair](#actual-fee-rate-of-the-trading-pair)
+- Add [Get Account Ledgers](#get-account-ledgers)，and deprecate [Get Account Ledgers(deprecated)](#get-account-ledgers-deprecated)
+
 **10/28/20**:
 
 - Add the Basic Taker Fee,Basic Maker Fee,Taker Fee Coefficient,Maker Fee Coefficient for [Get 24hr Stats](#get-24hr-stats),[Get All Tickers](#get-all-tickers).
@@ -192,7 +198,6 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 - Add explanation to part of the API JSON field
 - Delete "sn" field in [Match Execution Data](#match-execution-data)
 - Modify [Get Fiat Price](#get-fiat-price) parameter description
-- Add "acceptUsermessage" option when connecting to the WebSocket.
 
 **2/22/19** :
 
@@ -944,7 +949,10 @@ available | Funds available to withdraw or trade
 
 
 
-## Get Account Ledgers
+## Get Account Ledgers(deprecated)
+
+***It's deprecated, please use [Get Account Ledgers](#get-account-ledgers) instead.***
+
 
 Request via this endpoint to get the account ledgers.
 
@@ -1047,6 +1055,108 @@ context | Business related information such as order ID, serial No., etc.
 If the returned value under bizType is **“trade exchange”**, the additional info. (such as order ID and trade ID, trading pair, etc.) of the trade will be returned in field **context**.
 
 
+## Get Account Ledgers
+
+This interface is for the history of deposit/withdrawal of all accounts, supporting inquiry of various currencies. 
+
+Items are paginated and sorted to show the latest first. See the [Pagination](#pagination) section for retrieving additional entries after the first page.
+
+```json
+{
+    "currentPage": 1,
+    "pageSize": 10,
+    "totalNum": 3,
+    "totalPage": 1,
+    "items": [
+        {
+            "id": "5bc7f080b39c5c03486eef8c",//unique key
+            "currency": "KCS",  //Currency
+            "amount": "0.0998", //Change amount of the funds
+            "fee": "0",  //Deposit or withdrawal fee
+            "balance": "0",  //Total assets of a currency
+            "bizType": "Withdraw",  //business type
+            "direction": "in",     //side, in or out
+            "createdAt": 1540296039000,  //Creation time
+            "context": {          //Business core parameters
+
+                "orderId": "5bc7f080b39c5c03286eef8a",
+                "txId": "bf848bfb6736780b930e12c68721ea57f8b0484a4af3f30db75c93ecf16905c9"
+            }
+        },
+        {
+            "id": "5bc7f080b39c5c03486def8c",//unique key
+            "currency": "KCS",
+            "amount": "0.0998",
+            "fee": "0",
+            "balance": "0",
+            "bizType": "Deposit",
+            "direction": "in",
+            "createdAt": 1540296039000,
+            "context": {
+
+                "orderId": "5bc7f080b39c5c03286eef8a",
+                "txId": "bf848bfb6736780b930e12c68721ea57f8b0484a4af3f30db75c93ecf16905c9"
+            }
+        },
+        {
+            "id": "5bc7f080b39c5c03486def8a",//unique key
+            "currency": "KCS",
+            "amount": "0.0998",
+            "fee": "0",
+            "balance": "0",
+            "bizType": "trade exchange",
+            "direction": "in",
+            "createdAt": 1540296039000,
+            "context": {
+
+                "tradeId": "5bc7f080b3949c03286eef8a",
+                "orderId": "5bc7f080b39c5c03286eef8e",
+                "symbol": "BTC-USD"
+            }
+        }
+    ]
+}
+```
+
+### HTTP REQUEST
+**GET /api/v1/accounts/ledgers**
+
+
+### Example
+GET /api/v1/accounts/ledgers?currency=BTC&startAt=1601395200000
+
+### API KEY PERMISSIONS
+This endpoint requires the **"General"** permission.
+
+<aside class="notice">This request is paginated.</aside>
+
+
+### Parameters
+
+Param | Type | Description
+--------- | ------- | -------
+currency | String | *[Optional]* Currency ( you can choose more than one currency). You can specify 10 currencies at most for one time. If not specified, all currencies will be inquired by default.
+direction | String | *[Optional]*  Side: **in** - Receive, **out** - Send
+bizType   | String | *[Optional]*  Business type: **DEPOSIT**, **WITHDRAW**, **TRANSFER**, **SUB_TRANSFER**,**TRADE_EXCHANGE**, **MARGIN_EXCHANGE**, **KUCOIN_BONUS**.
+startAt| long | *[Optional]*  Start time (milisecond)
+endAt| long | *[Optional]* End time (milisecond)
+
+### RESPONSES
+Field | Description
+--------- | -------
+id | unique key
+currency | The currency of an account
+amount | The total amount of assets (fees included) involved in assets changes such as transaction, withdrawal and bonus distribution.
+fee | Fees generated in transaction, withdrawal, etc.
+balance | Remaining funds after the transaction.
+bizType | Business type leading to the changes in funds, such as exchange, withdrawal, deposit,  KUCOIN_BONUS, REFERRAL_BONUS, Lendings etc.
+direction | Side, **out** or **in**
+createdAt | Time of the event
+context | Business related information such as order ID, serial No., etc.
+
+### context
+If the returned value under bizType is **“trade exchange”**, the additional info. (such as order ID and trade ID, trading pair, etc.) of the trade will be returned in field **context**.
+
 
 ## Get Holds
 
@@ -1063,7 +1173,7 @@ If the returned value under bizType is **“trade exchange”**, the additional 
             "bizType": "Withdraw",     //business type
             "orderId": "5bc7f080b39c5c03286eef8e", // ID of funds freezed order
             "createdAt": 1545898567000, //Creation time
-            "updatedAt": 1545898567000。//update time
+            "updatedAt": 1545898567000 //update time
         },
         {
             "currency": "ETH",
@@ -1299,7 +1409,7 @@ type | String | The account type: **MAIN**, **TRADE**, **MARGIN** or **POOL**
 
 Field | Description
 --------- | -------
-currency | Currency
+currency | Currenc
 balance | Total funds in an account.
 available | Funds available to withdraw or trade.
 holds | Funds on hold (not available for use).
@@ -1414,14 +1524,14 @@ This endpoint requires the **"Transfer"** permission.
 Param | Type | Description
 --------- | ------- | -----------
 currency | String | Currency
-chain | String | *[Optional]* The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20. This only apply for multi-chain currency, and there is no need for single chain currency.
+chain | String | *[Optional]* The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20. The available value for BTC are Native, Segwit, TRC20, the parameters are bech32, btc, trx, default is Native. This only apply for multi-chain currency, and there is no need for single chain currency. 
 
 ### RESPONSES
 Field | Description
---------- | ------- | -----------
+--------- | ------- 
 address | Deposit address
 memo | Address remark. If there’s no remark, it is empty. When you [withdraw](#apply-withdraw) from other platforms to the KuCoin, you need to fill in memo(tag). If you do not fill memo (tag), your deposit may not be available, please be cautious.
-chain | The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20.
+chain | The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20. The available value for BTC are Native, Segwit, TRC20, the parameters are bech32, btc, trx, default is Native. 
 
 ## Get Deposit Address
 
@@ -1449,14 +1559,14 @@ This endpoint requires the **"General"** permission.
 Param | Type | Description
 --------- | ------- | -----------
 currency | String | Currency
-chain | String | *[Optional]* The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20. This only apply for multi-chain currency, and there is no need for single chain currency.
+chain | String | *[Optional]* The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20. The available value for BTC are Native, Segwit, TRC20, the parameters are bech32, btc, trx, default is Native. This only apply for multi-chain currency, and there is no need for single chain currency. 
 
 ### RESPONSES
 Field | Description
---------- | ------- | -----------
+--------- | ------- 
 address | Deposit address
 memo | Address remark. If there’s no remark, it is empty. When you [withdraw](#apply-withdraw) from other platforms to the KuCoin, you need to fill in memo(tag). If you do not fill memo (tag), your deposit may not be available, please be cautious.
-chain | The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20.
+chain | The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20. The available value for BTC are Native, Segwit, TRC20, the parameters are bech32, btc, trx, default is Native. 
 
 
 ## Get Deposit List
@@ -1838,6 +1948,84 @@ Param | Type | Description
 --------- | ------- | -----------
 withdrawalId | String | Path parameter, a unique ID for a withdrawal order
 
+
+# Trade Fee
+
+## Basic user fee
+
+This interface is for the basic fee rate of users
+
+```json
+{
+    "code": "200000",
+    "data": {
+        "takerFeeRate": "0.001",
+        "makerFeeRate": "0.001"
+    }
+}
+```
+
+### HTTP REQUEST
+**GET /api/v1/base-fee**
+
+### Example
+GET /api/v1/base-fee
+
+### API KEY PERMISSIONS
+This endpoint requires the **"General"** permission.
+
+###RESPONSES
+Field | Description
+--------- | -------
+takerFeeRate | Base taker fee rate
+makerFeeRate | Base maker fee rate
+
+## Actual fee rate of the trading pair
+
+This interface is for the actual fee rate of the trading pair. You can inquire about fee rates of 10 trading pairs each time at most. The fee rate of your sub-account is the same as that of the master account.  
+
+```json
+{
+    "code": "200000",
+    "data": [
+        {
+            "symbol": "BTC-USDT",
+            "takerFeeRate": "0.001",
+            "makerFeeRate": "0.001"
+        },
+        {
+            "symbol": "KCS-USDT",
+            "takerFeeRate": "0.002",
+            "makerFeeRate": "0.0005"
+        }
+    ]
+}
+```
+
+### HTTP REQUEST
+**GET /api/v1/trade-fees**
+
+### Example
+GET /api/v1/trade-fees?symbols=BTC-USDT,KCS-USDT
+
+### API KEY PERMISSIONS
+This endpoint requires the **"General"** permission.
+
+
+### Parameters
+
+Param | Type | Description
+--------- | ------- | -------
+symbols| String | Trading pair (optional, you can inquire fee rates of 10 trading pairs each time at most)
+
+
+###RESPONSES
+Field | Description
+--------- | -------
+symbol | The unique identity of the trading pair and will not change even if the trading pair is renamed
+takerFeeRate | Actual taker fee rate of the trading pair
+makerFeeRate | Actual maker fee rate of the trading pair
+
 # Trade
 
 Signature is required for this part.
@@ -2140,7 +2328,8 @@ Field | Description
 
 Request via this endpoint to cancel a single order previously placed.
 
-You will receive cancelledOrderIds field once the system has received the cancellation request. The cancellation request will be processed by the matching engine in sequence. To know if the request is processed    (successfully or not), you may check the order status or the update message from the pushes.
+<aside class="notice">This interface is only for cancellation requests. The cancellation result needs to be obtained by querying the order status or subscribing to websocket. It is recommended that you DO NOT cancel the order until receiving the Open message, otherwise the order cannot be cancelled successfully.
+</aside>
 
 
 ### HTTP REQUEST
@@ -5164,7 +5353,7 @@ For private channels and messages (e.g. account balance notice), please make req
 ## Create connection
 
 ```javascript
-var socket = new WebSocket("wss://push1-v2.kucoin.com/endpoint?token=xxx&[connectId=xxxxx]&acceptUserMessage=true");
+var socket = new WebSocket("wss://push1-v2.kucoin.com/endpoint?token=xxx&[connectId=xxxxx]");
 ```
 
 
@@ -5174,7 +5363,7 @@ When the connection is successfully established, the system will send a welcome 
 
 **connectId**: the connection id, a unique value taken from the client side. Both the id of the welcome message and the id of the error message are connectId.
 
-**acceptUserMessage**: if the value of acceptUserMessage is **true**, you will receive the User Messages (Note: The push will include the data in old format that will be deprecated. The push might repeat. It is recommended that you separately subscribe data according to your needs). If you only want to receive private messages of the specified topic, please set privateChannel to true when subscribing.
+If you only want to receive private messages of the specified topic, please set privateChannel to true when subscribing.
 
 ```json
 {
