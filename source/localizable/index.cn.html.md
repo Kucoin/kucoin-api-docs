@@ -1112,77 +1112,6 @@ context | 业务核心参数
 如果 **bizType** 是trade exchange，那么 **context** 字段会包含交易的额外信息（订单id，交易id，交易对）。
 
 
-
-## 账户冻结记录
-
-```json
-{
-    "currentPage": 1,
-    "pageSize": 10,
-    "totalNum": 2,
-    "totalPage": 1,
-    "items": [
-        {
-            "currency": "ETH", //币种
-            "holdAmount": "5083", //冻结金额
-            "bizType": "Withdraw", //业务类型
-            "orderId": "5bc7f080b39c5c03286eef8e", //资金冻结业务ID
-            "createdAt": 1545898567000, //创建时间
-            "updatedAt": 1545898567000 //修改时间
-        },
-        {
-            "currency": "ETH",
-            "holdAmount": "1452",
-            "bizType": "Withdraw",
-            "orderId": "5bc7f518b39c5c033818d62d",
-            "createdAt": 1545898567000,
-            "updatedAt": 1545898567000
-        }
-    ]
-}
-```
-
-此接口返回的是在途冻结记录。当下单或申请提现时，系统会冻结账户资金，生成冻结记录。当订单成交或取消资金/完成提现时，系统会解冻支付或解冻回退，冻结记录将被移除。
-
-### HTTP请求
-**GET /api/v1/accounts/{accountId}/holds**
-
-### 请求示例
-GET /api/v1/accounts/5bd6e9286d99522a52e458de/holds
-
-
-### API权限
-此接口需要**通用权限**。
-
-<aside class="notice">这个接口需要使用分页</aside>
-### 请求参数
-
-请求参数 | 类型 | 含义
---------- | ------- | -------
-accountId | String | 路径参数，[账户ID](#f0f7ae469d)
-
-
-
-### 返回值
-
-字段 | 含义
---------- | -------
-currency | 币种
-holdAmount | 冻结资金
-bizType | 业务类型，比如交易，提现 等
-orderId | 资金冻结订单ID（只用作唯一标识）
-createdAt | 创建时间
-updatedAt | 修改时间
-
-### bizType
-**bizType** 指账户冻结的原因。
-
-
-### orderId
-**orderId** 字段用于下单或提现生成的订单ID，用作唯一标识。
-
-
-
 ## 获取单个子账户信息
 
 ```json
@@ -4216,7 +4145,7 @@ GET /api/v1/mark-price/USDT-BTC/current
 | timePoint   | 时间点(毫秒)  |
 | value       | 标记价格值    |
 
-目前支持的标记价格有：USDT-BTC, ETH-BTC, LTC-BTC, EOS-BTC, XRP-BTC, KCS-BTC
+目前支持的标记价格有：USDT-BTC, ETH-BTC, LTC-BTC, EOS-BTC, XRP-BTC, KCS-BTC, DIA-BTC, VET-BTC, DASH-BTC, DOT-BTC, XTZ-BTC, ZEC-BTC, BCHSV-BTC, ADA-BTC, ATOM-BTC, LINK-BTC, LUNA-BTC, NEO-BTC, UNI-BTC, ETC-BTC, BNB-BTC, TRX-BTC, XLM-BTC
 
 ## 查询杠杆配置信息
 

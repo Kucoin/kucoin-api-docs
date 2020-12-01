@@ -1157,76 +1157,6 @@ context | Business related information such as order ID, serial No., etc.
 ### context
 If the returned value under bizType is **“trade exchange”**, the additional info. (such as order ID and trade ID, trading pair, etc.) of the trade will be returned in field **context**.
 
-
-## Get Holds
-
-```json
-{
-    "currentPage": 1,
-    "pageSize": 10,
-    "totalNum": 2,
-    "totalPage": 1,
-    "items": [
-        {
-            "currency": "ETH",  //Currency
-            "holdAmount": "5083",  //Hold amount of a currency
-            "bizType": "Withdraw",     //business type
-            "orderId": "5bc7f080b39c5c03286eef8e", // ID of funds freezed order
-            "createdAt": 1545898567000, //Creation time
-            "updatedAt": 1545898567000 //update time
-        },
-        {
-            "currency": "ETH",
-            "holdAmount": "1452",
-            "bizType": "Withdraw",
-            "orderId": "5bc7f518b39c5c033818d62d",
-            "createdAt": 1545898567000,
-            "updatedAt": 1545898567000
-        }
-    ]
-}
-```
-
-Holds are placed on an account for any active orders or pending withdraw requests. As an order is filled, the hold amount is updated. If an order is canceled, any remaining hold is removed. For a withdraw, once it is completed, the hold is removed.
-
-### HTTP REQUEST
-**GET /api/v1/accounts/{accountId}/holds**
-
-### Example
-GET /api/v1/accounts/5bd6e9286d99522a52e458de/holds
-
-### API KEY PERMISSIONS
-This endpoint requires the **"General"** permission.
-
-<aside class="notice">This request is paginated.</aside>
-
-### Parameters
-
-Param | Type | Description
---------- | ------- | -------
-accountId | String | ID of the account.
-
-
-
-### RESPONSES
-Field | Description
---------- | -------
-currency | currency
-holdAmount | Remaining funds frozen (calculated by subtracting any unfrozen funds from the initial frozen funds))
-bizType | Business type which led to the freezing of the funds, such as transaction, withdrawal, lendings etc.
-orderId | ID of funds freezed order (this ID is unique to the frozen asset order)
-createdAt | Time of the event
-updatedAt | Update time
-
-
-### bizType
-The **bizType** field indicates the reason for the account hold.
-
-###orderId
-The **orderId** field is a unique order ID generated in order placement or withdrawal.
-
-
-
 ## Get Account Balance of a Sub-Account
 
 ```json
@@ -1409,7 +1339,7 @@ type | String | The account type: **MAIN**, **TRADE**, **MARGIN** or **POOL**
 
 Field | Description
 --------- | -------
-currency | Currenc
+currency | Currency 
 balance | Total funds in an account.
 available | Funds available to withdraw or trade.
 holds | Funds on hold (not available for use).
@@ -3911,6 +3841,7 @@ asks | asks
 
 **Bids**: Sort price from high to low
 
+
 ## Get Full Order Book(atomic)
 
 
@@ -4305,7 +4236,7 @@ GET /api/v1/mark-price/USDT-BTC/current
 | timePoint   | Time (millisecond)             |
 | value       | Mark price    |
 
-The following ticker symbols are supported: USDT-BTC, ETH-BTC, LTC-BTC, EOS-BTC, XRP-BTC, KCS-BTC
+The following ticker symbols are supported: USDT-BTC, ETH-BTC, LTC-BTC, EOS-BTC, XRP-BTC, KCS-BTC, DIA-BTC, VET-BTC, DASH-BTC, DOT-BTC, XTZ-BTC, ZEC-BTC, BCHSV-BTC, ADA-BTC, ATOM-BTC, LINK-BTC, LUNA-BTC, NEO-BTC, UNI-BTC, ETC-BTC, BNB-BTC, TRX-BTC, XLM-BTC
 
 ## Get Margin Configuration Info
 
