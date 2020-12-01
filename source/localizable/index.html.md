@@ -3837,9 +3837,7 @@ asks | asks
 
 ### Data Sor
 
-**Asks**: Sort price from low to high (v2)
-
-**Asks**: Sort price from high to low (v1) (Deprecated, will be removed at 2020-12-01)
+**Asks**: Sort price from low to high
 
 **Bids**: Sort price from high to low
 
@@ -3884,7 +3882,7 @@ asks | asks
     }
 }
 ```
-Request via this endpoint to get the Level 3 order book of the specified trading pari. Level 3 order book includes all bids and asks (the data is non-aggregated, and each item means a single order).
+Request via this endpoint to get the Level 3 order book of the specified trading pair. Level 3 order book includes all bids and asks (the data is non-aggregated, and each item means a single order).
 
 
 This API is generally used by professional traders because it uses more server resources and traffic, and we have strict access frequency control.
@@ -5822,6 +5820,7 @@ For each order traded, the system would send you the match messages in the follo
 <aside class="spacer8"></aside>
 <aside class="spacer"></aside>
 
+
 ## Full MatchEngine Data(Level 3)
 
 
@@ -6348,68 +6347,6 @@ when the order has been updated;
 
 <aside class="spacer4"></aside>
 <aside class="spacer4"></aside>
-
-## Stop Order Received Event (Deprecated)
-
-```json
-{
-    "type":"message",
-    "topic":"/market/level3:BTC-USDT",
-    "subject":"trade.l3received",
-    "channelType":"private",
-    "data": {
-
-        "sequence":"1545738118241",
-        "orderId":"5c21e80303aa677bd09d7dff",
-        "symbol":"BTC-USDT",
-        "type":"stop",
-        "side":"buy",
-        "stopType":"entry",
-        "funds":"1.00000000000000000000",
-        "time":"1545743136994328401"
-  }
-}
-```
-Topic: **/market/level3:{symbol},{symbol}...**
-
-When a stop-limit order is received by the system, you will receive a stop message which means that this order entered the stop queue and waited to be triggered.
-
-***It's deprecated, please use [Stop Order Event](#stop-order-event) instead.***
-
-
-<aside class="spacer4"></aside>
-<aside class="spacer"></aside>
-
-## Stop Order Activate Event (Deprecated)
-
-```json
-{
-    "type":"message",
-    "topic":"/market/level3:BTC-USDT",
-    "subject":"trade.l3received",
-    "channelType":"private",
-    "data": {
-
-        "sequence":"1545738118241",
-        "orderId":"5c21e80303aa677bd09d7dff",
-        "type":"activate",
-        "symbol":"BTC-USDT",
-        "side":"buy",
-        "stopType":"entry",
-        "funds":"1.00000000000000000000",
-        "reason":"canceled",         //include canceled or triggered
-        "time":"1545743136994328401"
-  }
-}
-```
-Topic: **/market/level3:{symbol},{symbol}...**
-
-When a stop-limit order is triggered, you will receive an activate message which means that this order started the matching life cycle.
-
-***It's deprecated, please use [Stop Order Event](#stop-order-event) instead.***
-
-<aside class="spacer4"></aside>
-<aside class="spacer2"></aside>
 
 ## Account Balance Notice
 ```json

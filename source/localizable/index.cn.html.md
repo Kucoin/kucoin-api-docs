@@ -3772,9 +3772,7 @@ asks | 卖盘
 
 ###数据排序方式
 
-**Asks**: 买盘，根据价格从低到高（v2）
-
-**Asks**:买盘， 根据价格从高到低（v1）（已弃用，将于2020-12-01删除。）
+**Asks**: 买盘，根据价格从低到高
 
 **Bids**: 卖盘，根据价格从高到低
 
@@ -6280,65 +6278,6 @@ Topic: **/spotMarket/tradeOrders**
 <aside class="spacer4"></aside>
 <aside class="spacer2"></aside>
 
-## 止损单放置事件 (已弃用)
-
-```json
-{
-    "type":"message",
-    "topic":"/market/level3:BTC-USDT",
-    "subject":"trade.l3received",
-    "channelType":"private",
-    "data": {
-
-        "sequence":"1545738118241",
-        "orderId":"5c21e80303aa677bd09d7dff",
-        "symbol":"BTC-USDT",
-        "type":"stop",
-        "side":"buy",
-        "stopType":"entry",
-        "funds":"1.00000000000000000000",
-        "time":"1545743136994328401"
-    }
-}
-```
-Topic: /market/level3:{symbol},{symbol}...
-
-当系统收到止盈止损订单时，您将收到一条'stop'消息，表示此订单已进入队列并等待触发。
-
-***已弃用，请使用[止盈止损事件](#15686a8768)代替***
-
-<aside class="spacer4"></aside>
-<aside class="spacer"></aside>
-
-## 止损单触发事件 (已弃用)
-
-```json
-{
-    "type":"message",
-    "topic":"/market/level3:BTC-USDT",
-    "subject":"trade.l3received",
-    "channelType":"private",
-    "data": {
-
-        "sequence":"1545738118241",
-        "orderId":"5c21e80303aa677bd09d7dff",
-        "type":"activate",
-        "symbol":"BTC-USDT",
-        "side":"buy",
-        "stopType":"entry",
-        "funds":"1.00000000000000000000",
-        "reason":"canceled",         //include canceled or triggered
-        "time":"1545743136994328401"
-  }
-}
-```
-Topic: /market/level3:{symbol},{symbol}...
-触发止盈止损单后，您将收到一条'activate'消息，表示此订单开始进入撮合引擎匹配的生命周期。
-
-***已弃用，请使用[止盈止损事件](#15686a8768)代替***
-
-<aside class="spacer4"></aside>
-<aside class="spacer"></aside>
 
 ## 余额变更事件
 ```json
