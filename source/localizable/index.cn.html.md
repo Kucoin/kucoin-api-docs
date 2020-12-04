@@ -30,7 +30,16 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 为了您能获取到最新的API 变更的通知，请在 [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs)添加关注【Watch】
 
+
+
+**11/05/20**:
+
+- 【添加】 [手续费](#307d666742)模块，增加[用户基础手续费](#a7b53083e5),[用户实际费率](#4d7761e141)接口
+- 【添加】 增加[账户流水记录](#c8122540e1)接口，并弃用[账户流水记录（弃用）](#9b26dde3d2)接口
+
+
 **10/28/20**:
+
 
 - 【添加】 [全局行情快照](#f3027c9902),[24小时统计](#24) 增加吃单基础手续费、挂单基础手续费、吃单手续费系数、挂单手续费系数
 - 【添加】 [子母账号资金划转](#108b1a50d2) 增加划转账户类型
@@ -192,7 +201,6 @@ API分为两部分：**REST API和Websocket 实时数据流**
 - 【添加】 部分API JSON 字段描述。
 - 【删除】 [撮合执行数据](#c7f054198c) 删除 **sn** 字段 。
 - 【修改】 [法币换算价格](#a2e56e9e0e) 参数描述。
-- 【添加】 创建Websocket连接时 **acceptUsermessage** 字段的描述。
 
 **2/22/19** :
 
@@ -931,7 +939,9 @@ available | 可用资金
 
 
 
-## 账户流水记录
+## 账户流水记录（弃用）
+
+已弃用，请用[账户流水记录](#c8122540e1)代替
 
 此接口返回账户的出入账流水记录。
 返回值是[分页](#88b6b4f79a)后的数据，根据时间降序排序。
@@ -1017,45 +1027,58 @@ context | 业务核心参数
 
 
 
+## 账户流水记录
 
-
-## 账户冻结记录
+此接口返回所有账户的出入账流水记录，支持多币种查询。
+返回值是[分页](#88b6b4f79a)后的数据，根据时间降序排序。
 
 ```json
 {
-    "currentPage": 1,
-    "pageSize": 10,
-    "totalNum": 2,
-    "totalPage": 1,
-    "items": [
+    "currentPage":1,
+    "pageSize":10,
+    "totalNum":2,
+    "totalPage":1,
+    "items":[
         {
-            "currency": "ETH", //币种
-            "holdAmount": "5083", //冻结金额
-            "bizType": "Withdraw", //业务类型
-            "orderId": "5bc7f080b39c5c03286eef8e", //资金冻结业务ID
-            "createdAt": 1545898567000, //创建时间
-            "updatedAt": 1545898567000 //修改时间
+            "id":"5bc7f080b39c5c03486eef8b",//唯一键
+            "currency":"KCS",//币种
+            "amount":"0.0998", //资金变动值
+            "fee":"0", //充值或提现费率
+            "balance":"0", //金额变动
+            "bizType":"withdraw", //业务类型
+            "direction":"in",  // 出入账方向入账或出账（in or out）
+            "createdAt":1540296039000,  // 创建时间
+            "context":{  // 业务核心参数
+                "orderId":"5bc7f080b39c5c03286eef8a",
+                "currency":"BTC"
+            }
         },
         {
-            "currency": "ETH",
-            "holdAmount": "1452",
-            "bizType": "Withdraw",
-            "orderId": "5bc7f518b39c5c033818d62d",
-            "createdAt": 1545898567000,
-            "updatedAt": 1545898567000
+            "id":"5bc7f080b39c5c03486eef8c",
+            "currency":"KCS",
+            "amount":"0.0998",
+            "fee":"0",
+            "balance":"0",
+            "bizType":"trade exchange",
+            "direction":"in",
+            "createdAt":1540296039000,
+            "context":{
+                "orderId":"5bc7f080b39c5c03286eef8e",
+                "tradeId":"5bc7f080b3949c03286eef8a",
+                "symbol":"BTC-USD"
+            }
         }
     ]
 }
+
 ```
 
-此接口返回的是在途冻结记录。当下单或申请提现时，系统会冻结账户资金，生成冻结记录。当订单成交或取消资金/完成提现时，系统会解冻支付或解冻回退，冻结记录将被移除。
-
 ### HTTP请求
-**GET /api/v1/accounts/{accountId}/holds**
+**GET /api/v1/accounts/ledgers**
+
 
 ### 请求示例
-GET /api/v1/accounts/5bd6e9286d99522a52e458de/holds
-
+GET /api/v1/accounts/ledgers?currency=BTC&startAt=1601395200000
 
 ### API权限
 此接口需要**通用权限**。
@@ -1065,28 +1088,28 @@ GET /api/v1/accounts/5bd6e9286d99522a52e458de/holds
 
 请求参数 | 类型 | 含义
 --------- | ------- | -------
-accountId | String | 路径参数，[账户ID](#f0f7ae469d)
-
+currency | String |  [可选] 币种，选填，可多选，以逗号分隔，最多支持选择10个币种，若不填写，默认查询所有币种
+direction | String | [可选] 出入账方向: **in** -入账, **out** -出账
+bizType   | String | [可选] 业务类型: **DEPOSIT** -充值, **WITHDRAW** -提现, **TRANSFER** -转账, **SUB_TRANSFER** -子账户转账,**TRADE_EXCHANGE** -交易, **MARGIN_EXCHANGE** -杠杆交易, **KUCOIN_BONUS** -鼓励金
+startAt   | long   | [可选] 开始时间（毫秒）
+endAt     | long   | [可选] 截止时间（毫秒）
 
 
 ### 返回值
-
 字段 | 含义
 --------- | -------
+id | 唯一键
 currency | 币种
-holdAmount | 冻结资金
-bizType | 业务类型，比如交易，提现 等
-orderId | 资金冻结订单ID（只用作唯一标识）
+amount | 资金变动值
+fee | 充值或提现费率
+balance | 变动后的资金总额
+bizType | 业务类型，比如交易，提现，推荐关系奖，借贷等
+direction | 出入账方向 **out** 或 **in**
 createdAt | 创建时间
-updatedAt | 修改时间
+context | 业务核心参数
 
-### bizType
-**bizType** 指账户冻结的原因。
-
-
-### orderId
-**orderId** 字段用于下单或提现生成的订单ID，用作唯一标识。
-
+### context
+如果 **bizType** 是trade exchange，那么 **context** 字段会包含交易的额外信息（订单id，交易id，交易对）。
 
 
 ## 获取单个子账户信息
@@ -1380,14 +1403,14 @@ POST /api/v1/deposit-addresses
 请求参数 | 类型 | 含义
 --------- | ------- |  -------
 currency | String | [币种](#ebcc9fbb02)
-chain | String | [可选] 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为ERC20。这个参数用于区分多链的币种，单链币种不需要。
+chain | String | [可选] 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为ERC20。对于BTC，现有的链有Native、Segwit、TRC20，参数分别为bech32、btc、trx。默认值为Native。这个参数用于区分多链的币种，单链币种不需要。 
 
 ### 返回值
 字段 | 含义
 --------- | -------
 address | 充值地址
 memo | 地址标签memo(tag)，如果返回为空，则该币种没有memo。对于没有memo的币种，在[提现](#6eaf6b9ae0)的时候不可以传递memo
-chain | 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为ERC20。
+chain | 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为ERC20。对于BTC，现有的链有Native、Segwit、TRC20，参数分别为bech32、btc、trx。默认值为Native。 
 
 ## 获取充值地址
 
@@ -1416,14 +1439,14 @@ GET /api/v1/deposit-addresses
 请求参数 | 类型 | 含义
 --------- | -------  | -------
 currency | String |[币种](#ebcc9fbb02)
-chain | String | [可选] 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为ERC20。这个参数用于区分多链的币种，单链币种不需要。
+chain | String | [可选] 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为ERC20。对于BTC，现有的链有Native、Segwit、TRC20，参数分别为bech32、btc、trx。默认值为Native。这个参数用于区分多链的币种，单链币种不需要。 
 
 ### 返回值
 字段 | 含义
 --------- | -------
 address | 充值地址
 memo | 地址标签memo(tag)，如果返回为空，则该币种没有memo。对于没有memo的币种，在[提现](#6eaf6b9ae0)的时候不可以传递memo
-chain | 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为ERC20。
+chain | 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为ERC20。对于BTC，现有的链有Native、Segwit、TRC20，参数分别为bech32、btc、trx。默认值为Native。 
 
 ## 获取充值列表
 
@@ -1801,6 +1824,85 @@ DELETE /api/v1/withdrawals/5bffb63303aa675e8bbe18f9
 --------- | ------- | -------
 withdrawalId | String | 路径参数，[提现Id](#c46f4b3b8e) 唯一标识
 
+
+# 手续费
+
+## 用户基础手续费
+
+此接口返回用户的基础费率。
+
+```json
+{
+    "code": "200000",
+    "data": {
+        "takerFeeRate": "0.001",
+        "makerFeeRate": "0.001"
+    }
+}
+```
+
+### HTTP请求
+**GET /api/v1/base-fee**
+
+### 请求示例
+GET /api/v1/base-fee
+
+### API权限
+此接口需要**通用权限**。
+
+### 返回值
+字段 |  含义
+--------- | -------
+takerFeeRate | 用户挂单基础手续费率
+makerFeeRate | 用户吃单基础手续费率
+
+## 交易对实际费率
+
+此接口返回用户交易时实际费率，一次限制最多查10个交易对，子用户的费率和母用户保持一致。
+
+```json
+{
+    "code": "200000",
+    "data": [
+        {
+            "symbol": "BTC-USDT",
+            "takerFeeRate": "0.001",
+            "makerFeeRate": "0.001"
+        },
+        {
+            "symbol": "KCS-USDT",
+            "takerFeeRate": "0.002",
+            "makerFeeRate": "0.0005"
+        }
+    ]
+}
+```
+
+### HTTP请求
+**GET /api/v1/trade-fees**
+
+### 请求示例
+GET /api/v1/trade-fees?symbols=BTC-USDT,KCS-USDT
+
+### API权限
+此接口需要**通用权限**。
+
+
+### 请求参数
+
+请求参数 | 类型 | 含义
+--------- | ------- | -------
+symbols| String | 交易对，可多填，逗号分割，一次限制最多查10个交易对
+
+
+### 返回值
+字段 |  含义
+--------- | -------
+symbol | 交易对唯一标识码，重命名后不会改变
+takerFeeRate | 交易对挂单实际手续费率
+makerFeeRate | 交易对吃单实际手续费率
+
+
 # 交易模块
 
 以下请求需要校验[签名](#8ba46c43fe)。
@@ -2101,8 +2203,8 @@ POST /api/v1/orders/multi
 
 此端点可以取消单笔订单。
 
-
-一旦系统收到取消请求，您将收cancelledOrderIds字段。取消请求将由撮合引擎按顺序处理。要知道请求是否已处理，您可以查询订单状态或订阅websocket获取订单消息。
+<aside class="notice">此接口只提交取消请求。实际取消结果需要通过查询订单状态或订阅websocket获取订单消息。建议您在收到Open消息后再进行撤单，否则会导致订单取消不成功。
+</aside>
 
 ### HTTP请求
 
@@ -3670,93 +3772,11 @@ asks | 卖盘
 
 ###数据排序方式
 
-**Asks**: 买盘，根据价格从低到高（v2）
-
-**Asks**:买盘， 根据价格从高到低（v1）（已弃用，将于2020-12-01删除。）
+**Asks**: 买盘，根据价格从低到高
 
 **Bids**: 卖盘，根据价格从高到低
 
 
-
-## Level-3全部买卖盘(非聚合)(已弃用)
-
-
-```json
-{
-    "data":{
-
-        "sequence":"1573503933086",
-        "asks":[
-            [
-                "5e0d672c1f311300093ac522",//订单ID
-                "0.1917",//价格
-                "390.9275",//数量
-                "1577936689346546088"//时间,纳秒
-            ],
-            [
-                "5e0d672891432f000819ecc3",
-                "0.19171",
-                "1456.1316",
-                "1577936685718811031"
-            ]
-        ],
-        "bids":[
-            [
-                "5e0d672cdc53860007f30262",
-                "0.19166",
-                "178.1936",
-                "1577936689166023452"
-            ],
-            [
-                "5e0d671a91432f000819d1b0",
-                "0.19165",
-                "583.6298",
-                "1577936671595901518"
-            ]
-        ],
-        "time":1577936685107
-    }
-}
-```
-
-***已弃用，将于2020-12-01删除。请使用[Level-3全部买卖盘(非聚合)](#level-3-3)代替。***
-
-此接口，可获取指定交易对的所有未结委托的快照。Level 3 返回了买卖盘上的所有数据（未按价格汇总，一个价格对应一个挂单）。
-
-该功能适用于专业交易员，因为该过程将使用较多服务器资源及流量，访问频率受到了严格控制。
-
-为保证本地买卖盘数据为最新数据，在获取Level 3快照后，请使用[Websocket](#level-nbsp-3)推送的增量消息来更新Level 3买卖盘。
-
-在买卖盘中，卖盘是以价格从低到高排序的，价格相同的订单以进入买卖盘的时间从低到高排序。买盘是以价格从高到低排序的，价格相同的订单以进入买卖盘的时间从低到高排序。撮合引擎将按照订单在买卖盘中排列顺序依次进行撮合。
-
-
-### HTTP请求
-**GET /api/v1/market/orderbook/level3**
-
-### 请求示例
-GET GET /api/v1/market/orderbook/level3?symbol=BTC-USDT
-
-### 请求参数
-
-
-请求参数 | 类型 | 含义
---------- | ------- | -------
-symbol | String |  [交易对](#a17b4e2866)
-
-### 返回值
-
-字段 | 含义
---------- | -------
-sequence | 序列号
-time | 时间戳，毫秒
-bids | 买盘
-asks | 卖盘
-
-###数据排序方式
-
-**Asks**: 卖盘，根据价格从低到高
-
-**Bids**: 买盘，根据价格从高到低
 
 ## Level-3全部买卖盘(非聚合)
 
@@ -4125,7 +4145,7 @@ GET /api/v1/mark-price/USDT-BTC/current
 | timePoint   | 时间点(毫秒)  |
 | value       | 标记价格值    |
 
-目前支持的标记价格有：USDT-BTC, ETH-BTC, LTC-BTC, EOS-BTC, XRP-BTC, KCS-BTC
+目前支持的标记价格有：USDT-BTC, ETH-BTC, LTC-BTC, EOS-BTC, XRP-BTC, KCS-BTC, DIA-BTC, VET-BTC, DASH-BTC, DOT-BTC, XTZ-BTC, ZEC-BTC, BCHSV-BTC, ADA-BTC, ATOM-BTC, LINK-BTC, LUNA-BTC, NEO-BTC, UNI-BTC, ETC-BTC, BNB-BTC, TRX-BTC, XLM-BTC
 
 ## 查询杠杆配置信息
 
@@ -5098,7 +5118,7 @@ var socket = new WebSocket("wss://push1-v2.kucoin.com/endpoint?token=xxx&[connec
 
 **connectId**：连接ID，是客户端生成的唯一标识。您在创建连接时收到的欢迎（welcome）消息的ID以及错误消息的ID都属于连接ID（connectId）。
 
-**acceptUserMessage**：当acceptUserMessage的值为 **true** 时，可以接收到用户所有的私人消息，（注意：推送会包括那些即将被弃用的旧格式的推送数据，可能会出现重复推送的情况，建议你按照需求单独订阅）。如果你想只接收指定topic的私人消息，请在订阅时使用privateChannel:true。
+如果你想只接收指定topic的私人消息，请在订阅时使用privateChannel:true。
 
 
 <aside class="spacer2"></aside>
@@ -5736,276 +5756,6 @@ Topic: **/market/match:{symbol},{symbol}...**
 <aside class="spacer2"></aside>
 
 
-## 完整的撮合引擎数据(Level&nbsp;3) 【已弃用】
-
-```json
-{
-    "id":1545910660742,
-    "type":"subscribe",
-    "topic":"/market/level3:BTC-USDT",
-    "privateChannel":false,
-    "response":true
-}
-```
-***已弃用，将于2020-12-01删除。请使用[完整的撮合引擎数据(Level 3)](#level-3-5)代替***
-
-Topic: **/market/level3:{symbol},{symbol}...**
-
-此topic，提供 **privateChannel**
-
-订阅此topic，可获取Level-3完整的撮合引擎数据。
-
-可获取订单和交易的实时数据，这些数据流可用于维护一个本地的Level-3买卖盘。
-
-
-维护更新Level 3买卖盘的步骤如下：
-
-1. 订阅Topic: /market/level3:{symbol}，获取Level 3买卖盘数据流;
-2. 按顺序缓存接收到的数据流;
-3. 发送[REST](#level-3-2)请求，获取Level 3买卖盘快照；
-4. 回放数据流，确保顺序号是连续的，并丢弃掉小于或等于快照顺序号的数据;
-5. 将回放数据流应用于快照（见下文）;
-6. 回放完成后，使用实时数据流更新买卖盘。
-
-
-**任意Open和Match消息都将导致买卖盘发生变更。**
-
-### 消息类型
-
-
-订阅成功后，系统将以JSON格式，将**RECEIVED**、**OPEN**、**UPDATE**、**MATCH**及**DONE**消息推送到Websocket消息流中。
-
-
-### RECEIVED
-
-```json
-{
-	"type": "message",
-	"topic": "/market/level3:BTC-USDT",
-	"subject": "trade.l3received",
-	"data": {
-
-		"sequence": "1545896669147",
-		"type": "received",  //L3 消息类型
-		"orderId": "5c24c72503aa6772d55b378d",  //order id
-		"symbol": "BTC-USDT",
-		"orderType": "limit", // 订单类型 limit,market,stop_limit
-		"side": "sell",  //买卖方向, buy and sell
-		"price": "4.00000000000000000000",
-		"clientOid": "",   //客户端生成的唯一订单标识 e.g. UUID
-		"time": "1545914149935808589"  //timestamp, 时间戳是纳秒
-  }
-}
-```
-
-```json
-{
-	"type": "message",
-	"topic": "/market/level3:BTC-USDT",
-	"subject": "trade.l3received",
-	"data": {
-
-		"sequence": "1545896669100",
-		"type": "received",
-		"orderId": "5c24c72503aa6772d55b178d",
-		"symbol": "BTC-USDT",
-		"orderType": "market",
-		"side": "sell",
-		"clientOid": "",
-		"time": "1545914149835808589"
-  }
-}
-```
-当撮合引擎接收到订单指令时，系统将向用户发送确认消息，type为**received**。
-
-这意味着，订单进入撮合引擎且订单状态为active。一旦撮合引擎收到这个订单信息，无论它是否立即成交，都会向用户发送确认信息。
-
-
-**received**消息并不是指在买卖盘挂单，而是指这个订单进入撮合引擎。如果订单能够立即成交，（taker订单），会发送**match**消息。如果自成交保护被触发，size会调整，会发送**change**消息。没有全部成交的的订单会展示在买卖盘中，发送信息中的type为**open**。
-
-
-
-<aside class="notice">您可以使用您自定义的clientOid来跟踪订单信息，但是特别的clientOid可能会暴露您的策略，所以推荐您使用UUID
-</aside>
-
-<aside class="spacer8"></aside>
-<aside class="spacer4"></aside>
-
-
-### OPEN
-
-```json
-{
-    "type":"message",
-    "topic":"/market/level3:BTC-USDT",
-    "subject":"trade.l3open",
-    "data":{
-
-        "sequence":"1545896669148",
-        "type":"open",  //L3 messege type. 如果是open, 会返回price 和 size
-        "orderId":"5c24c72503aa6772d55b378d",  //order id
-        "symbol":"BTC-USDT",
-        "side":"sell",  //买卖方向, buy and sell
-        "price":"6.00000000000000000000",
-        "size":"1", //order 数量
-        "time":"1545914149935808632"  //timestamp, 时间戳是纳秒
-    }
-}
-```
-
-当限价订单中的剩余部分进入买卖盘时，系统将向用户发送**open**消息。privateChannel=true，还会返回remainingSize这个字段，指订单中有多少没有成交的数量
-
-这意味着这个订单现已在订单簿上，没有立即成交的订单才会推送此消息。
-
-
-<aside class="notice">当接收到 price="", size="0" 的消息时，意味着这是隐藏单</aside>
-
-<aside class="spacer4"></aside>
-<aside class="spacer"></aside>
-
-### DONE
-
-一个订单生命周期结束时，订单将不会展示在买卖盘中，系统会推送**done**信息。
-
-```json
-{
-    "type":"message",
-    "topic":"/market/level3:BTC-USDT",
-    "subject":"trade.l3done",
-    "data":{
-
-        "sequence":"1545896669226",
-        "type":"done",
-        "orderId":"5c24c96103aa6772d55b380b",
-        "symbol":"BTC-USDT",
-        "side":"buy",
-        "reason":"filled", //成交
-        "time":"1545914730696727106"
-  }
-}
-```
-
-```json
-{
-    "type":"message",
-    "topic":"/market/level3:BTC-USDT",
-    "subject":"trade.l3done",
-    "data":{
-
-        "sequence":"1545896669227",
-        "type":"done", //L3 messege 类型.
-        "orderId":"5c24c96103aa6772d55b381b",  //order id
-        "symbol":"BTC-USDT",
-        "side":"buy",  //买卖方向, buy and sell
-        "size": "1.12340000000000000000",  //order 数量
-        "reason":"canceled",  //取消
-        "time":"1545914730696797106"  //timestamp 时间戳是纳秒
-  }
-}
-```
-
-推送**done**消息，意味着订单从买卖盘中移除，这要有推送过**received**消息的，都会收到**done**消息。 **done**可能指订单被成交或被取消。收到done消息后，就不会在收到关于这个订单的其他的信息了。privateChannel=true，还会返回remainSize这个字段，指订单中有多少没有成交的数量，如果为0，则意味着全部成交。市价单不会有remainSize，因为市价单是不会出现在买卖盘中的。
-
-
-<aside class="spacer8"></aside>
-<aside class="spacer3"></aside>
-
-### MATCH
-
-```json
-{
-    "type":"message",
-    "topic":"/market/level3:BTC-USDT",
-    "subject":"trade.l3match",
-    "data":{
-
-        "sequence":"1545896669291",
-        "type":"match",  //L3 messege type. 如果是match, 通过makerOrderId减少订单数量
-        "symbol":"BTC-USDT",
-        "side":"buy",  //买卖方向, buy and sell
-        "price":"0.08300000000000000000",  
-        "size":"0.07600000000000000000",  //order 数量
-        "tradeId":"5c24ca3503aa673885cd67ef",  //match id，成功撮合后生成的tradeId
-        "takerOrderId":"5c24ca2e03aa6772d55b38bf",  //深度提取者 order id
-        "makerOrderId":"5c20492a03aa677bd099ce9d",  //深度提供者 order id
-        "time":"1545914933083576866"  //timestamp 时间戳是纳秒
-  }
-}
-```
-当两个订单成功撮合后，系统会推送match信息。两个订单成功撮合，会生成一个tradeId,
-当进入撮合引擎后，taker单会立即与maker单(买卖盘中剩余的订单)开始撮合。side字段是指taker单的成交方向。
-
-
-
-<aside class="notice">在进入买卖盘之前，冰山单或隐藏单和普通的订单一样，撮合成功后作为taker</aside>
-
-<aside class="spacer4"></aside>
-<aside class="spacer2"></aside>
-
-### CHANGE
-
-```json
-{
-    "type":"message",
-    "topic":"/market/level3:BTC-USDT",
-    "subject":"trade.l3change",
-    "data":{
-
-        "sequence":"1545896669656",
-        "type":"change",  //L3 messege type.如果是change消息，通过orderId修改数量
-        "symbol":"BTC-USDT",
-        "orderId":"5c24caff03aa671aef3ca170",  //order id
-        "side":"buy",  //买卖方向, buy and sell
-        "price":"1.00000000000000000000",
-        "newSize":"0.15722222000000000000",  //变更后 order 数量
-        "oldSize":"0.18622222000000000000",  //变更前的订单量
-        "time":"1545915145402532254"  //timestamp 时间戳是纳秒
-    }
-}
-```
-
-当订单信息因为STP(自成交保护)变更，系统会给您推送**change**消息。
-
-由于自成交保护，需要调整订单数量或资金。订单只会在数量或资金上减少。当一个订单size发生变化会向您推送**change**消息。在买卖盘中订单（**open**）和收到**received**消息但没有进入买卖盘的订单，都可能向您推送**change**消息。新的市价单由于自成交保护导致的导致资金变化也会向您推送**change**消息。
-
-
-<aside class="spacer8"></aside>
-<aside class="spacer4"></aside>
-
-### 构建Level-3买卖盘
-
-
-如何构建本地OrderBook level-3数据
-
-1 使用websocket订阅 /market/level3:{symbol} 频道增量数据，并缓存收到的所有增量数据;
-
-2 通过[REST](#level-3-2)请求获取level3的快照数据;
-
-3 数据检验：获取快照的sequence不小于缓存的所有增量的最小sequence，如果不满足此条件，从第一步从头开始;
-
-4 回放所有缓存的增量数据:
-
-    4.1. 如果增量数据的sequence <= 当前快照的sequence，则舍弃增量数据，并结束本次更新; 否则进行4.2;
-    
-    4.2 如果增量数据的sequence = 当前快照的sequence + 1，则进行4.2.1逻辑更新，否则进行4.3步骤;
-    
-      4.2.1 更新当前快照的sequence为增量数据的sequence;
-      4.2.2 如果是received消息，结束更新逻辑。（因为现在received消息不影响level3数据）
-      4.2.3 如果是open消息，增加orderid,price,size构建的相应买单或卖单
-      4.2.4 如果是done消息，移除对应orderid对应的买单或者卖单
-      4.2.5 如果是change消息，修改对应orderid对应的买单或者卖单的数量
-      4.2.6 如果是match消息，减少对应markerOrderId对应的订单数量
-    
-    4.3 此种情况为sequence不连续，执行步骤2，重新拉取快照数据，以便保证sequence不缺失;
-
-5 接收新的增量数据推送，执行步骤4。
-
-
-如果您在维护一个本地Level-3买卖盘过程中，有不理解的地方，您可以参考用 Go Language 写的[SDK](#level-nbsp-3)，里面包含了不同type信息的处理逻辑。
-
-<aside class="spacer4"></aside>
-<aside class="spacer2"></aside>
-
 ## 完整的撮合引擎数据(Level 3)
 
 ```json
@@ -6528,65 +6278,6 @@ Topic: **/spotMarket/tradeOrders**
 <aside class="spacer4"></aside>
 <aside class="spacer2"></aside>
 
-## 止损单放置事件 (已弃用)
-
-```json
-{
-    "type":"message",
-    "topic":"/market/level3:BTC-USDT",
-    "subject":"trade.l3received",
-    "channelType":"private",
-    "data": {
-
-        "sequence":"1545738118241",
-        "orderId":"5c21e80303aa677bd09d7dff",
-        "symbol":"BTC-USDT",
-        "type":"stop",
-        "side":"buy",
-        "stopType":"entry",
-        "funds":"1.00000000000000000000",
-        "time":"1545743136994328401"
-    }
-}
-```
-Topic: /market/level3:{symbol},{symbol}...
-
-当系统收到止盈止损订单时，您将收到一条'stop'消息，表示此订单已进入队列并等待触发。
-
-***已弃用，请使用[止盈止损事件](#15686a8768)代替***
-
-<aside class="spacer4"></aside>
-<aside class="spacer"></aside>
-
-## 止损单触发事件 (已弃用)
-
-```json
-{
-    "type":"message",
-    "topic":"/market/level3:BTC-USDT",
-    "subject":"trade.l3received",
-    "channelType":"private",
-    "data": {
-
-        "sequence":"1545738118241",
-        "orderId":"5c21e80303aa677bd09d7dff",
-        "type":"activate",
-        "symbol":"BTC-USDT",
-        "side":"buy",
-        "stopType":"entry",
-        "funds":"1.00000000000000000000",
-        "reason":"canceled",         //include canceled or triggered
-        "time":"1545743136994328401"
-  }
-}
-```
-Topic: /market/level3:{symbol},{symbol}...
-触发止盈止损单后，您将收到一条'activate'消息，表示此订单开始进入撮合引擎匹配的生命周期。
-
-***已弃用，请使用[止盈止损事件](#15686a8768)代替***
-
-<aside class="spacer4"></aside>
-<aside class="spacer"></aside>
 
 ## 余额变更事件
 ```json

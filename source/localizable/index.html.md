@@ -28,6 +28,12 @@ The WebSocket contains two sections: Public Channels and Private Channels
 
 To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
+
+**11/05/20**:
+
+- Add [Trade Fee](#trade-fee) module，[Basic user fee](#basic-user-fee),[Actual fee rate of the trading pair](#actual-fee-rate-of-the-trading-pair)
+- Add [Get Account Ledgers](#get-account-ledgers)，and deprecate [Get Account Ledgers(deprecated)](#get-account-ledgers-deprecated)
+
 **10/28/20**:
 
 - Add the Basic Taker Fee,Basic Maker Fee,Taker Fee Coefficient,Maker Fee Coefficient for [Get 24hr Stats](#get-24hr-stats),[Get All Tickers](#get-all-tickers).
@@ -192,7 +198,6 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 - Add explanation to part of the API JSON field
 - Delete "sn" field in [Match Execution Data](#match-execution-data)
 - Modify [Get Fiat Price](#get-fiat-price) parameter description
-- Add "acceptUsermessage" option when connecting to the WebSocket.
 
 **2/22/19** :
 
@@ -944,7 +949,10 @@ available | Funds available to withdraw or trade
 
 
 
-## Get Account Ledgers
+## Get Account Ledgers(deprecated)
+
+***It's deprecated, please use [Get Account Ledgers](#get-account-ledgers) instead.***
+
 
 Request via this endpoint to get the account ledgers.
 
@@ -1047,75 +1055,107 @@ context | Business related information such as order ID, serial No., etc.
 If the returned value under bizType is **“trade exchange”**, the additional info. (such as order ID and trade ID, trading pair, etc.) of the trade will be returned in field **context**.
 
 
+## Get Account Ledgers
 
-## Get Holds
+This interface is for the history of deposit/withdrawal of all accounts, supporting inquiry of various currencies. 
+
+Items are paginated and sorted to show the latest first. See the [Pagination](#pagination) section for retrieving additional entries after the first page.
 
 ```json
 {
     "currentPage": 1,
     "pageSize": 10,
-    "totalNum": 2,
+    "totalNum": 3,
     "totalPage": 1,
     "items": [
         {
-            "currency": "ETH",  //Currency
-            "holdAmount": "5083",  //Hold amount of a currency
-            "bizType": "Withdraw",     //business type
-            "orderId": "5bc7f080b39c5c03286eef8e", // ID of funds freezed order
-            "createdAt": 1545898567000, //Creation time
-            "updatedAt": 1545898567000。//update time
+            "id": "5bc7f080b39c5c03486eef8c",//unique key
+            "currency": "KCS",  //Currency
+            "amount": "0.0998", //Change amount of the funds
+            "fee": "0",  //Deposit or withdrawal fee
+            "balance": "0",  //Total assets of a currency
+            "bizType": "Withdraw",  //business type
+            "direction": "in",     //side, in or out
+            "createdAt": 1540296039000,  //Creation time
+            "context": {          //Business core parameters
+
+                "orderId": "5bc7f080b39c5c03286eef8a",
+                "txId": "bf848bfb6736780b930e12c68721ea57f8b0484a4af3f30db75c93ecf16905c9"
+            }
         },
         {
-            "currency": "ETH",
-            "holdAmount": "1452",
-            "bizType": "Withdraw",
-            "orderId": "5bc7f518b39c5c033818d62d",
-            "createdAt": 1545898567000,
-            "updatedAt": 1545898567000
+            "id": "5bc7f080b39c5c03486def8c",//unique key
+            "currency": "KCS",
+            "amount": "0.0998",
+            "fee": "0",
+            "balance": "0",
+            "bizType": "Deposit",
+            "direction": "in",
+            "createdAt": 1540296039000,
+            "context": {
+
+                "orderId": "5bc7f080b39c5c03286eef8a",
+                "txId": "bf848bfb6736780b930e12c68721ea57f8b0484a4af3f30db75c93ecf16905c9"
+            }
+        },
+        {
+            "id": "5bc7f080b39c5c03486def8a",//unique key
+            "currency": "KCS",
+            "amount": "0.0998",
+            "fee": "0",
+            "balance": "0",
+            "bizType": "trade exchange",
+            "direction": "in",
+            "createdAt": 1540296039000,
+            "context": {
+
+                "tradeId": "5bc7f080b3949c03286eef8a",
+                "orderId": "5bc7f080b39c5c03286eef8e",
+                "symbol": "BTC-USD"
+            }
         }
     ]
 }
 ```
 
-Holds are placed on an account for any active orders or pending withdraw requests. As an order is filled, the hold amount is updated. If an order is canceled, any remaining hold is removed. For a withdraw, once it is completed, the hold is removed.
-
 ### HTTP REQUEST
-**GET /api/v1/accounts/{accountId}/holds**
+**GET /api/v1/accounts/ledgers**
+
 
 ### Example
-GET /api/v1/accounts/5bd6e9286d99522a52e458de/holds
+GET /api/v1/accounts/ledgers?currency=BTC&startAt=1601395200000
 
 ### API KEY PERMISSIONS
 This endpoint requires the **"General"** permission.
 
 <aside class="notice">This request is paginated.</aside>
 
+
 ### Parameters
 
 Param | Type | Description
 --------- | ------- | -------
-accountId | String | ID of the account.
-
-
+currency | String | *[Optional]* Currency ( you can choose more than one currency). You can specify 10 currencies at most for one time. If not specified, all currencies will be inquired by default.
+direction | String | *[Optional]*  Side: **in** - Receive, **out** - Send
+bizType   | String | *[Optional]*  Business type: **DEPOSIT**, **WITHDRAW**, **TRANSFER**, **SUB_TRANSFER**,**TRADE_EXCHANGE**, **MARGIN_EXCHANGE**, **KUCOIN_BONUS**.
+startAt| long | *[Optional]*  Start time (milisecond)
+endAt| long | *[Optional]* End time (milisecond)
 
 ### RESPONSES
 Field | Description
 --------- | -------
-currency | currency
-holdAmount | Remaining funds frozen (calculated by subtracting any unfrozen funds from the initial frozen funds))
-bizType | Business type which led to the freezing of the funds, such as transaction, withdrawal, lendings etc.
-orderId | ID of funds freezed order (this ID is unique to the frozen asset order)
+id | unique key
+currency | The currency of an account
+amount | The total amount of assets (fees included) involved in assets changes such as transaction, withdrawal and bonus distribution.
+fee | Fees generated in transaction, withdrawal, etc.
+balance | Remaining funds after the transaction.
+bizType | Business type leading to the changes in funds, such as exchange, withdrawal, deposit,  KUCOIN_BONUS, REFERRAL_BONUS, Lendings etc.
+direction | Side, **out** or **in**
 createdAt | Time of the event
-updatedAt | Update time
+context | Business related information such as order ID, serial No., etc.
 
-
-### bizType
-The **bizType** field indicates the reason for the account hold.
-
-###orderId
-The **orderId** field is a unique order ID generated in order placement or withdrawal.
-
-
+### context
+If the returned value under bizType is **“trade exchange”**, the additional info. (such as order ID and trade ID, trading pair, etc.) of the trade will be returned in field **context**.
 
 ## Get Account Balance of a Sub-Account
 
@@ -1299,7 +1339,7 @@ type | String | The account type: **MAIN**, **TRADE**, **MARGIN** or **POOL**
 
 Field | Description
 --------- | -------
-currency | Currency
+currency | Currency 
 balance | Total funds in an account.
 available | Funds available to withdraw or trade.
 holds | Funds on hold (not available for use).
@@ -1414,14 +1454,14 @@ This endpoint requires the **"Transfer"** permission.
 Param | Type | Description
 --------- | ------- | -----------
 currency | String | Currency
-chain | String | *[Optional]* The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20. This only apply for multi-chain currency, and there is no need for single chain currency.
+chain | String | *[Optional]* The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20. The available value for BTC are Native, Segwit, TRC20, the parameters are bech32, btc, trx, default is Native. This only apply for multi-chain currency, and there is no need for single chain currency. 
 
 ### RESPONSES
 Field | Description
---------- | ------- | -----------
+--------- | ------- 
 address | Deposit address
 memo | Address remark. If there’s no remark, it is empty. When you [withdraw](#apply-withdraw) from other platforms to the KuCoin, you need to fill in memo(tag). If you do not fill memo (tag), your deposit may not be available, please be cautious.
-chain | The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20.
+chain | The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20. The available value for BTC are Native, Segwit, TRC20, the parameters are bech32, btc, trx, default is Native. 
 
 ## Get Deposit Address
 
@@ -1449,14 +1489,14 @@ This endpoint requires the **"General"** permission.
 Param | Type | Description
 --------- | ------- | -----------
 currency | String | Currency
-chain | String | *[Optional]* The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20. This only apply for multi-chain currency, and there is no need for single chain currency.
+chain | String | *[Optional]* The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20. The available value for BTC are Native, Segwit, TRC20, the parameters are bech32, btc, trx, default is Native. This only apply for multi-chain currency, and there is no need for single chain currency. 
 
 ### RESPONSES
 Field | Description
---------- | ------- | -----------
+--------- | ------- 
 address | Deposit address
 memo | Address remark. If there’s no remark, it is empty. When you [withdraw](#apply-withdraw) from other platforms to the KuCoin, you need to fill in memo(tag). If you do not fill memo (tag), your deposit may not be available, please be cautious.
-chain | The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20.
+chain | The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20. The available value for BTC are Native, Segwit, TRC20, the parameters are bech32, btc, trx, default is Native. 
 
 
 ## Get Deposit List
@@ -1838,6 +1878,84 @@ Param | Type | Description
 --------- | ------- | -----------
 withdrawalId | String | Path parameter, a unique ID for a withdrawal order
 
+
+# Trade Fee
+
+## Basic user fee
+
+This interface is for the basic fee rate of users
+
+```json
+{
+    "code": "200000",
+    "data": {
+        "takerFeeRate": "0.001",
+        "makerFeeRate": "0.001"
+    }
+}
+```
+
+### HTTP REQUEST
+**GET /api/v1/base-fee**
+
+### Example
+GET /api/v1/base-fee
+
+### API KEY PERMISSIONS
+This endpoint requires the **"General"** permission.
+
+###RESPONSES
+Field | Description
+--------- | -------
+takerFeeRate | Base taker fee rate
+makerFeeRate | Base maker fee rate
+
+## Actual fee rate of the trading pair
+
+This interface is for the actual fee rate of the trading pair. You can inquire about fee rates of 10 trading pairs each time at most. The fee rate of your sub-account is the same as that of the master account.  
+
+```json
+{
+    "code": "200000",
+    "data": [
+        {
+            "symbol": "BTC-USDT",
+            "takerFeeRate": "0.001",
+            "makerFeeRate": "0.001"
+        },
+        {
+            "symbol": "KCS-USDT",
+            "takerFeeRate": "0.002",
+            "makerFeeRate": "0.0005"
+        }
+    ]
+}
+```
+
+### HTTP REQUEST
+**GET /api/v1/trade-fees**
+
+### Example
+GET /api/v1/trade-fees?symbols=BTC-USDT,KCS-USDT
+
+### API KEY PERMISSIONS
+This endpoint requires the **"General"** permission.
+
+
+### Parameters
+
+Param | Type | Description
+--------- | ------- | -------
+symbols| String | Trading pair (optional, you can inquire fee rates of 10 trading pairs each time at most)
+
+
+###RESPONSES
+Field | Description
+--------- | -------
+symbol | The unique identity of the trading pair and will not change even if the trading pair is renamed
+takerFeeRate | Actual taker fee rate of the trading pair
+makerFeeRate | Actual maker fee rate of the trading pair
+
 # Trade
 
 Signature is required for this part.
@@ -2140,7 +2258,8 @@ Field | Description
 
 Request via this endpoint to cancel a single order previously placed.
 
-You will receive cancelledOrderIds field once the system has received the cancellation request. The cancellation request will be processed by the matching engine in sequence. To know if the request is processed    (successfully or not), you may check the order status or the update message from the pushes.
+<aside class="notice">This interface is only for cancellation requests. The cancellation result needs to be obtained by querying the order status or subscribing to websocket. It is recommended that you DO NOT cancel the order until receiving the Open message, otherwise the order cannot be cancelled successfully.
+</aside>
 
 
 ### HTTP REQUEST
@@ -3718,90 +3837,10 @@ asks | asks
 
 ### Data Sor
 
-**Asks**: Sort price from low to high (v2)
-
-**Asks**: Sort price from high to low (v1) (Deprecated, will be removed at 2020-12-01)
-
-**Bids**: Sort price from high to low
-
-## Get Full Order Book(atomic)(deprecated)
-
-
-```json
-{
-    "data": {
-
-        "sequence": "1573503933086",
-        "asks": [
-            [
-                "5e0d672c1f311300093ac522",   //orderId
-                "0.1917",                     //price
-                "390.9275",                   //size
-                "1577936689346546088"         //time,nanoseconds
-            ],
-            [
-                "5e0d672891432f000819ecc3",
-                "0.19171",
-                "1456.1316",
-                "1577936685718811031"
-            ]
-        ],
-        "bids": [
-            [
-                "5e0d672cdc53860007f30262",
-                "0.19166",
-                "178.1936",
-                "1577936689166023452"
-            ],
-            [
-                "5e0d671a91432f000819d1b0",
-                "0.19165",
-                "583.6298",
-                "1577936671595901518"
-            ]
-        ],
-        "time": 1577936685107
-    }
-}
-```
-***It's deprecated, will be removed at 2020-12-01. please use [Get Full Order Book(atomic)](#get-full-order-book-atomic-revision) instead.***
-
-Request via this endpoint to get the Level 3 order book of the specified trading pari. Level 3 order book includes all bids and asks (the data is non-aggregated, and each item means a single order).
-
-
-This API is generally used by professional traders because it uses more server resources and traffic, and we have strict access frequency control.
-
-To maintain up-to-date order book, please use [Websocket](#full-matchengine-data-level-3) incremental feed after retrieving the Level 3 snapshot.
-
-In the orderbook, the selling data is sorted low to high by price and orders with the same price are sorted in time sequence. The buying data is sorted high to low by price and orders with the same price are sorted in time sequence. The matching engine will match the orders according to the price and time sequence.
-
-
-### HTTP REQUEST
-**GET /api/v1/market/orderbook/level3**
-
-### Example
-GET GET /api/v1/market/orderbook/level3?symbol=BTC-USDT
-
-### PARAMETERS
-
-Param | Type | Description
---------- | ------- | -----------
-symbol | String | [symbol](#get-symbols-list)
-
-### RESPONSES
-
-Field |  Description
---------- | -----------
-sequence | Sequence number
-time | Timestamp, milliseconds
-bids | bids
-asks | asks
-
-### Data Sort
-
 **Asks**: Sort price from low to high
 
 **Bids**: Sort price from high to low
+
 
 ## Get Full Order Book(atomic)
 
@@ -3843,7 +3882,7 @@ asks | asks
     }
 }
 ```
-Request via this endpoint to get the Level 3 order book of the specified trading pari. Level 3 order book includes all bids and asks (the data is non-aggregated, and each item means a single order).
+Request via this endpoint to get the Level 3 order book of the specified trading pair. Level 3 order book includes all bids and asks (the data is non-aggregated, and each item means a single order).
 
 
 This API is generally used by professional traders because it uses more server resources and traffic, and we have strict access frequency control.
@@ -4197,7 +4236,7 @@ GET /api/v1/mark-price/USDT-BTC/current
 | timePoint   | Time (millisecond)             |
 | value       | Mark price    |
 
-The following ticker symbols are supported: USDT-BTC, ETH-BTC, LTC-BTC, EOS-BTC, XRP-BTC, KCS-BTC
+The following ticker symbols are supported: USDT-BTC, ETH-BTC, LTC-BTC, EOS-BTC, XRP-BTC, KCS-BTC, DIA-BTC, VET-BTC, DASH-BTC, DOT-BTC, XTZ-BTC, ZEC-BTC, BCHSV-BTC, ADA-BTC, ATOM-BTC, LINK-BTC, LUNA-BTC, NEO-BTC, UNI-BTC, ETC-BTC, BNB-BTC, TRX-BTC, XLM-BTC
 
 ## Get Margin Configuration Info
 
@@ -5164,7 +5203,7 @@ For private channels and messages (e.g. account balance notice), please make req
 ## Create connection
 
 ```javascript
-var socket = new WebSocket("wss://push1-v2.kucoin.com/endpoint?token=xxx&[connectId=xxxxx]&acceptUserMessage=true");
+var socket = new WebSocket("wss://push1-v2.kucoin.com/endpoint?token=xxx&[connectId=xxxxx]");
 ```
 
 
@@ -5174,7 +5213,7 @@ When the connection is successfully established, the system will send a welcome 
 
 **connectId**: the connection id, a unique value taken from the client side. Both the id of the welcome message and the id of the error message are connectId.
 
-**acceptUserMessage**: if the value of acceptUserMessage is **true**, you will receive the User Messages (Note: The push will include the data in old format that will be deprecated. The push might repeat. It is recommended that you separately subscribe data according to your needs). If you only want to receive private messages of the specified topic, please set privateChannel to true when subscribing.
+If you only want to receive private messages of the specified topic, please set privateChannel to true when subscribing.
 
 ```json
 {
@@ -5781,270 +5820,6 @@ For each order traded, the system would send you the match messages in the follo
 <aside class="spacer8"></aside>
 <aside class="spacer"></aside>
 
-## Full MatchEngine Data(Level 3) [Deprecated]
-
-```json
-{
-    "id": 1545910660742,                          
-    "type": "subscribe",
-    "topic": "/market/level3:BTC-USDT",
-    "privateChannel": false,                      
-    "response": true                              
-}
-```
-
-***It's deprecated, please use [Full MatchEngine Data(Level 3)](#full-matchengine-data-level-3) instead.***
-
-Topic: **/market/level3:{symbol},{symbol}...**
-
-For this topic, **privateChannel** is available.
-
-Subscribe this topic to get the updated data for orders and trades.
-
-This channel provides real-time updates on orders and trades. These updates can be applied on to a Level 3 order book snapshot for users to maintain an accurate and up-to-date copy of the exchange order book.
-
-
-The process to maintain an up-to-date Level 3 order book is described below.
-
-1. Send a subscribe message for a symbol of which you want to build the order book.
-2. Queue every messages received over the websocket stream.
-3. Make a [REST](#get-full-order-bookatomic) request to get the snapshot data of the order book.
-4. Playback queued messages, and discard sequence numbers before or equal to the snapshot sequence number.
-5. Apply playback messages to the snapshot as needed (see below).
-6. After playback is complete, apply real-time stream messages as they arrive.
-
-
-### MESSAGE TYPE
-
-The following messages(**RECEIVED, OPEN, UPDATE, MATCH, DONE**) are sent over the websocket stream in JSON format after subscribing to this channel:
-
-
-### RECEIVED
-
-```json
-{
-    "type": "message",
-    "topic": "/market/level3:BTC-USDT",
-    "subject": "trade.l3received",
-    "data": {
-
-        "sequence": "1545896669147",
-        "type": "received",  //L3 messege type. If it is a received message, the update is ended.		
-        "symbol": "BTC-USDT",
-        "orderId": "5c24c72503aa6772d55b378d",  //order id
-        "orderType": "limit", // order type,e.g. limit,market,stop_limit
-        "side": "sell",  //side, include buy and sell
-        "price": "4.00000000000000000000",
-        "clientOid": "",   //unique order id is selected by you to identify your order, e.g. UUID
-        "time": "1545914149935808589"  //timestamp, timestamps is nanosecond
-    }
-}
-```
-
-```json
-{
-    "type": "message",
-    "topic": "/market/level3:BTC-USDT",
-    "subject": "trade.l3received",
-    "data": {
-
-        "sequence": "1545896669100",
-        "type": "received",
-        "orderId": "5c24c72503aa6772d55b178d",
-        "symbol": "BTC-USDT",
-        "orderType": "market",
-        "side": "sell",
-        "clientOid": "",
-        "time": "1545914149835808589"
-    }
-}
-```
-
-When the matching engine receives an order command, the system would send a confirmation message to the user.
-
-This will mean that a valid order has been received and is now with an active status. This message is emitted for every single valid order as soon as the matching engine receives it whether it fills immediately or not.
-
-The received message does not indicate a resting order on the orderbook. It simply indicates a new incoming order which has been accepted by the matching engine for processing. Received orders may cause match messages to follow if they are being filled immediately (i.e if you made a ‘taker’ order). Self-trade prevention may also trigger change messages to follow if the order size needs to be adjusted. Orders which are not fully filled or canceled due to self-trade prevention result in an open message and become resting orders on the orderbook.
-
-<aside class="notice">You can filter your orders through clientOid, but it will be posted to L3 message (it may cause your orders strategy to be known for others), it is recommended that you can use UUID as clientOid.
-</aside>
-
-<aside class="spacer8"></aside>
-<aside class="spacer4"></aside>
-
-
-### OPEN
-
-```json
-{
-    "type":"message",
-    "topic":"/market/level3:BTC-USDT",
-    "subject":"trade.l3open",
-    "data":{
-
-        "sequence":"1545896669148",
-        "type":"open",  //L3 messege type. If it is an open message, add the corresponding buy or sell order built by orderid, price and size
-        "orderId":"5c24c72503aa6772d55b378d",  //order id
-        "symbol":"BTC-USDT",
-        "side":"sell",  //side, include buy and sell
-        "price":"6.00000000000000000000",
-        "size":"1", //order quantity
-        "time":"1545914149935808632" //timestamp, timestamps is nanosecond
-    }
-}
-```
-
-When the remaining part in a limit order enters the order book, the system will send an open message to the user.
-
-This will mean that the order is now open on the order book. This message will only be sent for orders which are not fully filled immediately. remaining_size will indicate how much of the order is unfilled and going on the book.
-
-<aside class="notice">When receiving a message with price="", size="0", it means this is a hidden order</aside>
-
-<aside class="spacer4"></aside>
-<aside class="spacer"></aside>
-
-### DONE
-
-When the matching life cycle of an order ends, the order will no longer be displayed on the order book and the system will send a done message to the user.
-
-```json
-{
-    "type":"message",
-    "topic":"/market/level3:BTC-USDT",
-    "subject":"trade.l3done",
-    "data":{
-
-        "sequence":"1545896669226",
-        "type":"done",
-        "orderId":"5c24c96103aa6772d55b380b",
-        "symbol":"BTC-USDT",
-        "side":"buy",
-        "reason":"filled", //filled
-        "time":"1545914730696727106"
-    }
-}
-```
-
-```json
-{
-    "type":"message",
-    "topic":"/market/level3:BTC-USDT",
-    "subject":"trade.l3done",
-    "data":{
-
-        "sequence":"1545896669227",
-        "type":"done", //L3 messege type. If it is a done message, remove the buy or sell order corresponding to the orderid
-        "orderId":"5c24c96103aa6772d55b381b",  //order id
-        "symbol":"BTC-USDT",
-        "side":"buy",  //side, include buy and sell
-        "size": "1.12340000000000000000",  //order quantity
-        "reason":"canceled",  //Order completion status, include canceled and filled
-        "time":"1545914730696797106"  //timestamp, timestamps is nanosecond
-    }
-}
-```
-
-This will mean that the order is no longer on the order book. The message is sent for all orders for which there was a received message. This message can result from an order being canceled or filled. There will be no more messages for this order_id after a done message. remain_size indicates how much of the order went unfilled; this will be 0 for filled orders.
-
-market orders will not have a remaining_size or price field as they are never on the open order book at a given price.
-
-<aside class="spacer8"></aside>
-<aside class="spacer3"></aside>
-
-### MATCH
-
-```json
-{
-    "type":"message",
-    "topic":"/market/level3:BTC-USDT",
-    "subject":"trade.l3match",
-    "data":{
-
-        "sequence":"1545896669291",
-        "type":"match",  //L3 messege type. If it is a match message, reduce the number of order corresponding to the markerOrderId
-        "symbol":"BTC-USDT",
-        "side":"buy",  //side, include buy and sell
-        "price":"0.08300000000000000000",  
-        "size":"0.07600000000000000000",  //order quantity
-        "tradeId":"5c24ca3503aa673885cd67ef",  //match_id，a match to generate two orderids when orders were matched
-        "takerOrderId":"5c24ca2e03aa6772d55b38bf",  //Extract liquidity user order id
-        "makerOrderId":"5c20492a03aa677bd099ce9d",  //Provide liquidity user order id
-        "time":"1545914933083576866"  //timestamp, timestamps is nanosecond
-  }
-}
-```
-When two orders become matched, the system will send a match message to user.
-
-The match message indicates that a trade occurred between two orders. The aggressor or taker order is the one executing immediately after being received and the maker order is a resting order on the book. The side field indicates the taker order side.
-
-<aside class="notice">Before entering the orderbook, the iceberg or hidden order is the same as the ordinary order when it is matched as taker(it has a takerOrderId).</aside>
-
-<aside class="spacer4"></aside>
-<aside class="spacer2"></aside>
-
-### CHANGE
-
-```json
-{
-    "type":"message",
-    "topic":"/market/level3:BTC-USDT",
-    "subject":"trade.l3change",
-    "data":{
-
-        "sequence":"1545896669656",
-        "type":"change",  //L3 messege type. If it is a change message, modify the number of buy or sell order corresponding to the orderid
-        "orderId":"5c24caff03aa671aef3ca170",  //order id
-        "symbol":"BTC-USDT",
-        "side":"buy",  //side, include buy and sell
-        "price":"1.00000000000000000000",
-        "newSize":"0.15722222000000000000",  //Updated order quantity
-        "oldSize":"0.18622222000000000000",  //order quantity before update
-        "time":"1545915145402532254"  //timestamp, timestamps is nanosecond
-  }
-}
-```
-
-When an order is changed due to STP, the system would send a change message to the user.
-This is the result of self-trade prevention adjusting the order size or available funds. Orders can only decrease in size or funds. Change messages are always sent when an order changes in size; this includes resting orders (open) as well as received but not yet open orders. Change messages are also sent when a new market order goes through self trade prevention and the funds for the market order have changed.
-
-<aside class="spacer8"></aside>
-<aside class="spacer4"></aside>
-
-### How to manage a local L3 orderbook correctly
-
-1.Use the websocket channel: **/market/level3:{symbol}** to subscribe to the level3 incremental data and cache all incremental data received.
-
-2.Get the snapshot data of level3 through the rest interface **https://api.kucoin.com/api/v1/market/orderbook/level3?symbol={symbol}**.
-
-3.Verify the data that you received. The sequence of the snapshot should not  be less than the minimum sequence of all increments of the cache. If this condition is not met, start from the first step.
-
-4.Playback all cached incremental data:
-
-4.1 If the sequence of the incremental data is less or equal to the sequence of the current snapshot, discard the incremental data and end the update; otherwise proceed to 4.2.
-
-4.2 If the sequence of incremental data = sequence+1 of the current snapshot, proceed to 4.2.1 logical update, otherwise proceed to step 4.3.
-
-4.2.1 Update the sequence of the current snapshot to the sequence of the incremental data.
-
-4.2.2 If it is a received message, end the update logic. (because now the received message does not affect the level3 data).
-
-4.2.3 If it is an open message, add the corresponding buy or sell order built by orderid, price and size.
-
-4.2.4 If it is a done message, remove the buy or sell order corresponding to the orderid.
-
-4.2.5 If it is a change message, modify the number of buy or sell order corresponding to the orderid.
-
-4.2.6 If it is a match message, reduce the number of order corresponding to the markerOrderId.
-
-4.3 In this case, the sequence is not continuous. Perform step 2 and re-pull the snapshot data to ensure that the sequence is not missing.
-
-5.Receive the new incremental data push and go to step 4.
-
-When you maintain a local L3 orderbook data, if you can't fully understand the following examples, we provide a L3 orderbook maintenance case based on the Go language which you can refer to. This example mainly includes how to update the L3 data under different events, well-maintained orderbook, the data format of the websocket message and so on. The specific link is as follows: [L3 SDK](https://github.com/Kucoin/kucoin-level3-sdk)
-
-<aside class="spacer4"></aside>
-<aside class="spacer2"></aside>
-
 
 ## Full MatchEngine Data(Level 3)
 
@@ -6572,68 +6347,6 @@ when the order has been updated;
 
 <aside class="spacer4"></aside>
 <aside class="spacer4"></aside>
-
-## Stop Order Received Event (Deprecated)
-
-```json
-{
-    "type":"message",
-    "topic":"/market/level3:BTC-USDT",
-    "subject":"trade.l3received",
-    "channelType":"private",
-    "data": {
-
-        "sequence":"1545738118241",
-        "orderId":"5c21e80303aa677bd09d7dff",
-        "symbol":"BTC-USDT",
-        "type":"stop",
-        "side":"buy",
-        "stopType":"entry",
-        "funds":"1.00000000000000000000",
-        "time":"1545743136994328401"
-  }
-}
-```
-Topic: **/market/level3:{symbol},{symbol}...**
-
-When a stop-limit order is received by the system, you will receive a stop message which means that this order entered the stop queue and waited to be triggered.
-
-***It's deprecated, please use [Stop Order Event](#stop-order-event) instead.***
-
-
-<aside class="spacer4"></aside>
-<aside class="spacer"></aside>
-
-## Stop Order Activate Event (Deprecated)
-
-```json
-{
-    "type":"message",
-    "topic":"/market/level3:BTC-USDT",
-    "subject":"trade.l3received",
-    "channelType":"private",
-    "data": {
-
-        "sequence":"1545738118241",
-        "orderId":"5c21e80303aa677bd09d7dff",
-        "type":"activate",
-        "symbol":"BTC-USDT",
-        "side":"buy",
-        "stopType":"entry",
-        "funds":"1.00000000000000000000",
-        "reason":"canceled",         //include canceled or triggered
-        "time":"1545743136994328401"
-  }
-}
-```
-Topic: **/market/level3:{symbol},{symbol}...**
-
-When a stop-limit order is triggered, you will receive an activate message which means that this order started the matching life cycle.
-
-***It's deprecated, please use [Stop Order Event](#stop-order-event) instead.***
-
-<aside class="spacer4"></aside>
-<aside class="spacer2"></aside>
 
 ## Account Balance Notice
 ```json
