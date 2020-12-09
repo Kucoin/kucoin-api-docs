@@ -30,7 +30,7 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 为了您能获取到最新的API 变更的通知，请在 [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs)添加关注【Watch】
 
-
+**为了进一步提升API安全性，KuCoin已经升级到了V2版本的API-KEY，验签逻辑也发生了一些变化，建议到[API管理页面](https://www.kucoin.cc/account/api)添加并更换到新的API-KEY。KuCoin将继续支持使用老的API-KEY到2021年05月01日。[查看新的签名方式](#8ba46c43fe)**
 
 **11/05/20**:
 
@@ -637,6 +637,7 @@ Rest请求头必须包含以下内容:
 * **KC-API-SIGN** [签名](#8ba46c43fe)
 * **KC-API-TIMESTAMP** 请求的时间戳
 * **KC-API-PASSPHRASE** 创建API时填的API-KEY的密码
+* **KC-API-KEY-VERSION** API-KEY版本号，可通过[API管理](https://www.kucoin.cc/account/api)页面查看版本号
 
 ### 签名
 
@@ -674,11 +675,14 @@ Rest请求头必须包含以下内容:
     str_to_sign = str(now) + 'GET' + '/api/v1/accounts'
     signature = base64.b64encode(
         hmac.new(api_secret.encode('utf-8'), str_to_sign.encode('utf-8'), hashlib.sha256).digest())
+        
+    passphrase = base64.b64encode(hmac.new(api_secret.encode('utf-8'), api_passphrase.encode('utf-8'), hashlib.sha256).digest())    
     headers = {
         "KC-API-SIGN": signature,
         "KC-API-TIMESTAMP": str(now),
         "KC-API-KEY": api_key,
-        "KC-API-PASSPHRASE": api_passphrase
+        "KC-API-PASSPHRASE": passphrase,
+        "KC-API-KEY-VERSION": 2
     }
     response = requests.request('get', url, headers=headers)
     print(response.status_code)
@@ -692,11 +696,14 @@ Rest请求头必须包含以下内容:
     str_to_sign = str(now) + 'POST' + '/api/v1/deposit-addresses' + data_json
     signature = base64.b64encode(
         hmac.new(api_secret.encode('utf-8'), str_to_sign.encode('utf-8'), hashlib.sha256).digest())
+    passphrase = base64.b64encode(
+        hmac.new(api_secret.encode('utf-8'), api_passphrase.encode('utf-8'), hashlib.sha256).digest())
     headers = {
         "KC-API-SIGN": signature,
         "KC-API-TIMESTAMP": str(now),
         "KC-API-KEY": api_key,
-        "KC-API-PASSPHRASE": api_passphrase,
+        "KC-API-PASSPHRASE": passphrase,
+        "KC-API-KEY-VERSION": 2,
         "Content-Type": "application/json" # specifying content type or using json=data in request
     }
     response = requests.request('post', url, headers=headers, data=data_json)
@@ -707,7 +714,12 @@ Rest请求头必须包含以下内容:
 
 1. 使用 API-Secret 对
     {timestamp + method + endpoint + body} 拼接的字符串进行**HMAC-sha256**加密。
-2. 再将加密内容使用 **base64** 加密。
+2. 再将加密内容使用 **base64** 编码。
+
+请求头中的 **KC-API-PASSPHRASE**:
+
+1. 对于V1版的API-KEY，请使用明文传递
+2. 对于V2版的API-KEY，需要将KC-API-KEY-VERSION指定为2，并将passphrase使用API-Secret进行**HMAC-sha256**加密，再将加密内容通过**base64**编码后传递
 
 注意：
 
@@ -721,12 +733,13 @@ Rest请求头必须包含以下内容:
 ```python
 #Example for Create Deposit Address
 
-curl -H "Content-Type:application/json" -H "KC-API-KEY:5c2db93503aa674c74a31734" -H "KC-API-TIMESTAMP:1547015186532" -H "KC-API-PASSPHRASE:Abc123456" -H "KC-API-SIGN:7QP/oM0ykidMdrfNEUmng8eZjg/ZvPafjIqmxiVfYu4="
+curl -H "Content-Type:application/json" -H "KC-API-KEY:5c2db93503aa674c74a31734" -H "KC-API-TIMESTAMP:1547015186532" -H "KC-API-PASSPHRASE:QWIxMjM0NTY3OCkoKiZeJSQjQA==" -H "KC-API-SIGN:7QP/oM0ykidMdrfNEUmng8eZjg/ZvPafjIqmxiVfYu4="  -H "KC-API-KEY-VERSION:2"
 -X POST -d '{"currency":"BTC"}' http://openapi-v2.kucoin.com/api/v1/deposit-addresses
 
 KC-API-KEY = 5c2db93503aa674c74a31734
 KC-API-SECRET = f03a5284-5c39-4aaa-9b20-dea10bdcf8e3
-KC-API-PASSPHRASE = Abc123456
+KC-API-PASSPHRASE = QWIxMjM0NTY3OCkoKiZeJSQjQA==
+KC-API-KEY-VERSION = 2
 TIMESTAMP = 1547015186532
 METHOD = POST
 ENDPOINT = /api/v1/deposit-addresses
@@ -750,8 +763,6 @@ KC-API-SIGN = 7QP/oM0ykidMdrfNEUmng8eZjg/ZvPafjIqmxiVfYu4=
 # 用户信息
 
 ## 获取所有子账号信息
-
-
 
 ```json
 [
