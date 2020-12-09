@@ -28,6 +28,7 @@ The WebSocket contains two sections: Public Channels and Private Channels
 
 To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
+**To reinforce the security of the API, KuCoin upgraded the API key to version 2.0, the validation logic has also been changed. It is recommended to [create](https://www.kucoin.com/account/api) and update your API key to version 2.0. The API key of version 1.0 will be still valid until May 1, 2021. [Check new signing method](#signing-a-message)**
 
 **11/05/20**:
 
@@ -656,6 +657,7 @@ All private REST requests must contain the following headers:
 * **KC-API-SIGN** The base64-encoded signature (see Signing a Message).
 * **KC-API-TIMESTAMP** A timestamp for your request.
 * **KC-API-PASSPHRASE** The passphrase you specified when creating the API key.
+* **KC-API-KEY-VERSION** You can check the version of API key on the page of [API Management](https://www.kucoin.com/account/api)
 
 ### Signing a Message
 
@@ -693,11 +695,13 @@ All private REST requests must contain the following headers:
     str_to_sign = str(now) + 'GET' + '/api/v1/accounts'
     signature = base64.b64encode(
         hmac.new(api_secret.encode('utf-8'), str_to_sign.encode('utf-8'), hashlib.sha256).digest())
+    passphrase = base64.b64encode(hmac.new(api_secret.encode('utf-8'), api_passphrase.encode('utf-8'), hashlib.sha256).digest())
     headers = {
         "KC-API-SIGN": signature,
         "KC-API-TIMESTAMP": str(now),
         "KC-API-KEY": api_key,
-        "KC-API-PASSPHRASE": api_passphrase
+        "KC-API-PASSPHRASE": passphrase,
+        "KC-API-KEY-VERSION": 2
     }
     response = requests.request('get', url, headers=headers)
     print(response.status_code)
@@ -711,11 +715,14 @@ All private REST requests must contain the following headers:
     str_to_sign = str(now) + 'POST' + '/api/v1/deposit-addresses' + data_json
     signature = base64.b64encode(
         hmac.new(api_secret.encode('utf-8'), str_to_sign.encode('utf-8'), hashlib.sha256).digest())
+    passphrase = base64.b64encode(
+        hmac.new(api_secret.encode('utf-8'), api_passphrase.encode('utf-8'), hashlib.sha256).digest())
     headers = {
         "KC-API-SIGN": signature,
         "KC-API-TIMESTAMP": str(now),
         "KC-API-KEY": api_key,
-        "KC-API-PASSPHRASE": api_passphrase,
+        "KC-API-PASSPHRASE": passphrase,
+        "KC-API-KEY-VERSION": 2
         "Content-Type": "application/json" # specifying content type or using json=data in request
     }
     response = requests.request('post', url, headers=headers, data=data_json)
@@ -723,10 +730,15 @@ All private REST requests must contain the following headers:
     print(response.json())
 ```
 
-For the header of KC-API-KEY,
+For the header of **KC-API-KEY**:
 
 * Use API-Secret to encrypt the prehash string {timestamp+method+endpoint+body} with sha256 HMAC. The request body is a JSON string and need to be the same with the parameters passed by the API.
 * After that, use base64-encode to encrypt the result in step 1 again.
+
+For the **KC-API-PASSPHRASE** of the header:
+
+* For API key-V1.0, please pass requests in plaintext.
+* For API key-V2.0, please Specify **KC-API-KEY-VERSION** as **2** --> Encrypt passphrase with HMAC-sha256 via API-Secret --> Encode contents by base64 before you pass the request."
 
 Notice:
 
@@ -740,12 +752,13 @@ Notice:
 ```python
 #Example for Create Deposit Address
 
-curl -H "Content-Type:application/json" -H "KC-API-KEY:5c2db93503aa674c74a31734" -H "KC-API-TIMESTAMP:1547015186532" -H "KC-API-PASSPHRASE:Abc123456" -H "KC-API-SIGN:7QP/oM0ykidMdrfNEUmng8eZjg/ZvPafjIqmxiVfYu4="
+curl -H "Content-Type:application/json" -H "KC-API-KEY:5c2db93503aa674c74a31734" -H "KC-API-TIMESTAMP:1547015186532" -H "KC-API-PASSPHRASE:QWIxMjM0NTY3OCkoKiZeJSQjQA==" -H "KC-API-SIGN:7QP/oM0ykidMdrfNEUmng8eZjg/ZvPafjIqmxiVfYu4=" -H "KC-API-KEY-VERSION:2"
 -X POST -d '{"currency":"BTC"}' http://openapi-v2.kucoin.com/api/v1/deposit-addresses
 
 KC-API-KEY = 5c2db93503aa674c74a31734
 KC-API-SECRET = f03a5284-5c39-4aaa-9b20-dea10bdcf8e3
-KC-API-PASSPHRASE = Abc123456
+KC-API-PASSPHRASE = QWIxMjM0NTY3OCkoKiZeJSQjQA==
+KC-API-KEY-VERSION = 2
 TIMESTAMP = 1547015186532
 METHOD = POST
 ENDPOINT = /api/v1/deposit-addresses
