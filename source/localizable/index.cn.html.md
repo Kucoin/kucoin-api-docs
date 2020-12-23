@@ -1120,7 +1120,51 @@ createdAt | 创建时间
 context | 业务核心参数
 
 ### context
+
 如果 **bizType** 是trade exchange，那么 **context** 字段会包含交易的额外信息（订单id，交易id，交易对）。
+
+### BizType 含义
+值 | 含义
+--------- | -------
+Assets Transferred in After Upgrading | 从V1迁入V2时系统升级转入
+Deposit  | 获取充值入账记录
+Withdrawal  | 获取提现记录
+Transfer | 获取资金划转记录
+Trade_Exchange | 获取币币交易记录
+Vote for Coin | 投票上币分发资产
+KuCoin Bonus | 获取鼓励金入账记录
+Referral Bonus | 获取邀请奖励入账记录
+Rewards | 一些活动发奖记录
+Distribution  | 持币分发，持有NEO 获得GAS 等资产分发记录
+Airdrop/Fork  | 某些代币的空投活动，比如持有BTC空投KCS
+Other rewards | 其他奖励，除持币分发、空投、分叉之外的其他活动奖励
+Fee Rebate | 手续费返佣，负手续费获得的手续费返佣
+Buy Crypto | 使用信用卡购买资产
+Sell Crypto | 使用信用卡出售资产
+Public Offering Purchase | Spotlight活动公开发行某些资产
+Send red envelope | 发送红包
+Open red envelope  | 领取红包
+Staking  | Staking锁仓
+LockDrop Vesting | 进行Lockdrop认购
+Staking Profits | Staking收益
+Redemption | 赎回资产
+Refunded Fees | KCS抵扣
+KCS Pay Fees | KCS抵扣
+Margin Trade | 杠杆交易
+Loans   | 杠杆借出
+Borrowings  | 杠杆借入
+Debt Repayment   | 杠杆还款
+Loans Repaid  | 杠杆收款
+Lendings  | 借贷
+Pool transactions  | Pool-X交易
+Instant Exchange  | 闪兑交易
+Sub-account transfer  | 子母账户转账
+Liquidation Fees   | 爆仓手续费
+Soft Staking Profits  | 获取Soft Staking收益
+Voting Earnings  | Pool-X获取投票收益
+Redemption of Voting  | Pool-X投票赎回资产
+Voting  | Pool-X投票
+Convert to KCS   | 一键转KCS
 
 
 ## 获取单个子账户信息
@@ -5313,9 +5357,9 @@ Topic: **/market/ticker:{symbol},{symbol}...**
     }
 }
 ```
-订阅此topic可获取指定[交易对](#a17b4e2866)的BBO(最佳买一和卖一)数据的推送，如果**一秒**内没有变化，就不推送。
+订阅此topic可获取指定[交易对](#a17b4e2866)的BBO(最佳买一和卖一)数据的推送。
 
-每完成一笔撮合，该渠道就会推送一次价格。如果有多个订单在同一时间被撮合，仅推送最近一笔完成撮合的订单事件，极大的降低了对带宽对需求。
+平台将以100ms的频率推送最新的BB0，如果在和上一次推送相比，BBO没有变化，将不进行推送。
 
 平台后期可能会向该渠道推送更多的信息。
 
@@ -6063,7 +6107,7 @@ Topic: **/indicator/markPrice:{symbol0},{symbol1}...**
 }
 ```
 
-目前支持的标记价格有：USDT-BTC, ETH-BTC, LTC-BTC, EOS-BTC, XRP-BTC, KCS-BTC
+目前支持的标记价格有：USDT-BTC, ETH-BTC, LTC-BTC, EOS-BTC, XRP-BTC, KCS-BTC, DIA-BTC, VET-BTC, DASH-BTC, DOT-BTC, XTZ-BTC, ZEC-BTC, BCHSV-BTC, ADA-BTC, ATOM-BTC, LINK-BTC, LUNA-BTC, NEO-BTC, UNI-BTC, ETC-BTC, BNB-BTC, TRX-BTC, XLM-BTC
 
 <aside class="spacer4"></aside>
 <aside class="spacer2"></aside>
