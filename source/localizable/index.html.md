@@ -1170,6 +1170,49 @@ context | Business related information such as order ID, serial No., etc.
 ### context
 If the returned value under bizType is **“trade exchange”**, the additional info. (such as order ID and trade ID, trading pair, etc.) of the trade will be returned in field **context**.
 
+### BizType Description
+Field | Description
+--------- | -------
+Assets Transferred in After Upgrading | Assets Transferred in After V1 to V2 Upgrading
+Deposit  | Deposit 
+Withdrawal  | Withdrawal
+Transfer | Transfer
+Trade_Exchange | Trade
+Vote for Coin | Vote for Coin
+KuCoin Bonus | KuCoin Bonus
+Referral Bonus | Referral Bonus
+Rewards | Activities Rewards
+Distribution  | Distribution, such as get GAS by holding NEO
+Airdrop/Fork  | Airdrop/Fork
+Other rewards | Other rewards, except Vote, Airdrop, Fork
+Fee Rebate | Fee Rebate
+Buy Crypto | Use credit card to buy crypto
+Sell Crypto | Use credit card to sell crypto
+Public Offering Purchase | Public Offering Purchase for Spotlight
+Send red envelope | Send red envelope
+Open red envelope  | Open red envelope
+Staking  | Staking 
+LockDrop Vesting | LockDrop Vesting
+Staking Profits | Staking Profits
+Redemption | Redemption
+Refunded Fees | Refunded Fees
+KCS Pay Fees | KCS Pay Fees
+Margin Trade | Margin Trade
+Loans   | Loans
+Borrowings  | Borrowings
+Debt Repayment   | Debt Repayment
+Loans Repaid  | Loans Repaid
+Lendings  | Lendings
+Pool transactions  | Pool-X transactions
+Instant Exchange  | Instant Exchange
+Sub-account transfer  | Sub-account transfer
+Liquidation Fees   | Liquidation Fees 
+Soft Staking Profits  | Soft Staking Profits
+Voting Earnings  | Voting Earnings on Pool-X
+Redemption of Voting  | Redemption of Voting on Pool-X
+Voting  | Voting on Pool-X
+Convert to KCS   | Convert to KCS 
+
 ## Get Account Balance of a Sub-Account
 
 ```json
@@ -5406,7 +5449,7 @@ Topic: **/market/ticker:{symbol},{symbol}...**
 ```
 Subscribe to this topic to get the push of BBO changes. If there is no change within **one second**, it will not be pushed.
 
-The ticker channel provides price updates whenever a match happens. If multiple orders are matched at the same time, only the last matching event will be pushed.
+It will be pushed per 100ms with the newest BBO. If there was no change compared with last data, it will not be pushed.
 
 
 Please note that more information may be added to messages from this channel in the near future.
@@ -6132,7 +6175,7 @@ Subscribe to this topic to get the mark price for margin trading.
     }
 }
 ```
-The following ticker symbols are supported: USDT-BTC, ETH-BTC, LTC-BTC, EOS-BTC, XRP-BTC, KCS-BTC
+The following ticker symbols are supported: USDT-BTC, ETH-BTC, LTC-BTC, EOS-BTC, XRP-BTC, KCS-BTC, DIA-BTC, VET-BTC, DASH-BTC, DOT-BTC, XTZ-BTC, ZEC-BTC, BCHSV-BTC, ADA-BTC, ATOM-BTC, LINK-BTC, LUNA-BTC, NEO-BTC, UNI-BTC, ETC-BTC, BNB-BTC, TRX-BTC, XLM-BTC
 
 <aside class="spacer8"></aside>
 <aside class="spacer4"></aside>
