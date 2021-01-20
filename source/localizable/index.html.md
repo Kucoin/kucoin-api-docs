@@ -2031,7 +2031,7 @@ You can place two types of orders: **limit** and **market**. Orders can only be 
 <aside class="notice">Placing an order will enable price protection. When the price of the limit order is outside the threshold range, the price protection mechanism will be triggered, causing the order to fail.</aside>
 
 
-Please note that the system will deduct the fees from the orders that entered the order book in advance. Read [List Fills](#list-fills) to learn more.
+Please note that the system will frozen the fees from the orders that entered the order book in advance. Read [List Fills](#list-fills) to learn more.
 
 Before placing an order, please read [Get Symbol List](#get-symbols-list) to understand the requirements for the quantity parameters for each trading pair.
 
