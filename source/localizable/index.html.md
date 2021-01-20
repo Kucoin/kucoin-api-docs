@@ -410,6 +410,8 @@ Message limit sent to the server: 100 per 10 seconds
 
 
 ### Topic Subscription Limit
+Maximum number of batch subscriptions at a time: 100 topics
+
 Subscription limit for each connection: 300 topics
 
 
@@ -5219,24 +5221,6 @@ If you only use public channels (e.g. all public market data), please make reque
 
 ### Private channels (Authentication request required):
 
-```json
-{
-    "code": "200000",
-    "data": {
-
-        "instanceServers": [
-            {
-                "endpoint": "wss://push1-v2.kucoin.com/endpoint",
-                "protocol": "websocket",
-                "encrypt": true,
-                "pingInterval": 50000,
-                "pingTimeout": 10000
-            }
-        ],
-        "token": "vYNlCtbz4XNJ1QncwWilJnBtmmfe4geLQDUA62kKJsDChc6I4bRDQc73JfIrlFaVYIAE0Gv2--MROnLAgjVsWkcDq_MuG7qV7EktfCEIphiqnlfpQn4Ybg==.IoORVxR2LmKV7_maOR9xOg=="
-    }
-}
-```
 
 For private channels and messages (e.g. account balance notice), please make request as follows after authorization to obtain the server list and authorized token.
 
