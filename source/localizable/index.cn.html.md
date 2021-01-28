@@ -400,6 +400,8 @@ REST&nbsp;API 连接地址:
 
 ### 订阅topic数量
 
+单次最多批量订阅数量限制：100个topic
+
 每个连接最大可订阅topic数量限制：300个topic
 
 ### 申请提高频率限制
@@ -5081,37 +5083,11 @@ REST API的使用受到了访问频率的限制，因此推荐您使用Websocket
 
 ## 申请连接令牌
 
-```json
-  {
-    "code":"200000",
-    "data":{
-
-        "instanceServers":[
-            {
-                "endpoint":"wss://push.kumex.net/endpoint",
-                "protocol":"websocket",
-                "encrypt":true,
-                "pingInterval":50000,
-                "pingTimeout":10000
-            }
-        ],
-        "token":"vYNlCtbz4XNJ1QncwWilJnBtmmfe4geLQDUA62kKJsDChc6I4bRDQc73JfIrlFaVYIAE0Gv2--MROnLAgjVsWkcDq_MuG7qV7EktfCEIphiqnlfpQn4Ybg==.IoORVxR2LmKV7_maOR9xOg=="
-    }
-}
-```
 
 在创建Websocket连接前，您需申请一个令牌（Token）。
 
 
 ### 公共令牌 (不需要验证签名):
-
-如果您只订阅公共频道的数据，请按照以下方式请求获取服务实例列表和公共令牌。
-
-#### HTTP请求
-
-**POST /api/v1/bullet-public**
-
-
 
 ```json
 {
@@ -5131,6 +5107,12 @@ REST API的使用受到了访问频率的限制，因此推荐您使用Websocket
     }
 }
 ```
+
+如果您只订阅公共频道的数据，请按照以下方式请求获取服务实例列表和公共令牌。
+
+#### HTTP请求
+
+**POST /api/v1/bullet-public**
 
 ### 私有令牌 (需要验证签名):
 
