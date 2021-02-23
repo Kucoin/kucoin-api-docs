@@ -2064,7 +2064,7 @@ This endpoint requires the **"Trade"** permission.
 | type      | String | *[Optional]* **limit** or **market** (default is **limit**)          |
 | remark    | String | *[Optional]*  remark for the order, length cannot exceed 100 utf8 characters|
 | stp       | String | *[Optional]*  self trade prevention , **CN**, **CO**, **CB** or **DC**|
-| tradeType | String | *[Optional]* The type of trading : **TRADE**（Spot Trade）, **MARGIN_TRADE** (Margin Trade). Default is **TRADE** |
+| tradeType | String | *[Optional]* The type of trading : **TRADE**（Spot Trade）, **MARGIN_TRADE** (Margin Trade). Default is **TRADE**. Note: To improve the system performance and to accelerate order placing and processing, KuCoin has added a new interface for order placing of margin. For traders still using the current interface, please move to the new one as soon as possible. The current one will no longer accept margin orders by May 1st, 2021 (UTC). At the time, KuCoin will notify users via the announcement, please pay attention to it. |
 
 #### LIMIT ORDER PARAMETERS
 
@@ -2110,7 +2110,7 @@ The order type you specify may decide whether other optional parameters are requ
 A **market order** differs from a limit order in that the execution price is not guaranteed. Market order, however, provides a way to buy or sell specific size of order without having to specify the price. Market orders will be executed immediately, and no orders will enter the open order book afterwards. Market orders are always considered takers and incur taker fees.
 
 ###TradeType
-The platform currently supports spot (**TRADE**) and margin (**MARGIN_TRADE**) . The system will freeze the funds of the specified account according to your parameter type. If this parameter is not specified, the funds in your trade account will be frozen by default.
+The platform currently supports spot (**TRADE**) and margin (**MARGIN_TRADE**) . The system will freeze the funds of the specified account according to your parameter type. If this parameter is not specified, the funds in your trade account will be frozen by default. Note: To improve the system performance and to accelerate order placing and processing, KuCoin has added a new interface for order placing of margin. For traders still using the current interface, please move to the new one as soon as possible. The current one will no longer accept margin orders by May 1st, 2021 (UTC). At the time, KuCoin will notify users via the announcement, please pay attention to it. 
 
 ###PRICE
 The price must be specified in priceIncrement symbol units. The priceIncrement is the smallest unit of price. For the BTC-USDT symbol, the priceIncrement is 0.00001000. Prices less than 0.00001000 will not be accepted, The price for the placed order should be multiple numbers of priceIncrement, or the system would report an error when you place the order. Not required for market orders.
@@ -2199,6 +2199,96 @@ Notice: There might be some deviations of the detection. If your order is not fu
 Field | Description
 --------- | -------
 orderId | The ID of the order
+
+A successful order will be assigned an order ID. A successful order is defined as one that has been accepted by the matching engine.
+
+<aside class="notice">Open orders do not expire and will remain open until they are either filled or canceled.</aside>
+
+
+## Place a margin order
+
+```json
+{
+  "orderId": "5bd6e9286d99522a52e458de",
+  "borrowSize":10.2,
+  "loanApplyId":"600656d9a33ac90009de4f6f"
+}
+```
+
+You can place two types of orders: **limit** and **market**. Orders can only be placed if your account has sufficient funds. Once an order is placed, your account funds will be put on hold for the duration of the order. How much and which funds are put on hold depends on the order type and parameters specified. See the Holds details below.
+
+<aside class="notice">Placing an order will enable price protection. When the price of the limit order is outside the threshold range, the price protection mechanism will be triggered, causing the order to fail.</aside>
+
+
+Please note that the system will frozen the fees from the orders that entered the order book in advance. Read [List Fills](#list-fills) to learn more.
+
+Before placing an order, please read [Get Symbol List](#get-symbols-list) to understand the requirements for the quantity parameters for each trading pair.
+
+**Do not include extra spaces in JSON strings**.
+
+###Place Order Limit
+
+The maximum matching orders for a single trading pair in one account is **200** (stop orders included).
+
+
+### HTTP Request
+**POST /api/v1/margin/order**
+
+### Example
+POST /api/v1/margin/order
+
+### Parameters
+
+| Param     | type   | Description  |
+| --------- | ------ |-------------------------------- |
+| clientOid | String | Unique order id created by users to identify their orders, e.g. UUID. |
+| side      | String | **buy** or **sell**      |
+| symbol    | String | a valid trading symbol code. e.g. ETH-BTC     |
+| type      | String | *[Optional]* **limit** or **market** (default is **limit**)          |
+| remark    | String | *[Optional]*  remark for the order, length cannot exceed 100 utf8 characters|
+| stp       | String | *[Optional]*  self trade prevention , **CN**, **CO**, **CB** or **DC**|
+| marginMode | String | *[Optional]*  The type of trading, including cross (cross mode) and isolated (isolated mode). It is set at cross by default. The isolated mode will be released soon, so stay tuned!|
+| autoBorrow | boolean | *[Optional]*  Auto-borrow to place order. The system will first borrow you funds at the optimal interest rate and then place an order for you. |
+
+#### LIMIT ORDER PARAMETERS
+
+| Param       | type    | Description                                                  |
+| ----------- | ------- | ------------------- |
+| price       | String  | price per base currency          |
+| size        | String  | amount of base currency to buy or sell         |
+| timeInForce | String  | *[Optional]* **GTC**, **GTT**, **IOC**, or **FOK** (default is **GTC**), read [Time In Force](#time-in-force).   |
+| cancelAfter | long    | *[Optional]*  cancel after **n** seconds, requires **timeInForce** to be **GTT**                   |
+| postOnly    | boolean | *[Optional]*  Post only flag, invalid when **timeInForce** is **IOC** or **FOK**                               |
+| hidden      | boolean | *[Optional]*  Order will not be displayed in the order book |
+| iceberg    | boolean | *[Optional]*  Only aportion of the order is displayed in the order book |
+| visibleSize | String  | *[Optional]*  The maximum visible size of an iceberg order   |
+
+
+#### MARKET ORDER PARAMETERS
+
+Param | type | Description
+--------- | ------- | -----------
+size | String | *[Optional]*  Desired amount in base currency
+funds | String | *[Optional]*  The desired amount of quote currency to use
+
+* It is required that you use one of the two parameters, **size** or **funds**.
+
+###Advanced Description
+
+
+###MarginMode
+There are two modes for API margin trading: 1) cross and 2) isolated. Currently, the platform only supports the cross mode and it is the default option for the margin trading. The isolated mode will be released soon, so stay tuned!
+
+###AutoBorrow
+This is the symbol of Auto-Borrow, if it is set to “true”, the system will automatically borrow the funds required for an order according to the order amount. By default, the symbol is set to “false”. When your order amount is too large, exceeding the max. borrowing amount via the max. leverage or the risk limit of margin, then you will fail in borrowing and order placing. 
+
+
+###RESPONSES
+Field | Description
+--------- | -------
+orderId | The ID of the order
+borrowSize | Borrowed amount. The field is returned only after placing the order under the mode of Auto-Borrow. 
+loanApplyId | ID of the borrowing response. The field is returned only after placing the order under the mode of Auto-Borrow.
 
 A successful order will be assigned an order ID. A successful order is defined as one that has been accepted by the matching engine.
 
