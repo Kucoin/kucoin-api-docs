@@ -30,6 +30,11 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 
 **To reinforce the security of the API, KuCoin upgraded the API key to version 2.0, the validation logic has also been changed. It is recommended to [create](https://www.kucoin.com/account/api) and update your API key to version 2.0. The API key of version 1.0 will be still valid until May 1, 2021. [Check new signing method](#signing-a-message)**
 
+**24/2/21**  
+
+- Add [Place a margin order](#place-a-margin-order) 
+
+
 **11/05/20**:
 
 - Add [Trade Fee](#trade-fee) module，[Basic user fee](#basic-user-fee),[Actual fee rate of the trading pair](#actual-fee-rate-of-the-trading-pair)
@@ -44,9 +49,6 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 - Add REST API [Stop Order](#stop-order)
 - Add websocket [Stop Order Event](#stop-order-event)，and deprecate [Stop Order Received Event](#stop-order-received-event), [Stop Order Activate Event](#stop-order-activate-event)
 
-**24/2/21**
-
-- Add [Place a margin order](#place-a-margin-order)
 
 **08/12/20**:
 
