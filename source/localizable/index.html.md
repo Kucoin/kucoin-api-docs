@@ -30,6 +30,11 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 
 **To reinforce the security of the API, KuCoin upgraded the API key to version 2.0, the validation logic has also been changed. It is recommended to [create](https://www.kucoin.com/account/api) and update your API key to version 2.0. The API key of version 1.0 will be still valid until May 1, 2021. [Check new signing method](#signing-a-message)**
 
+**24/2/21**  
+
+- Add [Place a margin order](#place-a-margin-order) 
+
+
 **11/05/20**:
 
 - Add [Trade Fee](#trade-fee) module，[Basic user fee](#basic-user-fee),[Actual fee rate of the trading pair](#actual-fee-rate-of-the-trading-pair)
@@ -2064,7 +2069,7 @@ This endpoint requires the **"Trade"** permission.
 | type      | String | *[Optional]* **limit** or **market** (default is **limit**)          |
 | remark    | String | *[Optional]*  remark for the order, length cannot exceed 100 utf8 characters|
 | stp       | String | *[Optional]*  self trade prevention , **CN**, **CO**, **CB** or **DC**|
-| tradeType | String | *[Optional]* The type of trading : **TRADE**（Spot Trade）, **MARGIN_TRADE** (Margin Trade). Default is **TRADE**. Note: To improve the system performance and to accelerate order placing and processing, KuCoin has added a new interface for order placing of margin. For traders still using the current interface, please move to the new one as soon as possible. The current one will no longer accept margin orders by May 1st, 2021 (UTC). At the time, KuCoin will notify users via the announcement, please pay attention to it. |
+| tradeType | String | *[Optional]* The type of trading : **TRADE**（Spot Trade）, **MARGIN_TRADE** (Margin Trade). Default is **TRADE**. **Note: To improve the system performance and to accelerate order placing and processing, KuCoin has added a new interface for order placing of margin. For traders still using the current interface, please move to the new one as soon as possible. The current one will no longer accept margin orders by May 1st, 2021 (UTC). At the time, KuCoin will notify users via the announcement, please pay attention to it.** |
 
 #### LIMIT ORDER PARAMETERS
 
@@ -2110,7 +2115,7 @@ The order type you specify may decide whether other optional parameters are requ
 A **market order** differs from a limit order in that the execution price is not guaranteed. Market order, however, provides a way to buy or sell specific size of order without having to specify the price. Market orders will be executed immediately, and no orders will enter the open order book afterwards. Market orders are always considered takers and incur taker fees.
 
 ###TradeType
-The platform currently supports spot (**TRADE**) and margin (**MARGIN_TRADE**) . The system will freeze the funds of the specified account according to your parameter type. If this parameter is not specified, the funds in your trade account will be frozen by default. Note: To improve the system performance and to accelerate order placing and processing, KuCoin has added a new interface for order placing of margin. For traders still using the current interface, please move to the new one as soon as possible. The current one will no longer accept margin orders by May 1st, 2021 (UTC). At the time, KuCoin will notify users via the announcement, please pay attention to it. 
+The platform currently supports spot (**TRADE**) and margin (**MARGIN_TRADE**) . The system will freeze the funds of the specified account according to your parameter type. If this parameter is not specified, the funds in your trade account will be frozen by default. **Note: To improve the system performance and to accelerate order placing and processing, KuCoin has added a new interface for order placing of margin. For traders still using the current interface, please move to the new one as soon as possible. The current one will no longer accept margin orders by May 1st, 2021 (UTC). At the time, KuCoin will notify users via the announcement, please pay attention to it.** 
 
 ###PRICE
 The price must be specified in priceIncrement symbol units. The priceIncrement is the smallest unit of price. For the BTC-USDT symbol, the priceIncrement is 0.00001000. Prices less than 0.00001000 will not be accepted, The price for the placed order should be multiple numbers of priceIncrement, or the system would report an error when you place the order. Not required for market orders.
