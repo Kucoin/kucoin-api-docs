@@ -44,6 +44,9 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 - Add REST API [Stop Order](#stop-order)
 - Add websocket [Stop Order Event](#stop-order-event)，and deprecate [Stop Order Received Event](#stop-order-received-event), [Stop Order Activate Event](#stop-order-activate-event)
 
+**24/2/21**
+
+- Add [Place a margin order](#place-a-margin-order)
 
 **08/12/20**:
 
