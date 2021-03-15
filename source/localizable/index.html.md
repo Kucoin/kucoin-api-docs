@@ -448,9 +448,6 @@ Proof of trading volume on other platforms within the past 30 days. Proof of a V
 
 We will offer you a jumpstart (e.g. a VIP level which matches your volume on other exchanges even though you are not trading as much on KuCoin) for 30 days. After 30 days, your VIP level will be calculated based on your actual trading volume on KuCoin.
 
-For more information on the VIP fee, you can read: [Tiered Trading Fee Discount Program](https://www.kucoin.com/news/en-fee).
-
-
 
 ## FAQ
 
