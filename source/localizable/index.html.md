@@ -871,7 +871,7 @@ id | accountId, ID of an account
     "type": "main",     //Account type, including main and trade
     "balance": "237582.04299",  //Total assets of a currency
     "available": "237582.032",  //Available assets of a currency
-    "holds": "0.01099". //Hold assets of a currency
+    "holds": "0.01099" //Hold assets of a currency
   },
   {
     "id": "5bd6e9216d99522a52e458d6",
@@ -935,7 +935,7 @@ When placing an order, the funds for the order will be freezed. The freezed fund
     "currency": "KCS",  //Currency
     "balance": "1000000060.6299",  //Total assets of a currency
     "available": "1000000060.6299",  //Available assets of a currency
-    "holds": "0". //Hold assets of a currency
+    "holds": "0" //Hold assets of a currency
 }
 ```
 Information for a single account. Use this endpoint when you know the accountId.
@@ -2639,7 +2639,7 @@ When you query orders in active status, there is no time limit. However, when yo
 
 The history for cancelled orders is only kept for **one month**. You will not be able to query for cancelled orders that have happened more than a month ago.
 
-<aside class="notice">The total number of items retrieved cannot exceed 500,000. If it is exceeded, please shorten the query time range.</aside>
+<aside class="notice">The total number of items retrieved cannot exceed 50,000. If it is exceeded, please shorten the query time range.</aside>
 
 ### POLLING
 For high-volume trading, it is highly recommended that you maintain your own list of open orders and use one of the streaming market data feeds to keep it updated. You should poll the open orders endpoint to obtain the current state of any open order.
@@ -3085,7 +3085,7 @@ tradeType | The type of trading : **TRADE**（Spot Trading）, **MARGIN_TRADE** 
 
 The system allows you to retrieve data up to one week (start from the last day by default). If the time period of the queried data exceeds one week (time range from the start time to end time exceeded 7*24 hours), the system will prompt to remind you that you have exceeded the time limit. If you only specified the start time, the system will automatically calculate the end time (end time = start time + 7 * 24 hours). On the contrary, if you only specified the end time, the system will calculate the start time (start time= end time - 7 * 24 hours) the same way.
 
-<aside class="notice">The total number of items retrieved cannot exceed 500,000. If it is exceeded, please shorten the query time range.</aside>
+<aside class="notice">The total number of items retrieved cannot exceed 50,000. If it is exceeded, please shorten the query time range.</aside>
 
 **Settlement**
 
@@ -5429,7 +5429,7 @@ Unsubscribe from topics you have subscribed to.
     "type": "unsubscribe",
     "topic": "/market/ticker:BTC-USDT,ETH-USDT",      //Topic needs to be unsubscribed. Some topics support to divisional unsubscribe the informations of multiple trading pairs through ",".
     "privateChannel": false,
-    "response": true,                                  //Whether the server needs to return the receipt information of this subscription or not. Set as false by default.
+    "response": true                                  //Whether the server needs to return the receipt information of this subscription or not. Set as false by default.
 }
 ```
 
@@ -5503,6 +5503,7 @@ The sequence field exists in order book, trade history and snapshot messages by 
     "type": "subscribe",
     "topic": "/market/ticker:BTC-USDT",
     "response": true
+}
 ```
 Topic: **/market/ticker:{symbol},{symbol}...**
 
@@ -5814,7 +5815,7 @@ Now your current order book is up-to-date and final data is as follows:
             ["9990","32"],
             ["9991","47"],
             ["9992","3"],
-            ["9993","3"],
+            ["9993","3"]
         ],
         "bids":[
 
