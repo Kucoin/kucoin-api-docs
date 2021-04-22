@@ -4835,8 +4835,17 @@ This endpoint requires the **"Trade"** permission.
 | currency     | String  | Currency                                        |
 | isEnable     | boolean | Auto-lend enabled or not                                |
 | retainSize   | String  | Reserved size in main account. Required when **isEnable** is true.   |
-| dailyIntRate | String  | Daily interest rate. e.g. 0.002 is 0.2%. Required when **isEnable** is true.     |
+| dailyIntRate | String  | acceptable min. day rate, 0.002 is 0.2%. Required when **isEnable** is true.     |
 | term         | int     | Term (Unit: Day). Required when **isEnable** is true.            |
+
+###Advanced Description
+
+###dailyIntRate
+
+When the priority interest rate is higher than the acceptable min. day rate, the system will place lending orders at the rate of the former one. The priority interest rate is the optimal market rate for all pending orders of the selected lending period, orders with this interest rate will be prioritized for auto-lending.
+
+When the priority interest rate is lower than the acceptable min. day rate, the system will place lending orders at the rate of the latter one.
+
 
 ## Get Active Order
 
