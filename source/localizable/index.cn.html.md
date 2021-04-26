@@ -30,12 +30,28 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 为了您能获取到最新的API 变更的通知，请在 [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs)添加关注【Watch】
 
+**为了进一步提升API安全性，KuCoin已经升级到了V2版本的API-KEY，验签逻辑也发生了一些变化，建议到[API管理页面](https://www.kucoin.cc/account/api)添加并更换到新的API-KEY。KuCoin将继续支持使用老的API-KEY到2021年05月01日。[查看新的签名方式](#8ba46c43fe)**
+
 **04/26/21**:
 
 - 【添加】 [Level-2全部买卖盘(价格聚合)](#level-2-3),[Level-3全部买卖盘(非聚合)](#level-3-3) 增加V3版本的Level2，Level3接口，这两个接口需要通用权限
 - 【废弃】 [Level-2全部买卖盘(价格聚合)](#level-2-2),[Level-3全部买卖盘(非聚合)](#level-3-2) 废弃V2版本的Level2，Level3接口
+  
+  
+**24/2/21**
+
+- 【添加】 [杠杆下单接口](#08c835db7a)
+
+
+**11/05/20**:
+
+- 【添加】 [手续费](#307d666742)模块，增加[用户基础手续费](#a7b53083e5),[用户实际费率](#4d7761e141)接口
+- 【添加】 增加[账户流水记录](#c8122540e1)接口，并弃用[账户流水记录（弃用）](#9b26dde3d2)接口
+
+>>>>>>> ac724350b7fccedc7be2505aacb7280c97422efb
 
 **10/28/20**:
+
 
 - 【添加】 [全局行情快照](#f3027c9902),[24小时统计](#24) 增加吃单基础手续费、挂单基础手续费、吃单手续费系数、挂单手续费系数
 - 【添加】 [子母账号资金划转](#108b1a50d2) 增加划转账户类型
@@ -197,7 +213,6 @@ API分为两部分：**REST API和Websocket 实时数据流**
 - 【添加】 部分API JSON 字段描述。
 - 【删除】 [撮合执行数据](#c7f054198c) 删除 **sn** 字段 。
 - 【修改】 [法币换算价格](#a2e56e9e0e) 参数描述。
-- 【添加】 创建Websocket连接时 **acceptUsermessage** 字段的描述。
 
 **2/22/19** :
 
@@ -396,6 +411,8 @@ REST&nbsp;API 连接地址:
 向服务器发送指令条数限制：每10秒 100条
 
 ### 订阅topic数量
+
+单次最多批量订阅数量限制：100个topic
 
 每个连接最大可订阅topic数量限制：300个topic
 
@@ -634,6 +651,7 @@ Rest请求头必须包含以下内容:
 * **KC-API-SIGN** [签名](#8ba46c43fe)
 * **KC-API-TIMESTAMP** 请求的时间戳
 * **KC-API-PASSPHRASE** 创建API时填的API-KEY的密码
+* **KC-API-KEY-VERSION** API-KEY版本号，可通过[API管理](https://www.kucoin.cc/account/api)页面查看版本号
 
 ### 签名
 
@@ -671,11 +689,14 @@ Rest请求头必须包含以下内容:
     str_to_sign = str(now) + 'GET' + '/api/v1/accounts'
     signature = base64.b64encode(
         hmac.new(api_secret.encode('utf-8'), str_to_sign.encode('utf-8'), hashlib.sha256).digest())
+        
+    passphrase = base64.b64encode(hmac.new(api_secret.encode('utf-8'), api_passphrase.encode('utf-8'), hashlib.sha256).digest())    
     headers = {
         "KC-API-SIGN": signature,
         "KC-API-TIMESTAMP": str(now),
         "KC-API-KEY": api_key,
-        "KC-API-PASSPHRASE": api_passphrase
+        "KC-API-PASSPHRASE": passphrase,
+        "KC-API-KEY-VERSION": 2
     }
     response = requests.request('get', url, headers=headers)
     print(response.status_code)
@@ -689,11 +710,14 @@ Rest请求头必须包含以下内容:
     str_to_sign = str(now) + 'POST' + '/api/v1/deposit-addresses' + data_json
     signature = base64.b64encode(
         hmac.new(api_secret.encode('utf-8'), str_to_sign.encode('utf-8'), hashlib.sha256).digest())
+    passphrase = base64.b64encode(
+        hmac.new(api_secret.encode('utf-8'), api_passphrase.encode('utf-8'), hashlib.sha256).digest())
     headers = {
         "KC-API-SIGN": signature,
         "KC-API-TIMESTAMP": str(now),
         "KC-API-KEY": api_key,
-        "KC-API-PASSPHRASE": api_passphrase,
+        "KC-API-PASSPHRASE": passphrase,
+        "KC-API-KEY-VERSION": 2,
         "Content-Type": "application/json" # specifying content type or using json=data in request
     }
     response = requests.request('post', url, headers=headers, data=data_json)
@@ -704,7 +728,12 @@ Rest请求头必须包含以下内容:
 
 1. 使用 API-Secret 对
     {timestamp + method + endpoint + body} 拼接的字符串进行**HMAC-sha256**加密。
-2. 再将加密内容使用 **base64** 加密。
+2. 再将加密内容使用 **base64** 编码。
+
+请求头中的 **KC-API-PASSPHRASE**:
+
+1. 对于V1版的API-KEY，请使用明文传递
+2. 对于V2版的API-KEY，需要将KC-API-KEY-VERSION指定为2，并将passphrase使用API-Secret进行**HMAC-sha256**加密，再将加密内容通过**base64**编码后传递
 
 注意：
 
@@ -718,12 +747,13 @@ Rest请求头必须包含以下内容:
 ```python
 #Example for Create Deposit Address
 
-curl -H "Content-Type:application/json" -H "KC-API-KEY:5c2db93503aa674c74a31734" -H "KC-API-TIMESTAMP:1547015186532" -H "KC-API-PASSPHRASE:Abc123456" -H "KC-API-SIGN:7QP/oM0ykidMdrfNEUmng8eZjg/ZvPafjIqmxiVfYu4="
+curl -H "Content-Type:application/json" -H "KC-API-KEY:5c2db93503aa674c74a31734" -H "KC-API-TIMESTAMP:1547015186532" -H "KC-API-PASSPHRASE:QWIxMjM0NTY3OCkoKiZeJSQjQA==" -H "KC-API-SIGN:7QP/oM0ykidMdrfNEUmng8eZjg/ZvPafjIqmxiVfYu4="  -H "KC-API-KEY-VERSION:2"
 -X POST -d '{"currency":"BTC"}' http://openapi-v2.kucoin.com/api/v1/deposit-addresses
 
 KC-API-KEY = 5c2db93503aa674c74a31734
 KC-API-SECRET = f03a5284-5c39-4aaa-9b20-dea10bdcf8e3
-KC-API-PASSPHRASE = Abc123456
+KC-API-PASSPHRASE = QWIxMjM0NTY3OCkoKiZeJSQjQA==
+KC-API-KEY-VERSION = 2
 TIMESTAMP = 1547015186532
 METHOD = POST
 ENDPOINT = /api/v1/deposit-addresses
@@ -747,8 +777,6 @@ KC-API-SIGN = 7QP/oM0ykidMdrfNEUmng8eZjg/ZvPafjIqmxiVfYu4=
 # 用户信息
 
 ## 获取所有子账号信息
-
-
 
 ```json
 [
@@ -936,7 +964,9 @@ available | 可用资金
 
 
 
-## 账户流水记录
+## 账户流水记录（弃用）
+
+已弃用，请用[账户流水记录](#c8122540e1)代替
 
 此接口返回账户的出入账流水记录。
 返回值是[分页](#88b6b4f79a)后的数据，根据时间降序排序。
@@ -1022,45 +1052,58 @@ context | 业务核心参数
 
 
 
+## 账户流水记录
 
-
-## 账户冻结记录
+此接口返回所有账户的出入账流水记录，支持多币种查询。
+返回值是[分页](#88b6b4f79a)后的数据，根据时间降序排序。
 
 ```json
 {
-    "currentPage": 1,
-    "pageSize": 10,
-    "totalNum": 2,
-    "totalPage": 1,
-    "items": [
+    "currentPage":1,
+    "pageSize":10,
+    "totalNum":2,
+    "totalPage":1,
+    "items":[
         {
-            "currency": "ETH", //币种
-            "holdAmount": "5083", //冻结金额
-            "bizType": "Withdraw", //业务类型
-            "orderId": "5bc7f080b39c5c03286eef8e", //资金冻结业务ID
-            "createdAt": 1545898567000, //创建时间
-            "updatedAt": 1545898567000 //修改时间
+            "id":"5bc7f080b39c5c03486eef8b",//唯一键
+            "currency":"KCS",//币种
+            "amount":"0.0998", //资金变动值
+            "fee":"0", //充值或提现费率
+            "balance":"0", //金额变动
+            "bizType":"withdraw", //业务类型
+            "direction":"in",  // 出入账方向入账或出账（in or out）
+            "createdAt":1540296039000,  // 创建时间
+            "context":{  // 业务核心参数
+                "orderId":"5bc7f080b39c5c03286eef8a",
+                "currency":"BTC"
+            }
         },
         {
-            "currency": "ETH",
-            "holdAmount": "1452",
-            "bizType": "Withdraw",
-            "orderId": "5bc7f518b39c5c033818d62d",
-            "createdAt": 1545898567000,
-            "updatedAt": 1545898567000
+            "id":"5bc7f080b39c5c03486eef8c",
+            "currency":"KCS",
+            "amount":"0.0998",
+            "fee":"0",
+            "balance":"0",
+            "bizType":"trade exchange",
+            "direction":"in",
+            "createdAt":1540296039000,
+            "context":{
+                "orderId":"5bc7f080b39c5c03286eef8e",
+                "tradeId":"5bc7f080b3949c03286eef8a",
+                "symbol":"BTC-USD"
+            }
         }
     ]
 }
+
 ```
 
-此接口返回的是在途冻结记录。当下单或申请提现时，系统会冻结账户资金，生成冻结记录。当订单成交或取消资金/完成提现时，系统会解冻支付或解冻回退，冻结记录将被移除。
-
 ### HTTP请求
-**GET /api/v1/accounts/{accountId}/holds**
+**GET /api/v1/accounts/ledgers**
+
 
 ### 请求示例
-GET /api/v1/accounts/5bd6e9286d99522a52e458de/holds
-
+GET /api/v1/accounts/ledgers?currency=BTC&startAt=1601395200000
 
 ### API权限
 此接口需要**通用权限**。
@@ -1070,28 +1113,72 @@ GET /api/v1/accounts/5bd6e9286d99522a52e458de/holds
 
 请求参数 | 类型 | 含义
 --------- | ------- | -------
-accountId | String | 路径参数，[账户ID](#f0f7ae469d)
-
+currency | String |  [可选] 币种，选填，可多选，以逗号分隔，最多支持选择10个币种，若不填写，默认查询所有币种
+direction | String | [可选] 出入账方向: **in** -入账, **out** -出账
+bizType   | String | [可选] 业务类型: **DEPOSIT** -充值, **WITHDRAW** -提现, **TRANSFER** -转账, **SUB_TRANSFER** -子账户转账,**TRADE_EXCHANGE** -交易, **MARGIN_EXCHANGE** -杠杆交易, **KUCOIN_BONUS** -鼓励金
+startAt   | long   | [可选] 开始时间（毫秒）
+endAt     | long   | [可选] 截止时间（毫秒）
 
 
 ### 返回值
-
 字段 | 含义
 --------- | -------
+id | 唯一键
 currency | 币种
-holdAmount | 冻结资金
-bizType | 业务类型，比如交易，提现 等
-orderId | 资金冻结订单ID（只用作唯一标识）
+amount | 资金变动值
+fee | 充值或提现费率
+balance | 变动后的资金总额
+bizType | 业务类型，比如交易，提现，推荐关系奖，借贷等
+direction | 出入账方向 **out** 或 **in**
 createdAt | 创建时间
-updatedAt | 修改时间
+context | 业务核心参数
 
-### bizType
-**bizType** 指账户冻结的原因。
+### context
 
+如果 **bizType** 是trade exchange，那么 **context** 字段会包含交易的额外信息（订单id，交易id，交易对）。
 
-### orderId
-**orderId** 字段用于下单或提现生成的订单ID，用作唯一标识。
-
+### BizType 含义
+值 | 含义
+--------- | -------
+Assets Transferred in After Upgrading | 从V1迁入V2时系统升级转入
+Deposit  | 获取充值入账记录
+Withdrawal  | 获取提现记录
+Transfer | 获取资金划转记录
+Trade_Exchange | 获取币币交易记录
+Vote for Coin | 投票上币分发资产
+KuCoin Bonus | 获取鼓励金入账记录
+Referral Bonus | 获取邀请奖励入账记录
+Rewards | 一些活动发奖记录
+Distribution  | 持币分发，持有NEO 获得GAS 等资产分发记录
+Airdrop/Fork  | 某些代币的空投活动，比如持有BTC空投KCS
+Other rewards | 其他奖励，除持币分发、空投、分叉之外的其他活动奖励
+Fee Rebate | 手续费返佣，负手续费获得的手续费返佣
+Buy Crypto | 使用信用卡购买资产
+Sell Crypto | 使用信用卡出售资产
+Public Offering Purchase | Spotlight活动公开发行某些资产
+Send red envelope | 发送红包
+Open red envelope  | 领取红包
+Staking  | Staking锁仓
+LockDrop Vesting | 进行Lockdrop认购
+Staking Profits | Staking收益
+Redemption | 赎回资产
+Refunded Fees | KCS抵扣
+KCS Pay Fees | KCS抵扣
+Margin Trade | 杠杆交易
+Loans   | 杠杆借出
+Borrowings  | 杠杆借入
+Debt Repayment   | 杠杆还款
+Loans Repaid  | 杠杆收款
+Lendings  | 借贷
+Pool transactions  | Pool-X交易
+Instant Exchange  | 闪兑交易
+Sub-account transfer  | 子母账户转账
+Liquidation Fees   | 爆仓手续费
+Soft Staking Profits  | 获取Soft Staking收益
+Voting Earnings  | Pool-X获取投票收益
+Redemption of Voting  | Pool-X投票赎回资产
+Voting  | Pool-X投票
+Convert to KCS   | 一键转KCS
 
 
 ## 获取单个子账户信息
@@ -1385,14 +1472,14 @@ POST /api/v1/deposit-addresses
 请求参数 | 类型 | 含义
 --------- | ------- |  -------
 currency | String | [币种](#ebcc9fbb02)
-chain | String | [可选] 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为ERC20。这个参数用于区分多链的币种，单链币种不需要。
+chain | String | [可选] 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为ERC20。对于BTC，现有的链有Native、Segwit、TRC20，参数分别为bech32、btc、trx。默认值为Native。这个参数用于区分多链的币种，单链币种不需要。 
 
 ### 返回值
 字段 | 含义
 --------- | -------
 address | 充值地址
 memo | 地址标签memo(tag)，如果返回为空，则该币种没有memo。对于没有memo的币种，在[提现](#6eaf6b9ae0)的时候不可以传递memo
-chain | 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为ERC20。
+chain | 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为ERC20。对于BTC，现有的链有Native、Segwit、TRC20，参数分别为bech32、btc、trx。默认值为Native。 
 
 ## 获取充值地址
 
@@ -1421,14 +1508,14 @@ GET /api/v1/deposit-addresses
 请求参数 | 类型 | 含义
 --------- | -------  | -------
 currency | String |[币种](#ebcc9fbb02)
-chain | String | [可选] 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为ERC20。这个参数用于区分多链的币种，单链币种不需要。
+chain | String | [可选] 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为ERC20。对于BTC，现有的链有Native、Segwit、TRC20，参数分别为bech32、btc、trx。默认值为Native。这个参数用于区分多链的币种，单链币种不需要。 
 
 ### 返回值
 字段 | 含义
 --------- | -------
 address | 充值地址
 memo | 地址标签memo(tag)，如果返回为空，则该币种没有memo。对于没有memo的币种，在[提现](#6eaf6b9ae0)的时候不可以传递memo
-chain | 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为ERC20。
+chain | 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为ERC20。对于BTC，现有的链有Native、Segwit、TRC20，参数分别为bech32、btc、trx。默认值为Native。 
 
 ## 获取充值列表
 
@@ -1806,6 +1893,85 @@ DELETE /api/v1/withdrawals/5bffb63303aa675e8bbe18f9
 --------- | ------- | -------
 withdrawalId | String | 路径参数，[提现Id](#c46f4b3b8e) 唯一标识
 
+
+# 手续费
+
+## 用户基础手续费
+
+此接口返回用户的基础费率。
+
+```json
+{
+    "code": "200000",
+    "data": {
+        "takerFeeRate": "0.001",
+        "makerFeeRate": "0.001"
+    }
+}
+```
+
+### HTTP请求
+**GET /api/v1/base-fee**
+
+### 请求示例
+GET /api/v1/base-fee
+
+### API权限
+此接口需要**通用权限**。
+
+### 返回值
+字段 |  含义
+--------- | -------
+takerFeeRate | 用户挂单基础手续费率
+makerFeeRate | 用户吃单基础手续费率
+
+## 交易对实际费率
+
+此接口返回用户交易时实际费率，一次限制最多查10个交易对，子用户的费率和母用户保持一致。
+
+```json
+{
+    "code": "200000",
+    "data": [
+        {
+            "symbol": "BTC-USDT",
+            "takerFeeRate": "0.001",
+            "makerFeeRate": "0.001"
+        },
+        {
+            "symbol": "KCS-USDT",
+            "takerFeeRate": "0.002",
+            "makerFeeRate": "0.0005"
+        }
+    ]
+}
+```
+
+### HTTP请求
+**GET /api/v1/trade-fees**
+
+### 请求示例
+GET /api/v1/trade-fees?symbols=BTC-USDT,KCS-USDT
+
+### API权限
+此接口需要**通用权限**。
+
+
+### 请求参数
+
+请求参数 | 类型 | 含义
+--------- | ------- | -------
+symbols| String | 交易对，可多填，逗号分割，一次限制最多查10个交易对
+
+
+### 返回值
+字段 |  含义
+--------- | -------
+symbol | 交易对唯一标识码，重命名后不会改变
+takerFeeRate | 交易对挂单实际手续费率
+makerFeeRate | 交易对吃单实际手续费率
+
+
 # 交易模块
 
 以下请求需要校验[签名](#8ba46c43fe)。
@@ -1829,7 +1995,7 @@ withdrawalId | String | 路径参数，[提现Id](#c46f4b3b8e) 唯一标识
 <aside class="notice">下单将启用价格保护机制。当限价单的价格在阈值范围之外时，会触发价格保护机制，导致下单失败。</aside>
 
 
-请悉知，当您的订单进入买卖盘，系统会提前扣除[订单的手续费](#6a30a471cf)。
+请悉知，当您的订单进入买卖盘，系统会提前冻结[订单的手续费](#6a30a471cf)。
 
 在下单之前，请充分了解每一个[交易对](#a17b4e2866)的参数含义。
 
@@ -1862,7 +2028,7 @@ POST /api/v1/orders
 | type      | String | [可选] 订单类型 **limit** 和  **market** (默认为 **limit**)                                     |
 | remark    | String | [可选] 下单备注，长度不超过100个字符（UTF-8）                                                          |
 | stp       | String | [可选] [自成交保护](#80920cd667)（self trade prevention）分为**CN**, **CO**, **CB** , **DC**四种策略 |
-| tradeType       | String | [可选] 交易类型，分为**TRADE**（现货交易）, **MARGIN_TRADE**（杠杆交易）（默认为**TRADE** ） |
+| tradeType       | String | [可选] 交易类型，分为**TRADE**（现货交易）, **MARGIN_TRADE**（杠杆交易）（默认为**TRADE** ）。**另请注意：为了提升系统性能和下单速度，我们新增单独的杠杆订单接口，请还在此接口下杠杆订单的用户尽快迁移至新杠杆订单接口。此接口将于2020年5月1日（UTC+8）不再接受杠杆订单，届时我们将提前公告用户。** |
 #### **limit** 限价单额外所需请求参数
 
 | 请求参数        | 类型      | 含义                                                          |
@@ -1906,7 +2072,7 @@ ClientOid字段是客户端创建的唯一ID（推荐使用UUID），只能包�
 与限价单不同，市价单价格会随着市场价格波动而变化。下市价单时，您无需指定价格，只需指定数量。市价单会立即成交，不会进入买卖盘。所有市价单都是taker，需支付taker费用。
 
 ###交易类型(tradeType)
-目前平台支持现货（**TRADE**）与杠杆（**MARGIN_TRADE**）两种资产交易下单。系统根据您的参数类型，将对指定账户资金进行冻结。若未传递该参数，将默认按照现货冻结您交易账户资金。
+目前平台支持现货（**TRADE**）与杠杆（**MARGIN_TRADE**）两种资产交易下单。系统根据您的参数类型，将对指定账户资金进行冻结。若未传递该参数，将默认按照现货冻结您交易账户资金。**另请注意：为了提升系统性能和下单速度，我们新增单独的杠杆订单接口，请还在此接口下杠杆订单的用户尽快迁移至新杠杆订单接口。此接口将于2020年5月1日（UTC+8）不再接受杠杆订单，届时我们将提前公告用户。**
 
 ###价格(Price)
 下限价单时，price 必须以交易对的[价格增量 priceIncrement](#a17b4e2866)为基准，价格增量是交易对的价格的精度。比如，对BTC-USDT这个交易对, 它的 priceIncrement 为0.00001000。那么你下单的 price 不可以小于0.00001000，且为 priceIncrement 的正整数倍，否则下单时会报错，invalid priceIncrement。
@@ -1992,6 +2158,100 @@ postOnlys只是一个标识，如果下单有能立即成交的对手方，则�
 | --------------------------------- | ---- |
 | orderId                           | 订单Id |
 | 下单成功后，会返回一个orderId字段，意味这订单进入撮合引擎。 |      |
+
+## 杠杆下单
+
+```json
+{
+    "orderId":"5bd6e9286d99522a52e458de",
+    "borrowSize":10.2,
+    "loanApplyId":"600656d9a33ac90009de4f6f"
+}
+```
+
+订单有两种类型：
+限价单（**limit**）: 指定价格和数量进行交易。
+市价单(**market**) : 指定资金或数量进行交易。
+
+在下单前，请确保您的[杠杆账户](#f0f7ae469d)有足够的资金。一旦下单成功，您下单的金额会被冻结。[冻结金额](#HOLDS)的多少取决于您下单的类型和具体的请求参数。
+<aside class="notice">下单将启用价格保护机制。当限价单的价格在阈值范围之外时，会触发价格保护机制，导致下单失败。</aside>
+
+
+请悉知，当您的订单进入买卖盘，系统会提前冻结[订单的手续费](#6a30a471cf)。
+
+在下单之前，请充分了解每一个[交易对](#a17b4e2866)的参数含义。
+
+**请求体中的JSON字符串中不要有多余的空格**
+
+###下单限制
+
+对于一个账号，每一个交易对最大撮合订单数量 **200** （包含止损单）。
+
+### HTTP 请求
+
+**POST /api/v1/margin/order**
+
+### 请求示例
+
+POST /api/v1/margin/order
+
+### API权限
+此接口需要**交易权限**。
+
+### 请求参数
+
+下单公有的请求参数
+
+| 请求参数      | 类型     | 含义                                                                                    |
+| --------- | ------ | ------------------------------------------------------------------------------------- |
+| clientOid | String | Client Order Id，客户端创建的唯一标识，建议使用UUID                                                   |
+| side      | String | **buy**（买） 或 **sell**（卖）                                                              |
+| symbol    | String | [交易对](#a17b4e2866) 比如，ETH-BTC                                                         |
+| type      | String | [可选] 订单类型 **limit** 和  **market** (默认为 **limit**)                                     |
+| remark    | String | [可选] 下单备注，长度不超过100个字符（UTF-8）                                                          |
+| stp       | String | [可选] [自成交保护](#80920cd667)（self trade prevention）分为**CN**, **CO**, **CB** , **DC**四种策略 |
+| marginMode | String | [可选] 杠杆交易模式，分为cross（全仓模式）, isolated（逐仓模式）, **默认为cross**。逐仓模式即将上线，敬请期待。   |
+| autoBorrow | boolean | [可选] [可选] 自动借币下单，即系统自动以市场最优利率借币再下单。                                         |
+#### **limit** 限价单额外所需请求参数
+
+| 请求参数        | 类型      | 含义                                                          |
+| ----------- | ------- | ----------------------------------------------------------- |
+| price       | String  | 指定币种的价格                                                     |
+| size        | String  | 指定币种的数量                                                     |
+| timeInForce | String  | [可选] 订单时效策略 **GTC**, **GTT**, **IOC**, **FOK** (默认为**GTC**) |
+| cancelAfter | long    | [可选] **n** 秒之后取消，订单时效策略为 **GTT**                            |
+| postOnly    | boolean | [可选] 被动委托的标识, 当订单时效策略为 **IOC** 或 **FOK** 时无效                |
+| hidden      | boolean | [可选] 是否隐藏（买卖盘中不展示）                                          |
+| iceberg     | boolean | [可选] 冰山单中是否仅显示订单的可见部分                                       |
+| visibleSize | String  | [可选] 冰山单最大的展示数量                                             |
+
+#### **market** 市价单额外所需请求参数
+
+请求参数 | 类型 | 含义
+--------- | ------- | ------- | ---------
+size | String | 否（size和funds 二选一） | 下单数量
+funds | String |  否（size和funds 二选一）| 下单资金
+
+* 下市价单，需定买卖数量或资金。
+
+###术语解释
+
+###交易模式(marginModel)
+交易模式有：全仓（cross）与逐仓（isolated），目前平台只支持全仓（cross）模式，默认为全仓模式。逐仓模式即将上线，敬请期待
+
+### 自动借币下单(autoBorrow)
+自动借币下单标识，如此字段为true，则会根据下单量，自动借入下单所需的金额。默认为false。如果下单量过大，超过了最大杠杆倍数或者风险限额阈值，则借币失败，下单也会失败。
+
+
+### 返回值
+
+| 字段                                | 含义   |
+| --------------------------------- | ---- |
+| orderId                           | 订单Id |
+| borrowSize                        | 借币数量，只有在自动借币下单后才返回 |
+| loanApplyId                       | 借币申请ID，只有在自动借币下单后才返回 |
+| 下单成功后，会返回一个orderId字段，意味这订单进入撮合引擎。 |      |
+
 
 ## 批量下单
 
@@ -2106,8 +2366,8 @@ POST /api/v1/orders/multi
 
 此端点可以取消单笔订单。
 
-
-一旦系统收到取消请求，您将收cancelledOrderIds字段。取消请求将由撮合引擎按顺序处理。要知道请求是否已处理，您可以查询订单状态或订阅websocket获取订单消息。
+<aside class="notice">此接口只提交取消请求。实际取消结果需要通过查询订单状态或订阅websocket获取订单消息。建议您在收到Open消息后再进行撤单，否则会导致订单取消不成功。
+</aside>
 
 ### HTTP请求
 
@@ -2343,7 +2603,7 @@ GET /api/v1/orders
 
 取消订单的历史记录仅保留**一个月**。您将无法查询一个月以前已取消的订单。
 
-<aside class="notice">检索的总条目不能超过50万条，如果超过，请缩短查询时间范围。</aside>
+<aside class="notice">检索的总条目不能超过5万条，如果超过，请缩短查询时间范围。</aside>
 ###订单轮询(Polling)
 
 对于高频交易的用户，建议您在本地缓存和维护一份自己的活动委托列表，并使用市场数据流实时更新自己的订单信息。
@@ -2779,7 +3039,7 @@ GET /api/v1/fills
 **查询时间范围**
 您可检索一周时间范围内的数据您范围内检索数据（默认从最近一天开始算起）。 若检索时间范围超过一周，系统将提示您超过时间限制。如果查询只提供开始时间没有提供结束时间，系统将自动计算结束时间（结束时间=开始时间+ 7*24小时），反之亦然。
 
-<aside class="notice">检索的总条目不能超过50万条，如果超过，请缩短查询时间范围。</aside>
+<aside class="notice">检索的总条目不能超过5万条，如果超过，请缩短查询时间范围。</aside>
 **结算**
 结算分为两部分，一部分是成交结算，一部分是费用结算。当撮合完成后，这些数据将立即更新到我们的数据存储区，系统将启动结算并从您的预冻结资金中进行扣除。
 
@@ -4203,7 +4463,7 @@ GET /api/v1/mark-price/USDT-BTC/current
 | timePoint   | 时间点(毫秒)  |
 | value       | 标记价格值    |
 
-目前支持的标记价格有：USDT-BTC, ETH-BTC, LTC-BTC, EOS-BTC, XRP-BTC, KCS-BTC
+目前支持的标记价格有：USDT-BTC, ETH-BTC, LTC-BTC, EOS-BTC, XRP-BTC, KCS-BTC, DIA-BTC, VET-BTC, DASH-BTC, DOT-BTC, XTZ-BTC, ZEC-BTC, BCHSV-BTC, ADA-BTC, ATOM-BTC, LINK-BTC, LUNA-BTC, NEO-BTC, UNI-BTC, ETC-BTC, BNB-BTC, TRX-BTC, XLM-BTC
 
 ## 查询杠杆配置信息
 
@@ -5084,37 +5344,11 @@ REST API的使用受到了访问频率的限制，因此推荐您使用Websocket
 
 ## 申请连接令牌
 
-```json
-  {
-    "code":"200000",
-    "data":{
-
-        "instanceServers":[
-            {
-                "endpoint":"wss://push.kumex.net/endpoint",
-                "protocol":"websocket",
-                "encrypt":true,
-                "pingInterval":50000,
-                "pingTimeout":10000
-            }
-        ],
-        "token":"vYNlCtbz4XNJ1QncwWilJnBtmmfe4geLQDUA62kKJsDChc6I4bRDQc73JfIrlFaVYIAE0Gv2--MROnLAgjVsWkcDq_MuG7qV7EktfCEIphiqnlfpQn4Ybg==.IoORVxR2LmKV7_maOR9xOg=="
-    }
-}
-```
 
 在创建Websocket连接前，您需申请一个令牌（Token）。
 
 
 ### 公共令牌 (不需要验证签名):
-
-如果您只订阅公共频道的数据，请按照以下方式请求获取服务实例列表和公共令牌。
-
-#### HTTP请求
-
-**POST /api/v1/bullet-public**
-
-
 
 ```json
 {
@@ -5134,6 +5368,12 @@ REST API的使用受到了访问频率的限制，因此推荐您使用Websocket
     }
 }
 ```
+
+如果您只订阅公共频道的数据，请按照以下方式请求获取服务实例列表和公共令牌。
+
+#### HTTP请求
+
+**POST /api/v1/bullet-public**
 
 ### 私有令牌 (需要验证签名):
 
@@ -5176,7 +5416,7 @@ var socket = new WebSocket("wss://push1-v2.kucoin.com/endpoint?token=xxx&[connec
 
 **connectId**：连接ID，是客户端生成的唯一标识。您在创建连接时收到的欢迎（welcome）消息的ID以及错误消息的ID都属于连接ID（connectId）。
 
-**acceptUserMessage**：当acceptUserMessage的值为 **true** 时，可以接收到用户所有的私人消息，（注意：推送会包括那些即将被弃用的旧格式的推送数据，可能会出现重复推送的情况，建议你按照需求单独订阅）。如果你想只接收指定topic的私人消息，请在订阅时使用privateChannel:true。
+如果你想只接收指定topic的私人消息，请在订阅时使用privateChannel:true。
 
 
 <aside class="spacer2"></aside>
@@ -5360,9 +5600,9 @@ Topic: **/market/ticker:{symbol},{symbol}...**
     }
 }
 ```
-订阅此topic可获取指定[交易对](#a17b4e2866)的BBO(最佳买一和卖一)数据的推送，如果**一秒**内没有变化，就不推送。
+订阅此topic可获取指定[交易对](#a17b4e2866)的BBO(最佳买一和卖一)数据的推送。
 
-每完成一笔撮合，该渠道就会推送一次价格。如果有多个订单在同一时间被撮合，仅推送最近一笔完成撮合的订单事件，极大的降低了对带宽对需求。
+平台将以100ms的频率推送最新的BB0，如果在和上一次推送相比，BBO没有变化，将不进行推送。
 
 平台后期可能会向该渠道推送更多的信息。
 
@@ -6110,7 +6350,7 @@ Topic: **/indicator/markPrice:{symbol0},{symbol1}...**
 }
 ```
 
-目前支持的标记价格有：USDT-BTC, ETH-BTC, LTC-BTC, EOS-BTC, XRP-BTC, KCS-BTC
+目前支持的标记价格有：USDT-BTC, ETH-BTC, LTC-BTC, EOS-BTC, XRP-BTC, KCS-BTC, DIA-BTC, VET-BTC, DASH-BTC, DOT-BTC, XTZ-BTC, ZEC-BTC, BCHSV-BTC, ADA-BTC, ATOM-BTC, LINK-BTC, LUNA-BTC, NEO-BTC, UNI-BTC, ETC-BTC, BNB-BTC, TRX-BTC, XLM-BTC
 
 <aside class="spacer4"></aside>
 <aside class="spacer2"></aside>

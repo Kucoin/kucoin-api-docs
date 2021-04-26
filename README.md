@@ -59,7 +59,7 @@ For those who don't have JavaScript runtime or are experiencing JavaScript runti
 
 
 Contributors
---------------------
+------------------------
 
 Slate was built by [Robert Lord](https://lord.io) while interning at [TripIt](https://www.tripit.com/).
 
