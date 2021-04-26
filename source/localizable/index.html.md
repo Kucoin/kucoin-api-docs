@@ -28,6 +28,11 @@ The WebSocket contains two sections: Public Channels and Private Channels
 
 To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
+**04/26/21**:
+
+- Add [Get Full Order Book(aggregated)](#get-full-order-book-aggregated),[Get Full Order Book(atomic)](#get-full-order-book-atomic) endpoints(V3 version), these endpoints requires the "General" permission
+- Deprecated [Get Full Order Book(aggregated)](#get-full-order-book-aggregated-deprecated),[Get Full Order Book(atomic)](#get-full-order-book-atomic-deprecated) endpoints(V2 version)
+
 **10/28/20**:
 
 - Add the Basic Taker Fee,Basic Maker Fee,Taker Fee Coefficient,Maker Fee Coefficient for [Get 24hr Stats](#get-24hr-stats),[Get All Tickers](#get-all-tickers).
@@ -3667,7 +3672,7 @@ asks | asks
 
 
 
-## Get Full Order Book(aggregated)
+## Get Full Order Book(aggregated) [Deprecated]
 
 ```json
 {
@@ -3719,7 +3724,62 @@ asks | asks
 
 **Bids**: Sort price from high to low
 
-## Get Full Order Book(atomic)
+## Get Full Order Book(aggregated)
+
+```json
+{
+    "sequence": "3262786978",
+    "time": 1550653727731,
+    "bids": [["6500.12", "0.45054140"],
+             ["6500.11", "0.45054140"]],  //[price，size]
+    "asks": [["6500.16", "0.57753524"],
+             ["6500.15", "0.57753524"]]  
+}
+```
+
+Request via this endpoint to get the order book of the specified symbol.
+
+Level 2 order book includes all bids and asks (aggregated by price). This level returns only one aggregated size for each price (as if there was only one single order for that price).
+
+This API will return data with **full** depth.
+
+It is generally used by professional traders because it uses more server resources and traffic, and we have strict access frequency control.
+
+To maintain up-to-date Order Book, please use [Websocket](#level-2-market-data) incremental feed after retrieving the Level 2 snapshot.
+
+
+### HTTP REQUEST
+
+**GET /api/v3/market/orderbook/level2**  (Recommend)
+
+### Example
+GET /api/v3/market/orderbook/level2?symbol=BTC-USDT
+
+### API KEY PERMISSIONS
+This endpoint requires the **"General"** permission.
+
+### PARAMETERS
+
+Param | Type | Description
+--------- | ------- | -----------
+symbol | String | [symbol](#get-symbols-list)
+
+### RESPONSES
+
+Field |  Description
+--------- | -----------
+sequence | Sequence number
+time | Timestamp
+bids | bids
+asks | asks
+
+### Data Sor
+
+**Asks**: Sort price from low to high
+
+**Bids**: Sort price from high to low
+
+## Get Full Order Book(atomic) [Deprecated]
 
 
 ```json
@@ -3776,6 +3836,90 @@ In the orderbook, the selling data is sorted low to high by price and orders wit
 
 ### Example
 GET GET /api/v2/market/orderbook/level3?symbol=BTC-USDT
+
+### PARAMETERS
+
+Param | Type | Description
+--------- | ------- | -----------
+symbol | String | [symbol](#get-symbols-list)
+
+### RESPONSES
+
+Field |  Description
+--------- | -----------
+sequence | Sequence number
+time | Timestamp, nanoseconds
+bids | bids
+asks | asks
+
+### Data Sort
+
+**Asks**: Sort price from low to high
+
+**Bids**: Sort price from high to low
+
+<aside class="spacer4"></aside>
+
+## Get Full Order Book(atomic)
+
+
+```json
+{
+    "data": {
+
+        "sequence": 1573503933086,
+        "asks": [
+            [
+                "5e0d672c1f311300093ac522",   //orderId
+                "0.1917",                     //price
+                "390.9275",                   //size
+                1577936689346546088           //time,nanoseconds
+            ],
+            [
+                "5e0d672891432f000819ecc3",
+                "0.19171",
+                "1456.1316",
+                1577936685718811031
+            ]
+        ],
+        "bids": [
+            [
+                "5e0d672cdc53860007f30262",
+                "0.19166",
+                "178.1936",
+                1577936689166023452
+            ],
+            [
+                "5e0d671a91432f000819d1b0",
+                "0.19165",
+                "583.6298",
+                1577936671595901518
+            ]
+        ],
+        "time": 1577936689346546088
+    }
+}
+```
+Request via this endpoint to get the Level 3 order book of the specified trading pair. Level 3 order book includes all bids and asks (the data is non-aggregated, and each item means a single order).
+
+
+This API is generally used by professional traders because it uses more server resources and traffic, and we have strict access frequency control.
+
+To maintain up-to-date order book, please use [Websocket](#full-matchengine-data-revision-level-nbsp-3) incremental feed after retrieving the Level 3 snapshot.
+
+If you do not use Level-3 to build incremental order book, we suggest you do not use this endpoint because of a large latency, which is only applicable to Level-3 incremental construction.
+
+In the orderbook, the selling data is sorted low to high by price and orders with the same price are sorted in time sequence. The buying data is sorted high to low by price and orders with the same price are sorted in time sequence. The matching engine will match the orders according to the price and time sequence.
+
+
+### HTTP REQUEST
+**GET /api/v3/market/orderbook/level3**
+
+### Example
+GET GET /api/v3/market/orderbook/level3?symbol=BTC-USDT
+
+### API KEY PERMISSIONS
+This endpoint requires the **"General"** permission.
 
 ### PARAMETERS
 
