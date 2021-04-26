@@ -33,10 +33,10 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 **04/26/21**:
 
 - Add [Get Full Order Book(aggregated)](#get-full-order-book-aggregated),[Get Full Order Book(atomic)](#get-full-order-book-atomic) endpoints(V3 version), these endpoints requires the "General" permission
-- Deprecated [Get Full Order Book(aggregated)](#get-full-order-book-aggregated-deprecated),[Get Full Order Book(atomic)](#get-full-order-book-atomic-deprecated) endpoints(V2 version)
+- Deprecate [Get Full Order Book(aggregated)](#get-full-order-book-aggregated-deprecated),[Get Full Order Book(atomic)](#get-full-order-book-atomic-deprecated) endpoints(V2 version)
 
 
-**24/2/21**  
+**02/24/21**  
 
 - Add [Place a margin order](#place-a-margin-order) 
 
@@ -45,7 +45,6 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 
 - Add [Trade Fee](#trade-fee) module，[Basic user fee](#basic-user-fee),[Actual fee rate of the trading pair](#actual-fee-rate-of-the-trading-pair)
 - Add [Get Account Ledgers](#get-account-ledgers)，and deprecate [Get Account Ledgers(deprecated)](#get-account-ledgers-deprecated)
->>>>>>> ac724350b7fccedc7be2505aacb7280c97422efb
 
 **10/28/20**:
 
