@@ -3997,7 +3997,7 @@ asks | asks
 
 **Bids**: Sort price from high to low
 
-<<<<<<< HEAD
+
 ## Get Full Order Book(aggregated)
 
 ```json
@@ -4054,10 +4054,6 @@ asks | asks
 **Bids**: Sort price from high to low
 
 ## Get Full Order Book(atomic) [Deprecated]
-=======
-
-## Get Full Order Book(atomic)
->>>>>>> ac724350b7fccedc7be2505aacb7280c97422efb
 
 
 ```json
