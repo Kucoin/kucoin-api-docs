@@ -36,7 +36,7 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 - 【添加】 [Level-2全部买卖盘(价格聚合)](#level-2-3),[Level-3全部买卖盘(非聚合)](#level-3-3) 增加V3版本的Level2，Level3接口，这两个接口需要通用权限
 - 【废弃】 [Level-2全部买卖盘(价格聚合)](#level-2-2),[Level-3全部买卖盘(非聚合)](#level-3-2) 废弃V2版本的Level2，Level3接口
-  
+- 【添加】 [获取充值地址(V2)](##b3114995fd) 接口 
 
 **02/24/21**
 
@@ -1478,7 +1478,58 @@ chain | String | [可选] 币种的链名。例如，对于USDT，现有的链�
 --------- | -------
 address | 充值地址
 memo | 地址标签memo(tag)，如果返回为空，则该币种没有memo。对于没有memo的币种，在[提现](#6eaf6b9ae0)的时候不可以传递memo
-chain | 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为ERC20。对于BTC，现有的链有Native、Segwit、TRC20，参数分别为bech32、btc、trx。默认值为Native。 
+chain | 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为ERC20。对于BTC，现有的链有Native、Segwit、TRC20，参数分别为bech32、btc、trx。默认值为Native。
+
+## 获取充值地址(V2)
+
+```json
+[
+  {
+    "address": "bc1qaj6kkv85w5d6lr8p8h7tckyce5hnwmyq8dd84d",
+    "memo": "",
+    "chain": "BTC-Segwit",
+    "contractAddress": ""
+  },
+  {
+    "address": "3HwsFot9TW6jL4K4EUHxDSyL8myttxV7Av",
+    "memo": "",
+    "chain": "BTC",
+    "contractAddress": ""
+  },
+  {
+    "address": "TUDybru26JmozStbg2cJGDbR9EPSbQaAie",
+    "memo": "",
+    "chain": "TRC20",
+    "contractAddress": ""
+  }
+]
+```
+
+此接口可以获取币种所有支持链的充值地址，如果返回数据为空，请先[申请充值地址](#9277fb3f66)。
+
+### HTTP请求
+**GET /api/v2/deposit-addresses**
+
+### 请求示例
+GET /api/v2/deposit-addresses?currency=BTC
+
+### API权限
+此接口需要**通用权限**。
+
+### 请求参数
+
+请求参数 | 类型 | 含义
+--------- | -------  | -------
+currency | String |[币种](#ebcc9fbb02)
+
+### 返回值
+字段 | 含义
+--------- | -------
+address | 充值地址
+memo | 地址标签memo(tag)，如果返回为空，则该币种没有memo。对于没有memo的币种，在[提现](#6eaf6b9ae0)的时候不可以传递memo
+chain | 币种的链名
+contractAddress | 合约地址
+
 
 ## 获取充值地址
 
@@ -4907,8 +4958,18 @@ POST /api/v1/margin/toggle-auto-lend
 | currency     | String  | [必须] 币种                                                  |
 | isEnable     | boolean | [必须] 是否开启                                              |
 | retainSize   | String  | [开启时必须] 该币种的保留数量。储蓄账户该币种不自动借出的数量 |
-| dailyIntRate | String  | [开启时必须] 日利率小数。0.002表示0.2%                       |
+| dailyIntRate | String  | [开启时必须] 可接受最低日利率，0.002标识0.2%                      |
 | term         | int     | [开启时必须] 期限，单位天                                    |
+
+###术语解释
+
+###可接受最低日利率(dailyIntRate)
+可接受最低日利率(dailyIntRate)
+
+当市场最优利率高于您的可接受最低日利率时，系统将以市场最优利率挂单。（市场最优利率即当下时刻所选期限的所有借出挂单的一档利率。该利率将优先被成交。）
+
+当市场最优利率低于可接受最低日利率时，我们将以您设定的可接受最低日利率进行挂单借出。
+
 
 ## 查询活跃借出委托
 
