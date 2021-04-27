@@ -34,7 +34,7 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 
 - Add [Get Full Order Book(aggregated)](#get-full-order-book-aggregated),[Get Full Order Book(atomic)](#get-full-order-book-atomic) endpoints(V3 version), these endpoints requires the "General" permission
 - Deprecate [Get Full Order Book(aggregated)](#get-full-order-book-aggregated-deprecated),[Get Full Order Book(atomic)](#get-full-order-book-atomic-deprecated) endpoints(V2 version)
-- Add [Get Deposit Addresses(V2)](#get-deposit-addressesv2)
+- Add [Get Deposit Addresses(V2)](#get-deposit-addresses-v2)
 
 **02/24/21**  
 
