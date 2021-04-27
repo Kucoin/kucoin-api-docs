@@ -34,7 +34,7 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 
 - Add [Get Full Order Book(aggregated)](#get-full-order-book-aggregated),[Get Full Order Book(atomic)](#get-full-order-book-atomic) endpoints(V3 version), these endpoints requires the "General" permission
 - Deprecate [Get Full Order Book(aggregated)](#get-full-order-book-aggregated-deprecated),[Get Full Order Book(atomic)](#get-full-order-book-atomic-deprecated) endpoints(V2 version)
-
+- Add [Get Deposit Addresses(V2)](#get-deposit-addresses-v2)
 
 **02/24/21**  
 
@@ -1528,6 +1528,55 @@ Field | Description
 address | Deposit address
 memo | Address remark. If there’s no remark, it is empty. When you [withdraw](#apply-withdraw) from other platforms to the KuCoin, you need to fill in memo(tag). If you do not fill memo (tag), your deposit may not be available, please be cautious.
 chain | The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20. The available value for BTC are Native, Segwit, TRC20, the parameters are bech32, btc, trx, default is Native. 
+
+## Get Deposit Addresses(V2)
+
+```json
+[
+  {
+    "address": "bc1qaj6kkv85w5d6lr8p8h7tckyce5hnwmyq8dd84d",
+    "memo": "",
+    "chain": "BTC-Segwit",
+    "contractAddress": ""
+  },
+  {
+    "address": "3HwsFot9TW6jL4K4EUHxDSyL8myttxV7Av",
+    "memo": "",
+    "chain": "BTC",
+    "contractAddress": ""
+  },
+  {
+    "address": "TUDybru26JmozStbg2cJGDbR9EPSbQaAie",
+    "memo": "",
+    "chain": "TRC20",
+    "contractAddress": ""
+  }
+]
+```
+
+Get all deposit addresses for the currency you intend to deposit. If the returned data is empty, you may need to create a deposit address first.
+
+### HTTP REQUEST
+**GET /api/v2/deposit-addresses**
+
+### Example
+GET /api/v2/deposit-addresses?currency=BTC
+
+### API KEY PERMISSIONS
+This endpoint requires the **"General"** permission.
+
+### PARAMETERS
+Param | Type | Description
+--------- | -------  | -------
+currency | String | The currency
+
+### RESPONSES
+Field | Description
+--------- | ------- 
+address | Deposit address
+memo | Address remark. If there’s no remark, it is empty. When you [withdraw](#apply-withdraw) from other platforms to the KuCoin, you need to fill in memo(tag). If you do not fill memo (tag), your deposit may not be available, please be cautious.
+chain | The chain name of currency.
+contractAddress | The token contract address.
 
 ## Get Deposit Address
 
