@@ -30,6 +30,17 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 
 **To reinforce the security of the API, KuCoin upgraded the API key to version 2.0, the validation logic has also been changed. It is recommended to [create](https://www.kucoin.com/account/api) and update your API key to version 2.0. The API key of version 1.0 will be still valid until May 1, 2021. [Check new signing method](#signing-a-message)**
 
+**04/26/21**:
+
+- Add [Get Full Order Book(aggregated)](#get-full-order-book-aggregated),[Get Full Order Book(atomic)](#get-full-order-book-atomic) endpoints(V3 version), these endpoints requires the "General" permission
+- Deprecate [Get Full Order Book(aggregated)](#get-full-order-book-aggregated-deprecated),[Get Full Order Book(atomic)](#get-full-order-book-atomic-deprecated) endpoints(V2 version)
+- Add [Get Deposit Addresses(V2)](#get-deposit-addresses-v2)
+
+**02/24/21**  
+
+- Add [Place a margin order](#place-a-margin-order) 
+
+
 **11/05/20**:
 
 - Add [Trade Fee](#trade-fee) module，[Basic user fee](#basic-user-fee),[Actual fee rate of the trading pair](#actual-fee-rate-of-the-trading-pair)
@@ -442,9 +453,6 @@ KuCoin account ID.
 Proof of trading volume on other platforms within the past 30 days. Proof of a VIP level is also acceptable.
 
 We will offer you a jumpstart (e.g. a VIP level which matches your volume on other exchanges even though you are not trading as much on KuCoin) for 30 days. After 30 days, your VIP level will be calculated based on your actual trading volume on KuCoin.
-
-For more information on the VIP fee, you can read: [Tiered Trading Fee Discount Program](https://www.kucoin.com/news/en-fee).
-
 
 
 ## FAQ
@@ -869,7 +877,7 @@ id | accountId, ID of an account
     "type": "main",     //Account type, including main and trade
     "balance": "237582.04299",  //Total assets of a currency
     "available": "237582.032",  //Available assets of a currency
-    "holds": "0.01099". //Hold assets of a currency
+    "holds": "0.01099" //Hold assets of a currency
   },
   {
     "id": "5bd6e9216d99522a52e458d6",
@@ -933,7 +941,7 @@ When placing an order, the funds for the order will be freezed. The freezed fund
     "currency": "KCS",  //Currency
     "balance": "1000000060.6299",  //Total assets of a currency
     "available": "1000000060.6299",  //Available assets of a currency
-    "holds": "0". //Hold assets of a currency
+    "holds": "0" //Hold assets of a currency
 }
 ```
 Information for a single account. Use this endpoint when you know the accountId.
@@ -1521,6 +1529,55 @@ address | Deposit address
 memo | Address remark. If there’s no remark, it is empty. When you [withdraw](#apply-withdraw) from other platforms to the KuCoin, you need to fill in memo(tag). If you do not fill memo (tag), your deposit may not be available, please be cautious.
 chain | The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20. The available value for BTC are Native, Segwit, TRC20, the parameters are bech32, btc, trx, default is Native. 
 
+## Get Deposit Addresses(V2)
+
+```json
+[
+  {
+    "address": "bc1qaj6kkv85w5d6lr8p8h7tckyce5hnwmyq8dd84d",
+    "memo": "",
+    "chain": "BTC-Segwit",
+    "contractAddress": ""
+  },
+  {
+    "address": "3HwsFot9TW6jL4K4EUHxDSyL8myttxV7Av",
+    "memo": "",
+    "chain": "BTC",
+    "contractAddress": ""
+  },
+  {
+    "address": "TUDybru26JmozStbg2cJGDbR9EPSbQaAie",
+    "memo": "",
+    "chain": "TRC20",
+    "contractAddress": ""
+  }
+]
+```
+
+Get all deposit addresses for the currency you intend to deposit. If the returned data is empty, you may need to create a deposit address first.
+
+### HTTP REQUEST
+**GET /api/v2/deposit-addresses**
+
+### Example
+GET /api/v2/deposit-addresses?currency=BTC
+
+### API KEY PERMISSIONS
+This endpoint requires the **"General"** permission.
+
+### PARAMETERS
+Param | Type | Description
+--------- | -------  | -------
+currency | String | The currency
+
+### RESPONSES
+Field | Description
+--------- | ------- 
+address | Deposit address
+memo | Address remark. If there’s no remark, it is empty. When you [withdraw](#apply-withdraw) from other platforms to the KuCoin, you need to fill in memo(tag). If you do not fill memo (tag), your deposit may not be available, please be cautious.
+chain | The chain name of currency.
+contractAddress | The token contract address.
+
 ## Get Deposit Address
 
 ```json
@@ -2064,7 +2121,7 @@ This endpoint requires the **"Trade"** permission.
 | type      | String | *[Optional]* **limit** or **market** (default is **limit**)          |
 | remark    | String | *[Optional]*  remark for the order, length cannot exceed 100 utf8 characters|
 | stp       | String | *[Optional]*  self trade prevention , **CN**, **CO**, **CB** or **DC**|
-| tradeType | String | *[Optional]* The type of trading : **TRADE**（Spot Trade）, **MARGIN_TRADE** (Margin Trade). Default is **TRADE** |
+| tradeType | String | *[Optional]* The type of trading : **TRADE**（Spot Trade）, **MARGIN_TRADE** (Margin Trade). Default is **TRADE**. **Note: To improve the system performance and to accelerate order placing and processing, KuCoin has added a new interface for order placing of margin. For traders still using the current interface, please move to the new one as soon as possible. The current one will no longer accept margin orders by May 1st, 2021 (UTC). At the time, KuCoin will notify users via the announcement, please pay attention to it.** |
 
 #### LIMIT ORDER PARAMETERS
 
@@ -2110,7 +2167,7 @@ The order type you specify may decide whether other optional parameters are requ
 A **market order** differs from a limit order in that the execution price is not guaranteed. Market order, however, provides a way to buy or sell specific size of order without having to specify the price. Market orders will be executed immediately, and no orders will enter the open order book afterwards. Market orders are always considered takers and incur taker fees.
 
 ###TradeType
-The platform currently supports spot (**TRADE**) and margin (**MARGIN_TRADE**) . The system will freeze the funds of the specified account according to your parameter type. If this parameter is not specified, the funds in your trade account will be frozen by default.
+The platform currently supports spot (**TRADE**) and margin (**MARGIN_TRADE**) . The system will freeze the funds of the specified account according to your parameter type. If this parameter is not specified, the funds in your trade account will be frozen by default. **Note: To improve the system performance and to accelerate order placing and processing, KuCoin has added a new interface for order placing of margin. For traders still using the current interface, please move to the new one as soon as possible. The current one will no longer accept margin orders by May 1st, 2021 (UTC). At the time, KuCoin will notify users via the announcement, please pay attention to it.** 
 
 ###PRICE
 The price must be specified in priceIncrement symbol units. The priceIncrement is the smallest unit of price. For the BTC-USDT symbol, the priceIncrement is 0.00001000. Prices less than 0.00001000 will not be accepted, The price for the placed order should be multiple numbers of priceIncrement, or the system would report an error when you place the order. Not required for market orders.
@@ -2199,6 +2256,96 @@ Notice: There might be some deviations of the detection. If your order is not fu
 Field | Description
 --------- | -------
 orderId | The ID of the order
+
+A successful order will be assigned an order ID. A successful order is defined as one that has been accepted by the matching engine.
+
+<aside class="notice">Open orders do not expire and will remain open until they are either filled or canceled.</aside>
+
+
+## Place a margin order
+
+```json
+{
+  "orderId": "5bd6e9286d99522a52e458de",
+  "borrowSize":10.2,
+  "loanApplyId":"600656d9a33ac90009de4f6f"
+}
+```
+
+You can place two types of orders: **limit** and **market**. Orders can only be placed if your account has sufficient funds. Once an order is placed, your account funds will be put on hold for the duration of the order. How much and which funds are put on hold depends on the order type and parameters specified. See the Holds details below.
+
+<aside class="notice">Placing an order will enable price protection. When the price of the limit order is outside the threshold range, the price protection mechanism will be triggered, causing the order to fail.</aside>
+
+
+Please note that the system will frozen the fees from the orders that entered the order book in advance. Read [List Fills](#list-fills) to learn more.
+
+Before placing an order, please read [Get Symbol List](#get-symbols-list) to understand the requirements for the quantity parameters for each trading pair.
+
+**Do not include extra spaces in JSON strings**.
+
+###Place Order Limit
+
+The maximum matching orders for a single trading pair in one account is **200** (stop orders included).
+
+
+### HTTP Request
+**POST /api/v1/margin/order**
+
+### Example
+POST /api/v1/margin/order
+
+### Parameters
+
+| Param     | type   | Description  |
+| --------- | ------ |-------------------------------- |
+| clientOid | String | Unique order id created by users to identify their orders, e.g. UUID. |
+| side      | String | **buy** or **sell**      |
+| symbol    | String | a valid trading symbol code. e.g. ETH-BTC     |
+| type      | String | *[Optional]* **limit** or **market** (default is **limit**)          |
+| remark    | String | *[Optional]*  remark for the order, length cannot exceed 100 utf8 characters|
+| stp       | String | *[Optional]*  self trade prevention , **CN**, **CO**, **CB** or **DC**|
+| marginMode | String | *[Optional]*  The type of trading, including cross (cross mode) and isolated (isolated mode). It is set at cross by default. The isolated mode will be released soon, so stay tuned!|
+| autoBorrow | boolean | *[Optional]*  Auto-borrow to place order. The system will first borrow you funds at the optimal interest rate and then place an order for you. |
+
+#### LIMIT ORDER PARAMETERS
+
+| Param       | type    | Description                                                  |
+| ----------- | ------- | ------------------- |
+| price       | String  | price per base currency          |
+| size        | String  | amount of base currency to buy or sell         |
+| timeInForce | String  | *[Optional]* **GTC**, **GTT**, **IOC**, or **FOK** (default is **GTC**), read [Time In Force](#time-in-force).   |
+| cancelAfter | long    | *[Optional]*  cancel after **n** seconds, requires **timeInForce** to be **GTT**                   |
+| postOnly    | boolean | *[Optional]*  Post only flag, invalid when **timeInForce** is **IOC** or **FOK**                               |
+| hidden      | boolean | *[Optional]*  Order will not be displayed in the order book |
+| iceberg    | boolean | *[Optional]*  Only aportion of the order is displayed in the order book |
+| visibleSize | String  | *[Optional]*  The maximum visible size of an iceberg order   |
+
+
+#### MARKET ORDER PARAMETERS
+
+Param | type | Description
+--------- | ------- | -----------
+size | String | *[Optional]*  Desired amount in base currency
+funds | String | *[Optional]*  The desired amount of quote currency to use
+
+* It is required that you use one of the two parameters, **size** or **funds**.
+
+###Advanced Description
+
+
+###MarginMode
+There are two modes for API margin trading: 1) cross and 2) isolated. Currently, the platform only supports the cross mode and it is the default option for the margin trading. The isolated mode will be released soon, so stay tuned!
+
+###AutoBorrow
+This is the symbol of Auto-Borrow, if it is set to “true”, the system will automatically borrow the funds required for an order according to the order amount. By default, the symbol is set to “false”. When your order amount is too large, exceeding the max. borrowing amount via the max. leverage or the risk limit of margin, then you will fail in borrowing and order placing. 
+
+
+###RESPONSES
+Field | Description
+--------- | -------
+orderId | The ID of the order
+borrowSize | Borrowed amount. The field is returned only after placing the order under the mode of Auto-Borrow. 
+loanApplyId | ID of the borrowing response. The field is returned only after placing the order under the mode of Auto-Borrow.
 
 A successful order will be assigned an order ID. A successful order is defined as one that has been accepted by the matching engine.
 
@@ -2547,7 +2694,7 @@ When you query orders in active status, there is no time limit. However, when yo
 
 The history for cancelled orders is only kept for **one month**. You will not be able to query for cancelled orders that have happened more than a month ago.
 
-<aside class="notice">The total number of items retrieved cannot exceed 500,000. If it is exceeded, please shorten the query time range.</aside>
+<aside class="notice">The total number of items retrieved cannot exceed 50,000. If it is exceeded, please shorten the query time range.</aside>
 
 ### POLLING
 For high-volume trading, it is highly recommended that you maintain your own list of open orders and use one of the streaming market data feeds to keep it updated. You should poll the open orders endpoint to obtain the current state of any open order.
@@ -2993,7 +3140,7 @@ tradeType | The type of trading : **TRADE**（Spot Trading）, **MARGIN_TRADE** 
 
 The system allows you to retrieve data up to one week (start from the last day by default). If the time period of the queried data exceeds one week (time range from the start time to end time exceeded 7*24 hours), the system will prompt to remind you that you have exceeded the time limit. If you only specified the start time, the system will automatically calculate the end time (end time = start time + 7 * 24 hours). On the contrary, if you only specified the end time, the system will calculate the start time (start time= end time - 7 * 24 hours) the same way.
 
-<aside class="notice">The total number of items retrieved cannot exceed 500,000. If it is exceeded, please shorten the query time range.</aside>
+<aside class="notice">The total number of items retrieved cannot exceed 50,000. If it is exceeded, please shorten the query time range.</aside>
 
 **Settlement**
 
@@ -3847,7 +3994,7 @@ asks | asks
 
 
 
-## Get Full Order Book(aggregated)
+## Get Full Order Book(aggregated) [Deprecated]
 
 ```json
 {
@@ -3900,7 +4047,62 @@ asks | asks
 **Bids**: Sort price from high to low
 
 
-## Get Full Order Book(atomic)
+## Get Full Order Book(aggregated)
+
+```json
+{
+    "sequence": "3262786978",
+    "time": 1550653727731,
+    "bids": [["6500.12", "0.45054140"],
+             ["6500.11", "0.45054140"]],  //[price，size]
+    "asks": [["6500.16", "0.57753524"],
+             ["6500.15", "0.57753524"]]  
+}
+```
+
+Request via this endpoint to get the order book of the specified symbol.
+
+Level 2 order book includes all bids and asks (aggregated by price). This level returns only one aggregated size for each price (as if there was only one single order for that price).
+
+This API will return data with **full** depth.
+
+It is generally used by professional traders because it uses more server resources and traffic, and we have strict access frequency control.
+
+To maintain up-to-date Order Book, please use [Websocket](#level-2-market-data) incremental feed after retrieving the Level 2 snapshot.
+
+
+### HTTP REQUEST
+
+**GET /api/v3/market/orderbook/level2**  (Recommend)
+
+### Example
+GET /api/v3/market/orderbook/level2?symbol=BTC-USDT
+
+### API KEY PERMISSIONS
+This endpoint requires the **"General"** permission.
+
+### PARAMETERS
+
+Param | Type | Description
+--------- | ------- | -----------
+symbol | String | [symbol](#get-symbols-list)
+
+### RESPONSES
+
+Field |  Description
+--------- | -----------
+sequence | Sequence number
+time | Timestamp
+bids | bids
+asks | asks
+
+### Data Sor
+
+**Asks**: Sort price from low to high
+
+**Bids**: Sort price from high to low
+
+## Get Full Order Book(atomic) [Deprecated]
 
 
 ```json
@@ -3957,6 +4159,90 @@ In the orderbook, the selling data is sorted low to high by price and orders wit
 
 ### Example
 GET GET /api/v2/market/orderbook/level3?symbol=BTC-USDT
+
+### PARAMETERS
+
+Param | Type | Description
+--------- | ------- | -----------
+symbol | String | [symbol](#get-symbols-list)
+
+### RESPONSES
+
+Field |  Description
+--------- | -----------
+sequence | Sequence number
+time | Timestamp, nanoseconds
+bids | bids
+asks | asks
+
+### Data Sort
+
+**Asks**: Sort price from low to high
+
+**Bids**: Sort price from high to low
+
+<aside class="spacer4"></aside>
+
+## Get Full Order Book(atomic)
+
+
+```json
+{
+    "data": {
+
+        "sequence": 1573503933086,
+        "asks": [
+            [
+                "5e0d672c1f311300093ac522",   //orderId
+                "0.1917",                     //price
+                "390.9275",                   //size
+                1577936689346546088           //time,nanoseconds
+            ],
+            [
+                "5e0d672891432f000819ecc3",
+                "0.19171",
+                "1456.1316",
+                1577936685718811031
+            ]
+        ],
+        "bids": [
+            [
+                "5e0d672cdc53860007f30262",
+                "0.19166",
+                "178.1936",
+                1577936689166023452
+            ],
+            [
+                "5e0d671a91432f000819d1b0",
+                "0.19165",
+                "583.6298",
+                1577936671595901518
+            ]
+        ],
+        "time": 1577936689346546088
+    }
+}
+```
+Request via this endpoint to get the Level 3 order book of the specified trading pair. Level 3 order book includes all bids and asks (the data is non-aggregated, and each item means a single order).
+
+
+This API is generally used by professional traders because it uses more server resources and traffic, and we have strict access frequency control.
+
+To maintain up-to-date order book, please use [Websocket](#full-matchengine-data-revision-level-nbsp-3) incremental feed after retrieving the Level 3 snapshot.
+
+If you do not use Level-3 to build incremental order book, we suggest you do not use this endpoint because of a large latency, which is only applicable to Level-3 incremental construction.
+
+In the orderbook, the selling data is sorted low to high by price and orders with the same price are sorted in time sequence. The buying data is sorted high to low by price and orders with the same price are sorted in time sequence. The matching engine will match the orders according to the price and time sequence.
+
+
+### HTTP REQUEST
+**GET /api/v3/market/orderbook/level3**
+
+### Example
+GET GET /api/v3/market/orderbook/level3?symbol=BTC-USDT
+
+### API KEY PERMISSIONS
+This endpoint requires the **"General"** permission.
 
 ### PARAMETERS
 
@@ -4743,8 +5029,17 @@ This endpoint requires the **"Trade"** permission.
 | currency     | String  | Currency                                        |
 | isEnable     | boolean | Auto-lend enabled or not                                |
 | retainSize   | String  | Reserved size in main account. Required when **isEnable** is true.   |
-| dailyIntRate | String  | Daily interest rate. e.g. 0.002 is 0.2%. Required when **isEnable** is true.     |
+| dailyIntRate | String  | acceptable min. day rate, 0.002 is 0.2%. Required when **isEnable** is true.     |
 | term         | int     | Term (Unit: Day). Required when **isEnable** is true.            |
+
+###Advanced Description
+
+###dailyIntRate
+
+When the priority interest rate is higher than the acceptable min. day rate, the system will place lending orders at the rate of the former one. The priority interest rate is the optimal market rate for all pending orders of the selected lending period, orders with this interest rate will be prioritized for auto-lending.
+
+When the priority interest rate is lower than the acceptable min. day rate, the system will place lending orders at the rate of the latter one.
+
 
 ## Get Active Order
 
@@ -5337,7 +5632,7 @@ Unsubscribe from topics you have subscribed to.
     "type": "unsubscribe",
     "topic": "/market/ticker:BTC-USDT,ETH-USDT",      //Topic needs to be unsubscribed. Some topics support to divisional unsubscribe the informations of multiple trading pairs through ",".
     "privateChannel": false,
-    "response": true,                                  //Whether the server needs to return the receipt information of this subscription or not. Set as false by default.
+    "response": true                                  //Whether the server needs to return the receipt information of this subscription or not. Set as false by default.
 }
 ```
 
@@ -5411,6 +5706,7 @@ The sequence field exists in order book, trade history and snapshot messages by 
     "type": "subscribe",
     "topic": "/market/ticker:BTC-USDT",
     "response": true
+}
 ```
 Topic: **/market/ticker:{symbol},{symbol}...**
 
@@ -5722,7 +6018,7 @@ Now your current order book is up-to-date and final data is as follows:
             ["9990","32"],
             ["9991","47"],
             ["9992","3"],
-            ["9993","3"],
+            ["9993","3"]
         ],
         "bids":[
 
