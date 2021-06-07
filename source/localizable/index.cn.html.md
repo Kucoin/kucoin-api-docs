@@ -32,6 +32,11 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 **为了进一步提升API安全性，KuCoin已经升级到了V2版本的API-KEY，验签逻辑也发生了一些变化，建议到[API管理页面](https://www.kucoin.cc/account/api)添加并更换到新的API-KEY。KuCoin将继续支持使用老的API-KEY到2021年05月01日。[查看新的签名方式](#8ba46c43fe)**
 
+**06/04/21**:
+
+- 【修改】基于clientOid可查询订单全生命周期[基于clientOid 获取单个订单详情](#clientoid-2) 
+- 【修改】修改订单详情时间戳，显示到毫秒级别
+
 **04/26/21**:
 
 - 【添加】 [Level-2全部买卖盘(价格聚合)](#level-2-3),[Level-3全部买卖盘(非聚合)](#level-3-3) 增加V3版本的Level2，Level3接口，这两个接口需要通用权限
@@ -294,7 +299,7 @@ API分为两部分：**REST API和Websocket 实时数据流**
 | [成交记录](#6a30a471cf)   | 获取成交记录                      |
 | [最近成交记录](#5abc068b38) | 获取最近24小时内的成交记录（最多1000条记录）   |
 | [基于clientOid 单个撤单](#clientoid)   | 基于clientOid 单个撤单                      |
-| [基于clientOid 获取单个活跃订单详情](#clientoid-2) | 基于clientOid 获取单个活跃订单详情   |
+| [基于clientOid 获取单个订单详情](#clientoid-2) | 基于clientOid 获取单个订单详情   |
 子账号与母账号共享同一手续费等级（根据子账号与母账号交易额/KCS持有量累加求和计算划分）。
 子账号在交易之前需要将资金从储蓄账户转到交易账户。
 
@@ -2908,7 +2913,7 @@ GET /api/v1/orders/5c35c02703aa673ceec2a168
 <aside class="spacer2"></aside>
 
 
-## 基于clientOid 获取单个活跃订单详情
+## 基于clientOid 获取单个订单详情
 
 ```json
 {
@@ -2945,7 +2950,7 @@ GET /api/v1/orders/5c35c02703aa673ceec2a168
 }
 ```
 
-此接口，可以通过clientOid查询单个活跃委托的信息，若订单不存在或者已经结算则提示订单不存在。
+此接口，可以通过clientOid查询单个订单的信息，若订单不存在则提示订单不存在。
 
 ### HTTP请求
 
