@@ -30,6 +30,11 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 
 **To reinforce the security of the API, KuCoin upgraded the API key to version 2.0, the validation logic has also been changed. It is recommended to [create](https://www.kucoin.com/account/api) and update your API key to version 2.0. The API key of version 1.0 will be still valid until May 1, 2021. [Check new signing method](#signing-a-message)**
 
+**06/04/21**:
+
+- Modify the query of the lifetime for the order by clientOid [Get Single Order by clientOid](#get-single-active-order-by-clientoid)
+- Modify the timestamp to millisecond [Get an order](#get-an-order)
+
 **04/26/21**:
 
 - Add [Get Full Order Book(aggregated)](#get-full-order-book-aggregated),[Get Full Order Book(atomic)](#get-full-order-book-atomic) endpoints(V3 version), these endpoints requires the "General" permission
@@ -39,7 +44,6 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 **02/24/21**  
 
 - Add [Place a margin order](#place-a-margin-order) 
-
 
 **11/05/20**:
 
@@ -71,7 +75,6 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 
 - Add channelType field: public(public channel, default), private(private channel), session(session channel) for Websocket.
 - Deprecate ({topic}:privateChannel:{userId}) and userId in private messages after three months.
-
 
 **05/28/20**:
 
@@ -5621,7 +5624,7 @@ The topic you want to subscribe to.
 For some specific topics (e.g. /market/level3), **privateChannel** is available. The default value of **privateChannel** is **False**. If the **privateChannel** is set to **true**, the user will only receive messages related himself on the topic.
 
 #### Response
-If the response is set as ture, the system will return the ack messages after the subscription succeed.
+If the response is set as true, the system will return the ack messages after the subscription succeed.
 
 ## UnSubscribe
 Unsubscribe from topics you have subscribed to.
