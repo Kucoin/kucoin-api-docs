@@ -331,21 +331,7 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 **Cancel Both** 买卖方都取消。
 
-### 撮合引擎数据
 
-#### Level-3 市场数据（推荐使用）
-
-撮合引擎推送的数据，是每一个订单的信息，即Level-3的市场数据。<br/>
-Level-3市场数据更适合高频交易者<br/>
-您通过WebSocket订阅[Level-3市场数据](#level-nbsp-3):
-
-* 更快速获取到市场实时的行情信息，推送速度Level-3 >= Level-2
-* 可以用于构建维护买卖盘
-* 可以获取单笔订单的数量变动原
-* 更实时的获取到订单的成交情况
-* 可以完全取代Rest API的大部分拉取信息功能(Rest请求有严格的请求频率限制)
-
-不同的类型信息的处理可以参考[Level-3 SDK](#4623bd9386)或参考下方Level-3的[Message Type](#level-nbsp-3)
 
 ## 客户端开发库
 
@@ -356,7 +342,6 @@ Level-3市场数据更适合高频交易者<br/>
 - [Java SDK](https://github.com/Kucoin/KuCoin-Java-SDK)
 - [PHP SDK](https://github.com/Kucoin/KuCoin-PHP-SDK)
 - [Go SDK](https://github.com/Kucoin/KuCoin-Go-SDK)
-- [Level3-SDK](https://github.com/Kucoin/kucoin-level3-sdk)
 - [Python SDK](https://github.com/Kucoin/kucoin-python-sdk)
 - [Nodejs SDK](https://github.com/Kucoin/kucoin-node-sdk)
 
@@ -482,7 +467,7 @@ KuCoin为专业做市商提供做市激励计划。
 * token有效期24小时；
 * 一个用户最多50个连接；
 * 客户端每10秒最多上行100个消息；
-* 一个symbol就是一个topic; e.g.Topic: /market/level3:{symbol},{symbol}...
+* 一个symbol就是一个topic; e.g.Topic: /market/level2:{symbol},{symbol}...
 
 ### 返回 403 问题
 
@@ -4065,172 +4050,7 @@ asks | 卖盘
 
 **Bids**: 卖盘，根据价格从高到低
 
-## Level-3全部买卖盘(非聚合) [已废弃]
 
-
-```json
-{
-    "data": {
-
-        "sequence": 1573503933086,
-        "asks": [
-            [
-                "5e0d672c1f311300093ac522",   //订单ID
-                "0.1917",                     //价格
-                "390.9275",                   //数量
-                1577936689346546088           //时间,纳秒
-            ],
-            [
-                "5e0d672891432f000819ecc3",
-                "0.19171",
-                "1456.1316",
-                1577936685718811031
-            ]
-        ],
-        "bids": [
-            [
-                "5e0d672cdc53860007f30262",
-                "0.19166",
-                "178.1936",
-                1577936689166023452
-            ],
-            [
-                "5e0d671a91432f000819d1b0",
-                "0.19165",
-                "583.6298",
-                1577936671595901518
-            ]
-        ],
-        "time": 1577936689346546088
-    }
-}
-```
-
-此接口，可获取指定交易对的所有未结委托的快照。Level 3 返回了买卖盘上的所有数据（未按价格汇总，一个价格对应一个挂单）。
-
-该功能适用于专业交易员，因为该过程将使用较多服务器资源及流量，访问频率受到了严格控制。
-
-为保证本地买卖盘数据为最新数据，在获取Level 3快照后，请使用[Websocket](#level-nbsp-3-2)推送的增量消息来更新Level 3买卖盘。
-
-如果不使用level3构建增量买卖盘，建议不要使用此接口，该接口获取的买卖盘数据会有较大的延迟，仅适用于level3增量构建。
-
-在买卖盘中，卖盘是以价格从低到高排序的，价格相同的订单以进入买卖盘的时间从低到高排序。买盘是以价格从高到低排序的，价格相同的订单以进入买卖盘的时间从低到高排序。撮合引擎将按照订单在买卖盘中排列顺序依次进行撮合。
-
-
-### HTTP请求
-**GET /api/v2/market/orderbook/level3**
-
-### 请求示例
-
-GET GET /api/v2/market/orderbook/level3?symbol=BTC-USDT
-
-### 请求参数
-
-
-请求参数 | 类型 | 含义
---------- | ------- | -------
-symbol | String |  [交易对](#a17b4e2866)
-
-### 返回值
-
-字段 | 含义
---------- | -------
-sequence | 序列号
-time | 时间戳，纳秒
-bids | 买盘
-asks | 卖盘
-
-###数据排序方式
-
-**Asks**: 卖盘，根据价格从低到高
-
-**Bids**: 买盘，根据价格从高到低
-
-<aside class="spacer4"></aside>
-
-## Level-3全部买卖盘(非聚合)
-
-
-```json
-{
-    "data": {
-
-        "sequence": 1573503933086,
-        "asks": [
-            [
-                "5e0d672c1f311300093ac522",   //订单ID
-                "0.1917",                     //价格
-                "390.9275",                   //数量
-                1577936689346546088           //时间,纳秒
-            ],
-            [
-                "5e0d672891432f000819ecc3",
-                "0.19171",
-                "1456.1316",
-                1577936685718811031
-            ]
-        ],
-        "bids": [
-            [
-                "5e0d672cdc53860007f30262",
-                "0.19166",
-                "178.1936",
-                1577936689166023452
-            ],
-            [
-                "5e0d671a91432f000819d1b0",
-                "0.19165",
-                "583.6298",
-                1577936671595901518
-            ]
-        ],
-        "time": 1577936689346546088
-    }
-}
-```
-
-此接口，可获取指定交易对的所有未结委托的快照。Level 3 返回了买卖盘上的所有数据（未按价格汇总，一个价格对应一个挂单）。
-
-该功能适用于专业交易员，因为该过程将使用较多服务器资源及流量，访问频率受到了严格控制。
-
-为保证本地买卖盘数据为最新数据，在获取Level 3快照后，请使用[Websocket](#level-nbsp-3-2)推送的增量消息来更新Level 3买卖盘。
-
-如果不使用level3构建增量买卖盘，建议不要使用此接口，该接口获取的买卖盘数据会有较大的延迟，仅适用于level3增量构建。
-
-在买卖盘中，卖盘是以价格从低到高排序的，价格相同的订单以进入买卖盘的时间从低到高排序。买盘是以价格从高到低排序的，价格相同的订单以进入买卖盘的时间从低到高排序。撮合引擎将按照订单在买卖盘中排列顺序依次进行撮合。
-
-
-### HTTP请求
-**GET /api/v3/market/orderbook/level3**
-
-### 请求示例
-
-GET GET /api/v3/market/orderbook/level3?symbol=BTC-USDT
-
-### API权限
-此接口需要**通用权限**。
-
-### 请求参数
-
-
-请求参数 | 类型 | 含义
---------- | ------- | -------
-symbol | String |  [交易对](#a17b4e2866)
-
-### 返回值
-
-字段 | 含义
---------- | -------
-sequence | 序列号
-time | 时间戳，纳秒
-bids | 买盘
-asks | 卖盘
-
-###数据排序方式
-
-**Asks**: 卖盘，根据价格从低到高
-
-**Bids**: 买盘，根据价格从高到低
 
 <aside class="spacer4"></aside>
 
@@ -5543,7 +5363,7 @@ ID用于标识请求和ack的唯一字符串。
 
 #### PrivateChannel
 
-您可通过privateChannel参数订阅以一些特殊的topic（如： /market/level3）。该参数默认设置为“false”。设置为“true”时，则您只能收到与您订阅的topic相关的内容推送。
+您可通过privateChannel参数订阅以一些特殊的topic（如： /market/level2）。该参数默认设置为“false”。设置为“true”时，则您只能收到与您订阅的topic相关的内容推送。
 
 
 #### Response
@@ -5631,7 +5451,7 @@ ID用于标识请求和ack的唯一字符串。
 
 - 判断消息的type: 目前有三类消息，message（常用的推送消息），notice（一般的通知），command（连接的命令）
 - 判断消息topic: 通过topic判断是哪一类消息
-- 判断subject: 同一个topic的不同类型消息用subject区分。例如level3的5类分别为received, open等
+- 判断subject: 同一个topic的不同类型消息用subject区分。
 
 
 # 公共频道
@@ -6119,228 +5939,6 @@ Topic: **/market/match:{symbol},{symbol}...**
 <aside class="spacer2"></aside>
 
 
-## 完整的撮合引擎数据(Level 3)
-
-```json
-{
-    "id":1545910660742,
-    "type":"subscribe",
-    "topic":"/spotMarket/level3:BTC-USDT",
-    "response":true
-}
-```
-
-
-
-Topic: **/spotMarket/level3:{symbol},{symbol}...**
-
-订阅此topic，可获取Level-3完整的撮合引擎数据。
-
-可获取订单和交易的实时数据，这些数据流可用于维护一个本地的Level-3买卖盘。
-
-维护更新Level 3买卖盘的步骤如下：
-
-1. 订阅Topic: /spotMarket/level3:{symbol}，获取Level 3买卖盘数据流;
-2. 按顺序缓存接收到的数据流;
-3. 发送[REST](#level-3-3)请求，获取Level 3买卖盘的快照;
-4. 回放数据流，确保顺序号是连续的，并丢弃掉小于或等于快照顺序号的数据;
-5. 将回放消息应用于快照（见下文）;
-6. 回放完成后，使用实时数据流更新买卖盘。
-
-**任意Open和Match消息都将导致买卖盘发生变更。**
-
-### 消息类型
-
-订阅成功后，系统将以JSON格式，将**RECEIVED**、**OPEN**、**UPDATE**、**MATCH**及**DONE**消息推送到Websocket消息流中。
-
-<aside class="spacer4"></aside>
-<aside class="spacer2"></aside>
-
-### RECEIVED
-
-```json
-{
-    "type":"message",
-    "topic":"/spotMarket/level3:KCS-USDT",
-    "subject":"received",
-    "data":{
-
-        "symbol":"KCS-USDT",
-        "sequence":1592995125432,
-        "orderId":"5efab07953bdea00089965d2",
-        "clientOid":"1593487481000906",
-        "ts":1593487481683297666
-    }
-}
-
-```
-
-当撮合引擎接收到订单指令时，系统将向用户发送确认消息，type为**received**。
-
-这意味着，订单进入撮合引擎且订单状态为active。一旦撮合引擎收到这个订单信息，无论它是否立即成交，都会向用户发送确认信息。
-
-**received**消息并不是指在买卖盘挂单，而是指这个订单进入撮合引擎。如果订单能够立即成交，（taker订单），会发送**match**消息。如果自成交保护被触发，size会调整，会发送**change**消息。没有全部成交的的订单会展示在买卖盘中，发送信息中的type为**open**。
-
-您可以使用您自定义的clientOid来跟踪订单信息，但是特别的clientOid可能会暴露您的策略，所以推荐您使用UUID
-
-
-<aside class="spacer4"></aside>
-<aside class="spacer2"></aside>
-
-### OPEN
-
-```json
-{
-    "type":"message",
-    "topic":"/spotMarket/level3:KCS-USDT",
-    "subject":"open",
-    "data":{
-
-        "symbol":"KCS-USDT",
-        "sequence":1592995125433,
-        "orderId":"5efab07953bdea00089965d2",
-        "side":"buy",
-        "price":"0.937",
-        "size":"0.1",
-        "orderTime":1593487481683297666,
-        "ts":1593487481683297666
-    }
-}
-
-```
-
-当限价订单中的剩余部分进入买卖盘时，系统将向用户发送**open**消息。
-
-这意味着这个订单现已在订单簿上，没有立即成交的订单才会推送此消息。
-
-当接收到 price="", size="0" 的消息时，意味着这是隐藏单
-
-<aside class="spacer4"></aside>
-<aside class="spacer2"></aside>
-
-### DONE
-
-一个订单生命周期结束时，订单将不会展示在买卖盘中，系统会推送**done**信息。
-
-```json
-{
-    "type":"message",
-    "topic":"/spotMarket/level3:KCS-USDT",
-    "subject":"done",
-    "data":{
-
-        "symbol":"KCS-USDT",
-        "sequence":1592995125437,
-        "orderId":"5efab07953bdea00089965fa",
-        "reason":"filled",
-        "ts":1593487482038606180
-    }
-}
-
-
-{
-    "type":"message",
-    "topic":"/spotMarket/level3:KCS-USDT",
-    "subject":"done",
-    "data":{
-
-        "symbol":"KCS-USDT",
-        "sequence":1592995125434,
-        "orderId":"5efab07953bdea00089965d2",
-        "reason":"canceled",
-        "ts":1593487481893140844
-    }
-}
-```
-
-推送**done**消息，意味着订单从买卖盘中移除，这要有推送过**received**消息的，都会收到**done**消息。 **done**可能指订单被成交或被取消。收到done消息后，就不会在收到关于这个订单的其他的信息了。
-
-<aside class="spacer4"></aside>
-<aside class="spacer4"></aside>
-<aside class="spacer2"></aside>
-
-### MATCH
-
-```json
-
-{
-    "type":"message",
-    "topic":"/spotMarket/level3:KCS-USDT",
-    "subject":"match",
-    "data":{
-
-        "symbol":"KCS-USDT",
-        "sequence":1592995125436,
-        "side":"sell",
-        "price":"0.96738",
-        "size":"0.1",
-        "remainSize":"2.9",
-        "tradeId":"5efab07a4ee4c7000a82d6d9",
-        "takerOrderId":"5efab07953bdea00089965fa",
-        "makerOrderId":"5efab01453bdea00089959ba",
-        "ts":1593487482038606180
-    }
-}
-
-```
-
-当两个订单成功撮合后，系统会推送match信息。
-
-两个订单成功撮合，会生成一个tradeId
-
-当进入撮合引擎后，taker单会立即与maker单(买卖盘中剩余的订单)开始撮合。side字段是指taker单的成交方向。remainSize为maker单的剩余数量。
-
-在进入买卖盘之前，冰山单或隐藏单和普通的订单一样，撮合成功后作为taker
-
-<aside class="spacer4"></aside>
-<aside class="spacer2"></aside>
-
-### UPDATE
-
-```json
-{
-    "type":"message",
-    "topic":"/spotMarket/level3:KCS-USDT",
-    "subject":"update",
-    "data":{
-
-        "symbol":"KCS-USDT",
-        "sequence":1592995125858,
-        "orderId":"5efab14d53bdea0008997298",
-        "size":"0.06",
-        "ts":1593487696535838711
-    }
-}
-
-```
-
-当订单信息因为STP(自成交保护)变更，系统会给您推送**update**消息。
-
-由于自成交保护，需要调整订单数量或资金。订单只会在数量或资金上减少。当一个订单size发生变化会向您推送**update**消息。在买卖盘中订单（**open**）和收到**received**消息但没有进入买卖盘的订单，都可能向您推送**update**消息。新的市价单由于自成交保护导致的导致资金变化也会向您推送**update**消息。size为更新后的数量。
-
-### 构建Level-3买卖盘
-
-如何构建本地OrderBook level-3数据
-
-1 使用websocket订阅 /market/level3:{symbol} 频道订阅level3的增量数据，并缓存收到的所有增量数据。
-
-2 通过[REST](#level-3-2)请求获取level3的快照数据。
-
-3 数据检验：获取快照的sequence不小于缓存的所有增量的最小sequence。如果不满足此条件，从第一步从头开始。
-
-4 回放所有缓存的增量数据:
-
-4.1. 如果增量数据的sequence <= 当前快照的sequence，则舍弃增量数据，并结束本次更新; 否则进行4.2。
-
-4.2 如果增量数据的sequence = 当前快照的sequence+1，则进行4.2.1逻辑更新，否则进行4.3步骤。
-
-4.2.1 更新当前快照的sequence为增量数据的sequence. 4.2.2 如果是received消息，结束更新逻辑。（因为现在received消息不影响level3数据） 4.2.3 如果是open消息，增加orderid,price,size构建的相应买单或卖单 4.2.4 如果是done消息，移除对应orderid对应的买单或者卖单 4.2.5 如果是change消息，修改对应orderid对应的买单或者卖单的数量 4.2.6 如果是match消息，减少对应markerOrderId对应的订单数量
-
-4.3 此种情况为sequence不连续，执行步骤2，重新拉取快照数据，以便保证sequence不缺失。
-
-5 接收新的增量数据推送，执行步骤4。
-
-如果您在维护一个本地Level-3买卖盘过程中，有不理解的地方，您可以参考用 Go Language 写的[SDK](https://docs.kucoin.com/cn/#level-nbsp-3)，里面包含了不同type信息的处理逻辑。
 
 <aside class="spacer4"></aside>
 <aside class="spacer"></aside>
