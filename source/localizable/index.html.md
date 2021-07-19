@@ -30,6 +30,10 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 
 **To reinforce the security of the API, KuCoin upgraded the API key to version 2.0, the validation logic has also been changed. It is recommended to [create](https://www.kucoin.com/account/api) and update your API key to version 2.0. The API key of version 1.0 will be still valid until May 1, 2021. [Check new signing method](#signing-a-message)**
 
+**07/15/21**:
+
+- modify the strategy of [Request Rate Limit](#request-rate-limit).
+
 **06/04/21**:
 
 - Modify the query of the lifetime for the order by clientOid [Get Single Order by clientOid](#get-single-active-order-by-clientoid)
@@ -375,20 +379,13 @@ REST API:
 
 ## Request Rate Limit
 
-When a rate limit is exceeded, a status of **403 Forbidden** or **429 Too Many Request** will be returned.
-If the rate limit is exceeded multiple times, the system will restrict your use of your IP and account for at least 1 minute. Your remaining request times will be returned in the results.
+When a rate limit is exceeded, a status of **429** will be returned.
+<aside class="notice">Once the rate limit is exceeded, the system will restrict your use of your IP or account for 10s.</aside>
 
 ###REST API
 
-The access limit for REST API is applied per API key. For average users, the request limit for each API key is **1800 requests per minute**. The limit strategy is applicable for both public and private endpoints
-
-####Hard-Limits
-
-[List Fills](#list-fills): 100 requests per 10 seconds(will be restricted for 10 seconds if the limit is exceeded)
-
-[List orders](#list-orders): 200 requests per 10 seconds(will be restricted for 10 seconds if the limit is exceeded)
-
-[Place bulk orders](#place-bulk-orders): 10 requests per 10 seconds(will be restricted for 10 seconds if the limit is exceeded)
+The limit strategy of private endpoints will restrict account by userid. The limit strategy of public endpoints will restrict IP.
+<aside class="notice">Note that when an API has a specific rate limit, please refer to the specific limit.</aside>
 
 ###WEBSOCKET
 
@@ -1135,6 +1132,9 @@ GET /api/v1/accounts/ledgers?currency=BTC&startAt=1601395200000
 ### API KEY PERMISSIONS
 This endpoint requires the **"General"** permission.
 
+### REQUEST RATE LIMIT
+This API is restricted for each account, the request rate limit is **18 times/3s**.
+
 <aside class="notice">This request is paginated.</aside>
 
 
@@ -1420,6 +1420,9 @@ POST /api/v2/accounts/sub-transfer
 ### API KEY PERMISSIONS
 This endpoint requires the **"Trade"** permission.
 
+### REQUEST RATE LIMIT
+This API is restricted for each account, the request rate limit is **3 times/3s**.
+
 ### Parameters
 
 Param | Type | Description
@@ -1650,6 +1653,9 @@ GET /api/v1/deposits
 ### API KEY PERMISSIONS
 This endpoint requires the **"General"** permission.
 
+### REQUEST RATE LIMIT
+This API is restricted for each account, the request rate limit is **6 times/3s**.
+
 <aside class="notice">This request is paginated.</aside>
 
 ### Parameters
@@ -1710,6 +1716,9 @@ GET /api/v1/hist-deposits
 
 ### API KEY PERMISSIONS
 This endpoint requires the **"General"** permission.
+
+### REQUEST RATE LIMIT
+This API is restricted for each account, the request rate limit is **6 times/3s**.
 
 <aside class="notice">This request is paginated.</aside>
 
@@ -1773,6 +1782,9 @@ GET /api/v1/withdrawals
 
 ### API KEY PERMISSIONS
 This endpoint requires the **"General"** permission.
+
+### REQUEST RATE LIMIT
+This API is restricted for each account, the request rate limit is **6 times/3s**.
 
 <aside class="notice">This request is paginated.</aside>
 
@@ -1838,6 +1850,9 @@ GET /api/v1/hist-withdrawals
 
 ### API KEY PERMISSIONS
 This endpoint requires the **"General"** permission.
+
+### REQUEST RATE LIMIT
+This API is restricted for each account, the request rate limit is **6 times/3s**.
 
 <aside class="notice">This request is paginated.</aside>
 
@@ -2094,6 +2109,9 @@ POST /api/v1/orders
 
 ### API KEY PERMISSIONS
 This endpoint requires the **"Trade"** permission.
+
+### REQUEST RATE LIMIT
+This API is restricted for each account, the request rate limit is **45 times/3s**.
 
 ### Parameters
 
@@ -2406,6 +2424,9 @@ POST /api/v1/orders/multi
 ### API KEY PERMISSIONS
 This endpoint requires the **"Trade"** permission.
 
+### REQUEST RATE LIMIT
+This API is restricted for each account, the request rate limit is **3 times/3s**.
+
 ### Parameters
 
 | Param     | type   | Description  |
@@ -2460,6 +2481,9 @@ DELETE /api/v1/orders/5bd6e9286d99522a52e458de
 
 ### API KEY PERMISSIONS
 This endpoint requires the **"Trade"** permission.
+
+### REQUEST RATE LIMIT
+This API is restricted for each account, the request rate limit is 60 **times/3s**.
 
 ### Parameters
 Param | Type | Description
@@ -2549,6 +2573,9 @@ Request via this endpoint to cancel all open orders. The response is a list of i
 ### API KEY PERMISSIONS
 This endpoint requires the **"Trade"** permission.
 
+### REQUEST RATE LIMIT
+This API is restricted for each account, the request rate limit is **3 times/3s**.
+
 ### Parameters
 |Param | Type | Description|
 |--------- | ------- | -----------|
@@ -2617,6 +2644,9 @@ GET /api/v1/orders?status=active
 
 ### API KEY PERMISSIONS
 This endpoint requires the **"General"** permission.
+
+### REQUEST RATE LIMIT
+This API is restricted for each account, the request rate limit is **30 times/3s**.
 
 <aside class="notice">This request is paginated.</aside>
 
@@ -3081,6 +3111,9 @@ GET /api/v1/fills
 
 ### PERMISSIONS
 This endpoint requires the **"General"** permission.
+
+### REQUEST RATE LIMIT
+This API is restricted for each account, the request rate limit is **9 times/3s**.
 
 <aside class="notice">This request is paginated.</aside>
 
@@ -4064,6 +4097,9 @@ GET /api/v3/market/orderbook/level2?symbol=BTC-USDT
 
 ### API KEY PERMISSIONS
 This endpoint requires the **"General"** permission.
+
+### REQUEST RATE LIMIT
+This API is restricted for each account, the request rate limit is **30 times/3s**.
 
 ### PARAMETERS
 
