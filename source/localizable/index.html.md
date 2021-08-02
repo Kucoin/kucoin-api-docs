@@ -30,6 +30,10 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 
 **To reinforce the security of the API, KuCoin upgraded the API key to version 2.0, the validation logic has also been changed. It is recommended to [create](https://www.kucoin.com/account/api) and update your API key to version 2.0. The API key of version 1.0 will be still valid until May 1, 2021. [Check new signing method](#signing-a-message)**
 
+**08/04/21**:
+
+- Modify the request parameter time range of  [Get Account Ledgers](#get-account-ledgers).
+
 **07/15/21**:
 
 - modify the strategy of [Request Rate Limit](#request-rate-limit).
@@ -1148,6 +1152,8 @@ bizType   | String | *[Optional]*  Business type: **DEPOSIT**, **WITHDRAW**, **T
 startAt| long | *[Optional]*  Start time (milisecond)
 endAt| long | *[Optional]* End time (milisecond)
 
+<aside class="notice">the start and end time range cannot exceed 24 hours. An error will occur if the specified time window exceeds the range. If you specify the end time only, the system will automatically calculate the start time as end time minus 24 hours, and vice versa.</aside>
+
 ### RESPONSES
 Field | Description
 --------- | -------
@@ -1206,6 +1212,7 @@ Voting Earnings  | Voting Earnings on Pool-X
 Redemption of Voting  | Redemption of Voting on Pool-X
 Voting  | Voting on Pool-X
 Convert to KCS   | Convert to KCS 
+### startAt & endAt Description
 
 ## Get Account Balance of a Sub-Account
 
