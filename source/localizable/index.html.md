@@ -1212,7 +1212,6 @@ Voting Earnings  | Voting Earnings on Pool-X
 Redemption of Voting  | Redemption of Voting on Pool-X
 Voting  | Voting on Pool-X
 Convert to KCS   | Convert to KCS 
-### startAt & endAt Description
 
 ## Get Account Balance of a Sub-Account
 
