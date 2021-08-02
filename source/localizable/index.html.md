@@ -30,7 +30,7 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 
 **To reinforce the security of the API, KuCoin upgraded the API key to version 2.0, the validation logic has also been changed. It is recommended to [create](https://www.kucoin.com/account/api) and update your API key to version 2.0. The API key of version 1.0 is invalid. [Check new signing method](#signing-a-message)**
 
-**08/04/21**:
+**08/09/21**:
 
 - Modify the request parameter time range of  [Get Account Ledgers](#get-account-ledgers).
 

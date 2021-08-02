@@ -32,7 +32,7 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 **为了进一步提升API安全性，KuCoin已经升级到了V2版本的API-KEY，验签逻辑也发生了一些变化，建议到[API管理页面](https://www.kucoin.cc/account/api)添加并更换到新的API-KEY。KuCoin已经停止对老版本API-KEY的支持。[查看新的签名方式](#8ba46c43fe)**
 
-**08/04/21**:
+**08/09/21**:
 
 - 【修改】限定[账户流水记录](#c8122540e1)每次请求的查询时间范围
 
