@@ -30,7 +30,11 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 为了您能获取到最新的API 变更的通知，请在 [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs)添加关注【Watch】
 
-**为了进一步提升API安全性，KuCoin已经升级到了V2版本的API-KEY，验签逻辑也发生了一些变化，建议到[API管理页面](https://www.kucoin.cc/account/api)添加并更换到新的API-KEY。KuCoin将继续支持使用老的API-KEY到2021年05月01日。[查看新的签名方式](#8ba46c43fe)**
+**为了进一步提升API安全性，KuCoin已经升级到了V2版本的API-KEY，验签逻辑也发生了一些变化，建议到[API管理页面](https://www.kucoin.cc/account/api)添加并更换到新的API-KEY。KuCoin已经停止对老版本API-KEY的支持。[查看新的签名方式](#8ba46c43fe)**
+
+**08/04/21**:
+
+- 【修改】限定[账户流水记录](#c8122540e1)每次请求的查询时间范围
 
 **07/15/21**:
 
@@ -1111,6 +1115,7 @@ bizType   | String | [可选] 业务类型: **DEPOSIT** -充值, **WITHDRAW** -�
 startAt   | long   | [可选] 开始时间（毫秒）
 endAt     | long   | [可选] 截止时间（毫秒）
 
+<aside class="notice">您只能获取 24 小时时间范围内的数据（即：查询时，开始时间到结束时间的时间范围不能超过24小时）。若超出时间范围，系统会报错。如果您只指定了结束时间，没有指定开始时间，系统将按照24小时的范围自动计算开始时间（开始时间=结束时间-24小时）并返回相应数据，反之亦然。</aside>
 
 ### 返回值
 字段 | 含义
