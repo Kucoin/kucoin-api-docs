@@ -32,6 +32,10 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 **为了进一步提升API安全性，KuCoin已经升级到了V2版本的API-KEY，验签逻辑也发生了一些变化，建议到[API管理页面](https://www.kucoin.cc/account/api)添加并更换到新的API-KEY。KuCoin已经停止对老版本API-KEY的支持。[查看新的签名方式](#8ba46c43fe)**
 
+**08/18/21**:
+
+- 【修改】核对修正文档描述，提高文档的阅读性
+
 **08/09/21**:
 
 - 【修改】限定[账户流水记录](#c8122540e1)每次请求的查询时间范围
@@ -776,11 +780,13 @@ KC-API-SIGN = 7QP/oM0ykidMdrfNEUmng8eZjg/ZvPafjIqmxiVfYu4=
     {
         "userId":"5cbd31ab9c93e9280cd36a0a", //subUserId子账号用户ID
         "subName":"kucoin1",
+        "type":0, //type子账号类型:0-普通子账号
         "remarks":"kucoin1"
     },
     {
         "userId":"5cbd31b89c93e9280cd36a0d",
         "subName":"kucoin2",
+        "type":1, //type子账号类型:1-交易机器人子账号
         "remarks":"kucoin2"
     }
 ]
@@ -806,6 +812,7 @@ GET /api/v1/sub/user
 | ------- | -------- |
 | userId  | 子账号的用户ID |
 | subName | 子账号的用户名  |
+| type | 子账号类型  |
 | remarks | 备注信息     |
 
 
@@ -1052,43 +1059,37 @@ context | 业务核心参数
 
 ```json
 {
-    "currentPage":1,
-    "pageSize":10,
-    "totalNum":2,
-    "totalPage":1,
-    "items":[
-        {
-            "id":"5bc7f080b39c5c03486eef8b",//唯一键
-            "currency":"KCS",//币种
-            "amount":"0.0998", //资金变动值
-            "fee":"0", //充值或提现费率
-            "balance":"0", //金额变动
-            "bizType":"withdraw", //业务类型
-            "direction":"in",  // 出入账方向入账或出账（in or out）
-            "createdAt":1540296039000,  // 创建时间
-            "context":{  // 业务核心参数
-                "orderId":"5bc7f080b39c5c03286eef8a",
-                "currency":"BTC"
-            }
-        },
-        {
-            "id":"5bc7f080b39c5c03486eef8c",
-            "currency":"KCS",
-            "amount":"0.0998",
-            "fee":"0",
-            "balance":"0",
-            "bizType":"trade exchange",
-            "direction":"in",
-            "createdAt":1540296039000,
-            "context":{
-                "orderId":"5bc7f080b39c5c03286eef8e",
-                "tradeId":"5bc7f080b3949c03286eef8a",
-                "symbol":"BTC-USD"
-            }
-        }
-    ]
+  "currentPage": 1,
+  "pageSize": 50,
+  "totalNum": 2,
+  "totalPage": 1,
+  "items": [
+    {
+      "id": "611a1e7c6a053300067a88d9",//唯一键
+      "currency": "USDT", //币种
+      "amount": "10.00059547", //资金变动值
+      "fee": "0", //充值或提现费率
+      "balance": "0", //金额变动
+      "accountType": "MAIN", //账户类型
+      "bizType": "Loans Repaid", //业务类型
+      "direction": "in", //出入账方向入账或出账（in or out）
+      "createdAt": 1629101692950, //创建时间
+      "context": "{\"borrowerUserId\":\"601ad03e50dc810006d242ea\",\"loanRepayDetailNo\":\"611a1e7cc913d000066cf7ec\"}" //Business core parameters
+    },
+    {
+      "id": "611a18bc6a0533000671e1bf",
+      "currency": "USDT",
+      "amount": "10.00059547",
+      "fee": "0",
+      "balance": "0",
+      "accountType": "MAIN",
+      "bizType": "Loans Repaid",
+      "direction": "in",
+      "createdAt": 1629100220843,
+      "context": "{\"borrowerUserId\":\"5e3f4623dbf52d000800292f\",\"loanRepayDetailNo\":\"611a18bc7255c200063ea545\"}"// 业务核心参数
+    }
+  ]
 }
-
 ```
 
 ### HTTP请求
@@ -1125,6 +1126,7 @@ currency | 币种
 amount | 资金变动值
 fee | 充值或提现费率
 balance | 变动后的资金总额
+accountType | 母账号账户类型MAIN、TRADE、MARGIN或CONTRACT
 bizType | 业务类型，比如交易，提现，推荐关系奖，借贷等
 direction | 出入账方向 **out** 或 **in**
 createdAt | 创建时间
@@ -1851,7 +1853,6 @@ status | 状态
     "currency":"KCS",
     "limitBTCAmount":"2.0",
     "usedBTCAmount":"0",
-    "limitAmount":"75.67567568",
     "remainAmount":"75.67567568",
     "availableAmount":"9697.41991348",
     "withdrawMinFee":"0.93000000",
@@ -2322,38 +2323,25 @@ funds | String |  否（size和funds 二选一）| 下单资金
 ## 批量下单
 
 ```json
+//request
 {
-    "success":true,
-    "code":"200",
-    "msg":"success",
-    "retry":false,
-    "data":{
-        "data":[
-            {
-                "symbol":"BTC-USDT",
-                "type":"limit",
-                "side":"buy",
-                "price":"9661",
-                "size":"1",
-                "funds":null,
-                "stp":"",
-                "stop":"",
-                "stopPrice":"0",
-                "timeInForce":"GTC",
-                "cancelAfter":0,
-                "postOnly":false,
-                "hidden":false,
-                "iceberge":false,
-                "iceberg":false,
-                "visibleSize":"0",
-                "channel":"API",
-                "id":null,
-                "status":"fail",
-                "failMsg":"error.createOrder.accountBalanceInsufficient",
-                "clientOid":"5e42743514832d53d255d921"
-            }
-        ]
+  "symbol": "KCS-USDT",
+  "orderList": [
+    {
+      "clientOid": "3d07008668054da6b3cb12e432c2b13a",
+      "side": "buy",
+      "type": "limit",
+      "price": "0.01",
+      "size": "0.01"
+    },
+    {
+      "clientOid": "37245dbe6e134b5c97732bfb36cd4a9d",
+      "side": "buy",
+      "type": "limit",
+      "price": "0.01",
+      "size": "0.01"
     }
+  ]
 }
 ```
 
@@ -2368,19 +2356,56 @@ funds | String |  否（size和funds 二选一）| 下单资金
 ### 请求示例
 
 ```json
-
+//response
 {
-    "symbol":"BTC-USDT",
-    "orderList":[
-        {
-            "clientOid":"5e42743514832d53d255d921",
-            "price":9661,
-            "side":"buy",
-            "size":1,
-            "symbol":"BTC-USDT",
-            "type":"limit"
-        }
-    ]
+  "data": [
+    {
+      "symbol": "KCS-USDT",
+      "type": "limit",
+      "side": "buy",
+      "price": "0.01",
+      "size": "0.01",
+      "funds": null,
+      "stp": "",
+      "stop": "",
+      "stopPrice": null,
+      "timeInForce": "GTC",
+      "cancelAfter": 0,
+      "postOnly": false,
+      "hidden": false,
+      "iceberge": false,
+      "iceberg": false,
+      "visibleSize": null,
+      "channel": "API",
+      "id": "611a6a309281bc000674d3c0",
+      "status": "success",
+      "failMsg": null,
+      "clientOid": "552a8a0b7cb04354be8266f0e202e7e9"
+    },
+    {
+      "symbol": "KCS-USDT",
+      "type": "limit",
+      "side": "buy",
+      "price": "0.01",
+      "size": "0.01",
+      "funds": null,
+      "stp": "",
+      "stop": "",
+      "stopPrice": null,
+      "timeInForce": "GTC",
+      "cancelAfter": 0,
+      "postOnly": false,
+      "hidden": false,
+      "iceberge": false,
+      "iceberg": false,
+      "visibleSize": null,
+      "channel": "API",
+      "id": "611a6a309281bc000674d3c1",
+      "status": "success",
+      "failMsg": null,
+      "clientOid": "bd1e95e705724f33b508ed270888a4a9"
+    }
+  ]
 }
 ```
 
@@ -3280,6 +3305,12 @@ GET /api/v1/limit/fills
 
 ## 下单
 
+```json
+{
+  "orderId": "vs8hoo8kpkmklv4m0038lql0"
+}
+```
+
 **请求体中的JSON字符串中不要有多余的空格**
 
 ### 下单限制
@@ -3344,6 +3375,14 @@ POST /api/v1/stop-order
 
 ## 单个撤单
 
+```json
+{
+  "cancelledOrderIds": [
+    "611477889281bc0006d68aea"
+  ]
+}
+```
+
 此接口可以取消单笔止盈止损单。
 
 一旦系统收到取消请求，您将收cancelledOrderIds字段。要知道请求是否已处理，您可以查询订单状态或订阅websocket获取订单消息。
@@ -3380,6 +3419,17 @@ DELETE /api/v1/stop-order/5bd6e9286d99522a52e458de
 
 ## 按条件撤单
 
+```json
+{
+  "cancelledOrderIds": [
+    "vs8hoo8m4751f5np0032t7gk",
+    "vs8hoo8m4758qjjp0037mslk",
+    "vs8hoo8prp98qjjp0037q9gb",
+    "vs8hoo8prp91f5np00330k6p"
+  ]
+}
+```
+
 此接口，可以取消当前活跃的止盈止损单，返回值是是已取消订单的ID列表。
 
 ### HTTP请求
@@ -3410,6 +3460,42 @@ DELETE /api/v1/stop-order/5bd6e9286d99522a52e458de
 
 ## 单个订单详情
 
+```json
+{
+  "id": "vs8hoo8q2ceshiue003b67c0",
+  "symbol": "KCS-USDT",
+  "userId": "60fe4956c43cbc0006562c2c",
+  "status": "NEW",
+  "type": "limit",
+  "side": "buy",
+  "price": "0.01000000000000000000",
+  "size": "0.01000000000000000000",
+  "funds": null,
+  "stp": null,
+  "timeInForce": "GTC",
+  "cancelAfter": -1,
+  "postOnly": false,
+  "hidden": false,
+  "iceberg": false,
+  "visibleSize": null,
+  "channel": "API",
+  "clientOid": "40e0eb9efe6311eb8e58acde48001122",
+  "remark": null,
+  "tags": null,
+  "orderTime": 1629098781127530345,
+  "domainId": "kucoin",
+  "tradeSource": "USER",
+  "tradeType": "TRADE",
+  "feeCurrency": "USDT",
+  "takerFeeRate": "0.00200000000000000000",
+  "makerFeeRate": "0.00200000000000000000",
+  "createdAt": 1629098781128,
+  "stop": "loss",
+  "stopTriggerTime": null,
+  "stopPrice": "10.00000000000000000000"
+}
+```
+
 此接口，可以通过订单id获取单个订单信息。
 
 ### HTTP请求
@@ -3437,6 +3523,7 @@ GET /api/v1/stop-order/5c35c02703aa673ceec2a168
 | id          | 订单id，订单唯一标识                                |
 | symbol      | 交易对                                              |
 | userId      | 用户ID                                              |
+| status      | 订单状态: **NEW（新建）**, **TRIGGERED(已触发)**       |
 | type        | 订单类型                                            |
 | side        | 买或卖                                              |
 | price       | 订单价格                                            |
@@ -3453,19 +3540,69 @@ GET /api/v1/stop-order/5c35c02703aa673ceec2a168
 | clientOid   | 客户端生成的标识                                    |
 | remark      | 订单说明                                            |
 | tags        | 订单标签                                            |
+| orderTime   | 止损单下单时间，精确到纳秒                            |
+| domainId    | 租户ID                                            |
+| tradeSource | 订单来源: USER(用户下单), MARGIN_SYSTEM(操盘系统下单)  |
 | tradeType   | 交易类型: TRADE（现货交易）, MARGIN_TRADE(杠杆交易) |
 | feeCurrency | 计手续费币种                                        |
+| takerFeeRate | taker的手续费费率                                  |
+| makerFeeRate | maker的手续费费率                                  |
 | createdAt   | 创建时间                                            |
 | stop        | 止盈止损类型                                        |
+| stopTriggerTime | 止损单触发时间                                   |
 | stopPrice   | 触发价格                                            |
 
 ## 获取止盈止损单列表
+
+```json
+{
+  "currentPage": 1,
+  "pageSize": 50,
+  "totalNum": 1,
+  "totalPage": 1,
+  "items": [
+    {
+      "id": "vs8hoo8kqjnklv4m0038lrfq",
+      "symbol": "KCS-USDT",
+      "userId": "60fe4956c43cbc0006562c2c",
+      "status": "NEW",
+      "type": "limit",
+      "side": "buy",
+      "price": "0.01000000000000000000",
+      "size": "0.01000000000000000000",
+      "funds": null,
+      "stp": null,
+      "timeInForce": "GTC",
+      "cancelAfter": -1,
+      "postOnly": false,
+      "hidden": false,
+      "iceberg": false,
+      "visibleSize": null,
+      "channel": "API",
+      "clientOid": "404814a0fb4311eb9098acde48001122",
+      "remark": null,
+      "tags": null,
+      "orderTime": 1628755183702150167,
+      "domainId": "kucoin",
+      "tradeSource": "USER",
+      "tradeType": "TRADE",
+      "feeCurrency": "USDT",
+      "takerFeeRate": "0.00200000000000000000",
+      "makerFeeRate": "0.00200000000000000000",
+      "createdAt": 1628755183704,
+      "stop": "loss",
+      "stopTriggerTime": null,
+      "stopPrice": "10.00000000000000000000"
+    }
+  ]
+}
+```
 
 此接口，可获取订单列表 返回值是[分页](#88b6b4f79a)后的数据。
 
 ### HTTP请求
 
-**GET /api/v1/stop-order
+**GET /api/v1/stop-order**
 
 ### 请求示例
 
@@ -3498,6 +3635,7 @@ GET /api/v1/stop-order
 | id          | 订单id，订单唯一标识                                |
 | symbol      | 交易对                                              |
 | userId      | 用户ID                                              |
+| status      | 订单状态: **NEW（新建）**, **TRIGGERED(已触发)**       |
 | type        | 订单类型                                            |
 | side        | 买或卖                                              |
 | price       | 订单价格                                            |
@@ -3514,13 +3652,57 @@ GET /api/v1/stop-order
 | clientOid   | 客户端生成的标识                                    |
 | remark      | 订单说明                                            |
 | tags        | 订单标签                                            |
+| orderTime        | 止损单下单时间，精确到纳秒                       |
+| domainId        | 租户ID                                            |
+| tradeSource     | 订单来源: USER(用户下单), MARGIN_SYSTEM(操盘系统下单)  |
 | tradeType   | 交易类型: TRADE（现货交易）, MARGIN_TRADE(杠杆交易) |
 | feeCurrency | 计手续费币种                                        |
+| takerFeeRate | taker的手续费费率                           |
+| makerFeeRate | maker的手续费费率                           |
 | createdAt   | 创建时间                                            |
 | stop        | 止盈止损类型                                        |
+| stopTriggerTime | 止损单触发时间                                  |
 | stopPrice   | 触发价格                                            |
 
 ## 根据clientOid获取单个订单详情
+
+```json
+[
+  {
+    "id": "vs8hoo8os561f5np0032vngj",
+    "symbol": "KCS-USDT",
+    "userId": "60fe4956c43cbc0006562c2c",
+    "status": "NEW",
+    "type": "limit",
+    "side": "buy",
+    "price": "0.01000000000000000000",
+    "size": "0.01000000000000000000",
+    "funds": null,
+    "stp": null,
+    "timeInForce": "GTC",
+    "cancelAfter": -1,
+    "postOnly": false,
+    "hidden": false,
+    "iceberg": false,
+    "visibleSize": null,
+    "channel": "API",
+    "clientOid": "2b700942b5db41cebe578cff48960e09",
+    "remark": null,
+    "tags": null,
+    "orderTime": 1629020492834532568,
+    "domainId": "kucoin",
+    "tradeSource": "USER",
+    "tradeType": "TRADE",
+    "feeCurrency": "USDT",
+    "takerFeeRate": "0.00200000000000000000",
+    "makerFeeRate": "0.00200000000000000000",
+    "createdAt": 1629020492837,
+    "stop": "loss",
+    "stopTriggerTime": null,
+    "stopPrice": "1.00000000000000000000"
+  }
+]
+```
 
 此接口，可以通过clientOid获取单个止盈止损单信息。
 
@@ -3550,6 +3732,7 @@ GET /api/v1/stop-order/queryOrderByClientOid?symbol=BTC-USDT&clientOid=9823jnfda
 | id          | 订单id，订单唯一标识                                |
 | symbol      | 交易对                                              |
 | userId      | 用户ID                                              |
+| status      | 订单状态: **NEW（新建）**, **TRIGGERED(已触发)**       |
 | type        | 订单类型                                            |
 | side        | 买或卖                                              |
 | price       | 订单价格                                            |
@@ -3566,13 +3749,26 @@ GET /api/v1/stop-order/queryOrderByClientOid?symbol=BTC-USDT&clientOid=9823jnfda
 | clientOid   | 客户端生成的标识                                    |
 | remark      | 订单说明                                            |
 | tags        | 订单标签                                            |
+| orderTime   | 止损单下单时间，精确到纳秒                            |
+| domainId    | 租户ID                                            |
+| tradeSource | 订单来源: USER(用户下单), MARGIN_SYSTEM(操盘系统下单)  |
 | tradeType   | 交易类型: TRADE（现货交易）, MARGIN_TRADE(杠杆交易) |
 | feeCurrency | 计手续费币种                                        |
+| takerFeeRate | taker的手续费费率                                  |
+| makerFeeRate | maker的手续费费率                                  |
 | createdAt   | 创建时间                                            |
 | stop        | 止盈止损类型                                        |
+| stopTriggerTime | 止损单触发时间                                   |
 | stopPrice   | 触发价格                                            |
 
 ## 根据clientOid取消单个止盈止损单
+
+```json
+{
+  "cancelledOrderId": "vs8hoo8ksc8mario0035a74n",
+  "clientOid": "689ff597f4414061aa819cc414836abd"
+}
+```
 
 此接口，可以通过clientOid取消单个止盈止损单。
 
@@ -3616,23 +3812,42 @@ DELETE /api/v1/stop-order/cancelOrderByClientOid?symbol=BTC-USDT&clientOid=9823j
 
 ```json
 [
-    {
-        "symbol":"BTC-USDT",
-        "name":"BTC-USDT",
-        "baseCurrency":"BTC",
-        "quoteCurrency":"USDT",
-        "baseMinSize":"0.00000001",
-        "quoteMinSize":"0.01",
-        "baseMaxSize":"10000",
-        "quoteMaxSize":"100000",
-        "baseIncrement":"0.00000001",
-        "quoteIncrement":"0.01",
-        "priceIncrement":"0.00000001",
-        "feeCurrency":"USDT",
-        "enableTrading":true,
-        "isMarginEnabled":true,
-        "priceLimitRate":"0.1"
-    }
+  {
+    "symbol": "XLM-USDT",
+    "name": "XLM-USDT",
+    "baseCurrency": "XLM",
+    "quoteCurrency": "USDT",
+    "feeCurrency": "USDT",
+    "market": "USDS",
+    "baseMinSize": "0.1",
+    "quoteMinSize": "0.01",
+    "baseMaxSize": "10000000000",
+    "quoteMaxSize": "99999999",
+    "baseIncrement": "0.0001",
+    "quoteIncrement": "0.000001",
+    "priceIncrement": "0.000001",
+    "priceLimitRate": "0.1",
+    "isMarginEnabled": true,
+    "enableTrading": true
+  },
+  {
+    "symbol": "VET-USDT",
+    "name": "VET-USDT",
+    "baseCurrency": "VET",
+    "quoteCurrency": "USDT",
+    "feeCurrency": "USDT",
+    "market": "USDS",
+    "baseMinSize": "10",
+    "quoteMinSize": "0.01",
+    "baseMaxSize": "10000000000",
+    "quoteMaxSize": "99999999",
+    "baseIncrement": "0.0001",
+    "quoteIncrement": "0.000001",
+    "priceIncrement": "0.0000001",
+    "priceLimitRate": "0.1",
+    "isMarginEnabled": true,
+    "enableTrading": true
+  }
 ]
 ```
 
@@ -3661,6 +3876,7 @@ GET /api/v1/symbols
 | name           | 交易对名称，重命名后会改变                 |
 | baseCurrency   | 商品货币，指一个交易对的交易对象，即写在靠前部分的资产名  |
 | quoteCurrency  | 计价币种，指一个交易对的定价资产，即写在靠后部分资产名   |
+| market         | [交易市场](#b8f118fefc)                   |
 | baseMinSize    | 下单时size的最小值                   |
 | quoteMinSize   | 下市价单，funds的最小值                |
 | baseMaxSize    | 下单，size的最大值                   |
@@ -3736,7 +3952,6 @@ time |  时间戳
 {
     "ticker":[
         {
-          "time": 1602832092060,	// 时间戳
           "symbol": "BTC-USDT",	// 交易对
           "symbolName": "BTC-USDT", // 变更后的交易对名称
           "buy": "11328.9",	// 最佳买一价
@@ -3951,74 +4166,6 @@ asks | 卖盘
 **Bids**: 卖盘，根据价格从高到低
 
 
-## Level-2全部买卖盘(价格聚合) [已废弃]
-
-```json
-{
-    "sequence":"3262786978",
-    "bids":[
-        [
-            "6500.12", //price
-            "0.45054140"
-        ],
-        [
-            "6500.11",
-            "0.45054140"
-        ]
-    ],
-    "asks":[
-        [
-            "6500.16",
-            "0.57753524"
-        ],
-        [
-            "6500.15",
-            "0.57753524"
-        ]
-    ],
-    "time":1550653727731
-}
-```
-此接口获取指定交易对的所有活动委托的快照。
-
-Level 2 买卖盘上的买单和卖单均按照价格汇总，每个价格下仅返回一个根据价格汇总的挂单量。
-
-此接口将返回全部的买卖盘数据。
-
-该功能适用于专业交易员，因为该过程将使用较多服务器资源及流量，访问频率受到了严格控制。
-
-为保证本地买卖盘数据为最新数据，在获取Level 2快照后，请使用[Websocket](#level-2-3)推送的增量消息来更新Level 2买卖盘。
-
-
-### HTTP请求
-
-**GET /api/v2/market/orderbook/level2**
-
-### 请求示例
-GET /api/v2/market/orderbook/level2?symbol=BTC-USDT
-
-### 请求参数
-
-
-请求参数 | 类型 | 含义
---------- | ------- | -------
-symbol | String |  [交易对](#a17b4e2866)
-
-### 返回值
-
-字段 | 含义
---------- | -------
-sequence | 序列号
-time | 时间戳
-bids | 买盘
-asks | 卖盘
-
-###数据排序方式
-
-**Asks**: 买盘，根据价格从低到高
-
-**Bids**: 卖盘，根据价格从高到低
-
 ## Level-2全部买卖盘(价格聚合)
 
 ```json
@@ -4158,10 +4305,11 @@ Taker订单的成交方向。Taker订单指立刻与买卖盘上的已有订单�
     [
         "1545904980", //k线周期的开始时间
         "0.058",  //开盘价
-        "0.058", //收盘价
-        "0.049", //最高价
-        "0.018",  //最低价
-        "0.000945"  //成交量
+        "0.049",  //收盘价
+        "0.058", //最高价
+        "0.049", //最低价
+        "0.018",  //成交量
+        "0.000945"  //成交额
     ],
     [
         "1545904920",
@@ -4217,7 +4365,36 @@ turnover | 成交额
 ## 币种列表
 
 ```json
-
+[
+  {
+    "currency": "CSP",
+    "name": "CSP",
+    "fullName": "Caspian",
+    "precision": 8,
+    "confirms": 12,
+    "contractAddress": "0xa6446d655a0c34bc4f05042ee88170d056cbaf45",
+    "withdrawalMinSize": "2000",
+    "withdrawalMinFee": "1000",
+    "isWithdrawEnabled": true,
+    "isDepositEnabled": true,
+    "isMarginEnabled": false,
+    "isDebitEnabled": false
+  },
+  {
+    "currency": "LOKI",
+    "name": "OXEN",
+    "fullName": "Oxen",
+    "precision": 8,
+    "confirms": 10,
+    "contractAddress": "",
+    "withdrawalMinSize": "2",
+    "withdrawalMinFee": "2",
+    "isWithdrawEnabled": true,
+    "isDepositEnabled": true,
+    "isMarginEnabled": false,
+    "isDebitEnabled": true
+  }
+]
 ```
 
 此接口，返回币种详情列表。
@@ -4239,13 +4416,15 @@ GET /api/v1/currencies
 |name| 币种名，可变更|
 |fullName| 币种全称，可变更|
 |precision| 币种精度 |
+|confirms| 区块链确认数|
+|contractAddress| 合约地址 |
 |withdrawalMinSize| 提现最小值 |
 |withdrawalMinFee| 提现最小手续费 |
 |isWithdrawEnabled| 是否可提现 |
 |isDepositEnabled| 是否可充值|
 |isMarginEnabled|是否支持杠杆|
 |isDebitEnabled|是否支持借贷|
-|confirms| 区块链确认数|
+
 
 ### 币种标识(currency code)
 
@@ -4265,16 +4444,18 @@ GET /api/v1/currencies
 
 ```json
 {
-    "currency":"BTC",
-    "name":"BTC",
-    "fullName":"Bitcoin",
-    "precision":8,
-    "withdrawalMinSize":"0.002",
-    "withdrawalMinFee":"0.0005",
-    "isWithdrawEnabled":true,
-    "isDepositEnabled":true,
-    "isMarginEnabled":true,
-    "isDebitEnabled":true
+  "currency": "BTC",
+  "name": "BTC",
+  "fullName": "Bitcoin",
+  "precision": 8,
+  "confirms": 2,
+  "contractAddress": "",
+  "withdrawalMinSize": "0.001",
+  "withdrawalMinFee": "0.0006",
+  "isWithdrawEnabled": true,
+  "isDepositEnabled": true,
+  "isMarginEnabled": true,
+  "isDebitEnabled": true
 }
 ```
 
@@ -4303,13 +4484,15 @@ GET /api/v1/currencies/BTC
 |name| 币种名，可变更|
 |fullName| 币种全称，可变更|
 |precision| 币种精度 |
+|confirms| 区块链确认数|
+|contractAddress| 合约地址|
 |withdrawalMinSize| 提现最小值 |
 |withdrawalMinFee| 提现最小手续费 |
 |isWithdrawEnabled| 是否可提现 |
 |isDepositEnabled| 是否可充值|
 |isMarginEnabled|是否支持杠杆|
 |isDebitEnabled|是否支持借贷|
-|confirms| 区块链确认数|
+
 
 ## 法币换算价格
 此接口，返回法币换算后的价格
@@ -4686,7 +4869,12 @@ GET /api/v1/margin/borrow/repaid
 
 ## 一键还款
 
-
+```json
+{
+  "code": "200000",
+  "data": null
+}
+```
 
 ### HTTP请求
 
@@ -4714,6 +4902,13 @@ POST /api/v1/margin/repay/all
 当返回HTTP状态码200和code为200000时,表示还款响应成功,否则表示还款失败。
 
 ## 单笔还款
+
+```json
+{
+  "code": "200000",
+  "data": null
+}
+```
 
 此接口用于归还指定某笔贷款
 
@@ -4783,6 +4978,13 @@ POST /api/v1/margin/lend
 
 ## 撤销借出委托
 
+```json
+{
+  "code": "200000",
+  "data": null
+}
+```
+
 此接口可以撤销单笔借出委托
 
 ### HTTP请求
@@ -4804,6 +5006,13 @@ DELETE /api/v1/margin/lend/5d9f133ef943c0882ca37bc8
 | orderId  | String | [必须] 委托Id |
 
 ## 设置自动借出
+
+```json
+{
+  "code": "200000",
+  "data": null
+}
+```
 
 此接口可以设置用户单币种的自动借出。可以设置自动借出的开关、参数
 
