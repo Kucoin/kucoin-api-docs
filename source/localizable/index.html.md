@@ -30,6 +30,10 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 
 **To reinforce the security of the API, KuCoin upgraded the API key to version 2.0, the validation logic has also been changed. It is recommended to [create](https://www.kucoin.com/account/api) and update your API key to version 2.0. The API key of version 1.0 is invalid. [Check new signing method](#signing-a-message)**
 
+**08/18/21**:
+
+- Check and revise the document description to improve the readability of the document
+
 **08/09/21**:
 
 - Modify the request parameter time range of  [Get Account Ledgers](#get-account-ledgers).
@@ -787,11 +791,13 @@ Signature is required for this part.
 [{
 		"userId": "5cbd31ab9c93e9280cd36a0a",  //subUserId
 		"subName": "kucoin1",
+		"type": 0,  //type:0-nomal
 		"remarks": "kucoin1"
 	},
 	{
 		"userId": "5cbd31b89c93e9280cd36a0d",
 		"subName": "kucoin2",
+		"type": 1,  //type:1-rebot
 		"remarks": "kucoin2"
 	}
 ]
@@ -816,6 +822,7 @@ Field | Description
 --------- | -------
 userId | The user ID of your sub-account
 subName | The username of your sub-account
+type | The type of your sub-account
 remarks | Remark
 
 
@@ -1071,58 +1078,36 @@ Items are paginated and sorted to show the latest first. See the [Pagination](#p
 
 ```json
 {
-    "currentPage": 1,
-    "pageSize": 10,
-    "totalNum": 3,
-    "totalPage": 1,
-    "items": [
-        {
-            "id": "5bc7f080b39c5c03486eef8c",//unique key
-            "currency": "KCS",  //Currency
-            "amount": "0.0998", //Change amount of the funds
-            "fee": "0",  //Deposit or withdrawal fee
-            "balance": "0",  //Total assets of a currency
-            "bizType": "Withdraw",  //business type
-            "direction": "in",     //side, in or out
-            "createdAt": 1540296039000,  //Creation time
-            "context": {          //Business core parameters
-
-                "orderId": "5bc7f080b39c5c03286eef8a",
-                "txId": "bf848bfb6736780b930e12c68721ea57f8b0484a4af3f30db75c93ecf16905c9"
-            }
-        },
-        {
-            "id": "5bc7f080b39c5c03486def8c",//unique key
-            "currency": "KCS",
-            "amount": "0.0998",
-            "fee": "0",
-            "balance": "0",
-            "bizType": "Deposit",
-            "direction": "in",
-            "createdAt": 1540296039000,
-            "context": {
-
-                "orderId": "5bc7f080b39c5c03286eef8a",
-                "txId": "bf848bfb6736780b930e12c68721ea57f8b0484a4af3f30db75c93ecf16905c9"
-            }
-        },
-        {
-            "id": "5bc7f080b39c5c03486def8a",//unique key
-            "currency": "KCS",
-            "amount": "0.0998",
-            "fee": "0",
-            "balance": "0",
-            "bizType": "trade exchange",
-            "direction": "in",
-            "createdAt": 1540296039000,
-            "context": {
-
-                "tradeId": "5bc7f080b3949c03286eef8a",
-                "orderId": "5bc7f080b39c5c03286eef8e",
-                "symbol": "BTC-USD"
-            }
-        }
-    ]
+  "currentPage": 1,
+  "pageSize": 50,
+  "totalNum": 2,
+  "totalPage": 1,
+  "items": [
+    {
+      "id": "611a1e7c6a053300067a88d9",//unique key
+      "currency": "USDT", //Currency
+      "amount": "10.00059547", //Change amount of the funds
+      "fee": "0", //Deposit or withdrawal fee
+      "balance": "0", //Total assets of a currency
+      "accountType": "MAIN", //Account Type
+      "bizType": "Loans Repaid", //business type
+      "direction": "in", //side, in or out
+      "createdAt": 1629101692950, //Creation time
+      "context": "{\"borrowerUserId\":\"601ad03e50dc810006d242ea\",\"loanRepayDetailNo\":\"611a1e7cc913d000066cf7ec\"}" //Business core parameters
+    },
+    {
+      "id": "611a18bc6a0533000671e1bf",
+      "currency": "USDT",
+      "amount": "10.00059547",
+      "fee": "0",
+      "balance": "0",
+      "accountType": "MAIN",
+      "bizType": "Loans Repaid",
+      "direction": "in",
+      "createdAt": 1629100220843,
+      "context": "{\"borrowerUserId\":\"5e3f4623dbf52d000800292f\",\"loanRepayDetailNo\":\"611a18bc7255c200063ea545\"}"
+    }
+  ]
 }
 ```
 
@@ -1162,6 +1147,7 @@ currency | The currency of an account
 amount | The total amount of assets (fees included) involved in assets changes such as transaction, withdrawal and bonus distribution.
 fee | Fees generated in transaction, withdrawal, etc.
 balance | Remaining funds after the transaction.
+accountType | The account type of the master user: MAIN, TRADE, MARGIN or CONTRACT.
 bizType | Business type leading to the changes in funds, such as exchange, withdrawal, deposit,  KUCOIN_BONUS, REFERRAL_BONUS, Lendings etc.
 direction | Side, **out** or **in**
 createdAt | Time of the event
@@ -1893,7 +1879,6 @@ status | Status
 	"currency": "KCS",
 	"limitBTCAmount": "2.0",
 	"usedBTCAmount": "0",
-	"limitAmount": "75.67567568",
 	"remainAmount": "75.67567568",
 	"availableAmount": "9697.41991348",
 	"withdrawMinFee": "0.93000000",
@@ -2363,38 +2348,56 @@ A successful order will be assigned an order ID. A successful order is defined a
 ## Place Bulk Orders
 
 ```json
+//response
 {
-    "success":true,
-    "code":"200",
-    "msg":"success",
-    "retry":false,
-    "data":{
-        "data":[
-            {
-                "symbol":"BTC-USDT",
-                "type":"limit",
-                "side":"buy",
-                "price":"9661",
-                "size":"1",
-                "funds":null,
-                "stp":"",
-                "stop":"",
-                "stopPrice":"0",
-                "timeInForce":"GTC",
-                "cancelAfter":0,
-                "postOnly":false,
-                "hidden":false,
-                "iceberge":false,
-                "iceberg":false,
-                "visibleSize":"0",
-                "channel":"API",
-                "id":null,
-                "status":"fail",
-                "failMsg":"error.createOrder.accountBalanceInsufficient",
-                "clientOid":"5e42743514832d53d255d921"
-            }
-        ]
+  "data": [
+    {
+      "symbol": "KCS-USDT",
+      "type": "limit",
+      "side": "buy",
+      "price": "0.01",
+      "size": "0.01",
+      "funds": null,
+      "stp": "",
+      "stop": "",
+      "stopPrice": null,
+      "timeInForce": "GTC",
+      "cancelAfter": 0,
+      "postOnly": false,
+      "hidden": false,
+      "iceberge": false,
+      "iceberg": false,
+      "visibleSize": null,
+      "channel": "API",
+      "id": "611a6a309281bc000674d3c0",
+      "status": "success",
+      "failMsg": null,
+      "clientOid": "552a8a0b7cb04354be8266f0e202e7e9"
+    },
+    {
+      "symbol": "KCS-USDT",
+      "type": "limit",
+      "side": "buy",
+      "price": "0.01",
+      "size": "0.01",
+      "funds": null,
+      "stp": "",
+      "stop": "",
+      "stopPrice": null,
+      "timeInForce": "GTC",
+      "cancelAfter": 0,
+      "postOnly": false,
+      "hidden": false,
+      "iceberge": false,
+      "iceberg": false,
+      "visibleSize": null,
+      "channel": "API",
+      "id": "611a6a309281bc000674d3c1",
+      "status": "success",
+      "failMsg": null,
+      "clientOid": "bd1e95e705724f33b508ed270888a4a9"
     }
+  ]
 }
 ```
 
@@ -2410,18 +2413,25 @@ Request via this endpoint to place 5 orders at the same time. The order type mus
 ### Example
 
 ```json
+//request
 {
-    "symbol":"BTC-USDT",
-    "orderList":[
-        {
-            "clientOid":"5e42743514832d53d255d921",
-            "price":9661,
-            "side":"buy",
-            "size":1,
-            "symbol":"BTC-USDT",
-            "type":"limit"
-        }
-    ]
+  "symbol": "KCS-USDT",
+  "orderList": [
+    {
+      "clientOid": "3d07008668054da6b3cb12e432c2b13a",
+      "side": "buy",
+      "type": "limit",
+      "price": "0.01",
+      "size": "0.01"
+    },
+    {
+      "clientOid": "37245dbe6e134b5c97732bfb36cd4a9d",
+      "side": "buy",
+      "type": "limit",
+      "price": "0.01",
+      "size": "0.01"
+    }
+  ]
 }
 ```
 
@@ -3349,6 +3359,12 @@ When placing a stop loss order, the system will not pre-freeze the assets in you
 
 ## Place a new order
 
+```json
+{
+  "orderId": "vs8hoo8kpkmklv4m0038lql0"
+}
+```
+
 **Do not include extra spaces in JSON strings in request body.**
 
 ### Limitation
@@ -3414,6 +3430,14 @@ A successful order will be assigned an order ID. A successful order is defined a
 
 ## Cancel an Order
 
+```json
+{
+  "cancelledOrderIds": [
+    "611477889281bc0006d68aea"
+  ]
+}
+```
+
 Request via this endpoint to cancel a single stop order previously placed.
 
 You will receive cancelledOrderIds field once the system has received the cancellation request. The cancellation request will be processed by the matching engine in sequence. To know if the request is processed (successfully or not), you may check the order status or the update message from the pushes.
@@ -3440,7 +3464,7 @@ This endpoint requires the **"Trade"** permission.
 
 | Field   | Description                      |
 | ------- | -------------------------------- |
-| orderId | Unique ID of the cancelled order |
+| cancelledOrderIds | cancelled order ids    |
 
 
 
@@ -3451,6 +3475,17 @@ This endpoint requires the **"Trade"** permission.
 If the order could not be canceled (already filled or previously canceled, etc), then an error response will indicate the reason in the **message** field.
 
 ## Cancel Orders
+
+```json
+{
+  "cancelledOrderIds": [
+    "vs8hoo8m4751f5np0032t7gk",
+    "vs8hoo8m4758qjjp0037mslk",
+    "vs8hoo8prp98qjjp0037q9gb",
+    "vs8hoo8prp91f5np00330k6p"
+  ]
+}
+```
 
 Request via this interface to cancel a batch of stop orders.
 
@@ -3482,6 +3517,42 @@ This endpoint requires the **"General"** permission.
 
 ## Get Single Order Info
 
+```json
+{
+  "id": "vs8hoo8q2ceshiue003b67c0",
+  "symbol": "KCS-USDT",
+  "userId": "60fe4956c43cbc0006562c2c",
+  "status": "NEW",
+  "type": "limit",
+  "side": "buy",
+  "price": "0.01000000000000000000",
+  "size": "0.01000000000000000000",
+  "funds": null,
+  "stp": null,
+  "timeInForce": "GTC",
+  "cancelAfter": -1,
+  "postOnly": false,
+  "hidden": false,
+  "iceberg": false,
+  "visibleSize": null,
+  "channel": "API",
+  "clientOid": "40e0eb9efe6311eb8e58acde48001122",
+  "remark": null,
+  "tags": null,
+  "orderTime": 1629098781127530345,
+  "domainId": "kucoin",
+  "tradeSource": "USER",
+  "tradeType": "TRADE",
+  "feeCurrency": "USDT",
+  "takerFeeRate": "0.00200000000000000000",
+  "makerFeeRate": "0.00200000000000000000",
+  "createdAt": 1629098781128,
+  "stop": "loss",
+  "stopTriggerTime": null,
+  "stopPrice": "10.00000000000000000000"
+}
+```
+
 Request via this interface to get a stop order information via the order ID.
 
 ### HTTP Request
@@ -3511,6 +3582,7 @@ This endpoint requires the **"General"** permission.
 | id          | Order ID, the ID of an order.                                |
 | symbol      | Symbol                                                       |
 | userId      | User ID                                                      |
+| status      | Order status, include **NEW**, **TRIGGERED**                 |
 | type        | Order type                                                   |
 | side        | transaction direction,include buy and sell                   |
 | price       | order price                                                  |
@@ -3527,15 +3599,64 @@ This endpoint requires the **"General"** permission.
 | clientOid   | user-entered order unique mark                               |
 | remark      | Remarks                                                      |
 | tags        | tag order source                                             |
+| orderTime   | Time of place a stop order, accurate to nanoseconds          |
+| domainId    | domainId, e.g: kucoin                                        |
+| tradeSource | trade source: **USER**（Order by user）, **MARGIN_SYSTEM**（Order by margin system） |
 | tradeType   | The type of trading : **TRADE**（Spot Trading）, **MARGIN_TRADE** (Margin Trading). |
 | feeCurrency | The currency of the fee                                      |
+| takerFeeRate | Fee Rate of taker                                           |
+| makerFeeRate | Fee Rate of maker                                           |
 | createdAt   | order creation time                                          |
 | stop        | Stop order type, include loss and entry                      |
+| stopTriggerTime | The trigger time of the stop order                       |
 | stopPrice   | stop price                                                   |
 
 
 ## List Stop Orders
 
+```json
+{
+  "currentPage": 1,
+  "pageSize": 50,
+  "totalNum": 1,
+  "totalPage": 1,
+  "items": [
+    {
+      "id": "vs8hoo8kqjnklv4m0038lrfq",
+      "symbol": "KCS-USDT",
+      "userId": "60fe4956c43cbc0006562c2c",
+      "status": "NEW",
+      "type": "limit",
+      "side": "buy",
+      "price": "0.01000000000000000000",
+      "size": "0.01000000000000000000",
+      "funds": null,
+      "stp": null,
+      "timeInForce": "GTC",
+      "cancelAfter": -1,
+      "postOnly": false,
+      "hidden": false,
+      "iceberg": false,
+      "visibleSize": null,
+      "channel": "API",
+      "clientOid": "404814a0fb4311eb9098acde48001122",
+      "remark": null,
+      "tags": null,
+      "orderTime": 1628755183702150167,
+      "domainId": "kucoin",
+      "tradeSource": "USER",
+      "tradeType": "TRADE",
+      "feeCurrency": "USDT",
+      "takerFeeRate": "0.00200000000000000000",
+      "makerFeeRate": "0.00200000000000000000",
+      "createdAt": 1628755183704,
+      "stop": "loss",
+      "stopTriggerTime": null,
+      "stopPrice": "10.00000000000000000000"
+    }
+  ]
+}
+```
 
 Request via this endpoint to get your current untriggered stop order list. Items are paginated and sorted to show the latest first. See the [Pagination](#pagination) section for retrieving additional entries after the first page.
 
@@ -3560,7 +3681,6 @@ You can pinpoint the results with the following query paramaters.
 
 | Param       | Type   | Description                                                  |
 | ----------- | ------ | ------------------------------------------------------------ |
-| status      | String | *[Optional]* **active** or **done**(done as default), Only list orders with a specific status . |
 | symbol      | String | *[Optional]* Only list orders for a specific symbol.         |
 | side        | String | *[Optional]* **buy** or **sell**                             |
 | type        | String | *[Optional]* **limit**, **market**, **limit_stop** or **market_stop** |
@@ -3578,6 +3698,7 @@ You can pinpoint the results with the following query paramaters.
 | id          | Order ID, the ID of an order.                                |
 | symbol      | Symbol                                                       |
 | userId      | User ID                                                      |
+| status      | Order status, include **NEW**, **TRIGGERED**                 |
 | type        | Order type                                                   |
 | side        | transaction direction,include buy and sell                   |
 | price       | order price                                                  |
@@ -3594,14 +3715,58 @@ You can pinpoint the results with the following query paramaters.
 | clientOid   | user-entered order unique mark                               |
 | remark      | Remarks                                                      |
 | tags        | tag order source                                             |
+| orderTime   | Time of place a stop order, accurate to nanoseconds          |
+| domainId    | domainId, e.g: kucoin                                             |
+| tradeSource | trade source: **USER**（Order by user）, **MARGIN_SYSTEM**（Order by margin system）  |
 | tradeType   | The type of trading : **TRADE**（Spot Trading）, **MARGIN_TRADE** (Margin Trading). |
 | feeCurrency | The currency of the fee                                      |
+| takerFeeRate | Fee Rate of taker                                       |
+| makerFeeRate | Fee Rate of maker                                       |
 | createdAt   | order creation time                                          |
 | stop        | Stop order type, include loss and entry                      |
+| stopTriggerTime | The trigger time of the stop order                      |
 | stopPrice   | stop price                                                   |
 
 
 ## Get Single Order by clientOid
+
+```json
+[
+  {
+    "id": "vs8hoo8os561f5np0032vngj",
+    "symbol": "KCS-USDT",
+    "userId": "60fe4956c43cbc0006562c2c",
+    "status": "NEW",
+    "type": "limit",
+    "side": "buy",
+    "price": "0.01000000000000000000",
+    "size": "0.01000000000000000000",
+    "funds": null,
+    "stp": null,
+    "timeInForce": "GTC",
+    "cancelAfter": -1,
+    "postOnly": false,
+    "hidden": false,
+    "iceberg": false,
+    "visibleSize": null,
+    "channel": "API",
+    "clientOid": "2b700942b5db41cebe578cff48960e09",
+    "remark": null,
+    "tags": null,
+    "orderTime": 1629020492834532568,
+    "domainId": "kucoin",
+    "tradeSource": "USER",
+    "tradeType": "TRADE",
+    "feeCurrency": "USDT",
+    "takerFeeRate": "0.00200000000000000000",
+    "makerFeeRate": "0.00200000000000000000",
+    "createdAt": 1629020492837,
+    "stop": "loss",
+    "stopTriggerTime": null,
+    "stopPrice": "1.00000000000000000000"
+  }
+]
+```
 
 Request via this interface to get a stop order information via the clientOid.
 
@@ -3622,7 +3787,7 @@ This endpoint requires the **"Trade"** permission.
 | Param     | Type   | Description                                                  |
 | --------- | ------ | ------------------------------------------------------------ |
 | clientOid | String | Unique order id created by users to identify their orders    |
-| symbol    | String | [Optional] Unique order id created by users to identify their orders |
+| symbol    | String | [Optional] Only list orders for a specific symbol.           |
 
 ### RESPONSES
 
@@ -3631,6 +3796,7 @@ This endpoint requires the **"Trade"** permission.
 | id          | Order ID, the ID of an order.                                |
 | symbol      | Symbol                                                       |
 | userId      | User ID                                                      |
+| status      | Order status, include **NEW**, **TRIGGERED**                 |
 | type        | Order type                                                   |
 | side        | transaction direction,include buy and sell                   |
 | price       | order price                                                  |
@@ -3647,14 +3813,27 @@ This endpoint requires the **"Trade"** permission.
 | clientOid   | user-entered order unique mark                               |
 | remark      | Remarks                                                      |
 | tags        | tag order source                                             |
+| orderTime   | Time of place a stop order, accurate to nanoseconds          |
+| domainId    | domainId, e.g: kucoin                                        |
+| tradeSource | trade source: **USER**（Order by user）, **MARGIN_SYSTEM**（Order by margin system） |
 | tradeType   | The type of trading : **TRADE**（Spot Trading）, **MARGIN_TRADE** (Margin Trading). |
 | feeCurrency | The currency of the fee                                      |
+| takerFeeRate | Fee Rate of taker                                           |
+| makerFeeRate | Fee Rate of maker                                           |
 | createdAt   | order creation time                                          |
 | stop        | Stop order type, include loss and entry                      |
+| stopTriggerTime | The trigger time of the stop order                       |
 | stopPrice   | stop price                                                   |
 
 
 ## Cancel Single Order by clientOid
+
+```json
+{
+  "cancelledOrderId": "vs8hoo8ksc8mario0035a74n",
+  "clientOid": "689ff597f4414061aa819cc414836abd"
+}
+```
 
 Request via this interface to cancel a stop order via the clientOid.
 
@@ -3697,23 +3876,42 @@ Signature is not required for this part
 
 ```json
 [
-    {
-        "symbol": "BTC-USDT",
-        "name": "BTC-USDT",
-        "baseCurrency": "BTC",
-        "quoteCurrency": "USDT",
-        "baseMinSize": "0.00000001",
-        "quoteMinSize": "0.01",
-        "baseMaxSize": "10000",
-        "quoteMaxSize": "100000",
-        "baseIncrement": "0.00000001",
-        "quoteIncrement": "0.01",
-        "priceIncrement": "0.00000001",
-        "feeCurrency": "USDT",
-        "enableTrading": true,
-        "isMarginEnabled": true,
-        "priceLimitRate": "0.1"
-    }
+  {
+    "symbol": "XLM-USDT",
+    "name": "XLM-USDT",
+    "baseCurrency": "XLM",
+    "quoteCurrency": "USDT",
+    "feeCurrency": "USDT",
+    "market": "USDS",
+    "baseMinSize": "0.1",
+    "quoteMinSize": "0.01",
+    "baseMaxSize": "10000000000",
+    "quoteMaxSize": "99999999",
+    "baseIncrement": "0.0001",
+    "quoteIncrement": "0.000001",
+    "priceIncrement": "0.000001",
+    "priceLimitRate": "0.1",
+    "isMarginEnabled": true,
+    "enableTrading": true
+  },
+  {
+    "symbol": "VET-USDT",
+    "name": "VET-USDT",
+    "baseCurrency": "VET",
+    "quoteCurrency": "USDT",
+    "feeCurrency": "USDT",
+    "market": "USDS",
+    "baseMinSize": "10",
+    "quoteMinSize": "0.01",
+    "baseMaxSize": "10000000000",
+    "quoteMaxSize": "99999999",
+    "baseIncrement": "0.0001",
+    "quoteIncrement": "0.000001",
+    "priceIncrement": "0.0000001",
+    "priceLimitRate": "0.1",
+    "isMarginEnabled": true,
+    "enableTrading": true
+  }
 ]
 ```
 
@@ -3741,6 +3939,7 @@ symbol | unique code of a symbol, it would not change after renaming
 name | Name of trading pairs, it would change after renaming
 baseCurrency |  Base currency,e.g. BTC.
 quoteCurrency |  Quote currency,e.g. USDT.
+market |  The [trading market](#get-market-list).
 baseMinSize |  The minimum order quantity requried to place an order.
 quoteMinSize | The minimum order funds required to place a market order.
 baseMaxSize |  The maximum order size required to place an order.
@@ -3817,7 +4016,6 @@ time |  timestamp
     "time":1602832092060,
     "ticker":[
         {
-            "time": 1602832092060,	// time
             "symbol": "BTC-USDT",	// symbol
             "symbolName":"BTC-USDT", // Name of trading pairs, it would change after renaming
             "buy": "11328.9",	// bestAsk
@@ -4015,61 +4213,6 @@ asks | asks
 
 **Bids**: Sort price from high to low
 
-
-
-## Get Full Order Book(aggregated) [Deprecated]
-
-```json
-{
-    "sequence": "3262786978",
-    "time": 1550653727731,
-    "bids": [["6500.12", "0.45054140"],
-             ["6500.11", "0.45054140"]],  //[price，size]
-    "asks": [["6500.16", "0.57753524"],
-             ["6500.15", "0.57753524"]]  
-}
-```
-
-Request via this endpoint to get the order book of the specified symbol.
-
-Level 2 order book includes all bids and asks (aggregated by price). This level returns only one aggregated size for each price (as if there was only one single order for that price).
-
-This API will return data with **full** depth.
-
-It is generally used by professional traders because it uses more server resources and traffic, and we have strict access frequency control.
-
-To maintain up-to-date Order Book, please use [Websocket](#level-2-market-data) incremental feed after retrieving the Level 2 snapshot.
-
-
-### HTTP REQUEST
-
-**GET /api/v2/market/orderbook/level2**  (Recommend)
-
-### Example
-GET /api/v2/market/orderbook/level2?symbol=BTC-USDT
-
-### PARAMETERS
-
-Param | Type | Description
---------- | ------- | -----------
-symbol | String | [symbol](#get-symbols-list)
-
-### RESPONSES
-
-Field |  Description
---------- | -----------
-sequence | Sequence number
-time | Timestamp
-bids | bids
-asks | asks
-
-### Data Sor
-
-**Asks**: Sort price from low to high
-
-**Bids**: Sort price from high to low
-
-
 ## Get Full Order Book(aggregated)
 
 ```json
@@ -4193,8 +4336,8 @@ The trade side indicates the taker order side. A taker order is the order that w
         "0.049",                  //closing price
         "0.058",                  //highest price
         "0.049",                  //lowest price
-        "0.018",                  //Transaction amount
-        "0.000945"                //Transaction volume
+        "0.018",                  //Transaction volume
+        "0.000945"                //Transaction amount
     ],
     [
         "1545904920",
@@ -4249,34 +4392,36 @@ turnover | Transaction amount
 ## Get Currencies
 
 ```json
-
 [
-    {
-        "currency": "BTC",
-        "name": "BTC",
-        "fullName": "Bitcoin",
-        "precision": 8,
-        "withdrawalMinSize": "0.002",
-        "withdrawalMinFee": "0.0005",
-        "isWithdrawEnabled": true,   
-        "isDepositEnabled": true,
-        "isMarginEnabled": true,
-       "isDebitEnabled": true
-    },
-    {
-        "currency": "ETH",
-        "name": "ETH",
-        "fullName": "Ethereum",
-        "precision": 8,
-        "withdrawalMinSize": "0.02",
-        "withdrawalMinFee": "0.01",
-        "isWithdrawEnabled": true,
-        "isDepositEnabled": true,
-        "isMarginEnabled": true,
-        "isDebitEnabled": true
-    }
+  {
+    "currency": "CSP",
+    "name": "CSP",
+    "fullName": "Caspian",
+    "precision": 8,
+    "confirms": 12,
+    "contractAddress": "0xa6446d655a0c34bc4f05042ee88170d056cbaf45",
+    "withdrawalMinSize": "2000",
+    "withdrawalMinFee": "1000",
+    "isWithdrawEnabled": true,
+    "isDepositEnabled": true,
+    "isMarginEnabled": false,
+    "isDebitEnabled": false
+  },
+  {
+    "currency": "LOKI",
+    "name": "OXEN",
+    "fullName": "Oxen",
+    "precision": 8,
+    "confirms": 10,
+    "contractAddress": "",
+    "withdrawalMinSize": "2",
+    "withdrawalMinFee": "2",
+    "isWithdrawEnabled": true,
+    "isDepositEnabled": true,
+    "isMarginEnabled": false,
+    "isDebitEnabled": true
+  }
 ]
-
 ```
 
 Request via this endpoint to get the currency list.
@@ -4298,13 +4443,15 @@ GET /api/v1/currencies
 |name| Currency name, will change after renaming|
 |fullName| Full name of a currency, will change after renaming |
 |precision| Currency precision |
+|confirms| Number of block confirmations |
+|contractAddress| Contract address |
 |withdrawalMinSize| Minimum withdrawal amount |
 |withdrawalMinFee|  Minimum fees charged for withdrawal |
 |isWithdrawEnabled| Support withdrawal or not |
 |isDepositEnabled| Support deposit or not |
 |isMarginEnabled| Support margin or not |
 |isDebitEnabled| Support debit or not |
-|confirms| Number of block confirmations|
+
 
 **CURRENCY CODES**
 
@@ -4327,17 +4474,19 @@ The "**currency**" of XRB is "XRB", if the "**name**" of XRB is changed into "**
 
 ```json
 {
-    "currency": "BTC",
-    "name": "BTC",
-    "fullName": "Bitcoin",
-    "precision": 8,
-    "withdrawalMinSize": "0.002",
-    "withdrawalMinFee": "0.0005",
-    "isWithdrawEnabled": true,
-    "isDepositEnabled": true,
-    "isMarginEnabled": true,
-    "isDebitEnabled": true
-  }
+  "currency": "BTC",
+  "name": "BTC",
+  "fullName": "Bitcoin",
+  "precision": 8,
+  "confirms": 2,
+  "contractAddress": "",
+  "withdrawalMinSize": "0.001",
+  "withdrawalMinFee": "0.0006",
+  "isWithdrawEnabled": true,
+  "isDepositEnabled": true,
+  "isMarginEnabled": true,
+  "isDebitEnabled": true
+}
 ```
 Request via this endpoint to get the currency details of a specified currency
 
@@ -4363,13 +4512,14 @@ chain | String | *[Optional]* Support for querying the chain of currency, e.g. T
 |name| Currency name, will change after renaming |
 |fullName| Full name of a currency, will change after renaming |
 |precision| Currency precision |
+|confirms| Number of block confirmations|
+|contractAddress| Contract address|
 |withdrawalMinSize| Minimum withdrawal amount |
 |withdrawalMinFee| Minimum fees charged for withdrawal |
 |isWithdrawEnabled| Support withdrawal or not |
 |isDepositEnabled| Support deposit or not |
 |isMarginEnabled| Support margin or not |
 |isDebitEnabled| Support debit or not |
-|confirms| Number of block confirmations|
 
 ## Get Fiat Price
 
@@ -4749,6 +4899,12 @@ This endpoint requires the **"Trade"** permission.
 
 ## One-Click Repayment
 
+```json
+{
+  "code": "200000",
+  "data": null
+}
+```
 
 
 ### HTTP REQUEST
@@ -4777,6 +4933,12 @@ A successful repayment response is indicated by an HTTP status code 200 and syst
 
 ## Repay a Single Order
 
+```json
+{
+  "code": "200000",
+  "data": null
+}
+```
 
 Request via this endpoint to repay a single order.
 
@@ -4848,6 +5010,13 @@ This endpoint requires the **"Trade"** permission.
 
 ## Cancel Lend Order
 
+```json
+{
+  "code": "200000",
+  "data": null
+}
+```
+
 Request via this endpoint to cancel lend order.
 
 ### HTTP REQUEST
@@ -4869,6 +5038,13 @@ This endpoint requires the **"Trade"** permission.
 | orderId  | String | Lend order ID |
 
 ## Set Auto-lend
+
+```json
+{
+  "code": "200000",
+  "data": null
+}
+```
 
 Request via this endpoint to set up the automatic lending for a specified currency.
 
