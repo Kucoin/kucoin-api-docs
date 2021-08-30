@@ -693,7 +693,7 @@ Rest请求头必须包含以下内容:
         "KC-API-TIMESTAMP": str(now),
         "KC-API-KEY": api_key,
         "KC-API-PASSPHRASE": passphrase,
-        "KC-API-KEY-VERSION": 2
+        "KC-API-KEY-VERSION": "2"
     }
     response = requests.request('get', url, headers=headers)
     print(response.status_code)
@@ -4806,7 +4806,7 @@ GET /api/v1/margin/borrow/outstanding
 | accruedInterest | 应计利息 |
 | createdAt   | 成交时间，时间戳 |
 | maturityTime       | 到期时间，时间戳 |
-| period       | 期限  |
+| term       | 期限  |
 | repaidSize | 已还数量  |
 | dailyIntRate | 日利率  |
 

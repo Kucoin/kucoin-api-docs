@@ -700,7 +700,7 @@ All private REST requests must contain the following headers:
         "KC-API-TIMESTAMP": str(now),
         "KC-API-KEY": api_key,
         "KC-API-PASSPHRASE": passphrase,
-        "KC-API-KEY-VERSION": 2
+        "KC-API-KEY-VERSION": "2"
     }
     response = requests.request('get', url, headers=headers)
     print(response.status_code)
@@ -3046,7 +3046,7 @@ This endpoint requires the **"General"** permission.
 ###RESPONSES
 Field | Description
 --------- | -------
-orderId | Order ID, the ID of an order
+id | Order ID, the ID of an order
 symbol | symbol
 opType |  operation type,deal is pending order,cancel is cancel order
 type | order type,e.g. limit,market,stop_limit.
@@ -4835,7 +4835,7 @@ This endpoint requires the **"Trade"** permission.
 | accruedInterest | Accrued interest |
 | createdAt   | Execution time |
 | maturityTime  | Maturity time |
-| period       | Period  |
+| term       | Term  |
 | repaidSize | Repaid size  |
 | dailyIntRate | Daily interest rate   |
 
