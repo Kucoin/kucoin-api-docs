@@ -32,10 +32,6 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 **为了进一步提升API安全性，KuCoin已经升级到了V2版本的API-KEY，验签逻辑也发生了一些变化，建议到[API管理页面](https://www.kucoin.cc/account/api)添加并更换到新的API-KEY。KuCoin已经停止对老版本API-KEY的支持。[查看新的签名方式](#8ba46c43fe)**
 
-**09/23/21**:
-
-- 【修改】修改[查询待还款记录](#db8f6b55e6)、[查询已还款记录](#5f04c94552)接口的API权限，这两个接口需要通用权限
-
 **08/18/21**:
 
 - 【修改】核对修正文档描述，提高文档的阅读性
@@ -697,7 +693,7 @@ Rest请求头必须包含以下内容:
         "KC-API-TIMESTAMP": str(now),
         "KC-API-KEY": api_key,
         "KC-API-PASSPHRASE": passphrase,
-        "KC-API-KEY-VERSION": "2"
+        "KC-API-KEY-VERSION": 2
     }
     response = requests.request('get', url, headers=headers)
     print(response.status_code)
@@ -4790,7 +4786,7 @@ GET /api/v1/margin/borrow/outstanding
 
 ### API权限
 
-该接口需要**通用权限**。
+该接口需要**交易权限**。
 <aside class="notice">这个接口需要使用分页</aside>
 ### 请求参数
 
@@ -4810,7 +4806,7 @@ GET /api/v1/margin/borrow/outstanding
 | accruedInterest | 应计利息 |
 | createdAt   | 成交时间，时间戳 |
 | maturityTime       | 到期时间，时间戳 |
-| term       | 期限  |
+| period       | 期限  |
 | repaidSize | 已还数量  |
 | dailyIntRate | 日利率  |
 
@@ -4848,7 +4844,7 @@ GET /api/v1/margin/borrow/repaid
 
 ### API权限
 
-该接口需要**通用权限**。
+该接口需要**交易权限**。
 
 <aside class="notice">这个接口需要使用分页</aside>
 ### 请求参数
