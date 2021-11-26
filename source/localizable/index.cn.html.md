@@ -16,7 +16,7 @@ search: true
 
 ## 简介
 
-欢迎使KuCoin开发者文档。
+欢迎使用KuCoin开发者文档。
 
 本文档概述了交易功能、市场行情和其他应用开发接口。
 
@@ -31,6 +31,11 @@ API分为两部分：**REST API和Websocket 实时数据流**
 为了您能获取到最新的API 变更的通知，请在 [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs)添加关注【Watch】
 
 **为了进一步提升API安全性，KuCoin已经升级到了V2版本的API-KEY，验签逻辑也发生了一些变化，建议到[API管理页面](https://www.kucoin.cc/account/api)添加并更换到新的API-KEY。KuCoin已经停止对老版本API-KEY的支持。[查看新的签名方式](#8ba46c43fe)**
+
+**11/26/21**:
+
+- 【新增】新增[币种详情(推荐使用)](#d20983c815)接口
+- 【修改】修改杠杆信息：标记价格、指数价格的[目前支持的交易对列表](#2dee0a15de)说明
 
 **09/23/21**:
 
@@ -1896,7 +1901,7 @@ limitBTCAmount | 当日剩余可提现的额度，折合为BTC
 innerWithdrawMinFee | 内部提现手续费
 usedBTCAmount | 当日BTC折合提现
 isWithdrawEnabled | 是否可提现
-withdrawMinFee | 最小提现金额
+withdrawMinFee | 最小提现手续费
 precision | 提现的精度
 chain | 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为ERC20。
 
@@ -2321,7 +2326,8 @@ funds | String |  否（size和funds 二选一）| 下单资金
 | orderId                           | 订单Id |
 | borrowSize                        | 借币数量，只有在自动借币下单后才返回 |
 | loanApplyId                       | 借币申请ID，只有在自动借币下单后才返回 |
-| 下单成功后，会返回一个orderId字段，意味这订单进入撮合引擎。 |      |
+
+下单成功后，会返回一个orderId字段，意味这订单进入撮合引擎。
 
 
 ## 批量下单
@@ -3084,7 +3090,6 @@ GET /api/v1/order/client-order/6d539dc614db312
             "feeRate":"0",
             "feeCurrency":"USDT",
             "stop":"",
-            "tradeType": "TRADE",
             "type":"limit",
             "createdAt":1547026472000,
             "tradeType": "TRADE"
@@ -4145,6 +4150,7 @@ GET /api/v1/markets
 
 ### 请求示例
 GET /api/v1/market/orderbook/level2_20?symbol=BTC-USDT
+
 GET /api/v1/market/orderbook/level2_100?symbol=BTC-USDT
 
 ### 请求参数
@@ -4463,7 +4469,7 @@ GET /api/v1/currencies
 }
 ```
 
-此接口，返回可交易币种的法币换算后的价格
+此接口，返回可交易币种的货币详细信息
 
 ### HTTP请求
 
@@ -4497,6 +4503,94 @@ GET /api/v1/currencies/BTC
 |isMarginEnabled|是否支持杠杆|
 |isDebitEnabled|是否支持借贷|
 
+## 币种详情(推荐使用)
+
+```json
+{
+  "currency": "BTC",
+  "name": "BTC",
+  "fullName": "Bitcoin",
+  "precision": 8,
+  "confirms": null,
+  "contractAddress": null,
+  "isMarginEnabled": true,
+  "isDebitEnabled": true,
+  "chains": [
+    {
+      "chainName": "BTC",
+      "withdrawalMinSize": "0.0008",
+      "withdrawalMinFee": "0.0005",
+      "isWithdrawEnabled": true,
+      "isDepositEnabled": true,
+      "confirms": 2,
+      "contractAddress": ""
+    },
+    {
+      "chainName": "KCC",
+      "withdrawalMinSize": "0.0008",
+      "withdrawalMinFee": "0.00002",
+      "isWithdrawEnabled": true,
+      "isDepositEnabled": true,
+      "confirms": 20,
+      "contractAddress": ""
+    },
+    {
+      "chainName": "TRC20",
+      "withdrawalMinSize": "0.0008",
+      "withdrawalMinFee": "0.0004",
+      "isWithdrawEnabled": false,
+      "isDepositEnabled": true,
+      "confirms": 1,
+      "contractAddress": ""
+    },
+    {
+      "chainName": "BTC-Segwit",
+      "withdrawalMinSize": "0.0008",
+      "withdrawalMinFee": "0.0005",
+      "isWithdrawEnabled": true,
+      "isDepositEnabled": true,
+      "confirms": 2,
+      "contractAddress": ""
+    }
+  ]
+}
+```
+
+此接口，返回可交易币种的货币详细信息
+
+### HTTP请求
+
+**GET /api/v2/currencies/{currency}**
+
+### 请求示例
+
+GET /api/v2/currencies/BTC
+
+<aside class="notice">推荐使用</aside>
+
+### 请求参数
+
+| 请求参数     | 类型     | 含义                                                              |
+| -------- | ------ | --------------------------------------------------------------- |
+| currency | String | 路径参数，[币种标识](#ebcc9fbb02)                                        |
+| chain    | String | [可选] 可通过chain获取币种指定链的详情，不传默认返回所有链的币种详情。 |
+
+### 返回值
+
+|字段 | 含义|
+|--------- | -------|
+|currency| 币种唯一标识，不会改变|
+|name| 币种名，可变更|
+|fullName| 币种全称，可变更|
+|precision| 币种精度 |
+|confirms| 区块链确认数|
+|contractAddress| 合约地址|
+|withdrawalMinSize| 提现最小值 |
+|withdrawalMinFee| 提现最小手续费 |
+|isWithdrawEnabled| 是否可提现 |
+|isDepositEnabled| 是否可充值|
+|isMarginEnabled|是否支持杠杆|
+|isDebitEnabled|是否支持借贷|
 
 ## 法币换算价格
 此接口，返回法币换算后的价格
@@ -4568,7 +4662,8 @@ GET /api/v1/mark-price/USDT-BTC/current
 | timePoint   | 时间点(毫秒)  |
 | value       | 标记价格值    |
 
-目前支持的标记价格有：USDT-BTC, ETH-BTC, LTC-BTC, EOS-BTC, XRP-BTC, KCS-BTC, DIA-BTC, VET-BTC, DASH-BTC, DOT-BTC, XTZ-BTC, ZEC-BTC, BCHSV-BTC, ADA-BTC, ATOM-BTC, LINK-BTC, LUNA-BTC, NEO-BTC, UNI-BTC, ETC-BTC, BNB-BTC, TRX-BTC, XLM-BTC
+#### 目前支持的交易对列表
+<aside class="notice">USDT-BTC, ETH-BTC, LTC-BTC, EOS-BTC, XRP-BTC, KCS-BTC, DIA-BTC, VET-BTC, DASH-BTC, DOT-BTC, XTZ-BTC, ZEC-BTC, BSV-BTC, ADA-BTC, ATOM-BTC, LINK-BTC, LUNA-BTC, NEO-BTC, UNI-BTC, ETC-BTC, BNB-BTC, TRX-BTC, XLM-BTC, BCH-BTC, USDC-BTC, GRT-BTC, 1INCH-BTC, AAVE-BTC,SNX-BTC, API3-BTC, CRV-BTC, MIR-BTC, SUSHI-BTC, COMP-BTC, ZIL-BTC, YFI-BTC, OMG-BTC,XMR-BTC, WAVES-BTC, MKR-BTC, COTI-BTC, SXP-BTC, THETA-BTC, ZRX-BTC, DOGE-BTC, LRC-BTC, FIL-BTC, DAO-BTC, BTT-BTC, KSM-BTC, BAT-BTC, ROSE-BTC, CAKE-BTC, CRO-BTC, XEM-BTC, MASK-BTC, FTM-BTC, IOST-BTC, ALGO-BTC, DEGO-BTC, CHR-BTC, CHZ-BTC, MANA-BTC, ENJ-BTC, IOST-BTC, ANKR-BTC, ORN-BTC, SAND-BTC, VELO-BTC, AVAX-BTC, DODO-BTC, WIN-BTC, ONE-BTC, SHIB-BTC, ICP-BTC, MATIC-BTC, CKB-BTC, SOL-BTC, VRA-BTC, DYDX-BTC, ENS-BTC, NEAR-BTC, SLP-BTC, AXS-BTC, TLM-BTC, ALICE-BTC,IOTX-BTC, QNT-BTC, SUPER-BTC, HABR-BTC, RUNE-BTC, EGLD-BTC, AR-BTC, RNDR-BTC, LTO-BTC, YGG-BTC</aside>
 
 ## 查询杠杆配置信息
 
@@ -6233,7 +6328,7 @@ Topic: **/indicator/index:{symbol0},{symbol1}...**
 }
 ```
 
-目前支持的指数价格有：USDT-BTC, ETH-BTC, LTC-BTC, EOS-BTC, XRP-BTC, KCS-BTC
+目前支持的指数价格见：[目前支持的交易对列表](#2dee0a15de)
 
 <aside class="spacer4"></aside>
 <aside class="spacer2"></aside>
@@ -6269,7 +6364,7 @@ Topic: **/indicator/markPrice:{symbol0},{symbol1}...**
 }
 ```
 
-目前支持的标记价格有：USDT-BTC, ETH-BTC, LTC-BTC, EOS-BTC, XRP-BTC, KCS-BTC, DIA-BTC, VET-BTC, DASH-BTC, DOT-BTC, XTZ-BTC, ZEC-BTC, BCHSV-BTC, ADA-BTC, ATOM-BTC, LINK-BTC, LUNA-BTC, NEO-BTC, UNI-BTC, ETC-BTC, BNB-BTC, TRX-BTC, XLM-BTC
+目前支持的标记价格见：[目前支持的交易对列表](#2dee0a15de)
 
 <aside class="spacer4"></aside>
 <aside class="spacer2"></aside>

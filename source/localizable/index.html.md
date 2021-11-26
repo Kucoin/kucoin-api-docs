@@ -30,6 +30,11 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 
 **To reinforce the security of the API, KuCoin upgraded the API key to version 2.0, the validation logic has also been changed. It is recommended to [create](https://www.kucoin.com/account/api) and update your API key to version 2.0. The API key of version 1.0 is invalid. [Check new signing method](#signing-a-message)**
 
+**11/26/21**:
+
+- Add [Get Currency Detail(Recommend)](#get-currency-detail-recommend) endpoint.
+- Modify [List of currently supported symbol](#list-of-currently-supported-symbol) by Index Price and Mark Price for Margin.
+
 **09/23/21**:
 
 - Modify API KEY PERMISSIONS of the [Get Repay Record](#get-repay-record) and [Get Repayment Record](#get-repayment-record) endpoint, these endpoints requires the "General" permission
@@ -733,7 +738,7 @@ All private REST requests must contain the following headers:
     print(response.json())
 ```
 
-For the header of **KC-API-KEY**:
+For the header of **KC-API-SIGN**:
 
 * Use API-Secret to encrypt the prehash string {timestamp+method+endpoint+body} with sha256 HMAC. The request body is a JSON string and need to be the same with the parameters passed by the API.
 * After that, use base64-encode to encrypt the result in step 1 again.
@@ -1406,7 +1411,7 @@ Funds in the main account, trading account and margin account of a Master Accoun
 
 **POST /api/v2/accounts/sub-transfer**
 
-<aside class="notice">**Recommended for use**</aside>
+<aside class="notice">Recommended for use</aside>
 
 
 ### Example
@@ -4194,6 +4199,7 @@ To maintain up-to-date Order Book, please use [Websocket](#level-2-market-data) 
 
 ### Example
 GET /api/v1/market/orderbook/level2_20?symbol=BTC-USDT
+
 GET /api/v1/market/orderbook/level2_100?symbol=BTC-USDT
 
 ### PARAMETERS
@@ -4525,6 +4531,91 @@ chain | String | *[Optional]* Support for querying the chain of currency, e.g. T
 |isMarginEnabled| Support margin or not |
 |isDebitEnabled| Support debit or not |
 
+## Get Currency Detail(Recommend)
+
+```json
+{
+  "currency": "BTC",
+  "name": "BTC",
+  "fullName": "Bitcoin",
+  "precision": 8,
+  "confirms": null,
+  "contractAddress": null,
+  "isMarginEnabled": true,
+  "isDebitEnabled": true,
+  "chains": [
+    {
+      "chainName": "BTC",
+      "withdrawalMinSize": "0.0008",
+      "withdrawalMinFee": "0.0005",
+      "isWithdrawEnabled": true,
+      "isDepositEnabled": true,
+      "confirms": 2,
+      "contractAddress": ""
+    },
+    {
+      "chainName": "KCC",
+      "withdrawalMinSize": "0.0008",
+      "withdrawalMinFee": "0.00002",
+      "isWithdrawEnabled": true,
+      "isDepositEnabled": true,
+      "confirms": 20,
+      "contractAddress": ""
+    },
+    {
+      "chainName": "TRC20",
+      "withdrawalMinSize": "0.0008",
+      "withdrawalMinFee": "0.0004",
+      "isWithdrawEnabled": false,
+      "isDepositEnabled": true,
+      "confirms": 1,
+      "contractAddress": ""
+    },
+    {
+      "chainName": "BTC-Segwit",
+      "withdrawalMinSize": "0.0008",
+      "withdrawalMinFee": "0.0005",
+      "isWithdrawEnabled": true,
+      "isDepositEnabled": true,
+      "confirms": 2,
+      "contractAddress": ""
+    }
+  ]
+}
+```
+Request via this endpoint to get the currency details of a specified currency
+
+### HTTP REQUEST
+**GET /api/v2/currencies/{currency}**
+
+### Example
+GET /api/v2/currencies/BTC
+
+<aside class="notice">Recommended for use</aside>
+
+### PARAMETERS
+Param | Type | Description
+--------- | ------- | -----------
+currency | String | **Path parameter**. [Currency](#get-currencies)
+chain | String | *[Optional]* Support for querying the chain of currency, return the currency details of all chains by default.
+
+### RESPONSES
+
+|Field | Description|
+|-----|-------------|
+|currency| A unique currency code that will never change|
+|name| Currency name, will change after renaming |
+|fullName| Full name of a currency, will change after renaming |
+|precision| Currency precision |
+|confirms| Number of block confirmations|
+|contractAddress| Contract address|
+|withdrawalMinSize| Minimum withdrawal amount |
+|withdrawalMinFee| Minimum fees charged for withdrawal |
+|isWithdrawEnabled| Support withdrawal or not |
+|isDepositEnabled| Support deposit or not |
+|isMarginEnabled| Support margin or not |
+|isDebitEnabled| Support debit or not |
+
 ## Get Fiat Price
 
 
@@ -4588,6 +4679,9 @@ GET /api/v1/mark-price/USDT-BTC/current
 |--------- | ------- | -----------|
 | symbol | String | **Path parameter.** [symbol](#get-symbols-list) |
 
+#### List of currently supported symbol
+<aside class="notice">USDT-BTC, ETH-BTC, LTC-BTC, EOS-BTC, XRP-BTC, KCS-BTC, DIA-BTC, VET-BTC, DASH-BTC, DOT-BTC, XTZ-BTC, ZEC-BTC, BSV-BTC, ADA-BTC, ATOM-BTC, LINK-BTC, LUNA-BTC, NEO-BTC, UNI-BTC, ETC-BTC, BNB-BTC, TRX-BTC, XLM-BTC, BCH-BTC, USDC-BTC, GRT-BTC, 1INCH-BTC, AAVE-BTC,SNX-BTC, API3-BTC, CRV-BTC, MIR-BTC, SUSHI-BTC, COMP-BTC, ZIL-BTC, YFI-BTC, OMG-BTC,XMR-BTC, WAVES-BTC, MKR-BTC, COTI-BTC, SXP-BTC, THETA-BTC, ZRX-BTC, DOGE-BTC, LRC-BTC, FIL-BTC, DAO-BTC, BTT-BTC, KSM-BTC, BAT-BTC, ROSE-BTC, CAKE-BTC, CRO-BTC, XEM-BTC, MASK-BTC, FTM-BTC, IOST-BTC, ALGO-BTC, DEGO-BTC, CHR-BTC, CHZ-BTC, MANA-BTC, ENJ-BTC, IOST-BTC, ANKR-BTC, ORN-BTC, SAND-BTC, VELO-BTC, AVAX-BTC, DODO-BTC, WIN-BTC, ONE-BTC, SHIB-BTC, ICP-BTC, MATIC-BTC, CKB-BTC, SOL-BTC, VRA-BTC, DYDX-BTC, ENS-BTC, NEAR-BTC, SLP-BTC, AXS-BTC, TLM-BTC, ALICE-BTC,IOTX-BTC, QNT-BTC, SUPER-BTC, HABR-BTC, RUNE-BTC, EGLD-BTC, AR-BTC, RNDR-BTC, LTO-BTC, YGG-BTC</aside>
+
 ### RESPONSES
 
 |Field        | Description                    |
@@ -4596,8 +4690,6 @@ GET /api/v1/mark-price/USDT-BTC/current
 | granularity | Data granularity (millisecond) |
 | timePoint   | Time (millisecond)             |
 | value       | Mark price    |
-
-The following ticker symbols are supported: USDT-BTC, ETH-BTC, LTC-BTC, EOS-BTC, XRP-BTC, KCS-BTC, DIA-BTC, VET-BTC, DASH-BTC, DOT-BTC, XTZ-BTC, ZEC-BTC, BCHSV-BTC, ADA-BTC, ATOM-BTC, LINK-BTC, LUNA-BTC, NEO-BTC, UNI-BTC, ETC-BTC, BNB-BTC, TRX-BTC, XLM-BTC
 
 ## Get Margin Configuration Info
 
@@ -6230,7 +6322,7 @@ Subscribe to this topic to get the index price for the margin trading.
 }
 ```
 
-The following ticker symbols are supported: USDT-BTC, ETH-BTC, LTC-BTC, EOS-BTC, XRP-BTC, KCS-BTC
+The following ticker symbols are supported: [List of currently supported symbol](#list-of-currently-supported-symbol)
 
 <aside class="spacer8"></aside>
 <aside class="spacer4"></aside>
@@ -6265,7 +6357,7 @@ Subscribe to this topic to get the mark price for margin trading.
     }
 }
 ```
-The following ticker symbols are supported: USDT-BTC, ETH-BTC, LTC-BTC, EOS-BTC, XRP-BTC, KCS-BTC, DIA-BTC, VET-BTC, DASH-BTC, DOT-BTC, XTZ-BTC, ZEC-BTC, BCHSV-BTC, ADA-BTC, ATOM-BTC, LINK-BTC, LUNA-BTC, NEO-BTC, UNI-BTC, ETC-BTC, BNB-BTC, TRX-BTC, XLM-BTC
+The following ticker symbols are supported: [List of currently supported symbol](#list-of-currently-supported-symbol)
 
 <aside class="spacer8"></aside>
 <aside class="spacer4"></aside>
