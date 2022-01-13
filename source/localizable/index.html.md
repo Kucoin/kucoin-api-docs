@@ -30,6 +30,10 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 
 **To reinforce the security of the API, KuCoin upgraded the API key to version 2.0, the validation logic has also been changed. It is recommended to [create](https://www.kucoin.com/account/api) and update your API key to version 2.0. The API key of version 1.0 is invalid. [Check new signing method](#signing-a-message)**
 
+**01/13/22**:
+
+- Deprecate [GET /api/v1/hist-orders](#get-v1-historical-orders-list-deprecated) endpoint
+
 **12/23/21**:
 
 - Deprecate the **pool** type for [List Accounts](#list-accounts).
@@ -2745,7 +2749,7 @@ For high-volume trading, it is highly recommended that you maintain your own lis
 
 
 
-## Get V1 Historical Orders List
+## Get V1 Historical Orders List(deprecated)
 
 ```json
 {
@@ -2770,7 +2774,7 @@ For high-volume trading, it is highly recommended that you maintain your own lis
 Request via this endpoint to get your historical orders list of the KuCoin V1.
 Items are paginated and sorted to show the latest first. See the [Pagination](#pagination) section for retrieving additional entries after the first page.
 
-<aside class="notice">Default query for one month of data.</aside>
+<aside class="notice">The endpoint was deprecated on January 13, 2022.</aside>
 
 ### HTTP REQUEST
 **GET /api/v1/hist-orders**

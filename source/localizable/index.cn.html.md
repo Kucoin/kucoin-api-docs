@@ -32,6 +32,10 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 **为了进一步提升API安全性，KuCoin已经升级到了V2版本的API-KEY，验签逻辑也发生了一些变化，建议到[API管理页面](https://www.kucoin.cc/account/api)添加并更换到新的API-KEY。KuCoin已经停止对老版本API-KEY的支持。[查看新的签名方式](#8ba46c43fe)**
 
+**01/13/22**:
+
+- 【废弃】 废弃获取V1历史订单列表接口[GET /api/v1/hist-orders](#v1-3)
+
 **12/23/21**:
 
 - 【废弃】 废弃[账户列表](#f0f7ae469d) 类型**pool** ，不支持矿池账户查询
@@ -2725,7 +2729,7 @@ GET /api/v1/orders
 
 对于高频交易的用户，建议您在本地缓存和维护一份自己的活动委托列表，并使用市场数据流实时更新自己的订单信息。
 
-## 获取V1历史订单列表
+## 获取V1历史订单列表(废弃)
 
 ```json
 {
@@ -2750,7 +2754,8 @@ GET /api/v1/orders
 此接口，可获取KuCoin V1历史订单列表
 返回值是[分页](#88b6b4f79a)后的数据，根据时间降序排序。
 
-<aside class="notice">默认查询一个月的订单数据</aside>
+<aside class="notice">该接口已于2022年1月13日废弃</aside>
+
 ###HTTP请求
 **GET /api/v1/hist-orders**
 
