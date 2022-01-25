@@ -30,9 +30,9 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 
 **To reinforce the security of the API, KuCoin upgraded the API key to version 2.0, the validation logic has also been changed. It is recommended to [create](https://www.kucoin.com/account/api) and update your API key to version 2.0. The API key of version 1.0 is invalid. [Check new signing method](#signing-a-message)**
 
-**01/13/22**:
+**01/25/22**:
 
-- Deprecate [GET /api/v1/hist-orders](#get-v1-historical-orders-list-deprecated) endpoint
+- Add [Query the cross/isolated margin risk limit](#query-the-cross-isolated-margin-risk-limit) endpoint
 
 **12/23/21**:
 
@@ -2749,7 +2749,7 @@ For high-volume trading, it is highly recommended that you maintain your own lis
 
 
 
-## Get V1 Historical Orders List(deprecated)
+## Get V1 Historical Orders List
 
 ```json
 {
@@ -2774,7 +2774,7 @@ For high-volume trading, it is highly recommended that you maintain your own lis
 Request via this endpoint to get your historical orders list of the KuCoin V1.
 Items are paginated and sorted to show the latest first. See the [Pagination](#pagination) section for retrieving additional entries after the first page.
 
-<aside class="notice">The endpoint was deprecated on January 13, 2022.</aside>
+<aside class="notice">Default query for one month of data.</aside>
 
 ### HTTP REQUEST
 **GET /api/v1/hist-orders**
@@ -4776,6 +4776,74 @@ This endpoint requires the **"General"** permission.
 | holdBalance | Funds on hold in the account |
 | liability | Total liabilities |
 | maxBorrowSize | Available size to borrow |
+
+## Query the cross/isolated margin risk limit
+
+```json
+[
+    {
+      "currency": "BTC",
+      "borrowMaxAmount": "50",
+      "buyMaxAmount": "50",
+      "precision": 8
+    },
+    {
+      "currency": "SKL",
+      "borrowMaxAmount": "50000",
+      "buyMaxAmount": "51000",
+      "precision": 3
+    },
+    {
+      "currency": "USDT",
+      "borrowMaxAmount": "100000",
+      "buyMaxAmount": "10000000000",
+      "precision": 8
+    },
+    {
+      "currency": "ETH",
+      "borrowMaxAmount": "236",
+      "buyMaxAmount": "500",
+      "precision": 8
+    },
+    {
+      "currency": "LTC",
+      "borrowMaxAmount": "100",
+      "buyMaxAmount": "40",
+      "precision": 8
+    }
+]
+```
+
+This endpoint can query the cross/isolated margin risk limit. 
+
+<aside class="notice">Currently, only cross margin is supported. Querying isolated margin will return an empty list.</aside>
+
+### HTTP REQUEST
+
+**GET /api/v1/risk/limit/strategy**
+
+### Example
+
+GET /api/v1/risk/limit/strategy?marginModel=corss
+
+### API KEY PERMISSIONS
+
+This endpoint requires the **"General"** permission.
+
+### PARAMETERS
+
+|Param | Type | Description|
+|--------- | ------- | -----------|
+| marginModel | String | The type of marginModel : **corss**（corss margin）, **isolated** (isolated margin). Default is **cross**.  |
+
+### RESPONSES
+
+|Field | Description|
+|----- |-------------|
+| currency | Currency |
+| borrowMaxAmount | Maximum borrow amount  |
+| buyMaxAmount | Maximum buy amount  |
+| precision | Precision  |
 
 # Borrow & Lend
 

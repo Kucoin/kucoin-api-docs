@@ -32,9 +32,9 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 **为了进一步提升API安全性，KuCoin已经升级到了V2版本的API-KEY，验签逻辑也发生了一些变化，建议到[API管理页面](https://www.kucoin.cc/account/api)添加并更换到新的API-KEY。KuCoin已经停止对老版本API-KEY的支持。[查看新的签名方式](#8ba46c43fe)**
 
-**01/13/22**:
+**01/25/22**:
 
-- 【废弃】 废弃获取V1历史订单列表接口[GET /api/v1/hist-orders](#v1-3)
+- 【新增】新增[查询全仓/逐仓杠杆风险限额](#9fc2ee1222)接口
 
 **12/23/21**:
 
@@ -2004,8 +2004,8 @@ GET /api/v1/base-fee
 ### 返回值
 字段 |  含义
 --------- | -------
-takerFeeRate | 用户挂单基础手续费率
-makerFeeRate | 用户吃单基础手续费率
+takerFeeRate | 用户吃单基础手续费率
+makerFeeRate | 用户挂单基础手续费率
 
 ## 交易对实际费率
 
@@ -2050,8 +2050,8 @@ symbols| String | 交易对，可多填，逗号分割，一次限制最多查10
 字段 |  含义
 --------- | -------
 symbol | 交易对唯一标识码，重命名后不会改变
-takerFeeRate | 交易对挂单实际手续费率
-makerFeeRate | 交易对吃单实际手续费率
+takerFeeRate | 交易对吃单实际手续费率
+makerFeeRate | 交易对挂单实际手续费率
 
 
 # 交易模块
@@ -2729,7 +2729,7 @@ GET /api/v1/orders
 
 对于高频交易的用户，建议您在本地缓存和维护一份自己的活动委托列表，并使用市场数据流实时更新自己的订单信息。
 
-## 获取V1历史订单列表(废弃)
+## 获取V1历史订单列表
 
 ```json
 {
@@ -2754,7 +2754,7 @@ GET /api/v1/orders
 此接口，可获取KuCoin V1历史订单列表
 返回值是[分页](#88b6b4f79a)后的数据，根据时间降序排序。
 
-<aside class="notice">该接口已于2022年1月13日废弃</aside>
+<aside class="notice">默认查询一个月的订单数据</aside>
 
 ###HTTP请求
 **GET /api/v1/hist-orders**
@@ -4755,6 +4755,74 @@ GET /api/v1/margin/account
 | holdBalance | 账户冻结金额 |
 | liability | 当前总负债 |
 | maxBorrowSize | 当前可借数量 |
+
+## 查询全仓/逐仓杠杆风险限额
+
+```json
+[
+    {
+      "currency": "BTC",
+      "borrowMaxAmount": "50",
+      "buyMaxAmount": "50",
+      "precision": 8
+    },
+    {
+      "currency": "SKL",
+      "borrowMaxAmount": "50000",
+      "buyMaxAmount": "51000",
+      "precision": 3
+    },
+    {
+      "currency": "USDT",
+      "borrowMaxAmount": "100000",
+      "buyMaxAmount": "10000000000",
+      "precision": 8
+    },
+    {
+      "currency": "ETH",
+      "borrowMaxAmount": "236",
+      "buyMaxAmount": "500",
+      "precision": 8
+    },
+    {
+      "currency": "LTC",
+      "borrowMaxAmount": "100",
+      "buyMaxAmount": "40",
+      "precision": 8
+    }
+]
+```
+
+此接口可获取查询全仓/逐仓杠杆风险限额
+
+<aside class="notice">目前仅支持全仓，查询逐仓会返回空列表</aside>
+
+### HTTP请求
+
+**GET /api/v1/risk/limit/strategy**
+
+### 请求示例
+
+GET /api/v1/risk/limit/strategy?marginModel=corss
+
+### API权限
+
+该接口需要**通用权限**。
+
+### 请求参数
+
+| 请求参数   | 类型     | 含义        |
+| ------ | ------ | --------- |
+| marginModel | String | corss代表查询全仓，isolated代表查询逐仓，默认值是cross |
+
+### 返回值
+
+| 字段          | 含义       |
+| ----------- | -------- |
+| currency    | 币种名称      |
+| borrowMaxAmount | 最大借入量 |
+| buyMaxAmount   | 最大买入量  |
+| precision       | 精度    |
 
 # 借贷
 
