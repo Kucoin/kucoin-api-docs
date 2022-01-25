@@ -32,6 +32,16 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 **为了进一步提升API安全性，KuCoin已经升级到了V2版本的API-KEY，验签逻辑也发生了一些变化，建议到[API管理页面](https://www.kucoin.cc/account/api)添加并更换到新的API-KEY。KuCoin已经停止对老版本API-KEY的支持。[查看新的签名方式](#8ba46c43fe)**
 
+**01/25/22**:
+
+- 【新增】新增[查询全仓/逐仓杠杆风险限额](#9fc2ee1222)接口
+
+**12/23/21**:
+
+- 【废弃】 废弃[账户列表](#f0f7ae469d) 类型**pool** ，不支持矿池账户查询
+- 【废弃】 废弃[内部资金划转](#c08ac949fb) 类型**pool**，不支持矿池账户划转
+- 【废弃】 废弃[账户可划转资金](#766919e88c) 类型**pool**，不支持获取矿池账户的可划转的资金
+
 **11/26/21**:
 
 - 【新增】新增[币种详情(推荐使用)](#d20983c815)接口
@@ -905,14 +915,14 @@ GET /api/v1/accounts
 请求参数 | 类型 | 含义
 --------- | -------| -------
 currency | String | [可选] [币种](#ebcc9fbb02)
-type | String |[可选] 账户类型 **main**、**trade**、**margin**或**pool**
+type | String |[可选] 账户类型 **main**、**trade**、**margin**
 
 ### 返回值
 字段 | 含义
 --------- | -------
 id | accountId 账户ID
 currency | 账户对应的币种
-type |账户类型 ，**main**（储蓄账户）、**trade**（交易账户）、**margin**(杠杆账户)、**pool**(矿池账户)
+type |账户类型 ，**main**（储蓄账户）、**trade**（交易账户）、**margin**(杠杆账户)
 balance | 账户资金总额
 available | 账户可用的资金
 holds | 账户冻结的资金
@@ -1185,7 +1195,6 @@ Liquidation Fees   | 爆仓手续费
 Soft Staking Profits  | 获取Soft Staking收益
 Voting Earnings  | Pool-X获取投票收益
 Redemption of Voting  | Pool-X投票赎回资产
-Voting  | Pool-X投票
 Convert to KCS   | 一键转KCS
 
 
@@ -1365,7 +1374,7 @@ GET /api/v1/accounts/transferable?currency=BTC&type=MAIN
 请求参数 | 类型 | 含义
 --------- | ------- |  -------
 currency | String | [币种](#ebcc9fbb02)
-type | String |  账户类型**MAIN**、**TRADE**、**MARGIN** 或 **POOL**
+type | String |  账户类型**MAIN**、**TRADE**、**MARGIN**
 
 
 ### 返回值
@@ -1429,7 +1438,7 @@ orderId | 子母账号转账的订单ID
     "orderId":"5bd6e9286d99522a52e458de"
 }
 ```
-此接口用于平台内部账户资金划转，用户可以将资金在储蓄账户、交易账户、杠杆账户和矿池账户之间免费划转。同时支持从其他账户划转资金至合约账户，但不支持从合约账户转出资金至其他账户。
+此接口用于平台内部账户资金划转，用户可以将资金在储蓄账户、交易账户、杠杆账户之间免费划转。同时支持从其他账户划转资金至合约账户，但不支持从合约账户转出资金至其他账户。
 ### HTTP请求
 
 **POST /api/v2/accounts/inner-transfer**
@@ -1445,8 +1454,8 @@ POST /api/v2/accounts/inner-transfer
 --------- | ------- |  -------
 clientOid | String | Client Order Id，客户端创建的唯一标识，建议使用UUID
 currency | String | [币种](#ebcc9fbb02)
-from | String |  付款账户类型**main**、**trade**、**margin** 或 **pool**
-to | String |  收款账户类型**main**、**trade**、**margin** 、**contract** 或 **pool**
+from | String |  付款账户类型**main**、**trade**、**margin**
+to | String |  收款账户类型**main**、**trade**、**margin** 、**contract**
 amount | String | 转账金额，精度为[币种精度](#ebcc9fbb02)正整数倍
 
 
@@ -1995,8 +2004,8 @@ GET /api/v1/base-fee
 ### 返回值
 字段 |  含义
 --------- | -------
-takerFeeRate | 用户挂单基础手续费率
-makerFeeRate | 用户吃单基础手续费率
+takerFeeRate | 用户吃单基础手续费率
+makerFeeRate | 用户挂单基础手续费率
 
 ## 交易对实际费率
 
@@ -2041,8 +2050,8 @@ symbols| String | 交易对，可多填，逗号分割，一次限制最多查10
 字段 |  含义
 --------- | -------
 symbol | 交易对唯一标识码，重命名后不会改变
-takerFeeRate | 交易对挂单实际手续费率
-makerFeeRate | 交易对吃单实际手续费率
+takerFeeRate | 交易对吃单实际手续费率
+makerFeeRate | 交易对挂单实际手续费率
 
 
 # 交易模块
@@ -2746,6 +2755,7 @@ GET /api/v1/orders
 返回值是[分页](#88b6b4f79a)后的数据，根据时间降序排序。
 
 <aside class="notice">默认查询一个月的订单数据</aside>
+
 ###HTTP请求
 **GET /api/v1/hist-orders**
 
@@ -4745,6 +4755,74 @@ GET /api/v1/margin/account
 | holdBalance | 账户冻结金额 |
 | liability | 当前总负债 |
 | maxBorrowSize | 当前可借数量 |
+
+## 查询全仓/逐仓杠杆风险限额
+
+```json
+[
+    {
+      "currency": "BTC",
+      "borrowMaxAmount": "50",
+      "buyMaxAmount": "50",
+      "precision": 8
+    },
+    {
+      "currency": "SKL",
+      "borrowMaxAmount": "50000",
+      "buyMaxAmount": "51000",
+      "precision": 3
+    },
+    {
+      "currency": "USDT",
+      "borrowMaxAmount": "100000",
+      "buyMaxAmount": "10000000000",
+      "precision": 8
+    },
+    {
+      "currency": "ETH",
+      "borrowMaxAmount": "236",
+      "buyMaxAmount": "500",
+      "precision": 8
+    },
+    {
+      "currency": "LTC",
+      "borrowMaxAmount": "100",
+      "buyMaxAmount": "40",
+      "precision": 8
+    }
+]
+```
+
+此接口可获取查询全仓/逐仓杠杆风险限额
+
+<aside class="notice">目前仅支持全仓，查询逐仓会返回空列表</aside>
+
+### HTTP请求
+
+**GET /api/v1/risk/limit/strategy**
+
+### 请求示例
+
+GET /api/v1/risk/limit/strategy?marginModel=corss
+
+### API权限
+
+该接口需要**通用权限**。
+
+### 请求参数
+
+| 请求参数   | 类型     | 含义        |
+| ------ | ------ | --------- |
+| marginModel | String | corss代表查询全仓，isolated代表查询逐仓，默认值是cross |
+
+### 返回值
+
+| 字段          | 含义       |
+| ----------- | -------- |
+| currency    | 币种名称      |
+| borrowMaxAmount | 最大借入量 |
+| buyMaxAmount   | 最大买入量  |
+| precision       | 精度    |
 
 # 借贷
 

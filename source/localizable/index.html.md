@@ -30,6 +30,16 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 
 **To reinforce the security of the API, KuCoin upgraded the API key to version 2.0, the validation logic has also been changed. It is recommended to [create](https://www.kucoin.com/account/api) and update your API key to version 2.0. The API key of version 1.0 is invalid. [Check new signing method](#signing-a-message)**
 
+**01/25/22**:
+
+- Add [Query the cross/isolated margin risk limit](#query-the-cross-isolated-margin-risk-limit) endpoint
+
+**12/23/21**:
+
+- Deprecate the **pool** type for [List Accounts](#list-accounts).
+- Deprecate the **pool** type for [Inner Transfer](#inner-transfer).
+- Deprecate the **POOL** type for [Get the Transferable](#get-the-transferable).
+
 **11/26/21**:
 
 - Add [Get Currency Detail(Recommend)](#get-currency-detail-recommend) endpoint.
@@ -908,14 +918,14 @@ This endpoint requires the **"General"** permission.
 Param | Type | Description
 --------- | ------- | -------
 currency | String | *[Optional]* [Currency](#get-currencies)
-type | String | *[Optional]* Account type: **main**, **trade**, **margin** or **pool**
+type | String | *[Optional]* Account type: **main**, **trade**, **margin**
 
 ### RESPONSES
 Field | Description
 --------- | -------
 id | The ID of the account
 currency | Currency
-type | Account type: **main**, **trade**, **margin** or **pool**  
+type | Account type: **main**, **trade**, **margin**
 balance | Total funds in the account
 available | Funds available to withdraw or trade
 holds | Funds on hold (not available for use)
@@ -1205,7 +1215,6 @@ Liquidation Fees   | Liquidation Fees
 Soft Staking Profits  | Soft Staking Profits
 Voting Earnings  | Voting Earnings on Pool-X
 Redemption of Voting  | Redemption of Voting on Pool-X
-Voting  | Voting on Pool-X
 Convert to KCS   | Convert to KCS 
 
 ## Get Account Balance of a Sub-Account
@@ -1383,7 +1392,7 @@ This endpoint requires the **"General"** permission.
 Param | Type | Description
 --------- | ------- | -------
 currency | String | [currency](#Get-Currencies)
-type | String | The account type: **MAIN**, **TRADE**, **MARGIN** or **POOL**
+type | String | The account type: **MAIN**, **TRADE**, **MARGIN**
 
 
 ### RESPONSES
@@ -1452,7 +1461,7 @@ orderId | The order ID of a master-sub assets transfer.
 }
 ```
 
-This interface is used to transfer fund among accounts on the platform. Users can transfer among main account, trading account, margin account and Pool-X account for free. Users can also transfer funds from other accounts to futures account, however funds cannot be transferred out from futures account.
+This interface is used to transfer fund among accounts on the platform. Users can transfer among main account, trading account and margin account for free. Users can also transfer funds from other accounts to futures account, however funds cannot be transferred out from futures account.
 
 ### HTTP REQUEST
 
@@ -1470,8 +1479,8 @@ Param | Type | Description
 --------- | ------- | -------
 clientOid | String | Unique order id created by users to identify their orders, e.g. UUID.
 currency | String | [currency](#Get-Currencies)
-from | String | Account type of payer: **main**, **trade**, **margin** or **pool**
-to | String | Account type of payee: **main**, **trade**, **margin** , **contract** or **pool**
+from | String | Account type of payer: **main**, **trade**, **margin**
+to | String | Account type of payee: **main**, **trade**, **margin** , **contract**
 amount | String | Transfer amount, the amount is a positive integer multiple of the [currency precision](#get-currencies).
 
 
@@ -4767,6 +4776,74 @@ This endpoint requires the **"General"** permission.
 | holdBalance | Funds on hold in the account |
 | liability | Total liabilities |
 | maxBorrowSize | Available size to borrow |
+
+## Query the cross/isolated margin risk limit
+
+```json
+[
+    {
+      "currency": "BTC",
+      "borrowMaxAmount": "50",
+      "buyMaxAmount": "50",
+      "precision": 8
+    },
+    {
+      "currency": "SKL",
+      "borrowMaxAmount": "50000",
+      "buyMaxAmount": "51000",
+      "precision": 3
+    },
+    {
+      "currency": "USDT",
+      "borrowMaxAmount": "100000",
+      "buyMaxAmount": "10000000000",
+      "precision": 8
+    },
+    {
+      "currency": "ETH",
+      "borrowMaxAmount": "236",
+      "buyMaxAmount": "500",
+      "precision": 8
+    },
+    {
+      "currency": "LTC",
+      "borrowMaxAmount": "100",
+      "buyMaxAmount": "40",
+      "precision": 8
+    }
+]
+```
+
+This endpoint can query the cross/isolated margin risk limit. 
+
+<aside class="notice">Currently, only cross margin is supported. Querying isolated margin will return an empty list.</aside>
+
+### HTTP REQUEST
+
+**GET /api/v1/risk/limit/strategy**
+
+### Example
+
+GET /api/v1/risk/limit/strategy?marginModel=corss
+
+### API KEY PERMISSIONS
+
+This endpoint requires the **"General"** permission.
+
+### PARAMETERS
+
+|Param | Type | Description|
+|--------- | ------- | -----------|
+| marginModel | String | The type of marginModel : **corss**（corss margin）, **isolated** (isolated margin). Default is **cross**.  |
+
+### RESPONSES
+
+|Field | Description|
+|----- |-------------|
+| currency | Currency |
+| borrowMaxAmount | Maximum borrow amount  |
+| buyMaxAmount | Maximum buy amount  |
+| precision | Precision  |
 
 # Borrow & Lend
 
