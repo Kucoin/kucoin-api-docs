@@ -4830,6 +4830,10 @@ GET /api/v1/risk/limit/strategy?marginModel=corss
 
 This endpoint requires the **"General"** permission.
 
+### REQUEST RATE LIMIT
+
+This API is restricted for each account, the request rate limit is **1 times/3s**.
+
 ### PARAMETERS
 
 |Param | Type | Description|
