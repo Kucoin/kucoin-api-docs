@@ -2107,7 +2107,7 @@ Before placing an order, please read [Get Symbol List](#get-symbols-list) to und
 
 ###Place Order Limit
 
-The maximum matching orders for a single trading pair in one account is **200** (stop orders included).
+The maximum active orders for a single trading pair in one account is **200** (stop orders included).
 
 
 ### HTTP Request
