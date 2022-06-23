@@ -5925,7 +5925,7 @@ The sequence field exists in order book, trade history and snapshot messages by 
     "response": true
 }
 ```
-Topic: **/market/ticker:{symbol},{symbol}...**
+
 
 ```json
 {
@@ -5933,7 +5933,6 @@ Topic: **/market/ticker:{symbol},{symbol}...**
     "topic":"/market/ticker:BTC-USDT",
     "subject":"trade.ticker",
     "data":{
-
         "sequence":"1545896668986", // Sequence number
         "price":"0.08",             // Last traded price
         "size":"0.011",             //  Last traded amount
@@ -5944,10 +5943,12 @@ Topic: **/market/ticker:{symbol},{symbol}...**
     }
 }
 ```
-Subscribe to this topic to get the push of BBO changes. If there is no change within **one second**, it will not be pushed.
 
-It will be pushed per 100ms with the newest BBO. If there was no change compared with last data, it will not be pushed.
+Topic: `/market/ticker:{symbol},{symbol}...`
 
+* Push frequency: once every `100ms`
+
+Subscribe to this topic to get the push of BBO changes.
 
 Please note that more information may be added to messages from this channel in the near future.
 
@@ -5967,15 +5968,12 @@ Please note that more information may be added to messages from this channel in 
     "response": true                              
 }
 ```
-Topic: **/market/ticker:all**
-
 ```json
 {
     "type":"message",
     "topic":"/market/ticker:all",
     "subject":"BTC-USDT",
     "data":{
-
         "sequence":"1545896668986",
         "bestAsk":"0.08",
         "size":"0.011",
@@ -5986,26 +5984,25 @@ Topic: **/market/ticker:all**
     }
 }
 ```
+Topic: `/market/ticker:all`
+
+* Push frequency: once every `2s`
+
 Subscribe to this topic to get the push of all market symbols BBO change.
 
-
-<aside class="spacer2"></aside>
-<aside class="spacer4"></aside>
+<aside class="spacer8"></aside>
 
 
 ## Symbol Snapshot
 
 ```json
-
 {
     "type": "message",
     "topic": "/market/snapshot:KCS-BTC",
     "subject": "trade.snapshot",
     "data": {
-
         "sequence": "1545896669291",
         "data": {
-
             "trading": true,
             "symbol": "KCS-BTC",
             "buy": 0.00011,
@@ -6029,12 +6026,11 @@ Subscribe to this topic to get the push of all market symbols BBO change.
     }
 }
 ```
+Topic: `/market/snapshot:{symbol}`
 
-Topic: **/market/snapshot:{symbol}**
+* Push frequency: once every `2s`
 
 Subscribe to get snapshot data for a single symbol.
-
-The snapshot data is pushed at **2 seconds** intervals.
 
 <aside class="spacer4"></aside>
 <aside class="spacer4"></aside>
@@ -6048,11 +6044,9 @@ The snapshot data is pushed at **2 seconds** intervals.
     "topic": "/market/snapshot:BTC",
     "subject": "trade.snapshot",
     "data": {
-
         "sequence": "1545896669291",
         "data": [
             {
-
                 "trading": true,
                 "symbol": "KCS-BTC",
                 "buy": 0.00011,
@@ -6078,12 +6072,12 @@ The snapshot data is pushed at **2 seconds** intervals.
 }
 ```
 
-Topic: **/market/snapshot:{market}**
+Topic: `/market/snapshot:{market}`
+
+* Push frequency: once every `2s`
 
 Subscribe this topic to get the snapshot data of for the entire [market](#get-market-list).
 
-
-The snapshot data is pushed at **2 seconds** intervals.
 
 <aside class="spacer4"></aside>
 <aside class="spacer4"></aside>
@@ -6100,7 +6094,9 @@ The snapshot data is pushed at **2 seconds** intervals.
 }
 ```
 
-Topic: **/market/level2:{symbol},{symbol}...**
+Topic: `/market/level2:{symbol},{symbol}...`
+
+* Push frequency: once every `100ms`
 
 Subscribe to this topic to get Level2 order book data.
 
@@ -6112,14 +6108,24 @@ When the websocket subscription is successful,  the system would send the increm
     "topic":"/market/level2:BTC-USDT",
     "subject":"trade.l2update",
     "data":{
-
         "sequenceStart":1545896669105,
         "sequenceEnd":1545896669106,
         "symbol":"BTC-USDT",
         "changes":{
-
-            "asks":[["6","1","1545896669105"]],           //price, size, sequence
-            "bids":[["4","1","1545896669106"]]
+            "asks":[
+                [
+                    "6",//price
+                    "1", //size
+                    "1545896669105" //sequence
+                ]
+            ],
+            "bids":[
+                [
+                    "4",
+                    "1",
+                    "1545896669106"
+                ]
+            ]
         }
     }
 }
@@ -6228,9 +6234,7 @@ Now your current order book is up-to-date and final data is as follows:
     "topic": "/spotMarket/level2Depth5:BTC-USDT",
     "subject": "level2",
     "data": {
-
 	      "asks":[
-
             ["9989","8"],    //price, size
             ["9990","32"],
             ["9991","47"],
@@ -6238,7 +6242,6 @@ Now your current order book is up-to-date and final data is as follows:
             ["9993","3"]
         ],
         "bids":[
-
             ["9988","56"],
             ["9987","15"],
             ["9986","100"],
@@ -6251,7 +6254,9 @@ Now your current order book is up-to-date and final data is as follows:
 
 ```
 
-Topic: **/spotMarket/level2Depth5:{symbol},{symbol}...**
+Topic: `/spotMarket/level2Depth5:{symbol},{symbol}...`
+
+* Push frequency: once every `100ms`
 
 The system will return the 5 best ask/bid orders data, which is the snapshot data of every 100 milliseconds (in other words, the 5 best ask/bid orders data returned every 100 milliseconds in real-time).
 
@@ -6260,16 +6265,13 @@ The system will return the 5 best ask/bid orders data, which is the snapshot dat
 <aside class="spacer"></aside>
 
 ## Level2 - 50 best ask/bid orders
-
 ```json
 {
     "type": "message",
     "topic": "/spotMarket/level2Depth50:BTC-USDT",
     "subject": "level2",
     "data": {
-
 	      "asks":[
-
             ["9993","3"],     //price,size
             ["9992","3"],
             ["9991","47"],
@@ -6277,7 +6279,6 @@ The system will return the 5 best ask/bid orders data, which is the snapshot dat
             ["9989","8"]
         ],
         "bids":[
-
             ["9988","56"],
             ["9987","15"],
             ["9986","100"],
@@ -6287,10 +6288,11 @@ The system will return the 5 best ask/bid orders data, which is the snapshot dat
         "timestamp": 1586948108193
     }
 }
-
 ```
 
-Topic: **/spotMarket/level2Depth50:{symbol},{symbol}...**
+Topic: `/spotMarket/level2Depth50:{symbol},{symbol}...`
+
+* Push frequency: once every `100ms`
 
 The system will return the 50 best ask/bid orders data, which is the snapshot data of every 100 milliseconds (in other words, the 50 best ask/bid orders data returned every 100 milliseconds in real-time).
 
@@ -6306,10 +6308,8 @@ The system will return the 50 best ask/bid orders data, which is the snapshot da
     "topic":"/market/candles:BTC-USDT_1hour",
     "subject":"trade.candles.update",
     "data":{
-
         "symbol":"BTC-USDT",    // symbol
         "candles":[
-
             "1589968800",   // Start time of the candle cycle
             "9786.9",       // open price
             "9740.8",       // close price
@@ -6322,12 +6322,12 @@ The system will return the 50 best ask/bid orders data, which is the snapshot da
     }
 }
 ```
-Topic: **/market/candles:{symbol}_{type}**
+Topic: `/market/candles:{symbol}_{type}`
 
 Param |  Description
 --------- | -------
 symbol | [symbol](#get-symbols-list)
-type |  1min, 3min, 15min, 30min, 1hour, 2hour, 4hour, 6hour, 8hour, 12hour, 1day, 1week
+type |  `1min`, `3min`, `15min`, `30min`, `1hour`, `2hour`, `4hour`, `6hour`, `8hour`, `12hour`, `1day`, `1week`
 
 
 Subscribe to this topic to get K-Line data.
@@ -6344,7 +6344,9 @@ Subscribe to this topic to get K-Line data.
     "response": true                              
 }
 ```
-Topic: **/market/match:{symbol},{symbol}...**
+Topic: `/market/match:{symbol},{symbol}...`
+
+* Push frequency: `real-time`
 
 Subscribe to this topic to get the matching event data flow of Level 3.
 
@@ -6356,7 +6358,6 @@ For each order traded, the system would send you the match messages in the follo
     "topic":"/market/match:BTC-USDT",
     "subject":"trade.l3match",
     "data":{
-
         "sequence":"1545896669145",
         "type":"match",
         "symbol":"BTC-USDT",
@@ -6384,7 +6385,7 @@ For each order traded, the system would send you the match messages in the follo
 }
 ```
 
-Topic: **/indicator/index:{symbol0},{symbol1}...**
+Topic: `/indicator/index:{symbol0},{symbol1}...`
 
 Subscribe to this topic to get the index price for the margin trading.
 
@@ -6395,7 +6396,6 @@ Subscribe to this topic to get the index price for the margin trading.
     "topic":"/indicator/index:USDT-BTC",
     "subject":"tick",
     "data":{
-
         "symbol": "USDT-BTC",
         "granularity": 5000,
         "timestamp": 1551770400000,
@@ -6419,11 +6419,6 @@ The following ticker symbols are supported: [List of currently supported symbol]
   "response": true
 }
 ```
-
-Topic: **/indicator/markPrice:{symbol0},{symbol1}...**
-
-Subscribe to this topic to get the mark price for margin trading.
-
 ```json
 {
     "id":"5c24c5da03aa673885cd67aa",
@@ -6431,7 +6426,6 @@ Subscribe to this topic to get the mark price for margin trading.
     "topic":"/indicator/markPrice:USDT-BTC",
     "subject":"tick",
     "data":{
-
         "symbol": "USDT-BTC",
         "granularity": 5000,
         "timestamp": 1551770400000,
@@ -6439,6 +6433,10 @@ Subscribe to this topic to get the mark price for margin trading.
     }
 }
 ```
+Topic: `/indicator/markPrice:{symbol0},{symbol1}...`
+
+Subscribe to this topic to get the mark price for margin trading.
+
 The following ticker symbols are supported: [List of currently supported symbol](#list-of-currently-supported-symbol)
 
 <aside class="spacer8"></aside>
@@ -6454,13 +6452,6 @@ The following ticker symbols are supported: [List of currently supported symbol]
   "response": true
 }
 ```
-
-Topic: **/margin/fundingBook:{currency0},{currency1}...**
-
-
-Subscribe to this topic to get the order book changes on margin trade.
-
-
 ```json
 {
     "id": "5c24c5da03aa673885cd67ab",
@@ -6480,6 +6471,9 @@ Subscribe to this topic to get the order book changes on margin trade.
     }
 }
 ```
+Topic: `/margin/fundingBook:{currency0},{currency1}...`
+
+Subscribe to this topic to get the order book changes on margin trade.
 
 <aside class="spacer8"></aside>
 <aside class="spacer2"></aside>
@@ -6488,12 +6482,14 @@ Subscribe to this topic to get the order book changes on margin trade.
 
 # Private Channels
 
-Subscribe to private channels require **privateChannel=“true”**.
+Subscribe to private channels require `privateChannel=“true”`.
 
 
 ## Private Order Change Events
 
-Topic: **/spotMarket/tradeOrders**
+Topic: `/spotMarket/tradeOrders`
+
+* Push frequency: `real-time`
 
 This topic will push all change events of your orders.
 
@@ -6517,7 +6513,6 @@ This topic will push all change events of your orders.
     "subject":"orderChange",
     "channelType":"private",
     "data":{
-
         "symbol":"KCS-USDT",
         "orderType":"limit",
         "side":"buy",
@@ -6548,7 +6543,6 @@ when the order enters into the order book;
     "subject":"orderChange",
     "channelType":"private",
     "data":{
-
         "symbol":"KCS-USDT",
         "orderType":"limit",
         "side":"sell",
@@ -6583,7 +6577,6 @@ when the order has been executed;
     "subject":"orderChange",
     "channelType":"private",
     "data":{
-
         "symbol":"KCS-USDT",
         "orderType":"limit",
         "side":"sell",
@@ -6614,7 +6607,6 @@ when the order has been executed and its status was changed into DONE;
     "subject":"orderChange",
     "channelType":"private",
     "data":{
-
         "symbol":"KCS-USDT",
         "orderType":"limit",
         "side":"buy",
@@ -6645,7 +6637,6 @@ when the order has been cancelled and its status was changed into DONE;
     "subject":"orderChange",
     "channelType":"private",
     "data":{
-
         "symbol":"KCS-USDT",
         "orderType":"limit",
         "side":"buy",
@@ -6676,7 +6667,6 @@ when the order has been updated;
 	  "subject": "account.balance",
     "channelType":"private",
 	  "data": {
-
 		    "total": "88", // total balance
 		    "available": "88", // available balance
 		    "availableChange": "88", // the change of available balance
@@ -6686,7 +6676,6 @@ when the order has been updated;
 		    "relationEvent": "trade.setted", //relation event
 		    "relationEventId": "5c21e80303aa677bd09d7dff", // relation event id
 		    "relationContext": {
-
             "symbol":"BTC-USDT",
             "tradeId":"5e6a5dca9e16882a7d83b7a4", // the trade Id when order is executed
             "orderId":"5ea10479415e2f0009949d54"
@@ -6696,7 +6685,9 @@ when the order has been updated;
 }
 
 ```
-Topic: **/account/balance**
+Topic: `/account/balance`
+
+* Push frequency: `real-time`
 
 You will receive this message when an account balance changes. The message contains the details of the change.
 
@@ -6733,7 +6724,6 @@ other | Others
     "subject":"debt.ratio",
     "channelType":"private",
     "data": {
-
         "debtRatio": 0.7505,                                         //Debt ratio
         "totalDebt": "21.7505",                                      //Total debt in BTC (interest included)
         "debtList": {"BTC": "1.21","USDT": "2121.2121","EOS": "0"},  //Debt list (interest included)
@@ -6743,7 +6733,7 @@ other | Others
 
 ```
 
-Topic: **/margin/position**
+Topic: `/margin/position`
 
 The system will push the current debt message periodically when there is a liability.
 
@@ -6760,14 +6750,13 @@ The system will push the current debt message periodically when there is a liabi
     "subject":"position.status",
     "channelType":"private",
     "data": {
-
         "type": "FROZEN_FL",         //Event type
         "timestamp": 15538460812100  //Timestamp (millisecond)
     }
 }
 ```
 
-Topic: **/margin/position**
+Topic: `/margin/position`
 
 The system will push the change event when the position status changes.
 
@@ -6800,7 +6789,6 @@ UNLIABILITY: When all the liabilities is repaid and the position returns to “E
     "subject": "order.open",
     "channelType":"private",
     "data": {
-
         "currency": "BTC",                            //Currency
         "orderId": "ac928c66ca53498f9c13a127a60e8",   //Trade ID
         "dailyIntRate": 0.0001,                       //Daily interest rate.
@@ -6812,7 +6800,7 @@ UNLIABILITY: When all the liabilities is repaid and the position returns to “E
 }
 ```
 
-Topic: **/margin/loan:{currency}**
+Topic: `/margin/loan:{currency}`
 
 The system will push this message to the lenders when the order enters the order book.
 
@@ -6830,7 +6818,6 @@ The system will push this message to the lenders when the order enters the order
     "subject": "order.update",
     "channelType":"private",
     "data": {
-
         "currency": "BTC",                            //Currency
         "orderId": "ac928c66ca53498f9c13a127a60e8",   //Order ID
         "dailyIntRate": 0.0001,                       //Daily Interest Rate
@@ -6844,7 +6831,7 @@ The system will push this message to the lenders when the order enters the order
 
 ```
 
-Topic: **/margin/loan:{currency}**
+Topic: `/margin/loan:{currency}`
 
 The system will push this message to the lenders when the order is executed.
 
@@ -6861,7 +6848,6 @@ The system will push this message to the lenders when the order is executed.
 	"subject": "order.done",
     "channelType":"private",
 	"data": {
-
 		"currency": "BTC",                            //Currency
 		"orderId": "ac928c66ca53498f9c13a127a60e8",   //Order ID
 		"reason": "filled",                           //Done reason (filled or canceled)
@@ -6871,14 +6857,13 @@ The system will push this message to the lenders when the order is executed.
 }
 ```
 
-Topic: **/margin/loan:{currency}**
+Topic: `/margin/loan:{currency}`
 
 The system will push this message to the lenders when the order is completed.
 
 
 
-<aside class="spacer4"></aside>
-<aside class="spacer4"></aside>
+<aside class="spacer8"></aside>
 <aside class="spacer"></aside>
 
 
@@ -6890,7 +6875,6 @@ The system will push this message to the lenders when the order is completed.
     "subject":"stopOrder",
     "channelType":"private",
     "data":{
-
         "createdAt":1589789942337,
         "orderId":"5ec244f6a8a75e0009958237",
         "orderPrice":"0.00062",
@@ -6910,7 +6894,9 @@ The system will push this message to the lenders when the order is completed.
 
 ## Stop Order Event
 
-Topic: /spotMarket/advancedOrders
+Topic: `/spotMarket/advancedOrders`
+
+* Push frequency: `real-time`
 
 Subject: stopOrder
 

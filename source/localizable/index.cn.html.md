@@ -5900,15 +5900,12 @@ ID用于标识请求和ack的唯一字符串。
     "response":true
 }
 ```
-Topic: **/market/ticker:{symbol},{symbol}...**
-
 ```json
 {
     "type":"message",
     "topic":"/market/ticker:BTC-USDT",
     "subject":"trade.ticker",
     "data":{
-
         "sequence":"1545896668986", //序列号
         "price":"0.08",             // 最近成交价格
         "size":"0.011",             // 最近成交数量
@@ -5919,9 +5916,12 @@ Topic: **/market/ticker:{symbol},{symbol}...**
     }
 }
 ```
-订阅此topic可获取指定[交易对](#a17b4e2866)的BBO(最佳买一和卖一)数据的推送。
 
-平台将以100ms的频率推送最新的BB0，如果在和上一次推送相比，BBO没有变化，将不进行推送。
+Topic: `/market/ticker:{symbol},{symbol}...`
+
+* 推送频率: `100ms`一次
+
+订阅此topic可获取指定[交易对](#a17b4e2866)的BBO(最佳买一和卖一)数据的推送。
 
 平台后期可能会向该渠道推送更多的信息。
 
@@ -5939,15 +5939,12 @@ Topic: **/market/ticker:{symbol},{symbol}...**
     "response":true
 }
 ```
-Topic: **/market/ticker:all**
-
 ```json
 {
     "type":"message",
     "topic":"/market/ticker:all",
     "subject":"BTC-USDT",
     "data":{
-
         "sequence":"1545896668986",
         "price":"0.08",
         "size":"0.011",
@@ -5958,11 +5955,13 @@ Topic: **/market/ticker:all**
     }
 }
 ```
+Topic: `/market/ticker:all`
+
+* 推送频率: `2s`一次
+
 订阅此topic可获取所有的BBO(最佳买一和卖一)数据的推送。
 
-
-<aside class="spacer2"></aside>
-<aside class="spacer4"></aside>
+<aside class="spacer8"></aside>
 
 
 ## 交易对行情快照
@@ -5973,10 +5972,8 @@ Topic: **/market/ticker:all**
     "topic":"/market/snapshot:KCS-BTC",
     "subject":"trade.snapshot",
     "data":{
-
         "sequence":"1545896669291",
         "data":{
-
             "trading":true,
             "symbol":"KCS-BTC",
             "buy":0.00011,
@@ -6001,9 +5998,11 @@ Topic: **/market/ticker:all**
 }
 ```
 
-Topic: **/market/snapshot:{symbol}**
+Topic: `/market/snapshot:{symbol}`
 
-订阅此topic对可以获取单个[交易对](#a17b4e2866)的行情快照信息，每隔**两秒**推送一次。
+* 推送频率: `2s`一次
+
+订阅此topic对可以获取单个[交易对](#a17b4e2866)的行情快照信息。
 
 
 <aside class="spacer4"></aside>
@@ -6018,7 +6017,6 @@ Topic: **/market/snapshot:{symbol}**
     "topic":"/market/snapshot:BTC",
     "subject":"trade.snapshot",
     "data":{
-
         "sequence":"1545896669291",
         "data":[
             {
@@ -6047,9 +6045,11 @@ Topic: **/market/snapshot:{symbol}**
 }
 ```
 
-Topic: **/market/snapshot:{market}**
+Topic: `/market/snapshot:{market}`
 
-订阅此topic可获取指定[交易市场](#b8f118fefc)的所有交易对的行情快照，每隔**2秒**推送一次。
+* 推送频率: `2s`一次
+
+订阅此topic可获取指定[交易市场](#b8f118fefc)的所有交易对的行情快照。
 
 
 <aside class="spacer4"></aside>
@@ -6067,7 +6067,9 @@ Topic: **/market/snapshot:{market}**
 }
 ```
 
-Topic: **/market/level2:{symbol},{symbol}...**
+Topic: `/market/level2:{symbol},{symbol}...`
+
+* 推送频率: `100ms`一次
 
 订阅此topic可获取指定[交易对](#a17b4e2866)Level-2买卖盘数据。
 
@@ -6080,12 +6082,10 @@ Topic: **/market/level2:{symbol},{symbol}...**
     "topic":"/market/level2:BTC-USDT",
     "subject":"trade.l2update",
     "data":{
-
         "sequenceStart":1545896669105,
         "sequenceEnd":1545896669106,
         "symbol":"BTC-USDT",
         "changes":{
-
             "asks":[
                 [
                     "6",//price
@@ -6219,9 +6219,7 @@ Data：
     "topic": "/spotMarket/level2Depth5:BTC-USDT",
     "subject": "level2",
     "data": {
-
 	    "asks":[
-
             ["9989","8"],     //价格, 数量
             ["9990","32"],
             ["9991","47"],
@@ -6229,7 +6227,6 @@ Data：
  	        ["9993","3"],
         ],
         "bids":[
-
             ["9988","56"],
             ["9987","15"],
             ["9986","100"],
@@ -6242,7 +6239,9 @@ Data：
 
 ```
 
-Topic: **/spotMarket/level2Depth5:{symbol},{symbol}...**
+Topic: `/spotMarket/level2Depth5:{symbol},{symbol}...`
+
+* 推送频率: `100ms`一次
 
 每次返回前五档的深度数据，此数据为每100毫秒的快照数据，即每隔100毫秒，快照当前时刻市场买卖盘的5档深度数据并推送
 
@@ -6257,9 +6256,7 @@ Topic: **/spotMarket/level2Depth5:{symbol},{symbol}...**
     "topic": "/spotMarket/level2Depth50:BTC-USDT",
     "subject": "level2",
     "data": {
-
 	    "asks":[
-
             ["9993","3"],    //价格, 数量
             ["9992","3"],
             ["9991","47"],
@@ -6267,7 +6264,6 @@ Topic: **/spotMarket/level2Depth5:{symbol},{symbol}...**
             ["9989","8"]
         ],
         "bids":[
-
             ["9988","56"],
             ["9987","15"],
             ["9986","100"],
@@ -6277,10 +6273,11 @@ Topic: **/spotMarket/level2Depth5:{symbol},{symbol}...**
         "timestamp": 1586948108193
       }
   }
-
 ```
 
-Topic: **/spotMarket/level2Depth50:{symbol},{symbol}...**
+Topic: `/spotMarket/level2Depth50:{symbol},{symbol}...`
+
+* 推送频率: `100ms`一次
 
 每次返回前50档的深度数据，此数据为每100毫秒的快照数据，即每隔100毫秒，快照当前时刻市场买卖盘的50档深度数据并推送
 
@@ -6297,10 +6294,8 @@ Topic: **/spotMarket/level2Depth50:{symbol},{symbol}...**
     "topic":"/market/candles:BTC-USDT_1hour",
     "subject":"trade.candles.update",
     "data":{
-
         "symbol":"BTC-USDT",    // 交易对
         "candles":[
-
             "1589968800",   // candle的开盘时间
             "9786.9",       // open开票价
             "9740.8",       // close收盘价
@@ -6313,12 +6308,12 @@ Topic: **/spotMarket/level2Depth50:{symbol},{symbol}...**
     }
 }
 ```
-Topic: **/market/candles:{symbol}_{type}**
+Topic: `/market/candles:{symbol}_{type}`
 
 参数 |  含义
 --------- | -------
 symbol | 交易对
-type |  1min, 3min, 15min, 30min, 1hour, 2hour, 4hour, 6hour, 8hour, 12hour, 1day, 1week
+type |  `1min`, `3min`, `15min`, `30min`, `1hour`, `2hour`, `4hour`, `6hour`, `8hour`, `12hour`, `1day`, `1week`
 
 
 订阅此topic可获取指定 symbol的指定 type 的K线数据。
@@ -6344,7 +6339,9 @@ type |  1min, 3min, 15min, 30min, 1hour, 2hour, 4hour, 6hour, 8hour, 12hour, 1da
     "response": true                              
 }
 ```
-Topic: **/market/match:{symbol},{symbol}...**
+Topic: `/market/match:{symbol},{symbol}...`
+
+* 推送频率: `实时推送`
 
 订阅此topic，可获取撮合执行数据。
 
@@ -6355,7 +6352,6 @@ Topic: **/market/match:{symbol},{symbol}...**
     "topic":"/market/match:BTC-USDT",
     "subject":"trade.l3match",
     "data":{
-
         "sequence":"1545896669145",
         "type":"match",
         "symbol":"BTC-USDT",
@@ -6370,12 +6366,12 @@ Topic: **/market/match:{symbol},{symbol}...**
 }
 ```
 <aside class="spacer8"></aside>
-<aside class="spacer2"></aside>
+<!-- <aside class="spacer2"></aside> -->
 
 
-
+<!-- 
 <aside class="spacer4"></aside>
-<aside class="spacer"></aside>
+<aside class="spacer"></aside> -->
 
 ## 指数价格
 
@@ -6388,12 +6384,10 @@ Topic: **/market/match:{symbol},{symbol}...**
 }
 ```
 
-Topic: **/indicator/index:{symbol0},{symbol1}...**
 
-订阅此topic，可获取杠杆交易使用的指数价格。
 
-<aside class="spacer4"></aside>
-<aside class="spacer2"></aside>
+<!-- <aside class="spacer4"></aside> -->
+<!-- <aside class="spacer2"></aside> -->
 
 ```json
 {
@@ -6402,7 +6396,6 @@ Topic: **/indicator/index:{symbol0},{symbol1}...**
     "topic":"/indicator/index:USDT-BTC",
     "subject":"tick",
     "data":{
-
         "symbol": "USDT-BTC",
         "granularity": 5000,
         "timestamp": 1551770400000,
@@ -6410,6 +6403,9 @@ Topic: **/indicator/index:{symbol0},{symbol1}...**
     }
 }
 ```
+Topic: `/indicator/index:{symbol0},{symbol1}...`
+
+订阅此topic，可获取杠杆交易使用的指数价格。
 
 目前支持的指数价格见：[目前支持的交易对列表](#2dee0a15de)
 
@@ -6426,11 +6422,6 @@ Topic: **/indicator/index:{symbol0},{symbol1}...**
   "response": true
 }
 ```
-
-Topic: **/indicator/markPrice:{symbol0},{symbol1}...**
-
-订阅此topic，可获取杠杆交易使用的标记价格。
-
 ```json
 {
     "id":"5c24c5da03aa673885cd67aa",
@@ -6438,7 +6429,6 @@ Topic: **/indicator/markPrice:{symbol0},{symbol1}...**
     "topic":"/indicator/markPrice:USDT-BTC",
     "subject":"tick",
     "data":{
-
         "symbol": "USDT-BTC",
         "granularity": 5000,
         "timestamp": 1551770400000,
@@ -6446,6 +6436,9 @@ Topic: **/indicator/markPrice:{symbol0},{symbol1}...**
     }
 }
 ```
+Topic: `/indicator/markPrice:{symbol0},{symbol1}...`
+
+订阅此topic，可获取杠杆交易使用的标记价格。
 
 目前支持的标记价格见：[目前支持的交易对列表](#2dee0a15de)
 
@@ -6463,10 +6456,6 @@ Topic: **/indicator/markPrice:{symbol0},{symbol1}...**
 }
 ```
 
-Topic: **/margin/fundingBook:{currency0},{currency1}...**
-
-订阅此topic，可获取杠杆交易借贷买卖盘的变化。
-
 ```json
 {
 	"id": "5c24c5da03aa673885cd67ab",
@@ -6474,7 +6463,6 @@ Topic: **/margin/fundingBook:{currency0},{currency1}...**
 	"topic": "/margin/fundingBook:BTC",
 	"subject": "funding.update",
 	"data": {
-
 		"sequence": 1000000,       //序列号, 一条消息和上一条线消息的sequence相差1
 		"currency": "BTC",         //币种
 		"dailyIntRate": "0.00007",   //日利率小数，0.2%返回0.002
@@ -6487,15 +6475,22 @@ Topic: **/margin/fundingBook:{currency0},{currency1}...**
 }
 ```
 
-<aside class="spacer4"></aside>
-<aside class="spacer2"></aside>
+Topic: `/margin/fundingBook:{currency0},{currency1}...`
+
+订阅此topic，可获取杠杆交易借贷买卖盘的变化。
+
+<aside class="spacer8"></aside>
 
 
 # 私有频道
 
+订阅私人频道需要`privateChannel=“true”`。
+
 ## 私有订单变更事件
 
-Topic: **/spotMarket/tradeOrders**
+Topic: `/spotMarket/tradeOrders`
+
+* 推送频率: `实时推送`
 
 该topic将推送所有有关您的订单的变更事件。
 
@@ -6519,7 +6514,6 @@ Topic: **/spotMarket/tradeOrders**
     "subject":"orderChange",
     "channelType":"private",
     "data":{
-
         "symbol":"KCS-USDT",
         "orderType":"limit",
         "side":"buy",
@@ -6552,7 +6546,6 @@ Topic: **/spotMarket/tradeOrders**
     "subject":"orderChange",
     "channelType":"private",
     "data":{
-
         "symbol":"KCS-USDT",
         "orderType":"limit",
         "side":"sell",
@@ -6587,7 +6580,6 @@ Topic: **/spotMarket/tradeOrders**
     "subject":"orderChange",
     "channelType":"private",
     "data":{
-
         "symbol":"KCS-USDT",
         "orderType":"limit",
         "side":"sell",
@@ -6618,7 +6610,6 @@ Topic: **/spotMarket/tradeOrders**
     "subject":"orderChange",
     "channelType":"private",
     "data":{
-
         "symbol":"KCS-USDT",
         "orderType":"limit",
         "side":"buy",
@@ -6649,7 +6640,6 @@ Topic: **/spotMarket/tradeOrders**
     "subject":"orderChange",
     "channelType":"private",
     "data":{
-
         "symbol":"KCS-USDT",
         "orderType":"limit",
         "side":"buy",
@@ -6682,7 +6672,6 @@ Topic: **/spotMarket/tradeOrders**
     "subject":"account.balance",
     "channelType":"private",
     "data":{
-
         "total": "88", //总额
         "available": "88", // 可用余额
         "availableChange": "88", // 可用余额变化值
@@ -6692,7 +6681,6 @@ Topic: **/spotMarket/tradeOrders**
         "relationEvent": "trade.setted", // 关联事件
         "relationEventId": "5c21e80303aa677bd09d7dff", // 关联事件id
         "relationContext": {
-
             "tradeId":"5e6a5dca9e16882a7d83b7a4", // 成交了才会有tradeId
             "orderId":"5ea10479415e2f0009949d54",
             "symbol":"BTC-USDT"
@@ -6702,7 +6690,9 @@ Topic: **/spotMarket/tradeOrders**
 }
 
 ```
-Topic: **/account/balance**
+Topic: `/account/balance`
+
+* 推送频率: `实时推送`
 
 当您的账户余额变更时，您会收到详细的账户变更信息。
 
@@ -6737,7 +6727,6 @@ other | 其他操作
     "subject":"debt.ratio",
     "channelType":"private",
     "data": {
-
         "debtRatio": 0.7505,                                         //负债率
         "totalDebt": "21.7505",                                      //总负债(转换为BTC的价值)
         "debtList": {"BTC": "1.21","USDT": "2121.2121","EOS": "0"},  //负债列表
@@ -6747,7 +6736,7 @@ other | 其他操作
 
 ```
 
-Topic: **/margin/position**
+Topic: `/margin/position`
 
 存在负债时，系统会定时推送当前的负债信息。
 
@@ -6764,14 +6753,13 @@ Topic: **/margin/position**
     "subject":"position.status",
     "channelType":"private",
     "data": {
-
         "type": "FROZEN_FL",         //事件类型
         "timestamp": 15538460812100  //时间戳(毫秒)
     }
 }
 ```
 
-Topic: **/margin/position**
+Topic: `/margin/position`
 
 仓位状态发生变更时，会推送状态变更事件。
 
@@ -6803,7 +6791,6 @@ UNLIABILITY：解除穿仓。归还所有负债后，仓位恢复到EFFECTIVE状
     "subject": "order.open",
     "channelType":"private",
     "data": {
-
         "currency": "BTC",                            //币种
         "orderId": "ac928c66ca53498f9c13a127a60e8",   //订单id
         "dailyIntRate": 0.0001,                       //日利率
@@ -6815,7 +6802,7 @@ UNLIABILITY：解除穿仓。归还所有负债后，仓位恢复到EFFECTIVE状
 }
 ```
 
-Topic: **/margin/loan:{currency}**
+Topic: `/margin/loan:{currency}`
 
 出借订单入买卖盘时向出借方推送。
 
@@ -6831,7 +6818,6 @@ Topic: **/margin/loan:{currency}**
     "subject": "order.update",
     "channelType":"private",
     "data": {
-
         "currency": "BTC",                            //币种
         "orderId": "ac928c66ca53498f9c13a127a60e8",   //订单id
         "dailyIntRate": 0.0001,                       //日利率
@@ -6845,11 +6831,10 @@ Topic: **/margin/loan:{currency}**
 
 ```
 
-Topic: **/margin/loan:{currency}**
+Topic: `/margin/loan:{currency}`
 
 借贷撮合成功时向出借方推送。
-<aside class="spacer4"></aside>
-<aside class="spacer2"></aside>
+<aside class="spacer8"></aside>
 
 ## 杠杆交易订单完成
 
@@ -6860,7 +6845,6 @@ Topic: **/margin/loan:{currency}**
 	"subject": "order.done",
     "channelType":"private",
 	"data": {
-
 		"currency": "BTC",                            //币种
 		"orderId": "ac928c66ca53498f9c13a127a60e8",   //订单id
 		"reason": "filled",                           //订单完成原因, 有filled(撮合完成)和canceled(取消)
@@ -6870,11 +6854,10 @@ Topic: **/margin/loan:{currency}**
 }
 ```
 
-Topic: **/margin/loan:{currency}**
+Topic: `/margin/loan:{currency}`
 
 出借订单完成时向出借方推送。
-<aside class="spacer4"></aside>
-<aside class="spacer4"></aside>
+<aside class="spacer8"></aside>
 <aside class="spacer"></aside>
 
 
@@ -6886,7 +6869,6 @@ Topic: **/margin/loan:{currency}**
     "subject":"stopOrder",
     "channelType":"private",
     "data":{
-
         "createdAt":1589789942337,
         "orderId":"5ec244f6a8a75e0009958237",
         "orderPrice":"0.00062",
@@ -6906,7 +6888,9 @@ Topic: **/margin/loan:{currency}**
 
 ## 止盈止损事件
 
-Topic: /spotMarket/advancedOrders
+Topic: `/spotMarket/advancedOrders`
+
+* 推送频率: `实时推送`
 
 Subject: stopOrder
 
