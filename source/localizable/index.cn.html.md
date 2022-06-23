@@ -2179,7 +2179,7 @@ ClientOid字段是客户端创建的唯一ID（推荐使用UUID），只能包�
 | IOC | Immediate Or Cancel | 立即成交可成交的部分，然后取消剩余部分，不进入买卖盘 |
 | FOK | Fill Or Kill        | 如果下单不能全部成交，则取消             |
 
-* 注意，成交也包含自成交。
+* 注意，成交也包含自成交。市价单并不支持订单时效策略(TimeInForce)
 
 ###被动委托(PostOnly)
 

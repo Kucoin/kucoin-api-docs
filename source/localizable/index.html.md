@@ -2202,7 +2202,7 @@ Time in force policies provide guarantees about the lifetime of an order. There 
 
 **FOK** Fill Or Kill orders are rejected if the entire size cannot be matched.
 
-* Note that self trades belong to match as well.
+* Note that self trades belong to match as well. For market orders, using the “TimeInForce” parameter has no effect.
 
 ### POST ONLY
 The post-only flag ensures that the trader always pays the maker fee and provides liquidity to the order book. If any part of the order is going to pay taker fee, the order will be fully rejected.
