@@ -30,6 +30,12 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 
 **To reinforce the security of the API, KuCoin upgraded the API key to version 2.0, the validation logic has also been changed. It is recommended to [create](https://www.kucoin.com/account/api) and update your API key to version 2.0. The API key of version 1.0 is invalid. [Check new signing method](#signing-a-message)**
 
+**07/05/22**:
+
+- Added the following interfaces related to isolated margin: `GET /api/v1/isolated/symbols`、`GET /api/v1/isolated/accounts`、`GET /api/v1/isolated/account/{symbol}`、`POST /api/v1/isolated/borrow`、`GET /api/v1/isolated/borrow/outstanding`、`GET /api/v1/isolated/borrow/repaid`、`POST /api/v1/isolated/repay/all`、`POST /api/v1/isolated/repay/single`
+- Modify the following interface to support isolated isolated: `POST /api/v2/accounts/inner-transfer`、`GET /api/v1/accounts/transferable`、`POST /api/v1/margin/order`
+- Check and revise the document description to improve the readability of the document
+
 **01/25/22**:
 
 - Add [Query the cross/isolated margin risk limit](#query-the-cross-isolated-margin-risk-limit) endpoint
@@ -1380,24 +1386,22 @@ This endpoint returns the transferable balance of a specified account.
 
 
 ### HTTP REQUEST
-**GET /api/v1/accounts/transferable**
+`GET /api/v1/accounts/transferable`
 
 ### Example
-GET /api/v1/accounts/transferable?currency=BTC&type=MAIN
+`GET /api/v1/accounts/transferable?currency=BTC&type=MAIN`
 
 ### API KEY PERMISSIONS
-This endpoint requires the **"General"** permission.
+This endpoint requires the `General` permission.
 
 ### Parameters
-
-Param | Type | Description
---------- | ------- | -------
-currency | String | [currency](#Get-Currencies)
-type | String | The account type: **MAIN**, **TRADE**, **MARGIN**
-
+Param | Type | Required | Description
+--------- | ------- | ------- | -------
+currency | String | Yes |[currency](#get-currencies)
+type | String | Yes |The account type: `MAIN`, `TRADE`, `MARGIN` or `ISOLATED`
+tag | String | No | Trading pair, required when the account type is `ISOLATED`; other types are not passed, e.g.: `BTC-USDT`
 
 ### RESPONSES
-
 Field | Description
 --------- | -------
 currency | Currency 
@@ -1462,27 +1466,24 @@ orderId | The order ID of a master-sub assets transfer.
 }
 ```
 
-This interface is used to transfer fund among accounts on the platform. Users can transfer among main account, trading account and margin account for free. Users can also transfer funds from other accounts to futures account, however funds cannot be transferred out from futures account.
+This API endpoint can be used to transfer funds between accounts internally. Users can transfer funds between their main account, trading account, cross margin account, and isolated margin account free of charge. Transfer of funds from the main account, cross margin account, and trading account to the futures account is supported, but transfer of funds from futures accounts to other accounts is not supported.
 
 ### HTTP REQUEST
-
-**POST /api/v2/accounts/inner-transfer**
-
-### Example
-POST /api/v2/accounts/inner-transfer
+`POST /api/v2/accounts/inner-transfer`
 
 ### API KEY PERMISSIONS
-This endpoint requires the **"Trade"** permission.
+This endpoint requires the `Trade` permission.
 
 ### Parameters
-
-Param | Type | Description
---------- | ------- | -------
-clientOid | String | Unique order id created by users to identify their orders, e.g. UUID.
-currency | String | [currency](#Get-Currencies)
-from | String | Account type of payer: **main**, **trade**, **margin**
-to | String | Account type of payee: **main**, **trade**, **margin** , **contract**
-amount | String | Transfer amount, the amount is a positive integer multiple of the [currency precision](#get-currencies).
+Parameters | Data Type | Compulsory? | Definitions |  
+--------- | ------- | -----------| -----------|
+clientOid | String | Yes | clientOid, the unique identifier created by the client, use of UUID 
+currency | String | Yes | [currency](#Get-Currencies) 
+from | String | Yes | Payment Account Type: `main`, `trade`, `margin`, or `isolated` 
+to | String | Yes | Receiving Account Type: `main`, `trade`, `margin`, `isolated`, or `contract` 
+amount | String | Yes | Transfer amount, the precision being a positive integer multiple of the [Currency Precision](#get-currencies) 
+fromTag | String | No | Trading pair, required when the payment account type is `isolated`, e.g.: `BTC-USDT` 
+toTag | String | No | Trading pair, required when the receiving account type is `isolated`, e.g.: `BTC-USDT`
 
 
 ### RESPONSES
@@ -2107,7 +2108,7 @@ Before placing an order, please read [Get Symbol List](#get-symbols-list) to und
 
 ###Place Order Limit
 
-The maximum matching orders for a single trading pair in one account is **200** (stop orders included).
+The maximum active orders for a single trading pair in one account is **200** (stop orders included).
 
 
 ### HTTP Request
@@ -2202,7 +2203,7 @@ Time in force policies provide guarantees about the lifetime of an order. There 
 
 **FOK** Fill Or Kill orders are rejected if the entire size cannot be matched.
 
-* Note that self trades belong to match as well.
+* Note that self trades belong to match as well. For market orders, using the “TimeInForce” parameter has no effect.
 
 ### POST ONLY
 The post-only flag ensures that the trader always pays the maker fee and provides liquidity to the order book. If any part of the order is going to pay taker fee, the order will be fully rejected.
@@ -2275,7 +2276,6 @@ A successful order will be assigned an order ID. A successful order is defined a
 
 
 ## Place a margin order
-
 ```json
 {
   "orderId": "5bd6e9286d99522a52e458de",
@@ -2284,7 +2284,7 @@ A successful order will be assigned an order ID. A successful order is defined a
 }
 ```
 
-You can place two types of orders: **limit** and **market**. Orders can only be placed if your account has sufficient funds. Once an order is placed, your account funds will be put on hold for the duration of the order. How much and which funds are put on hold depends on the order type and parameters specified. See the Holds details below.
+You can place two types of orders: `limit` and `market`. Orders can only be placed if your account has sufficient funds. Once an order is placed, your account funds will be put on hold for the duration of the order. How much and which funds are put on hold depends on the order type and parameters specified. See the Holds details below.
 
 <aside class="notice">Placing an order will enable price protection. When the price of the limit order is outside the threshold range, the price protection mechanism will be triggered, causing the order to fail.</aside>
 
@@ -2295,29 +2295,29 @@ Before placing an order, please read [Get Symbol List](#get-symbols-list) to und
 
 **Do not include extra spaces in JSON strings**.
 
-###Place Order Limit
-
-The maximum matching orders for a single trading pair in one account is **200** (stop orders included).
+### Place Order Limit
+The maximum active orders for a single trading pair in one account is `200` (stop orders included).
 
 
 ### HTTP Request
-**POST /api/v1/margin/order**
+`POST /api/v1/margin/order`
 
-### Example
-POST /api/v1/margin/order
+### API KEY PERMISSIONS
+This endpoint requires the `Trade` permission.
+
 
 ### Parameters
 
 | Param     | type   | Description  |
 | --------- | ------ |-------------------------------- |
 | clientOid | String | Unique order id created by users to identify their orders, e.g. UUID. |
-| side      | String | **buy** or **sell**      |
+| side      | String | `buy` or `sell`      |
 | symbol    | String | a valid trading symbol code. e.g. ETH-BTC     |
-| type      | String | *[Optional]* **limit** or **market** (default is **limit**)          |
+| type      | String | *[Optional]* `limit` or `market` (default is `limit`)          |
 | remark    | String | *[Optional]*  remark for the order, length cannot exceed 100 utf8 characters|
-| stp       | String | *[Optional]*  self trade prevention , **CN**, **CO**, **CB** or **DC**|
-| marginMode | String | *[Optional]*  The type of trading, including cross (cross mode) and isolated (isolated mode). It is set at cross by default. The isolated mode will be released soon, so stay tuned!|
-| autoBorrow | boolean | *[Optional]*  Auto-borrow to place order. The system will first borrow you funds at the optimal interest rate and then place an order for you. |
+| stp       | String | *[Optional]*  self trade prevention , `CN`, `CO`, `CB` or `DC`|
+| marginMode | String | *[Optional]*  The type of trading, including `cross` (cross mode) and `isolated` (isolated mode). It is set at `cross` by default.|
+| autoBorrow | boolean | *[Optional]*  Auto-borrow to place order. The system will first borrow you funds at the optimal interest rate and then place an order for you. Currently `autoBorrow` parameter only supports `cross` mode, not `isolated` mode|
 
 #### LIMIT ORDER PARAMETERS
 
@@ -2325,9 +2325,9 @@ POST /api/v1/margin/order
 | ----------- | ------- | ------------------- |
 | price       | String  | price per base currency          |
 | size        | String  | amount of base currency to buy or sell         |
-| timeInForce | String  | *[Optional]* **GTC**, **GTT**, **IOC**, or **FOK** (default is **GTC**), read [Time In Force](#time-in-force).   |
-| cancelAfter | long    | *[Optional]*  cancel after **n** seconds, requires **timeInForce** to be **GTT**                   |
-| postOnly    | boolean | *[Optional]*  Post only flag, invalid when **timeInForce** is **IOC** or **FOK**                               |
+| timeInForce | String  | *[Optional]* `GTC`, `GTT`, `IOC`, or `FOK` (default is `GTC`), read [Time In Force](#time-in-force).   |
+| cancelAfter | long    | *[Optional]*  cancel after `n` seconds, requires `timeInForce` to be `GTT`                  |
+| postOnly    | boolean | *[Optional]*  Post only flag, invalid when `timeInForce` is `IOC` or `FOK`                               |
 | hidden      | boolean | *[Optional]*  Order will not be displayed in the order book |
 | iceberg    | boolean | *[Optional]*  Only aportion of the order is displayed in the order book |
 | visibleSize | String  | *[Optional]*  The maximum visible size of an iceberg order   |
@@ -2340,16 +2340,16 @@ Param | type | Description
 size | String | *[Optional]*  Desired amount in base currency
 funds | String | *[Optional]*  The desired amount of quote currency to use
 
-* It is required that you use one of the two parameters, **size** or **funds**.
+* It is required that you use one of the two parameters, `size` or `funds`.
 
 ###Advanced Description
 
 
 ###MarginMode
-There are two modes for API margin trading: 1) cross and 2) isolated. Currently, the platform only supports the cross mode and it is the default option for the margin trading. The isolated mode will be released soon, so stay tuned!
+There are two modes for API margin trading: `cross` and `isolated`, it is set at `cross` by default.
 
 ###AutoBorrow
-This is the symbol of Auto-Borrow, if it is set to “true”, the system will automatically borrow the funds required for an order according to the order amount. By default, the symbol is set to “false”. When your order amount is too large, exceeding the max. borrowing amount via the max. leverage or the risk limit of margin, then you will fail in borrowing and order placing. 
+This is the symbol of Auto-Borrow, if it is set to `true`, the system will automatically borrow the funds required for an order according to the order amount. By default, the symbol is set to `false`. When your order amount is too large, exceeding the max. borrowing amount via the max. leverage or the risk limit of margin, then you will fail in borrowing and order placing.  Currently `autoBorrow` parameter only supports `cross` mode, not `isolated` mode
 
 
 ###RESPONSES
@@ -2359,7 +2359,7 @@ orderId | The ID of the order
 borrowSize | Borrowed amount. The field is returned only after placing the order under the mode of Auto-Borrow. 
 loanApplyId | ID of the borrowing response. The field is returned only after placing the order under the mode of Auto-Borrow.
 
-A successful order will be assigned an order ID. A successful order is defined as one that has been accepted by the matching engine.
+A successful order will be assigned an `orderId`. A successful order is defined as one that has been accepted by the matching engine.
 
 <aside class="notice">Open orders do not expire and will remain open until they are either filled or canceled.</aside>
 
@@ -3910,6 +3910,7 @@ Signature is not required for this part
     "quoteIncrement": "0.000001",
     "priceIncrement": "0.000001",
     "priceLimitRate": "0.1",
+    "minFunds": "0.1",
     "isMarginEnabled": true,
     "enableTrading": true
   },
@@ -3928,6 +3929,7 @@ Signature is not required for this part
     "quoteIncrement": "0.000001",
     "priceIncrement": "0.0000001",
     "priceLimitRate": "0.1",
+    "minFunds": "0.1",
     "isMarginEnabled": true,
     "enableTrading": true
   }
@@ -3938,20 +3940,17 @@ Request via this endpoint to get a list of available currency pairs for trading.
 If you want to get the market information of the trading symbol, please use [Get All Tickers](#get-all-tickers).
 
 ### HTTP REQUEST
-**GET /api/v1/symbols**
+`GET /api/v1/symbols`
 
 ### Example
-GET /api/v1/symbols
+`GET /api/v1/symbols`
 
 ### PARAMETERS
-You can query all symbols through *market* parameter.
-
 Param | Type | Description
 --------- | ------- | -----------
 market | String |*[Optional]* The [trading market](#get-market-list).
 
-###RESPONSES
-
+### RESPONSES
 Field |  Description
 --------- | -----------
 symbol | unique code of a symbol, it would not change after renaming
@@ -3970,14 +3969,26 @@ feeCurrency | The currency of charged fees.
 enableTrading |  Available for transaction or not.
 isMarginEnabled |  Available for margin or not.
 priceLimitRate | Threshold for price portection
+minFunds | the minimum spot and margin trading amounts
 
-The **baseMinSize** and **baseMaxSize** fields define the min and max order size. The **priceIncrement** field specifies the min order price as well as the price increment.This also applies to **quote** currency.
+The `baseMinSize` and `baseMaxSize` fields define the min and max order size. The `priceIncrement` field specifies the min order price as well as the price increment.This also applies to `quote` currency.
 
-The order price must be a positive integer multiple of this priceIncrement (i.e. if the increment is 0.01, the  0.001 and 0.021 order prices would be rejected).
+The order `price` must be a positive integer multiple of this `priceIncrement` (i.e. if the increment is 0.01, the  0.001 and 0.021 order prices would be rejected).
 
-**priceIncrement** and **quoteIncrement** may be adjusted in the future. We will notify you by email and site notifications before adjustment.
+`priceIncrement` and `quoteIncrement` may be adjusted in the future. We will notify you by email and site notifications before adjustment.
 
+Order Type | Follow the rules of minFunds
+--------- | ------- | -----------
+Limit Buy |	[Order Amount * Order Price] >= `minFunds`
+Limit Sell |	[Order Amount * Order Price] >= `minFunds`
+Market Buy |	Order Value >= `minFunds`
+Market Sell | [Order Amount * Last Price of Base Currency] >= `minFunds`
 
+Note:
+
+* API market buy orders (by amount) valued at [Order Amount * Last Price of Base Currency] <`minFunds` will be rejected.
+* API market sell orders (by value) valued at <`minFunds` will be rejected.
+* Take profit and stop loss orders at market or limit prices will be rejected when triggered.
 
 ## Get Ticker
 
@@ -4820,26 +4831,22 @@ This endpoint can query the cross/isolated margin risk limit.
 <aside class="notice">Currently, only cross margin is supported. Querying isolated margin will return an empty list.</aside>
 
 ### HTTP REQUEST
-
-**GET /api/v1/risk/limit/strategy**
+`GET /api/v1/risk/limit/strategy`
 
 ### Example
-
-GET /api/v1/risk/limit/strategy?marginModel=corss
+`GET /api/v1/risk/limit/strategy?marginModel=cross`
 
 ### API KEY PERMISSIONS
-
-This endpoint requires the **"General"** permission.
+This endpoint requires the `General` permission.
 
 ### REQUEST RATE LIMIT
 
-This API is restricted for each account, the request rate limit is **1 times/3s**.
+This API is restricted for each account, the request rate limit is `1 times/3s`.
 
 ### PARAMETERS
-
 |Param | Type | Description|
 |--------- | ------- | -----------|
-| marginModel | String | The type of marginModel : **corss**（corss margin）, **isolated** (isolated margin). Default is **cross**.  |
+| marginModel | String | The type of marginModel : `cross`（cross margin）, `isolated` (isolated margin). Default is `cross`.  |
 
 ### RESPONSES
 
@@ -5637,6 +5644,468 @@ This endpoint requires the **"General"** permission.
 | term         | Term (Unit: Day)                         |
 | timestamp    | Time of execution in nanosecond          |
 
+# Isolated Margin
+## Query Isolated Margin Trading Pair Configuration
+```json
+{
+    "code":"200000",
+    "data": [
+        {
+            "symbol": "EOS-USDC",
+            "symbolName": "EOS-USDC",
+            "baseCurrency": "EOS",
+            "quoteCurrency": "USDC",
+            "maxLeverage": 10,
+            "flDebtRatio": "0.97",
+            "tradeEnable": true,
+            "autoRenewMaxDebtRatio": "0.96",
+            "baseBorrowEnable": true,
+            "quoteBorrowEnable": true,
+            "baseTransferInEnable": true,
+            "quoteTransferInEnable": true
+        },
+        {
+            "symbol": "MANA-USDT",
+            "symbolName": "MANA-USDT",
+            "baseCurrency": "MANA",
+            "quoteCurrency": "USDT",
+            "maxLeverage": 10,
+            "flDebtRatio": "0.9",
+            "tradeEnable": true,
+            "autoRenewMaxDebtRatio": "0.96",
+            "baseBorrowEnable": true,
+            "quoteBorrowEnable": true,
+            "baseTransferInEnable": true,
+            "quoteTransferInEnable": true
+        }
+    ]
+}
+```
+This API endpoint returns the current isolated margin trading pair configuration.
+
+### HTTP Request
+`GET /api/v1/isolated/symbols`
+
+### API Permissions
+This endpoint requires the `General` permissions
+
+### Request Parameters
+`N/A`
+
+### Return Value
+| Field | Definition                     
+| ------------ | ----------------- 
+symbol | The trading pair code 
+baseCurrency | Base currency type 
+quoteCurrency | Quote coin 
+symbolName | Trading pair name 
+maxLeverage | Maximum leverage 
+flDebtRatio | Liquidation debt ratio 
+tradeEnable | Trade switch 
+autoRenewMaxDebtRatio | During automatic renewal of the max debt ratio, the loan will only be renewed if it is lower than the debt ratio, with partial liquidation triggered for repayment if the debt ratio is in excess 
+baseBorrowEnable | base coin type borrow switch 
+quoteBorrowEnable | quote coin type borrow switch 
+baseTransferInEnable | base coin type transfer switch 
+quoteTransferInEnable | quote coin type transfer switch
+
+## Query Isolated Margin Account Info
+```json
+{
+    "code":"200000",
+    "data": {
+        "totalConversionBalance": "3.4939947",
+        "liabilityConversionBalance": "0.00239066",
+        "assets": [
+            {
+                "symbol": "MANA-USDT",
+                "status": "CLEAR",
+                "debtRatio": "0",
+                "baseAsset": {
+                    "currency": "MANA",
+                    "totalBalance": "0",
+                    "holdBalance": "0",
+                    "availableBalance": "0",
+                    "liability": "0",
+                    "interest": "0",
+                    "borrowableAmount": "0"
+                },
+                "quoteAsset": {
+                    "currency": "USDT",
+                    "totalBalance": "0",
+                    "holdBalance": "0",
+                    "availableBalance": "0",
+                    "liability": "0",
+                    "interest": "0",
+                    "borrowableAmount": "0"
+                }
+            },
+            {
+                "symbol": "EOS-USDC",
+                "status": "CLEAR",
+                "debtRatio": "0",
+                "baseAsset": {
+                    "currency": "EOS",
+                    "totalBalance": "0",
+                    "holdBalance": "0",
+                    "availableBalance": "0",
+                    "liability": "0",
+                    "interest": "0",
+                    "borrowableAmount": "0"
+                },
+                "quoteAsset": {
+                    "currency": "USDC",
+                    "totalBalance": "0",
+                    "holdBalance": "0",
+                    "availableBalance": "0",
+                    "liability": "0",
+                    "interest": "0",
+                    "borrowableAmount": "0"
+                }
+            }
+        ]
+    }
+}
+```
+This API endpoint returns all isolated margin accounts of the current user.
+
+### HTTP Request
+`GET /api/v1/isolated/accounts`
+
+### API Permissions
+This endpoint requires the `General` permissions
+
+### Request Parameters
+| Parameter | Type | Required | Definition 
+| ------ | ------ | ------ | ------ 
+balanceCurrency | String | No | The pricing coin, currently only supports `USDT`, `KCS`, and `BTC`. Defaults to `BTC` if no value is passed.
+
+### Return Value
+| Field | Definition                     
+| ------------ | ----------------- 
+totalConversionBalance | The total balance of the isolated margin account (in the specified coin) 
+liabilityConversionBalance | Total liabilities of the isolated margin account (in the specified coin) 
+assets | Account list 
+assets.symbol | Trading pairs, with each trading pair indicating a position 
+assets.status | The position status: Existing liabilities-`DEBT`, No liabilities-`CLEAR`, Bankrupcy (after position enters a negative balance)-`BANKRUPTCY`, Existing borrowings-`IN_BORROW`, Existing repayments-`IN_REPAY`, Under liquidation-`IN_LIQUIDATION`, Under auto-renewal assets`-IN_AUTO_RENEW` .
+debtRatio | Debt ratio 
+assets.baseAsset | base coin type asset info 
+assets.quoteAsset | quote coin type asset info 
+currency | Coin type Code 
+totalBalance | Current coin type asset amount 
+holdBalance | Current coin type frozen 
+availableBalance | The available balance (available assets - frozen assets)
+
+## Query Single Isolated Margin Account Info
+```json
+{
+    "code": "200000",
+    "data": {
+        "symbol": "MANA-USDT",
+        "status": "CLEAR",
+        "debtRatio": "0",
+        "baseAsset": {
+            "currency": "MANA",
+            "totalBalance": "0",
+            "holdBalance": "0",
+            "availableBalance": "0",
+            "liability": "0",
+            "interest": "0",
+            "borrowableAmount": "0"
+        },
+        "quoteAsset": {
+            "currency": "USDT",
+            "totalBalance": "0",
+            "holdBalance": "0",
+            "availableBalance": "0",
+            "liability": "0",
+            "interest": "0",
+            "borrowableAmount": "0"
+        }
+    }
+}
+```
+This API endpoint returns the info on a single isolated margin account of the current user.
+
+### HTTP Request
+`GET /api/v1/isolated/account/{symbol}`
+
+### API Permissions
+This endpoint requires the `General` permissions
+
+### Request Parameters
+| Parameter | Type | Required | Definition | 
+------ | ------ | ------ | ------ 
+symbol | String | Yes | Trading pair, e.g.: `BTC-USDT`
+
+### Return Value
+| Field | Definition                     
+| ------------ | ----------------- 
+symbol | Trading pair 
+status |The position status: Existing liabilities-`DEBT`, No liabilities-`CLEAR`, Bankrupcy (after position enters a negative balance)-`BANKRUPTCY`, Existing borrowings-`IN_BORROW`, Existing repayments-`IN_REPAY`, Under liquidation-`IN_LIQUIDATION`, Under auto-renewal-`IN_AUTO_RENEW` (permissions per state) | Debt ratio baseAsset | base coin type asset info 
+quoteAsset | quote coin type asset info 
+currency | Coin type Code 
+totalBalance | Current coin type asset amount 
+availableBalance | Amount of current coin available 
+holdBalance | Amount of current coin frozen 
+liability | The principal of the of current coin liability (the outstanding principal) 
+interest | The interest of the liability of the current coin (the outstanding interest) 
+borrowableAmount | The borrowable amount
+
+## Isolated Margin Borrowing
+```json
+{
+    "code": "200000",
+    "data": {
+        "orderId": "62baad0aaafc8000014042b3",
+        "currency": "USDT",
+        "actualSize": "10"
+    }
+}
+```
+This API endpoint initiates isolated margin borrowing.
+
+### HTTP Request
+`POST /api/v1/isolated/borrow`
+
+### API Permissions
+This endpoint requires the `Trade` permissions
+
+### Request Parameters
+| Request Parameter | Type | Required | Definition 
+| ------ | ------ | ------ | ------ 
+symbol | String | Yes | Trading pair, e.g.: `BTC-USDT` 
+currency | String | Yes | Borrowed coin type 
+size | BigDecimal | Yes | Borrowed amount 
+borrowStrategy | String | Yes | Borrowing strategy: `FOK`, `IOC` 
+maxRate | BigDecimal | No | Max interest rate, defaults to all interest rates if left blank 
+period | String | No |The term in days. Defaults to all terms if left blank. `7`,`14`,`28`
+
+### Return Value
+| Field | Definition                     
+| ------------ | ----------------- 
+orderId | Borrow order ID 
+currency | Borrowed coin type 
+actualBorrowSize | Actual borrowed amount
+
+## Query Outstanding Repayment Records
+```json
+{
+    "success": true,
+    "code": "200",
+    "msg": "success",
+    "retry": false,
+    "data": {
+        "currentPage": 1,
+        "pageSize": 10,
+        "totalNum": 6,
+        "totalPage": 1,
+        "items": [
+            {
+                "loanId": "62aec83bb51e6f000169a3f0",
+                "symbol": "BTC-USDT",
+                "currency": "USDT",
+                "liabilityBalance": "10.02000016",
+                "principalTotal": "10",
+                "interestBalance": "0.02000016",
+                "createdAt": 1655621691869,
+                "maturityTime": 1656226491869,
+                "period": 7,
+                "repaidSize": "0",
+                "dailyInterestRate": "0.001"
+            },
+            {
+                "loanId": "62aa94e52a3fbb0001277fd1",
+                "symbol": "BTC-USDT",
+                "currency": "USDT",
+                "liabilityBalance": "10.05166708",
+                "principalTotal": "10",
+                "interestBalance": "0.05166708",
+                "createdAt": 1655346405447,
+                "maturityTime": 1655951205447,
+                "period": 7,
+                "repaidSize": "0",
+                "dailyInterestRate": "0.001"
+            }
+        ]
+    }
+}
+```
+This API endpoint is used to query the outstanding repayment records of isolated margin positions.
+
+### HTTP Request
+`GET /api/v1/isolated/borrow/outstanding`
+
+### Example
+`GET /api/v1/isolated/borrow/outstanding?symbol=BTC-USDT&currency=USDT`
+
+### API Permissions
+This endpoint requires the `General` permissions
+
+### Request Parameters
+| Parameter | Type | Required | Definition 
+| ------ | ------ | ------ | ------ 
+symbol | String | No | Trading pair, e.g.: `BTC-USDT` 
+currency | String | No | Coin type 
+pageSize | int | No | Page size [`10`-`50`] 
+currentPage | int | No | Current page number [`1`-`100`]
+
+### Return Value
+| Field | Definition                     
+| ------------ | ----------------- 
+loanId | Trade id 
+symbol | Trading pair 
+currency | Coin type 
+liabilityBalance | Remaining liabilities 
+principalTotal | Principal 
+interestBalance | Accrued interest 
+createdAt | Trade time, timestamp 
+maturityTime | Maturity date, timestamp 
+period | Term 
+repaidSize | Amount repaid 
+dailyInterestRate | Daily interest
+
+## Query Repayment Records
+```json
+{
+    "code": "200000",
+    "data": {
+        "currentPage": 1,
+        "pageSize": 10,
+        "totalNum": 30,
+        "totalPage": 3,
+        "items": [
+            {
+                "loanId": "628df5787818320001c79c8b",
+                "symbol": "BTC-USDT",
+                "currency": "USDT",
+                "principalTotal": "10",
+                "interestBalance": "0.07000056",
+                "repaidSize": "10.07000056",
+                "createdAt": 1653470584859,
+                "period": 7,
+                "dailyInterestRate": "0.001",
+                "repayFinishAt": 1654075506416
+            },
+            {
+                "loanId": "628c570f7818320001d52b69",
+                "symbol": "BTC-USDT",
+                "currency": "USDT",
+                "principalTotal": "11",
+                "interestBalance": "0.07699944",
+                "repaidSize": "11.07699944",
+                "createdAt": 1653364495783,
+                "period": 7,
+                "dailyInterestRate": "0.001",
+                "repayFinishAt": 1653969432251
+            }
+        ]
+    }
+}
+```
+This API endpoint is used to query the repayment records of isolated margin positions.
+
+### HTTP Request
+`GET /api/v1/isolated/borrow/repaid`
+
+### Example
+`GET /api/v1/isolated/borrow/repaid?symbol=BTC-USDT&currency=USDT`
+
+### API Permissions
+This endpoint requires the `General` permissions
+
+### Request Parameters
+| Request Parameter | Type | Required | Definition 
+| ------ | ------ | ------ | ------ 
+symbol | String | No | Trading pair, e.g.: `BTC-USDT` 
+currency | String | No | Coin type 
+pageSize | int | No | Page size \[`10`-`50`] 
+currentPage | int | No | Current page number \[`1`-`100`]
+
+### Return Value
+| Field | Definition                     
+| ------------ | ----------------- 
+loanId | Trade id 
+symbol | Trading pair 
+currency | Coin type 
+principalTotal | Principal 
+interestBalance | Accrued interest 
+repaidSize | Amount repaid 
+createdAt | Trade time, timestamp 
+period | Term 
+dailyInterestRate | Daily interest 
+repayFinishAt | Repayment time
+
+## Quick Repayment
+```json
+//request
+{
+    "currency": "BTC",
+    "seqStrategy": "HIGHEST_RATE_FIRST",
+    "size": 1.9,
+    "symbol": "BTC-USDT"
+}
+```
+```json
+//response
+{
+    "code": "200000",
+    "data": null
+}
+```
+This API endpoint is used to initiate quick repayment for isolated margin accounts
+
+### HTTP Request
+`POST /api/v1/isolated/repay/all`
+
+### API Permissions
+This endpoint requires the `Trade` permissions
+
+### Request Parameters
+| Request Parameter | Type | Required | Definition 
+| ------ | ------ | ------ | ------ 
+symbol | String | Yes | Trading pair, e.g.: `BTC-USDT` 
+currency | String | Yes | Repayment coin type 
+size | BigDecimal | Yes | Repayment amount 
+seqStrategy | String | Yes | Repayment sequence strategy, `RECENTLY_EXPIRE_FIRST`: Maturity date priority (the loan with the closest maturity is repaid first), `HIGHEST_RATE_FIRST`: Interest rate priority (the loan with the highest interest rate is repaid first)
+
+### Return Value
+When the system returns HTTP status code `200` and system code `200000`, it indicates that the response is successful.
+
+## Single Repayment
+```json
+//request
+{
+    "currency": "BTC",
+    "loanId": 8765321,
+    "size": 1.9,
+    "symbol": "BTC-USDT"
+}
+```
+```json
+//response
+{
+    "code": "200000",
+    "data": null
+}
+```
+This API endpoint is used to initiate quick repayment for single margin accounts
+
+### HTTP Request
+`POST /api/v1/isolated/repay/single`
+
+### API Permissions
+This endpoint requires the `Trade` permissions
+
+### Request Parameters
+| Request Parameter | Type | Required | Definition 
+| ------ | ------ | ------ | ------ 
+symbol | String | Yes | Trading pair, e.g.: `BTC-USDT` 
+currency | String | Yes | Repayment coin type 
+size | BigDecimal | Yes | Repayment amount 
+loanId | String | Yes | Trade order number; when this field is configured, the sequence strategy is invalidated
+
+### Return Value
+When the system returns HTTP status code `200` and system code `200000`, it indicates that the response is successful.
 
 # Others
 
@@ -5925,7 +6394,7 @@ The sequence field exists in order book, trade history and snapshot messages by 
     "response": true
 }
 ```
-Topic: **/market/ticker:{symbol},{symbol}...**
+
 
 ```json
 {
@@ -5933,7 +6402,6 @@ Topic: **/market/ticker:{symbol},{symbol}...**
     "topic":"/market/ticker:BTC-USDT",
     "subject":"trade.ticker",
     "data":{
-
         "sequence":"1545896668986", // Sequence number
         "price":"0.08",             // Last traded price
         "size":"0.011",             //  Last traded amount
@@ -5944,10 +6412,12 @@ Topic: **/market/ticker:{symbol},{symbol}...**
     }
 }
 ```
-Subscribe to this topic to get the push of BBO changes. If there is no change within **one second**, it will not be pushed.
 
-It will be pushed per 100ms with the newest BBO. If there was no change compared with last data, it will not be pushed.
+Topic: `/market/ticker:{symbol},{symbol}...`
 
+* Push frequency: once every `100ms`
+
+Subscribe to this topic to get the push of BBO changes.
 
 Please note that more information may be added to messages from this channel in the near future.
 
@@ -5967,15 +6437,12 @@ Please note that more information may be added to messages from this channel in 
     "response": true                              
 }
 ```
-Topic: **/market/ticker:all**
-
 ```json
 {
     "type":"message",
     "topic":"/market/ticker:all",
     "subject":"BTC-USDT",
     "data":{
-
         "sequence":"1545896668986",
         "bestAsk":"0.08",
         "size":"0.011",
@@ -5986,26 +6453,25 @@ Topic: **/market/ticker:all**
     }
 }
 ```
+Topic: `/market/ticker:all`
+
+* Push frequency: once every `2s`
+
 Subscribe to this topic to get the push of all market symbols BBO change.
 
-
-<aside class="spacer2"></aside>
-<aside class="spacer4"></aside>
+<aside class="spacer8"></aside>
 
 
 ## Symbol Snapshot
 
 ```json
-
 {
     "type": "message",
     "topic": "/market/snapshot:KCS-BTC",
     "subject": "trade.snapshot",
     "data": {
-
         "sequence": "1545896669291",
         "data": {
-
             "trading": true,
             "symbol": "KCS-BTC",
             "buy": 0.00011,
@@ -6029,12 +6495,11 @@ Subscribe to this topic to get the push of all market symbols BBO change.
     }
 }
 ```
+Topic: `/market/snapshot:{symbol}`
 
-Topic: **/market/snapshot:{symbol}**
+* Push frequency: once every `2s`
 
 Subscribe to get snapshot data for a single symbol.
-
-The snapshot data is pushed at **2 seconds** intervals.
 
 <aside class="spacer4"></aside>
 <aside class="spacer4"></aside>
@@ -6048,11 +6513,9 @@ The snapshot data is pushed at **2 seconds** intervals.
     "topic": "/market/snapshot:BTC",
     "subject": "trade.snapshot",
     "data": {
-
         "sequence": "1545896669291",
         "data": [
             {
-
                 "trading": true,
                 "symbol": "KCS-BTC",
                 "buy": 0.00011,
@@ -6078,12 +6541,12 @@ The snapshot data is pushed at **2 seconds** intervals.
 }
 ```
 
-Topic: **/market/snapshot:{market}**
+Topic: `/market/snapshot:{market}`
+
+* Push frequency: once every `2s`
 
 Subscribe this topic to get the snapshot data of for the entire [market](#get-market-list).
 
-
-The snapshot data is pushed at **2 seconds** intervals.
 
 <aside class="spacer4"></aside>
 <aside class="spacer4"></aside>
@@ -6100,7 +6563,9 @@ The snapshot data is pushed at **2 seconds** intervals.
 }
 ```
 
-Topic: **/market/level2:{symbol},{symbol}...**
+Topic: `/market/level2:{symbol},{symbol}...`
+
+* Push frequency: once every `100ms`
 
 Subscribe to this topic to get Level2 order book data.
 
@@ -6112,14 +6577,24 @@ When the websocket subscription is successful,  the system would send the increm
     "topic":"/market/level2:BTC-USDT",
     "subject":"trade.l2update",
     "data":{
-
         "sequenceStart":1545896669105,
         "sequenceEnd":1545896669106,
         "symbol":"BTC-USDT",
         "changes":{
-
-            "asks":[["6","1","1545896669105"]],           //price, size, sequence
-            "bids":[["4","1","1545896669106"]]
+            "asks":[
+                [
+                    "6",//price
+                    "1", //size
+                    "1545896669105" //sequence
+                ]
+            ],
+            "bids":[
+                [
+                    "4",
+                    "1",
+                    "1545896669106"
+                ]
+            ]
         }
     }
 }
@@ -6228,9 +6703,7 @@ Now your current order book is up-to-date and final data is as follows:
     "topic": "/spotMarket/level2Depth5:BTC-USDT",
     "subject": "level2",
     "data": {
-
 	      "asks":[
-
             ["9989","8"],    //price, size
             ["9990","32"],
             ["9991","47"],
@@ -6238,7 +6711,6 @@ Now your current order book is up-to-date and final data is as follows:
             ["9993","3"]
         ],
         "bids":[
-
             ["9988","56"],
             ["9987","15"],
             ["9986","100"],
@@ -6251,7 +6723,9 @@ Now your current order book is up-to-date and final data is as follows:
 
 ```
 
-Topic: **/spotMarket/level2Depth5:{symbol},{symbol}...**
+Topic: `/spotMarket/level2Depth5:{symbol},{symbol}...`
+
+* Push frequency: once every `100ms`
 
 The system will return the 5 best ask/bid orders data, which is the snapshot data of every 100 milliseconds (in other words, the 5 best ask/bid orders data returned every 100 milliseconds in real-time).
 
@@ -6260,16 +6734,13 @@ The system will return the 5 best ask/bid orders data, which is the snapshot dat
 <aside class="spacer"></aside>
 
 ## Level2 - 50 best ask/bid orders
-
 ```json
 {
     "type": "message",
     "topic": "/spotMarket/level2Depth50:BTC-USDT",
     "subject": "level2",
     "data": {
-
 	      "asks":[
-
             ["9993","3"],     //price,size
             ["9992","3"],
             ["9991","47"],
@@ -6277,7 +6748,6 @@ The system will return the 5 best ask/bid orders data, which is the snapshot dat
             ["9989","8"]
         ],
         "bids":[
-
             ["9988","56"],
             ["9987","15"],
             ["9986","100"],
@@ -6287,10 +6757,11 @@ The system will return the 5 best ask/bid orders data, which is the snapshot dat
         "timestamp": 1586948108193
     }
 }
-
 ```
 
-Topic: **/spotMarket/level2Depth50:{symbol},{symbol}...**
+Topic: `/spotMarket/level2Depth50:{symbol},{symbol}...`
+
+* Push frequency: once every `100ms`
 
 The system will return the 50 best ask/bid orders data, which is the snapshot data of every 100 milliseconds (in other words, the 50 best ask/bid orders data returned every 100 milliseconds in real-time).
 
@@ -6306,10 +6777,8 @@ The system will return the 50 best ask/bid orders data, which is the snapshot da
     "topic":"/market/candles:BTC-USDT_1hour",
     "subject":"trade.candles.update",
     "data":{
-
         "symbol":"BTC-USDT",    // symbol
         "candles":[
-
             "1589968800",   // Start time of the candle cycle
             "9786.9",       // open price
             "9740.8",       // close price
@@ -6322,12 +6791,12 @@ The system will return the 50 best ask/bid orders data, which is the snapshot da
     }
 }
 ```
-Topic: **/market/candles:{symbol}_{type}**
+Topic: `/market/candles:{symbol}_{type}`
 
 Param |  Description
 --------- | -------
 symbol | [symbol](#get-symbols-list)
-type |  1min, 3min, 15min, 30min, 1hour, 2hour, 4hour, 6hour, 8hour, 12hour, 1day, 1week
+type |  `1min`, `3min`, `15min`, `30min`, `1hour`, `2hour`, `4hour`, `6hour`, `8hour`, `12hour`, `1day`, `1week`
 
 
 Subscribe to this topic to get K-Line data.
@@ -6344,7 +6813,9 @@ Subscribe to this topic to get K-Line data.
     "response": true                              
 }
 ```
-Topic: **/market/match:{symbol},{symbol}...**
+Topic: `/market/match:{symbol},{symbol}...`
+
+* Push frequency: `real-time`
 
 Subscribe to this topic to get the matching event data flow of Level 3.
 
@@ -6356,7 +6827,6 @@ For each order traded, the system would send you the match messages in the follo
     "topic":"/market/match:BTC-USDT",
     "subject":"trade.l3match",
     "data":{
-
         "sequence":"1545896669145",
         "type":"match",
         "symbol":"BTC-USDT",
@@ -6384,7 +6854,7 @@ For each order traded, the system would send you the match messages in the follo
 }
 ```
 
-Topic: **/indicator/index:{symbol0},{symbol1}...**
+Topic: `/indicator/index:{symbol0},{symbol1}...`
 
 Subscribe to this topic to get the index price for the margin trading.
 
@@ -6395,7 +6865,6 @@ Subscribe to this topic to get the index price for the margin trading.
     "topic":"/indicator/index:USDT-BTC",
     "subject":"tick",
     "data":{
-
         "symbol": "USDT-BTC",
         "granularity": 5000,
         "timestamp": 1551770400000,
@@ -6419,11 +6888,6 @@ The following ticker symbols are supported: [List of currently supported symbol]
   "response": true
 }
 ```
-
-Topic: **/indicator/markPrice:{symbol0},{symbol1}...**
-
-Subscribe to this topic to get the mark price for margin trading.
-
 ```json
 {
     "id":"5c24c5da03aa673885cd67aa",
@@ -6431,7 +6895,6 @@ Subscribe to this topic to get the mark price for margin trading.
     "topic":"/indicator/markPrice:USDT-BTC",
     "subject":"tick",
     "data":{
-
         "symbol": "USDT-BTC",
         "granularity": 5000,
         "timestamp": 1551770400000,
@@ -6439,6 +6902,10 @@ Subscribe to this topic to get the mark price for margin trading.
     }
 }
 ```
+Topic: `/indicator/markPrice:{symbol0},{symbol1}...`
+
+Subscribe to this topic to get the mark price for margin trading.
+
 The following ticker symbols are supported: [List of currently supported symbol](#list-of-currently-supported-symbol)
 
 <aside class="spacer8"></aside>
@@ -6454,13 +6921,6 @@ The following ticker symbols are supported: [List of currently supported symbol]
   "response": true
 }
 ```
-
-Topic: **/margin/fundingBook:{currency0},{currency1}...**
-
-
-Subscribe to this topic to get the order book changes on margin trade.
-
-
 ```json
 {
     "id": "5c24c5da03aa673885cd67ab",
@@ -6480,6 +6940,9 @@ Subscribe to this topic to get the order book changes on margin trade.
     }
 }
 ```
+Topic: `/margin/fundingBook:{currency0},{currency1}...`
+
+Subscribe to this topic to get the order book changes on margin trade.
 
 <aside class="spacer8"></aside>
 <aside class="spacer2"></aside>
@@ -6488,12 +6951,14 @@ Subscribe to this topic to get the order book changes on margin trade.
 
 # Private Channels
 
-Subscribe to private channels require **privateChannel=“true”**.
+Subscribe to private channels require `privateChannel=“true”`.
 
 
 ## Private Order Change Events
 
-Topic: **/spotMarket/tradeOrders**
+Topic: `/spotMarket/tradeOrders`
+
+* Push frequency: `real-time`
 
 This topic will push all change events of your orders.
 
@@ -6517,7 +6982,6 @@ This topic will push all change events of your orders.
     "subject":"orderChange",
     "channelType":"private",
     "data":{
-
         "symbol":"KCS-USDT",
         "orderType":"limit",
         "side":"buy",
@@ -6548,7 +7012,6 @@ when the order enters into the order book;
     "subject":"orderChange",
     "channelType":"private",
     "data":{
-
         "symbol":"KCS-USDT",
         "orderType":"limit",
         "side":"sell",
@@ -6583,7 +7046,6 @@ when the order has been executed;
     "subject":"orderChange",
     "channelType":"private",
     "data":{
-
         "symbol":"KCS-USDT",
         "orderType":"limit",
         "side":"sell",
@@ -6614,7 +7076,6 @@ when the order has been executed and its status was changed into DONE;
     "subject":"orderChange",
     "channelType":"private",
     "data":{
-
         "symbol":"KCS-USDT",
         "orderType":"limit",
         "side":"buy",
@@ -6645,7 +7106,6 @@ when the order has been cancelled and its status was changed into DONE;
     "subject":"orderChange",
     "channelType":"private",
     "data":{
-
         "symbol":"KCS-USDT",
         "orderType":"limit",
         "side":"buy",
@@ -6676,7 +7136,6 @@ when the order has been updated;
 	  "subject": "account.balance",
     "channelType":"private",
 	  "data": {
-
 		    "total": "88", // total balance
 		    "available": "88", // available balance
 		    "availableChange": "88", // the change of available balance
@@ -6686,7 +7145,6 @@ when the order has been updated;
 		    "relationEvent": "trade.setted", //relation event
 		    "relationEventId": "5c21e80303aa677bd09d7dff", // relation event id
 		    "relationContext": {
-
             "symbol":"BTC-USDT",
             "tradeId":"5e6a5dca9e16882a7d83b7a4", // the trade Id when order is executed
             "orderId":"5ea10479415e2f0009949d54"
@@ -6696,7 +7154,9 @@ when the order has been updated;
 }
 
 ```
-Topic: **/account/balance**
+Topic: `/account/balance`
+
+* Push frequency: `real-time`
 
 You will receive this message when an account balance changes. The message contains the details of the change.
 
@@ -6733,7 +7193,6 @@ other | Others
     "subject":"debt.ratio",
     "channelType":"private",
     "data": {
-
         "debtRatio": 0.7505,                                         //Debt ratio
         "totalDebt": "21.7505",                                      //Total debt in BTC (interest included)
         "debtList": {"BTC": "1.21","USDT": "2121.2121","EOS": "0"},  //Debt list (interest included)
@@ -6743,7 +7202,7 @@ other | Others
 
 ```
 
-Topic: **/margin/position**
+Topic: `/margin/position`
 
 The system will push the current debt message periodically when there is a liability.
 
@@ -6760,14 +7219,13 @@ The system will push the current debt message periodically when there is a liabi
     "subject":"position.status",
     "channelType":"private",
     "data": {
-
         "type": "FROZEN_FL",         //Event type
         "timestamp": 15538460812100  //Timestamp (millisecond)
     }
 }
 ```
 
-Topic: **/margin/position**
+Topic: `/margin/position`
 
 The system will push the change event when the position status changes.
 
@@ -6800,7 +7258,6 @@ UNLIABILITY: When all the liabilities is repaid and the position returns to “E
     "subject": "order.open",
     "channelType":"private",
     "data": {
-
         "currency": "BTC",                            //Currency
         "orderId": "ac928c66ca53498f9c13a127a60e8",   //Trade ID
         "dailyIntRate": 0.0001,                       //Daily interest rate.
@@ -6812,7 +7269,7 @@ UNLIABILITY: When all the liabilities is repaid and the position returns to “E
 }
 ```
 
-Topic: **/margin/loan:{currency}**
+Topic: `/margin/loan:{currency}`
 
 The system will push this message to the lenders when the order enters the order book.
 
@@ -6830,7 +7287,6 @@ The system will push this message to the lenders when the order enters the order
     "subject": "order.update",
     "channelType":"private",
     "data": {
-
         "currency": "BTC",                            //Currency
         "orderId": "ac928c66ca53498f9c13a127a60e8",   //Order ID
         "dailyIntRate": 0.0001,                       //Daily Interest Rate
@@ -6844,7 +7300,7 @@ The system will push this message to the lenders when the order enters the order
 
 ```
 
-Topic: **/margin/loan:{currency}**
+Topic: `/margin/loan:{currency}`
 
 The system will push this message to the lenders when the order is executed.
 
@@ -6861,7 +7317,6 @@ The system will push this message to the lenders when the order is executed.
 	"subject": "order.done",
     "channelType":"private",
 	"data": {
-
 		"currency": "BTC",                            //Currency
 		"orderId": "ac928c66ca53498f9c13a127a60e8",   //Order ID
 		"reason": "filled",                           //Done reason (filled or canceled)
@@ -6871,14 +7326,13 @@ The system will push this message to the lenders when the order is executed.
 }
 ```
 
-Topic: **/margin/loan:{currency}**
+Topic: `/margin/loan:{currency}`
 
 The system will push this message to the lenders when the order is completed.
 
 
 
-<aside class="spacer4"></aside>
-<aside class="spacer4"></aside>
+<aside class="spacer8"></aside>
 <aside class="spacer"></aside>
 
 
@@ -6890,7 +7344,6 @@ The system will push this message to the lenders when the order is completed.
     "subject":"stopOrder",
     "channelType":"private",
     "data":{
-
         "createdAt":1589789942337,
         "orderId":"5ec244f6a8a75e0009958237",
         "orderPrice":"0.00062",
@@ -6910,7 +7363,9 @@ The system will push this message to the lenders when the order is completed.
 
 ## Stop Order Event
 
-Topic: /spotMarket/advancedOrders
+Topic: `/spotMarket/advancedOrders`
+
+* Push frequency: `real-time`
 
 Subject: stopOrder
 
