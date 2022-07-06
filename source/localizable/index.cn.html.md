@@ -32,6 +32,12 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 **为了进一步提升API安全性，KuCoin已经升级到了V2版本的API-KEY，验签逻辑也发生了一些变化，建议到[API管理页面](https://www.kucoin.cc/account/api)添加并更换到新的API-KEY。KuCoin已经停止对老版本API-KEY的支持。[查看新的签名方式](#8ba46c43fe)**
 
+**07/05/22**:
+
+- 【新增】新增杠杆逐仓相关接口: `GET /api/v1/isolated/symbols`、`GET /api/v1/isolated/accounts`、`GET /api/v1/isolated/account/{symbol}`、`POST /api/v1/isolated/borrow`、`GET /api/v1/isolated/borrow/outstanding`、`GET /api/v1/isolated/borrow/repaid`、`POST /api/v1/isolated/repay/all`、`POST /api/v1/isolated/repay/single`
+- 【修改】修改以下接口用于支持杠杆逐仓: `POST /api/v2/accounts/inner-transfer`、`GET /api/v1/accounts/transferable`、`POST /api/v1/margin/order`
+- 【修改】核对修正文档描述，提高文档的阅读性
+
 **01/25/22**:
 
 - 【新增】新增[查询全仓/逐仓杠杆风险限额](#9fc2ee1222)接口
@@ -1362,21 +1368,21 @@ baseAmount | 基准货币数量
 此接口可获取指定账户和币种下的可划转的资金。
 
 ### HTTP请求
-**GET /api/v1/accounts/transferable**
+`GET /api/v1/accounts/transferable`
 
 ### 请求示例
-GET /api/v1/accounts/transferable?currency=BTC&type=MAIN
+`GET /api/v1/accounts/transferable?currency=BTC&type=MAIN`
 
 ### API权限
-此接口需要**通用权限**。
+此接口需要`通用权限`。
 
 ### 请求参数
 
-请求参数 | 类型 | 含义
---------- | ------- |  -------
-currency | String | [币种](#ebcc9fbb02)
-type | String |  账户类型**MAIN**、**TRADE**、**MARGIN**
-
+请求参数 | 类型 | 是否必须 |含义
+--------- | ------- |  ------- | -------
+currency | String | 是 | [币种](#ebcc9fbb02)
+type | String | 是 | 账户类型：`MAIN`、`TRADE`、`MARGIN`、`ISOLATED`
+tag | String | 否 | 交易对，账户类型为`ISOLATED`时必填，其他类型不传，例如：`BTC-USDT`
 
 ### 返回值
 字段 | 含义
@@ -1439,26 +1445,23 @@ orderId | 子母账号转账的订单ID
     "orderId":"5bd6e9286d99522a52e458de"
 }
 ```
-此接口用于平台内部账户资金划转，用户可以将资金在储蓄账户、交易账户、杠杆账户之间免费划转。同时支持从其他账户划转资金至合约账户，但不支持从合约账户转出资金至其他账户。
+此接口用于平台内部账户资金划转，用户可以将资金在储蓄账户、交易账户、杠杆账户全仓、杠杆账户逐仓之间免费划转。同时支持从储蓄账户、交易账户、杠杆账户全仓划转资金至合约账户，但不支持从合约账户转出资金至其他账户。
 ### HTTP请求
-
-**POST /api/v2/accounts/inner-transfer**
-
-### 请求示例
-POST /api/v2/accounts/inner-transfer
+`POST /api/v2/accounts/inner-transfer`
 
 ### API权限
-此接口需要**交易权限**。
+此接口需要`交易权限`。
 
 ### 请求参数
-请求参数 | 类型 | 含义
---------- | ------- |  -------
-clientOid | String | Client Order Id，客户端创建的唯一标识，建议使用UUID
-currency | String | [币种](#ebcc9fbb02)
-from | String |  付款账户类型**main**、**trade**、**margin**
-to | String |  收款账户类型**main**、**trade**、**margin** 、**contract**
-amount | String | 转账金额，精度为[币种精度](#ebcc9fbb02)正整数倍
-
+请求参数 | 类型 | 是否必须 |含义
+--------- | ------- |  ------- | -------
+clientOid | String | 是 | Client Order Id，客户端创建的唯一标识，建议使用UUID
+currency | String | 是 | [币种](#ebcc9fbb02)
+from | String |  是 | 付款账户类型: `main`、`trade`、`margin`、`isolated`
+to | String |  是 | 收款账户类型: `main`、`trade`、`margin`、`isolated`、`contract`
+amount | String | 是 | 转账金额，精度为[币种精度](#ebcc9fbb02)正整数倍
+fromTag | String | 否 | 交易对，付款账户类型为`isolated`时必填，例如：`BTC-USDT`
+toTag | String | 否 | 交易对，收款账户类型为`isolated`时必填，例如：`BTC-USDT`
 
 ### 返回值
 字段 | 含义
@@ -2256,8 +2259,8 @@ postOnlys只是一个标识，如果下单有能立即成交的对手方，则�
 ```
 
 订单有两种类型：
-限价单（**limit**）: 指定价格和数量进行交易。
-市价单(**market**) : 指定资金或数量进行交易。
+限价单（`limit`）: 指定价格和数量进行交易。
+市价单(`market`) : 指定资金或数量进行交易。
 
 在下单前，请确保您的[杠杆账户](#f0f7ae469d)有足够的资金。一旦下单成功，您下单的金额会被冻结。[冻结金额](#HOLDS)的多少取决于您下单的类型和具体的请求参数。
 <aside class="notice">下单将启用价格保护机制。当限价单的价格在阈值范围之外时，会触发价格保护机制，导致下单失败。</aside>
@@ -2271,18 +2274,13 @@ postOnlys只是一个标识，如果下单有能立即成交的对手方，则�
 
 ###下单限制
 
-对于一个账号，每一个交易对最大撮合订单数量 **200** （包含止损单）。
+对于一个账号，每一个交易对最大活跃委托订单数量`200`（包含止损单）。
 
 ### HTTP 请求
-
-**POST /api/v1/margin/order**
-
-### 请求示例
-
-POST /api/v1/margin/order
+`POST /api/v1/margin/order`
 
 ### API权限
-此接口需要**交易权限**。
+此接口需要`交易权限`。
 
 ### 请求参数
 
@@ -2290,23 +2288,23 @@ POST /api/v1/margin/order
 
 | 请求参数      | 类型     | 含义                                                                                    |
 | --------- | ------ | ------------------------------------------------------------------------------------- |
-| clientOid | String | Client Order Id，客户端创建的唯一标识，建议使用UUID                                                   |
-| side      | String | **buy**（买） 或 **sell**（卖）                                                              |
+| clientOid | String | 客户端创建的唯一标识，建议使用UUID                                                   |
+| side      | String | `buy`（买） 或 `sell`（卖）                                                              |
 | symbol    | String | [交易对](#a17b4e2866) 比如，ETH-BTC                                                         |
-| type      | String | [可选] 订单类型 **limit** 和  **market** (默认为 **limit**)                                     |
+| type      | String | [可选] 订单类型 `limit`和`market`(默认为 `limit`)                                     |
 | remark    | String | [可选] 下单备注，长度不超过100个字符（UTF-8）                                                          |
-| stp       | String | [可选] [自成交保护](#80920cd667)（self trade prevention）分为**CN**, **CO**, **CB** , **DC**四种策略 |
-| marginMode | String | [可选] 杠杆交易模式，分为cross（全仓模式）, isolated（逐仓模式）, **默认为cross**。逐仓模式即将上线，敬请期待。   |
-| autoBorrow | boolean | [可选] [可选] 自动借币下单，即系统自动以市场最优利率借币再下单。                                         |
+| stp       | String | [可选] [自成交保护](#80920cd667)（self trade prevention）分为`CN`, `CO`, `CB` , `DC`四种策略 |
+| marginMode | String | [可选] 杠杆交易模式，分为`cross`（全仓模式）, `isolated`（逐仓模式）, 默认为`cross`。   |
+| autoBorrow | boolean | [可选] 自动借币下单，即系统自动以市场最优利率借币再下单。 (目前只支持全仓不支持逐仓)                                       |
 #### **limit** 限价单额外所需请求参数
 
 | 请求参数        | 类型      | 含义                                                          |
 | ----------- | ------- | ----------------------------------------------------------- |
 | price       | String  | 指定币种的价格                                                     |
 | size        | String  | 指定币种的数量                                                     |
-| timeInForce | String  | [可选] 订单时效策略 **GTC**, **GTT**, **IOC**, **FOK** (默认为**GTC**) |
-| cancelAfter | long    | [可选] **n** 秒之后取消，订单时效策略为 **GTT**                            |
-| postOnly    | boolean | [可选] 被动委托的标识, 当订单时效策略为 **IOC** 或 **FOK** 时无效                |
+| timeInForce | String  | [可选] 订单时效策略:`GTC`, `GTT`, `IOC`, `FOK` (默认为`GTC`) |
+| cancelAfter | long    | [可选] `n`秒之后取消，订单时效策略为 `GTT`                            |
+| postOnly    | boolean | [可选] 被动委托的标识, 当订单时效策略为`IOC`或`FOK` 时无效                |
 | hidden      | boolean | [可选] 是否隐藏（买卖盘中不展示）                                          |
 | iceberg     | boolean | [可选] 冰山单中是否仅显示订单的可见部分                                       |
 | visibleSize | String  | [可选] 冰山单最大的展示数量                                             |
@@ -2315,18 +2313,18 @@ POST /api/v1/margin/order
 
 请求参数 | 类型 | 含义
 --------- | ------- | ------- | ---------
-size | String | 否（size和funds 二选一） | 下单数量
-funds | String |  否（size和funds 二选一）| 下单资金
+size | String | 否（`size`和`funds`二选一） | 下单数量
+funds | String |  否（`size`和`funds`二选一）| 下单资金
 
 * 下市价单，需定买卖数量或资金。
 
 ###术语解释
 
 ###交易模式(marginModel)
-交易模式有：全仓（cross）与逐仓（isolated），目前平台只支持全仓（cross）模式，默认为全仓模式。逐仓模式即将上线，敬请期待
+交易模式有：全仓（`cross`）与逐仓（`isolated`），默认为全仓模式。
 
 ### 自动借币下单(autoBorrow)
-自动借币下单标识，如此字段为true，则会根据下单量，自动借入下单所需的金额。默认为false。如果下单量过大，超过了最大杠杆倍数或者风险限额阈值，则借币失败，下单也会失败。
+自动借币下单标识，如此字段为`true`，则会根据下单量，自动借入下单所需的金额。默认为`false`。如果下单量过大，超过了最大杠杆倍数或者风险限额阈值，则借币失败，下单也会失败。目前只支持全仓（`cross`）借币下单
 
 
 ### 返回值
@@ -2337,7 +2335,7 @@ funds | String |  否（size和funds 二选一）| 下单资金
 | borrowSize                        | 借币数量，只有在自动借币下单后才返回 |
 | loanApplyId                       | 借币申请ID，只有在自动借币下单后才返回 |
 
-下单成功后，会返回一个orderId字段，意味这订单进入撮合引擎。
+下单成功后，会返回一个`orderId`字段，意味这订单进入撮合引擎。
 
 
 ## 批量下单
@@ -3847,6 +3845,7 @@ DELETE /api/v1/stop-order/cancelOrderByClientOid?symbol=BTC-USDT&clientOid=9823j
     "quoteIncrement": "0.000001",
     "priceIncrement": "0.000001",
     "priceLimitRate": "0.1",
+    "minFunds": "0.1",
     "isMarginEnabled": true,
     "enableTrading": true
   },
@@ -3865,6 +3864,7 @@ DELETE /api/v1/stop-order/cancelOrderByClientOid?symbol=BTC-USDT&clientOid=9823j
     "quoteIncrement": "0.000001",
     "priceIncrement": "0.0000001",
     "priceLimitRate": "0.1",
+    "minFunds": "0.1",
     "isMarginEnabled": true,
     "enableTrading": true
   }
@@ -3875,21 +3875,17 @@ DELETE /api/v1/stop-order/cancelOrderByClientOid?symbol=BTC-USDT&clientOid=9823j
 
 
 ### HTTP请求
-**GET /api/v1/symbols**
-
-### 请求参数
-
-
-请求参数 | 类型 | 含义
---------- | ------- | -------
-market | String | [可选] [交易市场](#b8f118fefc): BTC, KCS, USDS, ALTS
+`GET /api/v1/symbols`
 
 ### 请求示例
-GET /api/v1/symbols
+`GET /api/v1/symbols`
 
+### 请求参数
+请求参数 | 类型 | 含义
+--------- | ------- | -------
+market | String | [可选] [交易市场](#b8f118fefc)
 
 ### 返回值
-
 | 字段             | 含义                            |
 | -------------- | ----------------------------- |
 | symbol         | 交易对唯一标识码，重命名后不会改变             |
@@ -3908,15 +3904,27 @@ GET /api/v1/symbols
 | enableTrading  | 是否可以用于交易                      |
 | isMarginEnabled | 是否支持杠杆                        |
 | priceLimitRate | 价格保护阈值                          |
+| minFunds       | 最小交易金額                          |
 
-- **baseMinSize** 和 **baseMaxSize** 这两个字段规范了下单size的最小值和最大值。
-- **priceIncrement** 字段规范了下单的price的最小值和价格增量。
+- `baseMinSize` 和 `baseMaxSize` 这两个字段规范了下单size的最小值和最大值。
+- `priceIncrement` 字段规范了下单的price的最小值和价格增量。
 
-下单的price必须为价格增量的正整数倍（如果增量为 0.01，下单价格是0.001或0.021的请求会被拒绝，返回invalid priceIncrement）
+下单的`price`必须为价格增量的正整数倍（如果增量为 0.01，下单价格是0.001或0.021的请求会被拒绝，返回invalid priceIncrement）
 
-**priceIncrement** 和 **quoteIncrement** 以后可能会调整，调整前我们会提前以邮件和全站通知的方式进行通知。
+`priceIncrement` 和 `quoteIncrement` 以后可能会调整，调整前我们会提前以邮件和全站通知的方式进行通知。
 
+委托单 | 遵循minFunds的规则
+--------- | ------- | -----------
+限价买单 | [委托数量*委托价格] >= `minFunds`
+限价卖单 | [委托数量*委托价格] >= `minFunds`
+市价买单 | 委托金额 >= `minFunds`
+市价卖单 | [委托数量*BASE币种最新成交价] >= `minFunds`
 
+注：
+
+* 对于API中按数量进行市价买单的情况，采用[委托数量*BASE币种最新成交价]<`minFunds`进行判断
+* 对于API中按照金额进行市价卖单的情况，采用委托金额<`minFunds`进行判断。
+* 对于市价及限价止盈止损委托，委托时不受此限制，但委托触发之后的下单后亦会受到此限制
 
 ## 行情快照
 
@@ -4799,26 +4807,24 @@ GET /api/v1/margin/account
 <aside class="notice">目前仅支持全仓，查询逐仓会返回空列表</aside>
 
 ### HTTP请求
-
-**GET /api/v1/risk/limit/strategy**
+`GET /api/v1/risk/limit/strategy`
 
 ### 请求示例
-
-GET /api/v1/risk/limit/strategy?marginModel=corss
+`GET /api/v1/risk/limit/strategy?marginModel=cross`
 
 ### API权限
 
-该接口需要**通用权限**。
+该接口需要`通用权限`。
 
 ### 频率限制
 
-此接口针对每个账号请求频率限制为**1次/3s**
+此接口针对每个账号请求频率限制为`1次/3s`
 
 ### 请求参数
 
 | 请求参数   | 类型     | 含义        |
 | ------ | ------ | --------- |
-| marginModel | String | corss代表查询全仓，isolated代表查询逐仓，默认值是cross |
+| marginModel | String | `cross`代表查询全仓，`isolated`代表查询逐仓，默认值是`cross` |
 
 ### 返回值
 
@@ -5601,6 +5607,470 @@ GET /api/v1/margin/trade/last?currency=BTC
 | term         | 期限，单位天              |
 | timestamp    | 成交时间戳，单位纳秒      |
 
+# 逐仓
+## 查询逐仓交易对配置
+```json
+{
+    "code":"200000",
+    "data": [
+        {
+            "symbol": "EOS-USDC",
+            "symbolName": "EOS-USDC",
+            "baseCurrency": "EOS",
+            "quoteCurrency": "USDC",
+            "maxLeverage": 10,
+            "flDebtRatio": "0.97",
+            "tradeEnable": true,
+            "autoRenewMaxDebtRatio": "0.96",
+            "baseBorrowEnable": true,
+            "quoteBorrowEnable": true,
+            "baseTransferInEnable": true,
+            "quoteTransferInEnable": true
+        },
+        {
+            "symbol": "MANA-USDT",
+            "symbolName": "MANA-USDT",
+            "baseCurrency": "MANA",
+            "quoteCurrency": "USDT",
+            "maxLeverage": 10,
+            "flDebtRatio": "0.9",
+            "tradeEnable": true,
+            "autoRenewMaxDebtRatio": "0.96",
+            "baseBorrowEnable": true,
+            "quoteBorrowEnable": true,
+            "baseTransferInEnable": true,
+            "quoteTransferInEnable": true
+        }
+    ]
+}
+```
+此接口返回当前逐仓杠杆交易对配置
+
+### HTTP请求
+`GET /api/v1/isolated/symbols`
+
+### API权限
+该接口需要`通用权限`。
+
+### 请求参数
+`无`
+
+### 返回值
+| 字段         | 含义                     
+| ------------ | -----------------
+symbol | 交易对编码
+baseCurrency | base币种
+quoteCurrency | quote币种
+symbolName | 交易对名称
+maxLeverage | 最大杠杆倍数
+flDebtRatio | 强平负债率
+tradeEnable | 交易开关
+autoRenewMaxDebtRatio | 自动续借最大负债率，低于该负债率才续借，超过该负债率直接部分强平还款
+baseBorrowEnable | base币种借入开关
+quoteBorrowEnable | quote币种借入开关
+baseTransferInEnable | base币种转入开关
+quoteTransferInEnable | quote币种转入开关
+
+## 查询逐仓账户信息
+```json
+{
+    "code":"200000",
+    "data": {
+        "totalConversionBalance": "3.4939947",
+        "liabilityConversionBalance": "0.00239066",
+        "assets": [
+            {
+                "symbol": "MANA-USDT",
+                "status": "CLEAR",
+                "debtRatio": "0",
+                "baseAsset": {
+                    "currency": "MANA",
+                    "totalBalance": "0",
+                    "holdBalance": "0",
+                    "availableBalance": "0",
+                    "liability": "0",
+                    "interest": "0",
+                    "borrowableAmount": "0"
+                },
+                "quoteAsset": {
+                    "currency": "USDT",
+                    "totalBalance": "0",
+                    "holdBalance": "0",
+                    "availableBalance": "0",
+                    "liability": "0",
+                    "interest": "0",
+                    "borrowableAmount": "0"
+                }
+            },
+            {
+                "symbol": "EOS-USDC",
+                "status": "CLEAR",
+                "debtRatio": "0",
+                "baseAsset": {
+                    "currency": "EOS",
+                    "totalBalance": "0",
+                    "holdBalance": "0",
+                    "availableBalance": "0",
+                    "liability": "0",
+                    "interest": "0",
+                    "borrowableAmount": "0"
+                },
+                "quoteAsset": {
+                    "currency": "USDC",
+                    "totalBalance": "0",
+                    "holdBalance": "0",
+                    "availableBalance": "0",
+                    "liability": "0",
+                    "interest": "0",
+                    "borrowableAmount": "0"
+                }
+            }
+        ]
+    }
+}
+```
+此接口返回当前用户的所有逐仓账户
+
+### HTTP请求
+`GET /api/v1/isolated/accounts`
+
+### API权限
+该接口需要`通用权限`。
+
+### 请求参数
+| 请求参数 | 类型  | 是否必须 | 含义 
+| ------ | ------ | ------ | ------
+balanceCurrency	| String |  否 | 计价币种，目前只支持`USDT`、`KCS`、`BTC`，不传默认`BTC`
+
+### 返回值
+| 字段         | 含义                     
+| ------------ | -----------------
+totalConversionBalance | 逐仓账户总的余额（按指定的币种计价）
+liabilityConversionBalance | 逐仓账户总的负债（按指定的币种计价）
+assets | 账户列表
+assets.symbol | 交易对，一个交易对代表一个仓位
+assets.status | 仓位状态，有负债-`DEBT`, 无负债-`CLEAR`, 破产(发生穿仓后，进入破产状态)-`BANKRUPTCY`,借入中-`IN_BORROW`, 还款中-`IN_REPAY`, 平仓中-`IN_LIQUIDATION`, 自动续借中-`IN_AUTO_RENEW`
+assets.debtRatio | 负债率
+assets.baseAsset | base币种的资产信息
+assets.quoteAsset | quote币种的资产信息
+currency | 币种Code
+totalBalance | 当前币种总资产金额
+holdBalance | 当前币种冻结金额
+availableBalance | 可用余额（总资产-冻结）
+
+## 查询单个逐仓账户信息
+```json
+{
+    "code": "200000",
+    "data": {
+        "symbol": "MANA-USDT",
+        "status": "CLEAR",
+        "debtRatio": "0",
+        "baseAsset": {
+            "currency": "MANA",
+            "totalBalance": "0",
+            "holdBalance": "0",
+            "availableBalance": "0",
+            "liability": "0",
+            "interest": "0",
+            "borrowableAmount": "0"
+        },
+        "quoteAsset": {
+            "currency": "USDT",
+            "totalBalance": "0",
+            "holdBalance": "0",
+            "availableBalance": "0",
+            "liability": "0",
+            "interest": "0",
+            "borrowableAmount": "0"
+        }
+    }
+}
+```
+此接口返回当前用户单个逐仓账户信息
+
+### HTTP请求
+`GET /api/v1/isolated/account/{symbol}`
+
+### API权限
+该接口需要`通用权限`。
+
+### 请求参数
+| 请求参数 | 类型  | 是否必须 | 含义 
+| ------ | ------ | ------ | ------
+symbol | String | 是 | 交易对，例如：`BTC-USDT`
+
+### 返回值
+| 字段         | 含义                     
+| ------------ | -----------------
+symbol | 交易对
+status | 仓位状态: 有负债-`DEBT`, 无负债-`CLEAR`, 破产(发生穿仓后，进入破产状态)-`BANKRUPTCY`,借入中-`IN_BORROW`, 还款中-`IN_REPAY`, 平仓中-`IN_LIQUIDATION`, 自动续借中-`IN_AUTO_RENEW` （每个状态的权限）
+debtRatio | 负债率
+baseAsset | base币种的资产信息
+quoteAsset | quote币种的资产信息
+currency | 币种Code
+totalBalance | 当前币种总资产金额
+availableBalance | 当前币种可用金额
+holdBalance | 当前币种冻结金额
+liability | 当前币种负债的本金,即未偿还的本金
+interest | 当前币种负债的负债的利息,即未偿还的利息
+borrowableAmount | 可借数量
+
+## 逐仓借入
+```json
+{
+    "code": "200000",
+    "data": {
+        "orderId": "62baad0aaafc8000014042b3",
+        "currency": "USDT",
+        "actualSize": "10"
+    }
+}
+```
+此接口用户发起逐仓借入
+
+### HTTP请求
+`POST /api/v1/isolated/borrow`
+
+### API权限
+该接口需要`交易权限`。
+
+### 请求参数
+| 请求参数 | 类型  | 是否必须 | 含义 
+| ------ | ------ | ------ | ------
+symbol | String | 是 | 交易对，例如：`BTC-USDT`
+currency | String | 是 | 借入币种
+size | BigDecimal | 是 | 借入数量
+borrowStrategy | String | 是 | 借入策略：`FOK`、`IOC`
+maxRate | BigDecimal | 否 | 最大利率, 不填则表示接受所有利率
+period | String | 否 | 期限,单位为:天, 不填则表示接受所有期限,逗号隔开,如: `7`,`14`,`28`
+
+### 返回值
+| 字段         | 含义                     
+| ------------ | -----------------
+orderId | 借入单号
+currency | 借入币种
+actualBorrowSize | 实际借入金额
+
+## 查询待还款记录
+```json
+{
+    "success": true,
+    "code": "200",
+    "msg": "success",
+    "retry": false,
+    "data": {
+        "currentPage": 1,
+        "pageSize": 10,
+        "totalNum": 6,
+        "totalPage": 1,
+        "items": [
+            {
+                "loanId": "62aec83bb51e6f000169a3f0",
+                "symbol": "BTC-USDT",
+                "currency": "USDT",
+                "liabilityBalance": "10.02000016",
+                "principalTotal": "10",
+                "interestBalance": "0.02000016",
+                "createdAt": 1655621691869,
+                "maturityTime": 1656226491869,
+                "period": 7,
+                "repaidSize": "0",
+                "dailyInterestRate": "0.001"
+            },
+            {
+                "loanId": "62aa94e52a3fbb0001277fd1",
+                "symbol": "BTC-USDT",
+                "currency": "USDT",
+                "liabilityBalance": "10.05166708",
+                "principalTotal": "10",
+                "interestBalance": "0.05166708",
+                "createdAt": 1655346405447,
+                "maturityTime": 1655951205447,
+                "period": 7,
+                "repaidSize": "0",
+                "dailyInterestRate": "0.001"
+            }
+        ]
+    }
+}
+```
+此接口用于查询逐仓待还款记录
+
+### HTTP请求
+`GET /api/v1/isolated/borrow/outstanding`
+
+### 请求示例
+`GET /api/v1/isolated/borrow/outstanding?symbol=BTC-USDT&currency=USDT`
+
+### API权限
+该接口需要`通用权限`。
+
+### 请求参数
+| 请求参数 | 类型  | 是否必须 | 含义 
+| ------ | ------ | ------ | ------
+symbol | String | 否 | 交易对,例如：`BTC-USDT`
+currency | String | 否 | 币种
+pageSize | int | 否 | 分页每页大小[`10`-`50`]
+currentPage | int | 否 | 当前页码[`1`-`100`]
+
+### 返回值
+| 字段         | 含义                     
+| ------------ | -----------------
+loanId | 交易id
+symbol | 交易对
+currency | 币种
+liabilityBalance | 剩余负债
+principalTotal | 本金
+interestBalance | 应计利息
+createdAt | 成交时间，时间戳
+maturityTime | 到期时间，时间戳
+period | 期限
+repaidSize | 已还数量
+dailyInterestRate | 日利率
+
+## 查询已还款记录
+```json
+{
+    "code": "200000",
+    "data": {
+        "currentPage": 1,
+        "pageSize": 10,
+        "totalNum": 30,
+        "totalPage": 3,
+        "items": [
+            {
+                "loanId": "628df5787818320001c79c8b",
+                "symbol": "BTC-USDT",
+                "currency": "USDT",
+                "principalTotal": "10",
+                "interestBalance": "0.07000056",
+                "repaidSize": "10.07000056",
+                "createdAt": 1653470584859,
+                "period": 7,
+                "dailyInterestRate": "0.001",
+                "repayFinishAt": 1654075506416
+            },
+            {
+                "loanId": "628c570f7818320001d52b69",
+                "symbol": "BTC-USDT",
+                "currency": "USDT",
+                "principalTotal": "11",
+                "interestBalance": "0.07699944",
+                "repaidSize": "11.07699944",
+                "createdAt": 1653364495783,
+                "period": 7,
+                "dailyInterestRate": "0.001",
+                "repayFinishAt": 1653969432251
+            }
+        ]
+    }
+}
+```
+此接口用于查询逐仓已还款记录
+
+### HTTP请求
+`GET /api/v1/isolated/borrow/repaid`
+
+### 请求示例
+`GET /api/v1/isolated/borrow/repaid?symbol=BTC-USDT&currency=USDT`
+
+### API权限
+该接口需要`通用权限`。
+
+### 请求参数
+| 请求参数 | 类型  | 是否必须 | 含义 
+| ------ | ------ | ------ | ------
+symbol | String | 否 | 交易对,例如：`BTC-USDT`
+currency | String | 否 | 币种
+pageSize | int | 否 | 分页每页大小[`10`-`50`]
+currentPage | int | 否 | 当前页码[`1`-`100`]
+
+### 返回值
+| 字段         | 含义                     
+| ------------ | -----------------
+loanId | 交易id
+symbol | 交易对
+currency | 币种
+principalTotal | 本金
+interestBalance | 应计利息
+repaidSize | 已还数量
+createdAt | 成交时间，时间戳
+period | 期限
+dailyInterestRate | 日利率
+repayFinishAt | 还款完成时间
+
+## 一键还款
+```json
+//request
+{
+    "currency": "BTC",
+    "seqStrategy": "HIGHEST_RATE_FIRST",
+    "size": 1.9,
+    "symbol": "BTC-USDT"
+}
+```
+```json
+//response
+{
+    "code": "200000",
+    "data": null
+}
+```
+此接口用于发起逐仓一键还款
+
+### HTTP请求
+`POST /api/v1/isolated/repay/all`
+
+### API权限
+该接口需要`交易权限`。
+
+### 请求参数
+| 请求参数 | 类型  | 是否必须 | 含义 
+| ------ | ------ | ------ | ------
+symbol | String | 是 | 交易对,例如：`BTC-USDT`
+currency | String | 是 | 还款币种
+size | BigDecimal | 是 | 还款数量
+seqStrategy | String | 是 | 还款顺序策略,`RECENTLY_EXPIRE_FIRST`:到期时间优先,即优先归还最快到期的贷款, `HIGHEST_RATE_FIRST`:利率优先，即优先归还利率高的贷款
+
+### 返回值
+当系统返回HTTP状态码`200`和系统代码`200000`时，表示成功
+
+## 单笔还款
+```json
+//request
+{
+    "currency": "BTC",
+    "loanId": 8765321,
+    "size": 1.9,
+    "symbol": "BTC-USDT"
+}
+```
+```json
+//response
+{
+    "code": "200000",
+    "data": null
+}
+```
+此接口用于发起逐仓单笔还款
+
+### HTTP请求
+`POST /api/v1/isolated/repay/single`
+
+### API权限
+该接口需要`交易权限`。
+
+### 请求参数
+| 请求参数 | 类型  | 是否必须 | 含义 
+| ------ | ------ | ------ | ------
+symbol | String | 是 | 交易对,例如：`BTC-USDT`
+currency | String | 是 | 还款币种
+size | BigDecimal | 是 | 还款数量
+loanId | String | 是 | 交易单号,设置该字段后，顺序策略无效
+
+### 返回值
+当系统返回HTTP状态码`200`和系统代码`200000`时，表示成功
 
 # 其他接口
 
