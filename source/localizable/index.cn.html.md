@@ -6539,7 +6539,7 @@ Topic: `/market/snapshot:{market}`
 
 Topic: `/market/level2:{symbol},{symbol}...`
 
-* 推送频率: `100ms`一次
+* 推送频率: `实时推送`
 
 订阅此topic可获取指定[交易对](#a17b4e2866)Level-2买卖盘数据。
 

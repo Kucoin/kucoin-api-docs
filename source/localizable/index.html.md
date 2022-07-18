@@ -33,7 +33,7 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 **07/05/22**:
 
 - Added the following interfaces related to isolated margin: `GET /api/v1/isolated/symbols`、`GET /api/v1/isolated/accounts`、`GET /api/v1/isolated/account/{symbol}`、`POST /api/v1/isolated/borrow`、`GET /api/v1/isolated/borrow/outstanding`、`GET /api/v1/isolated/borrow/repaid`、`POST /api/v1/isolated/repay/all`、`POST /api/v1/isolated/repay/single`
-- Modify the following interface to support isolated isolated: `POST /api/v2/accounts/inner-transfer`、`GET /api/v1/accounts/transferable`、`POST /api/v1/margin/order`
+- Modify the following interface to support isolated margin: `POST /api/v2/accounts/inner-transfer`、`GET /api/v1/accounts/transferable`、`POST /api/v1/margin/order`
 - Check and revise the document description to improve the readability of the document
 
 **01/25/22**:
@@ -6565,7 +6565,7 @@ Subscribe this topic to get the snapshot data of for the entire [market](#get-ma
 
 Topic: `/market/level2:{symbol},{symbol}...`
 
-* Push frequency: once every `100ms`
+* Push frequency:`real-time`
 
 Subscribe to this topic to get Level2 order book data.
 
