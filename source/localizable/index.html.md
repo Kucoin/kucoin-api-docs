@@ -30,6 +30,12 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 
 **To reinforce the security of the API, KuCoin upgraded the API key to version 2.0, the validation logic has also been changed. It is recommended to [create](https://www.kucoin.com/account/api) and update your API key to version 2.0. The API key of version 1.0 is invalid. [Check new signing method](#signing-a-message)**
 
+**08/03/22**:
+
+- Add `currencyType` request parameter to `GET /api/v1/base-fee` interface
+- Add `feeDeductType` request parameter to `POST /api/v1/withdrawals` interface
+- Add `chain` response parameter to `GET /api/v2/currencies/{currency}` interface
+
 **07/05/22**:
 
 - Added the following interfaces related to isolated margin: `GET /api/v1/isolated/symbols`、`GET /api/v1/isolated/accounts`、`GET /api/v1/isolated/account/{symbol}`、`POST /api/v1/isolated/borrow`、`GET /api/v1/isolated/borrow/outstanding`、`GET /api/v1/isolated/borrow/repaid`、`POST /api/v1/isolated/repay/all`、`POST /api/v1/isolated/repay/single`
@@ -832,25 +838,21 @@ Signature is required for this part.
 You can get the user info of all sub-users via this interface.
 
 ### HTTP REQUEST
-
-**Get /api/v1/sub/user**
-
+`GET /api/v1/sub/user`
 
 ### Example
-GET /api/v1/sub/user
+`GET /api/v1/sub/user`
 
 ### API KEY PERMISSIONS
-This endpoint requires the **"General"** permission.
+This endpoint requires the `General` permission.
 
 ### RESPONSES
-
 Field | Description
 --------- | -------
 userId | The user ID of your sub-account
 subName | The username of your sub-account
 type | The type of your sub-account
 remarks | Remark
-
 
 
 # Account
@@ -1475,7 +1477,7 @@ This API endpoint can be used to transfer funds between accounts internally. Use
 This endpoint requires the `Trade` permission.
 
 ### Parameters
-Parameters | Data Type | Compulsory? | Definitions |  
+Param | Type | Mandatory | Definitions |  
 --------- | ------- | -----------| -----------|
 clientOid | String | Yes | clientOid, the unique identifier created by the client, use of UUID 
 currency | String | Yes | [currency](#Get-Currencies) 
@@ -1951,38 +1953,33 @@ chain | The chain name of currency, e.g. The available value for USDT are OMNI, 
 ```
 
 ### HTTP REQUEST
-**POST /api/v1/withdrawals**
+`POST /api/v1/withdrawals`
 
 <aside class="notice">On the WEB end, you can open the switch of specified favorite addresses for withdrawal, and when it is turned on, it will verify whether your withdrawal address is a favorite address.</aside>
 
 ### Example
-POST /api/v1/withdrawals
+`POST /api/v1/withdrawals`
 
 ### API KEY PERMISSIONS
-This endpoint requires the **"Transfer"** permission.
+This endpoint requires the `Transfer` permission.
 
 ### Parameters
-
-Param | Type | Description
---------- | ------- | -----------
-currency  | String | Currency
-address   | String | Withdrawal address
-amount | number | Withdrawal amount, a positive number which is a multiple of the amount precision (fees excluded)
-memo   | String | *[Optional]*   Address remark. If there’s no remark, it is empty. When you withdraw from other platforms to the KuCoin, you need to fill in memo(tag). If you do not fill memo (tag), your deposit may not be available, please be cautious.
-isInner | boolean | *[Optional]*  Internal withdrawal or not. Default setup: false
-remark | String | *[Optional]*  Remark
-chain | String | *[Optional]* The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20. This only apply for multi-chain currency, and there is no need for single chain currency.
+Param | Type | Mandatory | Description |  
+--------- | ------- | -----------| -----------|
+currency   | String | Yes |Currency|
+address   | String | Yes | Withdrawal address
+amount | number | Yes | Withdrawal amount, a positive number which is a multiple of the amount precision (fees excluded)
+memo   | String | No | [Optional] Address remark. If there’s no remark, it is empty. When you withdraw from other platforms to the KuCoin, you need to fill in memo(tag). If you do not fill memo (tag), your deposit may not be available, please be cautious.
+isInner | boolean | No | [Optional]  Internal withdrawal or not. Default setup: false
+remark | String | No | [Optional]  Remark
+chain | String | No | *[Optional]* The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20. This only apply for multi-chain currency, and there is no need for single chain currency.
+feeDeductType | String | No | Withdrawal fee deduction type: `INTERNAL` or `EXTERNAL` or not specified<br/><br/>1. `INTERNAL`- deduct the transaction fees from your withdrawal amount</br>2. `EXTERNAL`- deduct the transaction fees from your main account</br>3. If you don't specify the `feeDeductType` parameter, when the balance in your main account is sufficient to support the withdrawal, the system will initially deduct the transaction fees from your main account. But if the balance in your main account is not sufficient to support the withdrawal, the system will deduct the fees from your withdrawal amount. For example:  Suppose you are going to withdraw 1 BTC from the KuCoin platform (transaction fee: 0.0001BTC), if the balance in your main account is insufficient, the system will deduct the transaction fees from your withdrawal amount. In this case, you will be receiving 0.9999BTC.
 
 ### RESPONSES
 Field | Description
 --------- | -------
 withdrawalId | Withdrawal id
 
-For cryptocurrency withdrawal, KuCoin supports internal and external transaction fee deduction, which means when the balance in your main account is sufficient to support the withdrawal, the system will initially deduct the transaction fees from your main account. But if the balance in your main account is not sufficient to support the withdrawal, the system will deduct the fees from your withdrawal amount.
-
-For example:
-
-Suppose you are going to withdraw 1 BTC from the KuCoin platform (transaction fee: 0.0001BTC), if the balance in your main account is insufficient, the system will deduct the transaction fees from your withdrawal amount. In this case, you will be receiving 0.9999BTC.
 
 ## Cancel Withdrawal
 
@@ -2021,15 +2018,22 @@ This interface is for the basic fee rate of users
 ```
 
 ### HTTP REQUEST
-**GET /api/v1/base-fee**
+`GET /api/v1/base-fee`
 
 ### Example
-GET /api/v1/base-fee
+`GET /api/v1/base-fee`
+<br/>
+`GET /api/v1/base-fee?currencyType=1`
 
 ### API KEY PERMISSIONS
-This endpoint requires the **"General"** permission.
+This endpoint requires the `General` permission.
 
-###RESPONSES
+### Parameters
+Param | Type | Mandatory | Description
+--------- | ------- | -------| -------
+currencyType| String | No | Currency type: `0`-crypto currency, `1`-fiat currency. default is `0`-crypto currency
+
+### RESPONSES
 Field | Description
 --------- | -------
 takerFeeRate | Base taker fee rate
@@ -2058,23 +2062,20 @@ This interface is for the actual fee rate of the trading pair. You can inquire a
 ```
 
 ### HTTP REQUEST
-**GET /api/v1/trade-fees**
+`GET /api/v1/trade-fees`
 
 ### Example
-GET /api/v1/trade-fees?symbols=BTC-USDT,KCS-USDT
+`GET /api/v1/trade-fees?symbols=BTC-USDT,KCS-USDT`
 
 ### API KEY PERMISSIONS
-This endpoint requires the **"General"** permission.
-
+This endpoint requires the `General` permission.
 
 ### Parameters
+Param | Type | Mandatory | Description
+--------- | ------- | -------| -------
+symbols|String|NO|Trading pair (optional, you can inquire fee rates of `10` trading pairs each time at most)
 
-Param | Type | Description
---------- | ------- | -------
-symbols| String | Trading pair (optional, you can inquire fee rates of 10 trading pairs each time at most)
-
-
-###RESPONSES
+### RESPONSES
 Field | Description
 --------- | -------
 symbol | The unique identity of the trading pair and will not change even if the trading pair is renamed
@@ -2298,16 +2299,16 @@ Before placing an order, please read [Get Symbol List](#get-symbols-list) to und
 ### Place Order Limit
 The maximum active orders for a single trading pair in one account is `200` (stop orders included).
 
-
 ### HTTP Request
 `POST /api/v1/margin/order`
 
 ### API KEY PERMISSIONS
 This endpoint requires the `Trade` permission.
 
+### REQUEST RATE LIMIT
+This API is restricted for each account, the request rate limit is `45 times/3s`.
 
 ### Parameters
-
 | Param     | type   | Description  |
 | --------- | ------ |-------------------------------- |
 | clientOid | String | Unique order id created by users to identify their orders, e.g. UUID. |
@@ -2425,12 +2426,10 @@ Request via this endpoint to place 5 orders at the same time. The order type mus
 
 
 ### HTTP Request
-
-**POST /api/v1/orders/multi**
+`POST /api/v1/orders/multi`
 
 
 ### Example
-
 ```json
 //request
 {
@@ -2453,14 +2452,13 @@ Request via this endpoint to place 5 orders at the same time. The order type mus
   ]
 }
 ```
-
-POST /api/v1/orders/multi
+`POST /api/v1/orders/multi`
 
 ### API KEY PERMISSIONS
-This endpoint requires the **"Trade"** permission.
+This endpoint requires the `Trade` permission.
 
 ### REQUEST RATE LIMIT
-This API is restricted for each account, the request rate limit is **3 times/3s**.
+This API is restricted for each account, the request rate limit is `3 times/3s`.
 
 ### Parameters
 
@@ -2469,7 +2467,7 @@ This API is restricted for each account, the request rate limit is **3 times/3s*
 | clientOid | String | Unique order id created by users to identify their orders, e.g. UUID. |
 | side      | String | **buy** or **sell**      |
 | symbol    | String | a valid trading symbol code. e.g. ETH-BTC     |
-| type      | String | *[Optional]* **limit** or **market** (default is **limit**)          |
+| type      | String | *[Optional]* only **limit** (default is **limit**)          |
 | remark    | String | *[Optional]*  remark for the order, length cannot exceed 100 utf8 characters|
 | stop      | String | *[Optional]* Either **loss** or **entry**. Requires **stopPrice** to be defined |
 | stopPrice | String | *[Optional]* Need to be defined if stop is specified. |
@@ -4556,61 +4554,49 @@ chain | String | *[Optional]* Support for querying the chain of currency, e.g. T
 
 ```json
 {
-  "currency": "BTC",
-  "name": "BTC",
-  "fullName": "Bitcoin",
-  "precision": 8,
-  "confirms": null,
-  "contractAddress": null,
-  "isMarginEnabled": true,
-  "isDebitEnabled": true,
-  "chains": [
-    {
-      "chainName": "BTC",
-      "withdrawalMinSize": "0.0008",
-      "withdrawalMinFee": "0.0005",
-      "isWithdrawEnabled": true,
-      "isDepositEnabled": true,
-      "confirms": 2,
-      "contractAddress": ""
-    },
-    {
-      "chainName": "KCC",
-      "withdrawalMinSize": "0.0008",
-      "withdrawalMinFee": "0.00002",
-      "isWithdrawEnabled": true,
-      "isDepositEnabled": true,
-      "confirms": 20,
-      "contractAddress": ""
-    },
-    {
-      "chainName": "TRC20",
-      "withdrawalMinSize": "0.0008",
-      "withdrawalMinFee": "0.0004",
-      "isWithdrawEnabled": false,
-      "isDepositEnabled": true,
-      "confirms": 1,
-      "contractAddress": ""
-    },
-    {
-      "chainName": "BTC-Segwit",
-      "withdrawalMinSize": "0.0008",
-      "withdrawalMinFee": "0.0005",
-      "isWithdrawEnabled": true,
-      "isDepositEnabled": true,
-      "confirms": 2,
-      "contractAddress": ""
+    "code": "200000",
+    "data": {
+        "currency": "BTC",
+        "name": "BTC",
+        "fullName": "Bitcoin",
+        "precision": 8,
+        "confirms": null,
+        "contractAddress": null,
+        "isMarginEnabled": true,
+        "isDebitEnabled": true,
+        "chains": [
+            {
+                "chainName": "BTC",
+                "chain": "btc",
+                "withdrawalMinSize": "0.001",
+                "withdrawalMinFee": "0.0005",
+                "isWithdrawEnabled": true,
+                "isDepositEnabled": true,
+                "confirms": 2,
+                "contractAddress": ""
+            },
+            {
+                "chainName": "KCC",
+                "chain": "kcc",
+                "withdrawalMinSize": "0.0008",
+                "withdrawalMinFee": "0.00002",
+                "isWithdrawEnabled": true,
+                "isDepositEnabled": true,
+                "confirms": 20,
+                "contractAddress": ""
+            },
+            ...
+        ]
     }
-  ]
 }
 ```
 Request via this endpoint to get the currency details of a specified currency
 
 ### HTTP REQUEST
-**GET /api/v2/currencies/{currency}**
+`GET /api/v2/currencies/{currency}`
 
 ### Example
-GET /api/v2/currencies/BTC
+`GET /api/v2/currencies/BTC`
 
 <aside class="notice">Recommended for use</aside>
 
@@ -4631,6 +4617,8 @@ chain | String | *[Optional]* Support for querying the chain of currency, return
 |confirms| Number of block confirmations|
 |contractAddress| Contract address|
 |withdrawalMinSize| Minimum withdrawal amount |
+|chainName| chain name of currency |
+|chain| chain of currency |
 |withdrawalMinFee| Minimum fees charged for withdrawal |
 |isWithdrawEnabled| Support withdrawal or not |
 |isDepositEnabled| Support deposit or not |
