@@ -32,6 +32,13 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 **为了进一步提升API安全性，KuCoin已经升级到了V2版本的API-KEY，验签逻辑也发生了一些变化，建议到[API管理页面](https://www.kucoin.cc/account/api)添加并更换到新的API-KEY。KuCoin已经停止对老版本API-KEY的支持。[查看新的签名方式](#8ba46c43fe)**
 
+**08/03/22**:
+
+- 【添加】`GET /api/v1/base-fee`接口添加请求参数`currencyType`
+- 【添加】`POST /api/v1/withdrawals`接口添加请求参数`feeDeductType`
+- 【添加】`GET /api/v2/currencies/{currency}`接口添加返回字段`chain`
+
+
 **07/05/22**:
 
 - 【新增】新增杠杆逐仓相关接口: `GET /api/v1/isolated/symbols`、`GET /api/v1/isolated/accounts`、`GET /api/v1/isolated/account/{symbol}`、`POST /api/v1/isolated/borrow`、`GET /api/v1/isolated/borrow/outstanding`、`GET /api/v1/isolated/borrow/repaid`、`POST /api/v1/isolated/repay/all`、`POST /api/v1/isolated/repay/single`
@@ -821,16 +828,13 @@ KC-API-SIGN = 7QP/oM0ykidMdrfNEUmng8eZjg/ZvPafjIqmxiVfYu4=
 这个接口获取母账号下所有的子账号信息。
 
 ### HTTP请求
-
-**Get /api/v1/sub/user**
+`GET /api/v1/sub/user`
 
 ### 请求示例
-
-GET /api/v1/sub/user
+`GET /api/v1/sub/user`
 
 ### API权限
-
-该接口需要**通用权限**。
+该接口需要`通用权限`。
 
 ### 返回值
 
@@ -1919,7 +1923,6 @@ precision | 提现的精度
 chain | 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为ERC20。
 
 ## 申请提现
-
 ```json
 {
     "withdrawalId":"5bffb63303aa675e8bbe18f9"
@@ -1927,36 +1930,30 @@ chain | 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TR
 ```
 
 ### HTTP请求
-**POST /api/v1/withdrawals**
+`POST /api/v1/withdrawals`
 
 <aside class="notice">在WEB端可以开启指定常用地址提现，开启后会校验你的提现地址是否为常用地址。</aside>
 
-### 请求示例
-POST /api/v1/withdrawals
-
 ### API权限
-此接口需要**提现权限**。
+此接口需要`提现权限`。
 
 ### 请求参数
+请求参数 | 类型 | 是否必须 |含义
+--------- | ------- |  ------- | -------
+currency  | String | 是 | 币种
+address   | String | 是 | 提现地址
+amount | number | 是 | 提现总额，必须为提现精度的正整数倍
+memo | String | 否 | 地址标签memo(tag)，如果返回为空，则该币种没有memo。对于没有memo的币种，在[提现](#6eaf6b9ae0)的时候不可以传递memo
+isInner | boolean | 否 | [可选] 是否为平台内部提现。默认为`false`
+remark | String | 否 | [可选] 备注信息
+chain | String | 否 | [可选] 针对一币多链的币种，可通过chain获取币种详情。比如， USDT存在的链有 OMNI, ERC20, TRC20。
+feeDeductType | String | No | 提现手续费扣除方式: `INTERNAL` 或 `EXTERNAL` 或不指定 <br/><br/>1. `INTERNAL`- 从提现金额中扣除手续费</br>2. `EXTERNAL`- 从储蓄账户中扣除手续费</br>3. 不指定`feeDeductType`参数时, 当您的储蓄账户的余额足以支持支付提现手续费时，首先从您的储蓄账户中扣除手续费，反之，从您的提现金额中扣除手续费。比如，您从KuCoin提现 1 个BTC(提现手续费为：0.0001BTC)，如果您储蓄账户里的余额不支持支付手续费，系统将会自动从您的提现金额中扣除手续费，您实际到账金额为0.9999个BTC。
 
-请求参数 | 类型 | 含义
---------- | -------  | -------
-currency  | String | 币种
-address   | String | 提现地址
-amount | number | 提现总额，必须为提现精度的正整数倍
-memo | 地址标签memo(tag)，如果返回为空，则该币种没有memo。对于没有memo的币种，在[提现](#6eaf6b9ae0)的时候不可以传递memo
-isInner | boolean | [可选] 是否为平台内部提现。默认为false
-remark | String | [可选] 备注信息
-chain | String | [可选] 针对一币多链的币种，可通过chain获取币种详情。比如， USDT存在的链有 OMNI, ERC20, TRC20。
 
 ### 返回值
 字段 | 含义
 --------- | -------
 withdrawalId | 提现Id 唯一标识
-
-KuCoin支持外扣手续费和内扣手续费。当您的储蓄账户的余额足以支持支付提现手续费时，首先从您的储蓄账户中扣除手续费，反之，从您的提现金额中扣除手续费。
-
-比如，您从KuCoin提现 1 个BTC(提现手续费为：0.0001BTC)，如果您储蓄账户里的余额不支持支付手续费，系统将会自动从您的提现金额中扣除手续费，您实际到账金额为0.9999个BTC。
 
 
 ## 取消提现
@@ -1997,13 +1994,20 @@ withdrawalId | String | 路径参数，[提现Id](#c46f4b3b8e) 唯一标识
 ```
 
 ### HTTP请求
-**GET /api/v1/base-fee**
+`GET /api/v1/base-fee`
 
 ### 请求示例
-GET /api/v1/base-fee
+`GET /api/v1/base-fee`
+<br/>
+`GET /api/v1/base-fee?currencyType=1`
 
 ### API权限
-此接口需要**通用权限**。
+此接口需要`通用权限`。
+
+### 请求参数  
+请求参数|数据类型|是否必需|含义
+---|---|---|---
+currencyType|String|否|币种类型: `0`-数字货币, `1`-法币. 默认为`0`-数字货币
 
 ### 返回值
 字段 |  含义
@@ -2034,21 +2038,18 @@ makerFeeRate | 用户挂单基础手续费率
 ```
 
 ### HTTP请求
-**GET /api/v1/trade-fees**
+`GET /api/v1/trade-fees`
 
 ### 请求示例
-GET /api/v1/trade-fees?symbols=BTC-USDT,KCS-USDT
+`GET /api/v1/trade-fees?symbols=BTC-USDT,KCS-USDT`
 
 ### API权限
-此接口需要**通用权限**。
+此接口需要`通用权限`。
 
-
-### 请求参数
-
-请求参数 | 类型 | 含义
---------- | ------- | -------
-symbols| String | 交易对，可多填，逗号分割，一次限制最多查10个交易对
-
+### 请求参数  
+请求参数|数据类型|是否必需|含义
+---|---|---|---
+symbols|String|是| 交易对，可多填，逗号分割，一次限制最多查`10`个交易对
 
 ### 返回值
 字段 |  含义
@@ -2282,6 +2283,9 @@ postOnlys只是一个标识，如果下单有能立即成交的对手方，则�
 ### API权限
 此接口需要`交易权限`。
 
+### 频率限制
+此接口针对每个账号请求频率限制为`45次/3s`
+
 ### 请求参数
 
 下单公有的请求参数
@@ -2365,14 +2369,10 @@ funds | String |  否（`size`和`funds`二选一）| 下单资金
 
 该接口支持在一个接口中批量下单，每次可同时下5个订单，订单类型必须为相同交易对的限价单（目前该接口只支持现货交易，不支持杠杆交易）
 
-
 ### HTTP 请求
-
-**POST /api/v1/orders/multi**
-
+`POST /api/v1/orders/multi`
 
 ### 请求示例
-
 ```json
 //response
 {
@@ -2426,15 +2426,13 @@ funds | String |  否（`size`和`funds`二选一）| 下单资金
   ]
 }
 ```
-
-POST /api/v1/orders/multi
+`POST /api/v1/orders/multi`
 
 ### API权限
-
-此接口需要**交易权限**。
+此接口需要`交易权限`。
 
 ### 频率限制
-此接口针对每个账号请求频率限制为**3次/3s**
+此接口针对每个账号请求频率限制为`3次/3s`
 
 ### 请求参数
 
@@ -2443,7 +2441,7 @@ POST /api/v1/orders/multi
 | clientOid   | String  | Client Order Id，客户端创建的唯一标识，建议使用UUID                                          |
 | side        | String  | **buy**（买） 或 **sell**（卖）                                                           |
 | symbol      | String  | [交易对](#a17b4e2866) 比如，ETH-BTC                                                       |
-| type        | String  | [可选] 订单类型 **limit** 和  **market** (默认为 **limit**)                                |
+| type        | String  | [可选] 订单类型 只能是**limit**(默认为**limit**)                                |
 | remark      | String  | [可选] 下单备注，长度不超过100个字符（UTF-8）                                                 |
 | stop        | String  | [可选] 止盈止损单，触发条件， **loss**（小于等于） 或 **entry**（大于等于）。设置后，就必须设置stopPrice参数。               |
 | stopPrice   | String  | [可选] 触发价格，只要设置stop参数，就必须设置此属性。                                                        |
@@ -4526,64 +4524,50 @@ GET /api/v1/currencies/BTC
 
 ```json
 {
-  "currency": "BTC",
-  "name": "BTC",
-  "fullName": "Bitcoin",
-  "precision": 8,
-  "confirms": null,
-  "contractAddress": null,
-  "isMarginEnabled": true,
-  "isDebitEnabled": true,
-  "chains": [
-    {
-      "chainName": "BTC",
-      "withdrawalMinSize": "0.0008",
-      "withdrawalMinFee": "0.0005",
-      "isWithdrawEnabled": true,
-      "isDepositEnabled": true,
-      "confirms": 2,
-      "contractAddress": ""
-    },
-    {
-      "chainName": "KCC",
-      "withdrawalMinSize": "0.0008",
-      "withdrawalMinFee": "0.00002",
-      "isWithdrawEnabled": true,
-      "isDepositEnabled": true,
-      "confirms": 20,
-      "contractAddress": ""
-    },
-    {
-      "chainName": "TRC20",
-      "withdrawalMinSize": "0.0008",
-      "withdrawalMinFee": "0.0004",
-      "isWithdrawEnabled": false,
-      "isDepositEnabled": true,
-      "confirms": 1,
-      "contractAddress": ""
-    },
-    {
-      "chainName": "BTC-Segwit",
-      "withdrawalMinSize": "0.0008",
-      "withdrawalMinFee": "0.0005",
-      "isWithdrawEnabled": true,
-      "isDepositEnabled": true,
-      "confirms": 2,
-      "contractAddress": ""
+    "code": "200000",
+    "data": {
+        "currency": "BTC",
+        "name": "BTC",
+        "fullName": "Bitcoin",
+        "precision": 8,
+        "confirms": null,
+        "contractAddress": null,
+        "isMarginEnabled": true,
+        "isDebitEnabled": true,
+        "chains": [
+            {
+                "chainName": "BTC",
+                "chain": "btc",
+                "withdrawalMinSize": "0.001",
+                "withdrawalMinFee": "0.0005",
+                "isWithdrawEnabled": true,
+                "isDepositEnabled": true,
+                "confirms": 2,
+                "contractAddress": ""
+            },
+            {
+                "chainName": "KCC",
+                "chain": "kcc",
+                "withdrawalMinSize": "0.0008",
+                "withdrawalMinFee": "0.00002",
+                "isWithdrawEnabled": true,
+                "isDepositEnabled": true,
+                "confirms": 20,
+                "contractAddress": ""
+            },
+            ...
+        ]
     }
-  ]
 }
 ```
 
 此接口，返回可交易币种的货币详细信息
 
 ### HTTP请求
-
-**GET /api/v2/currencies/{currency}**
+`GET /api/v2/currencies/{currency}`
 
 ### 请求示例
-
-GET /api/v2/currencies/BTC
+`GET /api/v2/currencies/BTC`
 
 <aside class="notice">推荐使用</aside>
 
@@ -4605,6 +4589,8 @@ GET /api/v2/currencies/BTC
 |confirms| 区块链确认数|
 |contractAddress| 合约地址|
 |withdrawalMinSize| 提现最小值 |
+|chainName| 币种chain名字 |
+|chain| 币种chain |
 |withdrawalMinFee| 提现最小手续费 |
 |isWithdrawEnabled| 是否可提现 |
 |isDepositEnabled| 是否可充值|
