@@ -2298,7 +2298,7 @@ postOnlys只是一个标识，如果下单有能立即成交的对手方，则�
 | type      | String | [可选] 订单类型 `limit`和`market`(默认为 `limit`)                                     |
 | remark    | String | [可选] 下单备注，长度不超过100个字符（UTF-8）                                                          |
 | stp       | String | [可选] [自成交保护](#80920cd667)（self trade prevention）分为`CN`, `CO`, `CB` , `DC`四种策略 |
-| marginMode | String | [可选] 杠杆交易模式，分为`cross`（全仓模式）, `isolated`（逐仓模式）, 默认为`cross`。   |
+| marginModel | String | [可选] 杠杆交易模式，分为`cross`（全仓模式）, `isolated`（逐仓模式）, 默认为`cross`。   |
 | autoBorrow | boolean | [可选] 自动借币下单，即系统自动以市场最优利率借币再下单。 (目前只支持全仓不支持逐仓)                                       |
 #### **limit** 限价单额外所需请求参数
 

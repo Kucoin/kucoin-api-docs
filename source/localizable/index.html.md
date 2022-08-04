@@ -2317,7 +2317,7 @@ This API is restricted for each account, the request rate limit is `45 times/3s`
 | type      | String | *[Optional]* `limit` or `market` (default is `limit`)          |
 | remark    | String | *[Optional]*  remark for the order, length cannot exceed 100 utf8 characters|
 | stp       | String | *[Optional]*  self trade prevention , `CN`, `CO`, `CB` or `DC`|
-| marginMode | String | *[Optional]*  The type of trading, including `cross` (cross mode) and `isolated` (isolated mode). It is set at `cross` by default.|
+| marginModel | String | *[Optional]*  The type of trading, including `cross` (cross mode) and `isolated` (isolated mode). It is set at `cross` by default.|
 | autoBorrow | boolean | *[Optional]*  Auto-borrow to place order. The system will first borrow you funds at the optimal interest rate and then place an order for you. Currently `autoBorrow` parameter only supports `cross` mode, not `isolated` mode|
 
 #### LIMIT ORDER PARAMETERS
