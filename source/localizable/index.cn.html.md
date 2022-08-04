@@ -1947,7 +1947,7 @@ memo | String | 否 | 地址标签memo(tag)，如果返回为空，则该币种�
 isInner | boolean | 否 | [可选] 是否为平台内部提现。默认为`false`
 remark | String | 否 | [可选] 备注信息
 chain | String | 否 | [可选] 针对一币多链的币种，可通过chain获取币种详情。比如， USDT存在的链有 OMNI, ERC20, TRC20。
-feeDeductType | String | No | 提现手续费扣除方式: `INTERNAL` 或 `EXTERNAL` 或不指定 <br/><br/>1. `INTERNAL`- 从提现金额中扣除手续费</br>2. `EXTERNAL`- 从储蓄账户中扣除手续费</br>3. 不指定`feeDeductType`参数时, 当您的储蓄账户的余额足以支持支付提现手续费时，首先从您的储蓄账户中扣除手续费，反之，从您的提现金额中扣除手续费。比如，您从KuCoin提现 1 个BTC(提现手续费为：0.0001BTC)，如果您储蓄账户里的余额不支持支付手续费，系统将会自动从您的提现金额中扣除手续费，您实际到账金额为0.9999个BTC。
+feeDeductType | String | 否 | 提现手续费扣除方式: `INTERNAL` 或 `EXTERNAL` 或不指定 <br/><br/>1. `INTERNAL`- 从提现金额中扣除手续费</br>2. `EXTERNAL`- 从储蓄账户中扣除手续费</br>3. 不指定`feeDeductType`参数时, 当您的储蓄账户的余额足以支持支付提现手续费时，首先从您的储蓄账户中扣除手续费，反之，从您的提现金额中扣除手续费。比如，您从KuCoin提现 1 个BTC(提现手续费为：0.0001BTC)，如果您储蓄账户里的余额不支持支付手续费，系统将会自动从您的提现金额中扣除手续费，您实际到账金额为0.9999个BTC。
 
 
 ### 返回值
