@@ -429,29 +429,23 @@ REST&nbsp;API 连接地址:
 ###WEBSOCKET
 
 ### 连接数量
-
 每个用户ID同时建立的连接数： ≤ 50个
 
 ### 连接次数
-
 连接请求次数限制：每分钟 30次 请求
 
 ### 上行消息条数
-
 向服务器发送指令条数限制：每10秒 100条
 
 ### 订阅topic数量
-
 单次最多批量订阅数量限制：100个topic
 
 每个连接最大可订阅topic数量限制：300个topic
 
 ### 申请提高频率限制
-
 做市商或专业交易员，如需提高请求频率，请将您的账户信息、申请原因，及交易量发送至[api@kucoin.com](mailto:api@kucoin.com)。
 
 ## 做市激励计划
-
 KuCoin为专业做市商提供做市激励计划。
 参与该计划，可以获得以下激励：
 
@@ -521,7 +515,6 @@ KuCoin为专业做市商提供做市激励计划。
 # REST API
 
 ## API服务器地址
-
 REST API 对于账户、订单、和市场数据均提供了接口。
 
 基本URL: **https://api.kucoin.com**。
@@ -531,7 +524,6 @@ REST API 对于账户、订单、和市场数据均提供了接口。
 请求URL由基本URL和接口端点组成。
 
 ## 接口端点(Endpoint)
-
 每个接口都提供了对应的端点（Endpoint），可在HTTP请求模块下获取。
 
 对于**GET** 请求, 端点需要要包含请求参数。
@@ -541,30 +533,25 @@ REST API 对于账户、订单、和市场数据均提供了接口。
 
 
 ## 请求
-
 所有的POST请求和返回内容类型都是 **application/json**.  
 
 除非另行说明，所有的时间戳参数均以Unix时间戳毫秒计算。如：**1544657947759**
 
 ### 请求参数
-
 对于 **GET和DELETE** 请求, 需将参数拼接在请求URL中。(**例如， /api/v1/accounts?currency=BTC**)
 
 对于 **POST和PUT** 请求, 需将参数以JSON格式拼接在请求主体中(**例如， {"currency":"BTC"}**)。
 注意：不要在JSON字符串中添加空格。
 
 ### 错误返回
-
 系统会返回HTTP错误代码或系统错误代码。您可根据返回的参数消息排查错误原因。
 
 #### HTTP错误码
-
 ```json
 {
     "code":"400100",
     "msg":"Invalid Parameter."
 }
-
 ```
 
 | 代码  | 意义                                                                 |
@@ -581,7 +568,6 @@ REST API 对于账户、订单、和市场数据均提供了接口。
 
 
 #### 系统错误码
-
 | 代码   | 意义                                                         |
 | ------ | ------------------------------------------------------------ |
 | 200001 | Order creation for this pair suspended--交易对暂停交易       |
@@ -609,7 +595,6 @@ REST API 对于账户、订单、和市场数据均提供了接口。
 如果系统返回HTTP状态码为200，但业务失败，系统会报错。您可根据返回的参数消息排查错误。
 
 ### 成功返回
-
 当系统返回HTTP状态码200和系统代码200000时，表示响应成功，返回结果如下：
 
 ```json
@@ -625,15 +610,13 @@ Pagination允许使用当前页数获取结果，非常适用于获取实时数�
 
 
 #### 请求参数
-
 | 参数名称    | 默认值 | 含义                            |
 | ----------- | ------ | ------------------------------- |
 | currentPage | 1      | 当前页码                        |
 | pageSize    | 50     | 每页记录数，最小值10，最大值500 |
 
 #### 示例
-
-**GET /api/v1/orders?currentPage=1&pageSize=50**
+`GET /api/v1/orders?currentPage=1&pageSize=50`
 
 
 ## 类型说明
@@ -860,17 +843,16 @@ KC-API-SIGN = 7QP/oM0ykidMdrfNEUmng8eZjg/ZvPafjIqmxiVfYu4=
 ```
 
 ### HTTP请求
-**POST /api/v1/accounts**
+`POST /api/v1/accounts`
 
 ### 请求示例
-POST /api/v1/accounts
+`POST /api/v1/accounts`
 
 ### API权限
 此接口需要**通用权限**。
 
 
 ### 请求参数
-
 请求参数 | 类型 | 含义
 --------- | ------- | -------
 type | String | 账户类型，**main**、**trade**或**margin**
@@ -884,7 +866,6 @@ id | 账户ID -- accountId
 
 
 ## 账户列表
-
 ```json
 [
     {
@@ -911,11 +892,10 @@ id | 账户ID -- accountId
 
 
 ### HTTP请求
-**GET /api/v1/accounts**
-
+`GET /api/v1/accounts`
 
 ### 请求示例
-GET /api/v1/accounts
+`GET /api/v1/accounts`
 
 ### API权限
 此接口需要**通用权限**。
@@ -970,16 +950,15 @@ holds | 账户冻结的资金
 此接口返回单个账户的详情。
 
 ### HTTP请求
-**GET /api/v1/accounts/{accountId}**
+`GET /api/v1/accounts/{accountId}`
 
 ### 请求示例
-GET /api/v1/accounts/5bd6e9286d99522a52e458de
+`GET /api/v1/accounts/5bd6e9286d99522a52e458de`
 
 ### API权限
 此接口需要**通用权限**。
 
 ### 请求参数
-
 请求参数 | 类型 | 含义
 --------- | ------- | -------
 accountId | String | 路径参数，[账户ID](#f0f7ae469d)
@@ -995,7 +974,6 @@ available | 可用资金
 
 
 ## 账户流水记录（弃用）
-
 已弃用，请用[账户流水记录](#c8122540e1)代替
 
 此接口返回账户的出入账流水记录。
@@ -1043,18 +1021,18 @@ available | 可用资金
 ```
 
 ### HTTP请求
-**GET /api/v1/accounts/{accountId}/ledgers**
+`GET /api/v1/accounts/{accountId}/ledgers`
 
 
 ### 请求示例
-GET /api/v1/accounts/5bd6e9286d99522a52e458de/ledgers
+`GET /api/v1/accounts/5bd6e9286d99522a52e458de/ledgers`
 
 ### API权限
 此接口需要**通用权限**。
 
 <aside class="notice">这个接口需要使用分页</aside>
-### 请求参数
 
+### 请求参数
 请求参数 | 类型 | 含义
 --------- | ------- | -------
 accountId | String | 路径参数，[账户ID](#f0f7ae469d)
@@ -1083,7 +1061,6 @@ context | 业务核心参数
 
 
 ## 账户流水记录
-
 此接口返回所有账户的出入账流水记录，支持多币种查询。
 返回值是[分页](#88b6b4f79a)后的数据，根据时间降序排序。
 
@@ -1123,11 +1100,11 @@ context | 业务核心参数
 ```
 
 ### HTTP请求
-**GET /api/v1/accounts/ledgers**
+`GET /api/v1/accounts/ledgers`
 
 
 ### 请求示例
-GET /api/v1/accounts/ledgers?currency=BTC&startAt=1601395200000
+`GET /api/v1/accounts/ledgers?currency=BTC&startAt=1601395200000`
 
 ### API权限
 此接口需要**通用权限**。
@@ -1136,8 +1113,8 @@ GET /api/v1/accounts/ledgers?currency=BTC&startAt=1601395200000
 此接口针对每个账号请求频率限制为**18次/3s**
 
 <aside class="notice">这个接口需要使用分页</aside>
-### 请求参数
 
+### 请求参数
 请求参数 | 类型 | 含义
 --------- | ------- | -------
 currency | String |  [可选] 币种，选填，可多选，以逗号分隔，最多支持选择10个币种，若不填写，默认查询所有币种
@@ -1210,7 +1187,6 @@ Convert to KCS   | 一键转KCS
 
 
 ## 获取单个子账户信息
-
 ```json
 {
     "subUserId":"5caefba7d9575a0688f83c45",
@@ -1254,23 +1230,21 @@ Convert to KCS   | 一键转KCS
 此接口可获取单个子账号的账户信息。
 
 ### HTTP请求
-**GET /api/v1/sub-accounts/{subUserId}**
+`GET /api/v1/sub-accounts/{subUserId}`
 
 ### 请求示例
-GET /api/v1/sub-accounts/5caefba7d9575a0688f83c45
+`GET /api/v1/sub-accounts/5caefba7d9575a0688f83c45`
 
 
 ### API权限
 此接口需要**通用权限**。
 
 ### 请求参数
-
 请求参数 | 类型 | 含义
 --------- | ------- | -------  
 subUserId | String | 路径参数，[子账号的用户Id](#a0bc1cb873)
 
 ### 返回值
-
 字段 | 含义
 --------- | -------
 subUserId | 子账号的用户Id
@@ -1285,8 +1259,6 @@ baseAmount | 基准货币数量
 
 
 ## 获取所有子账户信息
-
-
 ```json
 [
     {
@@ -1328,22 +1300,19 @@ baseAmount | 基准货币数量
     }
 ]
 ```
-
 此接口可获取所有子账号的账户信息。
 
 
 ### HTTP请求
-
-**GET /api/v1/sub-accounts**
+`GET /api/v1/sub-accounts`
 
 ### 请求示例
-GET /api/v1/sub-accounts
+`GET /api/v1/sub-accounts`
 
 ### API权限
 此接口需要**通用权限**。
 
 ### 返回值
-
 字段 | 描述
 --------- | -------
 subUserId | 子账号的用户ID
@@ -1356,10 +1325,7 @@ baseCurrency | 基准币种
 baseCurrencyPrice | 基准货币价格
 baseAmount | 基准货币数量
 
-
-
 ## 获取可划转资金
-
 ```json
 {
     "currency":"KCS",
@@ -1399,26 +1365,22 @@ transferable | 可划转资金
 
 
 ## 子母账号资金划转
-
-
 ```json
 {
     "orderId":"5cbd870fd9575a18e4438b9a"
 }
 ```
-
 此接口，用于子母账号之间资金的划转。
 支持母账号的储蓄/交易/杠杆账户向子账号的储蓄/交易/账户杠杆划转。合约账户只支持从其他账户转入资金，不支持转出资金至其他账户。
 
 
 ### HTTP请求
-**POST /api/v2/accounts/sub-transfer**  
+`POST /api/v2/accounts/sub-transfer`
 
 <aside class="notice">推荐使用</aside>
 
-
 ### 请求示例
-POST /api/v2/accounts/sub-transfer
+`POST /api/v2/accounts/sub-transfer`
 
 ### API权限
 此接口需要**交易权限**。
@@ -1443,13 +1405,13 @@ subUserId | String | [子账号的用户Id](#a0bc1cb873)
 orderId | 子母账号转账的订单ID
 
 ## 内部资金划转
-
 ```json
 {
     "orderId":"5bd6e9286d99522a52e458de"
 }
 ```
 此接口用于平台内部账户资金划转，用户可以将资金在储蓄账户、交易账户、杠杆账户全仓、杠杆账户逐仓之间免费划转。同时支持从储蓄账户、交易账户、杠杆账户全仓划转资金至合约账户，但不支持从合约账户转出资金至其他账户。
+
 ### HTTP请求
 `POST /api/v2/accounts/inner-transfer`
 
@@ -1475,7 +1437,6 @@ orderId | 内部资金划转的订单ID
 # 充值
 
 ## 申请充值地址
-
 ```json
 {
     "address":"0x78d3ad1c0aa1bf068e19c94a2d7b16c9c0fcd8b1",
@@ -1487,10 +1448,10 @@ orderId | 内部资金划转的订单ID
 此接口可用于申请充值地址
 
 ### HTTP请求
-**POST /api/v1/deposit-addresses**
+`POST /api/v1/deposit-addresses`
 
 ### 请求示例
-POST /api/v1/deposit-addresses
+`POST /api/v1/deposit-addresses`
 
 ### API权限
 此接口需要**提现权限**。
@@ -1510,7 +1471,6 @@ memo | 地址标签memo(tag)，如果返回为空，则该币种没有memo。对
 chain | 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为ERC20。对于BTC，现有的链有Native、Segwit、TRC20，参数分别为bech32、btc、trx。默认值为Native。
 
 ## 获取充值地址(V2)
-
 ```json
 [
   {
@@ -1537,16 +1497,15 @@ chain | 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TR
 此接口可以获取币种所有支持链的充值地址，如果返回数据为空，请先[申请充值地址](#9277fb3f66)。
 
 ### HTTP请求
-**GET /api/v2/deposit-addresses**
+`GET /api/v2/deposit-addresses`
 
 ### 请求示例
-GET /api/v2/deposit-addresses?currency=BTC
+`GET /api/v2/deposit-addresses?currency=BTC`
 
 ### API权限
 此接口需要**通用权限**。
 
 ### 请求参数
-
 请求参数 | 类型 | 含义
 --------- | -------  | -------
 currency | String |[币种](#ebcc9fbb02)
@@ -1561,7 +1520,6 @@ contractAddress | 合约地址
 
 
 ## 获取充值地址
-
 ```json
 {
     "address":"0x78d3ad1c0aa1bf068e19c94a2d7b16c9c0fcd8b1",
@@ -1569,21 +1527,18 @@ contractAddress | 合约地址
     "chain":"ERC20"
 }
 ```
-
 此接口，可获取某一币种的充值地址，如果返回数据为空，请先[申请充值地址](#9277fb3f66)。
 
 ### HTTP请求
-**GET /api/v1/deposit-addresses**
-
+`GET /api/v1/deposit-addresses`
 
 ### 请求示例
-GET /api/v1/deposit-addresses
+`GET /api/v1/deposit-addresses`
 
 ### API权限
 此接口需要**通用权限**。
 
 ### 请求参数
-
 请求参数 | 类型 | 含义
 --------- | -------  | -------
 currency | String |[币种](#ebcc9fbb02)
@@ -1597,7 +1552,6 @@ memo | 地址标签memo(tag)，如果返回为空，则该币种没有memo。对
 chain | 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为ERC20。对于BTC，现有的链有Native、Segwit、TRC20，参数分别为bech32、btc、trx。默认值为Native。 
 
 ## 获取充值列表
-
 ```json
 {
     "currentPage":1,
@@ -1634,15 +1588,14 @@ chain | 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TR
     ]
 }
 ```
-
 此端点，可获取充值分页列表。
 返回值是[分页](#88b6b4f79a)后的数据，根据时间降序排序。
 
 ### HTTP请求
-**GET /api/v1/deposits**
+`GET /api/v1/deposits`
 
 ### 请求示例
-GET /api/v1/deposits
+`GET /api/v1/deposits`
 
 ### API权限
 此接口需要**通用权限**。
@@ -1653,7 +1606,6 @@ GET /api/v1/deposits
 <aside class="notice">这个接口需要使用分页</aside>
 
 ### 请求参数
-
 请求参数 | 类型 | 含义
 --------- | ------- | -------
 currency | String |[可选] [币种](#ebcc9fbb02)
@@ -1678,7 +1630,6 @@ updatedAt | 修改时间
 
 
 ## 获取V1历史充值列表
-
 ```json
 {
     "currentPage":1,
@@ -1697,18 +1648,16 @@ updatedAt | 修改时间
     ]
 }
 ```
-
 此接口，可获取KuCoin V1的充值记录。
 返回值是[分页](#88b6b4f79a)后的数据，根据时间降序排序。
 
 <aside class="notice">默认查询一个月的数据</aside>
 
-###HTTP请求
-**GET /api/v1/hist-deposits**
+### HTTP请求
+`GET /api/v1/hist-deposits`
 
 ### 请求示例
-GET /api/v1/hist-deposits
-
+`GET /api/v1/hist-deposits`
 
 ### API权限
 此接口需要**通用权限**。
@@ -1719,14 +1668,12 @@ GET /api/v1/hist-deposits
 <aside class="notice">这个接口需要使用分页</aside>
 
 ### 请求参数
-
 请求参数 | 类型 | 含义
 --------- | ------- | -------  
 currency | String | [可选] [币种](#ebcc9fbb02)
 status | String | [可选] 状态。可选值: PROCESSING, SUCCESS, and FAILURE
 startAt| long | [可选] 开始时间（毫秒）
 endAt| long | [可选]  截止时间（毫秒）  
-
 
 ### 返回值
 字段 | 含义
@@ -1742,7 +1689,6 @@ createAt | 创建时间
 # 提现
 
 ## 获取提现列表
-
 ```json
 {
     "currentPage":1,
@@ -1769,10 +1715,10 @@ createAt | 创建时间
 ```
 
 ### HTTP请求
-**GET /api/v1/withdrawals**
+`GET /api/v1/withdrawals`
 
 ### 请求示例
-GET /api/v1/withdrawals
+`GET /api/v1/withdrawals`
 
 ### API权限
 此接口需要**通用权限**。
@@ -1783,7 +1729,6 @@ GET /api/v1/withdrawals
 <aside class="notice">这个接口需要使用分页</aside>
 
 ### 请求参数
-
 请求参数 | 类型 | 含义
 --------- | ------- | -------
 currency | String | [可选] [币种](#ebcc9fbb02)
@@ -1809,7 +1754,6 @@ updatedAt | 修改时间
 
 
 ## 获取V1历史提现列表
-
 ```json
 {
     "currentPage":1,
@@ -1828,19 +1772,17 @@ updatedAt | 修改时间
         }
     ]
 }
-
 ```
-
 此接口，可获取KuCoin V1的提现记录。
 返回值是[分页](#88b6b4f79a)后的数据，根据时间降序排序。
 
 <aside class="notice">默认查询一个月的数据</aside>
 
-###HTTP请求
-**GET /api/v1/hist-withdrawals**
+### HTTP请求
+`GET /api/v1/hist-withdrawals`
 
 ### 请求示例
-GET /api/v1/hist-withdrawals
+`GET /api/v1/hist-withdrawals`
 
 ### API权限
 此接口需要**通用权限**。
@@ -1851,15 +1793,12 @@ GET /api/v1/hist-withdrawals
 <aside class="notice">这个接口需要使用分页</aside>
 
 ### 请求参数
-
 请求参数 | 类型 | 含义
 --------- | ------- | -------  
 currency | String | [可选] [币种](#ebcc9fbb02)
 status | String | [可选] 状态。可选值: PROCESSING, SUCCESS, FAILURE
 startAt| long | [可选] 开始时间（毫秒）
 endAt| long | [可选]  截止时间（毫秒）
-
-
 
 ### 返回值
 字段 | 含义
@@ -1873,7 +1812,6 @@ status | 状态
 
 
 ##  获取提现额度
-
 ```json
 {
     "currency":"KCS",
@@ -1891,17 +1829,15 @@ status | 状态
 ```
 
 ### HTTP请求
-**GET /api/v1/withdrawals/quotas**
+`GET /api/v1/withdrawals/quotas`
 
 ### 请求示例
-GET /api/v1/withdrawals/quotas?currency=BTC
-
+`GET /api/v1/withdrawals/quotas?currency=BTC`
 
 ### API权限
 此接口需要**通用权限**。
 
 ### 请求参数
-
 请求参数 | 类型 | 含义
 --------- | ------- | ---------
 currency | String | [币种](#ebcc9fbb02)
@@ -1947,8 +1883,7 @@ memo | String | 否 | 地址标签memo(tag)，如果返回为空，则该币种�
 isInner | boolean | 否 | [可选] 是否为平台内部提现。默认为`false`
 remark | String | 否 | [可选] 备注信息
 chain | String | 否 | [可选] 针对一币多链的币种，可通过chain获取币种详情。比如， USDT存在的链有 OMNI, ERC20, TRC20。
-feeDeductType | String | No | 提现手续费扣除方式: `INTERNAL` 或 `EXTERNAL` 或不指定 <br/><br/>1. `INTERNAL`- 从提现金额中扣除手续费</br>2. `EXTERNAL`- 从储蓄账户中扣除手续费</br>3. 不指定`feeDeductType`参数时, 当您的储蓄账户的余额足以支持支付提现手续费时，首先从您的储蓄账户中扣除手续费，反之，从您的提现金额中扣除手续费。比如，您从KuCoin提现 1 个BTC(提现手续费为：0.0001BTC)，如果您储蓄账户里的余额不支持支付手续费，系统将会自动从您的提现金额中扣除手续费，您实际到账金额为0.9999个BTC。
-
+feeDeductType | String | 否 | 提现手续费扣除方式: `INTERNAL` 或 `EXTERNAL` 或不指定 <br/><br/>1. `INTERNAL`- 从提现金额中扣除手续费</br>2. `EXTERNAL`- 从储蓄账户中扣除手续费</br>3. 不指定`feeDeductType`参数时, 当您的储蓄账户的余额足以支持支付提现手续费时，首先从您的储蓄账户中扣除手续费，反之，从您的提现金额中扣除手续费。比如，您从KuCoin提现 1 个BTC(提现手续费为：0.0001BTC)，如果您储蓄账户里的余额不支持支付手续费，系统将会自动从您的提现金额中扣除手续费，您实际到账金额为0.9999个BTC。
 
 ### 返回值
 字段 | 含义
@@ -1957,21 +1892,18 @@ withdrawalId | 提现Id 唯一标识
 
 
 ## 取消提现
-
 提现状态为提现中才可以取消。
 
-
 ### HTTP请求
-**DELETE /api/v1/withdrawals/{withdrawalId}**
+`DELETE /api/v1/withdrawals/{withdrawalId}`
 
 ### 请求示例
-DELETE /api/v1/withdrawals/5bffb63303aa675e8bbe18f9
+`DELETE /api/v1/withdrawals/5bffb63303aa675e8bbe18f9`
 
 ### API权限
 此接口需要**提现权限**。
 
 ### 请求参数
-
 请求参数 | 类型 | 含义
 --------- | ------- | -------
 withdrawalId | String | 路径参数，[提现Id](#c46f4b3b8e) 唯一标识
@@ -2016,7 +1948,6 @@ takerFeeRate | 用户吃单基础手续费率
 makerFeeRate | 用户挂单基础手续费率
 
 ## 交易对实际费率
-
 此接口返回用户交易时实际费率，一次限制最多查10个交易对，子用户的费率和母用户保持一致。
 
 ```json
@@ -2088,17 +2019,14 @@ makerFeeRate | 交易对挂单实际手续费率
 
 **请求体中的JSON字符串中不要有多余的空格**
 
-###下单限制
-
+### 下单限制
 对于一个账号，每一个交易对最大活跃委托订单数量 **200** （包含止损单）。
 
 ### HTTP 请求
-
-**POST /api/v1/orders**
+`POST /api/v1/orders`
 
 ### 请求示例
-
-POST /api/v1/orders
+`POST /api/v1/orders`
 
 ### API权限
 此接口需要**交易权限**。
@@ -2243,14 +2171,12 @@ postOnlys只是一个标识，如果下单有能立即成交的对手方，则�
 
 
 ### 返回值
-
 | 字段                                | 含义   |
 | --------------------------------- | ---- |
 | orderId                           | 订单Id |
 | 下单成功后，会返回一个orderId字段，意味这订单进入撮合引擎。 |      |
 
 ## 杠杆下单
-
 ```json
 {
     "orderId":"5bd6e9286d99522a52e458de",
@@ -2273,8 +2199,7 @@ postOnlys只是一个标识，如果下单有能立即成交的对手方，则�
 
 **请求体中的JSON字符串中不要有多余的空格**
 
-###下单限制
-
+### 下单限制
 对于一个账号，每一个交易对最大活跃委托订单数量`200`（包含止损单）。
 
 ### HTTP 请求
@@ -2298,7 +2223,7 @@ postOnlys只是一个标识，如果下单有能立即成交的对手方，则�
 | type      | String | [可选] 订单类型 `limit`和`market`(默认为 `limit`)                                     |
 | remark    | String | [可选] 下单备注，长度不超过100个字符（UTF-8）                                                          |
 | stp       | String | [可选] [自成交保护](#80920cd667)（self trade prevention）分为`CN`, `CO`, `CB` , `DC`四种策略 |
-| marginMode | String | [可选] 杠杆交易模式，分为`cross`（全仓模式）, `isolated`（逐仓模式）, 默认为`cross`。   |
+| marginModel | String | [可选] 杠杆交易模式，分为`cross`（全仓模式）, `isolated`（逐仓模式）, 默认为`cross`。   |
 | autoBorrow | boolean | [可选] 自动借币下单，即系统自动以市场最优利率借币再下单。 (目前只支持全仓不支持逐仓)                                       |
 #### **limit** 限价单额外所需请求参数
 
@@ -2332,7 +2257,6 @@ funds | String |  否（`size`和`funds`二选一）| 下单资金
 
 
 ### 返回值
-
 | 字段                                | 含义   |
 | --------------------------------- | ---- |
 | orderId                           | 订单Id |
@@ -2343,7 +2267,6 @@ funds | String |  否（`size`和`funds`二选一）| 下单资金
 
 
 ## 批量下单
-
 ```json
 //request
 {
@@ -2464,7 +2387,6 @@ funds | String |  否（`size`和`funds`二选一）| 下单资金
 
 
 ## 单个撤单
-
 ```json
 {
     "cancelledOrderIds":[
@@ -2479,70 +2401,58 @@ funds | String |  否（`size`和`funds`二选一）| 下单资金
 </aside>
 
 ### HTTP请求
-
-**DELETE /api/v1/orders/{orderId}**
+`DELETE /api/v1/orders/{orderId}`
 
 ### 请求示例
-
-DELETE /api/v1/orders/5bd6e9286d99522a52e458de
+`DELETE /api/v1/orders/5bd6e9286d99522a52e458de`
 
 ### API权限
-
-此接口需要**交易权限**。
+此接口需要`交易权限`。
 
 ### 频率限制
-此接口针对每个账号请求频率限制为**60次/3s**
+此接口针对每个账号请求频率限制为`60次/3s`
 
 ### 请求参数
-
 | 请求参数    | 类型     | 含义                            |
 | ------- | ------ | ----------------------------- |
 | orderId | String | 路径参数，[订单Id](#23e02e24af) 唯一标识 |
 
 ### 返回值
-
 | 字段                | 含义      |
 | ----------------- | ------- |
 | cancelledOrderIds | 取消的订单id |
 
 
 <aside class="notice">The <b>orderId</b> 是服务器生成的订单唯一标识，不是客户端生成的clientOId</aside>
-### 撤单被拒
 
+### 撤单被拒
 如果订单不能撤销（已经成交或已经取消），会返回错误信息，可根据返回的msg获取原因。
 
 
 ## 基于clientOid 单个撤单
-
 ```json
 {
   "cancelledOrderId": "5f311183c9b6d539dc614db3",
   "clientOid": "6d539dc614db3"
 }
 ```
-
 此接口发送一个通过clientOid撤销订单的请求。
 
 ### HTTP请求
-
-**DELETE /api/v1/order/client-order/{clientOid}**
+`DELETE /api/v1/order/client-order/{clientOid}`
 
 ### 请求示例
-
-DELETE /api/v1/order/client-order/6d539dc614db3
+`DELETE /api/v1/order/client-order/6d539dc614db3`
 
 ### API权限
-
 此接口需要**交易权限**。
 
 ### 请求参数
-
 | 请求参数    | 类型     | 含义                            |
 | ------- | ------ | ----------------------------- |
 | clientOid | String | 路径参数，客户端生成的标识 |
 
 ### 返回值
-
 | 字段                | 含义      |
 | ----------------- | ------- |
 | cancelledOrderId | 取消的订单id |
@@ -2550,7 +2460,6 @@ DELETE /api/v1/order/client-order/6d539dc614db3
 
 
 ## 全部撤单
-
 ```json
 {
     "cancelledOrderIds":[
@@ -2568,38 +2477,33 @@ DELETE /api/v1/order/client-order/6d539dc614db3
     ]
 }
 ```
-
 此接口，可以取消所有状态为**open**的订单，返回值是是已取消订单的ID列表。
 
 ### HTTP请求
-
-**DELETE /api/v1/orders**
+`DELETE /api/v1/orders`
 
 ### 请求示例
-
-**DELETE /api/v1/orders?symbol=ETH-BTC&tradeType=TRADE**
+`DELETE /api/v1/orders?symbol=ETH-BTC&tradeType=TRADE`<br/>
+`DELETE /api/v1/orders?symbol=ETH-BTC&tradeType=MARGIN_ISOLATED_TRADE`
 
 ### API权限
-此接口需要**交易权限**。
+此接口需要`交易权限`。
 
 ### 频率限制
-此接口针对每个账号请求频率限制为**3次/3s**
+此接口针对每个账号请求频率限制为`3次/3s`
 
 ### 请求参数
-
-
 | 请求参数   | 类型     | 含义                                 |
 | ------ | ------ | ---------------------------------- |
 | symbol | String | [可选] 取消指定[交易对](#a17b4e2866)的open订单 |
-| tradeType| String | [可选] 取消指定交易类型的open 订单（默认为取消TRADE现货交易订单）                                     |
-### 返回值
+| tradeType| String | [可选] 取消指定交易类型的open订单:`TRADE`（现货交易）, `MARGIN_TRADE`(全仓杠杆交易), `MARGIN_ISOLATED_TRADE`(逐仓杠杆交易), 默认为取消`TRADE`(现货交易)订单                                 |
 
+### 返回值
 | 字段                | 含义      |
 | ----------------- | ------- |
 | cancelledOrderIds | 取消的订单id |
 
 ## 获取订单列表
-
 ```json
 {
     "currentPage": 1,
@@ -2642,40 +2546,36 @@ DELETE /api/v1/order/client-order/6d539dc614db3
     ]
  }
 ```
-
 此接口，可获取订单列表
 返回值是[分页](#88b6b4f79a)后的数据，根据时间降序排序。
 
 ### HTTP请求
-
-**GET /api/v1/orders**
+`GET /api/v1/orders`
 
 ### 请求示例
-
-GET /api/v1/orders
+`GET /api/v1/orders?status=active`<br/>
+`GET /api/v1/orders?status=active?tradeType=MARGIN_ISOLATED_TRADE`
 
 ### API权限
-此接口需要**通用权限**。
+此接口需要`通用权限`。
 
 ### 频率限制
-此接口针对每个账号请求频率限制为**30次/3s**
+此接口针对每个账号请求频率限制为`30次/3s`
 
 <aside class="notice">这个接口需要使用分页</aside>
+
 ### 请求参数
-
-
 | 请求参数    | 类型     | 含义                                                                                            |
 | ------- | ------ | --------------------------------------------------------------------------------------------- |
-| status  | String | [可选] **active（活跃）** 或 **done（完成）** 默认为done。只返回指定状态的订单信息                                       |
+| status  | String | [可选] `active`（活跃） 或 `done`（完成）,默认为`done`。只返回指定状态的订单信息                           |
 | symbol  | String | [可选] 只返回指定[交易对](#a17b4e2866)的订单信息                                                             |
-| side    | String | [可选] **buy（买）** 或 **sell（卖）**                                                                 |
-| type    | String | [可选] 订单类型: **limit（限价单）**, **market(市价单)**, **limit_stop(限价止盈止损单)**, **market_stop（市价止盈止损单）** |
-| tradeType    | String | [可选] 交易类型: **TRADE（现货交易）**, **MARGIN_TRADE(杠杆交易)**|
+| side    | String | [可选] `buy`（买）或 `sell`（卖）                                                                 |
+| type    | String | [可选] 订单类型: `limit`（限价单）, `market`(市价单), `limit_stop`(限价止盈止损单), `market_stop`（市价止盈止损单） |
+| tradeType    | String | [可选] 交易类型: `TRADE`（现货交易）, `MARGIN_TRADE`(全仓杠杆交易), `MARGIN_ISOLATED_TRADE`(逐仓杠杆交易)|
 | startAt | long   | [可选] 开始时间（毫秒）                                                                                 |
 | endAt   | long   | [可选]  截止时间（毫秒）                                                                                |
 
 ### 返回值
-
 | 字段            | 含义                                          |
 | ------------- | ------------------------------------------- |
 | id            | 订单id，订单唯一标识                                 |
@@ -2707,7 +2607,7 @@ GET /api/v1/orders
 | isActive      | 订单状态 true: 订单状态为 open;<br/> false: 订单已成交或取消 |
 | cancelExist   | 订单是否存在取消记录                                  |
 | createdAt     | 创建时间                                        |
-| tradeType     | 交易类型: TRADE（现货交易）, MARGIN_TRADE(杠杆交易)                                        |
+| tradeType     | 交易类型                                       |
 
 ### 订单状态和结算
 
@@ -2727,7 +2627,6 @@ GET /api/v1/orders
 对于高频交易的用户，建议您在本地缓存和维护一份自己的活动委托列表，并使用市场数据流实时更新自己的订单信息。
 
 ## 获取V1历史订单列表(废弃)
-
 ```json
 {
     "currentPage": 1,
@@ -2754,19 +2653,17 @@ GET /api/v1/orders
 <aside class="notice">该接口已于2022年1月13日废弃</aside>
 
 ###HTTP请求
-**GET /api/v1/hist-orders**
+`GET /api/v1/hist-orders`
 
 ### 请求示例
-
-GET /api/v1/hist-orders
+`GET /api/v1/hist-orders`
 
 ### API权限
 此接口需要**通用权限**。
 
 <aside class="notice">这个接口需要使用分页</aside>
+
 ### 请求参数
-
-
 | 请求参数    | 类型     | 含义                                |
 | ------- | ------ | --------------------------------- |
 | symbol  | String | [可选] 只返回指定[交易对](#a17b4e2866)的订单信息 |
@@ -2775,7 +2672,6 @@ GET /api/v1/hist-orders
 | endAt   | long   | [可选]  截止时间（毫秒）                    |
 
 ### 返回值
-
 | 字段        | 含义   |
 | --------- | ---- |
 | symbol    | 交易对  |
@@ -2787,7 +2683,6 @@ GET /api/v1/hist-orders
 | createdAt | 创建时间 |
 
 ## 最近订单记录
-
 ```json
 {
     "currentPage": 1,
@@ -2835,18 +2730,15 @@ GET /api/v1/hist-orders
 返回值是[分页](#88b6b4f79a)后的数据，根据时间降序排序。
 
 ### HTTP请求
-
-**GET /api/v1/limit/orders**
+`GET /api/v1/limit/orders`
 
 ### 请求示例
-
-GET /api/v1/limit/orders
+`GET /api/v1/limit/orders`
 
 ### API权限
 此接口需要**通用权限**。
 
 ### 返回值
-
 | 字段            | 含义                                          |
 | ------------- | ------------------------------------------- |
 | id            | 订单id，订单唯一标识                                 |
@@ -2881,8 +2773,8 @@ GET /api/v1/limit/orders
 | tradeType     | 交易类型: TRADE（现货交易）, MARGIN_TRADE(杠杆交易)           |
 <aside class="spacer4"></aside>
 <aside class="spacer2"></aside>
-## 单个订单详情
 
+## 单个订单详情
 ```json
 {
     "id": "5c35c02703aa673ceec2a168",
@@ -2917,29 +2809,23 @@ GET /api/v1/limit/orders
     "tradeType": "TRADE"
  }
 ```
-
 此接口，可以通过订单id获取单个订单信息。
 
 ### HTTP请求
-
-**GET /api/v1/orders/{orderId}**
+`GET /api/v1/orders/{orderId}`
 
 ### 请求示例
-
-GET /api/v1/orders/5c35c02703aa673ceec2a168
+`GET /api/v1/orders/5c35c02703aa673ceec2a168`
 
 ### API权限
 此接口需要**通用权限**。
 
 ### 请求参数
-
-
 | 请求参数    | 类型     | 含义                            |
 | ------- | ------ | ----------------------------- |
 | orderId | String | 路径参数，[订单Id](#23e02e24af) 唯一标识 |
 
 ### 返回值
-
 | 字段            | 含义                                          |
 | ------------- | ------------------------------------------- |
 | id            | 订单id，订单唯一标识                                 |
@@ -2978,7 +2864,6 @@ GET /api/v1/orders/5c35c02703aa673ceec2a168
 
 
 ## 基于clientOid 获取单个订单详情
-
 ```json
 {
   "id": "5f3113a1c9b6d539dc614dc6",
@@ -3013,29 +2898,23 @@ GET /api/v1/orders/5c35c02703aa673ceec2a168
   "tradeType": "TRADE"
 }
 ```
-
 此接口，可以通过clientOid查询单个订单的信息，若订单不存在则提示订单不存在。
 
 ### HTTP请求
-
-**GET /api/v1/order/client-order/{clientOid}**
+`GET /api/v1/order/client-order/{clientOid}`
 
 ### 请求示例
-
-GET /api/v1/order/client-order/6d539dc614db312
+`GET /api/v1/order/client-order/6d539dc614db312`
 
 ### API权限
-
 此接口需要**通用权限**。
 
 ### 请求参数
-
 | 请求参数    | 类型     | 含义                            |
 | ------- | ------ | ----------------------------- |
 | clientOid | String | 路径参数，客户端生成的标识 |
 
 ### 返回值
-
 | 字段            | 含义                                          |
 | ------------- | ------------------------------------------- |
 | id            | 订单id，订单唯一标识                                 |
@@ -3069,12 +2948,9 @@ GET /api/v1/order/client-order/6d539dc614db312
 | createdAt     | 创建时间                                        |
 | tradeType     | 交易类型: TRADE（现货交易）, MARGIN_TRADE(杠杆交易)                                        |
 
-
-
 # 成交明细
 
 ## 成交记录
-
 ```json
 {
     "currentPage":1,
@@ -3109,12 +2985,10 @@ GET /api/v1/order/client-order/6d539dc614db312
 返回值是[分页](#88b6b4f79a)后的数据，根据时间降序排序。
 
 ### HTTP请求
-
-**GET /api/v1/fills**
+`GET /api/v1/fills`
 
 ### 请求示例
-
-GET /api/v1/fills
+`GET /api/v1/fills`
 
 ### API权限
 此接口需要**通用权限**。
@@ -3123,9 +2997,8 @@ GET /api/v1/fills
 此接口针对每个账号请求频率限制为**9次/3s**
 
 <aside class="notice">这个接口需要使用分页</aside>
+
 ### 请求参数
-
-
 | 请求参数    | 类型     | 含义                                                                                            |
 | ------- | ------ | --------------------------------------------------------------------------------------------- |
 | orderId | String | [可选] 查询该[订单Id](#23e02e24af) 的成交明细（如果指定了orderId，请忽略其他查询条件）                                     |
@@ -3203,7 +3076,6 @@ KuCoin平台上的订单分为两种类型：Taker 和 Maker。Taker单会与买
 | 4200.00     | 0.18312409 | 0.00018312 |
 
 ## 最近成交记录
-
 ```json
 {
     "code":"200000",
@@ -3274,12 +3146,10 @@ KuCoin平台上的订单分为两种类型：Taker 和 Maker。Taker单会与买
 返回值是[分页](#88b6b4f79a)后的数据，根据时间降序排序。
 
 ### HTTP请求
-
-**GET /api/v1/limit/fills**
+`GET /api/v1/limit/fills`
 
 ### 请求示例
-
-GET /api/v1/limit/fills
+`GET /api/v1/limit/fills`
 
 ### API权限
 此接口需要**通用权限**。
@@ -3320,33 +3190,26 @@ GET /api/v1/limit/fills
 当您下一个止盈止损单时，系统不会冻结您账户中的资产。
 
 ## 下单
-
 ```json
 {
   "orderId": "vs8hoo8kpkmklv4m0038lql0"
 }
 ```
-
 **请求体中的JSON字符串中不要有多余的空格**
 
 ### 下单限制
-
 对于一个账号，每一个交易对最大止盈止损委托数量 **20** 。
 
 ### HTTP 请求
-
-**POST /api/v1/stop-order**
+`POST /api/v1/stop-order`
 
 ### 请求示例
-
-POST /api/v1/stop-order
+`POST /api/v1/stop-order`
 
 ### API权限
-
 此接口需要**交易权限**。
 
 ### 请求参数
-
 下单公有的请求参数
 
 | 请求参数  | 类型   | 含义                                                         |
@@ -3384,13 +3247,11 @@ POST /api/v1/stop-order
 - 下市价单，需定买卖数量或资金
 
 ### 返回值
-
 | 字段    | 含义                                        |
 | ------- | ------------------------------------------- |
 | orderId | 订单Id。下单成功后，会返回一个orderId字段。 |
 
 ## 单个撤单
-
 ```json
 {
   "cancelledOrderIds": [
@@ -3398,43 +3259,35 @@ POST /api/v1/stop-order
   ]
 }
 ```
-
 此接口可以取消单笔止盈止损单。
 
 一旦系统收到取消请求，您将收cancelledOrderIds字段。要知道请求是否已处理，您可以查询订单状态或订阅websocket获取订单消息。
 
 ### HTTP请求
-
-**DELETE /api/v1/stop-order/{orderId}**
+`DELETE /api/v1/stop-order/{orderId}`
 
 ### 请求示例
-
-DELETE /api/v1/stop-order/5bd6e9286d99522a52e458de
+`DELETE /api/v1/stop-order/5bd6e9286d99522a52e458de`
 
 ### 请求参数
-
 | 请求参数 | 类型   | 含义                      |
 | -------- | ------ | ------------------------- |
 | orderId  | String | 路径参数，订单Id 唯一标识 |
 
 ### 返回值
-
 | 字段              | 含义         |
 | ----------------- | ------------ |
 | cancelledOrderIds | 取消的订单id |
 
 ### API权限
-
 此接口需要**交易权限**。
 
 **orderId** 是服务器生成的订单唯一标识，不是客户端生成的clientOid
 
 ### 撤单被拒
-
 如果订单不能撤销（已经成交或已经取消），会返回错误信息，可根据返回的msg获取原因。
 
 ## 按条件撤单
-
 ```json
 {
   "cancelledOrderIds": [
@@ -3445,23 +3298,18 @@ DELETE /api/v1/stop-order/5bd6e9286d99522a52e458de
   ]
 }
 ```
-
 此接口，可以取消当前活跃的止盈止损单，返回值是是已取消订单的ID列表。
 
 ### HTTP请求
-
-**DELETE /api/v1/stop-order/cancel**
+`DELETE /api/v1/stop-order/cancel`
 
 ### 请求示例
-
-**DELETE /api/v1/stop-order/cancel?symbol=ETH-BTC&tradeType=TRADE&orderIds=5bd6e9286d99522a52e458de,5bd6e9286d99522a52e458df**
+`DELETE /api/v1/stop-order/cancel?symbol=ETH-BTC&tradeType=TRADE&orderIds=5bd6e9286d99522a52e458de,5bd6e9286d99522a52e458df`
 
 ### API权限
-
 此接口需要**交易权限**。
 
 ### 请求参数
-
 | 请求参数  | 类型   | 含义                                                         |
 | --------- | ------ | ------------------------------------------------------------ |
 | symbol    | String | [可选] 取消指定[交易对](#a17b4e2866)的open订单               |
@@ -3469,13 +3317,11 @@ DELETE /api/v1/stop-order/5bd6e9286d99522a52e458de
 | orderIds  | String | [可选] 指定订单号，可以多个，用逗号分隔                      |
 
 ### 返回值
-
 | 字段              | 含义         |
 | ----------------- | ------------ |
 | cancelledOrderIds | 取消的订单id |
 
 ## 单个订单详情
-
 ```json
 {
   "id": "vs8hoo8q2ceshiue003b67c0",
@@ -3511,29 +3357,23 @@ DELETE /api/v1/stop-order/5bd6e9286d99522a52e458de
   "stopPrice": "10.00000000000000000000"
 }
 ```
-
 此接口，可以通过订单id获取单个订单信息。
 
 ### HTTP请求
-
-**GET /api/v1/stop-order/{orderId}**
+`GET /api/v1/stop-order/{orderId}`
 
 ### 请求示例
-
-GET /api/v1/stop-order/5c35c02703aa673ceec2a168
+`GET /api/v1/stop-order/5c35c02703aa673ceec2a168`
 
 ### API权限
-
 此接口需要**通用权限**。
 
 ### 请求参数
-
 | 请求参数 | 类型   | 含义                     |
 | -------- | ------ | ------------------------ |
 | orderId  | String | 路径参数，订单Id唯一标识 |
 
 ### 返回值
-
 | 字段        | 含义                                                |
 | ----------- | --------------------------------------------------- |
 | id          | 订单id，订单唯一标识                                |
@@ -3569,7 +3409,6 @@ GET /api/v1/stop-order/5c35c02703aa673ceec2a168
 | stopPrice   | 触发价格                                            |
 
 ## 获取止盈止损单列表
-
 ```json
 {
   "currentPage": 1,
@@ -3613,25 +3452,20 @@ GET /api/v1/stop-order/5c35c02703aa673ceec2a168
   ]
 }
 ```
-
 此接口，可获取订单列表 返回值是[分页](#88b6b4f79a)后的数据。
 
 ### HTTP请求
-
-**GET /api/v1/stop-order**
+`GET /api/v1/stop-order`
 
 ### 请求示例
-
-GET /api/v1/stop-order
+`GET /api/v1/stop-order`
 
 ### API权限
-
 此接口需要**通用权限**。
 
 这个接口需要使用分页
 
 ### 请求参数
-
 | 请求参数    | 类型   | 含义                                                         |
 | ----------- | ------ | ------------------------------------------------------------ |
 | symbol      | String | [可选] 只返回指定交易对的订单信息                            |
@@ -3645,7 +3479,6 @@ GET /api/v1/stop-order
 | pageSize    | Int    | [可选] 每页大小                                              |
 
 ### 返回值
-
 | 字段        | 含义                                                |
 | ----------- | --------------------------------------------------- |
 | id          | 订单id，订单唯一标识                                |
@@ -3681,7 +3514,6 @@ GET /api/v1/stop-order
 | stopPrice   | 触发价格                                            |
 
 ## 根据clientOid获取单个订单详情
-
 ```json
 [
   {
@@ -3719,30 +3551,24 @@ GET /api/v1/stop-order
   }
 ]
 ```
-
 此接口，可以通过clientOid获取单个止盈止损单信息。
 
 ### HTTP请求
-
-**GET /api/v1/stop-order/queryOrderByClientOid**
+`GET /api/v1/stop-order/queryOrderByClientOid`
 
 ### 请求示例
-
-GET /api/v1/stop-order/queryOrderByClientOid?symbol=BTC-USDT&clientOid=9823jnfda923a
+`GET /api/v1/stop-order/queryOrderByClientOid?symbol=BTC-USDT&clientOid=9823jnfda923a`
 
 ### API权限
-
 此接口需要**通用权限**。
 
 ### 请求参数
-
 | 请求参数  | 类型   | 含义             |
 | --------- | ------ | ---------------- |
 | clientOid | String | 客户端生成的标识 |
 | symbol    | String | [可选] 交易对    |
 
 ### 返回值
-
 | 字段        | 含义                                                |
 | ----------- | --------------------------------------------------- |
 | id          | 订单id，订单唯一标识                                |
@@ -3778,44 +3604,35 @@ GET /api/v1/stop-order/queryOrderByClientOid?symbol=BTC-USDT&clientOid=9823jnfda
 | stopPrice   | 触发价格                                            |
 
 ## 根据clientOid取消单个止盈止损单
-
 ```json
 {
   "cancelledOrderId": "vs8hoo8ksc8mario0035a74n",
   "clientOid": "689ff597f4414061aa819cc414836abd"
 }
 ```
-
 此接口，可以通过clientOid取消单个止盈止损单。
 
 ### HTTP请求
-
-**DELETE /api/v1/stop-order/cancelOrderByClientOid**
+`DELETE /api/v1/stop-order/cancelOrderByClientOid`
 
 ### 请求示例
-
-DELETE /api/v1/stop-order/cancelOrderByClientOid?symbol=BTC-USDT&clientOid=9823jnfda923a
+`DELETE /api/v1/stop-order/cancelOrderByClientOid?symbol=BTC-USDT&clientOid=9823jnfda923a`
 
 ### API权限
-
 此接口需要**交易权限**。
 
 ### 请求参数
-
 | 请求参数  | 类型   | 含义             |
 | --------- | ------ | ---------------- |
 | clientOid | String | 客户端生成的标识 |
 | symbol    | String | [可选] 交易对    |
 
 ### 返回值
-
 | 字段             | 含义             |
 | ---------------- | ---------------- |
 | cancelledOrderId | 取消的订单id     |
 | clientOid        | 客户端生成的标识 |
 
-
-# 
 
 # 市场数据
 
@@ -3825,7 +3642,6 @@ DELETE /api/v1/stop-order/cancelOrderByClientOid?symbol=BTC-USDT&clientOid=9823j
 # 交易对 & 行情快照
 
 ## 交易对列表
-
 ```json
 [
   {
@@ -3868,7 +3684,6 @@ DELETE /api/v1/stop-order/cancelOrderByClientOid?symbol=BTC-USDT&clientOid=9823j
   }
 ]
 ```
-
 此接口，可获取交易对列表。如果您想获取更多交易对的市场信息，可在[全局行情快照](#f3027c9902中获取)。
 
 
@@ -3925,7 +3740,6 @@ market | String | [可选] [交易市场](#b8f118fefc)
 * 对于市价及限价止盈止损委托，委托时不受此限制，但委托触发之后的下单后亦会受到此限制
 
 ## 行情快照
-
 ```json
 //Get Ticker
 {
@@ -3939,19 +3753,15 @@ market | String | [可选] [交易市场](#b8f118fefc)
     "time":1550653727731
 }
 ```
-
-
 此接口，会返回level-1市场行情快照，买/最佳卖一价，买/卖一数量，最近成交价，最近成交数量。
 
 ### HTTP请求
-**GET /api/v1/market/orderbook/level1**
+`GET /api/v1/market/orderbook/level1`
 
 ### 请求示例
-GET /api/v1/market/orderbook/level1?symbol=BTC-USDT
+`GET /api/v1/market/orderbook/level1?symbol=BTC-USDT`
 
 ### 请求参数
-
-
 请求参数 | 类型 | 含义
 --------- | ------- | -------
 symbol | String |  [交易对](#a17b4e2866)
@@ -3973,7 +3783,6 @@ time |  时间戳
 
 
 ## 全局行情快照
-
 ```json
 {
     "ticker":[
@@ -3999,16 +3808,15 @@ time |  时间戳
     "time":1602832092060
 }
 ```
-
 此接口，可获取所有交易对的tickers(包含24h成交量)
 
 极少数情况下，交易市场存在币种变更名称的情况，如果您想要外部显示正常，您可以调用Get all tickers接口根据返回值的“symbolName”字段显示改名后交易对的交易数据。
 
 ### HTTP请求
-**GET /api/v1/market/allTickers**
+`GET /api/v1/market/allTickers`
 
 ### 请求示例
-GET /api/v1/market/allTickers
+`GET /api/v1/market/allTickers`
 
 ### 返回值
 字段 | 含义
@@ -4033,7 +3841,6 @@ makerCoefficient | 挂单手续费系数
 <aside class="spacer2"></aside>
 
 ## 24小时统计
-
 ```json
 //Get 24hr Stats
 {
@@ -4055,24 +3862,20 @@ makerCoefficient | 挂单手续费系数
   "makerCoefficient": "1"	// 挂单手续费系数
 }
 ```
-
 此接口，可获取指定交易对的最近24小时的ticker
 
 ### HTTP请求
-**GET /api/v1/market/stats**
+`GET /api/v1/market/stats`
 
 ### 请求示例
-GET /api/v1/market/stats?symbol=BTC-USDT
+`GET /api/v1/market/stats?symbol=BTC-USDT`
 
 ### 请求参数
-
-
 请求参数 | 类型 | 含义
 --------- | -------| -------
 symbol | String |  [交易对](#a17b4e2866)
 
 ### 返回值
-
 字段 | 含义
 --------- | -------
 time |  时间戳
@@ -4094,7 +3897,6 @@ makerCoefficient | 挂单手续费系数
 <aside class="spacer2"></aside>
 
 ## 交易市场列表
-
 ```json
 //Get Market List
 {
@@ -4107,16 +3909,15 @@ makerCoefficient | 挂单手续费系数
     ]
 }
 ```
-
 此接口，可以获取整个交易市场的交易币种
 <aside class="notice"> SC已更名为USDS，但您依然可以使用SC作为查询参数。</aside>
 <aside class="notice"> ETH、NEO、TRX三个计价币种区合并至ALTS交易区，您可以通过ALTS交易区查询ETH、NEO、TRX市场的交易对。</aside>
 
 ### HTTP请求
-**GET /api/v1/markets**
+`GET /api/v1/markets`
 
 ### 请求示例
-GET /api/v1/markets
+`GET /api/v1/markets`
 
 
 <aside class="spacer2"></aside>
@@ -4124,7 +3925,6 @@ GET /api/v1/markets
 # 委托买卖盘
 
 ## Level-2部分买卖盘(价格聚合)
-
 ```json
 {
     "sequence":"3262786978",
@@ -4160,25 +3960,19 @@ GET /api/v1/markets
 
 
 ### HTTP请求
-
-**GET /api/v1/market/orderbook/level2_20**
-
-**GET /api/v1/market/orderbook/level2_100**
+`GET /api/v1/market/orderbook/level2_20`<br/>
+`GET /api/v1/market/orderbook/level2_100`
 
 ### 请求示例
-GET /api/v1/market/orderbook/level2_20?symbol=BTC-USDT
-
-GET /api/v1/market/orderbook/level2_100?symbol=BTC-USDT
+`GET /api/v1/market/orderbook/level2_20?symbol=BTC-USDT`<br/>
+`GET /api/v1/market/orderbook/level2_100?symbol=BTC-USDT`
 
 ### 请求参数
-
-
 请求参数 | 类型 | 含义
 --------- | -------  | -------
 symbol | String |  [交易对](#a17b4e2866)
 
 ### 返回值
-
 字段 | 含义
 --------- | -------
 sequence | 序列号
@@ -4194,7 +3988,6 @@ asks | 卖盘
 
 
 ## Level-2全部买卖盘(价格聚合)
-
 ```json
 {
     "sequence":"3262786978",
@@ -4231,13 +4024,11 @@ Level 2 买卖盘上的买单和卖单均按照价格汇总，每个价格下仅
 
 为保证本地买卖盘数据为最新数据，在获取Level 2快照后，请使用[Websocket](#level-2-3)推送的增量消息来更新Level 2买卖盘。
 
-
 ### HTTP请求
-
-**GET /api/v3/market/orderbook/level2**
+`GET /api/v3/market/orderbook/level2`
 
 ### 请求示例
-GET /api/v3/market/orderbook/level2?symbol=BTC-USDT
+`GET /api/v3/market/orderbook/level2?symbol=BTC-USDT`
 
 ### API权限
 此接口需要**通用权限**。
@@ -4246,14 +4037,11 @@ GET /api/v3/market/orderbook/level2?symbol=BTC-USDT
 此接口针对每个账号请求频率限制为**30次/3s**
 
 ### 请求参数
-
-
 请求参数 | 类型 | 含义
 --------- | ------- | -------
 symbol | String |  [交易对](#a17b4e2866)
 
 ### 返回值
-
 字段 | 含义
 --------- | -------
 sequence | 序列号
@@ -4274,7 +4062,6 @@ asks | 卖盘
 # 历史数据
 
 ## 成交历史
-
 ```json
 [
     {
@@ -4296,14 +4083,12 @@ asks | 卖盘
 此接口，可获取指定交易对的成交历史列表。
 
 ### HTTP请求
-**GET /api/v1/market/histories**
+`GET /api/v1/market/histories`
 
 ### 请求示例
-GET GET /api/v1/market/histories?symbol=BTC-USDT
+`GET /api/v1/market/histories?symbol=BTC-USDT`
 
 ### 请求参数
-
-
 请求参数 | 类型 | 含义
 --------- | -------  | -------
 symbol | String |  [交易对](#a17b4e2866)
@@ -4326,7 +4111,6 @@ Taker订单的成交方向。Taker订单指立刻与买卖盘上的已有订单�
 <aside class="spacer2"></aside>
 
 ## 历史蜡烛图数据
-
 ```json
 [
     [
@@ -4355,16 +4139,12 @@ Taker订单的成交方向。Taker订单指立刻与买卖盘上的已有订单�
 
 
 ### HTTP请求
-**GET /api/v1/market/candles**
+`GET /api/v1/market/candles`
 
 ### 请求示例
-GET /api/v1/market/candles?type=1min&symbol=BTC-USDT&startAt=1566703297&endAt=1566789757
-
-
+`GET /api/v1/market/candles?type=1min&symbol=BTC-USDT&startAt=1566703297&endAt=1566789757`
 
 ### 请求参数
-
-
 请求参数 | 类型 | 含义
 ------------- | ------- | -------
 symbol | String |  [交易对](#a17b4e2866)
@@ -4374,8 +4154,7 @@ type | String | 时间粒度，也就是每根蜡烛的时间区间:<br/>**1min,
 
 <aside class="notice"> 每次查询系统最多返回1500条数据。要获得更多数据，请按时间分页数据。</aside>
 
-###返回值
-
+### 返回值
 字段 | 含义
 --------- | -------
 time | k线周期的开始时间
@@ -4390,7 +4169,6 @@ turnover | 成交额
 # 币种
 
 ## 币种列表
-
 ```json
 [
   {
@@ -4423,20 +4201,17 @@ turnover | 成交额
   }
 ]
 ```
-
 此接口，返回币种详情列表。
 
 <aside class="notice">并不是所有的币种可以用于交易</aside>
-### HTTP请求
 
-**GET /api/v1/currencies**
+### HTTP请求
+`GET /api/v1/currencies`
 
 ### 请求示例
-
-GET /api/v1/currencies
+`GET /api/v1/currencies`
 
 ### 返回值
-
 | 字段  | 含义                |
 | --- | ----------------- |
 |currency| 币种唯一标识，不会改变|
@@ -4454,7 +4229,6 @@ GET /api/v1/currencies
 
 
 ### 币种标识(currency code)
-
 币种标识（code）均符合 ISO 4217 的标准，不符合ISO 4217标准中无法标识的币种，将采取自定义标识。
 
 | Code | 含义            |
@@ -4468,7 +4242,6 @@ GET /api/v1/currencies
 例如：XRB更名后变为Nano，但它的currency仍然是XRB，而它的name变更为Nano，此时您仍然需要通过XRB去查询该币种。
 
 ## 币种详情
-
 ```json
 {
   "currency": "BTC",
@@ -4485,26 +4258,21 @@ GET /api/v1/currencies
   "isDebitEnabled": true
 }
 ```
-
 此接口，返回可交易币种的货币详细信息
 
 ### HTTP请求
-
-**GET /api/v1/currencies/{currency}**
+`GET /api/v1/currencies/{currency}`
 
 ### 请求示例
-
-GET /api/v1/currencies/BTC
+`GET /api/v1/currencies/BTC`
 
 ### 请求参数
-
 | 请求参数     | 类型     | 含义                                                              |
 | -------- | ------ | --------------------------------------------------------------- |
 | currency | String | 路径参数，[币种标识](#ebcc9fbb02)                                        |
 | chain    | String | [可选] 针对一币多链的币种，可通过chain获取币种详情。比如， USDT存在的链有 OMNI, ERC20, TRC20。 |
 
 ### 返回值
-
 |字段 | 含义|
 |--------- | -------|
 |currency| 币种唯一标识，不会改变|
@@ -4521,7 +4289,6 @@ GET /api/v1/currencies/BTC
 |isDebitEnabled|是否支持借贷|
 
 ## 币种详情(推荐使用)
-
 ```json
 {
     "code": "200000",
@@ -4560,7 +4327,6 @@ GET /api/v1/currencies/BTC
     }
 }
 ```
-
 此接口，返回可交易币种的货币详细信息
 
 ### HTTP请求
@@ -4572,14 +4338,12 @@ GET /api/v1/currencies/BTC
 <aside class="notice">推荐使用</aside>
 
 ### 请求参数
-
 | 请求参数     | 类型     | 含义                                                              |
 | -------- | ------ | --------------------------------------------------------------- |
 | currency | String | 路径参数，[币种标识](#ebcc9fbb02)                                        |
 | chain    | String | [可选] 可通过chain获取币种指定链的详情，不传默认返回所有链的币种详情。 |
 
 ### 返回值
-
 |字段 | 含义|
 |--------- | -------|
 |currency| 币种唯一标识，不会改变|
@@ -4613,14 +4377,12 @@ GET /api/v1/currencies/BTC
 }
 ```
 ### HTTP 请求
-**GET /api/v1/prices**
+`GET /api/v1/prices`
 
 ### 请求示例
-GET /api/v1/prices
+`GET /api/v1/prices`
 
 ### 请求参数
-
-
 请求参数 | 类型 | 含义
 --------- | ------- | -------
  base | String | [可选] 法币货币代码。比如，USD，EUR 默认为USD |
@@ -4632,38 +4394,33 @@ GET /api/v1/prices
 # 杠杆信息
 
 ## 获取当前标记价格
-
 ```json
 {
-    "symbol":"USDT-BTC",
-    "granularity":5000,
-    "timePoint":1568701710000,
-    "value":0.00009807
+    "code": "200000",
+    "data": {
+        "symbol": "USDT-BTC",
+        "timePoint": 1659930234000,
+        "value": 0.0000429
+    }
 }
 ```
-
 此接口返回当前指定交易对的标记价格
 
 ### HTTP请求
-
-**GET /api/v1/mark-price/{symbol}/current**
+`GET /api/v1/mark-price/{symbol}/current`
 
 ### 请求示例
-
-GET /api/v1/mark-price/USDT-BTC/current
+`GET /api/v1/mark-price/USDT-BTC/current`
 
 ### 请求参数
-
 | 请求参数   | 类型     | 含义        |
 | ------ | ------ | --------- |
 | symbol | String | 路径参数, 交易对 |
 
 ### 返回值
-
 | 字段          | 含义       |
 | ----------- | -------- |
 | symbol      | 交易对      |
-| granularity | 数据粒度(毫秒) |
 | timePoint   | 时间点(毫秒)  |
 | value       | 标记价格值    |
 
@@ -4671,33 +4428,34 @@ GET /api/v1/mark-price/USDT-BTC/current
 <aside class="notice">USDT-BTC, ETH-BTC, LTC-BTC, EOS-BTC, XRP-BTC, KCS-BTC, DIA-BTC, VET-BTC, DASH-BTC, DOT-BTC, XTZ-BTC, ZEC-BTC, BSV-BTC, ADA-BTC, ATOM-BTC, LINK-BTC, LUNA-BTC, NEO-BTC, UNI-BTC, ETC-BTC, BNB-BTC, TRX-BTC, XLM-BTC, BCH-BTC, USDC-BTC, GRT-BTC, 1INCH-BTC, AAVE-BTC,SNX-BTC, API3-BTC, CRV-BTC, MIR-BTC, SUSHI-BTC, COMP-BTC, ZIL-BTC, YFI-BTC, OMG-BTC,XMR-BTC, WAVES-BTC, MKR-BTC, COTI-BTC, SXP-BTC, THETA-BTC, ZRX-BTC, DOGE-BTC, LRC-BTC, FIL-BTC, DAO-BTC, BTT-BTC, KSM-BTC, BAT-BTC, ROSE-BTC, CAKE-BTC, CRO-BTC, XEM-BTC, MASK-BTC, FTM-BTC, IOST-BTC, ALGO-BTC, DEGO-BTC, CHR-BTC, CHZ-BTC, MANA-BTC, ENJ-BTC, IOST-BTC, ANKR-BTC, ORN-BTC, SAND-BTC, VELO-BTC, AVAX-BTC, DODO-BTC, WIN-BTC, ONE-BTC, SHIB-BTC, ICP-BTC, MATIC-BTC, CKB-BTC, SOL-BTC, VRA-BTC, DYDX-BTC, ENS-BTC, NEAR-BTC, SLP-BTC, AXS-BTC, TLM-BTC, ALICE-BTC,IOTX-BTC, QNT-BTC, SUPER-BTC, HABR-BTC, RUNE-BTC, EGLD-BTC, AR-BTC, RNDR-BTC, LTO-BTC, YGG-BTC</aside>
 
 ## 查询杠杆配置信息
-
 ```json
 {
-    "currencyList":[
-        "BTC",
-        "USDT",
-        "EOS"
-    ],
-    "warningDebtRatio":"0.8",
-    "liqDebtRatio":"0.9",
-    "maxLeverage":"3"
+    "code": "200000",
+    "data": {
+        "currencyList": [
+            "XEM",
+            "MATIC",
+            "VRA",
+            ...
+        ],
+        "maxLeverage": 5,
+        "warningDebtRatio": "0.95",
+        "liqDebtRatio": "0.97"
+    }
 }
 ```
-
 此接口返回杠杆配置信息
 
 ### HTTP请求
+`GET /api/v1/margin/config`
 
-**GET /api/v1/margin/config**
+### 请求参数
+`无`
 
 ### 请求示例
-
-GET /api/v1/margin/config
-
+`GET /api/v1/margin/config`
 
 ### 返回值
-
 | 字段          | 含义       |
 | ----------- | -------- |
 | currencyList | 支持的币种列表 |
@@ -4706,40 +4464,45 @@ GET /api/v1/margin/config
 | maxLeverage | 杠杆倍数 |
 
 ## 查询杠杆账户信息
-
 ```json
 {
-    "accounts":[
-        {
-            "currency":"USDT",
-            "availableBalance":"990.11",
-            "holdBalance":"7.22",
-            "liability":"66.66",
-            "maxBorrowSize":"88.88",
-            "totalBalance":"997.33"
-        }
-    ],
-    "debtRatio":"0.33"
+    "code": "200000",
+    "data": {
+        "debtRatio": "0",
+        "accounts": [
+            {
+                "currency": "KCS",
+                "totalBalance": "0.01",
+                "availableBalance": "0.01",
+                "holdBalance": "0",
+                "liability": "0",
+                "maxBorrowSize": "0"
+            },
+            {
+                "currency": "USDT",
+                "totalBalance": "0",
+                "availableBalance": "0",
+                "holdBalance": "0",
+                "liability": "0",
+                "maxBorrowSize": "0"
+            },
+            ...
+        ]
+    }
 }
 ```
-
 此接口返回当前杠杆账户信息
 
 ### HTTP请求
-
-**GET /api/v1/margin/account**
+`GET /api/v1/margin/account`
 
 ### 请求示例
-
-GET /api/v1/margin/account
+`GET /api/v1/margin/account`
 
 ### API权限
-
-该接口需要**通用权限**。
-
+该接口需要`通用权限`。
 
 ### 返回值
-
 | 字段          | 含义       |
 | ----------- | -------- |
 | accounts | 账户列表 |
@@ -4752,45 +4515,68 @@ GET /api/v1/margin/account
 | maxBorrowSize | 当前可借数量 |
 
 ## 查询全仓/逐仓杠杆风险限额
-
 ```json
-[
-    {
-      "currency": "BTC",
-      "borrowMaxAmount": "50",
-      "buyMaxAmount": "50",
-      "precision": 8
-    },
-    {
-      "currency": "SKL",
-      "borrowMaxAmount": "50000",
-      "buyMaxAmount": "51000",
-      "precision": 3
-    },
-    {
-      "currency": "USDT",
-      "borrowMaxAmount": "100000",
-      "buyMaxAmount": "10000000000",
-      "precision": 8
-    },
-    {
-      "currency": "ETH",
-      "borrowMaxAmount": "236",
-      "buyMaxAmount": "500",
-      "precision": 8
-    },
-    {
-      "currency": "LTC",
-      "borrowMaxAmount": "100",
-      "buyMaxAmount": "40",
-      "precision": 8
-    }
-]
+// 全仓返回值
+{
+    "code": "200000",
+    "data": [
+        {
+            "currency": "BTC",
+            "borrowMaxAmount": "140",
+            "buyMaxAmount": "60",
+            "holdMaxAmount": "522.8",
+            "precision": 8
+        },
+        {
+            "currency": "USDT",
+            "borrowMaxAmount": "2000000",
+            "buyMaxAmount": "10000000",
+            "holdMaxAmount": "15000000",
+            "precision": 8
+        },
+        {
+            "currency": "ETH",
+            "borrowMaxAmount": "1000",
+            "buyMaxAmount": "600",
+            "holdMaxAmount": "3737.1",
+            "precision": 8
+        },
+        ...
+    ]
+}
 ```
-
+```json
+// 逐仓返回值
+{
+    "code": "200000",
+    "data": [
+        {
+            "symbol": "ETH-USDT",
+            "baseMaxBorrowAmount": "200",
+            "quoteMaxBorrowAmount": "3000000",
+            "baseMaxBuyAmount": "210",
+            "quoteMaxBuyAmount": "3300000",
+            "baseMaxHoldAmount": "3737.1",
+            "quoteMaxHoldAmount": "5000000",
+            "basePrecision": 8,
+            "quotePrecision": 8
+        },
+        {
+            "symbol": "BTC-USDT",
+            "baseMaxBorrowAmount": "20",
+            "quoteMaxBorrowAmount": "3000000",
+            "baseMaxBuyAmount": "25",
+            "quoteMaxBuyAmount": "3300000",
+            "baseMaxHoldAmount": "522.8",
+            "quoteMaxHoldAmount": "5000000",
+            "basePrecision": 8,
+            "quotePrecision": 8
+        },
+        ...
+    ]
+}
+```
 此接口可获取查询全仓/逐仓杠杆风险限额
-
-<aside class="notice">目前仅支持全仓，查询逐仓会返回空列表</aside>
 
 ### HTTP请求
 `GET /api/v1/risk/limit/strategy`
@@ -4799,32 +4585,41 @@ GET /api/v1/margin/account
 `GET /api/v1/risk/limit/strategy?marginModel=cross`
 
 ### API权限
-
 该接口需要`通用权限`。
 
 ### 频率限制
-
 此接口针对每个账号请求频率限制为`1次/3s`
 
 ### 请求参数
-
 | 请求参数   | 类型     | 含义        |
 | ------ | ------ | --------- |
 | marginModel | String | `cross`代表查询全仓，`isolated`代表查询逐仓，默认值是`cross` |
 
-### 返回值
-
+### 全仓返回值
 | 字段          | 含义       |
 | ----------- | -------- |
 | currency    | 币种名称      |
 | borrowMaxAmount | 最大借入量 |
 | buyMaxAmount   | 最大买入量  |
+| holdMaxAmount   | 最大持有量 |
 | precision       | 精度    |
+
+### 逐仓返回值
+| 字段          | 含义       |
+| ----------- | -------- |
+| symbol    |    symbol   |
+| baseMaxBorrowAmount | base最大借入量 |
+| quoteMaxBorrowAmount | quote最大借入量 |
+| baseMaxBuyAmount | base最大买入量    |
+| quoteMaxBuyAmount | quote最大买入量 |
+| baseMaxHoldAmount | base最大持仓量 |
+| quoteMaxHoldAmount | quote最大持仓量 |
+| basePrecision | base精度 |
+| quotePrecision | quote精度|
 
 # 借贷
 
 ## 发布借入委托
-
 ```json
 {
     "orderId":"a2111213",
@@ -4832,23 +4627,16 @@ GET /api/v1/margin/account
 }
 ```
 
-
-
 ### HTTP请求
-
-**POST /api/v1/margin/borrow**
+`POST /api/v1/margin/borrow`
 
 ### 请求示例
-
-POST /api/v1/margin/borrow
+`POST /api/v1/margin/borrow`
 
 ### API权限
-
 该接口需要**交易权限**。
 
 ### 请求参数
-
-
 | 请求参数   | 类型     | 含义        |
 | ------ | ------ | --------- |
 | currency | String | [必选] 借入币种 |
@@ -4860,14 +4648,12 @@ POST /api/v1/margin/borrow
 <aside class="notice">现系统支持的借入期限: 7、14、28</aside>
 
 ### 返回值
-
 | 字段          | 含义       |
 | ----------- | -------- |
 | orderId | 借入委托id |
 | currency | 借入币种 |
 
 ## 查询借入委托
-
 ```json
 {
     "orderId":"a2111213",
@@ -4887,30 +4673,23 @@ POST /api/v1/margin/borrow
     "status":"DONE"
 }
 ```
-
 调用[发布借入委托](#ebcc9fbb02) 后,根据返回的委托id，查询借入详情。
 
 ### HTTP请求
-
-**GET /api/v1/margin/borrow**
+`GET /api/v1/margin/borrow`
 
 ### 请求示例
-
-GET /api/v1/margin/borrow?orderId=123456789
+`GET /api/v1/margin/borrow?orderId=123456789`
 
 ### API权限
-
 该接口需要**交易权限**。
 
 ### 请求参数
-
-
 | 请求参数   | 类型     | 含义        |
 | ------ | ------ | --------- |
 | orderId | String | 借入委托id |
 
 ### 返回值
-
 | 字段          | 含义       |
 | ----------- | -------- |
 | orderId      | 借入委托id      |
@@ -4925,7 +4704,6 @@ GET /api/v1/margin/borrow?orderId=123456789
 | timestamp | 借入时间戳 |
 
 ## 查询待还款记录
-
 ```json
 {
     "currentPage":0,
@@ -4949,28 +4727,22 @@ GET /api/v1/margin/borrow?orderId=123456789
 }
 ```
 
-
 ### HTTP请求
-
-**GET /api/v1/margin/borrow/outstanding**
+`GET /api/v1/margin/borrow/outstanding`
 
 ### 请求示例
-
-GET /api/v1/margin/borrow/outstanding
+`GET /api/v1/margin/borrow/outstanding`
 
 ### API权限
-
 该接口需要**通用权限**。
 <aside class="notice">这个接口需要使用分页</aside>
+
 ### 请求参数
-
-
 | 请求参数   | 类型     | 含义        |
 | ------ | ------ | --------- |
 | currency | String | 币种，不传则查询所有币种 |
 
 ### 返回值
-
 | 字段          | 含义       |
 | ----------- | -------- |
 | tradeId | 交易id |
@@ -4985,7 +4757,6 @@ GET /api/v1/margin/borrow/outstanding
 | dailyIntRate | 日利率  |
 
 ## 查询已还款记录
-
 ```json
 {
     "currentPage":0,
@@ -5007,29 +4778,23 @@ GET /api/v1/margin/borrow/outstanding
 }
 ```
 
-
 ### HTTP请求
-
-**GET /api/v1/margin/borrow/repaid**
+`GET /api/v1/margin/borrow/repaid`
 
 ### 请求示例
-
-GET /api/v1/margin/borrow/repaid
+`GET /api/v1/margin/borrow/repaid`
 
 ### API权限
-
 该接口需要**通用权限**。
 
 <aside class="notice">这个接口需要使用分页</aside>
+
 ### 请求参数
-
-
 | 请求参数   | 类型     | 含义        |
 | ------ | ------ | --------- |
 | currency | String | 币种，不传则查询所有币种 |
 
 ### 返回值
-
 | 字段          | 含义       |
 | ----------- | -------- |
 | tradeId | 交易id |
@@ -5042,7 +4807,6 @@ GET /api/v1/margin/borrow/repaid
 | dailyIntRate | 日利率  |
 
 ## 一键还款
-
 ```json
 {
   "code": "200000",
@@ -5051,20 +4815,15 @@ GET /api/v1/margin/borrow/repaid
 ```
 
 ### HTTP请求
-
-**POST /api/v1/margin/repay/all**
+`POST /api/v1/margin/repay/all`
 
 ### 请求示例
-
-POST /api/v1/margin/repay/all
+`POST /api/v1/margin/repay/all`
 
 ### API权限
-
 该接口需要**交易权限**。
 
 ### 请求参数
-
-
 | 请求参数   | 类型     | 含义        |
 | ------ | ------ | --------- |
 | currency | String | 币种 |
@@ -5072,11 +4831,9 @@ POST /api/v1/margin/repay/all
 | size | BigDecimal | 还款数量 |
 
 ### 返回值
-
 当返回HTTP状态码200和code为200000时,表示还款响应成功,否则表示还款失败。
 
 ## 单笔还款
-
 ```json
 {
   "code": "200000",
@@ -5087,20 +4844,15 @@ POST /api/v1/margin/repay/all
 此接口用于归还指定某笔贷款
 
 ### HTTP请求
-
-**POST /api/v1/margin/repay/single**
+`POST /api/v1/margin/repay/single`
 
 ### 请求示例
-
-POST /api/v1/margin/repay/single
+`POST /api/v1/margin/repay/single`
 
 ### API权限
-
 该接口需要**交易权限**。
 
 ### 请求参数
-
-
 | 请求参数   | 类型     | 含义        |
 | ------ | ------ | --------- |
 | currency | String | 币种 |
@@ -5108,35 +4860,28 @@ POST /api/v1/margin/repay/single
 | size | BigDecimal | 还款数量 |
 
 ### 返回值
-
 当返回HTTP状态码200和code为200000时,表示还款响应成功,否则表示还款失败。
 
 ## 发布借出委托
-
 ```json
 {
     "orderId":"5da5a4f0f943c040c2f8501e"
 }
 ```
-
 此接口可以发布单笔借出委托。
 
 在发布前，请确保你的储蓄账户有足够的资金。一旦发布成功，你发布的金额会被冻结，直到借出委托成交或者撤销
 
 ### HTTP请求
-
-**POST /api/v1/margin/lend**
+`POST /api/v1/margin/lend`
 
 ### 请求示例
-
-POST /api/v1/margin/lend
+`POST /api/v1/margin/lend`
 
 ### API权限
-
 该接口需要**交易权限**。
 
 ### 请求参数
-
 | 请求参数     | 类型   | 含义                             |
 | ------------ | ------ | -------------------------------- |
 | currency     | String | [必须] 借出币种                  |
@@ -5145,65 +4890,52 @@ POST /api/v1/margin/lend
 | term         | int    | [必须] 期限，单位天              |
 
 ### 返回值
-
 | 字段    | 含义   |
 | ------- | ------ |
 | orderId | 委托Id |
 
 ## 撤销借出委托
-
 ```json
 {
   "code": "200000",
   "data": null
 }
 ```
-
 此接口可以撤销单笔借出委托
 
 ### HTTP请求
-
-**DELETE /api/v1/margin/lend/{orderId}**
+`DELETE /api/v1/margin/lend/{orderId}`
 
 ### 请求示例
-
-DELETE /api/v1/margin/lend/5d9f133ef943c0882ca37bc8
+`DELETE /api/v1/margin/lend/5d9f133ef943c0882ca37bc8`
 
 ### API权限
-
 该接口需要**交易权限**。
 
 ### 请求参数
-
 | 请求参数 | 类型   | 含义          |
 | -------- | ------ | ------------- |
 | orderId  | String | [必须] 委托Id |
 
 ## 设置自动借出
-
 ```json
 {
   "code": "200000",
   "data": null
 }
 ```
-
 此接口可以设置用户单币种的自动借出。可以设置自动借出的开关、参数
 
 ### HTTP请求
-
-**POST /api/v1/margin/toggle-auto-lend**
+`POST /api/v1/margin/toggle-auto-lend`
 
 ### 请求示例
-
-POST /api/v1/margin/toggle-auto-lend
+`POST /api/v1/margin/toggle-auto-lend`
 
 ### API权限
-
 该接口需要**交易权限**。
 
 ### 请求参数
-
 | 请求参数     | 类型    | 含义                                                         |
 | ------------ | ------- | ------------------------------------------------------------ |
 | currency     | String  | [必须] 币种                                                  |
@@ -5223,7 +4955,6 @@ POST /api/v1/margin/toggle-auto-lend
 
 
 ## 查询活跃借出委托
-
 ```json
 {
     "currentPage":1,
@@ -5243,32 +4974,26 @@ POST /api/v1/margin/toggle-auto-lend
     ]
 }
 ```
-
 此接口可以分页查询用户活跃的借出委托
 返回值是分页后的数据，根据委托时间降序排列，最大页数100
 
 活跃借出委托指：未成交、部分成交、未撤销的借出委托
 
 ### HTTP请求
-
-**GET /api/v1/margin/lend/active**
+`GET /api/v1/margin/lend/active`
 
 ### 请求示例
-
-GET /api/v1/margin/lend/active?currency=BTC&currentPage=1&pageSize=50
+`GET /api/v1/margin/lend/active?currency=BTC&currentPage=1&pageSize=50`
 
 ### API权限
-
 该接口需要**交易权限**。
 
 ### 请求参数
-
 | 请求参数 | 类型   | 含义        |
 | -------- | ------ | ----------- |
 | currency | String | [可选] 币种 |
 
 ### 返回值
-
 | 字段         | 含义                      |
 | ------------ | ------------------------- |
 | orderId      | 委托Id                    |
@@ -5280,7 +5005,6 @@ GET /api/v1/margin/lend/active?currency=BTC&currentPage=1&pageSize=50
 | createdAt    | 委托时间戳，单位毫秒      |
 
 ## 查询历史借出委托
-
 ```json
 {
     "currentPage":1,
@@ -5301,32 +5025,26 @@ GET /api/v1/margin/lend/active?currency=BTC&currentPage=1&pageSize=50
     ]
 }
 ```
-
 此接口可以分页查询用户历史的借出委托
 返回值是分页后的数据，根据委托时间降序排列，最大页数100
 
 历史借出委托指：全部成交、撤销的借出委托
 
 ### HTTP请求
-
-**GET /api/v1/margin/lend/done**
+`GET /api/v1/margin/lend/done`
 
 ### 请求示例
-
-GET /api/v1/margin/lend/done?currency=BTC&currentPage=1&pageSize=50
+`GET /api/v1/margin/lend/done?currency=BTC&currentPage=1&pageSize=50`
 
 ### API权限
-
 该接口需要**交易权限**。
 
 ### 请求参数
-
 | 请求参数 | 类型   | 含义        |
 | -------- | ------ | ----------- |
 | currency | String | [可选] 币种 |
 
 ### 返回值
-
 | 字段         | 含义                                         |
 | ------------ | -------------------------------------------- |
 | orderId      | 委托Id                                       |
@@ -5339,7 +5057,6 @@ GET /api/v1/margin/lend/done?currency=BTC&currentPage=1&pageSize=50
 | status       | 委托状态：FILLED - 全部成交，CANCELED - 撤销 |
 
 ## 查询未结算出借记录
-
 ```json
 {
     "currentPage":1,
@@ -5360,32 +5077,26 @@ GET /api/v1/margin/lend/done?currency=BTC&currentPage=1&pageSize=50
     ]
 }
 ```
-
 此接口可以分页查询用户未结算的出借记录
 返回值是分页后的数据，根据成交时间降序排列，最大页数100
 
 借出委托成交后，会产生出借记录。未结算的出借记录指：未还款、部分还款的出借记录
 
 ### HTTP请求
-
-**GET /api/v1/margin/lend/trade/unsettled**
+`GET /api/v1/margin/lend/trade/unsettled`
 
 ### 请求示例
-
-GET /api/v1/margin/lend/trade/unsettled?currency=BTC&currentPage=1&pageSize=50
+`GET /api/v1/margin/lend/trade/unsettled?currency=BTC&currentPage=1&pageSize=50`
 
 ### API权限
-
 该接口需要**交易权限**。
 
 ### 请求参数
-
 | 请求参数 | 类型   | 含义        |
 | -------- | ------ | ----------- |
 | currency | String | [可选] 币种 |
 
 ### 返回值
-
 | 字段            | 含义                                             |
 | --------------- | ------------------------------------------------ |
 | tradeId         | 交易Id                                           |
@@ -5398,7 +5109,6 @@ GET /api/v1/margin/lend/trade/unsettled?currency=BTC&currentPage=1&pageSize=50
 | maturityTime    | 到期时间戳，单位毫秒                             |
 
 ## 查询已结算出借记录
-
 ```json
 {
     "currentPage":1,
@@ -5420,32 +5130,26 @@ GET /api/v1/margin/lend/trade/unsettled?currency=BTC&currentPage=1&pageSize=50
     ]
 }
 ```
-
 此接口可以分页查询用户已结算的出借记录
 返回值是分页后的数据，根据成交时间降序排列，最大页数100
 
 已结算的出借记录指：提前全额还款、到期足额还款、到期不足额还款风险基金补足、到期不足额还款风险基金不能补足的出借记录
 
 ### HTTP请求
-
-**GET /api/v1/margin/lend/trade/settled**
+`GET /api/v1/margin/lend/trade/settled`
 
 ### 请求示例
-
-GET /api/v1/margin/lend/trade/settled?currency=BTC&currentPage=1&pageSize=50
+`GET /api/v1/margin/lend/trade/settled?currency=BTC&currentPage=1&pageSize=50`
 
 ### API权限
-
 该接口需要**交易权限**。
 
 ### 请求参数
-
 | 请求参数 | 类型   | 含义        |
 | -------- | ------ | ----------- |
 | currency | String | [可选] 币种 |
 
 ### 返回值
-
 | 字段         | 含义                                     |
 | ------------ | ---------------------------------------- |
 | tradeId      | 交易Id                                   |
@@ -5459,7 +5163,6 @@ GET /api/v1/margin/lend/trade/settled?currency=BTC&currentPage=1&pageSize=50
 | note         | 备注。备注借方穿仓，风险基金是否偿还情况 |
 
 ## 资产借出记录
-
 ```json
 [
     {
@@ -5472,29 +5175,23 @@ GET /api/v1/margin/lend/trade/settled?currency=BTC&currentPage=1&pageSize=50
     }
 ]
 ```
-
 该接口可以查询用户借出资产相关的统计信息
 
 ### HTTP请求
-
-**GET /api/v1/margin/lend/assets**
+`GET /api/v1/margin/lend/assets`
 
 ### 请求示例
-
-GET /api/v1/margin/lend/assets?currency=BTC
+`GET /api/v1/margin/lend/assets?currency=BTC`
 
 ### API权限
-
 该接口需要**交易权限**。
 
 ### 请求参数
-
 | 请求参数 | 类型   | 含义        |
 | -------- | ------ | ----------- |
 | currency | String | [可选] 币种 |
 
 ### 返回值
-
 | 字段            | 含义                   |
 | --------------- | ---------------------- |
 | currency        | 币种                   |
@@ -5505,7 +5202,6 @@ GET /api/v1/margin/lend/assets?currency=BTC
 | isAutoLend      | 是否开启自动续借       |
 
 ## 借出市场信息
-
 ```json
 [
     {
@@ -5515,31 +5211,25 @@ GET /api/v1/margin/lend/assets?currency=BTC
     }
 ]
 ```
-
 该接口可以查询借出市场的信息，一次性返回所有满足条件的记录
 返回值根据日利率降序、期限降序排列
 
 ### HTTP请求
-
-**GET /api/v1/margin/market**
+`GET /api/v1/margin/market`
 
 ### 请求示例
-
-GET /api/v1/margin/market?currency=BTC&term=7
+`GET /api/v1/margin/market?currency=BTC&term=7`
 
 ### API权限
-
 该接口需要**通用权限**。
 
 ### 请求参数
-
 | 请求参数 | 类型   | 含义                |
 | -------- | ------ | ------------------- |
 | currency | String | [必须] 币种          |
 | term     | int    | [可选] 期限，单位天    |
 
 ### 返回值
-
 | 字段         | 含义                      |
 | ------------ | ------------------------- |
 | dailyIntRate | 日利率小数。0.002表示0.2% |
@@ -5547,7 +5237,6 @@ GET /api/v1/margin/market?currency=BTC&term=7
 | size         | 总计金额                  |
 
 ## 借贷市场成交信息
-
 ```json
 [
     {
@@ -5560,30 +5249,24 @@ GET /api/v1/margin/market?currency=BTC&term=7
     }
 ]
 ```
-
 该接口可以查询借贷市场最近的300条成交信息
 返回值根据成交时间戳降序排列
 
 ### HTTP请求
-
-**GET /api/v1/margin/trade/last**
+`GET /api/v1/margin/trade/last`
 
 ### 请求示例
-
-GET /api/v1/margin/trade/last?currency=BTC
+`GET /api/v1/margin/trade/last?currency=BTC`
 
 ### API权限
-
 该接口需要**通用权限**。
 
 ### 请求参数
-
 | 请求参数 | 类型   | 含义        |
 | -------- | ------ | ----------- |
 | currency | String | [必须] 币种 |
 
 ### 返回值
-
 | 字段         | 含义                      |
 | ------------ | ------------------------- |
 | tradeId      | 交易Id                    |
@@ -6060,10 +5743,7 @@ loanId | String | 是 | 交易单号,设置该字段后，顺序策略无效
 
 # 其他接口
 
-
-
 ## 获取服务器时间
-
 ```json
 {
     "code":"200000",
@@ -6071,19 +5751,17 @@ loanId | String | 是 | 交易单号,设置该字段后，顺序策略无效
     "data":1546837113087
 }
 ```
-
 此接口，可获取服务器时间 (Unix时间戳)
 
 ### HTTP请求
-**GET /api/v1/timestamp**
+`GET /api/v1/timestamp`
 
 ### 请求示例
-GET /api/v1/timestamp
+`GET /api/v1/timestamp`
 
 <aside class="spacer2"></aside>
 
 ## 获取服务状态
-
 ```json
 {
     "code":"200000",
@@ -6097,13 +5775,12 @@ GET /api/v1/timestamp
 此接口，可获取服务状态
 
 ### HTTP REQUEST
-**GET /api/v1/status**
+`GET /api/v1/status`
 
 ### Example
-GET /api/v1/status
+`GET /api/v1/status`
 
 ### RESPONSES
-
 | 字段     | 含义                                          |
 |-------- | -------------------------------------------   |
 | status  | 服务状态: **open**、 **close** 或 **cancelonly** |
@@ -6111,20 +5788,14 @@ GET /api/v1/status
 
 
 # Websocket
-
 REST API的使用受到了访问频率的限制，因此推荐您使用Websocket获取实时数据。
 
 <aside class="notice">推荐您只创建一个Websocket连接，在这个连接上订阅多个通道的数据</aside>
 
-
 ## 申请连接令牌
-
-
 在创建Websocket连接前，您需申请一个令牌（Token）。
 
-
 ### 公共令牌 (不需要验证签名):
-
 ```json
 {
     "code": "200000",
@@ -6143,24 +5814,18 @@ REST API的使用受到了访问频率的限制，因此推荐您使用Websocket
     }
 }
 ```
-
 如果您只订阅公共频道的数据，请按照以下方式请求获取服务实例列表和公共令牌。
 
 #### HTTP请求
-
-**POST /api/v1/bullet-public**
+`POST /api/v1/bullet-public`
 
 ### 私有令牌 (需要验证签名):
-
 如您需请求私有频道的数据（如：账户资金变化），请在签名验证后按照以下方式获取Websocket的服务实例和已验签的令牌。
 
 #### HTTP请求
-
-**POST /api/v1/bullet-private**
-
+`POST /api/v1/bullet-private`
 
 ### 返回值
-
 |字段 | 含义|
 -----|-----
 |endpoint| Websocket建立连接的服务器地址 |
@@ -6170,15 +5835,11 @@ REST API的使用受到了访问频率的限制，因此推荐您使用Websocket
 |pingTimeout| 如果在pingTimeout时间后，未收到pong消息，那么连接可能已断开了 |
 |token | 令牌 |
 
-
 ## 建立连接
-
 ```javascript
 var socket = new WebSocket("wss://push1-v2.kucoin.com/endpoint?token=xxx&[connectId=xxxxx]");
 ```
-
 成功建立连接后，您将会收到系统向您发出的欢迎（welcome）消息。
-
 
 <aside class="notice">客户端需要等待welcome消息，只有收到了welcome消息，才表示连接可用。</aside>
 
@@ -6188,11 +5849,9 @@ var socket = new WebSocket("wss://push1-v2.kucoin.com/endpoint?token=xxx&[connec
     "type":"welcome"
 }
 ```
-
 **connectId**：连接ID，是客户端生成的唯一标识。您在创建连接时收到的欢迎（welcome）消息的ID以及错误消息的ID都属于连接ID（connectId）。
 
 如果你想只接收指定topic的私人消息，请在订阅时使用privateChannel:true。
-
 
 <aside class="spacer2"></aside>
 
@@ -6207,7 +5866,6 @@ var socket = new WebSocket("wss://push1-v2.kucoin.com/endpoint?token=xxx&[connec
 在服务器收到ping消息后，系统会向客户端返回一条pong消息。
 如果服务器长时间没有收到来自客户端的消息，连接将被断开。
 
-
 ```json
 {
     "id":"1545910590801",
@@ -6216,9 +5874,7 @@ var socket = new WebSocket("wss://push1-v2.kucoin.com/endpoint?token=xxx&[connec
 ```
 <aside class="spacer3"></aside>
 
-
 ## 订阅
-
 ```json
   // 订阅
 {
@@ -6229,11 +5885,9 @@ var socket = new WebSocket("wss://push1-v2.kucoin.com/endpoint?token=xxx&[connec
     "response":true
 }
 ```
-
 使用服务器订阅消息时，客户端应向服务器发送订阅消息。
 
 订阅成功后，当**response**参数为**true**时，系统将向您发出**“ack”消息**。
-
 
 ```json
 {
@@ -6252,9 +5906,7 @@ ID用于标识请求和ack的唯一字符串。
 您订阅的频道内容。
 
 #### PrivateChannel
-
-您可通过privateChannel参数订阅以一些特殊的topic（如： /market/level2）。该参数默认设置为“false”。设置为“true”时，则您只能收到与您订阅的topic相关的内容推送。
-
+您可通过privateChannel参数订阅以一些特殊的topic（如：/market/level2）。该参数默认设置为“false”。设置为“true”时，则您只能收到与您订阅的topic相关的内容推送。
 
 #### Response
 若设置为True, 用户成功订阅后，系统将返回ack消息。
@@ -6264,7 +5916,6 @@ ID用于标识请求和ack的唯一字符串。
 但系统会将相应topic的消息发送到客户端，详情返回值请参照指定的topic。
 
 ## 退订
-
 用于取消您之前订阅的topic
 
 ```json
@@ -6303,18 +5954,12 @@ ID用于标识请求和ack的唯一字符串。
 
 
 ## 多路复用
-
-
  在一条物理连接上，您可开启多条多路复用通道，以订阅不同topic，获取多种数据推送。
 
 ### 开启
-
-
 例如： 请输入以下指令定开启多条bt1通道 {"id": "1Jpg30DEdU", "type": "openTunnel", "newTunnelId": "bt1", "response": true}
 
 在指定中添加参数tunnelId： {"id": "1JpoPamgFM", "type": "subscribe", "topic": "/market/ticker:KCS-BTC"，"tunnelId": "bt1", "response": true}
-
-
 
 ### 返回值
 请求成功后，您将收到 tunnelIId 对应的消息推送：{"id": "1JpoPamgFM", "type": "message", "topic": "/market/ticker:KCS-BTC", "subject": "trade.ticker", "tunnelId": "bt1", "data": {...}}
@@ -6326,16 +5971,8 @@ ID用于标识请求和ack的唯一字符串。
 - 多路复用仅限API用户使用。
 - 最多可开启的多路复用通道条数：5条。
 
-
-
-
-
-
 ## 定序编号
 买卖盘数据化、成交历史数据以及快照消息均会默认返回sequence字段。您可以从Level 2和Level 3市场行情数据中的sequence来判断数据是否丢失，连接是否稳定。如果连接不稳定，请按照校准流程进行校准。
-
-
-
 
 ## 消息处理逻辑
 
@@ -6347,7 +5984,6 @@ ID用于标识请求和ack的唯一字符串。
 # 公共频道
 
 ## 交易瞬时行情
-
 ```json
 {
     "id":1545910660739,
@@ -6372,7 +6008,6 @@ ID用于标识请求和ack的唯一字符串。
     }
 }
 ```
-
 Topic: `/market/ticker:{symbol},{symbol}...`
 
 * 推送频率: `100ms`一次

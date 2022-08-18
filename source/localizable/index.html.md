@@ -554,7 +554,7 @@ All requests and responses are **application/json** content type.
 
 Unless otherwise stated, all timestamp parameters should in milliseconds. e.g. **1544657947759**
 
-### Parameters
+### PARAMETERS
 
 For the **GET, DELETE** request, all query parameters need to be included in the request url. (**e.g. /api/v1/accounts?currency=BTC**)
 
@@ -603,7 +603,7 @@ Code | Meaning
 | 400006 | The requested ip address is not in the api whitelist |
 | 400007 | Access Denied        |
 | 404000 | Url Not Found                              |
-| 400100 | Parameter Error                            |
+| 400100 | Param Error                            |
 | 400200 | Forbidden to place an order              |
 | 400500 | Your located country/region is currently not supported for the trading of this token |
 | 400700 | Transaction restricted, there's a risk problem in your account |
@@ -641,7 +641,7 @@ pageSize | 50 | Number of results per request. Minimum is 10, maximum is 500.
 
 
 #### Example
-**GET /api/v1/orders?currentPage=1&pageSize=50**
+`GET /api/v1/orders?currentPage=1&pageSize=50`
 
 
 ## Types
@@ -865,17 +865,15 @@ remarks | Remark
 ```
 
 ### HTTP REQUEST
-**POST /api/v1/accounts**
+`POST /api/v1/accounts`
 
 ### Example
-POST /api/v1/accounts
-
+`POST /api/v1/accounts`
 
 ### API KEY PERMISSIONS
-This endpoint requires the **"General"** permission.
+This endpoint requires the `General` permission.
 
-### Parameters
-
+### PARAMETERS
 Param | Type | Description
 --------- | ------- | -------
 type | String | Account type: **main**, **trade**, **margin**
@@ -888,7 +886,6 @@ id | accountId, ID of an account
 
 
 ## List Accounts
-
 ```json
 [
   {
@@ -914,16 +911,15 @@ Get a list of accounts.
 Please deposit funds to the main account firstly, then transfer the funds to the trade account via [Inner Transfer](#inner-transfer) before transaction.
 
 ### HTTP REQUEST
-**GET /api/v1/accounts**
+`GET /api/v1/accounts`
 
 ### Example
-GET /api/v1/accounts
+`GET /api/v1/accounts`
 
 ### API KEY PERMISSIONS
-This endpoint requires the **"General"** permission.
+This endpoint requires the `General` permission.
 
-### Parameters
-
+### PARAMETERS
 Param | Type | Description
 --------- | ------- | -------
 currency | String | *[Optional]* [Currency](#get-currencies)
@@ -967,17 +963,16 @@ When placing an order, the funds for the order will be freezed. The freezed fund
 Information for a single account. Use this endpoint when you know the accountId.
 
 ### HTTP REQUEST
-**GET /api/v1/accounts/{accountId}**
+`GET /api/v1/accounts/{accountId}`
 
 ### Example
-GET /api/v1/accounts/5bd6e9286d99522a52e458de
+`GET /api/v1/accounts/5bd6e9286d99522a52e458de`
 
 ### API KEY PERMISSIONS
-This endpoint requires the **"General"** permission.
+This endpoint requires the `General` permission.
 
 
-### Parameters
-
+### PARAMETERS
 Param | Type | Description
 --------- | ------- | ---------
 accountId | String | **Path parameter.** ID of the account
@@ -1060,19 +1055,18 @@ Items are paginated and sorted to show the latest first. See the [Pagination](#p
 ```
 
 ### HTTP REQUEST
-**GET /api/v1/accounts/{accountId}/ledgers**
+`GET /api/v1/accounts/{accountId}/ledgers`
 
 ### Example
-GET /api/v1/accounts/5bd6e9286d99522a52e458de/ledgers
+`GET /api/v1/accounts/5bd6e9286d99522a52e458de/ledgers`
 
 
 ### API KEY PERMISSIONS
-This endpoint requires the **"General"** permission.
+This endpoint requires the `General` permission.
 
 <aside class="notice">This request is paginated.</aside>
 
-### Parameters
-
+### PARAMETERS
 Param | Type | Description
 --------- | ------- | -------
 accountId | String | ID of the account
@@ -1140,11 +1134,10 @@ Items are paginated and sorted to show the latest first. See the [Pagination](#p
 ```
 
 ### HTTP REQUEST
-**GET /api/v1/accounts/ledgers**
-
+`GET /api/v1/accounts/ledgers`
 
 ### Example
-GET /api/v1/accounts/ledgers?currency=BTC&startAt=1601395200000
+`GET /api/v1/accounts/ledgers?currency=BTC&startAt=1601395200000`
 
 ### API KEY PERMISSIONS
 This endpoint requires the **"General"** permission.
@@ -1155,8 +1148,7 @@ This API is restricted for each account, the request rate limit is **18 times/3s
 <aside class="notice">This request is paginated.</aside>
 
 
-### Parameters
-
+### PARAMETERS
 Param | Type | Description
 --------- | ------- | -------
 currency | String | *[Optional]* Currency ( you can choose more than one currency). You can specify 10 currencies at most for one time. If not specified, all currencies will be inquired by default.
@@ -1271,23 +1263,20 @@ Convert to KCS   | Convert to KCS
 This endpoint returns the account info of a sub-user specified by the subUserId.
 
 ### HTTP REQUEST
-
-**GET /api/v1/sub-accounts/{subUserId}**
+`GET /api/v1/sub-accounts/{subUserId}`
 
 ### Example
-GET /api/v1/sub-accounts/5caefba7d9575a0688f83c45
+`GET /api/v1/sub-accounts/5caefba7d9575a0688f83c45`
 
 ### API KEY PERMISSIONS
 This endpoint requires the **"General"** permission.
 
-### Parameters
-
+### PARAMETERS
 Param | Type | Description
 --------- | ------- | -------
 subUserId | String | the [user ID](#get-user-info-of-all-sub-accounts) of a sub-account.
 
 ### RESPONSES
-
 Field | Description
 --------- | -------
 subUserId | The user ID of a sub-user.
@@ -1302,8 +1291,6 @@ baseAmount | The base currency amount.
 
 
 ## Get the Aggregated Balance of all Sub-Accounts
-
-
 ```json
 [
     {
@@ -1349,17 +1336,15 @@ baseAmount | The base currency amount.
 This endpoint returns the account info of all sub-users.
 
 ### HTTP REQUEST
-
-**GET /api/v1/sub-accounts**
+`GET /api/v1/sub-accounts`
 
 ### Example
-GET /api/v1/sub-accounts
+`GET /api/v1/sub-accounts`
 
 ### API KEY PERMISSIONS
 This endpoint requires the **"General"** permission.
 
 ### RESPONSES
-
 Field | Description
 --------- | -------
 subUserId | The user ID of the sub-user.
@@ -1396,8 +1381,8 @@ This endpoint returns the transferable balance of a specified account.
 ### API KEY PERMISSIONS
 This endpoint requires the `General` permission.
 
-### Parameters
-Param | Type | Required | Description
+### PARAMETERS
+Param | Type | Mandatory | Description
 --------- | ------- | ------- | -------
 currency | String | Yes |[currency](#get-currencies)
 type | String | Yes |The account type: `MAIN`, `TRADE`, `MARGIN` or `ISOLATED`
@@ -1414,8 +1399,6 @@ transferable | Funds available to transfer.
 
 
 ## Transfer between Master user and Sub-user
-
-
 ```json
 {
 	"orderId": "5cbd870fd9575a18e4438b9a"
@@ -1424,15 +1407,12 @@ transferable | Funds available to transfer.
 Funds in the main account, trading account and margin account of a Master Account can be transferred to the main account, trading account, futures account and margin account of its Sub-Account. The futures account of both the Master Account and Sub-Account can only accept funds transferred in from the main account, trading account and margin account and cannot transfer out to these accounts.
 
 ### HTTP REQUEST
-
-**POST /api/v2/accounts/sub-transfer**
+`POST /api/v2/accounts/sub-transfer`
 
 <aside class="notice">Recommended for use</aside>
 
-
 ### Example
-POST /api/v2/accounts/sub-transfer
-
+`POST /api/v2/accounts/sub-transfer`
 
 ### API KEY PERMISSIONS
 This endpoint requires the **"Trade"** permission.
@@ -1440,8 +1420,7 @@ This endpoint requires the **"Trade"** permission.
 ### REQUEST RATE LIMIT
 This API is restricted for each account, the request rate limit is **3 times/3s**.
 
-### Parameters
-
+### PARAMETERS
 Param | Type | Description
 --------- | ------- | -------
 clientOid | String | Unique order id created by users to identify their orders, e.g. UUID.
@@ -1454,14 +1433,12 @@ subUserId | String | the [user ID](#get-user-info-of-all-sub-accounts) of a sub-
 
 
 ### RESPONSES
-
 Field | Description
 --------- | -------
 orderId | The order ID of a master-sub assets transfer.
 
 
 ## Inner Transfer
-
 ```json
 {
     "orderId": "5bd6e9286d99522a52e458de"
@@ -1476,8 +1453,8 @@ This API endpoint can be used to transfer funds between accounts internally. Use
 ### API KEY PERMISSIONS
 This endpoint requires the `Trade` permission.
 
-### Parameters
-Param | Type | Mandatory | Definitions |  
+### PARAMETERS
+Param | Type | Mandatory | Description |  
 --------- | ------- | -----------| -----------|
 clientOid | String | Yes | clientOid, the unique identifier created by the client, use of UUID 
 currency | String | Yes | [currency](#Get-Currencies) 
@@ -1508,16 +1485,15 @@ orderId | The order ID of a funds transfer
 Request via this endpoint to create a deposit address for a currency you intend to deposit.
 
 ### HTTP REQUEST
-**POST /api/v1/deposit-addresses**
+`POST /api/v1/deposit-addresses`
 
 ### Example
-POST /api/v1/deposit-addresses
+`POST /api/v1/deposit-addresses`
 
 ### API KEY PERMISSIONS
 This endpoint requires the **"Transfer"** permission.
 
-### Parameters
-
+### PARAMETERS
 Param | Type | Description
 --------- | ------- | -----------
 currency | String | Currency
@@ -1531,7 +1507,6 @@ memo | Address remark. If there’s no remark, it is empty. When you [withdraw](
 chain | The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20. The available value for BTC are Native, Segwit, TRC20, the parameters are bech32, btc, trx, default is Native. 
 
 ## Get Deposit Addresses(V2)
-
 ```json
 [
   {
@@ -1558,10 +1533,10 @@ chain | The chain name of currency, e.g. The available value for USDT are OMNI, 
 Get all deposit addresses for the currency you intend to deposit. If the returned data is empty, you may need to create a deposit address first.
 
 ### HTTP REQUEST
-**GET /api/v2/deposit-addresses**
+`GET /api/v2/deposit-addresses`
 
 ### Example
-GET /api/v2/deposit-addresses?currency=BTC
+`GET /api/v2/deposit-addresses?currency=BTC`
 
 ### API KEY PERMISSIONS
 This endpoint requires the **"General"** permission.
@@ -1580,7 +1555,6 @@ chain | The chain name of currency.
 contractAddress | The token contract address.
 
 ## Get Deposit Address
-
 ```json
 {
 	"address": "0x78d3ad1c0aa1bf068e19c94a2d7b16c9c0fcd8b1",
@@ -1592,16 +1566,15 @@ contractAddress | The token contract address.
 Get a deposit address for the currency you intend to deposit. If the returned data is null, you may need to create a deposit address first.
 
 ### HTTP REQUEST
-**GET /api/v1/deposit-addresses**
+`GET /api/v1/deposit-addresses`
 
 ### Example
-GET /api/v1/deposit-addresses
+`GET /api/v1/deposit-addresses`
 
 ### API KEY PERMISSIONS
 This endpoint requires the **"General"** permission.
 
-### Parameters
-
+### PARAMETERS
 Param | Type | Description
 --------- | ------- | -----------
 currency | String | Currency
@@ -1659,10 +1632,10 @@ Items are paginated and sorted to show the latest first. See the [Pagination](#p
 
 
 ### HTTP REQUEST
-**GET /api/v1/deposits**
+`GET /api/v1/deposits`
 
 ### Example
-GET /api/v1/deposits
+`GET /api/v1/deposits`
 
 ### API KEY PERMISSIONS
 This endpoint requires the **"General"** permission.
@@ -1672,8 +1645,7 @@ This API is restricted for each account, the request rate limit is **6 times/3s*
 
 <aside class="notice">This request is paginated.</aside>
 
-### Parameters
-
+### PARAMETERS
 Param | Type | Description
 --------- | ------- | -----------
 currency | String | *[Optional]*  Currency
@@ -1723,10 +1695,10 @@ Request via this endpoint to get the V1 historical deposits list on KuCoin.
 <aside class="notice">The data of the latest one month will be queried by default.</aside>
 
 ### HTTP REQUEST
-**GET /api/v1/hist-deposits**
+`GET /api/v1/hist-deposits`
 
 ### Example
-GET /api/v1/hist-deposits
+`GET /api/v1/hist-deposits`
 
 ### API KEY PERMISSIONS
 This endpoint requires the **"General"** permission.
@@ -1736,8 +1708,7 @@ This API is restricted for each account, the request rate limit is **6 times/3s*
 
 <aside class="notice">This request is paginated.</aside>
 
-### Parameters
-
+### PARAMETERS
 Param | Type | Description
 --------- | ------- | -----------
 currency | String | *[Optional]*  [Currency](#get-currencies).
@@ -1755,11 +1726,7 @@ walletTxId | Wallet Txid
 createAt | Creation time of the database record
 status | Status
 
-
-
-
 # Withdrawals
-
 
 ## Get Withdrawals List
 
@@ -1789,10 +1756,10 @@ status | Status
 ```
 
 ### HTTP REQUEST
-**GET /api/v1/withdrawals**
+`GET /api/v1/withdrawals`
 
 ### Example
-GET /api/v1/withdrawals
+`GET /api/v1/withdrawals`
 
 ### API KEY PERMISSIONS
 This endpoint requires the **"General"** permission.
@@ -1802,8 +1769,7 @@ This API is restricted for each account, the request rate limit is **6 times/3s*
 
 <aside class="notice">This request is paginated.</aside>
 
-### Parameters
-
+### PARAMETERS
 Param | Type | Description
 --------- | ------- | -----------
 currency | String | *[Optional]*  [Currency](#get-currencies)
@@ -1827,11 +1793,7 @@ remark | remark
 createdAt | Creation time
 updatedAt | Update time
 
-
-
-
 ## Get V1 Historical Withdrawals List
-
 ```json
 {
     "currentPage":1,
@@ -1856,10 +1818,10 @@ List of KuCoin V1 historical withdrawals.
 <aside class="notice">Default query for one month of data.</aside>
 
 ### HTTP REQUEST
-**GET /api/v1/hist-withdrawals**
+`GET /api/v1/hist-withdrawals`
 
 ### Example
-GET /api/v1/hist-withdrawals
+`GET /api/v1/hist-withdrawals`
 
 
 ### API KEY PERMISSIONS
@@ -1870,8 +1832,7 @@ This API is restricted for each account, the request rate limit is **6 times/3s*
 
 <aside class="notice">This request is paginated.</aside>
 
-### Parameters
-
+### PARAMETERS
 Param | Type | Description
 --------- | ------- | -----------
 currentPage | int | *[Optional]*  The current page.
@@ -1891,11 +1852,7 @@ walletTxId | Wallet Txid
 createAt | Creation time of the database record
 status | Status
 
-
-
-
 ##  Get Withdrawal Quotas
-
 ```json
 {
 	"currency": "KCS",
@@ -1913,17 +1870,16 @@ status | Status
 ```
 
 ### HTTP REQUEST
-**GET /api/v1/withdrawals/quotas**
+`GET /api/v1/withdrawals/quotas`
 
 ### Example
-GET /api/v1/withdrawals/quotas?currency=BTC
+`GET /api/v1/withdrawals/quotas?currency=BTC`
 
 
 ### API KEY PERMISSIONS
 This endpoint requires the **"General"** permission.
 
-### Parameters
-
+### PARAMETERS
 Param | Type | Description
 --------- | ------- | -----------
 currency | String | currency. e.g. BTC
@@ -1945,7 +1901,6 @@ precision | Floating point precision.
 chain | The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20.
 
 ## Apply Withdraw
-
 ```json
 {
   "withdrawalId": "5bffb63303aa675e8bbe18f9"
@@ -1963,7 +1918,7 @@ chain | The chain name of currency, e.g. The available value for USDT are OMNI, 
 ### API KEY PERMISSIONS
 This endpoint requires the `Transfer` permission.
 
-### Parameters
+### PARAMETERS
 Param | Type | Mandatory | Description |  
 --------- | ------- | -----------| -----------|
 currency   | String | Yes |Currency|
@@ -1986,16 +1941,15 @@ withdrawalId | Withdrawal id
 Only withdrawals requests of **PROCESSING** status could be canceled.
 
 ### HTTP REQUEST
-**DELETE /api/v1/withdrawals/{withdrawalId}**
+`DELETE /api/v1/withdrawals/{withdrawalId}`
 
 ### Example
-DELETE /api/v1/withdrawals/5bffb63303aa675e8bbe18f9
+`DELETE /api/v1/withdrawals/5bffb63303aa675e8bbe18f9`
 
 ### API KEY PERMISSIONS
 This endpoint requires the **"Transfer"** permission.
 
-### Parameters
-
+### PARAMETERS
 Param | Type | Description
 --------- | ------- | -----------
 withdrawalId | String | Path parameter, a unique ID for a withdrawal order
@@ -2028,7 +1982,7 @@ This interface is for the basic fee rate of users
 ### API KEY PERMISSIONS
 This endpoint requires the `General` permission.
 
-### Parameters
+### PARAMETERS
 Param | Type | Mandatory | Description
 --------- | ------- | -------| -------
 currencyType| String | No | Currency type: `0`-crypto currency, `1`-fiat currency. default is `0`-crypto currency
@@ -2070,7 +2024,7 @@ This interface is for the actual fee rate of the trading pair. You can inquire a
 ### API KEY PERMISSIONS
 This endpoint requires the `General` permission.
 
-### Parameters
+### PARAMETERS
 Param | Type | Mandatory | Description
 --------- | ------- | -------| -------
 symbols|String|NO|Trading pair (optional, you can inquire fee rates of `10` trading pairs each time at most)
@@ -2113,11 +2067,10 @@ The maximum active orders for a single trading pair in one account is **200** (s
 
 
 ### HTTP Request
-**POST /api/v1/orders**
+`POST /api/v1/orders`
 
 ### Example
-POST /api/v1/orders
-
+`POST /api/v1/orders`
 
 ### API KEY PERMISSIONS
 This endpoint requires the **"Trade"** permission.
@@ -2125,8 +2078,7 @@ This endpoint requires the **"Trade"** permission.
 ### REQUEST RATE LIMIT
 This API is restricted for each account, the request rate limit is **45 times/3s**.
 
-### Parameters
-
+### PARAMETERS
 | Param     | type   | Description  |
 | --------- | ------ |-------------------------------- |
 | clientOid | String | Unique order id created by users to identify their orders, e.g. UUID. |
@@ -2138,7 +2090,6 @@ This API is restricted for each account, the request rate limit is **45 times/3s
 | tradeType | String | *[Optional]* The type of trading : **TRADE**（Spot Trade）, **MARGIN_TRADE** (Margin Trade). Default is **TRADE**. **Note: To improve the system performance and to accelerate order placing and processing, KuCoin has added a new interface for order placing of margin. For traders still using the current interface, please move to the new one as soon as possible. The current one will no longer accept margin orders by May 1st, 2021 (UTC). At the time, KuCoin will notify users via the announcement, please pay attention to it.** |
 
 #### LIMIT ORDER PARAMETERS
-
 | Param       | type    | Description                                                  |
 | ----------- | ------- | ------------------- |
 | price       | String  | price per base currency          |
@@ -2152,7 +2103,6 @@ This API is restricted for each account, the request rate limit is **45 times/3s
 
 
 #### MARKET ORDER PARAMETERS
-
 Param | type | Description
 --------- | ------- | -----------
 size | String | *[Optional]*  Desired amount in base currency
@@ -2308,7 +2258,7 @@ This endpoint requires the `Trade` permission.
 ### REQUEST RATE LIMIT
 This API is restricted for each account, the request rate limit is `45 times/3s`.
 
-### Parameters
+### PARAMETERS
 | Param     | type   | Description  |
 | --------- | ------ |-------------------------------- |
 | clientOid | String | Unique order id created by users to identify their orders, e.g. UUID. |
@@ -2317,7 +2267,7 @@ This API is restricted for each account, the request rate limit is `45 times/3s`
 | type      | String | *[Optional]* `limit` or `market` (default is `limit`)          |
 | remark    | String | *[Optional]*  remark for the order, length cannot exceed 100 utf8 characters|
 | stp       | String | *[Optional]*  self trade prevention , `CN`, `CO`, `CB` or `DC`|
-| marginMode | String | *[Optional]*  The type of trading, including `cross` (cross mode) and `isolated` (isolated mode). It is set at `cross` by default.|
+| marginModel | String | *[Optional]*  The type of trading, including `cross` (cross mode) and `isolated` (isolated mode). It is set at `cross` by default.|
 | autoBorrow | boolean | *[Optional]*  Auto-borrow to place order. The system will first borrow you funds at the optimal interest rate and then place an order for you. Currently `autoBorrow` parameter only supports `cross` mode, not `isolated` mode|
 
 #### LIMIT ORDER PARAMETERS
@@ -2460,8 +2410,7 @@ This endpoint requires the `Trade` permission.
 ### REQUEST RATE LIMIT
 This API is restricted for each account, the request rate limit is `3 times/3s`.
 
-### Parameters
-
+### PARAMETERS
 | Param     | type   | Description  |
 | --------- | ------ |-------------------------------- |
 | clientOid | String | Unique order id created by users to identify their orders, e.g. UUID. |
@@ -2506,19 +2455,19 @@ Request via this endpoint to cancel a single order previously placed.
 
 
 ### HTTP REQUEST
-**DELETE /api/v1/orders/{orderId}**
+`DELETE /api/v1/orders/{orderId}`
 
 ### Example
-DELETE /api/v1/orders/5bd6e9286d99522a52e458de
+`DELETE /api/v1/orders/5bd6e9286d99522a52e458de`
 
 
 ### API KEY PERMISSIONS
-This endpoint requires the **"Trade"** permission.
+This endpoint requires the `Trade` permission.
 
 ### REQUEST RATE LIMIT
-This API is restricted for each account, the request rate limit is 60 **times/3s**.
+This API is restricted for each account, the request rate limit is `60 times/3s`.
 
-### Parameters
+### PARAMETERS
 Param | Type | Description
 --------- | ------- | -----------
 orderId | String | [Order ID](#list-orders), unique ID of the order.
@@ -2547,36 +2496,26 @@ If the order could not be canceled (already filled or previously canceled, etc),
 Request via this interface to cancel an order via the clientOid.
 
 ### HTTP REQUEST
-
-**DELETE /api/v1/order/client-order/{clientOid}**
+`DELETE /api/v1/order/client-order/{clientOid}`
 
 ### Example
-
-DELETE /api/v1/order/client-order/6d539dc614db3
+`DELETE /api/v1/order/client-order/6d539dc614db3`
 
 ### API KEY PERMISSIONS
-
 This endpoint requires the **"Trade"** permission.
 
-###RESPONSES###
-
+### PARAMETERS
 | Param | Type | Description                            |
 | ------- | ------ | ----------------------------- |
 | clientOid | String | Unique order id created by users to identify their orders |
 
 ### RESPONSES
-
 | Field | Description     |
 | ----------------- | ------- |
 | cancelledOrderId | Order ID of cancelled order |
 | clientOid | Unique order id created by users to identify their orders |
 
-
-
-
-
 ## Cancel all orders
-
 ```json
 {
     "cancelledOrderIds": [
@@ -2594,26 +2533,26 @@ This endpoint requires the **"Trade"** permission.
     ]
 }
 ```
-
 Request via this endpoint to cancel all open orders. The response is a list of ids of the canceled orders.
 
 ### HTTP REQUEST
-**DELETE /api/v1/orders**
+`DELETE /api/v1/orders`
 
 ### Example
-**DELETE /api/v1/orders?symbol=ETH-BTC&tradeType=TRADE**
+`DELETE /api/v1/orders?symbol=ETH-BTC&tradeType=TRADE`<br/>
+`DELETE /api/v1/orders?symbol=ETH-BTC&tradeType=MARGIN_ISOLATED_TRADE`
 
 ### API KEY PERMISSIONS
-This endpoint requires the **"Trade"** permission.
+This endpoint requires the `Trade` permission.
 
 ### REQUEST RATE LIMIT
-This API is restricted for each account, the request rate limit is **3 times/3s**.
+This API is restricted for each account, the request rate limit is `3 times/3s`.
 
-### Parameters
+### PARAMETERS
 |Param | Type | Description|
 |--------- | ------- | -----------|
 |symbol | String | *[Optional]* symbol, cancel the orders for the specified trade pair. |
-| tradeType| String | *[Optional]* the type of trading, cancel the orders for the specified trading type, and the default is to cancel the spot trading order (**TRADE**).|
+|tradeType| String | *[Optional]*  the type of trading :`TRADE`(Spot Trading), `MARGIN_TRADE`(Cross Margin Trading), `MARGIN_ISOLATED_TRADE`(Isolated Margin Trading), and the default is `TRADE` to cancel the spot trading orders.|
 
 ### RESPONSES
 Field | Description
@@ -2670,16 +2609,17 @@ orderId | Order ID, unique identifier of an order.
 Request via this endpoint to get your current order list. Items are paginated and sorted to show the latest first. See the [Pagination](#pagination) section for retrieving additional entries after the first page.
 
 ### HTTP REQUEST
-**GET /api/v1/orders**
+`GET /api/v1/orders`
 
 ### Example
-GET /api/v1/orders?status=active
+`GET /api/v1/orders?status=active`<br/>
+`GET /api/v1/orders?status=active?tradeType=MARGIN_ISOLATED_TRADE`
 
 ### API KEY PERMISSIONS
-This endpoint requires the **"General"** permission.
+This endpoint requires the `General` permission.
 
 ### REQUEST RATE LIMIT
-This API is restricted for each account, the request rate limit is **30 times/3s**.
+This API is restricted for each account, the request rate limit is `30 times/3s`.
 
 <aside class="notice">This request is paginated.</aside>
 
@@ -2689,11 +2629,11 @@ You can pinpoint the results with the following query paramaters.
 
 Param | Type | Description
 --------- | ------- | -----------
-status | String |*[Optional]* **active** or **done**(done as default), Only list orders with a specific status .
+status | String |*[Optional]* `active` or `done`(`done` as default), Only list orders with a specific status .
 symbol |String|*[Optional]* Only list orders for a specific symbol.
-side | String | *[Optional]* **buy** or **sell**
-type | String | *[Optional]* **limit**, **market**, **limit_stop** or **market_stop**
-tradeType | String |The type of trading : **TRADE**（Spot Trading）, **MARGIN_TRADE** (Margin Trading).
+side | String | *[Optional]* `buy` or `sell`
+type | String | *[Optional]* `limit`, `market`, `limit_stop` or `market_stop`
+tradeType | String |The type of trading:`TRADE`-Spot Trading, `MARGIN_TRADE`-Cross Margin Trading, `MARGIN_ISOLATED_TRADE`-Isolated Margin Trading.
 startAt| long | *[Optional]*  Start time (milisecond)
 endAt| long | *[Optional]* End time (milisecond)
 
@@ -2703,7 +2643,7 @@ Field | Description
 id |  Order ID, the ID of an order.
 symbol | symbol
 opType |  Operation type: DEAL
-type | order type,e.g. limit,market,stop_limit.
+type | order type
 side | transaction direction,include buy and sell
 price |  order price
 size |  order quantity
@@ -2712,16 +2652,16 @@ dealFunds |  executed size of funds
 dealSize | executed quantity
 fee | fee
 feeCurrency | charge fee currency
-stp |  self trade prevention,include CN,CO,DC,CB
+stp |  self trade prevention,include `CN`,`CO`,`DC`,`CB`
 stop |  stop type, include entry and loss
 stopTriggered |  stop order is triggered or not
 stopPrice |  stop price
-timeInForce | time InForce,include GTC,GTT,IOC,FOK
+timeInForce | time InForce,include `GTC`,`GTT`,`IOC`,`FOK`
 postOnly | postOnly
 hidden | hidden order
 iceberg | iceberg order
 visibleSize | displayed quantity for iceberg order
-cancelAfter | cancel orders time，requires timeInForce to be GTT
+cancelAfter | cancel orders time，requires timeInForce to be `GTT`
 channel | order source
 clientOid | user-entered order unique mark
 remark | remark
@@ -2729,7 +2669,7 @@ tags | tag order source
 isActive |  order status, true and false. If true, the order is active, if false, the order is fillled or cancelled
 cancelExist | order cancellation transaction record
 createdAt | create time
-tradeType | The type of trading : **TRADE**（Spot Trading）, **MARGIN_TRADE** (Margin Trading).
+tradeType | The type of trading
 
 ### ORDER STATUS AND SETTLEMENT
 Any order on the exchange order book is in active status. Orders removed from the order book will be marked with done status. After an order becomes done, there may be a few milliseconds latency before it’s fully settled.
@@ -2776,10 +2716,10 @@ Items are paginated and sorted to show the latest first. See the [Pagination](#p
 <aside class="notice">The endpoint was deprecated on January 13, 2022.</aside>
 
 ### HTTP REQUEST
-**GET /api/v1/hist-orders**
+`GET /api/v1/hist-orders`
 
 ### Example
-GET /api/v1/hist-orders
+`GET /api/v1/hist-orders`
 
 ### API KEY PERMISSIONS
 This endpoint requires the **"General"** permission.
@@ -2810,8 +2750,6 @@ amount |   Executed quantity
 size |  Order quantity.
 fee | Fee.
 createdAt | Create time.
-
-
 
 ## Recent Orders
 
@@ -2862,16 +2800,16 @@ Request via this endpoint to get 1000 orders in the last 24 hours.
 Items are paginated and sorted to show the latest first. See the [Pagination](#pagination) section for retrieving additional entries after the first page.
 
 ### HTTP REQUEST
-**GET /api/v1/limit/orders**
+`GET /api/v1/limit/orders`
 
 ### Example
-GET /api/v1/limit/orders
+`GET /api/v1/limit/orders`
 
 ### API KEY PERMISSIONS
 This endpoint requires the **"General"** permission.
 
 
-###RESPONSES
+### RESPONSES
 Field | Description
 --------- | -------
 orderId | Order ID, unique identifier of an order.
@@ -2950,10 +2888,10 @@ tradeType | The type of trading : **TRADE**（Spot Trading）, **MARGIN_TRADE** 
 Request via this endpoint to get a single order info by order ID.
 
 ### HTTP REQUEST
-**GET /api/v1/orders/{order-id}**
+`GET /api/v1/orders/{order-id}`
 
 ### Example
-GET /api/v1/orders/5c35c02703aa673ceec2a168
+`GET /api/v1/orders/5c35c02703aa673ceec2a168`
 
 ### API KEY PERMISSIONS
 This endpoint requires the **"General"** permission.
@@ -2963,7 +2901,7 @@ Param | Type | Description
 --------- | ------- | -----------
 orderId | String | Order ID, unique identifier of an order, obtained via the [List orders](#list-orders).
 
-###RESPONSES
+### RESPONSES
 Field | Description
 --------- | -------
 orderId | Order ID, the ID of an order
@@ -3044,23 +2982,20 @@ Request via this interface to check the information of a single active order via
 
 
 ### HTTP REQUEST
-
-**GET /api/v1/order/client-order/{clientOid}**
+`GET /api/v1/order/client-order/{clientOid}`
 
 ### Example
-
-GET /api/v1/order/client-order/6d539dc614db312
+`GET /api/v1/order/client-order/6d539dc614db312`
 
 ### API KEY PERMISSIONS
 This endpoint requires the **"General"** permission.
 
 ### PARAMETERS
-
 | Param | Type | Description                           |
 | ------- | ------ | ----------------------------- |
 | clientOid | String | Unique order id created by users to identify their orders |
 
-###RESPONSES
+### RESPONSES
 Field | Description
 --------- | -------
 id | Order ID, the ID of an order
@@ -3136,13 +3071,12 @@ Items are paginated and sorted to show the latest first. See the [Pagination](#p
 
 
 ### HTTP REQUEST
-**GET /api/v1/fills**
+`GET /api/v1/fills`
 
 ### Example
-GET /api/v1/fills
+`GET /api/v1/fills`
 
-
-### PERMISSIONS
+### API KEY PERMISSIONS
 This endpoint requires the **"General"** permission.
 
 ### REQUEST RATE LIMIT
@@ -3324,11 +3258,10 @@ Request via this endpoint to get a list of 1000 fills in the last 24 hours.
 
 
 ### HTTP REQUEST
-**GET /api/v1/limit/fills**
+`GET /api/v1/limit/fills`
 
 ### Example
-GET /api/v1/limit/fills
-
+`GET /api/v1/limit/fills`
 
 ### API KEY PERMISSIONS
 This endpoint requires the **"General"** permission.
@@ -3389,12 +3322,10 @@ When placing a stop loss order, the system will not pre-freeze the assets in you
 The maximum untriggered stop orders for a single trading pair in one account is **20**.
 
 ### HTTP Request
-
-**POST /api/v1/stop-order**
+`POST /api/v1/stop-order`
 
 ### Example
-
-POST /api/v1/stop-order
+`POST /api/v1/stop-order`
 
 ### API KEY PERMISSIONS
 
@@ -3460,25 +3391,20 @@ Request via this endpoint to cancel a single stop order previously placed.
 You will receive cancelledOrderIds field once the system has received the cancellation request. The cancellation request will be processed by the matching engine in sequence. To know if the request is processed (successfully or not), you may check the order status or the update message from the pushes.
 
 ### HTTP Request
-
-**DELETE /api/v1/stop-order/{orderId}**
+`DELETE /api/v1/stop-order/{orderId}`
 
 ### Example
-
-DELETE /api/v1/stop-order/5bd6e9286d99522a52e458de
+`DELETE /api/v1/stop-order/5bd6e9286d99522a52e458de`
 
 ### API KEY PERMISSIONS
-
 This endpoint requires the **"Trade"** permission.
 
-### Parameters
-
+### PARAMETERS
 | Param   | Type   | Description                                       |
 | ------- | ------ | ------------------------------------------------- |
 | orderId | String | [Order ID](#list-orders), unique ID of the order. |
 
 ### RESPONSES
-
 | Field   | Description                      |
 | ------- | -------------------------------- |
 | cancelledOrderIds | cancelled order ids    |
@@ -3507,19 +3433,15 @@ If the order could not be canceled (already filled or previously canceled, etc),
 Request via this interface to cancel a batch of stop orders.
 
 ### HTTP Request
-
-**DELETE /api/v1/stop-order/cancel**
+`DELETE /api/v1/stop-order/cancel`
 
 ### Example
-
-**DELETE /api/v1/stop-order/cancel?symbol=ETH-BTC&tradeType=TRADE&orderIds=5bd6e9286d99522a52e458de,5bd6e9286d99522a52e458df**
+`DELETE /api/v1/stop-order/cancel?symbol=ETH-BTC&tradeType=TRADE&orderIds=5bd6e9286d99522a52e458de,5bd6e9286d99522a52e458df`
 
 ### API KEY PERMISSIONS
-
 This endpoint requires the **"General"** permission.
 
 ### PARAMETERS
-
 | Parm      | Type   | Decription                                                   |
 | --------- | ------ | ------------------------------------------------------------ |
 | symbol    | String | [Optional] symbol                                            |
@@ -3527,7 +3449,6 @@ This endpoint requires the **"General"** permission.
 | orderIds  | String | [Optional] Comma seperated order IDs.                        |
 
 ### RESPONSES
-
 | Field             | Decription          |
 | ----------------- | ------------------- |
 | cancelledOrderIds | cancelled order ids |
@@ -3573,27 +3494,20 @@ This endpoint requires the **"General"** permission.
 Request via this interface to get a stop order information via the order ID.
 
 ### HTTP Request
-
-**GET /api/v1/stop-order/{orderId}**
+`GET /api/v1/stop-order/{orderId}`
 
 ### Example
-
-GET /api/v1/stop-order/5c35c02703aa673ceec2a168
+`GET /api/v1/stop-order/5c35c02703aa673ceec2a168`
 
 ### API KEY PERMISSIONS
-
 This endpoint requires the **"General"** permission.
 
 ### PARAMETERS
-
 | Parm    | Type   | Decription |
 | ------- | ------ | ---------- |
 | orderId | String | Order ID   |
 
-
-
 ### RESPONSES
-
 | Field       | Description                                                  |
 | ----------- | ------------------------------------------------------------ |
 | id          | Order ID, the ID of an order.                                |
@@ -3678,15 +3592,12 @@ This endpoint requires the **"General"** permission.
 Request via this endpoint to get your current untriggered stop order list. Items are paginated and sorted to show the latest first. See the [Pagination](#pagination) section for retrieving additional entries after the first page.
 
 ### HTTP REQUEST
-
-**GET /api/v1/stop-order**
+`GET /api/v1/stop-order`
 
 ### Example
-
-GET /api/v1/stop-order
+`GET /api/v1/stop-order`
 
 ### API KEY PERMISSIONS
-
 This endpoint requires the **"General"** permission.
 
 <aside class="notice">This request is paginated.</aside>
@@ -3788,26 +3699,21 @@ You can pinpoint the results with the following query paramaters.
 Request via this interface to get a stop order information via the clientOid.
 
 ### HTTP Request
-
-**GET /api/v1/stop-order/queryOrderByClientOid**
+`GET /api/v1/stop-order/queryOrderByClientOid`
 
 ### Example
-
-GET /api/v1/stop-order/queryOrderByClientOid?symbol=BTC-USDT&clientOid=9823jnfda923a
+`GET /api/v1/stop-order/queryOrderByClientOid?symbol=BTC-USDT&clientOid=9823jnfda923a`
 
 ### API KEY PERMISSIONS
-
 This endpoint requires the **"Trade"** permission.
 
 ### PARAMETERS
-
 | Param     | Type   | Description                                                  |
 | --------- | ------ | ------------------------------------------------------------ |
 | clientOid | String | Unique order id created by users to identify their orders    |
 | symbol    | String | [Optional] Only list orders for a specific symbol.           |
 
 ### RESPONSES
-
 | Field       | Description                                                  |
 | ----------- | ------------------------------------------------------------ |
 | id          | Order ID, the ID of an order.                                |
@@ -3855,33 +3761,26 @@ This endpoint requires the **"Trade"** permission.
 Request via this interface to cancel a stop order via the clientOid.
 
 ### HTTP REQUEST
-
-**DELETE /api/v1/stop-order/cancelOrderByClientOid**
+`DELETE /api/v1/stop-order/cancelOrderByClientOid`
 
 ### Example
-
-DELETE /api/v1/stop-order/cancelOrderByClientOid?symbol=BTC-USDT&clientOid=9823jnfda923a
+`DELETE /api/v1/stop-order/cancelOrderByClientOid?symbol=BTC-USDT&clientOid=9823jnfda923a`
 
 ### API KEY PERMISSIONS
-
 This endpoint requires the **"Trade"** permission.
 
 ### PARAMETERS
-
 | Param     | Type   | Description                                                  |
 | --------- | ------ | ------------------------------------------------------------ |
 | clientOid | String | Unique order id created by users to identify their orders    |
 | symbol    | String | [Optional] Unique order id created by users to identify their orders |
 
 ### RESPONSES
-
 | Field            | Description                                               |
 | ---------------- | --------------------------------------------------------- |
 | cancelledOrderId | Order ID of cancelled order                               |
 | clientOid        | Unique order id created by users to identify their orders |
 
-
-# 
 
 # Market Data
 
@@ -4007,11 +3906,11 @@ Note:
 Request via this endpoint to get Level 1 Market Data. The returned value includes the best bid price and size, the best ask price and size as well as the last traded price and the last traded size.
 
 ### HTTP REQUEST
-**GET /api/v1/market/orderbook/level1**
+`GET /api/v1/market/orderbook/level1`
 
 
 ### Example
-GET /api/v1/market/orderbook/level1?symbol=BTC-USDT
+`GET /api/v1/market/orderbook/level1?symbol=BTC-USDT`
 
 ### PARAMETERS
 
@@ -4070,8 +3969,10 @@ Request market tickers for all the trading pairs in the market (including 24h vo
 On the rare occasion that we will change the currency name, if you still want the changed symbol name, you can use the symbolName field instead of the symbol field via “Get all tickers” endpoint.
 
 ### HTTP REQUEST
-**GET /api/v1/market/allTickers**
+`GET /api/v1/market/allTickers`
 
+### PARAMETERS
+`N/A`
 
 ### RESPONSES
 Field |  Description
@@ -4122,13 +4023,12 @@ makerCoefficient | Maker Fee Coefficient
 Request via this endpoint to get the statistics of the specified ticker in the last 24 hours.
 
 ### HTTP REQUEST
-**GET /api/v1/market/stats**
+`GET /api/v1/market/stats`
 
 ### Example
-GET /api/v1/market/stats?symbol=BTC-USDT
+`GET /api/v1/market/stats?symbol=BTC-USDT`
 
 ### PARAMETERS
-
 Param | Type | Description
 --------- | ------- | -----------
 symbol | String | [symbol](#get-symbols-list)
@@ -4161,7 +4061,6 @@ makerCoefficient | Maker Fee Coefficient
 //Get Market List
 {
 	"data":[
-
     "BTC",
     "KCS",
     "USDS",  //SC has been changed to USDS
@@ -4176,10 +4075,13 @@ Request via this endpoint to get the transaction currency for the entire trading
 <aside class="notice">The three markets of ETH, NEO and TRX are merged into the ALTS market. You can query the trading pairs of the ETH, NEO and TRX markets through the ALTS trading area.</aside>
 
 ### HTTP REQUEST
-**GET /api/v1/markets**
+`GET /api/v1/markets`
 
 ### Example
-GET /api/v1/markets
+`GET /api/v1/markets`
+
+### PARAMETERS
+`N/A`
 
 
 <aside class="spacer2"></aside>
@@ -4211,15 +4113,12 @@ To maintain up-to-date Order Book, please use [Websocket](#level-2-market-data) 
 
 
 ### HTTP REQUEST
-
-**GET /api/v1/market/orderbook/level2_20**
-
-**GET /api/v1/market/orderbook/level2_100**
+`GET /api/v1/market/orderbook/level2_20`<br/>
+`GET /api/v1/market/orderbook/level2_100`
 
 ### Example
-GET /api/v1/market/orderbook/level2_20?symbol=BTC-USDT
-
-GET /api/v1/market/orderbook/level2_100?symbol=BTC-USDT
+`GET /api/v1/market/orderbook/level2_20?symbol=BTC-USDT`<br/>
+`GET /api/v1/market/orderbook/level2_100?symbol=BTC-USDT`
 
 ### PARAMETERS
 
@@ -4267,11 +4166,10 @@ To maintain up-to-date Order Book, please use [Websocket](#level-2-market-data) 
 
 
 ### HTTP REQUEST
-
-**GET /api/v3/market/orderbook/level2**  (Recommend)
+`GET /api/v3/market/orderbook/level2`(Recommend)
 
 ### Example
-GET /api/v3/market/orderbook/level2?symbol=BTC-USDT
+`GET /api/v3/market/orderbook/level2?symbol=BTC-USDT`
 
 ### API KEY PERMISSIONS
 This endpoint requires the **"General"** permission.
@@ -4280,13 +4178,11 @@ This endpoint requires the **"General"** permission.
 This API is restricted for each account, the request rate limit is **30 times/3s**.
 
 ### PARAMETERS
-
 Param | Type | Description
 --------- | ------- | -----------
 symbol | String | [symbol](#get-symbols-list)
 
 ### RESPONSES
-
 Field |  Description
 --------- | -----------
 sequence | Sequence number
@@ -4328,19 +4224,17 @@ Request via this endpoint to get the trade history of the specified symbol.
 
 
 ### HTTP REQUEST
-**GET /api/v1/market/histories**
+`GET /api/v1/market/histories`
 
 ### Example
-GET /api/v1/market/histories?symbol=BTC-USDT
+`GET /api/v1/market/histories?symbol=BTC-USDT`
 
 ### PARAMETERS
-
 Param | Type | Description
 --------- | ------- | -----------
 symbol | String | [symbol](#get-symbols-list)
 
 ### RESPONSES
-
 Field |  Description
 --------- | -----------
 sequence | Sequence number
@@ -4387,11 +4281,12 @@ Request via this endpoint to get the kline of the specified symbol. Data are ret
 <aside class="warning"> Klines should not be polled frequently. If you need real-time information, use the trade and book endpoints along with the websocket feed.</aside>
 
 ### HTTP REQUEST
-**GET /api/v1/market/candles**
+`GET /api/v1/market/candles`
 
 ### Example
-GET /api/v1/market/candles?type=1min&symbol=BTC-USDT&startAt=1566703297&endAt=1566789757
+`GET /api/v1/market/candles?type=1min&symbol=BTC-USDT&startAt=1566703297&endAt=1566789757`
 
+### PARAMETERS
 Param | Type | Description
 --------- | ------- | -----------
 symbol | String | [symbol](#get-symbols-list)
@@ -4402,7 +4297,6 @@ type | String |Type of candlestick patterns: **1min, 3min, 5min, 15min, 30min, 1
 <aside class="notice">For each query, the system would return at most **1500** pieces of data. To obtain more data, please page the data by time.</aside>
 
 ### RESPONSES
-
 Field |  Description
 --------- | -----------
 time | Start time of the candle cycle
@@ -4459,13 +4353,12 @@ Request via this endpoint to get the currency list.
 
 
 ### HTTP REQUEST
-**GET /api/v1/currencies**
+`GET /api/v1/currencies`
 
 ### Example
-GET /api/v1/currencies
+`GET /api/v1/currencies`
 
 ### RESPONSES
-
 |Field | Description|
 |-----|-------------|
 |currency| A unique currency code that will never change|
@@ -4499,8 +4392,6 @@ For example:
 The "**currency**" of XRB is "XRB", if the "**name**" of XRB is changed into "**Nano**", you should use "XRB" (the currency of XRB) to search the coin.
 
 ## Get Currency Detail
-
-
 ```json
 {
   "currency": "BTC",
@@ -4520,10 +4411,10 @@ The "**currency**" of XRB is "XRB", if the "**name**" of XRB is changed into "**
 Request via this endpoint to get the currency details of a specified currency
 
 ### HTTP REQUEST
-**GET /api/v1/currencies/{currency}**
+`GET /api/v1/currencies/{currency}`
 
 ### Example
-GET /api/v1/currencies/BTC
+`GET /api/v1/currencies/BTC`
 
 <aside class="notice">Details of the currency.</aside>
 
@@ -4534,7 +4425,6 @@ currency | String | **Path parameter**. [Currency](#get-currencies)
 chain | String | *[Optional]* Support for querying the chain of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20. This only apply for multi-chain currency, and there is no need for single chain currency.
 
 ### RESPONSES
-
 |Field | Description|
 |-----|-------------|
 |currency| A unique currency code that will never change|
@@ -4551,7 +4441,6 @@ chain | String | *[Optional]* Support for querying the chain of currency, e.g. T
 |isDebitEnabled| Support debit or not |
 
 ## Get Currency Detail(Recommend)
-
 ```json
 {
     "code": "200000",
@@ -4607,7 +4496,6 @@ currency | String | **Path parameter**. [Currency](#get-currencies)
 chain | String | *[Optional]* Support for querying the chain of currency, return the currency details of all chains by default.
 
 ### RESPONSES
-
 |Field | Description|
 |-----|-------------|
 |currency| A unique currency code that will never change|
@@ -4626,14 +4514,10 @@ chain | String | *[Optional]* Support for querying the chain of currency, return
 |isDebitEnabled| Support debit or not |
 
 ## Get Fiat Price
-
-
-
 ```json
 {
     "code": "200000",
     "data": {
-
         "BTC": "3911.28000000",
         "ETH": "144.55492453",
         "LTC": "48.45888179",
@@ -4644,10 +4528,10 @@ chain | String | *[Optional]* Support for querying the chain of currency, return
 Request via this endpoint to get the fiat price of the currencies for the available trading pairs.  
 
 ### HTTP REQUEST
-**GET /api/v1/prices**
+`GET /api/v1/prices`
 
 ### Example
-GET /api/v1/prices
+`GET /api/v1/prices`
 
 ### PARAMETERS
 |Param | Type | Description|
@@ -4661,29 +4545,26 @@ GET /api/v1/prices
 # Margin Info
 
 ## Get Mark Price
-
-
 ```json
 {
-    "symbol": "USDT-BTC",
-    "granularity": 5000,
-    "timePoint": 1568701710000,
-    "value": 0.00009807
+    "code": "200000",
+    "data": {
+        "symbol": "USDT-BTC",
+        "timePoint": 1659930234000,
+        "value": 0.0000429
+    }
 }
 ```
 
 Request via this endpoint to get the index price of the specified symbol.
 
 ### HTTP REQUEST
-
-**GET /api/v1/mark-price/{symbol}/current**
+`GET /api/v1/mark-price/{symbol}/current`
 
 ### Example
-
-GET /api/v1/mark-price/USDT-BTC/current
+`GET /api/v1/mark-price/USDT-BTC/current`
 
 ### PARAMETERS
-
 |Param | Type | Description|
 |--------- | ------- | -----------|
 | symbol | String | **Path parameter.** [symbol](#get-symbols-list) |
@@ -4692,38 +4573,41 @@ GET /api/v1/mark-price/USDT-BTC/current
 <aside class="notice">USDT-BTC, ETH-BTC, LTC-BTC, EOS-BTC, XRP-BTC, KCS-BTC, DIA-BTC, VET-BTC, DASH-BTC, DOT-BTC, XTZ-BTC, ZEC-BTC, BSV-BTC, ADA-BTC, ATOM-BTC, LINK-BTC, LUNA-BTC, NEO-BTC, UNI-BTC, ETC-BTC, BNB-BTC, TRX-BTC, XLM-BTC, BCH-BTC, USDC-BTC, GRT-BTC, 1INCH-BTC, AAVE-BTC,SNX-BTC, API3-BTC, CRV-BTC, MIR-BTC, SUSHI-BTC, COMP-BTC, ZIL-BTC, YFI-BTC, OMG-BTC,XMR-BTC, WAVES-BTC, MKR-BTC, COTI-BTC, SXP-BTC, THETA-BTC, ZRX-BTC, DOGE-BTC, LRC-BTC, FIL-BTC, DAO-BTC, BTT-BTC, KSM-BTC, BAT-BTC, ROSE-BTC, CAKE-BTC, CRO-BTC, XEM-BTC, MASK-BTC, FTM-BTC, IOST-BTC, ALGO-BTC, DEGO-BTC, CHR-BTC, CHZ-BTC, MANA-BTC, ENJ-BTC, IOST-BTC, ANKR-BTC, ORN-BTC, SAND-BTC, VELO-BTC, AVAX-BTC, DODO-BTC, WIN-BTC, ONE-BTC, SHIB-BTC, ICP-BTC, MATIC-BTC, CKB-BTC, SOL-BTC, VRA-BTC, DYDX-BTC, ENS-BTC, NEAR-BTC, SLP-BTC, AXS-BTC, TLM-BTC, ALICE-BTC,IOTX-BTC, QNT-BTC, SUPER-BTC, HABR-BTC, RUNE-BTC, EGLD-BTC, AR-BTC, RNDR-BTC, LTO-BTC, YGG-BTC</aside>
 
 ### RESPONSES
-
 |Field        | Description                    |
 |------------ |--------------------------------|
 | symbol      | symbol                         |
-| granularity | Data granularity (millisecond) |
 | timePoint   | Time (millisecond)             |
 | value       | Mark price    |
 
 ## Get Margin Configuration Info
-
 ```json
 {
-    "currencyList": ["BTC","USDT","EOS"],
-    "warningDebtRatio": "0.8",
-    "liqDebtRatio": "0.9",
-    "maxLeverage": "3"
-  }
+    "code": "200000",
+    "data": {
+        "currencyList": [
+            "XEM",
+            "MATIC",
+            "VRA",
+            ...
+        ],
+        "maxLeverage": 5,
+        "warningDebtRatio": "0.95",
+        "liqDebtRatio": "0.97"
+    }
+}
 ```
-
 Request via this endpoint to get the configure info of the margin.
 
 ### HTTP REQUEST
-
-**GET /api/v1/margin/config**
+`GET /api/v1/margin/config`
 
 ### Example
+`GET /api/v1/margin/config`
 
-GET /api/v1/margin/config
-
+### PARAMETERS
+`N/A`
 
 ### RESPONSES
-
 |Field | Description|
 |----- |-------------|
 | currencyList | Available currencies for margin trade |
@@ -4732,40 +4616,45 @@ GET /api/v1/margin/config
 | maxLeverage | Max leverage available |
 
 ## Get Margin Account
-
 ```json
 {
-    "accounts": [
-      {
-        "availableBalance": "990.11",
-        "currency": "USDT",
-        "holdBalance": "7.22",
-        "liability": "66.66",
-        "maxBorrowSize": "88.88",
-        "totalBalance": "997.33"
-      }
-    ],
-    "debtRatio": "0.33"
-  }
-
+    "code": "200000",
+    "data": {
+        "debtRatio": "0",
+        "accounts": [
+            {
+                "currency": "KCS",
+                "totalBalance": "0.01",
+                "availableBalance": "0.01",
+                "holdBalance": "0",
+                "liability": "0",
+                "maxBorrowSize": "0"
+            },
+            {
+                "currency": "USDT",
+                "totalBalance": "0",
+                "availableBalance": "0",
+                "holdBalance": "0",
+                "liability": "0",
+                "maxBorrowSize": "0"
+            },
+            ...
+        ]
+    }
+}
 ```
 Request via this endpoint to get the info of the margin account.
 
-
 ### HTTP REQUEST
-
-**GET /api/v1/margin/account**
+`GET /api/v1/margin/account`
 
 ### Example
-
-GET /api/v1/margin/account
+`GET /api/v1/margin/account`
 
 ### API KEY PERMISSIONS
-
-This endpoint requires the **"General"** permission.
+This endpoint requires the `General` permission.
 
 ### RESPONSES
-
 |Field | Description|
 |----- |-------------|
 | accounts | Margin account list |
@@ -4778,45 +4667,68 @@ This endpoint requires the **"General"** permission.
 | maxBorrowSize | Available size to borrow |
 
 ## Query the cross/isolated margin risk limit
-
 ```json
-[
-    {
-      "currency": "BTC",
-      "borrowMaxAmount": "50",
-      "buyMaxAmount": "50",
-      "precision": 8
-    },
-    {
-      "currency": "SKL",
-      "borrowMaxAmount": "50000",
-      "buyMaxAmount": "51000",
-      "precision": 3
-    },
-    {
-      "currency": "USDT",
-      "borrowMaxAmount": "100000",
-      "buyMaxAmount": "10000000000",
-      "precision": 8
-    },
-    {
-      "currency": "ETH",
-      "borrowMaxAmount": "236",
-      "buyMaxAmount": "500",
-      "precision": 8
-    },
-    {
-      "currency": "LTC",
-      "borrowMaxAmount": "100",
-      "buyMaxAmount": "40",
-      "precision": 8
-    }
-]
+// CROSS MARGIN RESPONSES
+{
+    "code": "200000",
+    "data": [
+        {
+            "currency": "BTC",
+            "borrowMaxAmount": "140",
+            "buyMaxAmount": "60",
+            "holdMaxAmount": "522.8",
+            "precision": 8
+        },
+        {
+            "currency": "USDT",
+            "borrowMaxAmount": "2000000",
+            "buyMaxAmount": "10000000",
+            "holdMaxAmount": "15000000",
+            "precision": 8
+        },
+        {
+            "currency": "ETH",
+            "borrowMaxAmount": "1000",
+            "buyMaxAmount": "600",
+            "holdMaxAmount": "3737.1",
+            "precision": 8
+        },
+        ...
+    ]
+}
 ```
-
+```json
+// ISOLATED MARGIN RESPONSES
+{
+    "code": "200000",
+    "data": [
+        {
+            "symbol": "ETH-USDT",
+            "baseMaxBorrowAmount": "200",
+            "quoteMaxBorrowAmount": "3000000",
+            "baseMaxBuyAmount": "210",
+            "quoteMaxBuyAmount": "3300000",
+            "baseMaxHoldAmount": "3737.1",
+            "quoteMaxHoldAmount": "5000000",
+            "basePrecision": 8,
+            "quotePrecision": 8
+        },
+        {
+            "symbol": "BTC-USDT",
+            "baseMaxBorrowAmount": "20",
+            "quoteMaxBorrowAmount": "3000000",
+            "baseMaxBuyAmount": "25",
+            "quoteMaxBuyAmount": "3300000",
+            "baseMaxHoldAmount": "522.8",
+            "quoteMaxHoldAmount": "5000000",
+            "basePrecision": 8,
+            "quotePrecision": 8
+        },
+        ...
+    ]
+}
+```
 This endpoint can query the cross/isolated margin risk limit. 
-
-<aside class="notice">Currently, only cross margin is supported. Querying isolated margin will return an empty list.</aside>
 
 ### HTTP REQUEST
 `GET /api/v1/risk/limit/strategy`
@@ -4836,19 +4748,31 @@ This API is restricted for each account, the request rate limit is `1 times/3s`.
 |--------- | ------- | -----------|
 | marginModel | String | The type of marginModel : `cross`（cross margin）, `isolated` (isolated margin). Default is `cross`.  |
 
-### RESPONSES
-
+### CROSS MARGIN RESPONSES
 |Field | Description|
 |----- |-------------|
 | currency | Currency |
 | borrowMaxAmount | Maximum borrow amount  |
 | buyMaxAmount | Maximum buy amount  |
+| holdMaxAmount | Maximum hold amount  |
 | precision | Precision  |
+
+### ISOLATED MARGIN RESPONSES
+|Field | Description|
+|----- |-------------|
+| symbol | The valid trading symbol code. e.g: EOS-USDC. |
+| baseMaxBorrowAmount | Maximum borrowing amount of base currency|
+| quoteMaxBorrowAmount |Maximum borrowing amount of quote currency|
+| baseMaxBuyAmount | Maximum buy amount of base currency|
+| quoteMaxBuyAmount | Maximum buy amount of quote currency|
+| baseMaxHoldAmount | Maximum holding amount of base currency |
+| quoteMaxHoldAmount | Maximum holding amount of quote currency |
+| basePrecision | Base currency precision |
+| quotePrecision | Quote currency precision|
 
 # Borrow & Lend
 
 ## Post Borrow Order
-
 ```json
 {
     "orderId": "a2111213",
@@ -4856,22 +4780,16 @@ This API is restricted for each account, the request rate limit is `1 times/3s`.
 }
 ```
 
-
-
 ### HTTP REQUEST
-
-**POST /api/v1/margin/borrow**
+`POST /api/v1/margin/borrow`
 
 ### Example
-
-POST /api/v1/margin/borrow
+`POST /api/v1/margin/borrow`
 
 ### API KEY PERMISSIONS
-
 This endpoint requires the **"Trade"** permission.
 
 ### PARAMETERS
-
 |Param | Type | Description|
 |--------- | ------- | -----------|
 | currency | String | Currency to Borrow |
@@ -4884,15 +4802,12 @@ This endpoint requires the **"Trade"** permission.
 <aside class="notice">Available terms currently supported: 7, 14, 28</aside>
 
 ### RESPONSES
-
 |Field | Description|
 |----- |-------------|
 | orderId | Borrow order ID |
 | currency | Currency to borrow  |
 
-## Get Borrow Order     
-
-
+## Get Borrow Order
 ```json
 {
     "orderId": "a2111213",
@@ -4918,25 +4833,20 @@ Request via this endpoint to get the info of the borrow order through the **orde
 
 
 ### HTTP REQUEST
-
-**GET /api/v1/margin/borrow**
+`GET /api/v1/margin/borrow`
 
 ### Example
-
-GET /api/v1/margin/borrow?orderId=123456789
+`GET /api/v1/margin/borrow?orderId=123456789`
 
 ### API KEY PERMISSIONS
-
 This endpoint requires the **"Trade"** permission.
 
 ### PARAMETERS
-
 |Param | Type | Description|
 |--------- | ------- | -----------|
 | orderId | String | Borrow order ID |
 
 ### RESPONSES
-
 |Field | Description|
 |----- |-------------|
 | orderId      | Borrow order ID |
@@ -4951,8 +4861,6 @@ This endpoint requires the **"Trade"** permission.
 | timestamp | Borrow time|
 
 ## Get Repay Record
-
-
 ```json
 {
     "currentPage": 0,
@@ -4978,15 +4886,12 @@ This endpoint requires the **"Trade"** permission.
 
 
 ### HTTP REQUEST
-
-**GET /api/v1/margin/borrow/outstanding**
+`GET /api/v1/margin/borrow/outstanding`
 
 ### Example
-
-GET /api/v1/margin/borrow/outstanding
+`GET /api/v1/margin/borrow/outstanding`
 
 ### API KEY PERMISSIONS
-
 This endpoint requires the **"General"** permission.
 
 <aside class="notice">This request is paginated.</aside>
@@ -4998,7 +4903,6 @@ This endpoint requires the **"General"** permission.
 | currency | String |  *[Optional]* Currency. All currencies will be quried if this field is not required. |
 
 ### RESPONSES
-
 |Field | Description|
 |----- |-------------|
 | tradeId | Trade ID |
@@ -5013,8 +4917,6 @@ This endpoint requires the **"General"** permission.
 | dailyIntRate | Daily interest rate   |
 
 ## Get Repayment Record
-
-
 ```json
 {
     "pageSize": 0,
@@ -5036,29 +4938,23 @@ This endpoint requires the **"General"** permission.
   }
 ```
 
-
 ### HTTP REQUEST
-
-**GET /api/v1/margin/borrow/repaid**
+`GET /api/v1/margin/borrow/repaid`
 
 ### Example
-
-GET /api/v1/margin/borrow/repaid
+`GET /api/v1/margin/borrow/repaid`
 
 ### API KEY PERMISSIONS
-
 This endpoint requires the **"General"** permission.
 
 <aside class="notice">This request is paginated.</aside>
 
 ### PARAMETERS
-
 |Param | Type | Description|
 |--------- | ------- | -----------|
 | currency | String | *[Optional]* Currency. All currencies will be quried if this field is not required. |
 
 ### RESPONSES
-
 |Field | Description|
 |----- |-------------|
 | tradeId | Trade ID |
@@ -5071,7 +4967,6 @@ This endpoint requires the **"General"** permission.
 | dailyIntRate | Daily interest rate |
 
 ## One-Click Repayment
-
 ```json
 {
   "code": "200000",
@@ -5079,21 +4974,16 @@ This endpoint requires the **"General"** permission.
 }
 ```
 
-
 ### HTTP REQUEST
-
-**POST /api/v1/margin/repay/all**
+`POST /api/v1/margin/repay/all`
 
 ### Example
-
-POST /api/v1/margin/repay/all
+`POST /api/v1/margin/repay/all`
 
 ### API KEY PERMISSIONS
-
 This endpoint requires the **"Trade"** permission.
 
 ### PARAMETERS
-
 |Param | Type | Description |
 |--------- | ------- | -----------|
 | currency | String | Currency |
@@ -5101,11 +4991,9 @@ This endpoint requires the **"Trade"** permission.
 | size | BigDecimal | Repayment size |
 
 ### RESPONSES
-
 A successful repayment response is indicated by an HTTP status code 200 and system code 200000. If the system returns other code, it means the repayment fails.
 
 ## Repay a Single Order
-
 ```json
 {
   "code": "200000",
@@ -5117,19 +5005,15 @@ Request via this endpoint to repay a single order.
 
 
 ### HTTP REQUEST
-
-**POST /api/v1/margin/repay/single**
+`POST /api/v1/margin/repay/single`
 
 ### Example
-
-POST /api/v1/margin/repay/single
+`POST /api/v1/margin/repay/single`
 
 ### API KEY PERMISSIONS
-
 This endpoint requires the **"Trade"** permission.
 
 ### PARAMETERS
-
 |Param | Type | Description |
 |--------- | ------- | -----------|
 | currency | String | Currncy |
@@ -5137,12 +5021,9 @@ This endpoint requires the **"Trade"** permission.
 | size | BigDecimal | Repayment size |
 
 ### RESPONSES
-
 A successful repayment response is indicated by an HTTP status code 200 and system code 200000. If the system returns other code, it means the repayment fails.
 
 ## Post Lend Order
-
-
 ```json
 {
 	"orderId": "5da5a4f0f943c040c2f8501e"
@@ -5155,19 +5036,15 @@ Request via this endpoint to post lend order.
 Please ensure that you have sufficient funds in your Main Account before you post the order. Once the post succeed, the funds posted will be frozen until the order is succssfuly lent out or cancelled.
 
 ### HTTP REQUEST
-
-**POST /api/v1/margin/lend**
+`POST /api/v1/margin/lend`
 
 ### Example
-
-POST /api/v1/margin/lend
+`POST /api/v1/margin/lend`
 
 ### API KEY PERMISSIONS
-
 This endpoint requires the **"Trade"** permission.
 
 ### PARAMETERS
-
 |Param | Type | Description |
 |--------- | ------- | -----------|
 | currency     | String | Currency to lend   |
@@ -5176,13 +5053,11 @@ This endpoint requires the **"Trade"** permission.
 | term         | int    | Term (Unit: Day)    |
 
 ### RESPONSES
-
 |Field | Description|
 |----- |-------------|
 | orderId | Lend order ID |
 
 ## Cancel Lend Order
-
 ```json
 {
   "code": "200000",
@@ -5193,25 +5068,20 @@ This endpoint requires the **"Trade"** permission.
 Request via this endpoint to cancel lend order.
 
 ### HTTP REQUEST
-
-**DELETE /api/v1/margin/lend/{orderId}**
+`DELETE /api/v1/margin/lend/{orderId}`
 
 ### Example
-
-DELETE /api/v1/margin/lend/5d9f133ef943c0882ca37bc8
+`DELETE /api/v1/margin/lend/5d9f133ef943c0882ca37bc8`
 
 ### API KEY PERMISSIONS
-
 This endpoint requires the **"Trade"** permission.
 
 ### PARAMETERS
-
 |Param | Type | Description |
 |--------- | ------- | -----------|
 | orderId  | String | Lend order ID |
 
 ## Set Auto-lend
-
 ```json
 {
   "code": "200000",
@@ -5221,28 +5091,23 @@ This endpoint requires the **"Trade"** permission.
 
 Request via this endpoint to set up the automatic lending for a specified currency.
 
-
 ### HTTP REQUEST
-
-**POST /api/v1/margin/toggle-auto-lend**
+`POST /api/v1/margin/toggle-auto-lend`
 
 ### Example
-
-POST /api/v1/margin/toggle-auto-lend
+`POST /api/v1/margin/toggle-auto-lend`
 
 ### API KEY PERMISSIONS
-
 This endpoint requires the **"Trade"** permission.
 
 ### PARAMETERS
-
 |Param | Type | Description |
 |--------- | ------- | -----------|
 | currency     | String  | Currency                                        |
 | isEnable     | boolean | Auto-lend enabled or not                                |
-| retainSize   | String  | Reserved size in main account. Required when **isEnable** is true.   |
-| dailyIntRate | String  | acceptable min. day rate, 0.002 is 0.2%. Required when **isEnable** is true.     |
-| term         | int     | Term (Unit: Day). Required when **isEnable** is true.            |
+| retainSize   | String  | Reserved size in main account. Mandatory when **isEnable** is true.   |
+| dailyIntRate | String  | acceptable min. day rate, 0.002 is 0.2%. Mandatory when **isEnable** is true.     |
+| term         | int     | Term (Unit: Day). Mandatory when **isEnable** is true.            |
 
 ###Advanced Description
 
@@ -5254,8 +5119,6 @@ When the priority interest rate is lower than the acceptable min. day rate, the 
 
 
 ## Get Active Order
-
-
 ```json
 {
 	  "currentPage": 1,
@@ -5281,25 +5144,20 @@ Request via this endpoint to get active lend orders. Items are paginated and sor
 Active lend orders include orders unfilled, partially filled and uncanceled.
 
 ### HTTP REQUEST
-
-**GET /api/v1/margin/lend/active**
+`GET /api/v1/margin/lend/active`
 
 ### Example
-
-GET /api/v1/margin/lend/active?currency=BTC&currentPage=1&pageSize=50
+`GET /api/v1/margin/lend/active?currency=BTC&currentPage=1&pageSize=50`
 
 ### API KEY PERMISSIONS
-
 This endpoint requires the **"Trade"** permission.
 
 ### PARAMETERS
-
 |Param | Type | Description |
 |--------- | ------- | -----------|
 | currency | String | *[Optional]*  Currency |
 
 ### RESPONSES
-
 |Field | Description|
 |----- |----------------------------------|
 | orderId      | Lend order ID           |
@@ -5311,9 +5169,6 @@ This endpoint requires the **"Trade"** permission.
 | createdAt    | Time of the event (millisecond)       |
 
 ## Get Lent History
-
-
-
 ```json
 {
     "currentPage": 1,
@@ -5340,25 +5195,20 @@ Request via this endpoint to get lent orders . Items are paginated and sorted to
 Lent order history involves orders canceled or fully filled.
 
 ### HTTP REQUEST
-
-**GET /api/v1/margin/lend/done**
+`GET /api/v1/margin/lend/done`
 
 ### Example
-
-GET /api/v1/margin/lend/done?currency=BTC&currentPage=1&pageSize=50
+`GET /api/v1/margin/lend/done?currency=BTC&currentPage=1&pageSize=50`
 
 ### API KEY PERMISSIONS
-
 This endpoint requires the **"Trade"** permission.
 
 ### PARAMETERS
-
 |Param | Type | Description |
 |--------- | ------- | -----------|
 | currency | String | *[Optional]* Currency |
 
 ### RESPONSES
-
 |Field | Description|
 |----- |----------------------------------|
 | orderId      | Lend order ID                     |
@@ -5371,8 +5221,6 @@ This endpoint requires the **"Trade"** permission.
 | status       | Order status: FILLED -- Fully filled, CANCELED -- Canceled |
 
 ## Get Active Lend Order List
-
-
 ```json
 {
     "currentPage": 1,
@@ -5399,25 +5247,20 @@ Request via this endpoint to get the outstanding lend order list. Items are pagi
 When a lending order is executed, the system will generate the lending history. The outstanding lend orders includes orders unrepaid and partially repaid.
 
 ### HTTP REQUEST
-
-**GET /api/v1/margin/lend/trade/unsettled**
+`GET /api/v1/margin/lend/trade/unsettled`
 
 ### Example
-
-GET /api/v1/margin/lend/trade/unsettled?currency=BTC&currentPage=1&pageSize=50
+`GET /api/v1/margin/lend/trade/unsettled?currency=BTC&currentPage=1&pageSize=50`
 
 ### API KEY PERMISSIONS
-
 This endpoint requires the **"Trade"** permission.
 
 ### PARAMETERS
-
 |Param | Type | Description |
 |--------- | ------- | -----------|
 | currency | String | *[Optional]* Currency |
 
 ### RESPONSES
-
 |Field | Description|
 |----- |----------------------------------|
 | tradeId         | Trade ID                                             |
@@ -5430,8 +5273,6 @@ This endpoint requires the **"Trade"** permission.
 | maturityTime    |  Maturity time  (millisecond)                        |
 
 ## Get Settled Lend Order History
-
-
 ```json
 {
     "currentPage": 1,
@@ -5460,25 +5301,20 @@ The settled lend orders include orders repaid fully or partially before or at th
 
 
 ### HTTP REQUEST
-
-**GET /api/v1/margin/lend/trade/settled**
+`GET /api/v1/margin/lend/trade/settled`
 
 ### Example
-
-GET /api/v1/margin/lend/trade/settled?currency=BTC&currentPage=1&pageSize=50
+`GET /api/v1/margin/lend/trade/settled?currency=BTC&currentPage=1&pageSize=50`
 
 ### API KEY PERMISSIONS
-
 This endpoint requires the **"Trade"** permission.
 
 ### PARAMETERS
-
 |Param | Type | Description |
 |--------- | ------- | -----------|
 | currency | String | *[Optional]* Currency |
 
 ### RESPONSES
-
 |Field | Description|
 |----- |----------------------------------|
 | tradeId      | Trade ID                                     |
@@ -5492,7 +5328,6 @@ This endpoint requires the **"Trade"** permission.
 | note         | Note. To note the account of the borrower reached a negative balance, and whether the insurance fund is repaid. |
 
 ## Get Account Lend Record
-
 ```json
 [
     {
@@ -5505,31 +5340,23 @@ This endpoint requires the **"Trade"** permission.
     }
 ]
 ```
-
 Request via this endpoint to get the lending history of the main account.
 
-
-
 ### HTTP REQUEST
-
-**GET /api/v1/margin/lend/assets**
+`GET /api/v1/margin/lend/assets`
 
 ### Example
-
-GET /api/v1/margin/lend/assets?currency=BTC
+`GET /api/v1/margin/lend/assets?currency=BTC`
 
 ### API KEY PERMISSIONS
-
 This endpoint requires the **"Trade"** permission.
 
 ### PARAMETERS
-
 |Param | Type | Description |
 |--------- | ------- | -----------|
 | currency | String | *[Optional]* Currency |
 
 ### RESPONSES
-
 |Field | Description                      |
 |----- |----------------------------------|
 | currency        | Currency              |
@@ -5540,7 +5367,6 @@ This endpoint requires the **"Trade"** permission.
 | isAutoLend      | Auto-lend enabled or not |
 
 ## Lending Market Data
-
 ```json
 [
     {
@@ -5554,29 +5380,22 @@ This endpoint requires the **"Trade"** permission.
 Request via this endpoint to get the lending market data.
 The returned value is sorted based on the descending sequence of the daily interest rate and terms.
 
-
-
 ### HTTP REQUEST
-
-**GET /api/v1/margin/market**
+`GET /api/v1/margin/market`
 
 ### Example
-
-GET /api/v1/margin/market?currency=BTC&term=7
+`GET /api/v1/margin/market?currency=BTC&term=7`
 
 ### API KEY PERMISSIONS
-
 This endpoint requires the **"General"** permission.
 
 ### PARAMETERS
-
 |Param | Type | Description |
 |--------- | ------- | -----------|
 | currency | String |   Currency    |
 | term     | int    | *[Optional]* Term (Unit: Day)   |
 
 ### RESPONSES
-
 |Field | Description                      |
 |----- |----------------------------------|
 | dailyIntRate | Daily interest rate. e.g. 0.002 is 0.2% |
@@ -5584,7 +5403,6 @@ This endpoint requires the **"General"** permission.
 | size         | Total size                              |
 
 ## Margin Trade Data
-
 ```json
 [
     {
@@ -5601,28 +5419,21 @@ This endpoint requires the **"General"** permission.
 Request via this endpoint to get the last 300 fills in the lending and borrowing market.
 The returned value is sorted based on the descending sequence of the order execution time.
 
-
-
 ### HTTP REQUEST
-
-**GET /api/v1/margin/trade/last**
+`GET /api/v1/margin/trade/last`
 
 ### Example
-
-GET /api/v1/margin/trade/last?currency=BTC
+`GET /api/v1/margin/trade/last?currency=BTC`
 
 ### API KEY PERMISSIONS
-
 This endpoint requires the **"General"** permission.
 
 ### PARAMETERS
-
 |Param | Type | Description |
 |--------- | ------- | -----------|
 | currency | String |   Currency    |
 
 ### RESPONSES
-
 |Field | Description                      |
 |----- |----------------------------------|
 | tradeId      | Trade ID                                 |
@@ -5674,14 +5485,14 @@ This API endpoint returns the current isolated margin trading pair configuration
 ### HTTP Request
 `GET /api/v1/isolated/symbols`
 
-### API Permissions
+### API KEY PERMISSIONS
 This endpoint requires the `General` permissions
 
-### Request Parameters
+### PARAMETERS
 `N/A`
 
-### Return Value
-| Field | Definition                     
+### RESPONSES
+| Field | Description                     
 | ------------ | ----------------- 
 symbol | The trading pair code 
 baseCurrency | Base currency type 
@@ -5759,16 +5570,16 @@ This API endpoint returns all isolated margin accounts of the current user.
 ### HTTP Request
 `GET /api/v1/isolated/accounts`
 
-### API Permissions
+### API KEY PERMISSIONS
 This endpoint requires the `General` permissions
 
-### Request Parameters
-| Parameter | Type | Required | Definition 
+### PARAMETERS
+| Param | Type | Mandatory | Description 
 | ------ | ------ | ------ | ------ 
 balanceCurrency | String | No | The pricing coin, currently only supports `USDT`, `KCS`, and `BTC`. Defaults to `BTC` if no value is passed.
 
-### Return Value
-| Field | Definition                     
+### RESPONSES
+| Field | Description                     
 | ------------ | ----------------- 
 totalConversionBalance | The total balance of the isolated margin account (in the specified coin) 
 liabilityConversionBalance | Total liabilities of the isolated margin account (in the specified coin) 
@@ -5817,16 +5628,16 @@ This API endpoint returns the info on a single isolated margin account of the cu
 ### HTTP Request
 `GET /api/v1/isolated/account/{symbol}`
 
-### API Permissions
+### API KEY PERMISSIONS
 This endpoint requires the `General` permissions
 
-### Request Parameters
-| Parameter | Type | Required | Definition | 
+### PARAMETERS
+| Param | Type | Mandatory | Description | 
 ------ | ------ | ------ | ------ 
 symbol | String | Yes | Trading pair, e.g.: `BTC-USDT`
 
-### Return Value
-| Field | Definition                     
+### RESPONSES
+| Field | Description                     
 | ------------ | ----------------- 
 symbol | Trading pair 
 status |The position status: Existing liabilities-`DEBT`, No liabilities-`CLEAR`, Bankrupcy (after position enters a negative balance)-`BANKRUPTCY`, Existing borrowings-`IN_BORROW`, Existing repayments-`IN_REPAY`, Under liquidation-`IN_LIQUIDATION`, Under auto-renewal-`IN_AUTO_RENEW` (permissions per state) | Debt ratio baseAsset | base coin type asset info 
@@ -5855,11 +5666,11 @@ This API endpoint initiates isolated margin borrowing.
 ### HTTP Request
 `POST /api/v1/isolated/borrow`
 
-### API Permissions
+### API KEY PERMISSIONS
 This endpoint requires the `Trade` permissions
 
-### Request Parameters
-| Request Parameter | Type | Required | Definition 
+### PARAMETERS
+| Param | Type | Mandatory | Description 
 | ------ | ------ | ------ | ------ 
 symbol | String | Yes | Trading pair, e.g.: `BTC-USDT` 
 currency | String | Yes | Borrowed coin type 
@@ -5868,8 +5679,8 @@ borrowStrategy | String | Yes | Borrowing strategy: `FOK`, `IOC`
 maxRate | BigDecimal | No | Max interest rate, defaults to all interest rates if left blank 
 period | String | No |The term in days. Defaults to all terms if left blank. `7`,`14`,`28`
 
-### Return Value
-| Field | Definition                     
+### RESPONSES
+| Field | Description                     
 | ------------ | ----------------- 
 orderId | Borrow order ID 
 currency | Borrowed coin type 
@@ -5926,19 +5737,19 @@ This API endpoint is used to query the outstanding repayment records of isolated
 ### Example
 `GET /api/v1/isolated/borrow/outstanding?symbol=BTC-USDT&currency=USDT`
 
-### API Permissions
+### API KEY PERMISSIONS
 This endpoint requires the `General` permissions
 
-### Request Parameters
-| Parameter | Type | Required | Definition 
+### PARAMETERS
+| Param | Type | Mandatory | Description 
 | ------ | ------ | ------ | ------ 
 symbol | String | No | Trading pair, e.g.: `BTC-USDT` 
 currency | String | No | Coin type 
 pageSize | int | No | Page size [`10`-`50`] 
 currentPage | int | No | Current page number [`1`-`100`]
 
-### Return Value
-| Field | Definition                     
+### RESPONSES
+| Field | Description                     
 | ------------ | ----------------- 
 loanId | Trade id 
 symbol | Trading pair 
@@ -5998,19 +5809,19 @@ This API endpoint is used to query the repayment records of isolated margin posi
 ### Example
 `GET /api/v1/isolated/borrow/repaid?symbol=BTC-USDT&currency=USDT`
 
-### API Permissions
+### API KEY PERMISSIONS
 This endpoint requires the `General` permissions
 
-### Request Parameters
-| Request Parameter | Type | Required | Definition 
+### PARAMETERS
+| Param | Type | Mandatory | Description 
 | ------ | ------ | ------ | ------ 
 symbol | String | No | Trading pair, e.g.: `BTC-USDT` 
 currency | String | No | Coin type 
 pageSize | int | No | Page size \[`10`-`50`] 
 currentPage | int | No | Current page number \[`1`-`100`]
 
-### Return Value
-| Field | Definition                     
+### RESPONSES
+| Field | Description                     
 | ------------ | ----------------- 
 loanId | Trade id 
 symbol | Trading pair 
@@ -6045,18 +5856,18 @@ This API endpoint is used to initiate quick repayment for isolated margin accoun
 ### HTTP Request
 `POST /api/v1/isolated/repay/all`
 
-### API Permissions
+### API KEY PERMISSIONS
 This endpoint requires the `Trade` permissions
 
-### Request Parameters
-| Request Parameter | Type | Required | Definition 
+### PARAMETERS
+| Param | Type | Mandatory | Description 
 | ------ | ------ | ------ | ------ 
 symbol | String | Yes | Trading pair, e.g.: `BTC-USDT` 
 currency | String | Yes | Repayment coin type 
 size | BigDecimal | Yes | Repayment amount 
 seqStrategy | String | Yes | Repayment sequence strategy, `RECENTLY_EXPIRE_FIRST`: Maturity date priority (the loan with the closest maturity is repaid first), `HIGHEST_RATE_FIRST`: Interest rate priority (the loan with the highest interest rate is repaid first)
 
-### Return Value
+### RESPONSES
 When the system returns HTTP status code `200` and system code `200000`, it indicates that the response is successful.
 
 ## Single Repayment
@@ -6081,25 +5892,24 @@ This API endpoint is used to initiate quick repayment for single margin accounts
 ### HTTP Request
 `POST /api/v1/isolated/repay/single`
 
-### API Permissions
+### API KEY PERMISSIONS
 This endpoint requires the `Trade` permissions
 
-### Request Parameters
-| Request Parameter | Type | Required | Definition 
+### PARAMETERS
+| Param | Type | Mandatory | Description 
 | ------ | ------ | ------ | ------ 
 symbol | String | Yes | Trading pair, e.g.: `BTC-USDT` 
 currency | String | Yes | Repayment coin type 
 size | BigDecimal | Yes | Repayment amount 
 loanId | String | Yes | Trade order number; when this field is configured, the sequence strategy is invalidated
 
-### Return Value
+### RESPONSES
 When the system returns HTTP status code `200` and system code `200000`, it indicates that the response is successful.
 
 # Others
 
 
 ## Server Time
-
 ```json
 {  
     "code":"200000",
@@ -6111,15 +5921,17 @@ When the system returns HTTP status code `200` and system code `200000`, it indi
 Get the server time.
 
 ### HTTP REQUEST
-**GET /api/v1/timestamp**
+`GET /api/v1/timestamp`
 
 ### Example
-GET /api/v1/timestamp
+`GET /api/v1/timestamp`
+
+### PARAMETERS
+`N/A`
 
 <aside class="spacer2"></aside>
 
 ## Service Status
-
 ```json
 {    
   "code": "200000",     
@@ -6133,13 +5945,15 @@ GET /api/v1/timestamp
 Get the service status
 
 ### HTTP REQUEST
-**GET /api/v1/status**
+`GET /api/v1/status`
 
 ### Example
-GET /api/v1/status
+`GET /api/v1/status`
+
+### PARAMETERS
+`N/A`
 
 ### RESPONSES
-
 |Field    | Description                                             |
 |-------- |-------------------------------------------------------  |
 | status  | Status of service: **open**, **close** or **cancelonly**|
@@ -6185,21 +5999,17 @@ You need to apply for one of the two tokens below to create a websocket connecti
 If you only use public channels (e.g. all public market data), please make request as follows to obtain the server list and temporary public token:
 
 #### HTTP REQUEST
-
-**POST /api/v1/bullet-public**
+`POST /api/v1/bullet-public`
 
 ### Private channels (Authentication request required):
-
 
 For private channels and messages (e.g. account balance notice), please make request as follows after authorization to obtain the server list and authorized token.
 
 #### HTTP REQUEST
-
-**POST /api/v1/bullet-private**
+`POST /api/v1/bullet-private`
 
 
 ### Response
-
 |Field | Description|
 -----|-----
 |endpoint| Websocket server address for establishing connection|
