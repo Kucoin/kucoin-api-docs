@@ -34,7 +34,7 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 **08/24/22**:
 
-- 【新增】新增子账号相关接口: `GET /api/v1/user-info`、`POST /api/v1/sub/user`、`GET /api/v1/sub/api-key`、`POST /api/v1/sub/api-key`、`POST /v1/sub/api-key/update`、`DELETE /api/v1/sub/api-key`
+- 【新增】新增子账号相关接口: `GET /api/v1/user-info`、`POST /api/v1/sub/user`、`GET /api/v1/sub/api-key`、`POST /api/v1/sub/api-key`、`POST /api/v1/sub/api-key/update`、`DELETE /api/v1/sub/api-key`
 
 **08/03/22**:
 
@@ -1363,10 +1363,10 @@ passphrase | 密码
 这个接口用以修改子账号API
 
 ### HTTP请求
-`POST /v1/sub/api-key/update`
+`POST /api/v1/sub/api-key/update`
 
 ### 请求示例
-`POST /v1/sub/api-key/update`
+`POST /api/v1/sub/api-key/update`
 
 ### API权限
 此接口需要`通用权限`。
@@ -1388,7 +1388,7 @@ ipWhitelist | IP白名单
 permission | 权限列表
 subName | 子账号名
 
-## 删除子账号API
+<!-- ## 删除子账号API
 ```json
 {
  "code": "200000",
@@ -1420,7 +1420,7 @@ subName | String | 是 | 子账号名(api key对应子账号名)
 字段 | 含义
 --------- | -------
 apiKey | API-Key
-subName | 子账号名
+subName | 子账号名 -->
 
 ## 获取单个子账户信息
 ```json

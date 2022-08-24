@@ -32,7 +32,7 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 
 **08/24/22**:
 
-- Add the following interfaces related to sub-account: `GET /api/v1/user-info`、`POST /api/v1/sub/user`、`GET /api/v1/sub/api-key`、`POST /api/v1/sub/api-key`、`POST /v1/sub/api-key/update`、`DELETE /api/v1/sub/api-key`
+- Add the following interfaces related to sub-account: `GET /api/v1/user-info`、`POST /api/v1/sub/user`、`GET /api/v1/sub/api-key`、`POST /api/v1/sub/api-key`、`POST /api/v1/sub/api-key/update`、`DELETE /api/v1/sub/api-key`
 
 **08/03/22**:
 
@@ -1397,10 +1397,10 @@ passphrase | Password
 This endpoint can be used to modify sub-account APIs.
 
 ### HTTP REQUEST
-`POST /v1/sub/api-key/update`
+`POST /api/v1/sub/api-key/update`
 
 ### Example
-`POST /v1/sub/api-key/update`
+`POST /api/v1/sub/api-key/update`
 
 ### API KEY PERMISSIONS
 This endpoint requires the `General` permission.
@@ -1422,7 +1422,7 @@ ipWhitelist | IP whitelist
 permission | Permissions
 subName | Sub-account name
 
-## Delete Sub-Account APIs
+<!-- ## Delete Sub-Account APIs
 ```json
 {
  "code": "200000",
@@ -1454,7 +1454,7 @@ subName | String | Yes | Sub-account name(The sub-account name corresponding to 
 Field | Description
 --------- | -------
 apiKey | API-Key
-subName | Sub-account name
+subName | Sub-account name -->
 
 ## Get Account Balance of a Sub-Account
 ```json
