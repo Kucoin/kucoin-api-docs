@@ -32,7 +32,7 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 
 **08/24/22**:
 
-- Add the following interfaces related to sub-account: `GET /api/v1/user-info`、`POST /api/v1/sub/user`、`GET /api/v1/sub/api-key`、`POST /api/v1/sub/api-key`、`POST /api/v1/sub/api-key/update`、`DELETE /api/v1/sub/api-key`
+- Add the following interfaces related to sub-account: `GET /api/v1/user-info`、`POST /api/v1/sub/user`、`GET /api/v1/sub/api-key`、`POST /api/v1/sub/api-key`、`POST /api/v1/sub/api-key/update`
 
 **08/03/22**:
 
@@ -2120,7 +2120,7 @@ This endpoint requires the **"General"** permission.
 Param | Type | Description
 --------- | ------- | -----------
 currency | String | currency. e.g. BTC
-chain | String | *[Optional]* The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20. This only apply for multi-chain currency, and there is no need for single chain currency.
+chain | String | *[Optional]* The chain of currency. This only apply for multi-chain currency, and there is no need for single chain currency; you can query the `chain` through the response of the `GET /api/v2/currencies/{currency}` interface.
 
 ### RESPONSES
 Field | Description
@@ -2147,7 +2147,7 @@ chain | The chain name of currency, e.g. The available value for USDT are OMNI, 
 ### HTTP REQUEST
 `POST /api/v1/withdrawals`
 
-<aside class="notice">On the WEB end, you can open the switch of specified favorite addresses for withdrawal, and when it is turned on, it will verify whether your withdrawal address is a favorite address.</aside>
+<aside class="notice">On the WEB end, you can open the switch of specified favorite addresses for withdrawal, and when it is turned on, it will verify whether your withdrawal address(including chain) is a favorite address(it is case sensitive); if it fails validation, it will respond with the error message <code>{"msg":"Already set withdraw whitelist, this address is not favorite address","code":"260325"}</code>.</aside>
 
 ### Example
 `POST /api/v1/withdrawals`
@@ -2164,7 +2164,7 @@ amount | number | Yes | Withdrawal amount, a positive number which is a multiple
 memo   | String | No | [Optional] Address remark. If there’s no remark, it is empty. When you withdraw from other platforms to the KuCoin, you need to fill in memo(tag). If you do not fill memo (tag), your deposit may not be available, please be cautious.
 isInner | boolean | No | [Optional]  Internal withdrawal or not. Default setup: false
 remark | String | No | [Optional]  Remark
-chain | String | No | *[Optional]* The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20. This only apply for multi-chain currency, and there is no need for single chain currency.
+chain | String | No | *[Optional]* The chain of currency. For a currency with multiple chains, it is recommended to specify chain parameter instead of using the default chain; you can query the `chain` through the response of the `GET /api/v2/currencies/{currency}` interface.
 feeDeductType | String | No | Withdrawal fee deduction type: `INTERNAL` or `EXTERNAL` or not specified<br/><br/>1. `INTERNAL`- deduct the transaction fees from your withdrawal amount</br>2. `EXTERNAL`- deduct the transaction fees from your main account</br>3. If you don't specify the `feeDeductType` parameter, when the balance in your main account is sufficient to support the withdrawal, the system will initially deduct the transaction fees from your main account. But if the balance in your main account is not sufficient to support the withdrawal, the system will deduct the fees from your withdrawal amount. For example:  Suppose you are going to withdraw 1 BTC from the KuCoin platform (transaction fee: 0.0001BTC), if the balance in your main account is insufficient, the system will deduct the transaction fees from your withdrawal amount. In this case, you will be receiving 0.9999BTC.
 
 ### RESPONSES
@@ -2172,9 +2172,7 @@ Field | Description
 --------- | -------
 withdrawalId | Withdrawal id
 
-
 ## Cancel Withdrawal
-
 Only withdrawals requests of **PROCESSING** status could be canceled.
 
 ### HTTP REQUEST

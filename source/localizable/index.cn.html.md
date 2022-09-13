@@ -34,7 +34,7 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 **08/24/22**:
 
-- 【新增】新增子账号相关接口: `GET /api/v1/user-info`、`POST /api/v1/sub/user`、`GET /api/v1/sub/api-key`、`POST /api/v1/sub/api-key`、`POST /api/v1/sub/api-key/update`、`DELETE /api/v1/sub/api-key`
+- 【新增】新增子账号相关接口: `GET /api/v1/user-info`、`POST /api/v1/sub/user`、`GET /api/v1/sub/api-key`、`POST /api/v1/sub/api-key`、`POST /api/v1/sub/api-key/update`
 
 **08/03/22**:
 
@@ -2077,7 +2077,7 @@ status | 状态
 请求参数 | 类型 | 含义
 --------- | ------- | ---------
 currency | String | [币种](#ebcc9fbb02)
-chain | String | [可选] 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TRC20。默认值为ERC20。这个参数用于区分多链的币种，单链币种不需要。
+chain | String | [可选] 币种chain。这个参数用于区分多链的币种，单链币种不需要；你可通过`GET /api/v2/currencies/{currency}`接口查询币种的`chain`值.
 
 ### 返回值
 字段 | 含义
@@ -2104,7 +2104,7 @@ chain | 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TR
 ### HTTP请求
 `POST /api/v1/withdrawals`
 
-<aside class="notice">在WEB端可以开启指定常用地址提现，开启后会校验你的提现地址是否为常用地址。</aside>
+<aside class="notice">在WEB端可以开启指定常用地址提现，开启后会校验你的提现地址(地址区分字母大小写,包括chain的设置)是否为常用地址；若校验不通过会提示<code>{"msg":"Already set withdraw whitelist, this address is not favorite address","code":"260325”}</code>错误信息。</aside>
 
 ### API权限
 此接口需要`提现权限`。
@@ -2118,7 +2118,7 @@ amount | number | 是 | 提现总额，必须为提现精度的正整数倍
 memo | String | 否 | 地址标签memo(tag)，如果返回为空，则该币种没有memo。对于没有memo的币种，在[提现](#6eaf6b9ae0)的时候不可以传递memo
 isInner | boolean | 否 | [可选] 是否为平台内部提现。默认为`false`
 remark | String | 否 | [可选] 备注信息
-chain | String | 否 | [可选] 针对一币多链的币种，可通过chain获取币种详情。比如， USDT存在的链有 OMNI, ERC20, TRC20。
+chain | String | 否 | [可选] 针对一币多链的币种，推荐指定chain参数；不指定则使用默认链；你可通过`GET /api/v2/currencies/{currency}`接口查询币种的`chain`值。
 feeDeductType | String | 否 | 提现手续费扣除方式: `INTERNAL` 或 `EXTERNAL` 或不指定 <br/><br/>1. `INTERNAL`- 从提现金额中扣除手续费</br>2. `EXTERNAL`- 从储蓄账户中扣除手续费</br>3. 不指定`feeDeductType`参数时, 当您的储蓄账户的余额足以支持支付提现手续费时，首先从您的储蓄账户中扣除手续费，反之，从您的提现金额中扣除手续费。比如，您从KuCoin提现 1 个BTC(提现手续费为：0.0001BTC)，如果您储蓄账户里的余额不支持支付手续费，系统将会自动从您的提现金额中扣除手续费，您实际到账金额为0.9999个BTC。
 
 ### 返回值

@@ -41,9 +41,18 @@ under the License.
     <% else %>
       <%= javascript_include_tag  "all_nosearch" %>
     <% end %>
+    <script src="https://assets3.staticimg.com/gtm/gtm.js"></script>
   </head>
 
   <body class="<%= page_classes %>" data-languages="<%=h language_tabs.map{ |lang| lang.is_a?(Hash) ? lang.keys.first : lang }.to_json %>">
+    <noscript>
+      <iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-PBTJK8Q"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden">
+      </iframe>
+    </noscript>
     <header class="rx-header">
       <a href=""><%= image_tag "api-logo.svg", class: 'logo' %></a>
       <div class="rx-header-link">
