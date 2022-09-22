@@ -1295,7 +1295,7 @@ remarks | Remarks
 subName | Sub-account name
 uid | Sub-account UID
 
-## Get Sub-Account API List
+## Get Sub-Account Spot API List
 ```json
 {
     "code": "200000",
@@ -1311,7 +1311,7 @@ uid | Sub-account UID
     ]
 }
 ```
-This endpoint can be used to obtain a list of APIs pertaining to a sub-account.
+This endpoint can be used to obtain a list of Spot APIs pertaining to a sub-account.
 
 ### HTTP REQUEST
 `GET /api/v1/sub/api-key`
@@ -1339,7 +1339,7 @@ remark | Remarks
 subName | Sub-account name
 
 
-## Create APIs for Sub-Account
+## Create Spot APIs for Sub-Account
 ```json
 {
     "code": "200000",
@@ -1355,7 +1355,7 @@ subName | Sub-account name
     }
 }
 ```
-This endpoint can be used to create APIs for sub-accounts.
+This endpoint can be used to create Spot APIs for sub-accounts.
 
 ### HTTP REQUEST
 `POST /api/v1/sub/api-key`
@@ -1387,7 +1387,7 @@ subName  | Sub-account name
 apiSecret | API secret
 passphrase | Password
 
-## Modify Sub-Account APIs
+## Modify Sub-Account Spot APIs
 ```json
 {
     "code": "200000",
@@ -1399,7 +1399,7 @@ passphrase | Password
     }
 }
 ```
-This endpoint can be used to modify sub-account APIs.
+This endpoint can be used to modify sub-account Spot APIs.
 
 ### HTTP REQUEST
 `POST /api/v1/sub/api-key/update`
@@ -1427,7 +1427,7 @@ ipWhitelist | IP whitelist
 permission | Permissions
 subName | Sub-account name
 
-## Delete Sub-Account APIs
+## Delete Sub-Account Spot APIs
 ```json
 {
  "code": "200000",
@@ -1437,7 +1437,7 @@ subName | Sub-account name
  }
 }
 ```
-This endpoint can be used to delete sub-account APIs.
+This endpoint can be used to delete sub-account Spot APIs.
 
 ### HTTP REQUEST
 `DELETE /api/v1/sub/api-key`
