@@ -1263,7 +1263,7 @@ remarks | 备注
 subName | 子账户名
 uid | 子账户UID
 
-## 获取子账号API列表
+## 获取子账号现货API列表
 ```json
 {
     "code": "200000",
@@ -1279,7 +1279,7 @@ uid | 子账户UID
     ]
 }
 ```
-这个接口用以获取子账号API列表
+这个接口用以获取子账号现货API列表
 
 ### HTTP请求
 `GET /api/v1/sub/api-key`
@@ -1306,7 +1306,7 @@ permission | 权限列表
 remark | 备注
 subName | 子账号名
 
-## 创建子账号API
+## 创建子账号现货API
 ```json
 {
     "code": "200000",
@@ -1322,7 +1322,7 @@ subName | 子账号名
     }
 }
 ```
-这个接口用以创建子账号API
+这个接口用以创建子账号现货API
 
 ### HTTP请求
 `POST /api/v1/sub/api-key`
@@ -1354,7 +1354,7 @@ subName | 子账号名
 apiSecret | 秘钥
 passphrase | 密码
 
-## 修改子账号API
+## 修改子账号现货API
 ```json
 {
     "code": "200000",
@@ -1366,7 +1366,7 @@ passphrase | 密码
     }
 }
 ```
-这个接口用以修改子账号API
+这个接口用以修改子账号现货API
 
 ### HTTP请求
 `POST /api/v1/sub/api-key/update`
@@ -1394,7 +1394,7 @@ ipWhitelist | IP白名单
 permission | 权限列表
 subName | 子账号名
 
-## 删除子账号API
+## 删除子账号现货API
 ```json
 {
  "code": "200000",
@@ -1404,7 +1404,7 @@ subName | 子账号名
  }
 }
 ```
-这个接口用以创建子账号API
+这个接口用以删除子账号现货API
 
 ### HTTP请求
 `DELETE /api/v1/sub/api-key`
