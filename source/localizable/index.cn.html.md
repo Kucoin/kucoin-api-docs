@@ -32,6 +32,12 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 **为了进一步提升API安全性，KuCoin已经升级到了V2版本的API-KEY，验签逻辑也发生了一些变化，建议到[API管理页面](https://www.kucoin.cc/account/api)添加并更换到新的API-KEY。KuCoin已经停止对老版本API-KEY的支持。[查看新的签名方式](#8ba46c43fe)**
 
+**09/22/22**:
+
+- 【新增】新增子账号相关接口: `DELETE /api/v1/sub/api-key`
+- 【新增】Topic`/market/level2`消息增加`time`字段(毫秒).
+
+
 **08/24/22**:
 
 - 【新增】新增子账号相关接口: `GET /api/v1/user-info`、`POST /api/v1/sub/user`、`GET /api/v1/sub/api-key`、`POST /api/v1/sub/api-key`、`POST /api/v1/sub/api-key/update`
@@ -1388,7 +1394,7 @@ ipWhitelist | IP白名单
 permission | 权限列表
 subName | 子账号名
 
-<!-- ## 删除子账号API
+## 删除子账号API
 ```json
 {
  "code": "200000",
@@ -1420,7 +1426,7 @@ subName | String | 是 | 子账号名(api key对应子账号名)
 字段 | 含义
 --------- | -------
 apiKey | API-Key
-subName | 子账号名 -->
+subName | 子账号名 
 
 ## 获取单个子账户信息
 ```json
@@ -6398,146 +6404,135 @@ Topic: `/market/level2:{symbol},{symbol}...`
 
 * 推送频率: `实时推送`
 
-订阅此topic可获取指定[交易对](#a17b4e2866)Level-2买卖盘数据。
-
-订阅成功后，服务端会推送增量的市场数据给您。
+订阅此topic可获取指定[交易对](#a17b4e2866)Level-2买卖盘数据。订阅成功后，服务端会推送增量的市场数据给您。
 
 
 ```json
 {
-    "type":"message",
-    "topic":"/market/level2:BTC-USDT",
-    "subject":"trade.l2update",
-    "data":{
-        "sequenceStart":1545896669105,
-        "sequenceEnd":1545896669106,
-        "symbol":"BTC-USDT",
-        "changes":{
-            "asks":[
+    "type": "message",
+    "topic": "/market/level2:BTC-USDT",
+    "subject": "trade.l2update",
+    "data": {
+        "changes": {
+            "asks": [
                 [
-                    "6",//price
-                    "1", //size
-                    "1545896669105" //sequence
+                    "18906",//price
+                    "0.00331",//size
+                    "14103845"//sequence
+                ],
+                [
+                    "18907.3",
+                    "0.58751503",
+                    "14103844"
                 ]
             ],
-            "bids":[
+            "bids": [
                 [
-                    "4",
-                    "1",
-                    "1545896669106"
+                    "18891.9",
+                    "0.15688",
+                    "14103847"
                 ]
             ]
-        }
+        },
+        "sequenceEnd": 14103847,
+        "sequenceStart": 14103844,
+        "symbol": "BTC-USDT",
+        "time": 1663747970273//milliseconds
     }
 }
 ```
 
 校准流程:
 
-
 1. 将Websocket推送的Level 2数据缓存在本地;
 2. 通过REST请求拉取[Level 2](#level-2-2)买卖盘的快照;
 3. 回放缓存的Level 2数据流;
-4. 将Level 2数据流应用到快照上，确保数据顺序号与之前数据顺序号连续无间断，丢弃小于快照顺序号的level2数据;
+4. 将Level 2数据流应用到快照上，只需满足 sequenceStart(new)<=sequenceEnd+1(old) 并且 seqenceEnd(new) > sequenceEnd(old)，即可认为是有效的L2增量消息，可以用changes中的数据覆盖本地数据。changes中每条记录上的sequence仅表示该价格的数量最后一次修改对应的sequence，不作为消息连续的判断依据；
 5. 根据订单的价格和数量更新买卖盘。如果价格为0，忽略这条消息，只更新顺序号；如果数量为0，则需要将该数量对应的订单价格从买卖盘中移除。如遇其他情况，正常更新买卖盘即可。
 
-[Level 2](#level-2-2) 的Change属性是一个“price, size, sequence”的字符串值。
+[Level 2](#level-2-2) 的Change属性是一个“price, size, sequence”的字符串值,即：[“价格”,“数量”,“sequence”]。
 
-请注意，size指的是price对应的最新size。当size为0时，需要将其对应的price从买卖盘中删除。
-
-
-
-
+请注意: size指的是price对应的最新size。当size为0时，需要将其对应的price从买卖盘中删除。
 
 
 **示例**
 
 以BTC/USDT为例，假设level 2当前买卖盘数据如下:
 
-1. 成功订阅此topic，您会收到如下买卖盘数据流:
+步骤1.成功订阅此topic，您会收到如下买卖盘数据流:
 
+<code>
+...<br/>
+"asks":[<br/>
+&nbsp;&nbsp;["3988.59","3", 16], // 摒弃 sequence = 16<br/>
+&nbsp;&nbsp;["3988.61","0", 19], // 移除 price 为 3988.61 的数据<br/>
+&nbsp;&nbsp;["3988.62","8", 15], // 摒弃 sequence <16 <br/>
+]<br/>
+"bids":[<br/>
+&nbsp;&nbsp;["3988.50", "44", "18"] // 更新 price 为 3988.50 的size<br/>
+]<br/>
+"sequenceEnd": 15,<br/>
+"sequenceStart": 19,<br/>
+...<br/>
+</code>
 
-"asks":[
+<aside class="notice">changes中每条记录上的sequence仅表示该价格的数量最后一次修改对应的sequence，不作为消息连续的判断依据；比如当在相同价位有多个数量更新["3988.50", "20", "17"]、["3988.50", "44", "18"]，此时只会推送最新的["3988.50", "44", "18"]</aside>
 
-  ["3988.62","8", 15], // 摒弃 sequence <16
+步骤2.通过REST请求拉取[Level-2买卖盘快照信息](#level-2-2)
 
-  ["3988.61","0", 18], // 移除 price 为 3988.61 的数据
-
-  ["3988.59","3", 16], // 摒弃 sequence = 16
-
-]
-
-"bids":[
-
-    ["3988.50", "44", "17"] // 更新 price 为 3988.50 的size
-
-]
-
-<aside class="notice">消息展示为[“价格”,“数量”,“sequence”]</aside>
-
-1. 通过REST请求拉取[Level-2买卖盘快照信息](#level-2-2)
-
-Sequence：**16**
-
-Data：
-
-"asks":[
-
-  ["3988.62","8"],
-
-  ["3988.61","32"],
-
-  ["3988.60","47"],
-
-  ["3988.59","3"],
-
-]
-
-"bids":[
-
-  ["3988.51","56"],
-
-  ["3988.50","15"],
-
-  ["3988.49","100"],
-
-  ["3988.48","10"]
-
-]
-
-<aside class="notice">消息展示为[“价格”,“数量”]</aside>
+<code>
+...<br/>
+"sequence": "16",<br/>
+"asks":[<br/>
+&nbsp;&nbsp;["3988.62","8"],// [“价格”,“数量”]<br/>
+&nbsp;&nbsp;["3988.61","32"],<br/>
+&nbsp;&nbsp;["3988.60","47"],<br/>
+&nbsp;&nbsp;["3988.59","3"],<br/>
+]<br/>
+"bids":[<br/>
+&nbsp;&nbsp;["3988.51","56"],<br/>
+&nbsp;&nbsp;["3988.50","15"],<br/>
+&nbsp;&nbsp;["3988.49","100"],<br/>
+&nbsp;&nbsp;["3988.48","10"]<br/>
+]<br/>
+...<br/>
+</code>
 
 当前拉取的买卖盘的快照数据如下:
 
-| Price   | Size | Side |
-| ------- | ---- | ---- |
-| 3988.62 | 8    | Sell |
-| 3988.61 | 32   | Sell |
-| 3988.60 | 47   | Sell |
-| 3988.59 | 3    | Sell |
-| 3988.51 | 56   | Buy  |
-| 3988.50 | 15   | Buy  |
-| 3988.49 | 100  | Buy  |
-| 3988.48 | 10  | Buy  |
+<code>
+| Price | Size | Side |<br/>
+|---------|-----|------|<br/>
+| 3988.62 | 8&nbsp;&nbsp;    | Sell |<br/>
+| 3988.61 | 32&nbsp;   | Sell |<br/>
+| 3988.60 | 47&nbsp;   | Sell |<br/>
+| 3988.59 | 3&nbsp;&nbsp;    | Sell |<br/>
+| 3988.51 | 56&nbsp;   | Buy&nbsp;  |<br/>
+| 3988.50 | 15&nbsp;   | Buy&nbsp;  |<br/>
+| 3988.49 | 100  | Buy&nbsp;  |<br/>
+| 3988.48 | 10&nbsp;  | Buy&nbsp;  |<br/>
+</code>
 
+当前买卖盘快照信息的sequence为`16`，摒弃买卖盘数据流中sequence <= 16的数据，回放sequence为`[18,19]`的数据，更新买卖盘快照信息。现在，您本地的sequence为`19`。
 
-当前买卖盘快照信息的sequence 为 **16**，摒弃买卖盘数据流中sequence <= 16的数据，回放sequence为**17，18**的数据，更新买卖盘快照信息。现在，您本地的sequence为**18**。
+变更:
 
-**变更**:
-1. **将价格3988.50对应的数量变更为44（顺序号为17）**
-2. **移除价格为3988.61的数据（顺序号为18）**
+- 将价格3988.50对应的数量变更为44（sequence顺序号为18）
+- 移除价格为3988.61的数据（sequence顺序号为19）
 
 变更后，当前买卖盘数据为最新数据，具体数据如下:
 
-| Price   | Size | Side |
-| ------- | ---- | ---- |
-| 3988.62 | 8    | Sell |
-| 3988.60 | 47   | Sell |
-| 3988.59 | 3    | Sell |
-| 3988.51 | 56   | Buy  |
-| 3988.50 | 44   | Buy  |
-| 3988.49 | 100  | Buy  |
-| 3988.48 | 10  | Buy  |
+<code>
+| Price | Size | Side |<br/>
+|---------|-----|------|<br/>
+| 3988.62 | 8&nbsp;&nbsp;    | Sell |<br/>
+| 3988.60 | 47&nbsp;    | Sell |<br/>
+| 3988.59 | 3&nbsp;&nbsp; | Sell |<br/>
+| 3988.51 | 56&nbsp;    | Buy&nbsp;   |<br/>
+| 3988.50 | 44&nbsp;    | Buy&nbsp;   |<br/>
+| 3988.49 | 100  | Buy&nbsp;   |<br/>
+| 3988.48 | 10&nbsp;   | Buy&nbsp;   |<br/>
+</code>
 
 ## Level2 - 5档深度频道
 ```json

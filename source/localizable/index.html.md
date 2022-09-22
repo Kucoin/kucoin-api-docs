@@ -30,6 +30,11 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 
 **To reinforce the security of the API, KuCoin upgraded the API key to version 2.0, the validation logic has also been changed. It is recommended to [create](https://www.kucoin.com/account/api) and update your API key to version 2.0. The API key of version 1.0 is invalid. [Check new signing method](#signing-a-message)**
 
+**09/22/22**:
+
+- Add the `DELETE /api/v1/sub/api-key` interface related to sub-account
+- Add the `time` field (milliseconds) to the Topic of `/market/level2`.
+
 **08/24/22**:
 
 - Add the following interfaces related to sub-account: `GET /api/v1/user-info`、`POST /api/v1/sub/user`、`GET /api/v1/sub/api-key`、`POST /api/v1/sub/api-key`、`POST /api/v1/sub/api-key/update`
@@ -1422,7 +1427,7 @@ ipWhitelist | IP whitelist
 permission | Permissions
 subName | Sub-account name
 
-<!-- ## Delete Sub-Account APIs
+## Delete Sub-Account APIs
 ```json
 {
  "code": "200000",
@@ -1454,7 +1459,7 @@ subName | String | Yes | Sub-account name(The sub-account name corresponding to 
 Field | Description
 --------- | -------
 apiKey | API-Key
-subName | Sub-account name -->
+subName | Sub-account name
 
 ## Get Account Balance of a Sub-Account
 ```json
@@ -6605,30 +6610,38 @@ Subscribe to this topic to get Level2 order book data.
 When the websocket subscription is successful,  the system would send the increment change data pushed by the websocket to you.
 
 ```json
+// sequence仅表示该价格的数量最后一次修改对应的sequence，不作为消息连续的判断依据; 
+// 比如sequence为14103846、14103847的消息，同一个价格18891.9的增量变化，在聚合后只推送sequence为14103847这一条l2增量推送
 {
-    "type":"message",
-    "topic":"/market/level2:BTC-USDT",
-    "subject":"trade.l2update",
-    "data":{
-        "sequenceStart":1545896669105,
-        "sequenceEnd":1545896669106,
-        "symbol":"BTC-USDT",
-        "changes":{
-            "asks":[
+    "type": "message",
+    "topic": "/market/level2:BTC-USDT",
+    "subject": "trade.l2update",
+    "data": {
+        "changes": {
+            "asks": [
                 [
-                    "6",//price
-                    "1", //size
-                    "1545896669105" //sequence
+                    "18906",//price
+                    "0.00331",//size
+                    "14103845"//sequence
+                ],
+                [
+                    "18907.3",
+                    "0.58751503",
+                    "14103844"
                 ]
             ],
-            "bids":[
+            "bids": [
                 [
-                    "4",
-                    "1",
-                    "1545896669106"
+                    "18891.9",
+                    "0.15688",
+                    "14103847"
                 ]
             ]
-        }
+        },
+        "sequenceEnd": 14103847,
+        "sequenceStart": 14103844,
+        "symbol": "BTC-USDT",
+        "time": 1663747970273//milliseconds
     }
 }
 ```
@@ -6638,7 +6651,7 @@ Calibration procedure：
 1. After receiving the websocket Level 2 data flow, cache the data.
 2. Initiate a [REST](#get-full-order-book-aggregated) request to get the snapshot data of Level 2 order book.
 3. Playback the cached Level 2 data flow.
-4. Apply the new Level 2 data flow to the local snapshot to ensure that the sequence of the new Level 2 update lines up with the sequence of the previous Level 2 data. Discard all the message prior to that sequence, and then playback the change to snapshot.
+4. Apply the new Level 2 data flow to the local snapshot to ensure that `sequenceStart(new)<=sequenceEnd+1(old)` and `sequenceEnd(new) > sequenceEnd(old)`. The sequence on each record in changes only represents the last modification of the corresponding sequence of the price, and does not serve as a basis for judging message continuity.
 5. Update the level2 full data based on sequence according to the price and size. If the price is 0, ignore the messages and update the sequence. If the size=0, update the sequence and remove the price of which the size is 0 out of level 2. For other cases, please update the price.
 
 
@@ -6648,86 +6661,79 @@ Take BTC/USDT as an example, suppose the current order book data in level 2 is a
 
 After subscribing to the channel, you would receive changes as follows:
 
-"asks":[
 
-  ["3988.62","8", 15],
+<code>
+...<br/>
+"asks":[<br/>
+&nbsp;&nbsp;["3988.59","3", 16], // ignore it because sequence = 16<br/>
+&nbsp;&nbsp;["3988.61","0", 19], // Remove 3988.61<br/>
+&nbsp;&nbsp;["3988.62","8", 15], // ignore it because sequence < 16 <br/>
+]<br/>
+"bids":[<br/>
+&nbsp;&nbsp;["3988.50", "44", "18"] // Update size of 3988.50 to 44<br/>
+]<br/>
+"sequenceEnd": 15,<br/>
+"sequenceStart": 19,<br/>
+...<br/>
+</code>
 
-  ["3988.61","0", 18],
-
-  ["3988.59","3", 16],
-
-]
-
-"bids":[
-
-  ["3988.50", "44", "17"]
-
-]
-
-<aside class="notice">Description: the message format is [Price, Size, Sequence].</aside>
+<aside class="notice">The sequence on each record in changes only represents the last modification of the corresponding sequence of the price, not as a basis for judging the continuity of the message; for example, when there are multiple updates at the same price ["3988.50", "20", "17" "], ["3988.50", "44", "18"], at this time only the latest ["3988.50", "44", "18"] will be pushed</aside>
 
 Get a snapshot of the order book through a **REST** request ([Get Order Book](#get-part-order-book-aggregated)) to build a local order book. Suppose that data we got is as follows:
 
-Sequence：**16**
-
-Data：
-
-"asks":[
-
-  ["3988.62","8"],
-
-  ["3988.61","32"],
-
-  ["3988.60","47"],
-
-  ["3988.59","3"],
-
-]
-
-"bids":[
-
-  ["3988.51","56"],
-
-  ["3988.50","15"],
-
-  ["3988.49","100"],
-
-  ["3988.48","10"]
-
-]
+<code>
+...<br/>
+"sequence": "16",<br/>
+"asks":[<br/>
+&nbsp;&nbsp;["3988.62","8"],//[Price, Size]<br/>
+&nbsp;&nbsp;["3988.61","32"],<br/>
+&nbsp;&nbsp;["3988.60","47"],<br/>
+&nbsp;&nbsp;["3988.59","3"],<br/>
+]<br/>
+"bids":[<br/>
+&nbsp;&nbsp;["3988.51","56"],<br/>
+&nbsp;&nbsp;["3988.50","15"],<br/>
+&nbsp;&nbsp;["3988.49","100"],<br/>
+&nbsp;&nbsp;["3988.48","10"]<br/>
+]<br/>
+...<br/>
+</code>
 
 The current data on the local order book is as follows:
 
-| Price   | Size | Side |
-| ------- | ---- | ---- |
-| 3988.62 | 8    | Sell |
-| 3988.61 | 32   | Sell |
-| 3988.60 | 47   | Sell |
-| 3988.59 | 3    | Sell |
-| 3988.51 | 56   | Buy  |
-| 3988.50 | 15   | Buy  |
-| 3988.49 | 100  | Buy  |
-| 3988.48 | 10  | Buy  |
+<code>
+| Price | Size | Side |<br/>
+|---------|-----|------|<br/>
+| 3988.62 | 8&nbsp;&nbsp;    | Sell |<br/>
+| 3988.61 | 32&nbsp;   | Sell |<br/>
+| 3988.60 | 47&nbsp;   | Sell |<br/>
+| 3988.59 | 3&nbsp;&nbsp;    | Sell |<br/>
+| 3988.51 | 56&nbsp;   | Buy&nbsp;  |<br/>
+| 3988.50 | 15&nbsp;   | Buy&nbsp;  |<br/>
+| 3988.49 | 100  | Buy&nbsp;  |<br/>
+| 3988.48 | 10&nbsp;  | Buy&nbsp;  |<br/>
+</code>
 
-In the beginning, the sequence of the order book is 16. Discard the feed data of sequence that is below or equals to 16, and apply playback the sequence [17,18] to update the snapshot of the order book. Now the sequence of your order book is 18 and your local order book is up-to-date.
+In the beginning, the sequence of the order book is `16`. Discard the feed data of sequence that is below or equals to `16`, and apply playback the sequence `[18,19]` to update the snapshot of the order book. Now the sequence of your order book is `19` and your local order book is up-to-date.
 
 **Diff:**
 
-1.**Update size of 3988.50 to 44 (Sequence 17)**
-
-2.**Remove 3988.61 (Sequence 18)**
+- Update size of 3988.50 to 44 (Sequence 18)
+- Remove 3988.61 (Sequence 19)
 
 Now your current order book is up-to-date and final data is as follows:
 
-| Price   | Size | Side |
-| ------- | ---- | ---- |
-| 3988.62 | 8    | Sell |
-| 3988.60 | 47   | Sell |
-| 3988.59 | 3    | Sell |
-| 3988.51 | 56   | Buy  |
-| 3988.50 | 44   | Buy  |
-| 3988.49 | 100  | Buy  |
-| 3988.48 | 10  | Buy  |
+<code>
+| Price | Size | Side |<br/>
+|---------|-----|------|<br/>
+| 3988.62 | 8&nbsp;&nbsp;    | Sell |<br/>
+| 3988.60 | 47&nbsp;    | Sell |<br/>
+| 3988.59 | 3&nbsp;&nbsp; | Sell |<br/>
+| 3988.51 | 56&nbsp;    | Buy&nbsp;   |<br/>
+| 3988.50 | 44&nbsp;    | Buy&nbsp;   |<br/>
+| 3988.49 | 100  | Buy&nbsp;   |<br/>
+| 3988.48 | 10&nbsp;   | Buy&nbsp;   |<br/>
+</code>
 
 ## Level2 - 5 best ask/bid orders
 ```json
