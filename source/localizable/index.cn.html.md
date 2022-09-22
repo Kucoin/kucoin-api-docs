@@ -1322,7 +1322,7 @@ subName | 子账号名
     }
 }
 ```
-这个接口用以创建子账号API
+这个接口用以创建子账号现货API
 
 ### HTTP请求
 `POST /api/v1/sub/api-key`
@@ -1366,7 +1366,7 @@ passphrase | 密码
     }
 }
 ```
-这个接口用以修改子账号API
+这个接口用以修改子账号现货API
 
 ### HTTP请求
 `POST /api/v1/sub/api-key/update`
@@ -1404,7 +1404,7 @@ subName | 子账号名
  }
 }
 ```
-这个接口用以删除子账号API
+这个接口用以删除子账号现货API
 
 ### HTTP请求
 `DELETE /api/v1/sub/api-key`
