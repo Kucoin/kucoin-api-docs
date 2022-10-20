@@ -30,6 +30,10 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 
 **To reinforce the security of the API, KuCoin upgraded the API key to version 2.0, the validation logic has also been changed. It is recommended to [create](https://www.kucoin.com/account/api) and update your API key to version 2.0. The API key of version 1.0 is invalid. [Check new signing method](#signing-a-message)**
 
+**10/20/22**:
+
+- Deprecate `GET /api/v1/symbols` interface, please use `GET /api/v2/symbols` new interface instead
+
 **09/22/22**:
 
 - Add the `DELETE /api/v1/sub/api-key` interface related to sub-account
@@ -4028,49 +4032,51 @@ Signature is not required for this part
 
 # Symbols & Ticker
 
-## Get Symbols List
-
+## Get Symbols List(deprecated)
 ```json
-[
-  {
-    "symbol": "XLM-USDT",
-    "name": "XLM-USDT",
-    "baseCurrency": "XLM",
-    "quoteCurrency": "USDT",
-    "feeCurrency": "USDT",
-    "market": "USDS",
-    "baseMinSize": "0.1",
-    "quoteMinSize": "0.01",
-    "baseMaxSize": "10000000000",
-    "quoteMaxSize": "99999999",
-    "baseIncrement": "0.0001",
-    "quoteIncrement": "0.000001",
-    "priceIncrement": "0.000001",
-    "priceLimitRate": "0.1",
-    "minFunds": "0.1",
-    "isMarginEnabled": true,
-    "enableTrading": true
-  },
-  {
-    "symbol": "VET-USDT",
-    "name": "VET-USDT",
-    "baseCurrency": "VET",
-    "quoteCurrency": "USDT",
-    "feeCurrency": "USDT",
-    "market": "USDS",
-    "baseMinSize": "10",
-    "quoteMinSize": "0.01",
-    "baseMaxSize": "10000000000",
-    "quoteMaxSize": "99999999",
-    "baseIncrement": "0.0001",
-    "quoteIncrement": "0.000001",
-    "priceIncrement": "0.0000001",
-    "priceLimitRate": "0.1",
-    "minFunds": "0.1",
-    "isMarginEnabled": true,
-    "enableTrading": true
-  }
-]
+{
+    "code": "200000",
+    "data": [
+        {
+            "symbol": "GALAX-USDT",
+            "name": "GALA-USDT",
+            "baseCurrency": "GALA",// It's not accurate, It should be GALAX instead of GALA
+            "quoteCurrency": "USDT",
+            "feeCurrency": "USDT",
+            "market": "USDS",
+            "baseMinSize": "10",
+            "quoteMinSize": "0.001",
+            "baseMaxSize": "10000000000",
+            "quoteMaxSize": "99999999",
+            "baseIncrement": "0.0001",
+            "quoteIncrement": "0.00001",
+            "priceIncrement": "0.00001",
+            "priceLimitRate": "0.1",
+            "minFunds": "0.1",
+            "isMarginEnabled": true,
+            "enableTrading": true
+        },
+        {
+            "symbol": "XLM-USDT",
+            "name": "XLM-USDT",
+            "baseCurrency": "XLM",
+            "quoteCurrency": "USDT",
+            "feeCurrency": "USDT",
+            "market": "USDS",
+            "baseMinSize": "0.1",
+            "quoteMinSize": "0.01",
+            "baseMaxSize": "10000000000",
+            "quoteMaxSize": "99999999",
+            "baseIncrement": "0.0001",
+            "quoteIncrement": "0.000001",
+            "priceIncrement": "0.000001",
+            "priceLimitRate": "0.1",
+            "minFunds": "0.1",
+            "isMarginEnabled": true,
+            "enableTrading": true
+        }
+    ]
+}
 ```
 
 Request via this endpoint to get a list of available currency pairs for trading.
@@ -4079,13 +4085,117 @@ If you want to get the market information of the trading symbol, please use [Get
 ### HTTP REQUEST
 `GET /api/v1/symbols`
 
+<aside class="notice">The <code>GET /api/v1/symbols</code> endpoint is deprecated because when the <code>name</code> of trading pairs changes, the <code>baseCurrency</code> in the response also changes, which is not accurate. So it is recommended to use <code>GET /api/v2/symbols</code> endpoint instead</aside>
+
 ### Example
 `GET /api/v1/symbols`
 
 ### PARAMETERS
-Param | Type | Description
+Param | Type | Mandatory  | Description | 
+--------- | ------- | -----------| -----------| 
+market | String | No | The [trading market](#get-market-list). | 
+
+### RESPONSES
+Field |  Description
+--------- | -----------
+symbol | unique code of a symbol, it would not change after renaming
+name | Name of trading pairs, it would change after renaming
+baseCurrency |  Base currency,e.g. BTC.
+quoteCurrency |  Quote currency,e.g. USDT.
+market |  The [trading market](#get-market-list).
+baseMinSize |  The minimum order quantity requried to place an order.
+quoteMinSize | The minimum order funds required to place a market order.
+baseMaxSize |  The maximum order size required to place an order.
+quoteMaxSize | The maximum order funds  required to place a market order.
+baseIncrement |The increment of the order size. The value shall be a positive multiple of the baseIncrement.
+quoteIncrement | The increment of the funds required to place a market order. The value shall be a positive multiple of the quoteIncrement.
+priceIncrement |  The increment of the price required to place a limit order. The value shall be a positive multiple of the priceIncrement.
+feeCurrency | The currency of charged fees.
+enableTrading |  Available for transaction or not.
+isMarginEnabled |  Available for margin or not.
+priceLimitRate | Threshold for price portection
+minFunds | the minimum spot and margin trading amounts
+
+The `baseMinSize` and `baseMaxSize` fields define the min and max order size. The `priceIncrement` field specifies the min order price as well as the price increment.This also applies to `quote` currency.
+
+The order `price` must be a positive integer multiple of this `priceIncrement` (i.e. if the increment is 0.01, the  0.001 and 0.021 order prices would be rejected).
+
+`priceIncrement` and `quoteIncrement` may be adjusted in the future. We will notify you by email and site notifications before adjustment.
+
+Order Type | Follow the rules of minFunds
 --------- | ------- | -----------
-market | String |*[Optional]* The [trading market](#get-market-list).
+Limit Buy |	[Order Amount * Order Price] >= `minFunds`
+Limit Sell |	[Order Amount * Order Price] >= `minFunds`
+Market Buy |	Order Value >= `minFunds`
+Market Sell | [Order Amount * Last Price of Base Currency] >= `minFunds`
+
+Note:
+
+* API market buy orders (by amount) valued at [Order Amount * Last Price of Base Currency] <`minFunds` will be rejected.
+* API market sell orders (by value) valued at <`minFunds` will be rejected.
+* Take profit and stop loss orders at market or limit prices will be rejected when triggered.
+
+## Get Symbols List
+
+```json
+{
+    "code": "200000",
+    "data": [
+        {
+            "symbol": "GALAX-USDT",
+            "name": "GALA-USDT",
+            "baseCurrency": "GALAX",
+            "quoteCurrency": "USDT",
+            "feeCurrency": "USDT",
+            "market": "USDS",
+            "baseMinSize": "10",
+            "quoteMinSize": "0.001",
+            "baseMaxSize": "10000000000",
+            "quoteMaxSize": "99999999",
+            "baseIncrement": "0.0001",
+            "quoteIncrement": "0.00001",
+            "priceIncrement": "0.00001",
+            "priceLimitRate": "0.1",
+            "minFunds": "0.1",
+            "isMarginEnabled": true,
+            "enableTrading": true
+        },
+        {
+            "symbol": "XLM-USDT",
+            "name": "XLM-USDT",
+            "baseCurrency": "XLM",
+            "quoteCurrency": "USDT",
+            "feeCurrency": "USDT",
+            "market": "USDS",
+            "baseMinSize": "0.1",
+            "quoteMinSize": "0.01",
+            "baseMaxSize": "10000000000",
+            "quoteMaxSize": "99999999",
+            "baseIncrement": "0.0001",
+            "quoteIncrement": "0.000001",
+            "priceIncrement": "0.000001",
+            "priceLimitRate": "0.1",
+            "minFunds": "0.1",
+            "isMarginEnabled": true,
+            "enableTrading": true
+        }
+    ]
+}
+```
+
+Request via this endpoint to get a list of available currency pairs for trading.
+If you want to get the market information of the trading symbol, please use [Get All Tickers](#get-all-tickers).
+
+### HTTP REQUEST
+`GET /api/v2/symbols`
+
+### Example
+`GET /api/v2/symbols`
+
+### PARAMETERS
+Param | Type | Mandatory  | Description | 
+--------- | ------- | -----------| -----------| 
+market | String | No | The [trading market](#get-market-list). | 
 
 ### RESPONSES
 Field |  Description
@@ -6610,8 +6720,6 @@ Subscribe to this topic to get Level2 order book data.
 When the websocket subscription is successful,  the system would send the increment change data pushed by the websocket to you.
 
 ```json
-// sequence仅表示该价格的数量最后一次修改对应的sequence，不作为消息连续的判断依据; 
-// 比如sequence为14103846、14103847的消息，同一个价格18891.9的增量变化，在聚合后只推送sequence为14103847这一条l2增量推送
 {
     "type": "message",
     "topic": "/market/level2:BTC-USDT",
