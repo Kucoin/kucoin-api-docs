@@ -32,10 +32,14 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 **为了进一步提升API安全性，KuCoin已经升级到了V2版本的API-KEY，验签逻辑也发生了一些变化，建议到[API管理页面](https://www.kucoin.cc/account/api)添加并更换到新的API-KEY。KuCoin已经停止对老版本API-KEY的支持。[查看新的签名方式](#8ba46c43fe)**
 
+**10/20/22**:
+
+- 【废弃&新增】废弃交易对列表`GET /api/v1/symbols`接口，请使用`GET /api/v2/symbols`新接口
+
 **09/22/22**:
 
 - 【新增】新增子账号相关接口: `DELETE /api/v1/sub/api-key`
-- 【新增】Topic`/market/level2`消息增加`time`字段(毫秒).
+- 【新增】Topic`/market/level2`消息增加`time`字段(毫秒)
 
 
 **08/24/22**:
@@ -3883,6 +3887,109 @@ KuCoin平台上的订单分为两种类型：Taker 和 Maker。Taker单会与买
 
 # 交易对 & 行情快照
 
+## 交易对列表(废弃)
+```json
+{
+    "code": "200000",
+    "data": [
+        {
+            "symbol": "GALAX-USDT",
+            "name": "GALA-USDT",
+            "baseCurrency": "GALA",// 它并不准确, 应该是GALAX而不是GALA
+            "quoteCurrency": "USDT",
+            "feeCurrency": "USDT",
+            "market": "USDS",
+            "baseMinSize": "10",
+            "quoteMinSize": "0.001",
+            "baseMaxSize": "10000000000",
+            "quoteMaxSize": "99999999",
+            "baseIncrement": "0.0001",
+            "quoteIncrement": "0.00001",
+            "priceIncrement": "0.00001",
+            "priceLimitRate": "0.1",
+            "minFunds": "0.1",
+            "isMarginEnabled": true,
+            "enableTrading": true
+        },
+        {
+            "symbol": "XLM-USDT",
+            "name": "XLM-USDT",
+            "baseCurrency": "XLM",
+            "quoteCurrency": "USDT",
+            "feeCurrency": "USDT",
+            "market": "USDS",
+            "baseMinSize": "0.1",
+            "quoteMinSize": "0.01",
+            "baseMaxSize": "10000000000",
+            "quoteMaxSize": "99999999",
+            "baseIncrement": "0.0001",
+            "quoteIncrement": "0.000001",
+            "priceIncrement": "0.000001",
+            "priceLimitRate": "0.1",
+            "minFunds": "0.1",
+            "isMarginEnabled": true,
+            "enableTrading": true
+        }
+    ]
+}
+```
+此接口，可获取交易对列表。如果您想获取更多交易对的市场信息，可在[全局行情快照](#f3027c9902中获取)。
+
+
+### HTTP请求
+`GET /api/v1/symbols`
+
+<aside class="notice"><code>GET /api/v1/symbols</code>接口已被废弃，因为当交易对的<code>name</code>改名后， 响应中的<code>baseCurrency</code>也会对应改变，这并不准确。 所以推荐使用<code>GET /api/v2/symbols</code>接口</aside>
+
+### 请求示例
+`GET /api/v1/symbols`
+
+### 请求参数
+请求参数 | 类型 | 是否必须 | 含义 |
+--------- | ------- | -----------| -----------|
+market | String | 否 | [交易市场](#b8f118fefc) |
+
+### 返回值
+| 字段             | 含义                            |
+| -------------- | ----------------------------- |
+| symbol         | 交易对唯一标识码，重命名后不会改变             |
+| name           | 交易对名称，重命名后会改变                 |
+| baseCurrency   | 商品货币，指一个交易对的交易对象，即写在靠前部分的资产名(不准确)  |
+| quoteCurrency  | 计价币种，指一个交易对的定价资产，即写在靠后部分资产名   |
+| market         | [交易市场](#b8f118fefc)                   |
+| baseMinSize    | 下单时size的最小值                   |
+| quoteMinSize   | 下市价单，funds的最小值                |
+| baseMaxSize    | 下单，size的最大值                   |
+| quoteMaxSize   | 下市价单，funds的最大值                |
+| baseIncrement  | 数量增量，下单的size必须为数量增量的正整数倍      |
+| quoteIncrement | 市价单：资金增量，下单的funds必须为资金增量的正整数倍 |
+| priceIncrement | 限价单：价格增量，下单的price必须为价格增量的正整数倍 |
+| feeCurrency    | 交易计算手续费的币种                   |
+| enableTrading  | 是否可以用于交易                      |
+| isMarginEnabled | 是否支持杠杆                        |
+| priceLimitRate | 价格保护阈值                          |
+| minFunds       | 最小交易金額                          |
+
+- `baseMinSize` 和 `baseMaxSize` 这两个字段规范了下单size的最小值和最大值。
+- `priceIncrement` 字段规范了下单的price的最小值和价格增量。
+
+下单的`price`必须为价格增量的正整数倍（如果增量为 0.01，下单价格是0.001或0.021的请求会被拒绝，返回invalid priceIncrement）
+
+`priceIncrement` 和 `quoteIncrement` 以后可能会调整，调整前我们会提前以邮件和全站通知的方式进行通知。
+
+委托单 | 遵循minFunds的规则
+--------- | ------- | -----------
+限价买单 | [委托数量*委托价格] >= `minFunds`
+限价卖单 | [委托数量*委托价格] >= `minFunds`
+市价买单 | 委托金额 >= `minFunds`
+市价卖单 | [委托数量*BASE币种最新成交价] >= `minFunds`
+
+注：
+
+* 对于API中按数量进行市价买单的情况，采用[委托数量*BASE币种最新成交价]<`minFunds`进行判断
+* 对于API中按照金额进行市价卖单的情况，采用委托金额<`minFunds`进行判断。
+* 对于市价及限价止盈止损委托，委托时不受此限制，但委托触发之后的下单后亦会受到此限制
+
 ## 交易对列表
 ```json
 [
@@ -3930,15 +4037,15 @@ KuCoin平台上的订单分为两种类型：Taker 和 Maker。Taker单会与买
 
 
 ### HTTP请求
-`GET /api/v1/symbols`
+`GET /api/v2/symbols`
 
 ### 请求示例
-`GET /api/v1/symbols`
+`GET /api/v2/symbols`
 
 ### 请求参数
-请求参数 | 类型 | 含义
---------- | ------- | -------
-market | String | [可选] [交易市场](#b8f118fefc)
+请求参数 | 类型 | 是否必须 | 含义 |
+--------- | ------- | -----------| -----------|
+market | String | 否 | [交易市场](#b8f118fefc) |
 
 ### 返回值
 | 字段             | 含义                            |
