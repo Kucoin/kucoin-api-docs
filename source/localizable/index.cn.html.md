@@ -32,6 +32,16 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 **为了进一步提升API安全性，KuCoin已经升级到了V2版本的API-KEY，验签逻辑也发生了一些变化，建议到[API管理页面](https://www.kucoin.cc/account/api)添加并更换到新的API-KEY。KuCoin已经停止对老版本API-KEY的支持。[查看新的签名方式](#8ba46c43fe)**
 
+**11/01/22**:
+
+- 【添加】`GET /api/v1/withdrawals`和`GET /api/v1/deposits`接口添加返回字段`chain`
+- 【添加】在`POST /api/v1/sub/user`接口添加 `generalSubQuantity`、`marginSubQuantity`、`futuresSubQuantity`、`maxDefaultSubQuantity`、`maxGeneralSubQuantity`、`maxMarginSubQuantity` 和 `maxFuturesSubQuantity` 返回字段
+- 【新增】新增查询子账户信息分页接口`GET /api/v2/sub/user`、 `GET /api/v2/sub-accounts`接口
+
+**10/25/22**:
+
+- 【添加】`GET /api/v1/withdrawals`和`GET /api/v1/deposits`接口添加返回字段`chain`
+
 **10/20/22**:
 
 - 【废弃&新增】废弃交易对列表`GET /api/v1/symbols`接口，请使用`GET /api/v2/symbols`新接口
@@ -804,7 +814,6 @@ KC-API-SIGN = 7QP/oM0ykidMdrfNEUmng8eZjg/ZvPafjIqmxiVfYu4=
 # 用户信息
 
 ## 获取所有子账号信息
-
 ```json
 [
     {
@@ -821,26 +830,72 @@ KC-API-SIGN = 7QP/oM0ykidMdrfNEUmng8eZjg/ZvPafjIqmxiVfYu4=
     }
 ]
 ```
-
 这个接口获取母账号下所有的子账号信息。
+<aside class="notice">推荐使用<code>GET /api/v2/sub/user</code>接口进行分页查询</aside>
 
 ### HTTP请求
 `GET /api/v1/sub/user`
-
 ### 请求示例
 `GET /api/v1/sub/user`
-
 ### API权限
 该接口需要`通用权限`。
-
+### 请求参数
+`无`
 ### 返回值
-
 | 字段      | 含义       |
 | ------- | -------- |
 | userId  | 子账号的用户ID |
 | subName | 子账号的用户名  |
 | type | 子账号类型  |
 | remarks | 备注信息     |
+
+## 获取子账号分页列表
+```json
+{
+    "code":"200000",
+    "data":{
+        "currentPage":1,
+        "pageSize":100,
+        "totalNum":1,
+        "totalPage":1,
+        "items":[
+            {
+                "userId":"635002438793b80001dcc8b3",
+                "uid":62356,
+                "subName":"margin01",
+                "status":2,
+                "type":4,
+                "access":"Margin",
+                "createdAt":1666187844000,
+                "remarks":null
+            }
+        ]
+    }
+}
+```
+这个接口用以获取子账号分页列表，需要使用分页
+### HTTP请求
+`GET /api/v2/sub/user`
+### 请求示例
+`GET /api/v2/sub/user`
+### API权限
+此接口需要`通用权限`
+### 请求参数
+请求参数 | 类型 | 是否必须 |  含义
+--------- | ------- | ------- | -------
+currentPage | Int | 否 | 当前页；默认为第`1`页 
+pageSize | Int | 否 | 每页数量；默认值`10`，最小值`1`，最大值`100`
+### 返回值
+字段 | 含义
+--------- | -------
+createdAt |  创建时间
+remarks   |  备注
+status    |  账户状态
+subName   |  子账户名
+type      |  子账户类型
+uid       |  子账户UID
+userId    |  子账号ID
+access    |  交易权限
 
 
 ##
@@ -985,95 +1040,6 @@ balance | 账户资金总额
 holds | 冻结资金
 available | 可用资金
 
-
-
-## 账户流水记录（弃用）
-已弃用，请用[账户流水记录](#c8122540e1)代替
-
-此接口返回账户的出入账流水记录。
-返回值是[分页](#88b6b4f79a)后的数据，根据时间降序排序。
-
-```json
-{
-    "currentPage":1,
-    "pageSize":10,
-    "totalNum":2,
-    "totalPage":1,
-    "items":[
-        {
-            "id":"5bc7f080b39c5c03486eef8b",//唯一键
-            "currency":"KCS",//币种
-            "amount":"0.0998", //资金变动值
-            "fee":"0", //充值或提现费率
-            "balance":"0", //金额变动
-            "bizType":"withdraw", //业务类型
-            "direction":"in",  // 出入账方向入账或出账（in or out）
-            "createdAt":1540296039000,  // 创建时间
-            "context":{  // 业务核心参数
-                "orderId":"5bc7f080b39c5c03286eef8a",
-                "currency":"BTC"
-            }
-        },
-        {
-            "id":"5bc7f080b39c5c03486eef8c",
-            "currency":"KCS",
-            "amount":"0.0998",
-            "fee":"0",
-            "balance":"0",
-            "bizType":"trade exchange",
-            "direction":"in",
-            "createdAt":1540296039000,
-            "context":{
-                "orderId":"5bc7f080b39c5c03286eef8e",
-                "tradeId":"5bc7f080b3949c03286eef8a",
-                "symbol":"BTC-USD"
-            }
-        }
-    ]
-}
-
-```
-
-### HTTP请求
-`GET /api/v1/accounts/{accountId}/ledgers`
-
-
-### 请求示例
-`GET /api/v1/accounts/5bd6e9286d99522a52e458de/ledgers`
-
-### API权限
-此接口需要**通用权限**。
-
-<aside class="notice">这个接口需要使用分页</aside>
-
-### 请求参数
-请求参数 | 类型 | 含义
---------- | ------- | -------
-accountId | String | 路径参数，[账户ID](#f0f7ae469d)
-direction | String | [可选] 出入账方向: **in** -入账, **out** -出账
-bizType   | String | [可选] 业务类型: **DEPOSIT** -充值, **WITHDRAW** -提现, **TRANSFER** -转账, **SUB_TRANSFER** -子账户转账,**TRADE_EXCHANGE** -交易, **MARGIN_EXCHANGE** -杠杆交易, **KUCOIN_BONUS** -鼓励金
-startAt   | long   | [可选] 开始时间（毫秒）
-endAt     | long   | [可选] 截止时间（毫秒）
-
-
-### 返回值
-字段 | 含义
---------- | -------
-id | 唯一键
-currency | 币种
-amount | 资金变动值
-fee | 充值或提现费率
-balance | 变动后的资金总额
-bizType | 业务类型，比如交易，提现，推荐关系奖，借贷等
-direction | 出入账方向 **out** 或 **in**
-createdAt | 创建时间
-context | 业务核心参数
-
-### context
-如果 **bizType** 是trade exchange，那么 **context** 字段会包含交易的额外信息（订单id，交易id，交易对）。
-
-
-
 ## 账户流水记录
 此接口返回所有账户的出入账流水记录，支持多币种查询。
 返回值是[分页](#88b6b4f79a)后的数据，根据时间降序排序。
@@ -1204,9 +1170,20 @@ Convert to KCS   | 一键转KCS
 {
     "code": "200000",
     "data": {
-        "level": 7,
-        "subQuantity": 1,
-        "maxSubQuantity": 100
+        "level": 0,
+        "subQuantity": 11,
+        "subQuantityByType": {
+            "generalSubQuantity": 9,
+            "marginSubQuantity": 1,
+            "futuresSubQuantity": 1
+        },
+        "maxSubQuantity": 35,
+        "maxSubQuantityByType": {
+            "maxDefaultSubQuantity": 5,
+            "maxGeneralSubQuantity": 10,
+            "maxMarginSubQuantity": 10,
+            "maxFuturesSubQuantity": 10
+        }
     }
 }
 ```
@@ -1229,7 +1206,14 @@ Convert to KCS   | 一键转KCS
 --------- | -------
 level | 用户等级
 subQuantity | 子账号数量
-maxSubQuantity| 子账号数量上限
+generalSubQuantity | 通用子账号开通数量
+marginSubQuantity | 杠杆子账号开通数量
+futuresSubQuantity | 合约子账号开通数量
+maxSubQuantity | 子账号数量上限
+maxDefaultSubQuantity | 默认子账号数量上限
+maxGeneralSubQuantity | 通用子账号数量上限
+maxMarginSubQuantity | 杠杆子账号数量上限
+maxFuturesSubQuantity | 合约子账号数量上限
 
 ## 创建子账号
 ```json
@@ -1238,7 +1222,8 @@ maxSubQuantity| 子账号数量上限
     "data": {
         "uid": 9969082973,
         "subName": "AAAAAAAAAA0007",
-        "remarks": "remark"
+        "remarks": "remark",
+        "access": "All"
     }
 }
 ```
@@ -1259,6 +1244,7 @@ maxSubQuantity| 子账号数量上限
 password | String | 是 | 密码(7～24位字符，数字或字母，不允许纯数字或@等特殊字符)
 remarks | String | 否 | 备注(1～24位字符)
 subName | String | 是 | 子账户名(7～32位字符，必须包含字母和数字，不支持空格)
+access | String | 否 | 交易权限(只能设置`All`、`Futures`、`Margin`权限，默认为`All`。`All`-无限制；`Futures`-无法使用杠杆功能；`Margin`-无法使用合约功能）
 
 ### 返回值
 字段 | 含义
@@ -1266,6 +1252,7 @@ subName | String | 是 | 子账户名(7～32位字符，必须包含字母和数
 remarks | 备注
 subName | 子账户名
 uid | 子账户UID
+access | 交易权限
 
 ## 获取子账号现货API列表
 ```json
@@ -1547,17 +1534,16 @@ baseAmount | 基准货币数量
 ]
 ```
 此接口可获取所有子账号的账户信息。
-
+<aside class="notice">推荐使用<code>GET /api/v2/sub-accounts</code>接口进行分页查询</aside>
 
 ### HTTP请求
 `GET /api/v1/sub-accounts`
-
 ### 请求示例
 `GET /api/v1/sub-accounts`
-
 ### API权限
-此接口需要**通用权限**。
-
+此接口需要`通用权限`。
+### 请求参数
+`无`
 ### 返回值
 字段 | 描述
 --------- | -------
@@ -1570,6 +1556,60 @@ holds | 冻结资金
 baseCurrency | 基准币种
 baseCurrencyPrice | 基准货币价格
 baseAmount | 基准货币数量
+
+## 分页获取子账户信息
+```json
+{
+    "code": "200000",
+    "data": {
+        "currentPage": 1,
+        "pageSize": 10,
+        "totalNum": 14,
+        "totalPage": 2,
+        "items": [
+            {
+                "subUserId": "635002438793b80001dcc8b3",
+                "subName": "margin03",
+                "mainAccounts": [
+                    {
+                        "currency": "00",
+                        "balance": "0",
+                        "available": "0",
+                        "holds": "0",
+                        "baseCurrency": "BTC",
+                        "baseCurrencyPrice": "125.63",
+                        "baseAmount": "0"
+                    }
+                ]
+            }
+        ]
+    }
+}
+```
+这个接口用以分页获取子账户信息，需要使用分页
+### HTTP请求          
+`GET /api/v2/sub-accounts`
+### 请求示例
+`GET /api/v2/sub-accounts`
+### API权限
+此接口需要`通用权限`
+### 请求参数
+请求参数 | 类型 | 是否必须 |  含义
+--------- | ------- | ------- | -------
+currentPage | Int | 否 | 当前页；默认为第`1`页 
+pageSize | Int | 否 | 每页数量；默认值`10`，最小值`1`，最大值`100`
+### 返回值
+字段 | 含义
+--------- | -------
+subUserId  | 子账号的用户ID
+subName  | 子账号的用户名
+currency  | 币种
+balance  | 资金总额
+available  | 可用资金
+holds  | 冻结资金
+baseCurrency  | 基准币种
+baseCurrencyPrice  | 基准货币价格
+baseAmount    | 基准货币数量
 
 ## 获取可划转资金
 ```json
@@ -1800,38 +1840,29 @@ chain | 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TR
 ## 获取充值列表
 ```json
 {
-    "currentPage":1,
-    "pageSize":5,
-    "totalNum":2,
-    "totalPage":1,
-    "items":[
-        {
-            "address":"0x5f047b29041bcfdbf0e4478cdfa753a336ba6989",
-            "memo":"5c247c8a03aa677cea2a251d",
-            "amount":1,
-            "fee":0.0001,
-            "currency":"KCS",
-            "isInner":false,
-            "walletTxId":"5bbb57386d99522d9f954c5a@test004",
-            "status":"SUCCESS",
-            "remark":"test",
-            "createdAt":1544178843000,
-            "updatedAt":1544178891000
-        },
-        {
-            "address":"0x5f047b29041bcfdbf0e4478cdfa753a336ba6989",
-            "memo":"5c247c8a03aa677cea2a251d",
-            "amount":1,
-            "fee":0.0001,
-            "currency":"KCS",
-            "isInner":false,
-            "walletTxId":"5bbb57386d99522d9f954c5a@test003",
-            "status":"SUCCESS",
-            "remark":"test",
-            "createdAt":1544177654000,
-            "updatedAt":1544178733000
-        }
-    ]
+    "code": "200000",
+    "data": {
+        "currentPage": 1,
+        "pageSize": 50,
+        "totalNum": 1,
+        "totalPage": 1,
+        "items": [
+            {
+                "currency": "XRP",
+                "chain": "xrp",
+                "status": "SUCCESS",
+                "address": "rNFugeoj3ZN8Wv6xhuLegUBBPXKCyWLRkB",
+                "memo": "1919537769",
+                "isInner": false,
+                "amount": "20.50000000",
+                "fee": "0.00000000",
+                "walletTxId": "2C24A6D5B3E7D5B6AA6534025B9B107AC910309A98825BF5581E25BEC94AD83B@e8902757998fc352e6c9d8890d18a71c",
+                "createdAt": 1666600519000,
+                "updatedAt": 1666600549000,
+                "remark": "Deposit"
+            }
+        ]
+    }
 }
 ```
 此端点，可获取充值分页列表。
@@ -1852,12 +1883,12 @@ chain | 币种的链名。例如，对于USDT，现有的链有OMNI、ERC20、TR
 <aside class="notice">这个接口需要使用分页</aside>
 
 ### 请求参数
-请求参数 | 类型 | 含义
---------- | ------- | -------
-currency | String |[可选] [币种](#ebcc9fbb02)
-startAt| long | [可选] 开始时间（毫秒）
-endAt| long | [可选]  截止时间（毫秒）
-status | String | [可选] 状态。可选值: PROCESSING, SUCCESS, FAILURE
+请求参数 | 类型 | 是否必须 | 含义 |
+--------- | ------- | -----------| -----------|
+currency | String | 否 | [币种](#ebcc9fbb02)
+startAt| long | 否 | 开始时间（毫秒）
+endAt| long | 否 | 截止时间（毫秒）
+status | String | 否 | 状态。可选值: `PROCESSING`, `SUCCESS`, `FAILURE`
 
 ### 返回值
 字段 | 含义
@@ -1937,26 +1968,30 @@ createAt | 创建时间
 ## 获取提现列表
 ```json
 {
-    "currentPage":1,
-    "pageSize":10,
-    "totalNum":1,
-    "totalPage":1,
-    "items":[
-        {
-            "id":"5c2dc64e03aa675aa263f1ac",
-            "address":"0x5bedb060b8eb8d823e2414d82acce78d38be7fe9",
-            "memo":"",
-            "currency":"ETH",
-            "amount":1,
-            "fee":0.01,
-            "walletTxId":"3e2414d82acce78d38be7fe9",
-            "isInner":false,
-            "status":"FAILURE",
-            "remark":"test",
-            "createdAt":1546503758000,
-            "updatedAt":1546504603000
-        }
-    ]
+    "code": "200000",
+    "data": {
+        "currentPage": 1,
+        "pageSize": 50,
+        "totalNum": 1,
+        "totalPage": 1,
+        "items": [
+            {
+                "id": "63564dbbd17bef00019371fb",
+                "currency": "XRP",
+                "chain": "xrp",
+                "status": "SUCCESS",
+                "address": "rNFugeoj3ZN8Wv6xhuLegUBBPXKCyWLRkB",
+                "memo": "1919537769",
+                "isInner": false,
+                "amount": "20.50000000",
+                "fee": "0.50000000",
+                "walletTxId": "2C24A6D5B3E7D5B6AA6534025B9B107AC910309A98825BF5581E25BEC94AD83B",
+                "createdAt": 1666600379000,
+                "updatedAt": 1666600511000,
+                "remark": "test"
+            }
+        ]
+    }
 }
 ```
 
@@ -1975,12 +2010,12 @@ createAt | 创建时间
 <aside class="notice">这个接口需要使用分页</aside>
 
 ### 请求参数
-请求参数 | 类型 | 含义
---------- | ------- | -------
-currency | String | [可选] [币种](#ebcc9fbb02)
-status | String | [可选]  状态。可选值: PROCESSING, WALLET_PROCESSING, SUCCESS, FAILURE
-startAt| long | [可选] 开始时间（毫秒）
-endAt| long | [可选]  截止时间（毫秒）
+请求参数 | 类型 | 是否必须 | 含义 |
+--------- | ------- | -----------| -----------|
+currency | String | 否 | [币种](#ebcc9fbb02)
+status | String | 否 | 状态。可选值: `PROCESSING`, `WALLET_PROCESSING`, `SUCCESS`, `FAILURE`
+startAt| long | 否 | 开始时间（毫秒）
+endAt| long | 否 | 截止时间（毫秒）
 
 ### 返回值
 字段 |  含义
@@ -1989,6 +2024,7 @@ id | 唯一标识
 address | 提现地址
 memo | 提现地址标识
 currency | 币种
+chain | 币种chain
 amount | 提现金额
 fee | 提现手续费
 walletTxId | 钱包交易Id
@@ -2871,62 +2907,6 @@ funds | String |  否（`size`和`funds`二选一）| 下单资金
 ###订单轮询(Polling)
 
 对于高频交易的用户，建议您在本地缓存和维护一份自己的活动委托列表，并使用市场数据流实时更新自己的订单信息。
-
-## 获取V1历史订单列表(废弃)
-```json
-{
-    "currentPage": 1,
-    "pageSize": 1,
-    "totalNum": 1,
-    "totalPage": 1,
-    "items": [
-        {
-            "symbol": "SNOV-ETH",
-            "dealPrice": "0.0000246",
-            "dealValue": "0.018942",
-            "amount": "770",
-            "fee": "0.00001137",
-            "side": "sell",
-            "createdAt": 1540080199
-        }
-    ]
- }
-```
-
-此接口，可获取KuCoin V1历史订单列表
-返回值是[分页](#88b6b4f79a)后的数据，根据时间降序排序。
-
-<aside class="notice">该接口已于2022年1月13日废弃</aside>
-
-###HTTP请求
-`GET /api/v1/hist-orders`
-
-### 请求示例
-`GET /api/v1/hist-orders`
-
-### API权限
-此接口需要**通用权限**。
-
-<aside class="notice">这个接口需要使用分页</aside>
-
-### 请求参数
-| 请求参数    | 类型     | 含义                                |
-| ------- | ------ | --------------------------------- |
-| symbol  | String | [可选] 只返回指定[交易对](#a17b4e2866)的订单信息 |
-| side    | String | [可选] **buy（买）** 或 **sell（卖）**     |
-| startAt | long   | [可选] 开始时间（毫秒）                     |
-| endAt   | long   | [可选]  截止时间（毫秒）                    |
-
-### 返回值
-| 字段        | 含义   |
-| --------- | ---- |
-| symbol    | 交易对  |
-| dealPrice | 成交价格 |
-| dealValue | 成交额  |
-| amount    | 成交量  |
-| fee       | 手续费费 |
-| side      | 买或卖  |
-| createdAt | 创建时间 |
 
 ## 最近订单记录
 ```json
@@ -6397,7 +6377,7 @@ Topic: `/market/ticker:{symbol},{symbol}...`
 ```
 Topic: `/market/ticker:all`
 
-* 推送频率: `2s`一次
+* 推送频率: `100ms`一次
 
 订阅此topic可获取所有的BBO(最佳买一和卖一)数据的推送。
 
@@ -6738,6 +6718,8 @@ Topic: `/spotMarket/level2Depth50:{symbol},{symbol}...`
 }
 ```
 Topic: `/market/candles:{symbol}_{type}`
+
+* 推送频率: `实时推送`
 
 参数 |  含义
 --------- | -------

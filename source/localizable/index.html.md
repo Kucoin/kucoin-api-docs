@@ -30,6 +30,12 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 
 **To reinforce the security of the API, KuCoin upgraded the API key to version 2.0, the validation logic has also been changed. It is recommended to [create](https://www.kucoin.com/account/api) and update your API key to version 2.0. The API key of version 1.0 is invalid. [Check new signing method](#signing-a-message)**
 
+**11/01/22**:
+
+- Add `chain` response field to `GET /api/v1/withdrawals` interface  and `GET /api/v1/deposits` interface
+- Add `generalSubQuantity`, `marginSubQuantity`, `futuresSubQuantity`, `maxDefaultSubQuantity`, `maxGeneralSubQuantity`, `maxMarginSubQuantity` and `maxFuturesSubQuantity` fields to `POST /api/v1/sub/user` interface response
+- Add `GET /api/v2/sub/user` and `GET /api/v2/sub-accounts` pagination interface
+
 **10/20/22**:
 
 - Deprecate `GET /api/v1/symbols` interface, please use `GET /api/v2/symbols` new interface instead
@@ -830,8 +836,7 @@ Signature is required for this part.
 
 # User Info
 
-##Get User Info of all Sub-Accounts
-
+## Get User Info of all Sub-Accounts
 ```json
 [{
 		"userId": "5cbd31ab9c93e9280cd36a0a",  //subUserId
@@ -847,18 +852,18 @@ Signature is required for this part.
 	}
 ]
 ```
-
 You can get the user info of all sub-users via this interface.
+<aside class="notice">It is recommended to use the <code>GET /api/v2/sub/user</code> interface for paging query</aside>
+
 
 ### HTTP REQUEST
 `GET /api/v1/sub/user`
-
 ### Example
 `GET /api/v1/sub/user`
-
 ### API KEY PERMISSIONS
 This endpoint requires the `General` permission.
-
+### PARAMETERS
+`N/A`
 ### RESPONSES
 Field | Description
 --------- | -------
@@ -866,6 +871,54 @@ userId | The user ID of your sub-account
 subName | The username of your sub-account
 type | The type of your sub-account
 remarks | Remark
+
+## Get Paginated List of Sub-Accounts
+```json
+{
+    "code":"200000",
+    "data":{
+        "currentPage":1,
+        "pageSize":100,
+        "totalNum":1,
+        "totalPage":1,
+        "items":[
+            {
+                "userId":"635002438793b80001dcc8b3",
+                "uid":62356,
+                "subName":"margin01",
+                "status":2,
+                "type":4,
+                "access":"Margin",
+                "createdAt":1666187844000,
+                "remarks":null
+            }
+        ]
+    }
+}
+```
+This endpoint can be used to get a paginated list of sub-accounts. Pagination is required.
+### HTTP REQUEST
+`GET /api/v2/sub/user`
+### Example
+`GET /api/v2/sub/user`
+### API KEY PERMISSIONS
+This endpoint requires the `General` permission.
+### PARAMETERS
+Param | Type | Mandatory | Description
+--------- | ------- | ------- | -------
+currentPage | Int | No | Current request page. Default is `1`
+pageSize  | Int  | No | Number of results per request. Minimum is `1`, maximum is `100`, default is `10`.
+### RESPONSES
+Field | Description
+--------- | -------
+createdAt |  Time of the event
+remarks  | Remarks
+status | Account status
+subName | Sub-account name
+type  | The type of your sub-account
+uid  | Sub-account UID
+userId | The user ID of your sub-account
+access | Permission
 
 
 # Account
@@ -998,113 +1051,6 @@ balance | Total funds in the account
 holds | Funds on hold (not available for use)
 available | Funds available to withdraw or trade
 
-
-
-## Get Account Ledgers(deprecated)
-
-***It's deprecated, please use [Get Account Ledgers](#get-account-ledgers) instead.***
-
-
-Request via this endpoint to get the account ledgers.
-
-Items are paginated and sorted to show the latest first. See the [Pagination](#pagination) section for retrieving additional entries after the first page.
-
-
-```json
-{
-    "currentPage": 1,
-    "pageSize": 10,
-    "totalNum": 3,
-    "totalPage": 1,
-    "items": [
-        {
-            "id": "5bc7f080b39c5c03486eef8c",//unique key
-            "currency": "KCS",  //Currency
-            "amount": "0.0998", //Change amount of the funds
-            "fee": "0",  //Deposit or withdrawal fee
-            "balance": "0",  //Total assets of a currency
-            "bizType": "Withdraw",  //business type
-            "direction": "in",     //side, in or out
-            "createdAt": 1540296039000,  //Creation time
-            "context": {          //Business core parameters
-
-                "orderId": "5bc7f080b39c5c03286eef8a",
-                "txId": "bf848bfb6736780b930e12c68721ea57f8b0484a4af3f30db75c93ecf16905c9"
-            }
-        },
-        {
-            "id": "5bc7f080b39c5c03486def8c",//unique key
-            "currency": "KCS",
-            "amount": "0.0998",
-            "fee": "0",
-            "balance": "0",
-            "bizType": "Deposit",
-            "direction": "in",
-            "createdAt": 1540296039000,
-            "context": {
-
-                "orderId": "5bc7f080b39c5c03286eef8a",
-                "txId": "bf848bfb6736780b930e12c68721ea57f8b0484a4af3f30db75c93ecf16905c9"
-            }
-        },
-        {
-            "id": "5bc7f080b39c5c03486def8a",//unique key
-            "currency": "KCS",
-            "amount": "0.0998",
-            "fee": "0",
-            "balance": "0",
-            "bizType": "trade exchange",
-            "direction": "in",
-            "createdAt": 1540296039000,
-            "context": {
-
-                "tradeId": "5bc7f080b3949c03286eef8a",
-                "orderId": "5bc7f080b39c5c03286eef8e",
-                "symbol": "BTC-USD"
-            }
-        }
-    ]
-}
-```
-
-### HTTP REQUEST
-`GET /api/v1/accounts/{accountId}/ledgers`
-
-### Example
-`GET /api/v1/accounts/5bd6e9286d99522a52e458de/ledgers`
-
-
-### API KEY PERMISSIONS
-This endpoint requires the `General` permission.
-
-<aside class="notice">This request is paginated.</aside>
-
-### PARAMETERS
-Param | Type | Description
---------- | ------- | -------
-accountId | String | ID of the account
-direction | String | *[Optional]*  Side: **in** - Receive, **out** - Send
-bizType   | String | *[Optional]*  Business type: **DEPOSIT**, **WITHDRAW**, **TRANSFER**, **SUB_TRANSFER**,**TRADE_EXCHANGE**, **MARGIN_EXCHANGE**, **KUCOIN_BONUS**.
-startAt| long | *[Optional]*  Start time (milisecond)
-endAt| long | *[Optional]* End time (milisecond)
-
-### RESPONSES
-Field | Description
---------- | -------
-id | unique key
-currency | The currency of an account
-amount | The total amount of assets (fees included) involved in assets changes such as transaction, withdrawal and bonus distribution.
-fee | Fees generated in transaction, withdrawal, etc.
-balance | Remaining funds after the transaction.
-bizType | Business type leading to the changes in funds, such as exchange, withdrawal, deposit,  KUCOIN_BONUS, REFERRAL_BONUS, Lendings etc.
-direction | Side, **out** or **in**
-createdAt | Time of the event
-context | Business related information such as order ID, serial No., etc.
-
-### context
-If the returned value under bizType is **“trade exchange”**, the additional info. (such as order ID and trade ID, trading pair, etc.) of the trade will be returned in field **context**.
-
-
 ## Get Account Ledgers
 
 This interface is for the history of deposit/withdrawal of all accounts, supporting inquiry of various currencies. 
@@ -1236,9 +1182,20 @@ Convert to KCS   | Convert to KCS
 {
     "code": "200000",
     "data": {
-        "level": 7,
-        "subQuantity": 1,
-        "maxSubQuantity": 100
+        "level": 0,
+        "subQuantity": 11,
+        "subQuantityByType": {
+            "generalSubQuantity": 9,
+            "marginSubQuantity": 1,
+            "futuresSubQuantity": 1
+        },
+        "maxSubQuantity": 35,
+        "maxSubQuantityByType": {
+            "maxDefaultSubQuantity": 5,
+            "maxGeneralSubQuantity": 10,
+            "maxMarginSubQuantity": 10,
+            "maxFuturesSubQuantity": 10
+        }
     }
 }
 ```
@@ -1261,7 +1218,14 @@ Field | Description
 --------- | -------
 level | User level
 subQuantity | Number of sub-accounts
+generalSubQuantity | General sub-account opened quantity
+marginSubQuantity | Margin sub-account opened quantity
+futuresSubQuantity |  Futures sub-account opened quantity
 maxSubQuantity| Max number of sub-accounts
+maxDefaultSubQuantity | Max number of default open sub-accounts
+maxGeneralSubQuantity | Max number of General sub-accounts
+maxMarginSubQuantity | Max number of Margin sub-account
+maxFuturesSubQuantity | Max number of Futures sub-account
 
 ## Create Sub-Account
 ```json
@@ -1269,8 +1233,9 @@ maxSubQuantity| Max number of sub-accounts
     "code": "200000",
     "data": {
         "uid": 9969082973,
-        "subName": "AAAAAAAA0007",
-        "remarks": "remark"
+        "subName": "AAAAAAAAAA0007",
+        "remarks": "remark",
+        "access": "All"
     }
 }
 ```
@@ -1291,6 +1256,7 @@ Param | Type | Mandatory | Description
 password | String | Yes | Password(7-24 characters, must contain letters and numbers, cannot only contain numbers or include special characters)
 remarks | String | No | Remarks(1~24 characters)
 subName | String | Yes | Sub-account name(must contain 7-32 characters, at least one number and one letter. Cannot contain any spaces.)
+access | String | No | Permission (This can only be set to `All`, `Futures`, or `Margin`, default is `All`. `All`: unrestricted; `Futures`: cannot use margin features; `Margin`: cannot use futures features.)
 
 ### RESPONSES
 Field | Description
@@ -1298,6 +1264,7 @@ Field | Description
 remarks | Remarks
 subName | Sub-account name
 uid | Sub-account UID
+access | Permission
 
 ## Get Sub-Account Spot API List
 ```json
@@ -1578,18 +1545,17 @@ baseAmount | The base currency amount.
     }
 ]
 ```
-
 This endpoint returns the account info of all sub-users.
+<aside class="notice">It is recommended to use the <code>GET /api/v2/sub-accounts</code> interface for paging query</aside>
 
 ### HTTP REQUEST
 `GET /api/v1/sub-accounts`
-
 ### Example
 `GET /api/v1/sub-accounts`
-
 ### API KEY PERMISSIONS
-This endpoint requires the **"General"** permission.
-
+This endpoint requires the `General` permission.
+### PARAMETERS
+`N/A`
 ### RESPONSES
 Field | Description
 --------- | -------
@@ -1603,6 +1569,59 @@ baseCurrency | Calculated on this currency.
 baseCurrencyPrice | The base currency price.
 baseAmount | The base currency amount.
 
+## Get Paginated Sub-Account Information.
+```json
+{
+    "code": "200000",
+    "data": {
+        "currentPage": 1,
+        "pageSize": 10,
+        "totalNum": 14,
+        "totalPage": 2,
+        "items": [
+            {
+                "subUserId": "635002438793b80001dcc8b3",
+                "subName": "margin03",
+                "mainAccounts": [
+                    {
+                        "currency": "00",
+                        "balance": "0",
+                        "available": "0",
+                        "holds": "0",
+                        "baseCurrency": "BTC",
+                        "baseCurrencyPrice": "125.63",
+                        "baseAmount": "0"
+                    }
+                ]
+            }
+        ]
+    }
+}
+```
+This endpoint can be used to get paginated sub-account information. Pagination is required.
+### HTTP REQUEST
+`GET /api/v2/sub-accounts`
+### Example
+`GET /api/v2/sub-accounts`
+### API KEY PERMISSIONS
+This endpoint requires the `General` permission.
+### PARAMETERS
+Param | Type | Mandatory | Description
+--------- | ------- | ------- | -------
+currentPage | Int | No | Current request page. Default is `1`
+pageSize  | Int  | No | Number of results per request. Minimum is `1`, maximum is `100`, default is `10`.
+### RESPONSES
+Field | Description
+--------- | -------
+subUserId      | The user ID of the sub-user.
+subName    | The username of the sub-user.
+currency    | The currency of the account.
+balance    | Total funds in the account.
+available    | Funds available to withdraw or trade.
+holds    | Funds on hold (not available for use).
+baseCurrency    | Calculated on this currency.
+baseCurrencyPrice    | The base currency price.
+baseAmount     | The base currency amount.
 
 ## Get the Transferable
 
@@ -1835,41 +1854,31 @@ chain | The chain name of currency, e.g. The available value for USDT are OMNI, 
 
 
 ## Get Deposit List
-
 ```json
 {
-    "currentPage":1,
-    "pageSize":5,
-    "totalNum":2,
-    "totalPage":1,
-    "items":[
-        {
-            "address":"0x5f047b29041bcfdbf0e4478cdfa753a336ba6989",
-            "memo":"5c247c8a03aa677cea2a251d",
-            "amount":1,
-            "fee":0.0001,
-            "currency":"KCS",
-            "isInner":false,
-            "walletTxId":"5bbb57386d99522d9f954c5a@test004",
-            "status":"SUCCESS",
-            "remark":"test",
-            "createdAt":1544178843000,
-            "updatedAt":1544178891000
-        },
-        {
-            "address":"0x5f047b29041bcfdbf0e4478cdfa753a336ba6989",
-            "memo":"5c247c8a03aa677cea2a251d",
-            "amount":1,
-            "fee":0.0001,
-            "currency":"KCS",
-            "isInner":false,
-            "walletTxId":"5bbb57386d99522d9f954c5a@test003",
-            "status":"SUCCESS",
-            "remark":"test",
-            "createdAt":1544177654000,
-            "updatedAt":1544178733000
-        }
-    ]
+    "code": "200000",
+    "data": {
+        "currentPage": 1,
+        "pageSize": 50,
+        "totalNum": 1,
+        "totalPage": 1,
+        "items": [
+            {
+                "currency": "XRP",
+                "chain": "xrp",
+                "status": "SUCCESS",
+                "address": "rNFugeoj3ZN8Wv6xhuLegUBBPXKCyWLRkB",
+                "memo": "1919537769",
+                "isInner": false,
+                "amount": "20.50000000",
+                "fee": "0.00000000",
+                "walletTxId": "2C24A6D5B3E7D5B6AA6534025B9B107AC910309A98825BF5581E25BEC94AD83B@e8902757998fc352e6c9d8890d18a71c",
+                "createdAt": 1666600519000,
+                "updatedAt": 1666600549000,
+                "remark": "Deposit"
+            }
+        ]
+    }
 }
 ```
 
@@ -1892,12 +1901,12 @@ This API is restricted for each account, the request rate limit is **6 times/3s*
 <aside class="notice">This request is paginated.</aside>
 
 ### PARAMETERS
-Param | Type | Description
---------- | ------- | -----------
-currency | String | *[Optional]*  Currency
-startAt| long | *[Optional]*  Start time (milisecond)
-endAt| long | *[Optional]* End time (milisecond)
-status | String | *[Optional]*  Status. Available value: PROCESSING, SUCCESS, and FAILURE
+Param | Type | Mandatory | Description |  
+--------- | ------- | -----------| -----------|
+currency | String | No | Currency
+startAt| long | No | Start time (milisecond)
+endAt| long | No | End time (milisecond)
+status | String | No | Status. Available value: `PROCESSING`, `SUCCESS`, and `FAILURE`
 
 ### RESPONSES
 Field | Description
@@ -1907,6 +1916,7 @@ memo |Address remark. If there’s no remark, it is empty. When you [withdraw](#
 amount | Deposit amount
 fee | Fees charged for deposit
 currency | Currency
+chain | The chain of currency
 isInner | Internal deposit or not
 walletTxId | Wallet Txid
 status | Status
@@ -1975,29 +1985,32 @@ status | Status
 # Withdrawals
 
 ## Get Withdrawals List
-
 ```json
 {
-    "currentPage":1,
-    "pageSize":10,
-    "totalNum":1,
-    "totalPage":1,
-    "items":[
-        {
-            "id":"5c2dc64e03aa675aa263f1ac",
-            "address":"0x5bedb060b8eb8d823e2414d82acce78d38be7fe9",
-            "memo":"",
-            "currency":"ETH",
-            "amount":1,
-            "fee":0.01,
-            "walletTxId":"3e2414d82acce78d38be7fe9",
-            "isInner":false,
-            "status":"FAILURE",
-            "remark":"test",
-            "createdAt":1546503758000,
-            "updatedAt":1546504603000
-        }
-    ]
+    "code": "200000",
+    "data": {
+        "currentPage": 1,
+        "pageSize": 50,
+        "totalNum": 1,
+        "totalPage": 1,
+        "items": [
+            {
+                "id": "63564dbbd17bef00019371fb",
+                "currency": "XRP",
+                "chain": "xrp",
+                "status": "SUCCESS",
+                "address": "rNFugeoj3ZN8Wv6xhuLegUBBPXKCyWLRkB",
+                "memo": "1919537769",
+                "isInner": false,
+                "amount": "20.50000000",
+                "fee": "0.50000000",
+                "walletTxId": "2C24A6D5B3E7D5B6AA6534025B9B107AC910309A98825BF5581E25BEC94AD83B",
+                "createdAt": 1666600379000,
+                "updatedAt": 1666600511000,
+                "remark": "test"
+            }
+        ]
+    }
 }
 ```
 
@@ -2016,12 +2029,12 @@ This API is restricted for each account, the request rate limit is **6 times/3s*
 <aside class="notice">This request is paginated.</aside>
 
 ### PARAMETERS
-Param | Type | Description
---------- | ------- | -----------
-currency | String | *[Optional]*  [Currency](#get-currencies)
-status | String | *[Optional]*  Status. Available value: PROCESSING, WALLET_PROCESSING, SUCCESS, and FAILURE
-startAt| long | *[Optional]*  Start time (milisecond)
-endAt| long | *[Optional]* End time (milisecond)
+Param | Type | Mandatory | Description |  
+--------- | ------- | -----------| -----------|
+currency | String | No | [Currency](#get-currencies)
+status | String | No | Status. Available value: `PROCESSING`, `WALLET_PROCESSING`, `SUCCESS`, and `FAILURE`
+startAt| long | No | Start time (milisecond)
+endAt| long | No | End time (milisecond)
 
 ### RESPONSES
 Field | Description
@@ -2030,6 +2043,7 @@ id | Unique identity
 address | Withdrawal address
 memo |  Address remark. If there’s no remark, it is empty. When you [withdraw](#apply-withdraw) from other platforms to the KuCoin, you need to fill in memo(tag). If you do not fill memo (tag), your deposit may not be available, please be cautious.
 currency | Currency
+chain | The chain of currency
 amount | Withdrawal amount
 fee | Withdrawal fee
 walletTxId | Wallet Txid
@@ -2271,7 +2285,7 @@ This endpoint requires the `General` permission.
 ### PARAMETERS
 Param | Type | Mandatory | Description
 --------- | ------- | -------| -------
-symbols|String|NO|Trading pair (optional, you can inquire fee rates of `10` trading pairs each time at most)
+symbols|String|Yes|Trading pair (optional, you can inquire fee rates of `10` trading pairs each time at most)
 
 ### RESPONSES
 Field | Description
@@ -2929,71 +2943,6 @@ The history for cancelled orders is only kept for **one month**. You will not be
 
 ### POLLING
 For high-volume trading, it is highly recommended that you maintain your own list of open orders and use one of the streaming market data feeds to keep it updated. You should poll the open orders endpoint to obtain the current state of any open order.
-
-
-
-## Get V1 Historical Orders List(deprecated)
-
-```json
-{
-    "currentPage":1,
-    "pageSize":50,
-    "totalNum":1,
-    "totalPage":1,
-    "items":[
-        {
-            "symbol":"SNOV-ETH",
-            "dealPrice":"0.0000246",
-            "dealValue":"0.018942",
-            "amount":"770",
-            "fee":"0.00001137",
-            "side":"sell",
-            "createdAt":1540080199
-        }
-    ]
-}
-```
-
-Request via this endpoint to get your historical orders list of the KuCoin V1.
-Items are paginated and sorted to show the latest first. See the [Pagination](#pagination) section for retrieving additional entries after the first page.
-
-<aside class="notice">The endpoint was deprecated on January 13, 2022.</aside>
-
-### HTTP REQUEST
-`GET /api/v1/hist-orders`
-
-### Example
-`GET /api/v1/hist-orders`
-
-### API KEY PERMISSIONS
-This endpoint requires the **"General"** permission.
-
-<aside class="notice">This request is paginated.</aside>
-
-
-### PARAMETERS
-You can request for specific orders using query parameters.
-
-Param | Type | Description
---------- | ------- | -----------
-currentPage | int | *[Optional]*  The current page.
-pageSize | int | *[Optional]*  Number of entries per page.  
-symbol | String | *[Optional]* a valid trading [symbol code](#get-symbols-list). e.g. ETH-BTC.
-startAt| long | *[Optional]*  Start time (milisecond)
-endAt| long | *[Optional]* End time (milisecond)
-side | String | *[Optional]*  **buy** or **sell**
-
-### RESPONSES
-Field | Description
---------- | -------
-symbol | symbol
-dealPrice | Filled price
-dealValue | Executed size of funds
-side | transaction direction,include buy and sell.
-amount |   Executed quantity
-size |  Order quantity.
-fee | Fee.
-createdAt | Create time.
 
 ## Recent Orders
 
@@ -6603,7 +6552,7 @@ Please note that more information may be added to messages from this channel in 
 ```
 Topic: `/market/ticker:all`
 
-* Push frequency: once every `2s`
+* Push frequency: once every `100ms`
 
 Subscribe to this topic to get the push of all market symbols BBO change.
 
@@ -6939,6 +6888,8 @@ The system will return the 50 best ask/bid orders data, which is the snapshot da
 }
 ```
 Topic: `/market/candles:{symbol}_{type}`
+
+* Push frequency: `real-time`
 
 Param |  Description
 --------- | -------
