@@ -32,6 +32,10 @@ API分为两部分：**REST API和Websocket 实时数据流**
 
 **为了进一步提升API安全性，KuCoin已经升级到了V2版本的API-KEY，验签逻辑也发生了一些变化，建议到[API管理页面](https://www.kucoin.cc/account/api)添加并更换到新的API-KEY。KuCoin已经停止对老版本API-KEY的支持。[查看新的签名方式](#8ba46c43fe)**
 
+**11/08/22**:
+
+- 【废弃】废弃`POST /api/v1/accounts`接口
+
 **11/01/22**:
 
 - 【添加】`GET /api/v1/withdrawals`和`GET /api/v1/deposits`接口添加返回字段`chain`
@@ -900,39 +904,6 @@ access    |  交易权限
 
 ##
 # 账户
-
-## 创建账户
-
-此接口可以用于创建账户
-
-```json
-{
-    "id":"5bd6e9286d99522a52e458de" //accountId
-}
-```
-
-### HTTP请求
-`POST /api/v1/accounts`
-
-### 请求示例
-`POST /api/v1/accounts`
-
-### API权限
-此接口需要**通用权限**。
-
-
-### 请求参数
-请求参数 | 类型 | 含义
---------- | ------- | -------
-type | String | 账户类型，**main**、**trade**或**margin**
-currency | String |[币种](#ebcc9fbb02)
-
-### 返回值
-字段 | 含义
---------- | -------
-id | 账户ID -- accountId
-
-
 
 ## 账户列表
 ```json

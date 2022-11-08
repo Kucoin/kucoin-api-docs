@@ -30,6 +30,10 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 
 **To reinforce the security of the API, KuCoin upgraded the API key to version 2.0, the validation logic has also been changed. It is recommended to [create](https://www.kucoin.com/account/api) and update your API key to version 2.0. The API key of version 1.0 is invalid. [Check new signing method](#signing-a-message)**
 
+**11/08/22**:
+
+- Deprecate `POST /api/v1/accounts` interface
+
 **11/01/22**:
 
 - Add `chain` response field to `GET /api/v1/withdrawals` interface  and `GET /api/v1/deposits` interface
@@ -922,34 +926,6 @@ access | Permission
 
 
 # Account
-
-## Create an Account
-```json
-{
-    "id": "5bd6e9286d99522a52e458de"  //accountId
-}
-```
-
-### HTTP REQUEST
-`POST /api/v1/accounts`
-
-### Example
-`POST /api/v1/accounts`
-
-### API KEY PERMISSIONS
-This endpoint requires the `General` permission.
-
-### PARAMETERS
-Param | Type | Description
---------- | ------- | -------
-type | String | Account type: **main**, **trade**, **margin**
-currency | String | [Currency](#get-currencies)
-
-### RESPONSES
-Field | Description
---------- | -------
-id | accountId, ID of an account
-
 
 ## List Accounts
 ```json
