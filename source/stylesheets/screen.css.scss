@@ -484,12 +484,13 @@ body {
 .toc-link[data-title="Margin Trade"],
 .toc-link[data-title="Others"],
 .toc-link[data-title="Websocket Feed"],
-.toc-link[data-title="快速开始"],
-.toc-link[data-title="用户模块"],
-.toc-link[data-title="交易模块"],
-.toc-link[data-title="市场数据"],
-.toc-link[data-title="杠杆交易"],
+.toc-link[data-title="快速開始"],
+.toc-link[data-title="用戶模塊"],
+.toc-link[data-title="交易模塊"],
+.toc-link[data-title="市場數據"],
+.toc-link[data-title="槓桿交易"],
 .toc-link[data-title="其他接口"],
+.toc-link[data-title="高頻交易"],
 .toc-link[data-title="Websocket"]{
   font-weight: bold;
   margin-top: 10px;
@@ -507,12 +508,13 @@ body {
 .toc-link[data-title="Margin Trade"]:before,
 .toc-link[data-title="Others"]:before,
 .toc-link[data-title="Websocket Feed"]:before
-.toc-link[data-title="快速开始"]:before,
-.toc-link[data-title="用户模块"]:before,
-.toc-link[data-title="交易模块"]:before,
-.toc-link[data-title="市场数据"]:before,
-.toc-link[data-title="杠杆交易"]:before,
+.toc-link[data-title="快速開始"]:before,
+.toc-link[data-title="用戶模塊"]:before,
+.toc-link[data-title="交易模塊"]:before,
+.toc-link[data-title="市場數據"]:before,
+.toc-link[data-title="槓桿交易"]:before,
 .toc-link[data-title="其他接口"]:before,
+.toc-link[data-title="高頻交易"]:before,
 .toc-link[data-title="Websocket"]:before {
   content: "";
   display: none;
@@ -526,7 +528,8 @@ body {
 .toc-link[data-title="General"],
 .toc-link[data-title="REST API"],
 .toc-link[data-title="Websocket Feed"],
-.toc-link[data-title="快速开始"],
+.toc-link[data-title="快速開始"],
+.toc-link[data-title="高頻交易"],
 .toc-link[data-title="Websocket"]{
   background: #EEE;
   font-size: 15px;
@@ -536,7 +539,8 @@ body {
 .toc-link[data-title="General"].active, .toc-link[data-title="General"]:hover,
 .toc-link[data-title="REST API"].active, .toc-link[data-title="REST API"]:hover,
 .toc-link[data-title="Websocket Feed"].active, .toc-link[data-title="Websocket Feed"]:hover 
-.toc-link[data-title="快速开始"].active, .toc-link[data-title="快速开始"]:hover 
+.toc-link[data-title="快速開始"].active, .toc-link[data-title="快速開始"]:hover 
+.toc-link[data-title="高頻交易"].active, .toc-link[data-title="高頻交易"]:hover 
 .toc-link[data-title="Websocket"].active, .toc-link[data-title="Websocket"]:hover {
 }
 
