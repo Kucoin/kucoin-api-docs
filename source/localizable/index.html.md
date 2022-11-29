@@ -1455,7 +1455,7 @@ This endpoint returns the account info of a sub-user specified by the subUserId.
 `GET /api/v1/sub-accounts/{subUserId}`
 
 ### Example
-`GET /api/v1/sub-accounts/5caefba7d9575a0688f83c45`
+`GET /api/v1/sub-accounts/5caefba7d9575a0688f83c45?includeBaseAmount=false`
 
 ### API KEY PERMISSIONS
 This endpoint requires the **"General"** permission.
@@ -1464,6 +1464,8 @@ This endpoint requires the **"General"** permission.
 Param | Type | Description
 --------- | ------- | -------
 subUserId | String | the [user ID](#get-user-info-of-all-sub-accounts) of a sub-account.
+includeBaseAmount | boolean | false: do not display the currency which asset is 0, true: display all currency
+
 
 ### RESPONSES
 Field | Description

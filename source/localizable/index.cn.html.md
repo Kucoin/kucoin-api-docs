@@ -1437,7 +1437,7 @@ subName | 子賬號名
 `GET /api/v1/sub-accounts/{subUserId}`
 
 ### 請求示例
-`GET /api/v1/sub-accounts/5caefba7d9575a0688f83c45`
+`GET /api/v1/sub-accounts/5caefba7d9575a0688f83c45?includeBaseAmount=false`
 
 
 ### API權限
@@ -1447,6 +1447,7 @@ subName | 子賬號名
 請求參數 | 類型 | 含義
 --------- | ------- | -------  
 subUserId | String | 路徑參數，[子賬號的用戶Id](#abcf8983bc)
+includeBaseAmount | boolean | false:不展示资产为0的币种，true:展示资产为0的币种
 
 ### 返回值
 字段 | 含義
