@@ -1447,7 +1447,7 @@ subName | 子賬號名
 請求參數 | 類型 | 含義
 --------- | ------- | -------  
 subUserId | String | 路徑參數，[子賬號的用戶Id](#abcf8983bc)
-includeBaseAmount | boolean | false:不展示资产为0的币种，true:展示资产为0的币种
+includeBaseAmount | boolean | false:不展示資產為0的幣種，true:展示資產為0的幣種
 
 ### 返回值
 字段 | 含義
@@ -6068,7 +6068,7 @@ loanId | String | 是 | 交易單號,設置該字段後，順序策略無效
     "code":"200000",
     "data":{
 
-        "status":"open", // //open, close, cancelonly
+        "status":"open", //open:正常交易, close：停止交易/維護, cancelonly：只可以撤單，不能下單
         "msg":"upgrade match engine"
     }
 }
@@ -6084,7 +6084,7 @@ loanId | String | 是 | 交易單號,設置該字段後，順序策略無效
 ### RESPONSES
 | 字段     | 含義                                          |
 |-------- | -------------------------------------------   |
-| status  | 服務狀態: **open**、 **close** 或 **cancelonly** |
+| status  | 服務狀態: **open**：正常交易、 **close**：停止交易/維護、 **cancelonly**：只可以撤單，不能下單 |
 | msg     | 操作說明                                        |
 
 

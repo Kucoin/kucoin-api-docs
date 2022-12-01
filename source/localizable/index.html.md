@@ -6214,7 +6214,7 @@ Get the server time.
   "code": "200000",     
   "data": {
 
-      "status": "open",                //open, close, cancelonly
+      "status": "open",                //open:normal transaction, close:Stop Trading/Maintenance, cancelonly:can only cancel the order but not place order
       "msg":  "upgrade match engine"   //remark for operation
     }
 }
@@ -6233,7 +6233,7 @@ Get the service status
 ### RESPONSES
 |Field    | Description                                             |
 |-------- |-------------------------------------------------------  |
-| status  | Status of service: **open**, **close** or **cancelonly**|
+| status  | Status of service: **open**：normal transaction, **close**：Stop Trading/Maintenance, **cancelonly**：can only cancel the order but not place order|
 | msg     | Remark for operation                                    |
 
 
