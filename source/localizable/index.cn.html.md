@@ -1075,6 +1075,9 @@ startAt   | long   | [可選] 開始時間（毫秒）
 endAt     | long   | [可選] 截止時間（毫秒）
 
 <aside class="notice">您只能獲取 24 小時時間範圍內的數據（即：查詢時，開始時間到結束時間的時間範圍不能超過24小時）。若超出時間範圍，系統會報錯。如果您只指定了結束時間，沒有指定開始時間，系統將按照24小時的範圍自動計算開始時間（開始時間=結束時間-24小時）並返回相應數據，反之亦然。</aside>
+<aside class="notice">最多獲取1年的歷史數據，如需要獲取更久遠的歷史數據，請提交工單查詢：https://kucoin.zendesk.com/hc/en-us/requests/new</aside>
+
+
 
 ### 返回值
 字段 | 含義
@@ -1298,11 +1301,12 @@ subName | 子賬號名
 ### 請求參數
 請求參數 | 類型 | 是否必須 |  含義
 --------- | ------- | ------- | -------
-ipWhitelist | String | 否 | IP白名單(每個IP用半角逗號隔開，最多添加20個)
-passphrase | String | 是 | 密碼(7～32位字符，不可輸入空格)
-permission | String | 否 | 權限列表(只能設置General、Trade權限，如："General,Trade”。默認爲General)
-remark | String | 是 | 備註(1～24位字符)
 subName | String | 是 | 子賬號名, 創建api key的子賬號名稱
+passphrase | String | 是 | 密碼(7～32位字符，不可輸入空格)
+remark | String | 是 | 備註(1～24位字符)
+permission | String | 否 | 權限列表(只能設置General、Trade權限，如："General,Trade”。默認爲General)
+ipWhitelist | String | 否 | IP白名單(每個IP用半角逗號隔開，最多添加20個)
+expire | String | 否 | API過期時間；不過期(默認值)`-1`，30天`30`，90天`90`，180天`180`，360天`360`
 
 ### 返回值
 字段 | 含義
@@ -1342,11 +1346,12 @@ passphrase | 密碼
 ### 請求參數
 請求參數 | 類型 | 是否必須 |  含義
 --------- | ------- | ------- | -------
+subName | String |  是 | 子賬號名(API Key對應子賬號名)
 apiKey | String | 是 | API-Key(需要修改的API Key)
-ipWhitelist | String | 否 | IP白名單(每個IP用半角逗號隔開，最多添加20個。如果修改，ip將會重置)
 passphrase | String | 是 |  密碼(API Key 密碼)
 permission | String |  否 |  權限列表(只能設置General、Trade權限，默認爲General。如果修改，權限將會重置)
-subName | String |  是 | 子賬號名(API Key對應子賬號名)
+ipWhitelist | String | 否 | IP白名單(每個IP用半角逗號隔開，最多添加20個。如果修改，ip將會重置)
+expire | String | 否 | API過期時間；不過期(默認值)`-1`，30天`30`，90天`90`，180天`180`，360天`360`
 
 ### 返回值
 字段 | 含義
@@ -2873,7 +2878,8 @@ funds | String |  否（`size`和`funds`二選一）| 下單資金
 
 查詢“**active**”狀態的訂單，沒有時間限制。但查詢“已完成”狀態的訂單時，您只能獲取 7 * 24 小時時間範圍內的數據（即：查詢時，開始時間到結束時間的時間範圍不能超過24 * 7小時）。若超出時間範圍，系統會報錯。如果您只指定了結束時間，沒有指定開始時間，系統將按照 24小時的範圍自動計算開始時間（開始時間=結束時間-7*24小時）並返回相應數據，反之亦然。
 
-取消訂單的歷史記錄僅保留**一個月**。您將無法查詢一個月以前已取消的訂單。
+已取消訂單的歷史記錄僅保留**一個月**。您將無法查詢一個月以前已取消的訂單。
+已完成訂單的歷史記錄僅保留**六個月**。您將無法查詢六個月以前已完成的訂單。
 
 <aside class="notice">檢索的總條目不能超過5萬條，如果超過，請縮短查詢時間範圍。</aside>
 ###訂單輪詢(Polling)
@@ -6902,14 +6908,14 @@ Topic: `/spotMarket/tradeOrders`
         "side":"buy",
         "orderId":"5efab07953bdea00089965d2",
         "type":"open",
-        "orderTime":1593487481683297666,
+        "orderTime":1670329987026,
         "size":"0.1",
         "filledSize":"0",
         "price":"0.937",
         "clientOid":"1593487481000906",
         "remainSize":"0.1",
         "status":"open",
-        "ts":1593487481683297666
+        "ts":1670329987311000000
     }
 }
 ```
@@ -6935,7 +6941,7 @@ Topic: `/spotMarket/tradeOrders`
         "orderId":"5efab07953bdea00089965fa",
         "liquidity":"taker",
         "type":"match",
-        "orderTime":1593487482038606180,
+        "orderTime":1670329987026,
         "size":"0.1",
         "filledSize":"0.1",
         "price":"0.938",
@@ -6945,7 +6951,7 @@ Topic: `/spotMarket/tradeOrders`
         "clientOid":"1593487481000313",
         "remainSize":"0",
         "status":"match",
-        "ts":1593487482038606180
+        "ts":1670329987311000000
     }
 }
 ```
@@ -6968,14 +6974,14 @@ Topic: `/spotMarket/tradeOrders`
         "side":"sell",
         "orderId":"5efab07953bdea00089965fa",
         "type":"filled",
-        "orderTime":1593487482038606180,
+        "orderTime":1670329987026,
         "size":"0.1",
         "filledSize":"0.1",
         "price":"0.938",
         "clientOid":"1593487481000313",
         "remainSize":"0",
         "status":"done",
-        "ts":1593487482038606180
+        "ts":1670329987311000000
     }
 }
 ```
@@ -6998,14 +7004,14 @@ Topic: `/spotMarket/tradeOrders`
         "side":"buy",
         "orderId":"5efab07953bdea00089965d2",
         "type":"canceled",
-        "orderTime":1593487481683297666,
+        "orderTime":1670329987026,
         "size":"0.1",
         "filledSize":"0",
         "price":"0.937",
         "clientOid":"1593487481000906",
         "remainSize":"0",
         "status":"done",
-        "ts":1593487481893140844
+        "ts":1670329987311000000
     }
 }
 ```
@@ -7029,14 +7035,14 @@ Topic: `/spotMarket/tradeOrders`
         "orderId":"5efab13f53bdea00089971df",
         "type":"update",
         "oldSize":"0.1",
-        "orderTime":1593487679693183319,
+        "orderTime":1670329987026,
         "size":"0.06",
         "filledSize":"0",
         "price":"0.937",
         "clientOid":"1593487679000249",
         "remainSize":"0.06",
         "status":"open",
-        "ts":1593487682916117521
+        "ts":1670329987311000000
     }
 }
 ```

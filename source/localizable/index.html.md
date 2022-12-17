@@ -1093,6 +1093,7 @@ startAt| long | *[Optional]*  Start time (milisecond)
 endAt| long | *[Optional]* End time (milisecond)
 
 <aside class="notice">the start and end time range cannot exceed 24 hours. An error will occur if the specified time window exceeds the range. If you specify the end time only, the system will automatically calculate the start time as end time minus 24 hours, and vice versa.</aside>
+<aside class="notice">Support to obtain 1 year historical data, if need to obtain longer historical data, please submit a ticket: https://kucoin.zendesk.com/hc/en-us/requests/new</aside>
 
 ### RESPONSES
 Field | Description
@@ -1316,11 +1317,13 @@ This endpoint requires the `General` permission.
 ### PARAMETERS
 Param | Type | Mandatory | Description
 --------- | ------- | ------- | -------
-ipWhitelist | String | No | IP whitelist(You may add up to 20 IPs. Use a halfwidth comma to each IP)
-passphrase | String | Yes | Password(Must contain 7-32 characters. Cannot contain any spaces.)
-permission | String | No | Permissions(Only "General" and "Trade" permissions can be set, such as "General, Trade". The default is "General")
-remark | String | Yes | Remarks(1~24 characters)
 subName | String | Yes | Sub-account name, create sub account name of API Key.
+passphrase | String | Yes | Password(Must contain 7-32 characters. Cannot contain any spaces.)
+remark | String | Yes | Remarks(1~24 characters)
+permission | String | No | Permissions(Only "General" and "Trade" permissions can be set, such as "General, Trade". The default is "General")
+ipWhitelist | String | No | IP whitelist(You may add up to 20 IPs. Use a halfwidth comma to each IP)
+expire | String | No | API expiration time; Never expire(default)`-1`，30Day`30`，90Day`90`，180Day`180`，360Day`360`
+
 
 ### RESPONSES
 Field | Description
@@ -1360,11 +1363,12 @@ This endpoint requires the `General` permission.
 ### PARAMETERS
 Param | Type | Mandatory | Description
 --------- | ------- | ------- | -------
+subName | String | Yes | Sub-account name
 apiKey | String | Yes | API-Key(Sub-account APIKey)
-ipWhitelist | String | No | IP whitelist(you may add up to 20 IPs. Use a halfwidth comma to each IP.If modified, the IP will be reset.)
 passphrase | String | Yes | Password of API key
 permission | String | No | Permission list.If modified, permissions will be reset.
-subName | String | Yes | Sub-account name
+ipWhitelist | String | No | IP whitelist(you may add up to 20 IPs. Use a halfwidth comma to each IP.If modified, the IP will be reset.)
+expire | String | No | API expiration time; Never expire(default)`-1`，30Day`30`，90Day`90`，180Day`180`，360Day`360`
 
 ### RESPONSES
 Field | Description
@@ -7063,14 +7067,14 @@ This topic will push all change events of your orders.
         "side":"buy",
         "orderId":"5efab07953bdea00089965d2",
         "type":"open",
-        "orderTime":1593487481683297666,
+        "orderTime":1670329987026,
         "size":"0.1",
         "filledSize":"0",
         "price":"0.937",
         "clientOid":"1593487481000906",
         "remainSize":"0.1",
         "status":"open",
-        "ts":1593487481683297666
+        "ts":1670329987311000000
     }
 }
 ```
@@ -7094,7 +7098,7 @@ when the order enters into the order book;
         "orderId":"5efab07953bdea00089965fa",
         "liquidity":"taker",
         "type":"match",
-        "orderTime":1593487482038606180,
+        "orderTime":1670329987026,
         "size":"0.1",
         "filledSize":"0.1",
         "price":"0.938",
@@ -7104,7 +7108,7 @@ when the order enters into the order book;
         "clientOid":"1593487481000313",
         "remainSize":"0",
         "status":"match",
-        "ts":1593487482038606180
+        "ts":1670329987311000000
     }
 }
 ```
@@ -7127,14 +7131,14 @@ when the order has been executed;
         "side":"sell",
         "orderId":"5efab07953bdea00089965fa",
         "type":"filled",
-        "orderTime":1593487482038606180,
+        "orderTime":1670329987026,
         "size":"0.1",
         "filledSize":"0.1",
         "price":"0.938",
         "clientOid":"1593487481000313",
         "remainSize":"0",
         "status":"done",
-        "ts":1593487482038606180
+        "ts":1670329987311000000
     }
 }
 ```
@@ -7157,14 +7161,14 @@ when the order has been executed and its status was changed into DONE;
         "side":"buy",
         "orderId":"5efab07953bdea00089965d2",
         "type":"canceled",
-        "orderTime":1593487481683297666,
+        "orderTime":1670329987026,
         "size":"0.1",
         "filledSize":"0",
         "price":"0.937",
         "clientOid":"1593487481000906",
         "remainSize":"0",
         "status":"done",
-        "ts":1593487481893140844
+        "ts":1670329987311000000
     }
 }
 ```
@@ -7188,14 +7192,14 @@ when the order has been cancelled and its status was changed into DONE;
         "orderId":"5efab13f53bdea00089971df",
         "type":"update",
         "oldSize":"0.1",
-        "orderTime":1593487679693183319,
+        "orderTime":1670329987026,
         "size":"0.06",
         "filledSize":"0",
         "price":"0.937",
         "clientOid":"1593487679000249",
         "remainSize":"0.06",
         "status":"open",
-        "ts":1593487682916117521
+        "ts":1670329987311000000
     }
 }
 ```
