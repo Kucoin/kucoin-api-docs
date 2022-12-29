@@ -1324,7 +1324,6 @@ permission | String | No | Permissions(Only "General" and "Trade" permissions ca
 ipWhitelist | String | No | IP whitelist(You may add up to 20 IPs. Use a halfwidth comma to each IP)
 expire | String | No | API expiration time; Never expire(default)`-1`，30Day`30`，90Day`90`，180Day`180`，360Day`360`
 
-
 ### RESPONSES
 Field | Description
 --------- | -------
@@ -4341,12 +4340,20 @@ makerCoefficient | Maker Fee Coefficient
 ```json
 //Get Market List
 {
-	"data":[
+  "data" : [
+    "USDS", //SC has been changed to USDS
     "BTC",
     "KCS",
-    "USDS",  //SC has been changed to USDS
-    "ALTS" //ALTS market includes ETH, NEO, TRX
-  ]
+    "ALTS", //ALTS market includes ETH, NEO, TRX
+    "NFT-ETF",
+    "FIAT",
+    "DeFi",
+    "NFT",
+    "Metaverse",
+    "Polkadot",
+    "ETF"
+  ],
+  "code" : "200000"
 }
 ```
 
@@ -6256,21 +6263,19 @@ While there is a strict access frequency control for REST API, we highly recomme
 
 ```json
 {
-    "code": "200000",
-    "data": {
-
-        "instanceServers": [
-            {
-                "endpoint": "wss://push1-v2.kucoin.com/endpoint",
-                "protocol": "websocket",
-                "encrypt": true,
-                "pingInterval": 50000,
-                "pingTimeout": 10000
-            }
-        ],
-        "token": "vYNlCtbz4XNJ1QncwWilJnBtmmfe4geLQDUA62kKJsDChc6I4bRDQc73JfIrlFaVYIAE0Gv2--MROnLAgjVsWkcDq_MuG7qV7EktfCEIphiqnlfpQn4Ybg==.IoORVxR2LmKV7_maOR9xOg=="
-    }
+	"code": "200000",
+	"data": {
+		"token": "2neAiuYvAU61ZDXANAGAsiL4-iAExhsBXZxftpOeh_55i3Ysy2q2LEsEWU64mdzUOPusi34M_wGoSf7iNyEWJ4aBZXpWhrmY9jKtqkdWoFa75w3istPvPtiYB9J6i9GjsxUuhPw3BlrzazF6ghq4L_u0MhKxG3x8TeN4aVbNiYo=.mvnekBb8DJegZIgYLs2FBQ==",
+		"instanceServers": [{
+			"endpoint": "wss://ws-api-spot.kucoin.com/",	//It is recommended to use a dynamic URL, which may change
+			"encrypt": true,
+			"protocol": "websocket",
+			"pingInterval": 18000,
+			"pingTimeout": 10000
+		}]
+	}
 }
+
 ```
 
 You need to apply for one of the two tokens below to create a websocket connection.
@@ -6303,7 +6308,7 @@ For private channels and messages (e.g. account balance notice), please make req
 ## Create connection
 
 ```javascript
-var socket = new WebSocket("wss://push1-v2.kucoin.com/endpoint?token=xxx&[connectId=xxxxx]");
+var socket = new WebSocket("wss://ws-api-spot.kucoin.com/?token==xxx&[connectId=xxxxx]");
 ```
 
 
