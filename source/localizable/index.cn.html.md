@@ -4207,13 +4207,20 @@ makerCoefficient | 掛單手續費係數
 ```json
 //Get Market List
 {
-    "data":[
-
-        "BTC",
-        "KCS",
-        "USDS",
-        "ALTS"
-    ]
+  "data" : [
+    "USDS",
+    "BTC",
+    "KCS",
+    "ALTS",
+    "NFT-ETF",
+    "FIAT",
+    "DeFi",
+    "NFT",
+    "Metaverse",
+    "Polkadot",
+    "ETF"
+  ],
+  "code" : "200000"
 }
 ```
 此接口，可以獲取整個交易市場的交易幣種
@@ -6105,21 +6112,19 @@ REST API的使用受到了訪問頻率的限制，因此推薦您使用Websocket
 ### 公共令牌 (不需要驗證簽名):
 ```json
 {
-    "code": "200000",
-    "data": {
-
-        "instanceServers": [
-            {
-                "endpoint": "wss://push1-v2.kucoin.com/endpoint",
-                "protocol": "websocket",
-                "encrypt": true,
-                "pingInterval": 50000,
-                "pingTimeout": 10000
-            }
-        ],
-        "token": "vYNlCtbz4XNJ1QncwWilJnBtmmfe4geLQDUA62kKJsDChc6I4bRDQc73JfIrlFaVYIAE0Gv2--MROnLAgjVsWkcDq_MuG7qV7EktfCEIphiqnlfpQn4Ybg==.IoORVxR2LmKV7_maOR9xOg=="
-    }
+	"code": "200000",
+	"data": {
+		"token": "2neAiuYvAU61ZDXANAGAsiL4-iAExhsBXZxftpOeh_55i3Ysy2q2LEsEWU64mdzUOPusi34M_wGoSf7iNyEWJ4aBZXpWhrmY9jKtqkdWoFa75w3istPvPtiYB9J6i9GjsxUuhPw3BlrzazF6ghq4L_u0MhKxG3x8TeN4aVbNiYo=.mvnekBb8DJegZIgYLs2FBQ==",
+		"instanceServers": [{
+			"endpoint": "wss://ws-api-spot.kucoin.com/",	//建議使用動態URL，該URL可能會改變
+			"encrypt": true,
+			"protocol": "websocket",
+			"pingInterval": 18000,
+			"pingTimeout": 10000
+		}]
+	}
 }
+
 ```
 如果您只訂閱公共頻道的數據，請按照以下方式請求獲取服務實例列表和公共令牌。
 
@@ -6144,7 +6149,7 @@ REST API的使用受到了訪問頻率的限制，因此推薦您使用Websocket
 
 ## 建立連接
 ```javascript
-var socket = new WebSocket("wss://push1-v2.kucoin.com/endpoint?token=xxx&[connectId=xxxxx]");
+var socket = new WebSocket("wss://ws-api-spot.kucoin.com/?token==xxx&[connectId=xxxxx]");
 ```
 成功建立連接後，您將會收到系統向您發出的歡迎（welcome）消息。
 
