@@ -725,7 +725,7 @@ Rest請求頭必須包含以下內容:
     api_key = "api_key"
     api_secret = "api_secret"
     api_passphrase = "api_passphrase"
-    url = 'https://openapi-sandbox.kucoin.com/api/v1/accounts'
+    url = 'https://api.kucoin.com/api/v1/accounts'
     now = int(time.time() * 1000)
     str_to_sign = str(now) + 'GET' + '/api/v1/accounts'
     signature = base64.b64encode(
@@ -744,7 +744,7 @@ Rest請求頭必須包含以下內容:
     print(response.json())
 
     #Example for create deposit addresses in python
-    url = 'https://openapi-sandbox.kucoin.com/api/v1/deposit-addresses'
+    url = 'https://api.kucoin.com/api/v1/deposit-addresses'
     now = int(time.time() * 1000)
     data = {"currency": "BTC"}
     data_json = json.dumps(data)
@@ -789,7 +789,7 @@ Rest請求頭必須包含以下內容:
 #Example for Create Deposit Address
 
 curl -H "Content-Type:application/json" -H "KC-API-KEY:5c2db93503aa674c74a31734" -H "KC-API-TIMESTAMP:1547015186532" -H "KC-API-PASSPHRASE:QWIxMjM0NTY3OCkoKiZeJSQjQA==" -H "KC-API-SIGN:7QP/oM0ykidMdrfNEUmng8eZjg/ZvPafjIqmxiVfYu4="  -H "KC-API-KEY-VERSION:2"
--X POST -d '{"currency":"BTC"}' http://openapi-v2.kucoin.com/api/v1/deposit-addresses
+-X POST -d '{"currency":"BTC"}' http://api.kucoin.com/api/v1/deposit-addresses
 
 KC-API-KEY = 5c2db93503aa674c74a31734
 KC-API-SECRET = f03a5284-5c39-4aaa-9b20-dea10bdcf8e3
@@ -822,15 +822,19 @@ KC-API-SIGN = 7QP/oM0ykidMdrfNEUmng8eZjg/ZvPafjIqmxiVfYu4=
 [
     {
         "userId":"5cbd31ab9c93e9280cd36a0a", //subUserId子賬號用戶ID
+		"uid":"1789234",
         "subName":"kucoin1",
         "type":0, //type子賬號類型:0-普通子賬號
-        "remarks":"kucoin1"
+        "remarks":"kucoin1",
+		"access":"All"
     },
     {
         "userId":"5cbd31b89c93e9280cd36a0d",
+		"uid":"1789431",
         "subName":"kucoin2",
         "type":1, //type子賬號類型:1-交易機器人子賬號
-        "remarks":"kucoin2"
+        "remarks":"kucoin2",
+		"access":"All"
     }
 ]
 ```
@@ -849,9 +853,11 @@ KC-API-SIGN = 7QP/oM0ykidMdrfNEUmng8eZjg/ZvPafjIqmxiVfYu4=
 | 字段      | 含義       |
 | ------- | -------- |
 | userId  | 子賬號的用戶ID |
+| uid  | 子賬號UID |
 | subName | 子賬號的用戶名  |
 | type | 子賬號類型  |
 | remarks | 備註信息     |
+| access | 權限     |
 
 ## 獲取子賬號分頁列表
 ```json
