@@ -32,6 +32,10 @@ API分爲兩部分：**REST API和Websocket 實時數據流**
 
 **爲了進一步提升API安全性，KuCoin已經升級到了V2版本的API-KEY，驗籤邏輯也發生了一些變化，建議到[API管理頁面](https://www.kucoin.cc/account/api)添加並更換到新的API-KEY。KuCoin已經停止對老版本API-KEY的支持。[查看新的簽名方式](#99f215f459)**
 
+**17/02/23**:
+
+- 【添加】`GET /api/v1/sub/user`接口新增返回字段``uid`、`access`
+
 **11/08/22**:
 
 - 【廢棄】廢棄`POST /api/v1/accounts`接口
@@ -891,10 +895,10 @@ KC-API-SIGN = 7QP/oM0ykidMdrfNEUmng8eZjg/ZvPafjIqmxiVfYu4=
 ### API權限
 此接口需要`通用權限`
 ### 請求參數
-請求參數 | 類型 | 是否必須 |  含義
---------- | ------- | ------- | -------
-currentPage | Int | 否 | 當前頁；默認爲第`1`頁 
-pageSize | Int | 否 | 每頁數量；默認值`10`，最小值`1`，最大值`100`
+請求參數 | 類型 | 含義
+--------- | ------- | -------
+currentPage | Int | [可選] 當前頁；默認爲第`1`頁 
+pageSize | Int | [可選] 每頁數量；默認值`10`，最小值`1`，最大值`100`
 ### 返回值
 字段 | 含義
 --------- | -------
@@ -1219,12 +1223,12 @@ maxFuturesSubQuantity | 合約子賬號數量上限
 此接口需要`通用權限`。
 
 ### 請求參數
-請求參數 | 類型 | 是否必須 |  含義
---------- | ------- | ------- | -------
-password | String | 是 | 密碼(7～24位字符，數字或字母，不允許純數字或@等特殊字符)
-remarks | String | 否 | 備註(1～24位字符)
-subName | String | 是 | 子賬戶名(7～32位字符，必須包含字母和數字，不支持空格)
-access | String | 否 | 交易權限(只能設置`All`、`Futures`、`Margin`權限，默認爲`All`。`All`-無限制；`Futures`-無法使用槓桿功能；`Margin`-無法使用合約功能）
+請求參數 | 類型 | 含義
+--------- | ------- | -------
+password | String | 密碼(7～24位字符，數字或字母，不允許純數字或@等特殊字符)
+remarks | String | [可選]備註(1～24位字符)
+subName | String | 子賬戶名(7～32位字符，必須包含字母和數字，不支持空格)
+access | String | [可選]交易權限(只能設置`All`、`Futures`、`Margin`權限，默認爲`All`。`All`-無限制；`Futures`-無法使用槓桿功能；`Margin`-無法使用合約功能）
 
 ### 返回值
 字段 | 含義
@@ -1262,10 +1266,10 @@ access | 交易權限
 此接口需要`通用權限`。
 
 ### 請求參數
-請求參數 | 類型 | 是否必須 |  含義
---------- | ------- | ------- | -------
-apiKey | String | 否 | API-Key
-subName | String | 是 | 子賬號名
+請求參數 | 類型 | 含義
+--------- | ------- | -------
+apiKey | String | [可選]API-Key
+subName | String | 子賬號名
 
 ### 返回值
 字段 | 含義
@@ -1305,14 +1309,14 @@ subName | 子賬號名
 此接口需要`通用權限`。
 
 ### 請求參數
-請求參數 | 類型 | 是否必須 |  含義
---------- | ------- | ------- | -------
-subName | String | 是 | 子賬號名, 創建api key的子賬號名稱
-passphrase | String | 是 | 密碼(7～32位字符，不可輸入空格)
-remark | String | 是 | 備註(1～24位字符)
-permission | String | 否 | 權限列表(只能設置General、Trade權限，如："General,Trade”。默認爲General)
-ipWhitelist | String | 否 | IP白名單(每個IP用半角逗號隔開，最多添加20個)
-expire | String | 否 | API過期時間；不過期(默認值)`-1`，30天`30`，90天`90`，180天`180`，360天`360`
+請求參數 | 類型 |  含義
+--------- | ------- | -------
+subName | String | 子賬號名, 創建api key的子賬號名稱
+passphrase | String | 密碼(7～32位字符，不可輸入空格)
+remark | String | 備註(1～24位字符)
+permission | String | [可選]權限列表(只能設置General、Trade權限，如："General,Trade”。默認爲General)
+ipWhitelist | String | [可選]IP白名單(每個IP用半角逗號隔開，最多添加20個)
+expire | String | [可選]API過期時間；不過期(默認值)`-1`，30天`30`，90天`90`，180天`180`，360天`360`
 
 ### 返回值
 字段 | 含義
@@ -1350,14 +1354,14 @@ passphrase | 密碼
 此接口需要`通用權限`。
 
 ### 請求參數
-請求參數 | 類型 | 是否必須 |  含義
---------- | ------- | ------- | -------
-subName | String |  是 | 子賬號名(API Key對應子賬號名)
-apiKey | String | 是 | API-Key(需要修改的API Key)
-passphrase | String | 是 |  密碼(API Key 密碼)
-permission | String |  否 |  權限列表(只能設置General、Trade權限，默認爲General。如果修改，權限將會重置)
-ipWhitelist | String | 否 | IP白名單(每個IP用半角逗號隔開，最多添加20個。如果修改，ip將會重置)
-expire | String | 否 | API過期時間；不過期(默認值)`-1`，30天`30`，90天`90`，180天`180`，360天`360`
+請求參數 | 類型 | 含義
+--------- | ------- | -------
+subName | String | 子賬號名(API Key對應子賬號名)
+apiKey | String | API-Key(需要修改的API Key)
+passphrase | String | 密碼(API Key 密碼)
+permission | String |  [可選]權限列表(只能設置General、Trade權限，默認爲General。如果修改，權限將會重置)
+ipWhitelist | String | [可選]IP白名單(每個IP用半角逗號隔開，最多添加20個。如果修改，ip將會重置)
+expire | String | [可選]API過期時間；不過期(默認值)`-1`，30天`30`，90天`90`，180天`180`，360天`360`
 
 ### 返回值
 字段 | 含義
@@ -1389,11 +1393,11 @@ subName | 子賬號名
 此接口需要`通用權限`。
 
 ### 請求參數
-請求參數 | 類型 | 是否必須 |  含義
---------- | ------- | ------- | -------
-apiKey | String | 是 | API-Key(要刪除的api key)
-passphrase | String | 是 | 密碼(api key的密碼)
-subName | String | 是 | 子賬號名(api key對應子賬號名)
+請求參數 | 類型 | 含義
+--------- | ------- | -------
+apiKey | String | API-Key(要刪除的api key)
+passphrase | String | 密碼(api key的密碼)
+subName | String | 子賬號名(api key對應子賬號名)
 
 ### 返回值
 字段 | 含義
@@ -1577,10 +1581,10 @@ baseAmount | 基準貨幣數量
 ### API權限
 此接口需要`通用權限`
 ### 請求參數
-請求參數 | 類型 | 是否必須 |  含義
---------- | ------- | ------- | -------
-currentPage | Int | 否 | 當前頁；默認爲第`1`頁 
-pageSize | Int | 否 | 每頁數量；默認值`10`，最小值`1`，最大值`100`
+請求參數 | 類型 | 含義
+--------- | ------- | -------
+currentPage | Int | [可選]當前頁；默認爲第`1`頁 
+pageSize | Int | [可選]每頁數量；默認值`10`，最小值`1`，最大值`100`
 ### 返回值
 字段 | 含義
 --------- | -------
@@ -1617,11 +1621,11 @@ baseAmount    | 基準貨幣數量
 
 ### 請求參數
 
-請求參數 | 類型 | 是否必須 |含義
+請求參數 | 類型 | 含義
 --------- | ------- |  ------- | -------
-currency | String | 是 | [幣種](#47f0f7e8df)
-type | String | 是 | 賬戶類型：`MAIN`、`TRADE`、`MARGIN`、`ISOLATED`
-tag | String | 否 | 交易對，賬戶類型爲`ISOLATED`時必填，其他類型不傳，例如：`BTC-USDT`
+currency | String | [幣種](#47f0f7e8df)
+type | String | 賬戶類型：`MAIN`、`TRADE`、`MARGIN`、`ISOLATED`
+tag | String | [可選]交易對，賬戶類型爲`ISOLATED`時必填，其他類型不傳，例如：`BTC-USDT`
 
 ### 返回值
 字段 | 含義
@@ -1660,12 +1664,12 @@ transferable | 可劃轉資金
 ### 請求參數
 請求參數 | 類型 | 含義
 --------- | ------- | -------
-clientOid | String | Client Order Id，客戶端創建的唯一標識，建議使用UUID
+clientOid | String | Client Order Id，客戶端創建的唯一標識，建議使用UUID，最大長度為128位
 currency | String | [幣種](#47f0f7e8df)
 amount | String | 轉賬金額，爲[幣種精度](#47f0f7e8df)正整數倍
 direction | String | OUT — 母賬號轉子賬號<br/>IN — 子賬號轉母賬號
-accountType | String | [可選] 母賬號賬戶類型**MAIN**、**TRADE**、**MARGIN**或**CONTRACT**，
-subAccountType | String |[可選] 子賬號賬戶類型**MAIN**、**TRADE**、**MARGIN**或**CONTRACT**，默認爲**MAIN**。
+accountType | String | [可選] 母賬號賬戶類型**MAIN**、**TRADE**、**MARGIN**或**CONTRACT**，默認爲**MAIN**。
+subAccountType | String | [可選] 子賬號賬戶類型**MAIN**、**TRADE**、**MARGIN**或**CONTRACT**，默認爲**MAIN**。
 subUserId | String | [子賬號的用戶Id](#abcf8983bc)
 
 ### 返回值
@@ -1688,15 +1692,15 @@ orderId | 子母賬號轉賬的訂單ID
 此接口需要`交易權限`。
 
 ### 請求參數
-請求參數 | 類型 | 是否必須 |含義
---------- | ------- |  ------- | -------
-clientOid | String | 是 | Client Order Id，客戶端創建的唯一標識，建議使用UUID
-currency | String | 是 | [幣種](#47f0f7e8df)
-from | String |  是 | 付款賬戶類型: `main`、`trade`、`margin`、`isolated`
-to | String |  是 | 收款賬戶類型: `main`、`trade`、`margin`、`isolated`、`contract`
-amount | String | 是 | 轉賬金額，精度爲[幣種精度](#47f0f7e8df)正整數倍
-fromTag | String | 否 | 交易對，付款賬戶類型爲`isolated`時必填，例如：`BTC-USDT`
-toTag | String | 否 | 交易對，收款賬戶類型爲`isolated`時必填，例如：`BTC-USDT`
+請求參數 | 類型 |含義
+--------- | ------- |  -------
+clientOid | String | Client Order Id，客戶端創建的唯一標識，建議使用UUID，最大長度為128位
+currency | String | [幣種](#47f0f7e8df)
+from | String | 付款賬戶類型: `main`、`trade`、`margin`、`isolated`
+to | String | 收款賬戶類型: `main`、`trade`、`margin`、`isolated`、`contract`
+amount | String | 轉賬金額，精度爲[幣種精度](#47f0f7e8df)正整數倍
+fromTag | String | [可選]交易對，付款賬戶類型爲`isolated`時必填，例如：`BTC-USDT`
+toTag | String | [可選]交易對，收款賬戶類型爲`isolated`時必填，例如：`BTC-USDT`
 
 ### 返回值
 字段 | 含義
@@ -1866,12 +1870,12 @@ chain | 幣種的鏈名。例如，對於USDT，現有的鏈有OMNI、ERC20、TR
 <aside class="notice">這個接口需要使用分頁</aside>
 
 ### 請求參數
-請求參數 | 類型 | 是否必須 | 含義 |
---------- | ------- | -----------| -----------|
-currency | String | 否 | [幣種](#47f0f7e8df)
-startAt| long | 否 | 開始時間（毫秒）
-endAt| long | 否 | 截止時間（毫秒）
-status | String | 否 | 狀態。可選值: `PROCESSING`, `SUCCESS`, `FAILURE`
+請求參數 | 類型 | 含義 
+--------- | ------- | -------
+currency | String | [可選][幣種](#47f0f7e8df)
+startAt| long | [可選]開始時間（毫秒）
+endAt| long | [可選]截止時間（毫秒）
+status | String | [可選]狀態。可選值: `PROCESSING`, `SUCCESS`, `FAILURE`
 
 ### 返回值
 字段 | 含義
@@ -1933,7 +1937,7 @@ updatedAt | 修改時間
 currency | String | [可選] [幣種](#47f0f7e8df)
 status | String | [可選] 狀態。可選值: PROCESSING, SUCCESS, and FAILURE
 startAt| long | [可選] 開始時間（毫秒）
-endAt| long | [可選]  截止時間（毫秒）  
+endAt| long | [可選] 截止時間（毫秒）  
 
 ### 返回值
 字段 | 含義
@@ -1993,12 +1997,12 @@ createAt | 創建時間
 <aside class="notice">這個接口需要使用分頁</aside>
 
 ### 請求參數
-請求參數 | 類型 | 是否必須 | 含義 |
---------- | ------- | -----------| -----------|
-currency | String | 否 | [幣種](#47f0f7e8df)
-status | String | 否 | 狀態。可選值: `PROCESSING`, `WALLET_PROCESSING`, `SUCCESS`, `FAILURE`
-startAt| long | 否 | 開始時間（毫秒）
-endAt| long | 否 | 截止時間（毫秒）
+請求參數 | 類型 | 含義
+--------- | ------- | ---------
+currency | String |  [可選] [幣種](#47f0f7e8df)
+status | String | [可選] 狀態。可選值: `PROCESSING`, `WALLET_PROCESSING`, `SUCCESS`, `FAILURE`
+startAt| long | [可選] 開始時間（毫秒）
+endAt| long | [可選] 截止時間（毫秒）
 
 ### 返回值
 字段 |  含義
@@ -2139,16 +2143,16 @@ chain | 幣種的鏈名。例如，對於USDT，現有的鏈有OMNI、ERC20、TR
 此接口需要`提現權限`。
 
 ### 請求參數
-請求參數 | 類型 | 是否必須 |含義
---------- | ------- |  ------- | -------
-currency  | String | 是 | 幣種
-address   | String | 是 | 提現地址
-amount | number | 是 | 提現總額，必須爲提現精度的正整數倍
-memo | String | 否 | 地址標籤memo(tag)，如果返回爲空，則該幣種沒有memo。對於沒有memo的幣種，在[提現](#081737423d)的時候不可以傳遞memo
-isInner | boolean | 否 | [可選] 是否爲平臺內部提現。默認爲`false`
-remark | String | 否 | [可選] 備註信息
-chain | String | 否 | [可選] 針對一幣多鏈的幣種，推薦指定chain參數；不指定則使用默認鏈；你可通過`GET /api/v2/currencies/{currency}`接口查詢幣種的`chain`值。
-feeDeductType | String | 否 | 提現手續費扣除方式: `INTERNAL` 或 `EXTERNAL` 或不指定 <br/><br/>1. `INTERNAL`- 從提現金額中扣除手續費</br>2. `EXTERNAL`- 從儲蓄賬戶中扣除手續費</br>3. 不指定`feeDeductType`參數時, 當您的儲蓄賬戶的餘額足以支持支付提現手續費時，首先從您的儲蓄賬戶中扣除手續費，反之，從您的提現金額中扣除手續費。比如，您從KuCoin提現 1 個BTC(提現手續費爲：0.0001BTC)，如果您儲蓄賬戶裏的餘額不支持支付手續費，系統將會自動從您的提現金額中扣除手續費，您實際到賬金額爲0.9999個BTC。
+請求參數 | 類型 |含義
+--------- | ------- |  -------
+currency  | String | 幣種
+address   | String | 提現地址
+amount | number | 提現總額，必須爲提現精度的正整數倍
+memo | String | [可選] 地址標籤memo(tag)，如果返回爲空，則該幣種沒有memo。對於沒有memo的幣種，在[提現](#081737423d)的時候不可以傳遞memo
+isInner | boolean | [可選] 是否爲平臺內部提現。默認爲`false`
+remark | String | [可選] 備註信息
+chain | String | [可選] 針對一幣多鏈的幣種，推薦指定chain參數；不指定則使用默認鏈；你可通過`GET /api/v2/currencies/{currency}`接口查詢幣種的`chain`值。
+feeDeductType | String | [可選] 提現手續費扣除方式: `INTERNAL` 或 `EXTERNAL` 或不指定 <br/><br/>1. `INTERNAL`- 從提現金額中扣除手續費</br>2. `EXTERNAL`- 從儲蓄賬戶中扣除手續費</br>3. 不指定`feeDeductType`參數時, 當您的儲蓄賬戶的餘額足以支持支付提現手續費時，首先從您的儲蓄賬戶中扣除手續費，反之，從您的提現金額中扣除手續費。比如，您從KuCoin提現 1 個BTC(提現手續費爲：0.0001BTC)，如果您儲蓄賬戶裏的餘額不支持支付手續費，系統將會自動從您的提現金額中扣除手續費，您實際到賬金額爲0.9999個BTC。
 
 ### 返回值
 字段 | 含義
@@ -2305,7 +2309,7 @@ makerFeeRate | 交易對掛單實際手續費率
 
 | 請求參數      | 類型     | 含義                                                                                    |
 | --------- | ------ | ------------------------------------------------------------------------------------- |
-| clientOid | String | Client Order Id，客戶端創建的唯一標識，建議使用UUID                                                   |
+| clientOid | String | Client Order Id，客戶端創建的唯一標識，建議使用UUID，最大長度為128位                                                  |
 | side      | String | **buy**（買） 或 **sell**（賣）                                                              |
 | symbol    | String | [交易對](#d6402cad41) 比如，ETH-BTC                                                         |
 | type      | String | [可選] 訂單類型 **limit** 和  **market** (默認爲 **limit**)                                     |
@@ -2836,7 +2840,7 @@ funds | String |  否（`size`和`funds`二選一）| 下單資金
 | symbol  | String | [可選] 只返回指定[交易對](#d6402cad41)的訂單信息                                                             |
 | side    | String | [可選] `buy`（買）或 `sell`（賣）                                                                 |
 | type    | String | [可選] 訂單類型: `limit`（限價單）, `market`(市價單), `limit_stop`(限價止盈止損單), `market_stop`（市價止盈止損單） |
-| tradeType    | String | [可選] 交易類型: `TRADE`（現貨交易）, `MARGIN_TRADE`(全倉槓桿交易), `MARGIN_ISOLATED_TRADE`(逐倉槓桿交易)|
+| tradeType    | String | [可選] 交易類型: `TRADE`（現貨交易）, `MARGIN_TRADE`(全倉槓桿交易), `MARGIN_ISOLATED_TRADE`(逐倉槓桿交易), 默認爲`TRADE`。|
 | startAt | long   | [可選] 開始時間（毫秒）                                                                                 |
 | endAt   | long   | [可選]  截止時間（毫秒）                                                                                |
 
@@ -3217,7 +3221,7 @@ funds | String |  否（`size`和`funds`二選一）| 下單資金
 | type    | String | [可選] 訂單類型: **limit（限價單）**, **market(市價單)**, **limit_stop(限價止盈止損單)**, **market_stop（市價止盈止損單）** |
 | startAt | long   | [可選] 開始時間（毫秒）                                                                                 |
 | endAt   | long   | [可選]  截止時間（毫秒）                                                                                |
-| tradeType  | String   | 交易類型: TRADE（現貨交易）, MARGIN_TRADE(槓桿交易)                                                                                 |
+| tradeType  | String   | 交易類型: TRADE（現貨交易）, MARGIN_TRADE(槓桿交易),默認為TRADE.                               |
 ### 返回值
 
 | 字段             | 含義                       |
@@ -3424,7 +3428,7 @@ KuCoin平臺上的訂單分爲兩種類型：Taker 和 Maker。Taker單會與買
 
 | 請求參數  | 類型   | 含義                                                         |
 | --------- | ------ | ------------------------------------------------------------ |
-| clientOid | String | Client Order Id，客戶端創建的唯一標識，建議使用UUID          |
+| clientOid | String | Client Order Id，客戶端創建的唯一標識，建議使用UUID，最大長度為40位          |
 | side      | String | **buy**（買） 或 **sell**（賣）                              |
 | symbol    | String | [交易對](#d6402cad41) 比如，ETH-BTC                          |
 | type      | String | [可選] 訂單類型 **limit** 和 **market**，默認爲**limit**     |
@@ -3909,9 +3913,9 @@ KuCoin平臺上的訂單分爲兩種類型：Taker 和 Maker。Taker單會與買
 `GET /api/v1/symbols`
 
 ### 請求參數
-請求參數 | 類型 | 是否必須 | 含義 |
---------- | ------- | -----------| -----------|
-market | String | 否 | [交易市場](#5666d37373) |
+請求參數 | 類型 | 含義
+--------- | ------- | ---------
+market | String | [可選] [交易市場](#5666d37373) |
 
 ### 返回值
 | 字段             | 含義                            |
@@ -4007,9 +4011,9 @@ market | String | 否 | [交易市場](#5666d37373) |
 `GET /api/v2/symbols`
 
 ### 請求參數
-請求參數 | 類型 | 是否必須 | 含義 |
---------- | ------- | -----------| -----------|
-market | String | 否 | [交易市場](#5666d37373) |
+請求參數 | 類型 | 含義
+--------- | ------- | ----------
+market | String | [可選] [交易市場](#5666d37373)
 
 ### 返回值
 | 字段             | 含義                            |
@@ -5727,9 +5731,9 @@ quoteTransferInEnable | quote幣種轉入開關
 該接口需要`通用權限`。
 
 ### 請求參數
-| 請求參數 | 類型  | 是否必須 | 含義 
-| ------ | ------ | ------ | ------
-balanceCurrency	| String |  否 | 計價幣種，目前只支持`USDT`、`KCS`、`BTC`，不傳默認`BTC`
+| 請求參數 | 類型  | 含義 
+| ------ | ------ | ------
+balanceCurrency	| String | [可選] 計價幣種，目前只支持`USDT`、`KCS`、`BTC`，不傳默認`BTC`
 
 ### 返回值
 | 字段         | 含義                     
@@ -5785,9 +5789,9 @@ availableBalance | 可用餘額（總資產-凍結）
 該接口需要`通用權限`。
 
 ### 請求參數
-| 請求參數 | 類型  | 是否必須 | 含義 
-| ------ | ------ | ------ | ------
-symbol | String | 是 | 交易對，例如：`BTC-USDT`
+| 請求參數 | 類型  | 含義 
+| ------ | ------ | ------
+symbol | String | 交易對，例如：`BTC-USDT`
 
 ### 返回值
 | 字段         | 含義                     
@@ -5825,14 +5829,14 @@ borrowableAmount | 可借數量
 該接口需要`交易權限`。
 
 ### 請求參數
-| 請求參數 | 類型  | 是否必須 | 含義 
-| ------ | ------ | ------ | ------
-symbol | String | 是 | 交易對，例如：`BTC-USDT`
-currency | String | 是 | 借入幣種
-size | BigDecimal | 是 | 借入數量
-borrowStrategy | String | 是 | 借入策略：`FOK`、`IOC`
-maxRate | BigDecimal | 否 | 最大利率, 不填則表示接受所有利率
-period | String | 否 | 期限,單位爲:天, 不填則表示接受所有期限,逗號隔開,如: `7`,`14`,`28`
+| 請求參數 | 類型  | 含義 
+| ------ | ------ | ------
+symbol | String | 交易對，例如：`BTC-USDT`
+currency | String | 借入幣種
+size | BigDecimal | 借入數量
+borrowStrategy | String | 借入策略：`FOK`、`IOC`
+maxRate | BigDecimal | [可選] 最大利率, 不填則表示接受所有利率
+period | String | [可選] 期限,單位爲:天, 不填則表示接受所有期限,逗號隔開,如: `7`,`14`,`28`
 
 ### 返回值
 | 字段         | 含義                     
@@ -5896,12 +5900,12 @@ actualBorrowSize | 實際借入金額
 該接口需要`通用權限`。
 
 ### 請求參數
-| 請求參數 | 類型  | 是否必須 | 含義 
-| ------ | ------ | ------ | ------
-symbol | String | 否 | 交易對,例如：`BTC-USDT`
-currency | String | 否 | 幣種
-pageSize | int | 否 | 分頁每頁大小[`10`-`50`]
-currentPage | int | 否 | 當前頁碼[`1`-`100`]
+| 請求參數 | 類型  | 含義 
+| ------ | ------ | ------
+symbol | String | [可選] 交易對,例如：`BTC-USDT`
+currency | String | [可選] 幣種
+pageSize | int | [可選] 分頁每頁大小[`10`-`50`]
+currentPage | int | [可選] 當前頁碼[`1`-`100`]
 
 ### 返回值
 | 字段         | 含義                     
@@ -5968,12 +5972,12 @@ dailyInterestRate | 日利率
 該接口需要`通用權限`。
 
 ### 請求參數
-| 請求參數 | 類型  | 是否必須 | 含義 
-| ------ | ------ | ------ | ------
-symbol | String | 否 | 交易對,例如：`BTC-USDT`
-currency | String | 否 | 幣種
-pageSize | int | 否 | 分頁每頁大小[`10`-`50`]
-currentPage | int | 否 | 當前頁碼[`1`-`100`]
+| 請求參數 | 類型  | 含義 
+| ------ | ------ | ------
+symbol | String | [可選] 交易對,例如：`BTC-USDT`
+currency | String | [可選] 幣種
+pageSize | int | [可選] 分頁每頁大小[`10`-`50`]
+currentPage | int | [可選] 當前頁碼[`1`-`100`]
 
 ### 返回值
 | 字段         | 含義                     
@@ -6015,12 +6019,12 @@ repayFinishAt | 還款完成時間
 該接口需要`交易權限`。
 
 ### 請求參數
-| 請求參數 | 類型  | 是否必須 | 含義 
-| ------ | ------ | ------ | ------
-symbol | String | 是 | 交易對,例如：`BTC-USDT`
-currency | String | 是 | 還款幣種
-size | BigDecimal | 是 | 還款數量
-seqStrategy | String | 是 | 還款順序策略,`RECENTLY_EXPIRE_FIRST`:到期時間優先,即優先歸還最快到期的貸款, `HIGHEST_RATE_FIRST`:利率優先，即優先歸還利率高的貸款
+| 請求參數 | 類型  | 含義 
+| ------ | ------ | ------
+symbol | String | 交易對,例如：`BTC-USDT`
+currency | String | 還款幣種
+size | BigDecimal | 還款數量
+seqStrategy | String | 還款順序策略,`RECENTLY_EXPIRE_FIRST`:到期時間優先,即優先歸還最快到期的貸款, `HIGHEST_RATE_FIRST`:利率優先，即優先歸還利率高的貸款
 
 ### 返回值
 當系統返回HTTP狀態碼`200`和系統代碼`200000`時，表示成功
@@ -6051,12 +6055,12 @@ seqStrategy | String | 是 | 還款順序策略,`RECENTLY_EXPIRE_FIRST`:到期�
 該接口需要`交易權限`。
 
 ### 請求參數
-| 請求參數 | 類型  | 是否必須 | 含義 
-| ------ | ------ | ------ | ------
-symbol | String | 是 | 交易對,例如：`BTC-USDT`
-currency | String | 是 | 還款幣種
-size | BigDecimal | 是 | 還款數量
-loanId | String | 是 | 交易單號,設置該字段後，順序策略無效
+| 請求參數 | 類型  | 含義 
+| ------ | ------ | ------
+symbol | String | 交易對,例如：`BTC-USDT`
+currency | String | 還款幣種
+size | BigDecimal | 還款數量
+loanId | String | 交易單號,設置該字段後，順序策略無效
 
 ### 返回值
 當系統返回HTTP狀態碼`200`和系統代碼`200000`時，表示成功
