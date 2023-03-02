@@ -5102,6 +5102,7 @@ This endpoint requires the **"Trade"** permission.
 |----- |-------------|
 | orderId | Borrow order ID |
 | currency | Currency to borrow  |
+| actualSize | Amount actually borrowed  |
 
 ## Get Borrow Order
 ```json
@@ -5135,7 +5136,7 @@ Request via this endpoint to get the info of the borrow order through the **orde
 `GET /api/v1/margin/borrow?orderId=123456789`
 
 ### API KEY PERMISSIONS
-This endpoint requires the **"Trade"** permission.
+This endpoint requires the **"General"** permission.
 
 ### PARAMETERS
 |Param | Type | Description|
@@ -5446,7 +5447,7 @@ Active lend orders include orders unfilled, partially filled and uncanceled.
 `GET /api/v1/margin/lend/active?currency=BTC&currentPage=1&pageSize=50`
 
 ### API KEY PERMISSIONS
-This endpoint requires the **"Trade"** permission.
+This endpoint requires the **"General"** permission.
 
 ### PARAMETERS
 |Param | Type | Description |
@@ -5497,7 +5498,7 @@ Lent order history involves orders canceled or fully filled.
 `GET /api/v1/margin/lend/done?currency=BTC&currentPage=1&pageSize=50`
 
 ### API KEY PERMISSIONS
-This endpoint requires the **"Trade"** permission.
+This endpoint requires the **"General"** permission.
 
 ### PARAMETERS
 |Param | Type | Description |
@@ -5549,7 +5550,7 @@ When a lending order is executed, the system will generate the lending history. 
 `GET /api/v1/margin/lend/trade/unsettled?currency=BTC&currentPage=1&pageSize=50`
 
 ### API KEY PERMISSIONS
-This endpoint requires the **"Trade"** permission.
+This endpoint requires the **"General"** permission.
 
 ### PARAMETERS
 |Param | Type | Description |
@@ -5603,7 +5604,7 @@ The settled lend orders include orders repaid fully or partially before or at th
 `GET /api/v1/margin/lend/trade/settled?currency=BTC&currentPage=1&pageSize=50`
 
 ### API KEY PERMISSIONS
-This endpoint requires the **"Trade"** permission.
+This endpoint requires the **"General"** permission.
 
 ### PARAMETERS
 |Param | Type | Description |
@@ -5645,7 +5646,7 @@ Request via this endpoint to get the lending history of the main account.
 `GET /api/v1/margin/lend/assets?currency=BTC`
 
 ### API KEY PERMISSIONS
-This endpoint requires the **"Trade"** permission.
+This endpoint requires the **"General"** permission.
 
 ### PARAMETERS
 |Param | Type | Description |

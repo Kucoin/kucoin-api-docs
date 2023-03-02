@@ -4976,6 +4976,7 @@ turnover | 成交額
 | ----------- | -------- |
 | orderId | 借入委託id |
 | currency | 借入幣種 |
+| actualSize | 實際借入的金額 |
 
 ## 查詢借入委託
 ```json
@@ -5006,7 +5007,7 @@ turnover | 成交額
 `GET /api/v1/margin/borrow?orderId=123456789`
 
 ### API權限
-該接口需要**交易權限**。
+該接口需要**通用權限**。
 
 ### 請求參數
 | 請求參數   | 類型     | 含義        |
@@ -5310,7 +5311,7 @@ turnover | 成交額
 `GET /api/v1/margin/lend/active?currency=BTC&currentPage=1&pageSize=50`
 
 ### API權限
-該接口需要**交易權限**。
+該接口需要**通用權限**。
 
 ### 請求參數
 | 請求參數 | 類型   | 含義        |
@@ -5361,7 +5362,7 @@ turnover | 成交額
 `GET /api/v1/margin/lend/done?currency=BTC&currentPage=1&pageSize=50`
 
 ### API權限
-該接口需要**交易權限**。
+該接口需要**通用權限**。
 
 ### 請求參數
 | 請求參數 | 類型   | 含義        |
@@ -5413,7 +5414,7 @@ turnover | 成交額
 `GET /api/v1/margin/lend/trade/unsettled?currency=BTC&currentPage=1&pageSize=50`
 
 ### API權限
-該接口需要**交易權限**。
+該接口需要**通用權限**。
 
 ### 請求參數
 | 請求參數 | 類型   | 含義        |
@@ -5466,7 +5467,7 @@ turnover | 成交額
 `GET /api/v1/margin/lend/trade/settled?currency=BTC&currentPage=1&pageSize=50`
 
 ### API權限
-該接口需要**交易權限**。
+該接口需要**通用權限**。
 
 ### 請求參數
 | 請求參數 | 類型   | 含義        |
@@ -5508,7 +5509,7 @@ turnover | 成交額
 `GET /api/v1/margin/lend/assets?currency=BTC`
 
 ### API權限
-該接口需要**交易權限**。
+該接口需要**通用權限**。
 
 ### 請求參數
 | 請求參數 | 類型   | 含義        |
