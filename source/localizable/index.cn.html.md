@@ -12,6 +12,32 @@ includes:
 search: true
 ---
 
+# 高頻交易
+
+## 簡介
+
+高頻帳戶現已正式推出，該帳戶是跟main、trade、margin、future並列的帳戶，type為：trade_hf（WEB端叫做Pro Account）。
+
+目前高頻帳戶僅支持現貨，暫時不支持槓桿，也不支持合約。
+
+相對於普通的trade帳戶，使用trade_hf帳戶交易會有更低等延遲，並且擁有更寬鬆的頻率限制。
+
+如果你是現貨高頻交易者，強烈建議更新現貨api code到高頻帳戶上去。
+
+## 使用教程
+
+高頻帳戶目前的簽名方式等，和trade帳戶完全一致。新增了下單撤單等接口，其他數據仍然使用現有api文檔中等接口。
+
+以下是高频账户的使用教程：
+
+高頻API文檔地址：[https://docs.kucoin.com/spot-hf/#quick-start](https://docs.kucoin.com/spot-hf/#quick-start)
+
+快速開始：
+
+使用POST /api/v2/accounts/inner-transfer劃轉資金到高頻帳戶，劃轉完成後高頻帳戶即可自動開通
+
+使用POST /api/v1/hf/orders高頻帳戶下單交易即可
+
 # 快速開始
 
 ## 簡介
@@ -31,6 +57,12 @@ API分爲兩部分：**REST API和Websocket 實時數據流**
 爲了您能獲取到最新的API 變更的通知，請在 [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs)添加關注【Watch】
 
 **爲了進一步提升API安全性，KuCoin已經升級到了V2版本的API-KEY，驗籤邏輯也發生了一些變化，建議到[API管理頁面](https://www.kucoin.cc/account/api)添加並更換到新的API-KEY。KuCoin已經停止對老版本API-KEY的支持。[查看新的簽名方式](#99f215f459)**
+
+
+**02/03/23**:
+- 【新增】新上線trade_hf類型，並推出高頻帳戶一系列接口
+- 【修改】`GET /api/v1/margin/lend/active`等四個接口由交易權限改為通用權限
+
 
 **17/02/23**:
 
@@ -7067,6 +7099,241 @@ Topic: `/spotMarket/tradeOrders`
 <aside class="spacer4"></aside>
 <aside class="spacer4"></aside>
 <aside class="spacer2"></aside>
+
+
+## 交易私有订单变更事件V2
+
+### Topic: /spotMarket/tradeOrdersV2
+
+推送频率: 实时推送
+该topic将推送所有有关您的订单的变更事件。
+
+### 订单状态
+
+"match": 订单为taker时与买卖盘中订单成交，此时该taker订单状态为match；
+
+"open": 订单存在于买卖盘中；
+
+"done": 订单完成；
+
+"new": 订单进入撮合；
+
+#### received
+订单进入撮合系统时发出的消息。
+
+```json
+    {
+        "type":"message",
+        "topic":"/spotMarket/tradeOrdersV2",
+        "subject":"orderChange",
+        "channelType":"private",
+        "data":{
+            "symbol":"KCS-USDT",
+            "orderType":"limit",
+            "side":"buy",
+            "orderId":"5efab07953bdea00089965d2",
+            "type":"received",
+            "orderTime":1593487481683297666,
+            "price":"0.937",
+            "clientOid":"1593487481000906",
+            "status":"new",
+            "originSize": "0.1", // 原始数量
+            "originFunds": "0.1", // 市价单原始资金
+            "ts":1593487481683297666
+    }
+}
+```
+
+订单刚进入撮合系统，还未与对手盘做撮合逻辑时，会推送一条消息类型为"received"、订单状态为"new"的私有消息
+
+
+<aside class="spacer4"></aside>
+<aside class="spacer4"></aside>
+<aside class="spacer2"></aside>
+
+#### open
+订单进入买卖盘时发出的消息。
+```json
+    {
+        "type":"message",
+        "topic":"/spotMarket/tradeOrdersV2",
+        "subject":"orderChange",
+        "channelType":"private",
+        "data":{
+            "symbol":"KCS-USDT",
+            "orderType":"limit",
+            "side":"buy",
+            "orderId":"5efab07953bdea00089965d2",
+            "type":"open",
+            "orderTime":1593487481683297666,
+            "size":"0.1",
+            "filledSize":"0",
+            "price":"0.937",
+            "clientOid":"1593487481000906",
+            "remainSize":"0.1",
+            "status":"open",
+            "canceledSize": "0.1", // 累计取消数量
+            "canceledFunds": "0.1", // 市价单累计取消资金
+            "originSize": "0.1", // 原始数量
+            "originFunds": "0.1", // 市价单原始资金
+            "ts":1593487481683297666
+       }
+}
+```
+
+
+<aside class="spacer4"></aside>
+<aside class="spacer4"></aside>
+<aside class="spacer2"></aside>
+
+#### match
+订单成交时发出的消息
+
+```json
+    {
+        "type":"message",
+        "topic":"/spotMarket/tradeOrdersV2",
+        "subject":"orderChange",
+        "channelType":"private",
+        "data": {
+          "symbol": "KCS-USDT",
+          "orderType": "limit",
+          "side": "sell",
+          "orderId": "5efab07953bdea00089965fa",
+          "liquidity": "taker",
+          "type": "match",
+          "orderTime": 1593487482038606180,
+          "size": "0.1",
+          "filledSize": "0.1",
+          "price": "0.938",
+          "matchPrice": "0.96738",
+          "matchSize": "0.1",
+          "tradeId": "5efab07a4ee4c7000a82d6d9",
+          "clientOid": "1593487481000313",
+          "remainSize": "0",
+          "status": "match",
+          "canceledSize": "0.1", // 累计取消数量
+          "canceledFunds": "0.1", // 市价单累计取消资金
+          "originSize": "0.1", // 原始数量
+          "originFunds": "0.1", // 市价单原始资金
+          "ts": 1593487482038606180
+        }
+    }
+```
+
+
+<aside class="spacer4"></aside>
+<aside class="spacer4"></aside>
+<aside class="spacer2"></aside>
+
+#### filled
+订单因成交后状态变为DONE时发出的消息
+```json
+    {
+        "type":"message",
+        "topic":"/spotMarket/tradeOrdersV2",
+        "subject":"orderChange",
+        "channelType":"private",
+        "data":{
+            "symbol":"KCS-USDT",
+            "orderType":"limit",
+            "side":"sell",
+            "orderId":"5efab07953bdea00089965fa",
+            "type":"filled",
+            "orderTime":1593487482038606180,
+            "size":"0.1",
+            "filledSize":"0.1",
+            "price":"0.938",
+            "clientOid":"1593487481000313",
+            "remainSize":"0",
+            "status":"done",
+            "canceledSize": "0.1", // 累计取消数量
+            "canceledFunds": "0.1", // 市价单累计取消资金
+            "originSize": "0.1", // 原始数量
+            "originFunds": "0.1", // 市价单原始资金
+            "ts":1593487482038606180
+      }
+    }
+```
+
+
+<aside class="spacer4"></aside>
+<aside class="spacer4"></aside>
+<aside class="spacer2"></aside>
+
+#### canceled
+订单因被取消后状态变为DONE时发出的消息
+```json
+    {
+    "type":"message",
+    "topic":"/spotMarket/tradeOrdersV2",
+    "subject":"orderChange",
+    "channelType":"private",
+    "data":{
+        "symbol":"KCS-USDT",
+        "orderType":"limit",
+        "side":"buy",
+        "orderId":"5efab07953bdea00089965d2",
+        "type":"canceled",
+        "orderTime":1593487481683297666,
+        "size":"0.1",
+        "filledSize":"0",
+        "price":"0.937",
+        "clientOid":"1593487481000906",
+        "remainSize":"0",
+        "status":"done",
+        "canceledSize": "0.1", // 累计取消数量
+        "canceledFunds": "0.1", // 市价单累计取消资金
+        "originSize": "0.1", // 原始数量
+        "originFunds": "0.1", // 市价单原始资金
+        "ts":1593487481893140844
+        }
+    }
+```
+
+<aside class="spacer4"></aside>
+<aside class="spacer4"></aside>
+<aside class="spacer2"></aside>
+
+update
+
+订单因被修改发出的消息
+
+```json
+{
+    "type":"message",
+    "topic":"/spotMarket/tradeOrdersV2",
+    "subject":"orderChange",
+    "channelType":"private",
+    "data":{
+        "symbol":"KCS-USDT",
+        "orderType":"limit",
+        "side":"buy",
+        "orderId":"5efab13f53bdea00089971df",
+        "type":"update",
+        "oldSize":"0.1",
+        "orderTime":1593487679693183319,
+        "size":"0.06",
+        "filledSize":"0",
+        "price":"0.937",
+        "clientOid":"1593487679000249",
+        "remainSize":"0.06",
+        "status":"open",
+        "canceledSize": "0.1", // 累计取消数量
+        "canceledFunds": "0.1", // 市价单累计取消资金
+        "originSize": "0.1", // 原始数量
+        "originFunds": "0.1", // 市价单原始资金
+        "ts":1593487682916117521
+    }
+}
+```
+
+
+
+<aside class="spacer4"></aside>
+<aside class="spacer4"></aside>
+<aside class="spacer2"></aside>
+
 
 
 ## 餘額變更事件

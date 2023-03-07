@@ -12,6 +12,36 @@ includes:
 search: true
 ---
 
+
+# HFTrading
+
+## Introduction
+
+The high-frequency account is now officially launched. This account is an account parallel to main, trade, margin, and future. The type is: trade_hf (the WEB side is called Pro Account).
+
+At present, high-frequency accounts only support spot, and do not support margin or future for the time being.
+
+Compared with ordinary trade accounts, trading with trade_hf account has lower latency and has a looser frequency limit.
+
+If you are a spot high-frequency trader, it is strongly recommended to update the spot api code to the high-frequency account.
+
+## Tutorial
+
+The current signature method of the high-frequency account is exactly the same as that of the trade account. Interfaces such as order placement and cancellation have been added, and other data still use the existing medium interface of the api document.
+
+The following is a tutorial on the use of high-frequency accounts:
+
+High frequency API document: [https://docs.kucoin.com/spot-hf/#quick-start](https://docs.kucoin.com/spot-hf/#quick-start)
+
+Quick start:
+
+Use POST /api/v2/accounts/inner-transfer to transfer funds to the high-frequency account, and the high-frequency account will be automatically created after the transfer is completed
+
+Use POST /api/v1/hf/orders to place orders for high-frequency accounts
+
+
+
+
 # General
 
 ## Introduction
@@ -29,6 +59,11 @@ The WebSocket contains two sections: Public Channels and Private Channels
 To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
 **To reinforce the security of the API, KuCoin upgraded the API key to version 2.0, the validation logic has also been changed. It is recommended to [create](https://www.kucoin.com/account/api) and update your API key to version 2.0. The API key of version 1.0 is invalid. [Check new signing method](#signing-a-message)**
+
+**02/03/23**:
+
+- Add the trade_hf type, and launched a series of endpoint for high-frequency accounts
+- Modify `GET /api/v1/margin/lend/active` and  other four endpoint are changed from trade authority to general authority
 
 **17/02/23**:
 
@@ -7048,7 +7083,7 @@ Subscribe to this topic to get the order book changes on margin trade.
 Subscribe to private channels require `privateChannel=“true”`.
 
 
-## Private Order Change Events
+## Private Order Change
 
 Topic: `/spotMarket/tradeOrders`
 
@@ -7221,6 +7256,248 @@ when the order has been updated;
 
 <aside class="spacer4"></aside>
 <aside class="spacer4"></aside>
+
+
+## Private Order Change V2
+
+### Topic: /spotMarket/tradeOrdersV2
+
+* Push frequency: `real-time`
+
+This topic will push all change events of your orders.
+
+
+**Order Status**
+
+“match”: when taker order executes with orders in the order book, the taker order status is “match”;
+
+“open”: the order is in the order book;
+
+“done”: the order is fully executed successfully;
+
+"new": the order enters the matching system;
+
+
+#### received
+The message sent when the order enters the matching system.
+
+```json
+    {
+        "type":"message",
+        "topic":"/spotMarket/tradeOrdersV2",
+        "subject":"orderChange",
+        "channelType":"private",
+        "data":{
+            "symbol":"KCS-USDT",
+            "orderType":"limit",
+            "side":"buy",
+            "orderId":"5efab07953bdea00089965d2",
+            "type":"received",
+            "orderTime":1593487481683297666,
+            "price":"0.937",
+            "clientOid":"1593487481000906",
+            "status":"new",
+            "originSize": "0.1", // original quantity
+            "originFunds": "0.1", // The original funds of the market order
+            "ts":1593487481683297666
+    }
+}
+```
+
+When the order has just entered the matching system and has not yet done matching logic with the counterparty, a private message with the message type "received" and the order status "new" will be pushed.
+
+
+<aside class="spacer4"></aside>
+<aside class="spacer4"></aside>
+<aside class="spacer2"></aside>
+
+#### open
+when the order enters into the order book;
+
+```json
+    {
+        "type":"message",
+        "topic":"/spotMarket/tradeOrdersV2",
+        "subject":"orderChange",
+        "channelType":"private",
+        "data":{
+            "symbol":"KCS-USDT",
+            "orderType":"limit",
+            "side":"buy",
+            "orderId":"5efab07953bdea00089965d2",
+            "type":"open",
+            "orderTime":1593487481683297666,
+            "size":"0.1",
+            "filledSize":"0",
+            "price":"0.937",
+            "clientOid":"1593487481000906",
+            "remainSize":"0.1",
+            "status":"open",
+            "canceledSize": "0.1", // Cumulative number of cancellations
+            "canceledFunds": "0.1", // Market order accumulative cancellation funds
+            "originSize": "0.1", // original quantity
+            "originFunds": "0.1", // Market order original funds
+            "ts":1593487481683297666
+       }
+}
+```
+
+
+<aside class="spacer4"></aside>
+<aside class="spacer4"></aside>
+<aside class="spacer2"></aside>
+
+#### match
+when the order has been executed and its status was changed into DONE;
+
+```json
+    {
+        "type":"message",
+        "topic":"/spotMarket/tradeOrdersV2",
+        "subject":"orderChange",
+        "channelType":"private",
+        "data": {
+          "symbol": "KCS-USDT",
+          "orderType": "limit",
+          "side": "sell",
+          "orderId": "5efab07953bdea00089965fa",
+          "liquidity": "taker",
+          "type": "match",
+          "orderTime": 1593487482038606180,
+          "size": "0.1",
+          "filledSize": "0.1",
+          "price": "0.938",
+          "matchPrice": "0.96738",
+          "matchSize": "0.1",
+          "tradeId": "5efab07a4ee4c7000a82d6d9",
+          "clientOid": "1593487481000313",
+          "remainSize": "0",
+          "status": "match",
+          "canceledSize": "0.1", // Cumulative number of cancellations
+          "canceledFunds": "0.1", // Market order accumulative cancellation funds
+          "originSize": "0.1", // original quantity
+          "originFunds": "0.1", // Market order original funds
+          "ts": 1593487482038606180
+        }
+    }
+```
+
+
+<aside class="spacer4"></aside>
+<aside class="spacer4"></aside>
+<aside class="spacer2"></aside>
+
+#### filled
+The message sent when the status of the order changes to DONE after the transaction
+
+```json
+    {
+        "type":"message",
+        "topic":"/spotMarket/tradeOrdersV2",
+        "subject":"orderChange",
+        "channelType":"private",
+        "data":{
+            "symbol":"KCS-USDT",
+            "orderType":"limit",
+            "side":"sell",
+            "orderId":"5efab07953bdea00089965fa",
+            "type":"filled",
+            "orderTime":1593487482038606180,
+            "size":"0.1",
+            "filledSize":"0.1",
+            "price":"0.938",
+            "clientOid":"1593487481000313",
+            "remainSize":"0",
+            "status":"done",
+            "canceledSize": "0.1", // Cumulative number of cancellations
+            "canceledFunds": "0.1", // Market order accumulative cancellation funds
+            "originSize": "0.1", // original quantity
+            "originFunds": "0.1", // Market order original funds
+            "ts":1593487482038606180
+      }
+    }
+```
+
+
+<aside class="spacer4"></aside>
+<aside class="spacer4"></aside>
+<aside class="spacer2"></aside>
+
+#### canceled
+The message sent when the status of the order changes to DONE due to being canceled
+
+```json
+    {
+    "type":"message",
+    "topic":"/spotMarket/tradeOrdersV2",
+    "subject":"orderChange",
+    "channelType":"private",
+    "data":{
+        "symbol":"KCS-USDT",
+        "orderType":"limit",
+        "side":"buy",
+        "orderId":"5efab07953bdea00089965d2",
+        "type":"canceled",
+        "orderTime":1593487481683297666,
+        "size":"0.1",
+        "filledSize":"0",
+        "price":"0.937",
+        "clientOid":"1593487481000906",
+        "remainSize":"0",
+        "status":"done",
+        "canceledSize": "0.1", // Cumulative number of cancellations
+        "canceledFunds": "0.1", // Market order accumulative cancellation funds
+        "originSize": "0.1", // original quantity
+        "originFunds": "0.1", // Market order original funds
+        "ts":1593487481893140844
+        }
+    }
+```
+
+<aside class="spacer4"></aside>
+<aside class="spacer4"></aside>
+<aside class="spacer2"></aside>
+
+update
+
+The message sent by the order due to modification
+
+```json
+{
+    "type":"message",
+    "topic":"/spotMarket/tradeOrdersV2",
+    "subject":"orderChange",
+    "channelType":"private",
+    "data":{
+        "symbol":"KCS-USDT",
+        "orderType":"limit",
+        "side":"buy",
+        "orderId":"5efab13f53bdea00089971df",
+        "type":"update",
+        "oldSize":"0.1",
+        "orderTime":1593487679693183319,
+        "size":"0.06",
+        "filledSize":"0",
+        "price":"0.937",
+        "clientOid":"1593487679000249",
+        "remainSize":"0.06",
+        "status":"open",
+        "canceledSize": "0.1", // Cumulative number of cancellations
+        "canceledFunds": "0.1", // Market order accumulative cancellation funds
+        "originSize": "0.1", // original quantity
+        "originFunds": "0.1", // Market order original funds
+        "ts":1593487682916117521
+    }
+}
+```
+
+
+
+<aside class="spacer4"></aside>
+<aside class="spacer4"></aside>
+<aside class="spacer2"></aside>
+
+
 
 ## Account Balance Notice
 ```json
