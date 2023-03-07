@@ -12,6 +12,36 @@ includes:
 search: true
 ---
 
+
+# HFTrading
+
+## Introduction
+
+The high-frequency account is now officially launched. This account is an account parallel to main, trade, margin, and future. The type is: trade_hf (the WEB side is called Pro Account).
+
+At present, high-frequency accounts only support spot, and do not support margin or future for the time being.
+
+Compared with ordinary trade accounts, trading with trade_hf account has lower latency and has a looser frequency limit.
+
+If you are a spot high-frequency trader, it is strongly recommended to update the spot api code to the high-frequency account.
+
+## Tutorial
+
+The current signature method of the high-frequency account is exactly the same as that of the trade account. Interfaces such as order placement and cancellation have been added, and other data still use the existing medium interface of the api document.
+
+The following is a tutorial on the use of high-frequency accounts:
+
+High frequency API document: [https://docs.kucoin.com/spot-hf/#quick-start](https://docs.kucoin.com/spot-hf/#quick-start)
+
+Quick start:
+
+Use POST /api/v2/accounts/inner-transfer to transfer funds to the high-frequency account, and the high-frequency account will be automatically created after the transfer is completed
+
+Use POST /api/v1/hf/orders to place orders for high-frequency accounts
+
+
+
+
 # General
 
 ## Introduction
@@ -29,6 +59,15 @@ The WebSocket contains two sections: Public Channels and Private Channels
 To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs Github](https://github.com/Kucoin/kucoin-api-docs).
 
 **To reinforce the security of the API, KuCoin upgraded the API key to version 2.0, the validation logic has also been changed. It is recommended to [create](https://www.kucoin.com/account/api) and update your API key to version 2.0. The API key of version 1.0 is invalid. [Check new signing method](#signing-a-message)**
+
+**02/03/23**:
+
+- Add the trade_hf type, and launched a series of endpoint for high-frequency accounts
+- Modify `GET /api/v1/margin/lend/active` and  other four endpoint are changed from trade authority to general authority
+
+**17/02/23**:
+
+- Add the `uid`、`access` field to the Topic of `GET /api/v1/sub/user`.
 
 **11/08/22**:
 
@@ -914,10 +953,10 @@ This endpoint can be used to get a paginated list of sub-accounts. Pagination is
 ### API KEY PERMISSIONS
 This endpoint requires the `General` permission.
 ### PARAMETERS
-Param | Type | Mandatory | Description
---------- | ------- | ------- | -------
-currentPage | Int | No | Current request page. Default is `1`
-pageSize  | Int  | No | Number of results per request. Minimum is `1`, maximum is `100`, default is `10`.
+Param | Type | Description
+--------- | ------- | -------
+currentPage | Int | *[Optional]*   Current request page. Default is `1`
+pageSize  | Int  | *[Optional]*   Number of results per request. Minimum is `1`, maximum is `100`, default is `10`.
 ### RESPONSES
 Field | Description
 --------- | -------
@@ -1034,9 +1073,7 @@ holds | Funds on hold (not available for use)
 available | Funds available to withdraw or trade
 
 ## Get Account Ledgers
-
-This interface is for the history of deposit/withdrawal of all accounts, supporting inquiry of various currencies. 
-
+This interface is for transaction records from all types of your accounts, supporting inquiry of various currencies.
 Items are paginated and sorted to show the latest first. See the [Pagination](#pagination) section for retrieving additional entries after the first page.
 
 ```json
@@ -1234,12 +1271,12 @@ This endpoint can be used to create sub-accounts.
 This endpoint requires the `General` permission.
 
 ### PARAMETERS
-Param | Type | Mandatory | Description
---------- | ------- | ------- | -------
-password | String | Yes | Password(7-24 characters, must contain letters and numbers, cannot only contain numbers or include special characters)
-remarks | String | No | Remarks(1~24 characters)
-subName | String | Yes | Sub-account name(must contain 7-32 characters, at least one number and one letter. Cannot contain any spaces.)
-access | String | No | Permission (This can only be set to `All`, `Futures`, or `Margin`, default is `All`. `All`: unrestricted; `Futures`: cannot use margin features; `Margin`: cannot use futures features.)
+Param | Type | Description
+--------- | ------- | -------
+password | String | Password(7-24 characters, must contain letters and numbers, cannot only contain numbers or include special characters)
+remarks | String | *[Optional]*   Remarks(1~24 characters)
+subName | String | Sub-account name(must contain 7-32 characters, at least one number and one letter. Cannot contain any spaces.)
+access | String | *[Optional]*   Permission (This can only be set to `All`, `Futures`, or `Margin`, default is `All`. `All`: unrestricted; `Futures`: cannot use margin features; `Margin`: cannot use futures features.)
 
 ### RESPONSES
 Field | Description
@@ -1277,10 +1314,10 @@ This endpoint can be used to obtain a list of Spot APIs pertaining to a sub-acco
 This endpoint requires the `General` permission.
 
 ### PARAMETERS
-Param | Type | Mandatory | Description
---------- | ------- | ------- | -------
-apiKey | String | No | API-Key.
-subName | String | Yes | Sub-account name.
+Param | Type | Description
+--------- | ------- | ------- 
+apiKey | String | *[Optional]* API-Key.
+subName | String | Sub-account name.
 
 ### RESPONSES
 Field | Description
@@ -1321,14 +1358,14 @@ This endpoint can be used to create Spot APIs for sub-accounts.
 This endpoint requires the `General` permission.
 
 ### PARAMETERS
-Param | Type | Mandatory | Description
---------- | ------- | ------- | -------
-subName | String | Yes | Sub-account name, create sub account name of API Key.
-passphrase | String | Yes | Password(Must contain 7-32 characters. Cannot contain any spaces.)
-remark | String | Yes | Remarks(1~24 characters)
-permission | String | No | Permissions(Only "General" and "Trade" permissions can be set, such as "General, Trade". The default is "General")
-ipWhitelist | String | No | IP whitelist(You may add up to 20 IPs. Use a halfwidth comma to each IP)
-expire | String | No | API expiration time; Never expire(default)`-1`，30Day`30`，90Day`90`，180Day`180`，360Day`360`
+Param | Type | Description
+--------- | ------- | -------
+subName | String | Sub-account name, create sub account name of API Key.
+passphrase | String | Password(Must contain 7-32 characters. Cannot contain any spaces.)
+remark | String | Remarks(1~24 characters)
+permission | String | *[Optional]* Permissions(Only "General" and "Trade" permissions can be set, such as "General, Trade". The default is "General")
+ipWhitelist | String | *[Optional]* IP whitelist(You may add up to 20 IPs. Use a halfwidth comma to each IP)
+expire | String | *[Optional]* API expiration time; Never expire(default)`-1`，30Day`30`，90Day`90`，180Day`180`，360Day`360`
 
 ### RESPONSES
 Field | Description
@@ -1366,14 +1403,14 @@ This endpoint can be used to modify sub-account Spot APIs.
 This endpoint requires the `General` permission.
 
 ### PARAMETERS
-Param | Type | Mandatory | Description
---------- | ------- | ------- | -------
-subName | String | Yes | Sub-account name
-apiKey | String | Yes | API-Key(Sub-account APIKey)
-passphrase | String | Yes | Password of API key
-permission | String | No | Permission list.If modified, permissions will be reset.
-ipWhitelist | String | No | IP whitelist(you may add up to 20 IPs. Use a halfwidth comma to each IP.If modified, the IP will be reset.)
-expire | String | No | API expiration time; Never expire(default)`-1`，30Day`30`，90Day`90`，180Day`180`，360Day`360`
+Param | Type | Description
+--------- | ------- | -------
+subName | String | Sub-account name
+apiKey | String | API-Key(Sub-account APIKey)
+passphrase | String | Password of API key
+permission | String | *[Optional]* Permission list.If modified, permissions will be reset.
+ipWhitelist | String | *[Optional]* IP whitelist(you may add up to 20 IPs. Use a halfwidth comma to each IP.If modified, the IP will be reset.)
+expire | String | *[Optional]* API expiration time; Never expire(default)`-1`，30Day`30`，90Day`90`，180Day`180`，360Day`360`
 
 ### RESPONSES
 Field | Description
@@ -1405,11 +1442,11 @@ This endpoint can be used to delete sub-account Spot APIs.
 This endpoint requires the `General` permission.
 
 ### PARAMETERS
-Param | Type | Mandatory | Description
---------- | ------- | ------- | -------
-apiKey | String | Yes | API-Key(API key to be deleted)
-passphrase | String | Yes | Password(Password of the API key)
-subName | String | Yes | Sub-account name(The sub-account name corresponding to the API key)
+Param | Type | Description
+--------- | ------- | -------
+apiKey | String | API-Key(API key to be deleted)
+passphrase | String | Password(Password of the API key)
+subName | String | Sub-account name(The sub-account name corresponding to the API key)
 
 ### RESPONSES
 Field | Description
@@ -1593,10 +1630,10 @@ This endpoint can be used to get paginated sub-account information. Pagination i
 ### API KEY PERMISSIONS
 This endpoint requires the `General` permission.
 ### PARAMETERS
-Param | Type | Mandatory | Description
---------- | ------- | ------- | -------
-currentPage | Int | No | Current request page. Default is `1`
-pageSize  | Int  | No | Number of results per request. Minimum is `1`, maximum is `100`, default is `10`.
+Param | Type | Description
+--------- | ------- | -------
+currentPage | Int | *[Optional]* Current request page. Default is `1`
+pageSize  | Int  | *[Optional]* Number of results per request. Minimum is `1`, maximum is `100`, default is `10`.
 ### RESPONSES
 Field | Description
 --------- | -------
@@ -1634,11 +1671,11 @@ This endpoint returns the transferable balance of a specified account.
 This endpoint requires the `General` permission.
 
 ### PARAMETERS
-Param | Type | Mandatory | Description
---------- | ------- | ------- | -------
-currency | String | Yes |[currency](#get-currencies)
-type | String | Yes |The account type: `MAIN`, `TRADE`, `MARGIN` or `ISOLATED`
-tag | String | No | Trading pair, required when the account type is `ISOLATED`; other types are not passed, e.g.: `BTC-USDT`
+Param | Type | Description
+--------- | ------- | -------
+currency | String | [currency](#get-currencies)
+type | String | The account type: `MAIN`, `TRADE`, `MARGIN` or `ISOLATED`
+tag | String | *[Optional]* Trading pair, required when the account type is `ISOLATED`; other types are not passed, e.g.: `BTC-USDT`
 
 ### RESPONSES
 Field | Description
@@ -1675,11 +1712,11 @@ This API is restricted for each account, the request rate limit is **3 times/3s*
 ### PARAMETERS
 Param | Type | Description
 --------- | ------- | -------
-clientOid | String | Unique order id created by users to identify their orders, e.g. UUID.
+clientOid | String | Unique order id created by users to identify their orders, e.g. UUID, with a maximum length of 128 bits.
 currency | String | [currency](#Get-Currencies)
 amount | String | Transfer amount, the amount is a positive integer multiple of the [currency precision](#get-currencies).
 direction | String | OUT — the master user to sub user<br/>IN — the sub user to the master user.
-accountType | String | *[Optional]* The account type of the master user: **MAIN**, **TRADE**, **MARGIN** or **CONTRACT**
+accountType | String | *[Optional]* The account type of the master user: **MAIN**, **TRADE**, **MARGIN** or **CONTRACT**, default is **MAIN**.
 subAccountType | String | *[Optional]* The account type of the sub user: **MAIN**, **TRADE**, **MARGIN** or **CONTRACT**, default is **MAIN**.
 subUserId | String | the [user ID](#get-user-info-of-all-sub-accounts) of a sub-account.
 
@@ -1706,15 +1743,15 @@ This API endpoint can be used to transfer funds between accounts internally. Use
 This endpoint requires the `Trade` permission.
 
 ### PARAMETERS
-Param | Type | Mandatory | Description |  
---------- | ------- | -----------| -----------|
-clientOid | String | Yes | clientOid, the unique identifier created by the client, use of UUID 
-currency | String | Yes | [currency](#Get-Currencies) 
-from | String | Yes | Payment Account Type: `main`, `trade`, `margin`, or `isolated` 
-to | String | Yes | Receiving Account Type: `main`, `trade`, `margin`, `isolated`, or `contract` 
-amount | String | Yes | Transfer amount, the precision being a positive integer multiple of the [Currency Precision](#get-currencies) 
-fromTag | String | No | Trading pair, required when the payment account type is `isolated`, e.g.: `BTC-USDT` 
-toTag | String | No | Trading pair, required when the receiving account type is `isolated`, e.g.: `BTC-USDT`
+Param | Type | Description
+--------- | ------- | --------
+clientOid | String | clientOid, the unique identifier created by the client, use of UUID, with a maximum length of 128 bits.
+currency | String | [currency](#Get-Currencies) 
+from | String | Payment Account Type: `main`, `trade`, `margin`, or `isolated` 
+to | String | Receiving Account Type: `main`, `trade`, `margin`, `isolated`, or `contract` 
+amount | String | Transfer amount, the precision being a positive integer multiple of the [Currency Precision](#get-currencies) 
+fromTag | String | *[Optional]* Trading pair, required when the payment account type is `isolated`, e.g.: `BTC-USDT` 
+toTag | String | *[Optional]* Trading pair, required when the receiving account type is `isolated`, e.g.: `BTC-USDT`
 
 
 ### RESPONSES
@@ -1888,12 +1925,12 @@ This API is restricted for each account, the request rate limit is **6 times/3s*
 <aside class="notice">This request is paginated.</aside>
 
 ### PARAMETERS
-Param | Type | Mandatory | Description |  
+Param | Type | Description |  
 --------- | ------- | -----------| -----------|
-currency | String | No | Currency
-startAt| long | No | Start time (milisecond)
-endAt| long | No | End time (milisecond)
-status | String | No | Status. Available value: `PROCESSING`, `SUCCESS`, and `FAILURE`
+currency | String | *[Optional]* Currency
+startAt| long | *[Optional]* Start time (milisecond)
+endAt| long | *[Optional]* End time (milisecond)
+status | String | *[Optional]* Status. Available value: `PROCESSING`, `SUCCESS`, and `FAILURE`
 
 ### RESPONSES
 Field | Description
@@ -2016,12 +2053,12 @@ This API is restricted for each account, the request rate limit is **6 times/3s*
 <aside class="notice">This request is paginated.</aside>
 
 ### PARAMETERS
-Param | Type | Mandatory | Description |  
---------- | ------- | -----------| -----------|
-currency | String | No | [Currency](#get-currencies)
-status | String | No | Status. Available value: `PROCESSING`, `WALLET_PROCESSING`, `SUCCESS`, and `FAILURE`
-startAt| long | No | Start time (milisecond)
-endAt| long | No | End time (milisecond)
+Param | Type | Description
+--------- | ------- | --------
+currency | String | *[Optional]* [Currency](#get-currencies)
+status | String | *[Optional]* Status. Available value: `PROCESSING`, `WALLET_PROCESSING`, `SUCCESS`, and `FAILURE`
+startAt| long | *[Optional]* Start time (milisecond)
+endAt| long | *[Optional]* End time (milisecond)
 
 ### RESPONSES
 Field | Description
@@ -2166,16 +2203,16 @@ chain | The chain name of currency, e.g. The available value for USDT are OMNI, 
 This endpoint requires the `Transfer` permission.
 
 ### PARAMETERS
-Param | Type | Mandatory | Description |  
---------- | ------- | -----------| -----------|
-currency   | String | Yes |Currency|
-address   | String | Yes | Withdrawal address
-amount | number | Yes | Withdrawal amount, a positive number which is a multiple of the amount precision (fees excluded)
-memo   | String | No | [Optional] Address remark. If there’s no remark, it is empty. When you withdraw from other platforms to the KuCoin, you need to fill in memo(tag). If you do not fill memo (tag), your deposit may not be available, please be cautious.
-isInner | boolean | No | [Optional]  Internal withdrawal or not. Default setup: false
-remark | String | No | [Optional]  Remark
-chain | String | No | *[Optional]* The chain of currency. For a currency with multiple chains, it is recommended to specify chain parameter instead of using the default chain; you can query the `chain` through the response of the `GET /api/v2/currencies/{currency}` interface.
-feeDeductType | String | No | Withdrawal fee deduction type: `INTERNAL` or `EXTERNAL` or not specified<br/><br/>1. `INTERNAL`- deduct the transaction fees from your withdrawal amount</br>2. `EXTERNAL`- deduct the transaction fees from your main account</br>3. If you don't specify the `feeDeductType` parameter, when the balance in your main account is sufficient to support the withdrawal, the system will initially deduct the transaction fees from your main account. But if the balance in your main account is not sufficient to support the withdrawal, the system will deduct the fees from your withdrawal amount. For example:  Suppose you are going to withdraw 1 BTC from the KuCoin platform (transaction fee: 0.0001BTC), if the balance in your main account is insufficient, the system will deduct the transaction fees from your withdrawal amount. In this case, you will be receiving 0.9999BTC.
+Param | Type | Description
+--------- | ------- | ---------
+currency   | String | Currency
+address   | String | Withdrawal address
+amount | number | Withdrawal amount, a positive number which is a multiple of the amount precision (fees excluded)
+memo   | String | [Optional] Address remark. If there’s no remark, it is empty. When you withdraw from other platforms to the KuCoin, you need to fill in memo(tag). If you do not fill memo (tag), your deposit may not be available, please be cautious.
+isInner | boolean | [Optional]  Internal withdrawal or not. Default setup: false
+remark | String | [Optional]  Remark
+chain | String | *[Optional]* The chain of currency. For a currency with multiple chains, it is recommended to specify chain parameter instead of using the default chain; you can query the `chain` through the response of the `GET /api/v2/currencies/{currency}` interface.
+feeDeductType | String | *[Optional]* Withdrawal fee deduction type: `INTERNAL` or `EXTERNAL` or not specified<br/><br/>1. `INTERNAL`- deduct the transaction fees from your withdrawal amount</br>2. `EXTERNAL`- deduct the transaction fees from your main account</br>3. If you don't specify the `feeDeductType` parameter, when the balance in your main account is sufficient to support the withdrawal, the system will initially deduct the transaction fees from your main account. But if the balance in your main account is not sufficient to support the withdrawal, the system will deduct the fees from your withdrawal amount. For example:  Suppose you are going to withdraw 1 BTC from the KuCoin platform (transaction fee: 0.0001BTC), if the balance in your main account is insufficient, the system will deduct the transaction fees from your withdrawal amount. In this case, you will be receiving 0.9999BTC.
 
 ### RESPONSES
 Field | Description
@@ -2228,9 +2265,9 @@ This interface is for the basic fee rate of users
 This endpoint requires the `General` permission.
 
 ### PARAMETERS
-Param | Type | Mandatory | Description
---------- | ------- | -------| -------
-currencyType| String | No | Currency type: `0`-crypto currency, `1`-fiat currency. default is `0`-crypto currency
+Param | Type | Description
+--------- | ------- | -------
+currencyType| String | *[Optional]* Currency type: `0`-crypto currency, `1`-fiat currency. default is `0`-crypto currency
 
 ### RESPONSES
 Field | Description
@@ -2270,9 +2307,9 @@ This interface is for the actual fee rate of the trading pair. You can inquire a
 This endpoint requires the `General` permission.
 
 ### PARAMETERS
-Param | Type | Mandatory | Description
---------- | ------- | -------| -------
-symbols|String|Yes|Trading pair (optional, you can inquire fee rates of `10` trading pairs each time at most)
+Param | Type | Description
+--------- | ------- | -------
+symbols|String| Trading pair (optional, you can inquire fee rates of `10` trading pairs each time at most)
 
 ### RESPONSES
 Field | Description
@@ -2326,7 +2363,7 @@ This API is restricted for each account, the request rate limit is **45 times/3s
 ### PARAMETERS
 | Param     | type   | Description  |
 | --------- | ------ |-------------------------------- |
-| clientOid | String | Unique order id created by users to identify their orders, e.g. UUID. |
+| clientOid | String | Unique order id created by users to identify their orders, e.g. UUID, with a maximum length of 128 bits. |
 | side      | String | **buy** or **sell**      |
 | symbol    | String | a valid trading symbol code. e.g. ETH-BTC     |
 | type      | String | *[Optional]* **limit** or **market** (default is **limit**)          |
@@ -2878,7 +2915,7 @@ status | String |*[Optional]* `active` or `done`(`done` as default), Only list o
 symbol |String|*[Optional]* Only list orders for a specific symbol.
 side | String | *[Optional]* `buy` or `sell`
 type | String | *[Optional]* `limit`, `market`, `limit_stop` or `market_stop`
-tradeType | String |The type of trading:`TRADE`-Spot Trading, `MARGIN_TRADE`-Cross Margin Trading, `MARGIN_ISOLATED_TRADE`-Isolated Margin Trading.
+tradeType | String |The type of trading:`TRADE`-Spot Trading(`TRADE` as default), `MARGIN_TRADE`-Cross Margin Trading, `MARGIN_ISOLATED_TRADE`-Isolated Margin Trading.
 startAt| long | *[Optional]*  Start time (milisecond)
 endAt| long | *[Optional]* End time (milisecond)
 
@@ -3276,7 +3313,7 @@ side | String |*[Optional]* **buy** or **sell**
 type | String |*[Optional]* **limit**, **market**, **limit_stop** or **market_stop**
 startAt| long | *[Optional]*  Start time (milisecond)
 endAt| long | *[Optional]* End time (milisecond)
-tradeType | String |The type of trading : **TRADE**（Spot Trading）, **MARGIN_TRADE** (Margin Trading).
+tradeType | String |The type of trading : **TRADE**（Spot Trading）, **MARGIN_TRADE** (Margin Trading), **TRADE** as default.
 
 
 ### RESPONSES
@@ -3515,13 +3552,13 @@ This endpoint requires the **"Trade"** permission.
 
 | Param     | Type   | Description                                                  |
 | --------- | ------ | ------------------------------------------------------------ |
-| clientOid | String | Unique order id created by users to identify their orders, e.g. UUID. |
+| clientOid | String | Unique order id created by users to identify their orders, e.g. UUID, with a maximum length of 128 bits. |
 | side      | String | **buy** or **sell**                                          |
 | symbol    | String | a valid trading symbol code. e.g. ETH-BTC                    |
 | type      | String | *[Optional]* **limit** or **market**, the default is **limit** |
 | remark    | String | *[Optional]* remark for the order, length cannot exceed 100 utf8 characters |
 | stop      | String | *[Optional]* Either **loss** or **entry**, the default is **loss**. Requires stopPrice to be defined. |
-| stopPrice | String | Need to be defined if stop is specified.                     |
+| stopPrice | String | trigger price.                     |
 | stp       | String | *[Optional]* self trade prevention , **CN**, **CO**, **CB** , **DC** (limit order does not support DC) |
 | tradeType | String | *[Optional]* The type of trading : **TRADE**（Spot Trade）, **MARGIN_TRADE** (Margin Trade). Default is **TRADE** |
 
@@ -4027,9 +4064,9 @@ If you want to get the market information of the trading symbol, please use [Get
 `GET /api/v1/symbols`
 
 ### PARAMETERS
-Param | Type | Mandatory  | Description | 
---------- | ------- | -----------| -----------| 
-market | String | No | The [trading market](#get-market-list). | 
+Param | Type | Description
+--------- | ------- | ---------
+market | String | *[Optional]* The [trading market](#get-market-list).
 
 ### RESPONSES
 Field |  Description
@@ -4129,9 +4166,9 @@ If you want to get the market information of the trading symbol, please use [Get
 `GET /api/v2/symbols`
 
 ### PARAMETERS
-Param | Type | Mandatory  | Description | 
---------- | ------- | -----------| -----------| 
-market | String | No | The [trading market](#get-market-list). | 
+Param | Type | Description
+--------- | ------- | ----------
+market | String | *[Optional]* The [trading market](#get-market-list). 
 
 ### RESPONSES
 Field |  Description
@@ -5869,9 +5906,9 @@ This API endpoint returns all isolated margin accounts of the current user.
 This endpoint requires the `General` permissions
 
 ### PARAMETERS
-| Param | Type | Mandatory | Description 
-| ------ | ------ | ------ | ------ 
-balanceCurrency | String | No | The pricing coin, currently only supports `USDT`, `KCS`, and `BTC`. Defaults to `BTC` if no value is passed.
+| Param | Type | Description 
+| ------ | ------ | -----
+balanceCurrency | String | *[Optional]* The pricing coin, currently only supports `USDT`, `KCS`, and `BTC`. Defaults to `BTC` if no value is passed.
 
 ### RESPONSES
 | Field | Description                     
@@ -5927,9 +5964,9 @@ This API endpoint returns the info on a single isolated margin account of the cu
 This endpoint requires the `General` permissions
 
 ### PARAMETERS
-| Param | Type | Mandatory | Description | 
------- | ------ | ------ | ------ 
-symbol | String | Yes | Trading pair, e.g.: `BTC-USDT`
+| Param | Type | Description
+------ | ------ | ------ 
+symbol | String | Trading pair, e.g.: `BTC-USDT`
 
 ### RESPONSES
 | Field | Description                     
@@ -5965,14 +6002,14 @@ This API endpoint initiates isolated margin borrowing.
 This endpoint requires the `Trade` permissions
 
 ### PARAMETERS
-| Param | Type | Mandatory | Description 
-| ------ | ------ | ------ | ------ 
-symbol | String | Yes | Trading pair, e.g.: `BTC-USDT` 
-currency | String | Yes | Borrowed coin type 
-size | BigDecimal | Yes | Borrowed amount 
-borrowStrategy | String | Yes | Borrowing strategy: `FOK`, `IOC` 
-maxRate | BigDecimal | No | Max interest rate, defaults to all interest rates if left blank 
-period | String | No |The term in days. Defaults to all terms if left blank. `7`,`14`,`28`
+| Param | Type | Description 
+| ------ | ------ | ------
+symbol | String | Trading pair, e.g.: `BTC-USDT` 
+currency | String | Borrowed coin type 
+size | BigDecimal | Borrowed amount 
+borrowStrategy | String | Borrowing strategy: `FOK`, `IOC` 
+maxRate | BigDecimal | *[Optional]* Max interest rate, defaults to all interest rates if left blank 
+period | String | *[Optional]* The term in days. Defaults to all terms if left blank. `7`,`14`,`28`
 
 ### RESPONSES
 | Field | Description                     
@@ -6036,12 +6073,12 @@ This API endpoint is used to query the outstanding repayment records of isolated
 This endpoint requires the `General` permissions
 
 ### PARAMETERS
-| Param | Type | Mandatory | Description 
-| ------ | ------ | ------ | ------ 
-symbol | String | No | Trading pair, e.g.: `BTC-USDT` 
-currency | String | No | Coin type 
-pageSize | int | No | Page size [`10`-`50`] 
-currentPage | int | No | Current page number [`1`-`100`]
+| Param | Type | Description 
+| ------ | ------ | ------
+symbol | String | *[Optional]* Trading pair, e.g.: `BTC-USDT` 
+currency | String | *[Optional]* Coin type 
+pageSize | int | *[Optional]* Page size [`10`-`50`] 
+currentPage | int | *[Optional]* Current page number [`1`-`100`]
 
 ### RESPONSES
 | Field | Description                     
@@ -6108,12 +6145,12 @@ This API endpoint is used to query the repayment records of isolated margin posi
 This endpoint requires the `General` permissions
 
 ### PARAMETERS
-| Param | Type | Mandatory | Description 
-| ------ | ------ | ------ | ------ 
-symbol | String | No | Trading pair, e.g.: `BTC-USDT` 
-currency | String | No | Coin type 
-pageSize | int | No | Page size \[`10`-`50`] 
-currentPage | int | No | Current page number \[`1`-`100`]
+| Param | Type | Description 
+| ------ | ------ | ------ 
+symbol | String | *[Optional]* Trading pair, e.g.: `BTC-USDT` 
+currency | String | *[Optional]* Coin type 
+pageSize | int | *[Optional]* Page size \[`10`-`50`] 
+currentPage | int | *[Optional]* Current page number \[`1`-`100`]
 
 ### RESPONSES
 | Field | Description                     
@@ -6155,12 +6192,12 @@ This API endpoint is used to initiate quick repayment for isolated margin accoun
 This endpoint requires the `Trade` permissions
 
 ### PARAMETERS
-| Param | Type | Mandatory | Description 
-| ------ | ------ | ------ | ------ 
-symbol | String | Yes | Trading pair, e.g.: `BTC-USDT` 
-currency | String | Yes | Repayment coin type 
-size | BigDecimal | Yes | Repayment amount 
-seqStrategy | String | Yes | Repayment sequence strategy, `RECENTLY_EXPIRE_FIRST`: Maturity date priority (the loan with the closest maturity is repaid first), `HIGHEST_RATE_FIRST`: Interest rate priority (the loan with the highest interest rate is repaid first)
+| Param | Type | Description 
+| ------ | ------ | ------
+symbol | String | Trading pair, e.g.: `BTC-USDT` 
+currency | String | Repayment coin type 
+size | BigDecimal | Repayment amount 
+seqStrategy | String | Repayment sequence strategy, `RECENTLY_EXPIRE_FIRST`: Maturity date priority (the loan with the closest maturity is repaid first), `HIGHEST_RATE_FIRST`: Interest rate priority (the loan with the highest interest rate is repaid first)
 
 ### RESPONSES
 When the system returns HTTP status code `200` and system code `200000`, it indicates that the response is successful.
@@ -6191,12 +6228,12 @@ This API endpoint is used to initiate quick repayment for single margin accounts
 This endpoint requires the `Trade` permissions
 
 ### PARAMETERS
-| Param | Type | Mandatory | Description 
-| ------ | ------ | ------ | ------ 
-symbol | String | Yes | Trading pair, e.g.: `BTC-USDT` 
-currency | String | Yes | Repayment coin type 
-size | BigDecimal | Yes | Repayment amount 
-loanId | String | Yes | Trade order number; when this field is configured, the sequence strategy is invalidated
+| Param | Type | Description 
+| ------ | ------ | ------
+symbol | String | Trading pair, e.g.: `BTC-USDT` 
+currency | String | Repayment coin type 
+size | BigDecimal | Repayment amount 
+loanId | String | Trade order number; when this field is configured, the sequence strategy is invalidated
 
 ### RESPONSES
 When the system returns HTTP status code `200` and system code `200000`, it indicates that the response is successful.
@@ -7046,7 +7083,7 @@ Subscribe to this topic to get the order book changes on margin trade.
 Subscribe to private channels require `privateChannel=“true”`.
 
 
-## Private Order Change Events
+## Private Order Change
 
 Topic: `/spotMarket/tradeOrders`
 
@@ -7219,6 +7256,248 @@ when the order has been updated;
 
 <aside class="spacer4"></aside>
 <aside class="spacer4"></aside>
+
+
+## Private Order Change V2
+
+### Topic: /spotMarket/tradeOrdersV2
+
+* Push frequency: `real-time`
+
+This topic will push all change events of your orders.
+
+
+**Order Status**
+
+“match”: when taker order executes with orders in the order book, the taker order status is “match”;
+
+“open”: the order is in the order book;
+
+“done”: the order is fully executed successfully;
+
+"new": the order enters the matching system;
+
+
+#### received
+The message sent when the order enters the matching system.
+
+```json
+    {
+        "type":"message",
+        "topic":"/spotMarket/tradeOrdersV2",
+        "subject":"orderChange",
+        "channelType":"private",
+        "data":{
+            "symbol":"KCS-USDT",
+            "orderType":"limit",
+            "side":"buy",
+            "orderId":"5efab07953bdea00089965d2",
+            "type":"received",
+            "orderTime":1593487481683297666,
+            "price":"0.937",
+            "clientOid":"1593487481000906",
+            "status":"new",
+            "originSize": "0.1", // original quantity
+            "originFunds": "0.1", // The original funds of the market order
+            "ts":1593487481683297666
+    }
+}
+```
+
+When the order has just entered the matching system and has not yet done matching logic with the counterparty, a private message with the message type "received" and the order status "new" will be pushed.
+
+
+<aside class="spacer4"></aside>
+<aside class="spacer4"></aside>
+<aside class="spacer2"></aside>
+
+#### open
+when the order enters into the order book;
+
+```json
+    {
+        "type":"message",
+        "topic":"/spotMarket/tradeOrdersV2",
+        "subject":"orderChange",
+        "channelType":"private",
+        "data":{
+            "symbol":"KCS-USDT",
+            "orderType":"limit",
+            "side":"buy",
+            "orderId":"5efab07953bdea00089965d2",
+            "type":"open",
+            "orderTime":1593487481683297666,
+            "size":"0.1",
+            "filledSize":"0",
+            "price":"0.937",
+            "clientOid":"1593487481000906",
+            "remainSize":"0.1",
+            "status":"open",
+            "canceledSize": "0.1", // Cumulative number of cancellations
+            "canceledFunds": "0.1", // Market order accumulative cancellation funds
+            "originSize": "0.1", // original quantity
+            "originFunds": "0.1", // Market order original funds
+            "ts":1593487481683297666
+       }
+}
+```
+
+
+<aside class="spacer4"></aside>
+<aside class="spacer4"></aside>
+<aside class="spacer2"></aside>
+
+#### match
+when the order has been executed and its status was changed into DONE;
+
+```json
+    {
+        "type":"message",
+        "topic":"/spotMarket/tradeOrdersV2",
+        "subject":"orderChange",
+        "channelType":"private",
+        "data": {
+          "symbol": "KCS-USDT",
+          "orderType": "limit",
+          "side": "sell",
+          "orderId": "5efab07953bdea00089965fa",
+          "liquidity": "taker",
+          "type": "match",
+          "orderTime": 1593487482038606180,
+          "size": "0.1",
+          "filledSize": "0.1",
+          "price": "0.938",
+          "matchPrice": "0.96738",
+          "matchSize": "0.1",
+          "tradeId": "5efab07a4ee4c7000a82d6d9",
+          "clientOid": "1593487481000313",
+          "remainSize": "0",
+          "status": "match",
+          "canceledSize": "0.1", // Cumulative number of cancellations
+          "canceledFunds": "0.1", // Market order accumulative cancellation funds
+          "originSize": "0.1", // original quantity
+          "originFunds": "0.1", // Market order original funds
+          "ts": 1593487482038606180
+        }
+    }
+```
+
+
+<aside class="spacer4"></aside>
+<aside class="spacer4"></aside>
+<aside class="spacer2"></aside>
+
+#### filled
+The message sent when the status of the order changes to DONE after the transaction
+
+```json
+    {
+        "type":"message",
+        "topic":"/spotMarket/tradeOrdersV2",
+        "subject":"orderChange",
+        "channelType":"private",
+        "data":{
+            "symbol":"KCS-USDT",
+            "orderType":"limit",
+            "side":"sell",
+            "orderId":"5efab07953bdea00089965fa",
+            "type":"filled",
+            "orderTime":1593487482038606180,
+            "size":"0.1",
+            "filledSize":"0.1",
+            "price":"0.938",
+            "clientOid":"1593487481000313",
+            "remainSize":"0",
+            "status":"done",
+            "canceledSize": "0.1", // Cumulative number of cancellations
+            "canceledFunds": "0.1", // Market order accumulative cancellation funds
+            "originSize": "0.1", // original quantity
+            "originFunds": "0.1", // Market order original funds
+            "ts":1593487482038606180
+      }
+    }
+```
+
+
+<aside class="spacer4"></aside>
+<aside class="spacer4"></aside>
+<aside class="spacer2"></aside>
+
+#### canceled
+The message sent when the status of the order changes to DONE due to being canceled
+
+```json
+    {
+    "type":"message",
+    "topic":"/spotMarket/tradeOrdersV2",
+    "subject":"orderChange",
+    "channelType":"private",
+    "data":{
+        "symbol":"KCS-USDT",
+        "orderType":"limit",
+        "side":"buy",
+        "orderId":"5efab07953bdea00089965d2",
+        "type":"canceled",
+        "orderTime":1593487481683297666,
+        "size":"0.1",
+        "filledSize":"0",
+        "price":"0.937",
+        "clientOid":"1593487481000906",
+        "remainSize":"0",
+        "status":"done",
+        "canceledSize": "0.1", // Cumulative number of cancellations
+        "canceledFunds": "0.1", // Market order accumulative cancellation funds
+        "originSize": "0.1", // original quantity
+        "originFunds": "0.1", // Market order original funds
+        "ts":1593487481893140844
+        }
+    }
+```
+
+<aside class="spacer4"></aside>
+<aside class="spacer4"></aside>
+<aside class="spacer2"></aside>
+
+update
+
+The message sent by the order due to modification
+
+```json
+{
+    "type":"message",
+    "topic":"/spotMarket/tradeOrdersV2",
+    "subject":"orderChange",
+    "channelType":"private",
+    "data":{
+        "symbol":"KCS-USDT",
+        "orderType":"limit",
+        "side":"buy",
+        "orderId":"5efab13f53bdea00089971df",
+        "type":"update",
+        "oldSize":"0.1",
+        "orderTime":1593487679693183319,
+        "size":"0.06",
+        "filledSize":"0",
+        "price":"0.937",
+        "clientOid":"1593487679000249",
+        "remainSize":"0.06",
+        "status":"open",
+        "canceledSize": "0.1", // Cumulative number of cancellations
+        "canceledFunds": "0.1", // Market order accumulative cancellation funds
+        "originSize": "0.1", // original quantity
+        "originFunds": "0.1", // Market order original funds
+        "ts":1593487682916117521
+    }
+}
+```
+
+
+
+<aside class="spacer4"></aside>
+<aside class="spacer4"></aside>
+<aside class="spacer2"></aside>
+
+
 
 ## Account Balance Notice
 ```json
