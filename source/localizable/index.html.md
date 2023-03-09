@@ -7265,7 +7265,7 @@ when the order has been updated;
 * Push frequency: `real-time`
 
 This topic will push all change events of your orders.
-
+Compared with v1, v2 adds an Order Status: "new", there is no difference in push speed
 
 **Order Status**
 
