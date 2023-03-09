@@ -7107,6 +7107,7 @@ Topic: `/spotMarket/tradeOrders`
 
 推送频率: 实时推送
 该topic将推送所有有关您的订单的变更事件。
+相對於v1，v2新增一個Order Status：“new”，在推送速度上沒有差別
 
 ### 订单状态
 
@@ -7178,7 +7179,7 @@ Topic: `/spotMarket/tradeOrders`
             "originFunds": "0.1", // 市价单原始资金
             "ts":1593487481683297666
        }
-}
+	}
 ```
 
 
