@@ -7154,6 +7154,7 @@ Topic: `/spotMarket/tradeOrders`
 
 #### open
 订单进入买卖盘时发出的消息。
+
 ```json
     {
         "type":"message",
@@ -7229,6 +7230,7 @@ Topic: `/spotMarket/tradeOrders`
 
 #### filled
 订单因成交后状态变为DONE时发出的消息
+
 ```json
     {
         "type":"message",
@@ -7264,6 +7266,7 @@ Topic: `/spotMarket/tradeOrders`
 
 #### canceled
 订单因被取消后状态变为DONE时发出的消息
+
 ```json
     {
     "type":"message",
