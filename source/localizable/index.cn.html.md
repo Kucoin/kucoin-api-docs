@@ -38,6 +38,11 @@ search: true
 
 使用POST /api/v1/hf/orders高頻帳戶下單交易即可
 
+**注意:** 目前高頻帳戶只能通過api劃轉開通，無法通過web劃轉開通，開通以後才能支持web劃轉
+
+如果需要更多的API交流或回饋，請加入我們的官方 API 電報群：https://t.me/KuCoin_API 或發送電子郵件至 newapi@kucoin.plus
+
+
 # 快速開始
 
 ## 簡介
@@ -482,12 +487,27 @@ REST&nbsp;API 連接地址:
 
 ## 請求頻率限制
 
-當請求頻率超過限制頻率時，系統將返回code爲**429**的超頻錯誤碼。
-<aside class="notice">如果接口請求頻率超過限制，你的IP或賬戶會被限制使用10s。</aside>
 
 ###REST API
 
-對需要校驗API權限的私有接口，限制賬號userid。不需要檢驗權限API，則限制IP。
+對需要校驗API權限的私有接口，限制賬號userid。不需要檢驗權限API，則限制IP。目前Kucoin一共有三種限頻，分別如下
+
+1、error code：1015，根據IP限制頻率，是cloudflare基於ip的限制，所有的接口共用該限頻，目前是500/10s,後臺可能會微調，block 30s。Cloudfeare沒有ip白名單的配置，所以無法特殊調整，但是這個問題是可以避免的，比如使用Websocket介面代替Rest介面(如果接口支持的話)。也可以用一臺伺服器綁定多個ip地址（ipv4或者ipv6），或者不同的子帳號使用不同的ip。
+
+2、error code：200002，kucoin每個私有接口的限頻，是基於用戶的uid+介面模式的限制，block10s。比如某個接口調用頻率過高，就可能遇到這個問題，建議降低那個接口的使用頻率
+
+3、error code：429000，kucoin單機容量限制。可以理解為伺服器超載了。如果是現貨的話，建議使用的高頻帳戶，能減少429000報錯，也能降低延遲，以下是高頻帳戶的使用教程：
+
+高頻 API文檔：https://docs.kucoin.com/spot-hf/cn
+
+快速開始：
+
+1、使用POST /api/v2/accounts/inner-transfer劃轉資金到高頻帳戶
+
+2、使用POST /api/v1/hf/orders高頻下單交易即可
+
+目前高頻帳戶只能通過api劃轉開通，無法通過web劃轉開通，開通以後才能支持web劃轉
+
 <aside class="notice">接口有特定請求頻率限制說明，以特定說明爲準。</aside>
 
 ###WEBSOCKET
@@ -653,6 +673,7 @@ REST API 對於賬戶、訂單、和市場數據均提供了接口。
 | 400700 | Transaction restricted, there's a risk problem in your account--您的賬戶存在風險問題，暫時不允許進行交易 |
 | 400800 | Leverage order failed--槓槓下單失敗                          |
 | 411100 | User are frozen -- 用戶被凍結，請聯繫[幫助中心](https://kucoin.zendesk.com/hc/zh-cn/requests/new) |
+| 415000 | Unsupported Media Type -- 請求頭等Content-Type需要設置成application/json |
 | 500000 | Internal Server Error -- 服務器出錯，請稍後再試              |
 | 900001 | symbol not exists--交易對不存在                              |
 
@@ -7300,7 +7321,6 @@ Topic: `/spotMarket/tradeOrders`
 <aside class="spacer2"></aside>
 
 update
-
 订单因被修改发出的消息
 
 ```json
