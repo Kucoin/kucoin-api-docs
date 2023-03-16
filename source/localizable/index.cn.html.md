@@ -7320,7 +7320,7 @@ Topic: `/spotMarket/tradeOrders`
 <aside class="spacer4"></aside>
 <aside class="spacer2"></aside>
 
-update
+#### update
 订单因被修改发出的消息
 
 ```json
