@@ -39,6 +39,9 @@ Use POST /api/v2/accounts/inner-transfer to transfer funds to the high-frequency
 
 Use POST /api/v1/hf/orders to place orders for high-frequency accounts
 
+**Note:** At present, high-frequency accounts can only be activated through api transfers, and cannot be activated through web transfers. Only after api transfers can web transfers be supported
+
+For more API communication or feedback, please join our official API telegram group: https://t.me/KuCoin_API or send an email to newapi@kucoin.plus.
 
 
 
@@ -481,12 +484,25 @@ REST API:
 
 ## Request Rate Limit
 
-When a rate limit is exceeded, a status of **429** will be returned.
-<aside class="notice">Once the rate limit is exceeded, the system will restrict your use of your IP or account for 10s.</aside>
-
 ###REST API
 
-The limit strategy of private endpoints will restrict account by userid. The limit strategy of public endpoints will restrict IP.
+The limit strategy of private endpoints will restrict account by userid. The limit strategy of public endpoints will restrict IP. Currently Kucoin has three rate limits, which are as follows:
+
+1、 error code: 1015, according to the IP rate limit, cloudflare is based on the IP limit, all endpoint share the rate limit, currently 500/10s, the background may be fine-tuned, block 30s. Cloudfeare does not have the configuration of the ip whitelist, so it cannot be specially adjusted, but this problem can be avoided, such as using the Websocket instead of the Rest(if the interface supports it). You can also use one server to bind multiple ip addresses (ipv4 or ipv6), and then use different ip for different sub-accounts.
+
+2、 error code: 200002, rate limit of each private endpoint of kucoin, based on user uid+endpoint mode limit, block10s. For example, if a certain endpoint is called too frequently, you may encounter this problem. It is recommended to reduce the rate of use of that interface.
+
+3、 error code: 429000, kucoin stand-alone capacity limit. It can be understood that the server is overloaded. If it is in spot, it is recommended to use a high-frequency account, which can reduce 429000 errors and reduce delays. The following is a tutorial on the use of high-frequency accounts:
+High frequency API documentation: https://docs.kucoin.com/spot-hf/#quick-start
+
+Quick start:
+
+1、 Use POST /api/v2/accounts/inner-transfer to transfer funds to the high-frequency account
+
+2、 Use POST /api/v1/hf/orders to place high-frequency orders
+
+At present, high-frequency accounts can only be activated through api transfers, and cannot be activated through web transfers. Only after api transfers can web transfers be supported
+
 <aside class="notice">Note that when an API has a specific rate limit, please refer to the specific limit.</aside>
 
 ###WEBSOCKET
@@ -671,6 +687,7 @@ Code | Meaning
 | 400700 | Transaction restricted, there's a risk problem in your account |
 | 400800 | Leverage order failed                          |
 | 411100 | User are frozen |
+| 415000 | Unsupported Media Type -- The Content-Type of the request header needs to be set to application/json |
 | 500000 | Internal Server Error              |
 | 900001 | symbol not exists                              |
 
