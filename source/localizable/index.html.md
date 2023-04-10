@@ -63,69 +63,75 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 
 **To reinforce the security of the API, KuCoin upgraded the API key to version 2.0, the validation logic has also been changed. It is recommended to [create](https://www.kucoin.com/account/api) and update your API key to version 2.0. The API key of version 1.0 is invalid. [Check new signing method](#signing-a-message)**
 
+
 **02/03/23**:
 
-- Add the trade_hf type, and launched a series of endpoint for high-frequency accounts
-- Modify `GET /api/v1/margin/lend/active` and  other four endpoint are changed from trade authority to general authority
+- [New] For creating sub-accounts, please use the new endpoint (POST /api/v2/sub/user) to replace the old endpoint (POST /api/v1/sub/user).
+- [New] For obtaining account summary information, please use the new endpoint (GET /api/v2/user-info) to replace the old endpoint (GET /api/v1/user-info).
+
+**02/03/23**:
+
+- [Add] the trade_hf type, and launched a series of endpoint for high-frequency accounts
+- [Modify] `GET /api/v1/margin/lend/active` and  other four endpoint are changed from trade authority to general authority
 
 **17/02/23**:
 
-- Add the `uid`、`access` field to the Topic of `GET /api/v1/sub/user`.
+- [Add] the `uid`、`access` field to the Topic of `GET /api/v1/sub/user`.
 
 **11/08/22**:
 
-- Deprecate `POST /api/v1/accounts` interface
+- [Deprecate] `POST /api/v1/accounts` interface
 
 **11/01/22**:
 
-- Add `chain` response field to `GET /api/v1/withdrawals` interface  and `GET /api/v1/deposits` interface
-- Add `generalSubQuantity`, `marginSubQuantity`, `futuresSubQuantity`, `maxDefaultSubQuantity`, `maxGeneralSubQuantity`, `maxMarginSubQuantity` and `maxFuturesSubQuantity` fields to `POST /api/v1/sub/user` interface response
-- Add `GET /api/v2/sub/user` and `GET /api/v2/sub-accounts` pagination interface
+- [Add] `chain` response field to `GET /api/v1/withdrawals` interface  and `GET /api/v1/deposits` interface
+- [Add] `generalSubQuantity`, `marginSubQuantity`, `futuresSubQuantity`, `maxDefaultSubQuantity`, `maxGeneralSubQuantity`, `maxMarginSubQuantity` and `maxFuturesSubQuantity` fields to `POST /api/v1/sub/user` interface response
+- [Add] `GET /api/v2/sub/user` and `GET /api/v2/sub-accounts` pagination interface
 
 **10/20/22**:
 
-- Deprecate `GET /api/v1/symbols` interface, please use `GET /api/v2/symbols` new interface instead
+- [Deprecate] `GET /api/v1/symbols` interface, please use `GET /api/v2/symbols` new interface instead
 
 **09/22/22**:
 
-- Add the `DELETE /api/v1/sub/api-key` interface related to sub-account
-- Add the `time` field (milliseconds) to the Topic of `/market/level2`.
+- [Add] the `DELETE /api/v1/sub/api-key` interface related to sub-account
+- [Add] the `time` field (milliseconds) to the Topic of `/market/level2`.
 
 **08/24/22**:
 
-- Add the following interfaces related to sub-account: `GET /api/v1/user-info`、`POST /api/v1/sub/user`、`GET /api/v1/sub/api-key`、`POST /api/v1/sub/api-key`、`POST /api/v1/sub/api-key/update`
+- [Add] the following interfaces related to sub-account: `GET /api/v1/user-info`、`POST /api/v1/sub/user`、`GET /api/v1/sub/api-key`、`POST /api/v1/sub/api-key`、`POST /api/v1/sub/api-key/update`
 
 **08/03/22**:
 
-- Add `currencyType` request parameter to `GET /api/v1/base-fee` interface
-- Add `feeDeductType` request parameter to `POST /api/v1/withdrawals` interface
-- Add `chain` response parameter to `GET /api/v2/currencies/{currency}` interface
+- [Add] `currencyType` request parameter to `GET /api/v1/base-fee` interface
+- [Add] `feeDeductType` request parameter to `POST /api/v1/withdrawals` interface
+- [Add] `chain` response parameter to `GET /api/v2/currencies/{currency}` interface
 
 **07/05/22**:
 
-- Added the following interfaces related to isolated margin: `GET /api/v1/isolated/symbols`、`GET /api/v1/isolated/accounts`、`GET /api/v1/isolated/account/{symbol}`、`POST /api/v1/isolated/borrow`、`GET /api/v1/isolated/borrow/outstanding`、`GET /api/v1/isolated/borrow/repaid`、`POST /api/v1/isolated/repay/all`、`POST /api/v1/isolated/repay/single`
-- Modify the following interface to support isolated margin: `POST /api/v2/accounts/inner-transfer`、`GET /api/v1/accounts/transferable`、`POST /api/v1/margin/order`
+- [Add] the following interfaces related to isolated margin: `GET /api/v1/isolated/symbols`、`GET /api/v1/isolated/accounts`、`GET /api/v1/isolated/account/{symbol}`、`POST /api/v1/isolated/borrow`、`GET /api/v1/isolated/borrow/outstanding`、`GET /api/v1/isolated/borrow/repaid`、`POST /api/v1/isolated/repay/all`、`POST /api/v1/isolated/repay/single`
+- [Modify] the following interface to support isolated margin: `POST /api/v2/accounts/inner-transfer`、`GET /api/v1/accounts/transferable`、`POST /api/v1/margin/order`
 - Check and revise the document description to improve the readability of the document
 
 **01/25/22**:
 
-- Add [Query the cross/isolated margin risk limit](#query-the-cross-isolated-margin-risk-limit) endpoint
-- Deprecate [GET /api/v1/hist-orders](#get-v1-historical-orders-list-deprecated) endpoint
+- [Add] [Query the cross/isolated margin risk limit](#query-the-cross-isolated-margin-risk-limit) endpoint
+- [Deprecate] [GET /api/v1/hist-orders](#get-v1-historical-orders-list-deprecated) endpoint
 
 **12/23/21**:
 
-- Deprecate the **pool** type for [List Accounts](#list-accounts).
-- Deprecate the **pool** type for [Inner Transfer](#inner-transfer).
-- Deprecate the **POOL** type for [Get the Transferable](#get-the-transferable).
+- [Deprecate] the **pool** type for [List Accounts](#list-accounts).
+- [Deprecate] the **pool** type for [Inner Transfer](#inner-transfer).
+- [Deprecate] the **POOL** type for [Get the Transferable](#get-the-transferable).
 
 **11/26/21**:
 
-- Add [Get Currency Detail(Recommend)](#get-currency-detail-recommend) endpoint.
-- Modify [List of currently supported symbol](#list-of-currently-supported-symbol) by Index Price and Mark Price for Margin.
+- [Add] [Get Currency Detail(Recommend)](#get-currency-detail-recommend) endpoint.
+- [Modify] [List of currently supported symbol](#list-of-currently-supported-symbol) by Index Price and Mark Price for Margin.
 
 **09/23/21**:
 
-- Modify API KEY PERMISSIONS of the [Get Repay Record](#get-repay-record) and [Get Repayment Record](#get-repayment-record) endpoint, these endpoints requires the "General" permission
+- [Modify] API KEY PERMISSIONS of the [Get Repay Record](#get-repay-record) and [Get Repayment Record](#get-repayment-record) endpoint, these endpoints requires the "General" permission
 
 **08/18/21**:
 
@@ -133,126 +139,126 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 
 **08/09/21**:
 
-- Modify the request parameter time range of  [Get Account Ledgers](#get-account-ledgers).
+- [Modify] the request parameter time range of  [Get Account Ledgers](#get-account-ledgers).
 
 **07/15/21**:
 
-- modify the strategy of [Request Rate Limit](#request-rate-limit).
+- [Modify] the strategy of [Request Rate Limit](#request-rate-limit).
 
 **06/04/21**:
 
-- Modify the query of the lifetime for the order by clientOid [Get Single Order by clientOid](#get-single-active-order-by-clientoid)
-- Modify the timestamp to millisecond [Get an order](#get-an-order)
+- [Modify] the query of the lifetime for the order by clientOid [Get Single Order by clientOid](#get-single-active-order-by-clientoid)
+- [Modify] the timestamp to millisecond [Get an order](#get-an-order)
 
 **04/26/21**:
 
-- Add [Get Full Order Book(aggregated)](#get-full-order-book-aggregated),[Get Full Order Book(atomic)](#get-full-order-book-atomic) endpoints(V3 version), these endpoints requires the "General" permission
-- Deprecate [Get Full Order Book(aggregated)](#get-full-order-book-aggregated-deprecated),[Get Full Order Book(atomic)](#get-full-order-book-atomic-deprecated) endpoints(V2 version)
-- Add [Get Deposit Addresses(V2)](#get-deposit-addresses-v2)
+- [Add] [Get Full Order Book(aggregated)](#get-full-order-book-aggregated),[Get Full Order Book(atomic)](#get-full-order-book-atomic) endpoints(V3 version), these endpoints requires the "General" permission
+- [Deprecate] [Get Full Order Book(aggregated)](#get-full-order-book-aggregated-deprecated),[Get Full Order Book(atomic)](#get-full-order-book-atomic-deprecated) endpoints(V2 version)
+- [Add] [Get Deposit Addresses(V2)](#get-deposit-addresses-v2)
 
 **02/24/21**  
 
-- Add [Place a margin order](#place-a-margin-order) 
+- [Add] [Place a margin order](#place-a-margin-order) 
 
 **11/05/20**:
 
-- Add [Trade Fee](#trade-fee) module，[Basic user fee](#basic-user-fee),[Actual fee rate of the trading pair](#actual-fee-rate-of-the-trading-pair)
-- Add [Get Account Ledgers](#get-account-ledgers)，and deprecate [Get Account Ledgers(deprecated)](#get-account-ledgers-deprecated)
+- [Add] [Trade Fee](#trade-fee) module，[Basic user fee](#basic-user-fee),[Actual fee rate of the trading pair](#actual-fee-rate-of-the-trading-pair)
+- [Add] [Get Account Ledgers](#get-account-ledgers)，and deprecate [Get Account Ledgers(deprecated)](#get-account-ledgers-deprecated)
 
 **10/28/20**:
 
-- Add the Basic Taker Fee,Basic Maker Fee,Taker Fee Coefficient,Maker Fee Coefficient for [Get 24hr Stats](#get-24hr-stats),[Get All Tickers](#get-all-tickers).
-- Add [Transfer between Master user and Sub-user](#transfer-between-master-user-and-sub-user) Added types of account that support transfer.
-- Add [Inner Transfer](#inner-transfer) Added types of account that support transfer.
-- Deprecate '/api/v1/accounts/sub-transfer' endpoint for [Transfer between Master user and Sub-user](#transfer-between-master-user-and-sub-user).
-- Add REST API [Stop Order](#stop-order)
-- Add websocket [Stop Order Event](#stop-order-event)，and deprecate [Stop Order Received Event](#stop-order-received-event), [Stop Order Activate Event](#stop-order-activate-event)
+- [Add] the Basic Taker Fee,Basic Maker Fee,Taker Fee Coefficient,Maker Fee Coefficient for [Get 24hr Stats](#get-24hr-stats),[Get All Tickers](#get-all-tickers).
+- [Add] [Transfer between Master user and Sub-user](#transfer-between-master-user-and-sub-user) Added types of account that support transfer.
+- [Add] [Inner Transfer](#inner-transfer) Added types of account that support transfer.
+- [Deprecate] '/api/v1/accounts/sub-transfer' endpoint for [Transfer between Master user and Sub-user](#transfer-between-master-user-and-sub-user).
+- [Add] REST API [Stop Order](#stop-order)
+- [Add] websocket [Stop Order Event](#stop-order-event)，and deprecate [Stop Order Received Event](#stop-order-received-event), [Stop Order Activate Event](#stop-order-activate-event)
 
 
 **08/12/20**:
 
-- Add [Cancel Single Order by clientOid](#cancel-single-order-by-clientoid)；
-- Add [Get Single Active Order by clientOid](#get-single-active-order-by-clientoid)；
+- [Add] [Cancel Single Order by clientOid](#cancel-single-order-by-clientoid)；
+- [Add] [Get Single Active Order by clientOid](#get-single-active-order-by-clientoid)；
 
 
 **07/13/20**:
 
-- Add [Private Order Change Events](#private-order-change-events)，[Full MatchEngine Data (revision) (Level 3)](#full-matchengine-data-revision-level-nbsp-3)，[Level2 - 5 best ask/bid orders](#level2-5-best-askbid-orders)，[Level2 - 50 best ask/bid orders](#level2-50-best-askbid-orders)；
-- Add [Get Full Order Book(atomic)(revision)](#get-full-order-book-atomic-revision)；
+- [Add] [Private Order Change Events](#private-order-change-events)，[Full MatchEngine Data (revision) (Level 3)](#full-matchengine-data-revision-level-nbsp-3)，[Level2 - 5 best ask/bid orders](#level2-5-best-askbid-orders)，[Level2 - 50 best ask/bid orders](#level2-50-best-askbid-orders)；
+- [Add] [Get Full Order Book(atomic)(revision)](#get-full-order-book-atomic-revision)；
 
 **06/12/20**:
 
-- Add channelType field: public(public channel, default), private(private channel), session(session channel) for Websocket.
-- Deprecate ({topic}:privateChannel:{userId}) and userId in private messages after three months.
+- [Add] channelType field: public(public channel, default), private(private channel), session(session channel) for Websocket.
+- [Deprecate] ({topic}:privateChannel:{userId}) and userId in private messages after three months.
 
 **05/28/20**:
 
-- Add unique key for [Get Account Ledgers](#get-account-ledgers)
+- [Add] unique key for [Get Account Ledgers](#get-account-ledgers)
 
 **04/22/20**:
 
-- Deprecate [Get Holds](#get-holds) on 10th May 2020.
-- Add the **relationContext** field for [Account Balance Notice](#account-balance-notice).
-- Modify the default chain of USDT into ERC20.
+- [Deprecate] [Get Holds](#get-holds) on 10th May 2020.
+- [Add] the **relationContext** field for [Account Balance Notice](#account-balance-notice).
+- [Modify] the default chain of USDT into ERC20.
 
 **04/09/20**:
 
-- Add the **pool** type for [List Accounts](#list-accounts).
-- Add the **pool** type for [Inner Transfer](#inner-transfer).
-- Add the **POOL** type for [Get the Transferable](#get-the-transferable).
-- Deprecate the **balance** field for [Get Account Ledgers](#get-account-ledgers) and set **balance** 0 by default.
+- [Add] the **pool** type for [List Accounts](#list-accounts).
+- [Add] the **pool** type for [Inner Transfer](#inner-transfer).
+- [Add] the **POOL** type for [Get the Transferable](#get-the-transferable).
+- [Deprecate] the **balance** field for [Get Account Ledgers](#get-account-ledgers) and set **balance** 0 by default.
 
 **03/27/20**:
 
-- Add the request parameters: **bizType** and **direction** for [Get Account Ledgers](#get-account-ledgers)
+- [Add] the request parameters: **bizType** and **direction** for [Get Account Ledgers](#get-account-ledgers)
 
 **03/11/20**:
 
-- Add [Service Status](#service-status).
+- [Add] [Service Status](#service-status).
 
 **02/03/20**:
 
-- Add [Place bulk orders](#place-bulk-orders).
+- [Add] [Place bulk orders](#place-bulk-orders).
 
 **01/03/20**:
 
-- Add the description of **postOnly** for [Place a new order](#place-a-new-order).
+- [Add] the description of **postOnly** for [Place a new order](#place-a-new-order).
 
 
 **27/02/20**:
 
-- Add the **price protection mechanism** for [Place a new order](#place-a-new-order).
+- [Add] the **price protection mechanism** for [Place a new order](#place-a-new-order).
 
 
 **02/01/20**:
 
-- Add the **time** field to [Get Full Order Book(atomic)](#get-full-order-book(atomic)).
-- Add **reason** field in the subscription for [Stop Order Activate Event](#stop-order-activate-event).
+- [Add] the **time** field to [Get Full Order Book(atomic)](#get-full-order-book(atomic)).
+- [Add] **reason** field in the subscription for [Stop Order Activate Event](#stop-order-activate-event).
 
 **10/20/19**:
 
-- Deprecate '/api/v1/accounts/inner-transfer' endpoint for [Inner Transfer](#inner-transfer).
-- Add the **margin** type for [List Accounts](#list-accounts).
+- [Deprecate] '/api/v1/accounts/inner-transfer' endpoint for [Inner Transfer](#inner-transfer).
+- [Add] the **margin** type for [List Accounts](#list-accounts).
 - Support the margin account for [Get an Account](#get-an-account).
-- Add the **margin** type for [Create an Account](#create-an-account).
-- Add the extra bizType for margin via [Get Account Ledgers](#get-account-ledgers).
-- Add the extra bizType for margin via [Get Holds](#get-holds)
-- Add the margin account via [Get Account Balance of a Sub-Account](#get-account-balance-of-a-sub-account)
+- [Add] the **margin** type for [Create an Account](#create-an-account).
+- [Add] the extra bizType for margin via [Get Account Ledgers](#get-account-ledgers).
+- [Add] the extra bizType for margin via [Get Holds](#get-holds)
+- [Add] the margin account via [Get Account Balance of a Sub-Account](#get-account-balance-of-a-sub-account)
 - Support the margin account for [Get the Aggregated Balance of all Sub-Accounts](#get-the-aggregated-balance-of-all-sub-accounts)
-- Add the **MARGIN** type for [Transfer between Master user and Sub-user](#transfer-between-master-user-and-sub-user)
-- Add the **margin** type for [Inner Transfer](#inner-transfer)
-- Add [Get the Transferable](#get-the-transferable).
-- Add [Place a new order](#place-a-new-order) **tradeType** field.
-- Add [Cancel all orders](#cancel-all-orders) **tradeType** field.
-- Add **tradeType** field for [List Orders](#list-orders), [Recent Orders](#recent-orders), [Get an order](#get-an-order).
-- Add **tradeType** field for [List Fills](#list-fills), [Recent Fills](#recent-fills).
-- Add [Get Symbols List](#get-symbols-list)**isMarginEnabled** field.
-- Add [Get Currencies](#get-currencies) and [Get Currency Detail](#get-currency-detail) **isMarginEnabled**, **isDebitEnabled** field.
-- Add [Margin Trade](#margin-trade) module.
+- [Add] the **MARGIN** type for [Transfer between Master user and Sub-user](#transfer-between-master-user-and-sub-user)
+- [Add] the **margin** type for [Inner Transfer](#inner-transfer)
+- [Add] [Get the Transferable](#get-the-transferable).
+- [Add] [Place a new order](#place-a-new-order) **tradeType** field.
+- [Add] [Cancel all orders](#cancel-all-orders) **tradeType** field.
+- [Add] **tradeType** field for [List Orders](#list-orders), [Recent Orders](#recent-orders), [Get an order](#get-an-order).
+- [Add] **tradeType** field for [List Fills](#list-fills), [Recent Fills](#recent-fills).
+- [Add] [Get Symbols List](#get-symbols-list)**isMarginEnabled** field.
+- [Add] [Get Currencies](#get-currencies) and [Get Currency Detail](#get-currency-detail) **isMarginEnabled**, **isDebitEnabled** field.
+- [Add] [Margin Trade](#margin-trade) module.
 
 **10/17/19**:
 
-- Add the **remark** field to [Get Deposit List](#get-deposit-list) and [Get Withdrawals List](#get-withdrawals-list)
+- [Add] the **remark** field to [Get Deposit List](#get-deposit-list) and [Get Withdrawals List](#get-withdrawals-list)
 
 **10/12/19**:
 
@@ -260,107 +266,107 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 
 **9/27/19**
 
-- Add **symbolName** response to [Get All Tickers](#get-all-tickers).
+- [Add] **symbolName** response to [Get All Tickers](#get-all-tickers).
 
 **6/19/19**:
 
-- Modify [Transfer between Master user and Sub-user](#transfer-between-master-user-and-sub-user)
+- [Modify] [Transfer between Master user and Sub-user](#transfer-between-master-user-and-sub-user)
 
 **6/13/19**:
 
-- Add [FAQ](#faq) for Open API.
-- Add the advantage descriptions for [Level-3](#matchengine-data).
+- [Add] [FAQ](#faq) for Open API.
+- [Add] the advantage descriptions for [Level-3](#matchengine-data).
 
 **5/28/19**:
 
-- Modify [Get Market List](#Get-Market-List) SC changed to USDS.
-- Add one new endpoint for [Inner Transfer](#inner-transfer), the original interface will expire after three months (8/28/19).
-- Add the usage description to the favorite withdrawal address [Apply Withdraw](#apply-withdraw).
-- Add **averagePrice** field to [Get 24hr Stats](#get-24hr-stats).
+- [Modify] [Get Market List](#Get-Market-List) SC changed to USDS.
+- [Add] one new endpoint for [Inner Transfer](#inner-transfer), the original interface will expire after three months (8/28/19).
+- [Add] the usage description to the favorite withdrawal address [Apply Withdraw](#apply-withdraw).
+- [Add] **averagePrice** field to [Get 24hr Stats](#get-24hr-stats).
 
 
 **5/8/19** :
 
-- Add **chain** field to [Create Deposit Address](#create-deposit-address), [Get Deposit Address](#get-deposit-address), [Get Currency Detail](#get-currency-detail), [Get Withdrawal Quotas](#get-withdrawal-quotas) and [Apply Withdraw](#apply-withdraw).
--  Add the description of how to transfer assets in the [Inner Transfer](#inner-transfer) interface.
-- Add **L3 SDK** to [Full MatchEngine Data(Level 3)](#full-matchengine-data(level-3)).
-- modify the strategy of [Rate Limit](#request-rate-limit).
+- [Add] **chain** field to [Create Deposit Address](#create-deposit-address), [Get Deposit Address](#get-deposit-address), [Get Currency Detail](#get-currency-detail), [Get Withdrawal Quotas](#get-withdrawal-quotas) and [Apply Withdraw](#apply-withdraw).
+-  [Add] the description of how to transfer assets in the [Inner Transfer](#inner-transfer) interface.
+- [Add] **L3 SDK** to [Full MatchEngine Data(Level 3)](#full-matchengine-data(level-3)).
+- [Modify] the strategy of [Rate Limit](#request-rate-limit).
 
 **4/24/19**:
 
 - Delete the "size" and "funds" fields of the “received” message in the subscription for [Full MatchEngine Data(Level 3)](#full-matchengine-data(level-3)) via the public channels, therefore protecting the hidden orders. These fields in the private channels remain unchangeds.
 - Delete the “remainSize” field of the “open” messages in the subscription for [Full MatchEngine Data(Level 3)](#full-matchengine-data(level-3)) via the public channels, therefore protecting the hidden orders. These fileds in the private channels remain unchanged.
-- Add [Get User Info of all Sub-Accounts](#get-user-info-of-all-sub-accounts).
-- Add [Get Account Balance of a Sub-Account](#get-account-balance-of-a-sub-account).
-- Add [Get the Aggregated Balance of all Sub-Accounts of the Current User](#get-the-aggregated-balance-of-all-sub-accounts-of-the-current-user).
-- Add [Transfer between Master account and Sub-Account](#transfer-between-master-account-and-sub-account).
+- [Add] [Get User Info of all Sub-Accounts](#get-user-info-of-all-sub-accounts).
+- [Add] [Get Account Balance of a Sub-Account](#get-account-balance-of-a-sub-account).
+- [Add] [Get the Aggregated Balance of all Sub-Accounts of the Current User](#get-the-aggregated-balance-of-all-sub-accounts-of-the-current-user).
+- [Add] [Transfer between Master account and Sub-Account](#transfer-between-master-account-and-sub-account).
 
 **3/27/19** :
 
-- Add **feeCurrency** field to [Get Symbols List](#get-symbols-list).
+- [Add] **feeCurrency** field to [Get Symbols List](#get-symbols-list).
 
 **3/25/19** :
 
-- Add **volValue** field to [Get All Tickers](#get-all-tickers).
-- Add **clientOid** field to [Full MatchEngine Data(Level 3)](#full-matchengine-data(level-3))which allows you to filter your order info by clientOid when you subscribe to the "received " messages through private channels.
-- Add **accountId** field in the subscription for [Account balance notice](#account-balance-notice).
+- [Add] **volValue** field to [Get All Tickers](#get-all-tickers).
+- [Add] **clientOid** field to [Full MatchEngine Data(Level 3)](#full-matchengine-data(level-3))which allows you to filter your order info by clientOid when you subscribe to the "received " messages through private channels.
+- [Add] **accountId** field in the subscription for [Account balance notice](#account-balance-notice).
 
 **3/13/19** :
 
-- Modify the maximum matching orders for a single trading pair in one account is 200 (stop orders included).
+- [Modify] the maximum matching orders for a single trading pair in one account is 200 (stop orders included).
 
 **3/6/19** :
 
-- Add **nanoseconds** as the time unit of the order system and matching engine.
+- [Add] **nanoseconds** as the time unit of the order system and matching engine.
 
 **2/28/19** :
 
-- Modify [Get Symbols List](#get-symbols-list) response description
-- Add [Get V1 Historical Deposits List](#get-v1-historical-deposits-list)
-- Add [Get V1 Historical Withdrawals List](#get-v1-historical-withdrawals-list)
-- Add [Get V1 Historical Orders List](#get-v1-historical-orders-list)
-- Add explanation to part of the API JSON field
+- [Modify] [Get Symbols List](#get-symbols-list) response description
+- [Add] [Get V1 Historical Deposits List](#get-v1-historical-deposits-list)
+- [Add] [Get V1 Historical Withdrawals List](#get-v1-historical-withdrawals-list)
+- [Add] [Get V1 Historical Orders List](#get-v1-historical-orders-list)
+- [Add] explanation to part of the API JSON field
 - Delete "sn" field in [Match Execution Data](#match-execution-data)
-- Modify [Get Fiat Price](#get-fiat-price) parameter description
+- [Modify] [Get Fiat Price](#get-fiat-price) parameter description
 
 **2/22/19** :
 
-- Add **volValue** field to [Get 24hr Stats](#get-24hr-stats)
+- [Add] **volValue** field to [Get 24hr Stats](#get-24hr-stats)
 
 **2/21/19** :
 
-- Add [Get Full Order Book(aggregated) v2](#get-full-order-book-aggregated)
-- Add **time** field to Level-1,2,3 Data
-- Add [Get Fiat Price](#get-fiat-price)
+- [Add] [Get Full Order Book(aggregated) v2](#get-full-order-book-aggregated)
+- [Add] **time** field to Level-1,2,3 Data
+- [Add] [Get Fiat Price](#get-fiat-price)
 
 **2/20/19** :
 
-- Add **time** field to [Get All Tickers](#get-all-tickers) and [Get Ticker](#get-ticker)
+- [Add] **time** field to [Get All Tickers](#get-all-tickers) and [Get Ticker](#get-ticker)
 
 **2/19/19** :
 
-- Add [Get All Tickers](#get-all-tickers)
+- [Add] [Get All Tickers](#get-all-tickers)
 
 **2/18/19** :
 
-- Add [Recent Orders](#recent-orders)
-- Add [Recent Fills](#recent-fills)
+- [Add] [Recent Orders](#recent-orders)
+- [Add] [Recent Fills](#recent-fills)
 
 **2/16/19** :
 
-- Add [All Symbols Ticker](#all-symbols-ticker)
-- Modify [Permissions](#permissions)
+- [Add] [All Symbols Ticker](#all-symbols-ticker)
+- [Modify] [Permissions](#permissions)
 
 **1/30/19** :
 
-- Add SDK official provider [CCXT](#client-libraries)
+- [Add] SDK official provider [CCXT](#client-libraries)
 
 **1/25/19** :
 
-- Add [Get Market List](#get-market-list)
-- Add [Symbol Snapshot Feed](#symbol-snapshot)
-- Add [Market Snapshot Feed](#market-snapshot)
-- Add official [Java & Go SDK](#client-libraries)
+- [Add] [Get Market List](#get-market-list)
+- [Add] [Symbol Snapshot Feed](#symbol-snapshot)
+- [Add] [Market Snapshot Feed](#market-snapshot)
+- [Add] official [Java & Go SDK](#client-libraries)
 
 ## Reading Guide
 
@@ -1214,7 +1220,7 @@ Voting Earnings  | Voting Earnings on Pool-X
 Redemption of Voting  | Redemption of Voting on Pool-X
 Convert to KCS   | Convert to KCS 
 
-## Get Account Summary Information
+## Get Account Summary Info
 ```json
 {
     "code": "200000",
@@ -1264,6 +1270,58 @@ maxGeneralSubQuantity | Max number of General sub-accounts
 maxMarginSubQuantity | Max number of Margin sub-account
 maxFuturesSubQuantity | Max number of Futures sub-account
 
+
+## Get Account Summary Info(V2)
+
+```json
+{
+  "data" : {
+	"level" : 0,
+	"subQuantity" : 5,
+	"maxDefaultSubQuantity" : 5,
+	"maxSubQuantity" : 5,
+	
+	"spotSubQuantity" : 5,
+	"marginSubQuantity" : 5,
+	"futuresSubQuantity" : 5,  
+  
+    "maxSpotSubQuantity" : 0,
+    "maxMarginSubQuantity" : 0,
+    "maxFuturesSubQuantity" : 0 
+  },
+  "code" : "200000"
+}
+```
+This endpoint can be used to obtain account summary information.
+
+### HTTP REQUEST
+`GET /api/v2/user-info`
+
+### Example
+`GET /api/v2/user-info`
+
+### API KEY PERMISSIONS
+This endpoint requires the `General` permission.
+
+### PARAMETERS
+`N/A`
+
+### RESPONSES
+Field | Description
+--------- | -------
+level | User level
+subQuantity | Number of sub-accounts
+maxDefaultSubQuantity | Max number of default open sub-accounts (according to level)
+maxSubQuantity | Max number of sub-accounts = maxDefaultSubQuantity + maxSpotSubQuantity
+spotSubQuantity | Number of sub-accounts with spot trading permissions enabled
+marginSubQuantity | Number of sub-accounts with margin trading permissions enabled
+futuresSubQuantity | Number of sub-accounts with futures trading permissions enabled
+maxSpotSubQuantity | Max number of sub-accounts with additional Spot trading permissions
+maxMarginSubQuantity | Max number of sub-accounts with additional margin trading permissions
+maxFuturesSubQuantity | Max number of sub-accounts with additional futures trading permissions
+
+
+
 ## Create Sub-Account
 ```json
 {
@@ -1302,6 +1360,47 @@ remarks | Remarks
 subName | Sub-account name
 uid | Sub-account UID
 access | Permission
+
+
+## Create Sub-Account(V2)
+```json
+{
+    "code": "200000",
+    "data": {
+        "uid": 9969082973,
+        "subName": "AAAAAAAAAA0007",
+        "remarks": "remark",
+        "access": "Spot"
+    }
+}
+```
+This endpoint can be used to create sub-accounts.
+
+### HTTP REQUEST
+`POST /api/v2/sub/user`
+
+### Example
+`POST /api/v2/sub/user`
+
+### API KEY PERMISSIONS
+This endpoint requires the `General` permission.
+
+### PARAMETERS
+Param | Type | Description
+--------- | ------- | -------
+password | String | Password(7-24 characters, must contain letters and numbers, cannot only contain numbers or include special characters)
+remarks | String | *[Optional]*   Remarks(1~24 characters)
+subName | String | Sub-account name(must contain 7-32 characters, at least one number and one letter. Cannot contain any spaces.)
+access | String | Permission (types include `Spot`, `Futures`, `Margin` permissions, which can be used alone or in combination).
+
+### RESPONSES
+Field | Description
+--------- | -------
+remarks | Remarks
+subName | Sub-account name
+uid | Sub-account UID
+access | Permission
+
 
 ## Get Sub-Account Spot API List
 ```json

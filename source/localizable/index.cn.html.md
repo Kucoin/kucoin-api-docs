@@ -64,7 +64,13 @@ API分爲兩部分：**REST API和Websocket 實時數據流**
 **爲了進一步提升API安全性，KuCoin已經升級到了V2版本的API-KEY，驗籤邏輯也發生了一些變化，建議到[API管理頁面](https://www.kucoin.cc/account/api)添加並更換到新的API-KEY。KuCoin已經停止對老版本API-KEY的支持。[查看新的簽名方式](#99f215f459)**
 
 
+**08/04/23**:
+
+- 【新增】升级創建子賬號POST /api/v1/sub/user接口，請使用POST /api/v2/sub/user新接口
+- 【新增】升级獲取賬號概要信息GET /api/v1/user-info接口，請使用GET /api/v2/user-info新接口
+
 **02/03/23**:
+
 - 【新增】新上線trade_hf類型，並推出高頻帳戶一系列接口
 - 【修改】`GET /api/v1/margin/lend/active`等四個接口由交易權限改為通用權限
 
@@ -1203,6 +1209,7 @@ Redemption of Voting  | Pool-X投票贖回資產
 Convert to KCS   | 一鍵轉KCS
 
 ## 獲取賬號概要信息
+
 ```json
 {
     "code": "200000",
@@ -1252,6 +1259,58 @@ maxGeneralSubQuantity | 通用子賬號數量上限
 maxMarginSubQuantity | 槓桿子賬號數量上限
 maxFuturesSubQuantity | 合約子賬號數量上限
 
+
+
+## 獲取賬號概要信息(V2)
+
+```json
+{
+  "data" : {
+	"level" : 0,
+	"subQuantity" : 5,
+	"maxDefaultSubQuantity" : 5,
+	"maxSubQuantity" : 5,
+	
+	"spotSubQuantity" : 5,
+	"marginSubQuantity" : 5,
+	"futuresSubQuantity" : 5,  
+  
+    "maxSpotSubQuantity" : 0,
+    "maxMarginSubQuantity" : 0,
+    "maxFuturesSubQuantity" : 0 
+  },
+  "code" : "200000"
+}
+```
+這個接口用以獲取賬號概要信息
+
+### HTTP請求
+`GET /api/v2/user-info`
+
+### 請求示例
+`GET /api/v2/user-info`
+
+### API權限
+此接口需要`通用權限`。
+
+### 請求參數
+`無`
+
+### 返回值
+字段 | 含義
+--------- | -------
+level | 用戶等級
+subQuantity | 當前子賬號數量
+maxDefaultSubQuantity | 默認子賬號數量上限（根據level等級）
+maxSubQuantity | 子賬號數量上限=默認子賬號數量上限+附加币币权限數量上限
+spotSubQuantity | 幣幣權限使用数量
+marginSubQuantity | 槓桿權限使用數量
+futuresSubQuantity | 合約權限使用數量
+maxSpotSubQuantity | 附加幣幣权限數量上限
+maxMarginSubQuantity | 附加槓桿权限數量上限
+maxFuturesSubQuantity | 附加合約权限數量上限
+
+
 ## 創建子賬號
 ```json
 {
@@ -1290,6 +1349,46 @@ remarks | 備註
 subName | 子賬戶名
 uid | 子賬戶UID
 access | 交易權限
+
+## 創建子賬號(V2)
+```json
+{
+    "code": "200000",
+    "data": {
+        "uid": 9969082973,
+        "subName": "AAAAAAAAAA0007",
+        "remarks": "remark",
+        "access": "Spot"
+    }
+}
+```
+這個接口用以創建子賬號。
+
+### HTTP請求
+`POST /api/v2/sub/user`
+
+### 請求示例
+`POST /api/v2/sub/user`
+
+### API權限
+此接口需要`通用權限`。
+
+### 請求參數
+請求參數 | 類型 | 含義
+--------- | ------- | -------
+password | String | 密碼(7～24位字符，數字或字母，不允許純數字或@等特殊字符)
+remarks | String | [可選]備註(1～24位字符)
+subName | String | 子賬戶名(7～32位字符，必須包含字母和數字，不支持空格)
+access | String | 交易權限(類型包含`Spot`、`Futures`、`Margin`權限，可單獨使用或組合使用）。
+
+### 返回值
+字段 | 含義
+--------- | -------
+remarks | 備註
+subName | 子賬戶名
+uid | 子賬戶UID
+access | 交易權限
+
 
 ## 獲取子賬號現貨API列表
 ```json
