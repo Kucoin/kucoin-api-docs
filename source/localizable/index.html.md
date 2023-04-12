@@ -66,8 +66,8 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 
 **02/03/23**:
 
-- [New] For creating sub-accounts, please use the new endpoint (POST /api/v2/sub/user) to replace the old endpoint (POST /api/v1/sub/user).
-- [New] For obtaining account summary information, please use the new endpoint (GET /api/v2/user-info) to replace the old endpoint (GET /api/v1/user-info).
+- [New] For creating sub-accounts, please use the new endpoint `POST /api/v2/sub/user/created` to replace the old endpoint `POST /api/v1/sub/user`.
+- [New] For obtaining account summary information, please use the new endpoint `GET /api/v2/user-info` to replace the old endpoint `GET /api/v1/user-info`.
 
 **02/03/23**:
 
@@ -1220,7 +1220,7 @@ Voting Earnings  | Voting Earnings on Pool-X
 Redemption of Voting  | Redemption of Voting on Pool-X
 Convert to KCS   | Convert to KCS 
 
-## Get Account Summary Info
+## Get Account Summary Info(deprecated)
 ```json
 {
     "code": "200000",
@@ -1243,6 +1243,8 @@ Convert to KCS   | Convert to KCS
 }
 ```
 This endpoint can be used to obtain account summary information.
+
+<aside class="notice">The <code>GET /api/v1/user-info</code> endpoint is deprecated, because the sub-account permissions structure has been upgraded, So it is recommended to use <code>GET /api/v2/user-info</code> endpoint instead</aside>
 
 ### HTTP REQUEST
 `GET /api/v1/user-info`
@@ -1322,7 +1324,7 @@ maxFuturesSubQuantity | Max number of sub-accounts with additional futures tradi
 
 
 
-## Create Sub-Account
+## Create Sub-Account(deprecated)
 ```json
 {
     "code": "200000",
@@ -1335,6 +1337,8 @@ maxFuturesSubQuantity | Max number of sub-accounts with additional futures tradi
 }
 ```
 This endpoint can be used to create sub-accounts.
+
+<aside class="notice">The <code>POST /api/v1/sub/user</code> endpoint is deprecated, because the sub-account permissions structure has been upgraded, So it is recommended to use <code>POST /api/v2/sub/user/created</code> endpoint instead</aside>
 
 ### HTTP REQUEST
 `POST /api/v1/sub/user`
@@ -1377,10 +1381,10 @@ access | Permission
 This endpoint can be used to create sub-accounts.
 
 ### HTTP REQUEST
-`POST /api/v2/sub/user`
+`POST /api/v2/sub/user/created`
 
 ### Example
-`POST /api/v2/sub/user`
+`POST /api/v2/sub/user/created`
 
 ### API KEY PERMISSIONS
 This endpoint requires the `General` permission.

@@ -66,8 +66,8 @@ API分爲兩部分：**REST API和Websocket 實時數據流**
 
 **08/04/23**:
 
-- 【新增】升级創建子賬號POST /api/v1/sub/user接口，請使用POST /api/v2/sub/user新接口
-- 【新增】升级獲取賬號概要信息GET /api/v1/user-info接口，請使用GET /api/v2/user-info新接口
+- 【新增】升级創建子賬號`POST /api/v1/sub/user`接口，請使用`POST /api/v2/sub/user/created`新接口
+- 【新增】升级獲取賬號概要信息`GET /api/v1/user-info`接口，請使用`GET /api/v2/user-info`新接口
 
 **02/03/23**:
 
@@ -1208,7 +1208,7 @@ Voting Earnings  | Pool-X獲取投票收益
 Redemption of Voting  | Pool-X投票贖回資產
 Convert to KCS   | 一鍵轉KCS
 
-## 獲取賬號概要信息
+## 獲取賬號概要信息(廢棄)
 
 ```json
 {
@@ -1232,6 +1232,8 @@ Convert to KCS   | 一鍵轉KCS
 }
 ```
 這個接口用以獲取賬號概要信息
+
+<aside class="notice"><code>GET /api/v1/user-info</code>接口已被廢棄，因爲升級了子帳戶權限結構，所以推薦使用<code>GET /api/v2/user-info</code>接口</aside>
 
 ### HTTP請求
 `GET /api/v1/user-info`
@@ -1311,7 +1313,7 @@ maxMarginSubQuantity | 附加槓桿权限數量上限
 maxFuturesSubQuantity | 附加合約权限數量上限
 
 
-## 創建子賬號
+## 創建子賬號(廢棄)
 ```json
 {
     "code": "200000",
@@ -1324,6 +1326,9 @@ maxFuturesSubQuantity | 附加合約权限數量上限
 }
 ```
 這個接口用以創建子賬號。
+
+<aside class="notice"><code>POST /api/v1/sub/user</code>接口已被廢棄，因爲升級了子帳戶權限結構，所以推薦使用<code>POST /api/v2/sub/user/created</code>接口</aside>
+
 
 ### HTTP請求
 `POST /api/v1/sub/user`
@@ -1365,10 +1370,10 @@ access | 交易權限
 這個接口用以創建子賬號。
 
 ### HTTP請求
-`POST /api/v2/sub/user`
+`POST /api/v2/sub/user/created`
 
 ### 請求示例
-`POST /api/v2/sub/user`
+`POST /api/v2/sub/user/created`
 
 ### API權限
 此接口需要`通用權限`。
