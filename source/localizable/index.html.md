@@ -2670,7 +2670,7 @@ This API is restricted for each account, the request rate limit is `45 times/3s`
 | remark    | String | *[Optional]*  remark for the order, length cannot exceed 100 utf8 characters|
 | stp       | String | *[Optional]*  self trade prevention , `CN`, `CO`, `CB` or `DC`|
 | marginModel | String | *[Optional]*  The type of trading, including `cross` (cross mode) and `isolated` (isolated mode). It is set at `cross` by default.|
-| autoBorrow | boolean | *[Optional]*  Auto-borrow to place order. The system will first borrow you funds at the optimal interest rate and then place an order for you. Currently `autoBorrow` parameter only supports `cross` mode, not `isolated` mode|
+| autoBorrow | boolean | *[Optional]*  Auto-borrow to place order. The system will first borrow you funds at the optimal interest rate and then place an order for you. Currently `autoBorrow` parameter only supports `cross` mode, not `isolated` mode. When add this param, stop profit and stop loss are not supported|
 
 #### LIMIT ORDER PARAMETERS
 
@@ -2693,7 +2693,7 @@ Param | type | Description
 size | String | *[Optional]*  Desired amount in base currency
 funds | String | *[Optional]*  The desired amount of quote currency to use
 
-* It is required that you use one of the two parameters, `size` or `funds`.
+* It is required that you use one of the two parameters, `size` or `funds`. For market buy orders, the `funds` parameter must be passed.
 
 ###Advanced Description
 
@@ -6724,7 +6724,7 @@ Subscribe to this topic to get the push of all market symbols BBO change.
             "symbol": "KCS-BTC",
             "buy": 0.00011,
             "sell": 0.00012,
-            "sort": 100,
+            "sort": 100,	//sorting number
             "volValue": 3.13851792584,   //total
             "baseCurrency": "KCS",
             "market": "BTC",
@@ -6737,8 +6737,8 @@ Subscribe to this topic to get the push of all market symbols BBO change.
             "changePrice": -1.0e-5,
             "changeRate": -0.0769,
             "lastTradedPrice": 0.00012,
-            "board": 0,
-            "mark": 0
+            "board": 0,		//Trading pair partition： 0.primary partition 1.KuCoin Plus", example = "1"
+            "mark": 0		//Trading Pair Mark： 0.default 1.ST. 2.NEW", example = "1"
         }
     }
 }
@@ -6768,7 +6768,7 @@ Subscribe to get snapshot data for a single symbol.
                 "symbol": "KCS-BTC",
                 "buy": 0.00011,
                 "sell": 0.00012,
-                "sort": 100,
+                "sort": 100,	//sorting number
                 "volValue": 3.13851792584,
                 "baseCurrency": "KCS",
                 "market": "BTC",
@@ -6781,8 +6781,8 @@ Subscribe to get snapshot data for a single symbol.
                 "changePrice": -1.0e-5,
                 "changeRate": -0.0769,
                 "lastTradedPrice": 0.00012,
-                "board": 0,
-                "mark": 0
+                "board": 0,		//Trading pair partition： 0.primary partition 1.KuCoin Plus", example = "1"
+                "mark": 0		//Trading Pair Mark： 0.default 1.ST. 2.NEW", example = "1"
           }
        ]
     }
