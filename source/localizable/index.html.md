@@ -494,7 +494,7 @@ REST API:
 
 The limit strategy of private endpoints will restrict account by userid. The limit strategy of public endpoints will restrict IP. Currently Kucoin has three rate limits, which are as follows:
 
-1、 error code: 1015, according to the IP rate limit, cloudflare is based on the IP limit, all endpoint share the rate limit, currently 500/10s, the background may be fine-tuned, block 30s. Cloudfeare does not have the configuration of the ip whitelist, so it cannot be specially adjusted, but this problem can be avoided, such as using the Websocket instead of the Rest(if the interface supports it). You can also use one server to bind multiple ip addresses (ipv4 or ipv6), and then use different ip for different sub-accounts.
+1、 error code: 1015, according to the IP rate limit, Cloudflare is based on the IP limit, all endpoint share the rate limit, currently 500/10s, the background may be fine-tuned, block 30s. Cloudflare does not have the configuration of the ip whitelist, so it cannot be specially adjusted, but this problem can be avoided, such as using the Websocket instead of the Rest(if the interface supports it). You can also use one server to bind multiple ip addresses (ipv4 or ipv6), and then use different ip for different sub-accounts.
 
 2、 error code: 200002, rate limit of each private endpoint of kucoin, based on user uid+endpoint mode limit, block10s. For example, if a certain endpoint is called too frequently, you may encounter this problem. It is recommended to reduce the rate of use of that interface.
 
