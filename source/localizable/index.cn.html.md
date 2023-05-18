@@ -63,6 +63,10 @@ API分爲兩部分：**REST API和Websocket 實時數據流**
 
 **爲了進一步提升API安全性，KuCoin已經升級到了V2版本的API-KEY，驗籤邏輯也發生了一些變化，建議到[API管理頁面](https://www.kucoin.cc/account/api)添加並更換到新的API-KEY。KuCoin已經停止對老版本API-KEY的支持。[查看新的簽名方式](#99f215f459)**
 
+**18/05/23**:
+
+- 【新增】新上線一系列槓桿V3接口。
+
 
 **08/04/23**:
 
@@ -498,7 +502,7 @@ REST&nbsp;API 連接地址:
 
 對需要校驗API權限的私有接口，限制賬號userid。不需要檢驗權限API，則限制IP。目前Kucoin一共有三種限頻，分別如下
 
-1、error code：1015，根據IP限制頻率，是Cloudflare基於ip的限制，所有的接口共用該限頻，目前是500/10s,後臺可能會微調，block 30s。Cloudflare沒有ip白名單的配置，所以無法特殊調整，但是這個問題是可以避免的，比如使用Websocket介面代替Rest介面(如果接口支持的話)。也可以用一臺伺服器綁定多個ip地址（ipv4或者ipv6），或者不同的子帳號使用不同的ip。
+1、error code：1015，根據IP限制頻率，是Cloudflare基於ip的限制，所有的接口共用該限頻，目前是500/10s,後臺可能會微調，block 30s。Cloudflare沒有ip白名單的配置，所以無法特殊調整，但是這個問題是可以避免的，比如使用Websocket接口代替Rest接口(如果接口支持的話)。也可以用一臺伺服器綁定多個ip地址（ipv4或者ipv6），或者不同的子帳號使用不同的ip。
 
 2、error code：200002，kucoin每個私有接口的限頻，是基於用戶的uid+接口模式的限制，block10s。比如某個接口調用頻率過高，就可能遇到這個問題，建議降低那個接口的使用頻率
 
@@ -665,6 +669,7 @@ REST API 對於賬戶、訂單、和市場數據均提供了接口。
 | 200003 | Number of orders breached the limit--委託中訂單數量過多      |
 | 200009 | Please complete the KYC verification before you trade XX--需要通過KYC高級認證才能交易該幣對 |
 | 200004 | Balance insufficient--賬戶餘額不足                           |
+| 260210 | withdraw.disabled -- 幣鏈提現關閉，或者用戶被凍結提現         |
 | 400001 | Any of KC-API-KEY, KC-API-SIGN, KC-API-TIMESTAMP, KC-API-PASSPHRASE is missing in your request header -- 請求頭中缺少驗籤參數 |
 | 400002 | KC-API-TIMESTAMP Invalid -- 請求時間與服務器時差超過5秒      |
 | 400003 | KC-API-KEY not exists -- API-KEY 不存在                      |
@@ -676,6 +681,7 @@ REST API 對於賬戶、訂單、和市場數據均提供了接口。
 | 400100 | Parameter Error -- 請求參數不合法                            |
 | 400200 | Forbidden to place an order--禁止在該交易對下單              |
 | 400500 | Your located country/region is currently not supported for the trading of this token--該數字資產不支持您所在區域的用戶參與，感謝您的理解 |
+| 400600 | validation.createOrder.symbolNotAvailable -- 交易對還未開啟交易 |
 | 400700 | Transaction restricted, there's a risk problem in your account--您的賬戶存在風險問題，暫時不允許進行交易 |
 | 400800 | Leverage order failed--槓槓下單失敗                          |
 | 411100 | User are frozen -- 用戶被凍結，請聯繫[幫助中心](https://kucoin.zendesk.com/hc/zh-cn/requests/new) |
@@ -6223,6 +6229,541 @@ loanId | String | 交易單號,設置該字段後，順序策略無效
 ### 返回值
 當系統返回HTTP狀態碼`200`和系統代碼`200000`時，表示成功
 
+
+
+
+
+
+
+
+
+# 槓桿交易（V3）
+
+目前v1版本和v3版本均可正常使用
+
+## 1 槓桿借幣
+```json 
+{
+    "success": true,
+    "code": "200",
+    "msg": "success",
+    "retry": false,
+    "data": {
+        "orderNo": "5da6dba0f943c0c81f5d5db5",
+        "actualSize": 10
+    }
+}
+```
+該接口用於發起全倉或逐倉的借幣申請
+### Http 請求
+`POST /api/v3/margin/borrow`                                      
+
+### 請求示例:
+`POST /api/v3/margin/borrow`
+
+### Api 權限
+此接口需要**交易權限**
+
+### 請求參數
+| 字段        | 類型       | 含義                                  |
+| ----------- | ---------- | ------------------------------------- |
+| isIsolated  | Boolean    | [可選] true-逐倉,false-全倉;默認false |
+| symbol      | String     | [可選] 交易對, 逐倉賬戶必填           |
+| currency    | String     | [必選] 借入幣種                       |
+| size        | BigDecimal | [必選] 借入數量                       |
+| timeInForce | String     | [必選] 訂單時效策略IOC, FOK           |
+
+### 返回值
+| 字段    | 含義       |
+| ------- | ---------- |
+| orderNo | 借入訂單號 |  | actualSize | 實際借入數量 |
+
+
+## 2 還幣
+```json 
+{
+    "success": true,
+    "code": "200",
+    "msg": "success",
+    "retry": false,
+    "data": {
+        "orderNo": "5da6dba0f943c0c81f5d5db5",
+        "actualSize": 10
+    }
+}
+```
+該接口用於發起全倉或逐倉的還幣申請
+### Http 請求
+`POST /api/v3/margin/repay`                                       
+
+### 請求示例:
+`POST /api/v3/margin/repay`
+
+### Api 權限
+此接口需要**交易權限**
+
+### 請求參數
+| 字段       | 類型       | 含義                                  |
+| ---------- | ---------- | ------------------------------------- |
+| isIsolated | Boolean    | [可選] true-逐倉,false-全倉;默認false |
+| symbol     | String     | [可選] 交易對, 逐倉賬戶必填           |
+| currency   | String     | [必選] 幣種                           |
+| size       | BigDecimal | [必選] 還幣數量                       |
+
+
+### 返回值
+| 字段       | 含義         |
+| ---------- | ------------ |
+| orderNo    | 還款訂單號   |
+| actualSize | 實際還款數量 |
+
+## 3 查詢借幣紀錄
+```json 
+{
+    "currentPage": 1,
+    "pageSize": 50,
+    "totalNum": 1,
+    "totalPage": 1,
+    "items": [
+        {
+            "orderNo": "5da6dba0f943c0c81f5d5db5",
+            "symbol": "BTC-USDT",
+            "currency": "USDT",
+            "size": 10,
+            "actualSize": 10,
+            "status": "DONE",
+            "createdTime": 1555056425000
+        }
+    ]
+}
+```
+該接口用於查詢全倉和逐倉的借幣訂單
+### Http 請求
+`GET /api/v3/margin/borrow`                                     
+### 請求示例:
+`GET /api/v3/margin/borrow`
+
+### Api 權限
+此接口需要**交易權限**
+
+### 請求參數
+| 字段        | 類型    | 含義                                            |
+| ----------- | ------- | ----------------------------------------------- |
+| currency    | String  | [必選] 幣種                                     |
+| isIsolated  | Boolean | [可選] true-逐倉,false-全倉;默認false           |
+| symbol      | String  | [可選] 交易對, 逐倉賬戶必填                     |
+| orderNo     | String  | [可選] 訂單號                                   |
+| startTime   | Long    | [可選] 開始時間                                 |
+| endTime     | Long    | [可選] 結束時間                                 |
+| currentPage | Int     | [可選] 當前查詢頁, 開始值1。 默認:1             |
+| pageSize    | Int     | [可選] 每頁紀錄數，默認:50, 最小值10，最大值500 |
+
+
+### 返回值
+| 字段        | 含義                 |
+| ----------- | -------------------- |
+| orderNo     | 借幣訂單ID           |
+| symbol      | 逐倉交易對，全倉為空 |
+| currency    | 幣種                 |
+| size        | 申請借幣數量         |
+| actualSize  | 實際借幣數量         |
+| status      | 狀態                 |
+| createdTime | 借幣時間             |
+
+### 備註
+查詢時間範圍最大不得超過30天。 若 startTime 和 endTime 沒傳，則默認返回最近 7 天數據只能查最近 6 個月的數據
+
+## 4 查詢還幣申請紀錄
+```json 
+{
+    "currentPage": 1,
+    "pageSize": 50,
+    "totalNum": 1,
+    "totalPage": 1,
+    "items": {
+        "orderNo": "5da6dba0f943c0c81f5d5db5",
+        "symbol": "BTC-USDT",
+        "currency": "USDT",
+        "size": 10,
+        "actualSize": 10,
+        "status": "DONE",
+        "createdTime": 1555056425000
+    }
+}
+```
+該接口用於查詢全倉和逐倉的還幣申請訂單
+### Http 請求
+`GET /api/v3/margin/repay`
+### 請求示例:
+`GET /api/v3/margin/repay`
+
+### Api 權限
+此接口需要**交易權限**
+
+### 請求參數
+| 字段        | 類型    | 含義                                            |
+| ----------- | ------- | ----------------------------------------------- |
+| currency    | String  | [必選] 幣種                                     |
+| isIsolated  | Boolean | [可選] true-逐倉,false-全倉;默認false           |
+| symbol      | String  | [可選] 交易對, 逐倉賬戶必填                     |
+| orderNo     | String  | [可選] 訂單號                                   |
+| startTime   | Long    | [可選] 開始時間                                 |
+| endTime     | Long    | [可選] 結束時間                                 |
+| currentPage | Int     | [可選] 當前查詢頁, 開始值1。 默認:1             |
+| pageSize    | Int     | [可選] 每頁紀錄數，默認:50, 最小值10，最大值500 |
+
+
+### 返回值
+| 字段        | 含義                      |
+| ----------- | ------------------------- |
+| orderNo     | 還幣訂單號                |
+| symbol      | 逐倉交易對，全倉為空      |
+| currency    | 幣種                      |
+| size        | 申請還幣數量              |
+| principal   | 支付的本金數量            |
+| interest    | 支付的利息                |
+| status      | 狀態還款中，已完成， 失敗 |
+| createdTime | 還幣時間                  |
+
+## 錯誤碼：
+| 外部 Code | message                                                                        |
+| --------- | ------------------------------------------------------------------------------ |
+| 400400    | 參數錯誤                                                                       |
+| 130201    | 請先開通槓桿交易                                                               |
+| 130201    | 您的相關權限已被限制，可聯繫客服進行處理                                       |
+| 130201    | 借貸功能已禁用                                                                 |
+| 130202    | 系統正在自動續借,請稍後再試                                                    |
+| 130202    | 系統正在強平處理,請稍後再試                                                    |
+| 130202    | 請先償還所有負債                                                               |
+| 130202    | 借入中，請稍後再試                                                             |
+| 130202    | 網絡超時,系統處理中                                                            |
+| 130202    | 系統正在自動續借,請稍後再試                                                    |
+| 130202    | 倉位強平確認中，請稍後重試                                                     |
+| 130202    | 系統處理中，請稍後重試                                                         |
+| 130202    | 有借入委託未完成，可稍後重試                                                   |
+| 130203    | 賬戶餘額不足                                                                   |
+| 130203    | 超過最大借入額度，剩餘可藉入數量: {1}{0}                                       |
+| 130204    | 平台槓桿{0}借貸累計總量達到平台設置的最大槓桿借貸總量，系統暫停槓桿{1}借入功能 |
+| 130204    | 平台槓桿{0}持倉累計總量達到平台設置的最大槓桿持倉總量，系統暫停槓桿{1}借入功能 |
+| 130204    | 根據平台最大借入量風控限制，您最大可藉入{0}{1}                                 |
+
+# 借貸市場(V3)
+## 1 查詢借貸市場借出幣種信息
+```json 
+{
+    "currentPage": 1,
+    "pageSize": 100,
+    "totalNum": 1,
+    "totalPage": 1,
+    "items": [
+        {
+            "currency": "BTC",
+            "purchaseEnable": true,
+            "redeemEnable": true,
+            "increment": "1",
+            "minPurchaseSize": "10",
+            "minInterestRate": "0.004",
+            "maxInterestRate": "0.02",
+            "interestIncrement": "0.0001",
+            "maxPurchaseSize": "20000",
+            "marketInterestRate": "0.009",
+            "autoPurchaseEnable": true
+        }
+    ]
+}
+```
+該接口提供借貸市場支持的借出幣種信息查詢
+### Http 請求
+`GET /api/v3/project/list`                                              
+
+### 請求示例:
+`GET /api/v3/project/list?currency=BTC`
+
+### Api 權限
+此接口需要**通用權限** 。
+
+### 請求參數
+| 字段     | 類型   | 含義        |
+| -------- | ------ | ----------- |
+| currency | String | [可選] 幣種 |
+
+### 返回值
+| 字段               | 含義                                    |
+| ------------------ | --------------------------------------- |
+| currency           | 幣種                                    |
+| purchaseEnable     | 支持申購                                |
+| redeemEnable       | 支持贖回                                |
+| increment          | 申購、贖回步長精度                      |
+| minPurchaseSize    | 最小申購數量                            |
+| minInterestRate    | 最小出借年利率                          |
+| maxInterestRate    | 最大出借年利率                          |
+| interestIncrement  | 利息步長精度，默認0.0001                |
+| maxPurchaseSize    | 用戶最大申購限額                        |
+| marketInterestRate | 最新市場年利率                          |
+| autoPurchaseEnable | 是否開啟自動申購：true:開啟，false:關閉 |
+
+
+## 2 查詢市場出借利率
+```json 
+[
+    {
+        "time": "202303261200",
+        "marketInterestRate": "0.003"
+    },
+    {
+        "time": "202303261300",
+        "marketInterestRate": "0.004"
+    }
+]
+```
+該接口提供借貸市場最近7天利率 
+### Http 請求
+` GET /api/v3/project/marketInterestRate `           
+
+### 請求示例:
+`GET /api/v3/project/marketInterestRate?currency=BTC`
+
+### Api 權限
+此接口需要**通用權限** 。
+
+### 請求參數
+| 字段     | 類型   | 含義        |
+| -------- | ------ | ----------- |
+| currency | String | [必選] 幣種 |
+
+### 返回值
+| 字段               | 含義               |
+| ------------------ | ------------------ |
+| time               | 時間：YYYYMMDDHH00 |
+| marketInterestRate | 市場利率           |
+
+
+## 3 申購
+```json 
+{
+    "orderNo": "5da6dba0f943c0c81f5d5db5"
+}
+```
+發起借貸市場申購
+### Http 請求
+`POST /api/v3/purchase`
+
+### 請求示例:
+`POST /api/v3/purchase`
+
+### Api 權限
+此接口需要**交易權限** 。
+
+### 請求參數
+| 字段         | 類型   | 含義            |
+| ------------ | ------ | --------------- |
+| currency     | String | [必選] 幣種     |
+| size         | String | [必選] 申購金額 |
+| interestRate | String | [必選] 申購利率 |
+
+
+### 返回值
+| 字段    | 含義                                                       |
+| ------- | ---------------------------------------------------------- |
+| orderNo | 申購訂單號如果已存在幣種+利率的申購單，返回上一次的orderNo |
+
+## 4 贖回
+```json 
+{
+    "orderNo": "5da6dba0f943c0c81f5d5db5"
+}
+```
+發起借貸市場贖回
+### Http 請求
+`POST /api/v3/redeem` 
+    
+### 請求示例:
+`POST /api/v3/redeem`
+
+### Api 權限
+此接口需要**交易權限** 。
+
+### 請求參數
+| 字段            | 類型   | 含義              |
+| --------------- | ------ | ----------------- |
+| currency        | String | [必選] 幣種       |
+| size            | String | [必選] 贖回金額   |
+| purchaseOrderNo | String | [必選] 申購訂單號 |
+
+
+### 返回值
+| 字段    | 含義       |
+| ------- | ---------- |
+| orderNo | 贖回訂單號 |
+
+
+## 5 修改申購訂單
+```json 
+{
+    "success": true,
+    "code": "200",
+    "msg": "success",
+    "retry": false
+}
+```
+該接口提供借貸市場申購訂單利率修改，在下一個整點生效。
+
+### Http 請求
+`PUT /api/v3/lend/purchase/update`
+
+
+### 請求示例:
+`PUT /api/v3/lend/purchase/update`
+
+### Api 權限
+此接口需要**交易權限** 。
+
+### 請求參數
+| 字段            | 類型   | 含義                    |
+| --------------- | ------ | ----------------------- |
+| currency        | String | [必選] 幣種             |
+| purchaseOrderNo | String | [必選] 申購訂單號       |
+| interestRate    | String | [必選] 修改後的申購利率 |
+
+### 返回值
+Void
+
+
+
+## 6 查詢贖回訂單
+```json 
+ {
+    "currentPage": 1,
+    "pageSize": 100,
+    "totalNum": 1,
+    "totalPage": 1,
+    "items": [
+        {
+            "currency": "BTC",
+            "purchaseOrderNo": "5da6dba0f943c0c81f5d5db5",
+            "redeemOrderNo": "5da6dbasdffga1f5d5dfsb5",
+            "redeemAmount": "300000",
+            "receiptAmount": "250000",
+            "applyTime": 1669508513820,
+            "status": "PENDING",
+        }
+    ]
+}
+```
+該接口提供借貸市場贖回訂單分頁查詢
+### Http 請求
+`GET /api/v3/redeem/orders`
+
+### 請求示例:
+`GET /api/v3/redeem/orders?currency=BTC&status=DONE&currentPage=1&pageSize=10`
+
+### Api 權限
+此接口需要**通用權限** 。
+
+### 請求參數
+| 字段          | 類型   | 含義                                     |
+| ------------- | ------ | ---------------------------------------- |
+| currency      | String | [必選] 幣種                              |
+| redeemOrderNo | String | [可選] 贖回訂單號                        |
+| status        | String | [必選] DONE-已完結;PENDING-結算中        |
+| currentPage   | Int    | [可選] 當前頁,默認1                      |
+| pageSize      | Int    | [可選] 頁大小， 1<=pageSize<=100，默認50 |
+
+### 返回值
+| 字段            | 含義                             |
+| --------------- | -------------------------------- |
+| currency        | 幣種                             |
+| purchaseOrderNo | 申購訂單號                       |
+| redeemOrderNo   | 贖回訂單號                       |
+| redeemSize      | 贖回數量                         |
+| receiptSize     | 已贖回數量                       |
+| applyTime       | 申請贖回時間                     |
+| status          | 狀態，DONE-已完結;PENDING-結算中 |
+
+
+## 7 查詢申購訂單
+```json 
+{
+    "currentPage": 1,
+    "pageSize": 100,
+    "totalNum": 1,
+    "totalPage": 1,
+    "items": [
+        {
+            "currency": "BTC",
+            "purchaseOrderNo": "5da6dba0f943c0c81f5d5db5",
+            "purchaseAmount": "300000",
+            "lendAmount": "0",
+            "redeemAmount": "300000",
+            "interestRate": "0.0003",
+            "incomeAmount": "200",
+            "applyTime": 1669508513820,
+            "status": "DONE",
+        }
+    ]
+}
+```
+該接口提供借貸市場申購訂單分頁查詢
+### Http 請求
+`GET /api/v3/purchase/orders`
+
+### 請求示例:
+`GET /api/v3/purchase/orders?currency=BTC&status=DONE&currentPage=1&pageSize=10`
+
+### Api 權限
+此接口需要**通用權限** 。
+
+### 請求參數
+| 字段            | 類型   | 含義                                     |
+| --------------- | ------ | ---------------------------------------- |
+| currency        | String | [必選] 幣種                              |
+| purchaseOrderNo | String | [可選] 申購訂單號                        |
+| status          | String | [必選] DONE-已完結;PENDING-結算中        |
+| currentPage     | Int    | [可選] 當前頁,默認1                      |
+| pageSize        | Int    | [可選] 頁大小， 1<=pageSize<=100，默認50 |
+
+### 返回值
+| 字段            | 含義                           |
+| --------------- | ------------------------------ |
+| currency        | 幣種                           |
+| purchaseOrderNo | 申購訂單號                     |
+| purchaseSize    | 累計申購數量                   |
+| matchSize       | 已撮合部分數量                 |
+| redeemSize      | 已贖回數量                     |
+| interestRate    | 目標年化利率                   |
+| incomeSize      | 累計收益                       |
+| applyTime       | 申購發起時間                   |
+| status          | 狀態DONE-已完結;PENDING-結算中 |
+
+## 錯誤碼：
+| 外部 Code | message                  |
+| --------- | ------------------------ |
+| 130101    | 幣種不允許申購           |
+| 130101    | 利率步長錯誤             |
+| 130101    | 利率超過範圍             |
+| 130101    | 申購金額超過單筆申購範圍 |
+| 130101    | 申購金額步長錯誤         |
+| 130101    | 贖回金額步長錯誤         |
+| 130101    | 利率超過範圍             |
+| 130102    | 超過用戶最大申購總額度   |
+| 130103    | 申購訂單不存在           |
+| 130104    | 超過用戶最大申購訂單數   |
+| 130105    | 餘額不足                 |
+| 130106    | 幣種不支持贖回           |
+| 130107    | 贖回金額超過申購金額     |
+| 130108    | 贖回訂單不存在           |
+
+
+
+
+
+
+
+
+
+
+
+
 # 其他接口
 
 ## 獲取服務器時間
@@ -6317,7 +6858,7 @@ REST API的使用受到了訪問頻率的限制，因此推薦您使用Websocket
 
 ## 建立連接
 ```javascript
-var socket = new WebSocket("wss://ws-api-spot.kucoin.com/?token==xxx&[connectId=xxxxx]");
+var socket = new WebSocket("wss://ws-api-spot.kucoin.com/?token=xxx&[connectId=xxxxx]");
 ```
 成功建立連接後，您將會收到系統向您發出的歡迎（welcome）消息。
 
@@ -7512,7 +8053,11 @@ trade.other | 交易賬戶其他操作
 margin.hold | 槓桿賬戶凍結
 margin.setted | 槓桿賬戶入賬
 margin.transfer | 槓桿賬戶轉賬
-margin.other | 槓桿賬戶其他操作
+margin.other | 槓桿賬戶其他操作，包含解凍回，解凍支付等
+isolated_%s.hold | 逐倉槓桿賬戶凍結
+isolated_%s.setted | 逐倉槓桿賬戶入帳
+isolated_%s.transfer | 逐倉槓桿賬戶轉帳
+isolated_%s.other | 逐倉槓桿賬戶其他操作
 other | 其他操作
 
 <aside class="spacer4"></aside>

@@ -64,7 +64,12 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 **To reinforce the security of the API, KuCoin upgraded the API key to version 2.0, the validation logic has also been changed. It is recommended to [create](https://www.kucoin.com/account/api) and update your API key to version 2.0. The API key of version 1.0 is invalid. [Check new signing method](#signing-a-message)**
 
 
-**02/03/23**:
+
+**18/05/23**:
+
+- [New] Launched a series of endpoint for margin V3 
+
+**08/04/23**:
 
 - [New] For creating sub-accounts, please use the new endpoint `POST /api/v2/sub/user/created` to replace the old endpoint `POST /api/v1/sub/user`.
 - [New] For obtaining account summary information, please use the new endpoint `GET /api/v2/user-info` to replace the old endpoint `GET /api/v1/user-info`.
@@ -679,6 +684,7 @@ Code | Meaning
 | 200003 | Number of orders breached the limit      |
 | 200009 | Please complete the KYC verification before you trade XX |
 | 200004 | Balance insufficient                           |
+| 260210 | withdraw.disabled -- Currency/Chain withdraw is closed, or user is frozen to withdraw         |
 | 400001 | Any of KC-API-KEY, KC-API-SIGN, KC-API-TIMESTAMP, KC-API-PASSPHRASE is missing in your request header |
 | 400002 | KC-API-TIMESTAMP Invalid      |
 | 400003 | KC-API-KEY not exists                      |
@@ -690,6 +696,7 @@ Code | Meaning
 | 400100 | Parameter Error                            |
 | 400200 | Forbidden to place an order              |
 | 400500 | Your located country/region is currently not supported for the trading of this token |
+| 400600 | validation.createOrder.symbolNotAvailable -- The trading pair has not yet started trading |
 | 400700 | Transaction restricted, there's a risk problem in your account |
 | 400800 | Leverage order failed                          |
 | 411100 | User are frozen |
@@ -6358,6 +6365,534 @@ loanId | String | Trade order number; when this field is configured, the sequenc
 ### RESPONSES
 When the system returns HTTP status code `200` and system code `200000`, it indicates that the response is successful.
 
+
+# Margin Trading(V3)
+
+Both v1 and v3 versions can be used normally
+
+## 1 Margin Borrowing
+```json 
+{
+    "success": true,
+    "code": "200",
+    "msg": "success",
+    "retry": false,
+    "data": {
+        "orderNo": "5da6dba0f943c0c81f5d5db5",
+        "actualSize": 10
+    }
+}
+```
+This API endpoint is used to initiate an application for cross or isolated margin borrowing.
+### HTTP REQUEST
+`POST /api/v3/margin/borrow`                                      
+
+### Example
+`POST /api/v3/margin/borrow`
+
+### API KEY PERMISSIONS
+This endpoint requires the **Trade permission**.
+
+### PARAMETERS
+| Field       | Type       | Description                                                    |
+| ----------- | ---------- | -------------------------------------------------------------- |
+| isIsolated  | Boolean    | [Optional] true-isolated ,false-cross;default is false         |
+| symbol      | String     | [Optional] Trading pair, mandatory for isolated margin account |
+| currency    | String     | [Mandatory] Borrowed currency                                  |
+| size        | BigDecimal | [Mandatory] Borrowed amount                                    |
+| timeInForce | String     | [Mandatory] timeInForce: IOC, FOK                              |
+
+### RESPONSES
+| Field      | Description            |
+| ---------- | ---------------------- |
+| orderNo    | Borrow order number    |
+| actualSize | Actual borrowed amount |
+
+
+## 2 Repayment
+```json 
+{
+    "success": true,
+    "code": "200",
+    "msg": "success",
+    "retry": false,
+    "data": {
+        "orderNo": "5da6dba0f943c0c81f5d5db5",
+        "actualSize": 10
+    }
+}
+```
+This API endpoint is used to initiate an application for the repayment of cross or isolated margin borrowing.
+### HTTP REQUEST
+`POST /api/v3/margin/repay`                                       
+
+### Example
+`POST /api/v3/margin/repay`
+
+### API KEY PERMISSIONS
+This endpoint requires the **Trade permission**.
+
+### PARAMETERS
+| Field      | Type       | Description                                                    |
+| ---------- | ---------- | -------------------------------------------------------------- |
+| isIsolated | Boolean    | [Optional] true-isolated ,false-cross;default is false         |
+| symbol     | String     | [Optional] trading pair, mandatory for isolated margin account |
+| currency   | String     | [Mandatory] Currency                                           |
+| size       | BigDecimal | [Mandatory] Repayment amount                                   |
+
+
+### RESPONSES
+| Field      | Description             |
+| ---------- | ----------------------- |
+| orderNo    | Repayment order number  |
+| actualSize | Actual repayment amount |
+
+## 3 Get Margin Borrowing History
+```json 
+{
+    "currentPage": 1,
+    "pageSize": 50,
+    "totalNum": 1,
+    "totalPage": 1,
+    "items": [
+        {
+            "orderNo": "5da6dba0f943c0c81f5d5db5",
+            "symbol": "BTC-USDT",
+            "currency": "USDT",
+            "size": 10,
+            "actualSize": 10,
+            "status": "DONE",
+            "createdTime": 1555056425000
+        }
+    ]
+}
+```
+This API endpoint is used to get the borrowing orders for cross and isolated margin accounts
+### HTTP REQUEST
+`GET /api/v3/margin/borrow`                                     
+### Example
+`GET /api/v3/margin/borrow`
+
+### API KEY PERMISSIONS
+This endpoint requires the **Trade permission**.
+
+### PARAMETERS
+| Field       | Type    | Description                                                                           |
+| ----------- | ------- | ------------------------------------------------------------------------------------- |
+| currency    | String  | [Mandatory] Currency                                                                  |
+| isIsolated  | Boolean | [Optional] true-isolated ,false-cross;default is false                                |
+| symbol      | String  | [Optional] trading pair, mandatory for isolated margin account                        |
+| orderNo     | String  | [Optional] Order number                                                               |
+| startTime   | Long    | [Optional] Start time                                                                 |
+| endTime     | Long    | [Optional] End time                                                                   |
+| currentPage | Int     | [Optional] Current query page, with a starting value of 1. Default:1                  |
+| pageSize    | Int     | [Optional] Number of results per page. Default is 50, minimum is 10, maximum is 500\. |
+
+
+### RESPONSES
+| Field       | Description                                          |
+| ----------- | ---------------------------------------------------- |
+| orderNo     | Borrow order ID                                      |
+| symbol      | Isolated margin trading pair; empty for cross margin |
+| currency    | Currency                                             |
+| size        | Initiated borrowing amount                           |
+| actualSize  | Actual borrowed amount                               |
+| status      | Status                                               |
+| createdTime | Time of borrowing                                    |
+
+### Remarks
+The maximum period for queries should not exceed 30 days. If startTime and endTime are not passed, data from the last 7 days will be returned by default. You can only check data from the last 6 months.
+
+## 4 Get Repayment History
+```json 
+{
+    "currentPage": 1,
+    "pageSize": 50,
+    "totalNum": 1,
+    "totalPage": 1,
+    "items": {
+        "orderNo": "5da6dba0f943c0c81f5d5db5",
+        "symbol": "BTC-USDT",
+        "currency": "USDT",
+        "size": 10,
+        "actualSize": 10,
+        "status": "DONE",
+        "createdTime": 1555056425000
+    }
+}
+```
+This API endpoint is used to get the repayment orders for cross and isolated margin accounts.
+### HTTP REQUEST
+`GET /api/v3/margin/repay`
+### Example
+`GET /api/v3/margin/repay`
+
+### API KEY PERMISSIONS
+This endpoint requires the **Trade permission**.
+
+### PARAMETERS
+| Field       | Type    | Description                                                                           |
+| ----------- | ------- | ------------------------------------------------------------------------------------- |
+| currency    | String  | [Mandatory] Currency                                                                  |
+| isIsolated  | Boolean | [Optional] true-isolated ,false-cross;default is false                                |
+| symbol      | String  | [Optional] trading pair, mandatory for isolated margin account                        |
+| orderNo     | String  | [Optional] Order number                                                               |
+| startTime   | Long    | [Optional] Start time                                                                 |
+| endTime     | Long    | [Optional] End time                                                                   |
+| currentPage | Int     | [Optional] Current query page, with a starting value of 1. Default:1                  |
+| pageSize    | Int     | [Optional] Number of results per page. Default is 50, minimum is 10, maximum is 500\. |
+
+
+### RESPONSES
+| Field       | Description                                          |
+| ----------- | ---------------------------------------------------- |
+| orderNo     | Repayment order number                               |
+| symbol      | Isolated margin trading pair; empty for cross margin |
+| currency    | Currency                                             |
+| size        | Initiated repayment amount                           |
+| principal   | Principal to be paid                                 |
+| interest    | Interest to be paid                                  |
+| status      | Status Repaying, Completed, Failed                   |
+| createdTime | Time of repayment                                    |
+
+## Error code:
+| External Code | message                                                                                                                                                                |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 400400        | Parameter error                                                                                                                                                        |
+| 130201        | Please open margin trade before proceeding                                                                                                                             |
+| 130201        | Your account has restricted access to certain features. Please contact customer service for further assistance                                                         |
+| 130201        | The lending function is currently disabled                                                                                                                             |
+| 130202        | The system is renewing the loan automatically. Please try again later                                                                                                  |
+| 130202        | The system is processing liquidation. Please try again later                                                                                                           |
+| 130202        | Please pay off all debts before proceeding                                                                                                                             |
+| 130202        | A borrowing is in progress. Please try again later                                                                                                                     |
+| 130202        | A timeout has occurred. The system is currently processing                                                                                                             |
+| 130202        | The system is renewing the loan automatically. Please try again later                                                                                                  |
+| 130202        | The system is confirming position liquidation. Please try again later                                                                                                  |
+| 130202        | The system is processing. Please try again later                                                                                                                       |
+| 130202        | There are outstanding borrowing orders that need to be settled. Please try again later                                                                                 |
+| 130203        | Insufficient account balance                                                                                                                                           |
+| 130203        | The maximum borrowing amount has been exceeded. Your remaining available borrowing: {1}{0}                                                                             |
+| 130204        | As the total lending amount for platform leverage {0} reaches the platform's maximum position limit, the system suspends the borrowing function of leverage {1}        |
+| 130204        | As the total position of platform leverage {0} reaches the platform's maximum leverage loan limit, the system suspends leverage the borrowing function of leverage {1} |
+| 130204        | According to the platform's maximum borrowing limit, the maximum amount you can borrow is {0}{1}                                                                       |
+
+# Lending Market(V3)
+## 1 Get Currency Information
+```json 
+{
+    "currentPage": 1,
+    "pageSize": 100,
+    "totalNum": 1,
+    "totalPage": 1,
+    "items": [
+        {
+            "currency": "BTC",
+            "purchaseEnable": true,
+            "redeemEnable": true,
+            "increment": "1",
+            "minPurchaseSize": "10",
+            "minInterestRate": "0.004",
+            "maxInterestRate": "0.02",
+            "interestIncrement": "0.0001",
+            "maxPurchaseSize": "20000",
+            "marketInterestRate": "0.009",
+            "autoPurchaseEnable": true
+        }
+    ]
+}
+```
+This API endpoint is used to get the information about the currencies available for lending.
+### HTTP REQUEST
+`GET /api/v3/project/list`                                              
+
+### Example
+`GET /api/v3/project/list?currency=BTC`
+
+### API KEY PERMISSIONS
+This endpoint requires the **General permission**.
+
+### PARAMETERS
+| Field    | Type   | Description         |
+| -------- | ------ | ------------------- |
+| currency | String | [Optional] Currency |
+
+### RESPONSES
+| Field              | Description                                           |
+| ------------------ | ----------------------------------------------------- |
+| currency           | Currency                                              |
+| purchaseEnable     | Support subscription                                  |
+| redeemEnable       | Support redemption                                    |
+| increment          | Increment precision for subscription and redemption   |
+| minPurchaseSize    | Minimum subscription amount                           |
+| minInterestRate    | Minimum annualized interest rate                      |
+| maxInterestRate    | Maximum annualized interest rate                      |
+| interestIncrement  | Increment precision for interest; default is 0.0001   |
+| maxPurchaseSize    | Maximum subscription limit per user                   |
+| marketInterestRate | Latest market annualized interest rate                |
+| autoPurchaseEnable | Auto-Subscribe enabled?: true: enable, false: disable |
+
+
+## 2 Get Interest Rates
+```json 
+[
+    {
+        "time": "202303261200",
+        "marketInterestRate": "0.003"
+    },
+    {
+        "time": "202303261300",
+        "marketInterestRate": "0.004"
+    }
+]
+```
+This API endpoint is used to get the interest rates of the margin lending market over the past 7 days. 
+### HTTP REQUEST
+`GET /api/v3/project/marketInterestRate`           
+
+### Example
+`GET /api/v3/project/marketInterestRate?currency=BTC`
+
+### API KEY PERMISSIONS
+This endpoint requires the **General permission**.
+
+### PARAMETERS
+| Field    | Type   | Description          |
+| -------- | ------ | -------------------- |
+| currency | String | [Mandatory] Currency |
+
+### RESPONSES
+| Field              | Description          |
+| ------------------ | -------------------- |
+| time               | Time: YYYYMMDDHH00   |
+| marketInterestRate | Market interest rate |
+
+
+## 3 Subscription
+```json 
+{
+    "orderNo": "5da6dba0f943c0c81f5d5db5"
+}
+```
+Initiate subscriptions of margin lending.
+### HTTP REQUEST
+`POST /api/v3/purchase`
+
+### Example
+`POST /api/v3/purchase`
+
+### API KEY PERMISSIONS
+This endpoint requires the **Trade permission**.
+
+### PARAMETERS
+| Field        | Type   | Description                            |
+| ------------ | ------ | -------------------------------------- |
+| currency     | String | [Mandatory] Currency                   |
+| size         | String | [Mandatory] Subscription amount        |
+| interestRate | String | [Mandatory] Subscription interest rate |
+
+
+### RESPONSES
+| Field   | Description                                                                                                                                                 |
+| ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| orderNo | Subscription order number If there already exists a subscription order with a specific currency and the interest rate, the latest orderNo will be returned. |
+
+## 4 Redemption
+```json 
+{
+    "orderNo": "5da6dba0f943c0c81f5d5db5"
+}
+```
+Initiate redemptions of margin lending.
+### HTTP REQUEST
+`POST /api/v3/redeem` 
+    
+### Example
+`POST /api/v3/redeem`
+
+### API KEY PERMISSIONS
+This endpoint requires the **Trade permission**.
+
+### PARAMETERS
+| Field           | Type   | Description                           |
+| --------------- | ------ | ------------------------------------- |
+| currency        | String | [Mandatory] Currency                  |
+| size            | String | [Mandatory] Redemption amount         |
+| purchaseOrderNo | String | [Mandatory] Subscription order number |
+
+
+### RESPONSES
+| Field   | Description             |
+| ------- | ----------------------- |
+| orderNo | Redemption order number |
+
+
+## 5 Modify Subscription Orders
+```json 
+{
+    "success": true,
+    "code": "200",
+    "msg": "success",
+    "retry": false
+}
+```
+This API endpoint is used to update the interest rates of subscription orders, which will take effect at the beginning of the next hour.
+
+### HTTP REQUEST
+`PUT /api/v3/lend/purchase/update`
+
+
+### Example
+`PUT /api/v3/lend/purchase/update`
+
+### API KEY PERMISSIONS
+This endpoint requires the **Trade permission**.
+
+### PARAMETERS
+| Field           | Type   | Description                                     |
+| --------------- | ------ | ----------------------------------------------- |
+| currency        | String | [Mandatory] Currency                            |
+| purchaseOrderNo | String | [Mandatory] Subscription order number           |
+| interestRate    | String | [Mandatory] Modified subscription interest rate |
+
+### RESPONSES
+Void
+
+
+
+## 6 Get Redemption Orders
+```json 
+ {
+    "currentPage": 1,
+    "pageSize": 100,
+    "totalNum": 1,
+    "totalPage": 1,
+    "items": [
+        {
+            "currency": "BTC",
+            "purchaseOrderNo": "5da6dba0f943c0c81f5d5db5",
+            "redeemOrderNo": "5da6dbasdffga1f5d5dfsb5",
+            "redeemAmount": "300000",
+            "receiptAmount": "250000",
+            "applyTime": 1669508513820,
+            "status": "PENDING",
+        }
+    ]
+}
+```
+This API endpoint provides pagination query for the redemption orders.
+### HTTP REQUEST
+`GET /api/v3/redeem/orders`
+
+### Example
+`GET /api/v3/redeem/orders?currency=BTC&status=DONE&currentPage=1&pageSize=10`
+
+### API KEY PERMISSIONS
+This endpoint requires the **General permission**.
+
+### PARAMETERS
+| Field         | Type   | Description                                           |
+| ------------- | ------ | ----------------------------------------------------- |
+| currency      | String | [Mandatory] Currency                                  |
+| redeemOrderNo | String | [Optional] Redemption order number                    |
+| status        | String | [Mandatory] DONE-completed; PENDING-settling          |
+| currentPage   | Int    | [Optional] Current page; default is 1                 |
+| pageSize      | Int    | [Optional] Page size; 1<=pageSize<=100; default is 50 |
+
+### RESPONSES
+| Field           | Description                              |
+| --------------- | ---------------------------------------- |
+| currency        | Currency                                 |
+| purchaseOrderNo | Subscription order number                |
+| redeemOrderNo   | Redemption order number                  | n | redeemSize | Redemption amount |
+| receiptSize     | Redeemed amount                          |
+| applyTime       | Time of redemption                       |
+| status          | Status: DONE-completed; PENDING-settling |
+
+
+## 7 Get Subscription Orders
+```json 
+{
+    "currentPage": 1,
+    "pageSize": 100,
+    "totalNum": 1,
+    "totalPage": 1,
+    "items": [
+        {
+            "currency": "BTC",
+            "purchaseOrderNo": "5da6dba0f943c0c81f5d5db5",
+            "purchaseAmount": "300000",
+            "lendAmount": "0",
+            "redeemAmount": "300000",
+            "interestRate": "0.0003",
+            "incomeAmount": "200",
+            "applyTime": 1669508513820,
+            "status": "DONE",
+        }
+    ]
+}
+```
+This API endpoint provides pagination query for the subscription orders.
+### HTTP REQUEST
+`GET /api/v3/purchase/orders`
+
+### Example
+`GET /api/v3/purchase/orders?currency=BTC&status=DONE&currentPage=1&pageSize=10`
+
+### API KEY PERMISSIONS
+This endpoint requires the **General permission**.
+
+### PARAMETERS
+| Field           | Type   | Description                                           |
+| --------------- | ------ | ----------------------------------------------------- |
+| currency        | String | [Mandatory] Currency                                  |
+| purchaseOrderNo | String | [Optional] Subscription order number                  |
+| status          | String | [Mandatory] DONE-completed; PENDING-settling          |
+| currentPage     | Int    | [Optional] Current page; default is 1                 |
+| pageSize        | Int    | [Optional] Page size; 1<=pageSize<=100; default is 50 |
+
+### RESPONSES
+| Field           | Description                              |
+| --------------- | ---------------------------------------- |
+| currency        | Currency                                 |
+| purchaseOrderNo | Subscription order number                |
+| purchaseSize    | Total subscription amount                |
+| matchSize       | Executed amount                          |
+| redeemSize      | Redeemed amount                          |
+| interestRate    | Target annualized interest rate          |
+| incomeSize      | Total earnings                           |
+| applyTime       | Time of subscription                     |
+| status          | Status: DONE-completed; PENDING-settling |
+
+## Error code:
+| External Code | message                                                              |
+| ------------- | -------------------------------------------------------------------- |
+| 130101        | The currency does not support subscription.                          |
+| 130101        | Interest rate increment error.                                       |
+| 130101        | Interest rate exceeds limit.                                         |
+| 130101        | The subscription amount exceeds the limit for a single subscription. |
+| 130101        | Subscription amount increment error.                                 |
+| 130101        | Redemption amount increment error                                    |
+| 130101        | Interest rate exceeds limit.                                         |
+| 130102        | Maximum subscription amount has been exceeded.                       |
+| 130103        | Subscription order does not exist.                                   |
+| 130104        | Maximum number of subscription orders has been exceeded.             |
+| 130105        | Insufficient balance.                                                |
+| 130106        | The currency does not support redemption.                            |
+| 130107        | Redemption amount exceeds subscription amount.                       |
+| 130108        | Redemption order does not exist.                                     |
+
+
+
+
+
+
+
+
+
+
+
+
 # Others
 
 
@@ -6472,7 +7007,7 @@ For private channels and messages (e.g. account balance notice), please make req
 ## Create connection
 
 ```javascript
-var socket = new WebSocket("wss://ws-api-spot.kucoin.com/?token==xxx&[connectId=xxxxx]");
+var socket = new WebSocket("wss://ws-api-spot.kucoin.com/?token=xxx&[connectId=xxxxx]");
 ```
 
 
@@ -7669,6 +8204,10 @@ margin.hold | Hold (Margin account)
 margin.setted | Settlement (Margin account)
 margin.transfer |Transfer (Margin account)
 margin.other | Other operations (Margin account)
+isolated_%s.hold | Hold (Isolated margin account)
+isolated_%s.setted | Settlement (Isolated margin account)
+isolated_%s.transfer |Transfer (Isolated margin account)
+isolated_%s.other | Other operations (Isolated margin account)
 other | Others
 
 <aside class="spacer4"></aside>
