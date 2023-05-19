@@ -6117,7 +6117,7 @@ loanId | String | Trade order number; when this field is configured, the sequenc
 When the system returns HTTP status code `200` and system code `200000`, it indicates that the response is successful.
 
 
-# Margin Trading(V3)
+# Margin Trading(V3) - recently launched
 
 Both v1 and v3 versions can be used normally
 
