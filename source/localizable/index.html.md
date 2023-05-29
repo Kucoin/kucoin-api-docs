@@ -65,7 +65,7 @@ To get the latest updates in API, you can click ‘Watch’ on our [KuCoin Docs 
 
 
 
-**18/05/23**:
+**29/05/23**:
 
 - [New] Launched a series of endpoint for margin V3 
 
@@ -368,6 +368,8 @@ If an error occurs as follows:
 
 
 
+# REST API22341234
+
 
 # REST API
 
@@ -398,7 +400,7 @@ Unless otherwise stated, all timestamp parameters should in milliseconds. e.g. *
 
 For the **GET, DELETE** request, all query parameters need to be included in the request url. (**e.g. /api/v1/accounts?currency=BTC**)
 
-For the **POST, PUT** request, all query parameters need to be included in the request body with JSON. (**e.g. {"currency":"BTC"}**). **Do not include extra spaces in JSON strings.**
+For the **POST** request, all query parameters need to be included in the request body with JSON. (**e.g. {"currency":"BTC"}**). **Do not include extra spaces in JSON strings.**
 
 ### Errors
 
@@ -6117,7 +6119,7 @@ loanId | String | Trade order number; when this field is configured, the sequenc
 When the system returns HTTP status code `200` and system code `200000`, it indicates that the response is successful.
 
 
-# Margin Trading(V3) - recently launched
+# Margin Trading(V3)
 
 Both v1 and v3 versions can be used normally
 
@@ -6490,11 +6492,11 @@ This endpoint requires the **Trade permission**.
 This API endpoint is used to update the interest rates of subscription orders, which will take effect at the beginning of the next hour.
 
 ### HTTP REQUEST
-`PUT /api/v3/lend/purchase/update`
+`POST /api/v3/lend/purchase/update`
 
 
 ### Example
-`PUT /api/v3/lend/purchase/update`
+`POST /api/v3/lend/purchase/update`
 
 ### API KEY PERMISSIONS
 This endpoint requires the **Trade permission**.
