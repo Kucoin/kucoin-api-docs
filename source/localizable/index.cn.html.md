@@ -63,7 +63,7 @@ API分爲兩部分：**REST API和Websocket 實時數據流**
 
 **爲了進一步提升API安全性，KuCoin已經升級到了V2版本的API-KEY，驗籤邏輯也發生了一些變化，建議到[API管理頁面](https://www.kucoin.cc/account/api)添加並更換到新的API-KEY。KuCoin已經停止對老版本API-KEY的支持。[查看新的簽名方式](#99f215f459)**
 
-**18/05/23**:
+**29/05/23**:
 
 - 【新增】新上線一系列槓桿V3接口。
 
@@ -383,7 +383,7 @@ REST API 對於賬戶、訂單、和市場數據均提供了接口。
 ### 請求參數
 對於 **GET和DELETE** 請求, 需將參數拼接在請求URL中。(**例如， /api/v1/accounts?currency=BTC**)
 
-對於 **POST和PUT** 請求, 需將參數以JSON格式拼接在請求主體中(**例如， {"currency":"BTC"}**)。
+對於 **POST** 請求, 需將參數以JSON格式拼接在請求主體中(**例如， {"currency":"BTC"}**)。
 注意：不要在JSON字符串中添加空格。
 
 ### 錯誤返回
@@ -5986,7 +5986,7 @@ loanId | String | 交易單號,設置該字段後，順序策略無效
 
 
 
-# 槓桿交易（V3）-近期上線
+# 槓桿交易（V3）
 
 目前v1版本和v3版本均可正常使用
 
@@ -6358,11 +6358,11 @@ loanId | String | 交易單號,設置該字段後，順序策略無效
 該接口提供借貸市場申購訂單利率修改，在下一個整點生效。
 
 ### Http 請求
-`PUT /api/v3/lend/purchase/update`
+`POST /api/v3/lend/purchase/update`
 
 
 ### 請求示例:
-`PUT /api/v3/lend/purchase/update`
+`POST /api/v3/lend/purchase/update`
 
 ### Api 權限
 此接口需要**交易權限** 。
