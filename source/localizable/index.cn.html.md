@@ -2031,7 +2031,7 @@ currency | 幣種
 availableAmount | 可提現的金額
 remainAmount | 當日剩餘可提現的額度
 withdrawMinSize | 最小提現金額
-limitBTCAmount | 當日剩餘可提現的額度，摺合爲BTC
+limitBTCAmount | 24小時總提現額度，摺合爲BTC
 innerWithdrawMinFee | 內部提現手續費
 usedBTCAmount | 當日BTC摺合提現
 isWithdrawEnabled | 是否可提現

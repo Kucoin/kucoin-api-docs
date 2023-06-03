@@ -365,12 +365,6 @@ If an error occurs as follows:
 * Check whether the request is HTTPS
 * Remove the RequestBody from the GET request
 
-
-
-
-# REST API22341234
-
-
 # REST API
 
 ## Base URL
@@ -2056,7 +2050,7 @@ currency | Currency
 availableAmount | Current available withdrawal amount
 remainAmount | Remaining amount available to withdraw the current day
 withdrawMinSize | Minimum withdrawal amount
-limitBTCAmount | Total BTC amount available to withdraw the current day
+limitBTCAmount | 24-hour total withdrawal limit, equivalent to BTC
 innerWithdrawMinFee | Fees for internal withdrawal
 usedBTCAmount | The estimated BTC amount (based on the daily fiat limit) that can be withdrawn within the current day
 isWithdrawEnabled | Is the withdraw function enabled or not
