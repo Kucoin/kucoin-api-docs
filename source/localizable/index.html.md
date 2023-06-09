@@ -512,9 +512,11 @@ The Key and Secret are generated and provided by KuCoin and the Passphrase refer
 You can manage the API permission on KuCoin’s official website. The permissions are:
 
 
-* **General** - General - Allows a key general permissions. This includes most of the GET endpoints.
-* **Trade** -  Allows a key to create orders.
-* **Transfer** -  Allows a key to transfer funds (including deposit and withdrawal). Please note a sub-account is not authorized this permission. Enable with caution - API key transfers WILL BYPASS two-factor authentication.
+* **General** - Limited to read-only operations such as querying account information, account statements, and order information. The API cannot be used to perform operations such as order placement or withdrawals.
+* **Spot** - This API can be used for spot trading to perform order placement, order cancellation, etc.
+* **Margin** - This API can be used for margin trading to perform order placement, order cancellation, etc.
+* **Futures** - This API can be used for futures trading to perform order placement, order cancellation, etc.
+* **Transfer** - This permission allows you to withdraw assets, acquire deposit addresses, cancel withdrawals, and execute other operations. To use this permission, you must enable IP Restriction.
 
 
 Please refer to the documentation below to see what API key permissions are required for a specific route.
@@ -1578,7 +1580,7 @@ Funds in the main account, trading account and margin account of a Master Accoun
 `POST /api/v2/accounts/sub-transfer`
 
 ### API KEY PERMISSIONS
-This endpoint requires the **"Trade"** permission.
+This endpoint requires the **Spot Trading** permission.
 
 ### REQUEST RATE LIMIT
 This API is restricted for each account, the request rate limit is **3 times/3s**.
@@ -1614,7 +1616,7 @@ This API endpoint can be used to transfer funds between accounts internally. Use
 `POST /api/v2/accounts/inner-transfer`
 
 ### API KEY PERMISSIONS
-This endpoint requires the `Trade` permission.
+This endpoint requires the `Spot Trading` permission.
 
 ### PARAMETERS
 Param | Type | Description
@@ -2013,17 +2015,24 @@ status | Status
 ##  Get Withdrawal Quotas
 ```json
 {
-	"currency": "KCS",
-	"limitBTCAmount": "2.0",
-	"usedBTCAmount": "0",
-	"remainAmount": "75.67567568",
-	"availableAmount": "9697.41991348",
-	"withdrawMinFee": "0.93000000",
-	"innerWithdrawMinFee": "0.00000000",
-	"withdrawMinSize": "1.4",
-	"isWithdrawEnabled": true,
-	"precision": 8,   //withdrawal precision
-	"chain": "OMNI"
+  "data" : {
+    "limitBTCAmount" : "37.83993375",
+    "quotaCurrency" : "USDT",
+    "chain" : "BTC",
+    "remainAmount" : "37.83993375",
+    "innerWithdrawMinFee" : "0",
+    "usedBTCAmount" : "0.00000000",
+    "limitQuotaCurrencyAmount" : "1000000.00000000",
+    "withdrawMinSize" : "0.0008",
+    "withdrawMinFee" : "0.0005",
+    "precision" : 8,
+    "reason" : null,
+    "usedQuotaCurrencyAmount" : "0",
+    "currency" : "BTC",
+    "availableAmount" : "0",
+    "isWithdrawEnabled" : true
+  },
+  "code" : "200000"
 }
 ```
 
@@ -2057,6 +2066,9 @@ isWithdrawEnabled | Is the withdraw function enabled or not
 withdrawMinFee | Minimum withdrawal fee
 precision | Floating point precision.
 chain | The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is ERC20.
+quotaCurrency | withdrawal limit currency
+limitQuotaCurrencyAmount | The intraday available withdrawal amount(withdrawal limit currency)
+usedQuotaCurrencyAmount | The intraday cumulative withdrawal amount(withdrawal limit currency)
 
 ## Apply Withdraw
 ```json
@@ -2229,7 +2241,7 @@ The maximum active orders for a single trading pair in one account is **200** (s
 `POST /api/v1/orders`
 
 ### API KEY PERMISSIONS
-This endpoint requires the **"Trade"** permission.
+This endpoint requires the **Spot Trading** or **Margin Trading** permission.
 
 ### REQUEST RATE LIMIT
 This API is restricted for each account, the request rate limit is **45 times/3s**.
@@ -2409,7 +2421,7 @@ The maximum active orders for a single trading pair in one account is `200` (sto
 `POST /api/v1/margin/order`
 
 ### API KEY PERMISSIONS
-This endpoint requires the `Trade` permission.
+This endpoint requires the `Margin Trading` permission.
 
 ### REQUEST RATE LIMIT
 This API is restricted for each account, the request rate limit is `45 times/3s`.
@@ -2561,7 +2573,7 @@ Request via this endpoint to place 5 orders at the same time. The order type mus
 `POST /api/v1/orders/multi`
 
 ### API KEY PERMISSIONS
-This endpoint requires the `Trade` permission.
+This endpoint requires the `Spot Trading` permission.
 
 ### REQUEST RATE LIMIT
 This API is restricted for each account, the request rate limit is `3 times/3s`.
@@ -2618,7 +2630,7 @@ Request via this endpoint to cancel a single order previously placed.
 
 
 ### API KEY PERMISSIONS
-This endpoint requires the `Trade` permission.
+This endpoint requires the `Spot Trading` or `Margin Trading` permission.
 
 ### REQUEST RATE LIMIT
 This API is restricted for each account, the request rate limit is `60 times/3s`.
@@ -2658,7 +2670,7 @@ Request via this interface to cancel an order via the clientOid.
 `DELETE /api/v1/order/client-order/6d539dc614db3`
 
 ### API KEY PERMISSIONS
-This endpoint requires the **"Trade"** permission.
+This endpoint requires the `Spot Trading` or `Margin Trading` permission.
 
 ### PARAMETERS
 | Param | Type | Description                            |
@@ -2699,7 +2711,7 @@ Request via this endpoint to cancel all open orders. The response is a list of i
 `DELETE /api/v1/orders?symbol=ETH-BTC&tradeType=MARGIN_ISOLATED_TRADE`
 
 ### API KEY PERMISSIONS
-This endpoint requires the `Trade` permission.
+This endpoint requires the `Spot Trading` or `Margin Trading` permission.
 
 ### REQUEST RATE LIMIT
 This API is restricted for each account, the request rate limit is `3 times/3s`.
@@ -3168,7 +3180,7 @@ Items are paginated and sorted to show the latest first. See the [Pagination](#p
 `GET /api/v1/fills`
 
 ### API KEY PERMISSIONS
-This endpoint requires the **"General"** permission.
+This endpoint requires the **General** permission.
 
 ### REQUEST RATE LIMIT
 This API is restricted for each account, the request rate limit is **9 times/3s**.
@@ -3419,8 +3431,7 @@ The maximum untriggered stop orders for a single trading pair in one account is 
 `POST /api/v1/stop-order`
 
 ### API KEY PERMISSIONS
-
-This endpoint requires the **"Trade"** permission.
+This endpoint requires the **Spot Trading** or **Margin Trading** permission.
 
 ### Request Body Parameters
 
@@ -3488,7 +3499,7 @@ You will receive cancelledOrderIds field once the system has received the cancel
 `DELETE /api/v1/stop-order/5bd6e9286d99522a52e458de`
 
 ### API KEY PERMISSIONS
-This endpoint requires the **"Trade"** permission.
+This endpoint requires the `Spot Trading` or `Margin Trading` permission.
 
 ### PARAMETERS
 | Param   | Type   | Description                                       |
@@ -3530,7 +3541,7 @@ Request via this interface to cancel a batch of stop orders.
 `DELETE /api/v1/stop-order/cancel?symbol=ETH-BTC&tradeType=TRADE&orderIds=5bd6e9286d99522a52e458de,5bd6e9286d99522a52e458df`
 
 ### API KEY PERMISSIONS
-This endpoint requires the **"General"** permission.
+This endpoint requires the `Spot Trading` or `Margin Trading` permission.
 
 ### PARAMETERS
 | Parm      | Type   | Decription                                                   |
@@ -3796,7 +3807,8 @@ Request via this interface to get a stop order information via the clientOid.
 `GET /api/v1/stop-order/queryOrderByClientOid?symbol=BTC-USDT&clientOid=9823jnfda923a`
 
 ### API KEY PERMISSIONS
-This endpoint requires the **"Trade"** permission.
+This endpoint requires the **General** permission.
+
 
 ### PARAMETERS
 | Param     | Type   | Description                                                  |
@@ -3858,7 +3870,7 @@ Request via this interface to cancel a stop order via the clientOid.
 `DELETE /api/v1/stop-order/cancelOrderByClientOid?symbol=BTC-USDT&clientOid=9823jnfda923a`
 
 ### API KEY PERMISSIONS
-This endpoint requires the **"Trade"** permission.
+This endpoint requires the **Spot Trading** or **Margin Trading** permission.
 
 ### PARAMETERS
 | Param     | Type   | Description                                                  |
@@ -4992,7 +5004,7 @@ This API is restricted for each account, the request rate limit is `1 times/3s`.
 `POST /api/v1/margin/borrow`
 
 ### API KEY PERMISSIONS
-This endpoint requires the **"Trade"** permission.
+This endpoint requires the **Margin Trading** permission.
 
 ### PARAMETERS
 |Param | Type | Description|
@@ -5187,7 +5199,7 @@ This endpoint requires the **"General"** permission.
 `POST /api/v1/margin/repay/all`
 
 ### API KEY PERMISSIONS
-This endpoint requires the **"Trade"** permission.
+This endpoint requires the **Margin Trading** permission.
 
 ### PARAMETERS
 |Param | Type | Description |
@@ -5217,7 +5229,7 @@ Request via this endpoint to repay a single order.
 `POST /api/v1/margin/repay/single`
 
 ### API KEY PERMISSIONS
-This endpoint requires the **"Trade"** permission.
+This endpoint requires the **Margin Trading** permission.
 
 ### PARAMETERS
 |Param | Type | Description |
@@ -5248,7 +5260,7 @@ Please ensure that you have sufficient funds in your Main Account before you pos
 `POST /api/v1/margin/lend`
 
 ### API KEY PERMISSIONS
-This endpoint requires the **"Trade"** permission.
+This endpoint requires the **Margin Trading** permission.
 
 ### PARAMETERS
 |Param | Type | Description |
@@ -5280,7 +5292,7 @@ Request via this endpoint to cancel lend order.
 `DELETE /api/v1/margin/lend/5d9f133ef943c0882ca37bc8`
 
 ### API KEY PERMISSIONS
-This endpoint requires the **"Trade"** permission.
+This endpoint requires the **Margin Trading** permission.
 
 ### PARAMETERS
 |Param | Type | Description |
@@ -5304,7 +5316,7 @@ Request via this endpoint to set up the automatic lending for a specified curren
 `POST /api/v1/margin/toggle-auto-lend`
 
 ### API KEY PERMISSIONS
-This endpoint requires the **"Trade"** permission.
+This endpoint requires the **Margin Trading** permission.
 
 ### PARAMETERS
 |Param | Type | Description |
@@ -5873,7 +5885,7 @@ This API endpoint initiates isolated margin borrowing.
 `POST /api/v1/isolated/borrow`
 
 ### API KEY PERMISSIONS
-This endpoint requires the `Trade` permissions
+This endpoint requires the `Margin Trading` permissions
 
 ### PARAMETERS
 | Param | Type | Description 
@@ -6063,7 +6075,7 @@ This API endpoint is used to initiate quick repayment for isolated margin accoun
 `POST /api/v1/isolated/repay/all`
 
 ### API KEY PERMISSIONS
-This endpoint requires the `Trade` permissions
+This endpoint requires the `Margin Trading` permissions
 
 ### PARAMETERS
 | Param | Type | Description 
@@ -6099,7 +6111,7 @@ This API endpoint is used to initiate quick repayment for single margin accounts
 `POST /api/v1/isolated/repay/single`
 
 ### API KEY PERMISSIONS
-This endpoint requires the `Trade` permissions
+This endpoint requires the `Margin Trading` permissions
 
 ### PARAMETERS
 | Param | Type | Description 
@@ -6138,7 +6150,7 @@ This API endpoint is used to initiate an application for cross or isolated margi
 `POST /api/v3/margin/borrow`
 
 ### API KEY PERMISSIONS
-This endpoint requires the **Trade permission**.
+This endpoint requires the **Margin Trading** permission.
 
 ### PARAMETERS
 | Field       | Type       | Description                                                    |
@@ -6177,7 +6189,7 @@ This API endpoint is used to initiate an application for the repayment of cross 
 `POST /api/v3/margin/repay`
 
 ### API KEY PERMISSIONS
-This endpoint requires the **Trade permission**.
+This endpoint requires the **Margin Trading** permission.
 
 ### PARAMETERS
 | Field      | Type       | Description                                                    |
@@ -6221,7 +6233,7 @@ This API endpoint is used to get the borrowing orders for cross and isolated mar
 `GET /api/v3/margin/borrow`
 
 ### API KEY PERMISSIONS
-This endpoint requires the **Trade permission**.
+This endpoint requires the **Margin Trading** permission.
 
 ### PARAMETERS
 | Field       | Type    | Description                                                                           |
@@ -6275,7 +6287,7 @@ This API endpoint is used to get the repayment orders for cross and isolated mar
 `GET /api/v3/margin/repay`
 
 ### API KEY PERMISSIONS
-This endpoint requires the **Trade permission**.
+This endpoint requires the **Margin Trading** permission.
 
 ### PARAMETERS
 | Field       | Type    | Description                                                                           |
@@ -6429,7 +6441,7 @@ Initiate subscriptions of margin lending.
 `POST /api/v3/purchase`
 
 ### API KEY PERMISSIONS
-This endpoint requires the **Trade permission**.
+This endpoint requires the **Margin Trading** permission.
 
 ### PARAMETERS
 | Field        | Type   | Description                            |
@@ -6458,7 +6470,7 @@ Initiate redemptions of margin lending.
 `POST /api/v3/redeem`
 
 ### API KEY PERMISSIONS
-This endpoint requires the **Trade permission**.
+This endpoint requires the **Margin Trading** permission.
 
 ### PARAMETERS
 | Field           | Type   | Description                           |
@@ -6493,7 +6505,7 @@ This API endpoint is used to update the interest rates of subscription orders, w
 `POST /api/v3/lend/purchase/update`
 
 ### API KEY PERMISSIONS
-This endpoint requires the **Trade permission**.
+This endpoint requires the **Margin Trading** permission.
 
 ### PARAMETERS
 | Field           | Type   | Description                                     |

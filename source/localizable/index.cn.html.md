@@ -493,9 +493,11 @@ Key和Secret由KuCoin隨機生成並提供，Passphrase是您在創建API時使�
 
 您可在KuCoin Web端管理API權限。API權限分爲以下幾類：
 
-* **通用權限** - 允許API訪問大部分的GET請求。
-* **交易權限** - 允許API具有下單權限。
-* **提現權限** - 允許API劃轉資金，包含充值和提現。子賬號沒有提現權限。
+* **通用權限** - 用戶僅能通過此 API 進行查詢賬戶信息、賬單流水以及訂單信息等只讀操作，不能進行下單、提現等
+* **幣幣權限** - 用戶可通過此 API 進行幣幣交易的訂單委託、撤單等操作
+* **槓桿權限** - 用戶可通過此 API 進行槓桿交易的訂單委託、撤單等操作
+* **合約權限** - 用戶可通過此 API 進行合約交易的訂單委託、撤單等操作
+* **提現權限** - 此權限可進行提現、獲取充值地址、取消提現等操作，啟用此權限必須添加 IP 地址訪問限制白名單。子帳戶沒有提現權限。
   授權提現權限時請注意，不需要郵箱驗證和谷歌驗證就可以使用API進行轉賬。
 
 
@@ -1568,7 +1570,7 @@ transferable | 可劃轉資金
 `POST /api/v2/accounts/sub-transfer`
 
 ### API權限
-此接口需要**交易權限**。
+此接口需要**現貨交易權限**。
 
 ### 頻率限制
 此接口針對每個賬號請求頻率限制爲**3次/3s**
@@ -1601,7 +1603,7 @@ orderId | 子母賬號轉賬的訂單ID
 `POST /api/v2/accounts/inner-transfer`
 
 ### API權限
-此接口需要`交易權限`。
+此接口需要`現貨交易權限`。
 
 ### 請求參數
 請求參數 | 類型 |含義
@@ -1995,17 +1997,24 @@ status | 狀態
 ##  獲取提現額度
 ```json
 {
-    "currency":"KCS",
-    "limitBTCAmount":"2.0",
-    "usedBTCAmount":"0",
-    "remainAmount":"75.67567568",
-    "availableAmount":"9697.41991348",
-    "withdrawMinFee":"0.93000000",
-    "innerWithdrawMinFee":"0.00000000",
-    "withdrawMinSize":"1.4",
-    "isWithdrawEnabled":true,
-    "precision":8,
-    "chain":"OMNI"
+  "data" : {
+    "limitBTCAmount" : "37.83993375",
+    "quotaCurrency" : "USDT",
+    "chain" : "BTC",
+    "remainAmount" : "37.83993375",
+    "innerWithdrawMinFee" : "0",
+    "usedBTCAmount" : "0.00000000",
+    "limitQuotaCurrencyAmount" : "1000000.00000000",
+    "withdrawMinSize" : "0.0008",
+    "withdrawMinFee" : "0.0005",
+    "precision" : 8,
+    "reason" : null,
+    "usedQuotaCurrencyAmount" : "0",
+    "currency" : "BTC",
+    "availableAmount" : "0",
+    "isWithdrawEnabled" : true
+  },
+  "code" : "200000"
 }
 ```
 
@@ -2038,6 +2047,9 @@ isWithdrawEnabled | 是否可提現
 withdrawMinFee | 最小提現手續費
 precision | 提現的精度
 chain | 幣種的鏈名。例如，對於USDT，現有的鏈有OMNI、ERC20、TRC20。默認值爲ERC20。
+quotaCurrency | 提幣限額幣種
+limitQuotaCurrencyAmount | 當日折合可提現數量（提現限額幣種）
+usedQuotaCurrencyAmount | 當日折合已提現數量（提現限額幣種）
 
 ## 申請提現
 ```json
@@ -2210,7 +2222,7 @@ makerFeeRate | 交易對掛單實際手續費率
 `POST /api/v1/orders`
 
 ### API權限
-此接口需要**交易權限**。
+此接口需要**現貨交易權限** 或 **槓桿交易權限**。
 
 ### 頻率限制
 此接口針對每個賬號請求頻率限制爲**45次/3s**
@@ -2387,7 +2399,7 @@ postOnlys只是一個標識，如果下單有能立即成交的對手方，則�
 `POST /api/v1/margin/order`
 
 ### API權限
-此接口需要`交易權限`。
+此接口需要`槓桿交易權限`。
 
 ### 頻率限制
 此接口針對每個賬號請求頻率限制爲`45次/3s`
@@ -2533,7 +2545,7 @@ funds | String |  否（`size`和`funds`二選一）| 下單資金
 `POST /api/v1/orders/multi`
 
 ### API權限
-此接口需要`交易權限`。
+此接口需要`現貨交易權限`。
 
 ### 頻率限制
 此接口針對每個賬號請求頻率限制爲`3次/3s`
@@ -2588,7 +2600,7 @@ funds | String |  否（`size`和`funds`二選一）| 下單資金
 `DELETE /api/v1/orders/5bd6e9286d99522a52e458de`
 
 ### API權限
-此接口需要`交易權限`。
+此接口需要`現貨交易權限` 或 `槓桿交易權限`。
 
 ### 頻率限制
 此接口針對每個賬號請求頻率限制爲`60次/3s`
@@ -2626,7 +2638,7 @@ funds | String |  否（`size`和`funds`二選一）| 下單資金
 `DELETE /api/v1/order/client-order/6d539dc614db3`
 
 ### API權限
-此接口需要**交易權限**。
+此接口需要`現貨交易權限` 或 `槓桿交易權限`。
 
 ### 請求參數
 | 請求參數    | 類型     | 含義                            |
@@ -2668,7 +2680,7 @@ funds | String |  否（`size`和`funds`二選一）| 下單資金
 `DELETE /api/v1/orders?symbol=ETH-BTC&tradeType=MARGIN_ISOLATED_TRADE`
 
 ### API權限
-此接口需要`交易權限`。
+此接口需要`現貨交易權限` 或 `槓桿交易權限`。
 
 ### 頻率限制
 此接口針對每個賬號請求頻率限制爲`3次/3s`
@@ -3333,7 +3345,7 @@ KuCoin平臺上的訂單分爲兩種類型：Taker 和 Maker。Taker單會與買
 `POST /api/v1/stop-order`
 
 ### API權限
-此接口需要**交易權限**。
+此接口需要**幣幣交易權限**或**槓桿交易權限**。
 
 ### 請求參數
 下單公有的請求參數
@@ -3406,7 +3418,7 @@ KuCoin平臺上的訂單分爲兩種類型：Taker 和 Maker。Taker單會與買
 | cancelledOrderIds | 取消的訂單id |
 
 ### API權限
-此接口需要**交易權限**。
+此接口需要**現貨交易權限** 或 **槓桿交易權限**。
 
 **orderId** 是服務器生成的訂單唯一標識，不是客戶端生成的clientOid
 
@@ -3433,7 +3445,7 @@ KuCoin平臺上的訂單分爲兩種類型：Taker 和 Maker。Taker單會與買
 `DELETE /api/v1/stop-order/cancel?symbol=ETH-BTC&tradeType=TRADE&orderIds=5bd6e9286d99522a52e458de,5bd6e9286d99522a52e458df`
 
 ### API權限
-此接口需要**交易權限**。
+此接口需要**現貨交易權限** 或 **槓桿交易權限**。
 
 ### 請求參數
 | 請求參數  | 類型   | 含義                                                         |
@@ -3745,7 +3757,7 @@ KuCoin平臺上的訂單分爲兩種類型：Taker 和 Maker。Taker單會與買
 `DELETE /api/v1/stop-order/cancelOrderByClientOid?symbol=BTC-USDT&clientOid=9823jnfda923a`
 
 ### API權限
-此接口需要**交易權限**。
+此接口需要**現貨交易權限** 或 **槓桿交易權限**。
 
 ### 請求參數
 | 請求參數  | 類型   | 含義             |
@@ -4870,7 +4882,7 @@ turnover | 成交額
 `POST /api/v1/margin/borrow`
 
 ### API權限
-該接口需要**交易權限**。
+該接口需要**槓桿交易權限**。
 
 ### 請求參數
 | 請求參數   | 類型     | 含義        |
@@ -5058,7 +5070,7 @@ turnover | 成交額
 `POST /api/v1/margin/repay/all`
 
 ### API權限
-該接口需要**交易權限**。
+該接口需要**槓桿交易權限**。
 
 ### 請求參數
 | 請求參數   | 類型     | 含義        |
@@ -5087,7 +5099,7 @@ turnover | 成交額
 `POST /api/v1/margin/repay/single`
 
 ### API權限
-該接口需要**交易權限**。
+該接口需要**槓桿交易權限**。
 
 ### 請求參數
 | 請求參數   | 類型     | 含義        |
@@ -5116,7 +5128,7 @@ turnover | 成交額
 `POST /api/v1/margin/lend`
 
 ### API權限
-該接口需要**交易權限**。
+該接口需要**槓桿交易權限**。
 
 ### 請求參數
 | 請求參數     | 類型   | 含義                             |
@@ -5147,7 +5159,7 @@ turnover | 成交額
 `DELETE /api/v1/margin/lend/5d9f133ef943c0882ca37bc8`
 
 ### API權限
-該接口需要**交易權限**。
+該接口需要**槓桿交易權限**。
 
 ### 請求參數
 | 請求參數 | 類型   | 含義          |
@@ -5170,7 +5182,7 @@ turnover | 成交額
 `POST /api/v1/margin/toggle-auto-lend`
 
 ### API權限
-該接口需要**交易權限**。
+該接口需要**槓桿交易權限**。
 
 ### 請求參數
 | 請求參數     | 類型    | 含義                                                         |
@@ -5739,7 +5751,7 @@ borrowableAmount | 可借數量
 `POST /api/v1/isolated/borrow`
 
 ### API權限
-該接口需要`交易權限`。
+該接口需要`槓桿交易權限`。
 
 ### 請求參數
 | 請求參數 | 類型  | 含義 
@@ -5929,7 +5941,7 @@ repayFinishAt | 還款完成時間
 `POST /api/v1/isolated/repay/all`
 
 ### API權限
-該接口需要`交易權限`。
+該接口需要`槓桿交易權限`。
 
 ### 請求參數
 | 請求參數 | 類型  | 含義 
@@ -5965,7 +5977,7 @@ seqStrategy | String | 還款順序策略,`RECENTLY_EXPIRE_FIRST`:到期時間�
 `POST /api/v1/isolated/repay/single`
 
 ### API權限
-該接口需要`交易權限`。
+該接口需要`槓桿交易權限`。
 
 ### 請求參數
 | 請求參數 | 類型  | 含義 
@@ -6011,7 +6023,7 @@ loanId | String | 交易單號,設置該字段後，順序策略無效
 `POST /api/v3/margin/borrow`
 
 ### Api 權限
-此接口需要**交易權限**
+此接口需要**槓桿交易權限**
 
 ### 請求參數
 | 字段        | 類型       | 含義                                  |
@@ -6049,7 +6061,7 @@ loanId | String | 交易單號,設置該字段後，順序策略無效
 `POST /api/v3/margin/repay`
 
 ### Api 權限
-此接口需要**交易權限**
+此接口需要**槓桿交易權限**
 
 ### 請求參數
 | 字段       | 類型       | 含義                                  |
@@ -6093,7 +6105,7 @@ loanId | String | 交易單號,設置該字段後，順序策略無效
 `GET /api/v3/margin/borrow`
 
 ### Api 權限
-此接口需要**交易權限**
+此接口需要**槓桿交易權限**
 
 ### 請求參數
 | 字段        | 類型    | 含義                                            |
@@ -6147,7 +6159,7 @@ loanId | String | 交易單號,設置該字段後，順序策略無效
 `GET /api/v3/margin/repay`
 
 ### Api 權限
-此接口需要**交易權限**
+此接口需要**槓桿交易權限**
 
 ### 請求參數
 | 字段        | 類型    | 含義                                            |
@@ -6301,7 +6313,7 @@ loanId | String | 交易單號,設置該字段後，順序策略無效
 `POST /api/v3/purchase`
 
 ### Api 權限
-此接口需要**交易權限** 。
+此接口需要**槓桿交易權限** 。
 
 ### 請求參數
 | 字段         | 類型   | 含義            |
@@ -6330,7 +6342,7 @@ loanId | String | 交易單號,設置該字段後，順序策略無效
 `POST /api/v3/redeem`
 
 ### Api 權限
-此接口需要**交易權限** 。
+此接口需要**槓桿交易權限** 。
 
 ### 請求參數
 | 字段            | 類型   | 含義              |
@@ -6365,7 +6377,7 @@ loanId | String | 交易單號,設置該字段後，順序策略無效
 `POST /api/v3/lend/purchase/update`
 
 ### Api 權限
-此接口需要**交易權限** 。
+此接口需要**槓桿交易權限** 。
 
 ### 請求參數
 | 字段            | 類型   | 含義                    |
